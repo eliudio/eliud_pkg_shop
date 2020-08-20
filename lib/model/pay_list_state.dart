@@ -1,0 +1,41 @@
+/*
+       _ _           _ 
+      | (_)         | |
+   ___| |_ _   _  __| |
+  / _ \ | | | | |/ _` |
+ |  __/ | | |_| | (_| |
+  \___|_|_|\__,_|\__,_|
+                       
+ 
+ pay_list_state.dart
+                       
+ This code is generated. This is read only. Don't touch!
+
+*/
+
+import 'package:equatable/equatable.dart';
+import 'pay_model.dart';
+
+abstract class PayListState extends Equatable {
+  const PayListState();
+
+  @override
+  List<Object> get props => [];
+}
+
+class PayListLoading extends PayListState {}
+
+class PayListLoaded extends PayListState {
+  final List<PayModel> values;
+
+  const PayListLoaded({this.values = const []});
+
+  @override
+  List<Object> get props => [ values ];
+
+  @override
+  String toString() => 'PayListLoaded { values: $values }';
+}
+
+class PayNotLoaded extends PayListState {}
+

@@ -1,0 +1,123 @@
+/*
+       _ _           _ 
+      | (_)         | |
+   ___| |_ _   _  __| |
+  / _ \ | | | | |/ _` |
+ |  __/ | | |_| | (_| |
+  \___|_|_|\__,_|\__,_|
+                       
+ 
+ order_firestore.dart
+                       
+ This code is generated. This is read only. Don't touch!
+
+*/
+
+import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+
+import 'order_repository.dart';
+import 'order_model.dart';
+import 'order_entity.dart';
+
+class OrderFirestore implements OrderRepository {
+  Future<OrderModel> add(OrderModel value) {
+    return OrderCollection.document(value.documentID).setData(value.toEntity().toDocument()).then((_) => value);
+  }
+
+  Future<void> delete(OrderModel value) {
+    return OrderCollection.document(value.documentID).delete();
+  }
+
+  Future<OrderModel> update(OrderModel value) {
+    return OrderCollection.document(value.documentID).updateData(value.toEntity().toDocument()).then((_) => value);
+  }
+
+  OrderModel _populateDoc(DocumentSnapshot doc) {
+    return OrderModel.fromEntity(doc.documentID, OrderEntity.fromMap(doc.data));
+  }
+
+  Future<OrderModel> _populateDocPlus(DocumentSnapshot doc) async {
+    return OrderModel.fromEntityPlus(doc.documentID, OrderEntity.fromMap(doc.data));  }
+
+  Future<OrderModel> get(String id) {
+    return OrderCollection.document(id).get().then((doc) {
+      if (doc.data != null)
+        return _populateDocPlus(doc);
+      else
+        return null;
+    });
+  }
+
+  StreamSubscription<List<OrderModel>> listen(OrderModelTrigger trigger) {
+    Stream<List<OrderModel>> stream = OrderCollection.snapshots()
+        .map((data) {
+      Iterable<OrderModel> orders  = data.documents.map((doc) {
+        OrderModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return orders;
+    });
+
+    return stream.listen((listOfOrderModels) {
+      trigger(listOfOrderModels);
+    });
+  }
+
+  StreamSubscription<List<OrderModel>> listenWithDetails(OrderModelTrigger trigger) {
+    Stream<List<OrderModel>> stream = OrderCollection.snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
+
+    return stream.listen((listOfOrderModels) {
+      trigger(listOfOrderModels);
+    });
+  }
+
+
+  Stream<List<OrderModel>> values() {
+    return OrderCollection.snapshots().map((snapshot) {
+      return snapshot.documents
+            .map((doc) => _populateDoc(doc)).toList();
+    });
+  }
+
+  Stream<List<OrderModel>> valuesWithDetails() {
+    return OrderCollection.snapshots().asyncMap((snapshot) {
+      return Future.wait(snapshot.documents
+          .map((doc) => _populateDocPlus(doc)).toList());
+    });
+  }
+
+  Future<List<OrderModel>> valuesList() async {
+    return await OrderCollection.getDocuments().then((value) {
+      var list = value.documents;
+      return list.map((doc) => _populateDoc(doc)).toList();
+    });
+  }
+
+  Future<List<OrderModel>> valuesListWithDetails() async {
+    return await OrderCollection.getDocuments().then((value) {
+      var list = value.documents;
+      return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
+  }
+
+  void flush() {}
+
+  Future<void> deleteAll() {
+    return OrderCollection.getDocuments().then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.documents){
+        ds.reference.delete();
+      }});
+  }
+
+
+  final String appID;
+  final CollectionReference OrderCollection;
+
+  OrderFirestore(this.appID) : OrderCollection = Firestore.instance.collection('Order-${appID}');
+}
+

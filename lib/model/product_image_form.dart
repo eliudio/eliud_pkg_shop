@@ -1,0 +1,236 @@
+/*
+       _ _           _ 
+      | (_)         | |
+   ___| |_ _   _  __| |
+  / _ \ | | | | |/ _` |
+ |  __/ | | |_| | (_| |
+  \___|_|_|\__,_|\__,_|
+                       
+ 
+ product_image_form.dart
+                       
+ This code is generated. This is read only. Don't touch!
+
+*/
+
+import 'package:eliud_model/core/global_data.dart';
+
+// import the main repository
+import 'package:eliud_model/tools/main_abstract_repository_singleton.dart';
+// import the shared repository
+import 'package:eliud_model/shared/abstract_repository_singleton.dart';
+// import the repository of this package:
+import '../shared/abstract_repository_singleton.dart';
+
+import 'package:eliud_model/shared/action_model.dart';
+import 'package:eliud_model/core/navigate/router.dart';
+import 'package:eliud_model/tools/screen_size.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/foundation.dart';
+
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+
+import 'package:intl/intl.dart';
+
+import 'package:eliud_model/core/eliud.dart';
+
+import 'package:eliud_model/shared/internal_component.dart';
+import 'package:eliud_model/shared/embedded_component.dart';
+import '../shared/embedded_component.dart';
+import 'package:eliud_model/shared/bespoke_formfields.dart';
+
+import 'package:eliud_model/tools/enums.dart';
+import 'package:eliud_model/tools/etc.dart';
+
+
+import 'product_image_list_bloc.dart';
+import 'product_image_list_event.dart';
+import 'product_image_model.dart';
+import 'product_image_form_bloc.dart';
+import 'product_image_form_event.dart';
+import 'product_image_form_state.dart';
+
+
+class ProductImageForm extends StatelessWidget {
+  FormAction formAction;
+  ProductImageModel value;
+  ActionModel submitAction;
+
+  ProductImageForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (formAction == FormAction.ShowData) {
+      return BlocProvider<ProductImageFormBloc >(
+            create: (context) => ProductImageFormBloc(
+                                       
+                                                )..add(InitialiseProductImageFormEvent(value: value)),
+  
+        child: MyProductImageForm(submitAction: submitAction, formAction: formAction),
+          );
+    } if (formAction == FormAction.ShowPreloadedData) {
+      return BlocProvider<ProductImageFormBloc >(
+            create: (context) => ProductImageFormBloc(
+                                       
+                                                )..add(InitialiseProductImageFormNoLoadEvent(value: value)),
+  
+        child: MyProductImageForm(submitAction: submitAction, formAction: formAction),
+          );
+    } else {
+      return Scaffold(
+        appBar: formAction == FormAction.UpdateAction ?
+                AppBar(
+                    title: Text("Update ProductImage", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formAppBarTextColor))),
+                    flexibleSpace: Container(
+                        decoration: BoxDecorationHelper.boxDecoration(GlobalData.app().formAppBarBackground)),
+                  ) :
+                AppBar(
+                    title: Text("Add ProductImage", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formAppBarTextColor))),
+                    flexibleSpace: Container(
+                        decoration: BoxDecorationHelper.boxDecoration(GlobalData.app().formAppBarBackground)),
+                ),
+        body: BlocProvider<ProductImageFormBloc >(
+            create: (context) => ProductImageFormBloc(
+                                       
+                                                )..add((formAction == FormAction.UpdateAction ? InitialiseProductImageFormEvent(value: value) : InitialiseNewProductImageFormEvent())),
+  
+        child: MyProductImageForm(submitAction: submitAction, formAction: formAction),
+          ));
+    }
+  }
+}
+
+
+class MyProductImageForm extends StatefulWidget {
+  final FormAction formAction;
+  final ActionModel submitAction;
+
+  MyProductImageForm({this.formAction, this.submitAction});
+
+  _MyProductImageFormState createState() => _MyProductImageFormState(this.formAction);
+}
+
+
+class _MyProductImageFormState extends State<MyProductImageForm> {
+  final FormAction formAction;
+  ProductImageFormBloc _myFormBloc;
+
+  final TextEditingController _documentIDController = TextEditingController();
+  String _image;
+
+
+  _MyProductImageFormState(this.formAction);
+
+  @override
+  void initState() {
+    super.initState();
+    _myFormBloc = BlocProvider.of<ProductImageFormBloc>(context);
+    _documentIDController.addListener(_onDocumentIDChanged);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ProductImageFormBloc, ProductImageFormState>(builder: (context, state) {
+      if (state is ProductImageFormUninitialized) return Center(
+        child: CircularProgressIndicator(),
+      );
+
+      if (state is ProductImageFormLoaded) {
+        if (state.value.documentID != null)
+          _documentIDController.text = state.value.documentID.toString();
+        else
+          _documentIDController.text = "";
+        if (state.value.image != null)
+          _image= state.value.image.documentID;
+        else
+          _image= "";
+      }
+      if (state is ProductImageFormInitialized) {
+        List<Widget> children = List();
+        children.add(
+
+                DropdownButtonComponentFactory().createNew(id: "images", value: _image, trigger: _onImageSelected, optional: false),
+          );
+
+
+        if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
+          children.add(RaisedButton(
+                  color: RgbHelper.color(rgbo: GlobalData.app().formSubmitButtonColor),
+                  onPressed: _readOnly(state) ? null : () {
+                    if (state is ProductImageFormError) {
+                      return null;
+                    } else {
+                      if (formAction == FormAction.UpdateAction) {
+                        BlocProvider.of<ProductImageListBloc>(context).add(
+                          UpdateProductImageList(value: state.value.copyWith(
+                              documentID: state.value.documentID, 
+                              image: state.value.image, 
+                        )));
+                      } else {
+                        BlocProvider.of<ProductImageListBloc>(context).add(
+                          AddProductImageList(value: ProductImageModel(
+                              documentID: state.value.documentID, 
+                              image: state.value.image, 
+                          )));
+                      }
+                      if (widget.submitAction != null) {
+                        Router.navigateTo(context, widget.submitAction);
+                      } else {
+                        Navigator.pop(context);
+                      }
+                      return true;
+                    }
+                  },
+                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formSubmitButtonTextColor))),
+                ));
+
+        return Container(
+          color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
+          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(GlobalData.app().formBackground),
+          padding:
+          const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+            child: Form(
+            child: ListView(
+              padding: const EdgeInsets.all(8),
+              physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
+              shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
+              children: children
+            ),
+          )
+        );
+      } else {
+        return CircularProgressIndicator();
+      }
+    });
+  }
+
+  void _onDocumentIDChanged() {
+    _myFormBloc.add(ChangedProductImageDocumentID(value: _documentIDController.text));
+  }
+
+
+  void _onImageSelected(String val) {
+    setState(() {
+      _image = val;
+    });
+    _myFormBloc.add(ChangedProductImageImage(value: val));
+  }
+
+
+
+  @override
+  void dispose() {
+    _documentIDController.dispose();
+    super.dispose();
+  }
+
+  bool _readOnly(ProductImageFormInitialized state) {
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!GlobalData.memberIsOwner());
+  }
+  
+
+}
+
+
+
