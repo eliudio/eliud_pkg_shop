@@ -4,7 +4,7 @@ import 'package:eliud_pkg_shop/extensions/shop_widgets/cart_widget.dart';
 import 'package:eliud_pkg_shop/model/cart_component.dart';
 import 'package:eliud_pkg_shop/model/cart_model.dart';
 import 'package:eliud_pkg_shop/model/cart_repository.dart';
-import 'package:eliud_pkg_shop/shared/abstract_repository_singleton.dart';
+import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:flutter/material.dart';
 
 class CartComponentConstructorDefault implements ComponentConstructor {

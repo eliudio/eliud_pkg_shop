@@ -7,14 +7,14 @@
   \___|_|_|\__,_|\__,_|
                        
  
- shared/component_registry.dart
+ model/component_registry.dart
                        
  This code is generated. This is read only. Don't touch!
 
 */
 
 
-import 'package:eliud_model/shared/internal_component.dart';
+import '../model/internal_component.dart';
 import 'package:eliud_model/tools/registry.dart';
 
 import '../extensions/cart_component.dart';

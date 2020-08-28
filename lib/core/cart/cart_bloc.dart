@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:eliud_model/core/access/bloc/access_details.dart';
 import 'package:eliud_model/core/access/bloc/access_state.dart';
@@ -6,12 +8,16 @@ import 'package:eliud_model/core/global_data.dart';
 import 'package:eliud_model/core/navigate/navigate_bloc.dart';
 import 'package:eliud_model/core/navigate/navigation_event.dart';
 import 'package:eliud_model/core/navigate/router.dart';
-import 'package:eliud_model/model/cart_item_model.dart';
+import 'package:eliud_model/model/abstract_repository_singleton.dart';
 import 'package:eliud_model/model/member_model.dart';
-import 'package:eliud_model/model/product_model.dart';
-import 'package:eliud_model/shared/abstract_repository_singleton.dart';
 import 'package:eliud_model/tools/etc.dart';
 import 'package:eliud_model/tools/random.dart';
+import 'package:eliud_pkg_shop/model/cart_item_model.dart';
+import 'package:eliud_pkg_shop/model/product_model.dart';
+
+// !!!AFTER!!! Compare this file!
+import 'cart_tools.dart';
+import "member_extension.dart";
 
 import 'cart_event.dart';
 import 'cart_state.dart';
@@ -48,9 +54,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   Future<void> updateCartChangeAmount(ProductModel product, int amount) async {
     MemberModel member = GlobalData.member();
     if (member != null) {
+      List<CartItemModel> items = await member.items();
+
       List<CartItemModel> newItems = copyListAndChangeAmount(
-          member.items, product, amount);
-      MemberModel newMember = member.copyWith(items: newItems);
+          items, product, amount);
+      MemberModel newMember = member.copyWithItems(newItems);
       await AbstractRepositorySingleton.singleton
           .memberRepository()
           .update(newMember);
@@ -65,7 +73,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   Future<void> emptyCart() async {
     MemberModel member = GlobalData.member();
     if (member != null) {
-      MemberModel newMember = member.copyWith(items: []);
+      MemberModel newMember = member.copyWithItems([]);
       await AbstractRepositorySingleton.singleton
           .memberRepository()
           .update(newMember);
@@ -82,22 +90,23 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     CartState currentState = state;
     if (event is LoadCart) {
       // load cart for this user which is in globaldata. However, the cart is part of the user and hence already loaded
-      yield CartInitialised();
+      yield CartInitialised(await GlobalData.member().items());
     } else {
       if (event is AddProduct) {
         await updateCartChangeAmount(event.product, event.amount);
         Router.navigateToPage(navigatorBloc, event.continueShoppingAction);
-        yield CartInitialised();
+        yield CartInitialised(await GlobalData.member().items());
       } else if (event is SimpleAddProduct) {
         await updateCartChangeAmount(event.product, event.amount);
-        yield CartInitialised();
+        yield CartInitialised(await GlobalData.member().items());
       } else if (event is RemoveProduct) {
         await updateCartChangeAmount(event.product, -event.amount);
-        yield CartInitialised();
+        yield CartInitialised(await GlobalData.member().items());
       } else if (event is EmptyCart) {
         await emptyCart();
-        yield CartInitialised();
+        yield CartInitialised(await GlobalData.member().items());
       }
     }
   }
 }
+

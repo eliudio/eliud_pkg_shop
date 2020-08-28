@@ -1,16 +1,15 @@
 import 'package:bloc/bloc.dart';
-import 'package:eliud_model/core/global_data.dart';
-import 'package:eliud_model/tools/random.dart';
+import 'package:eliud_model/core/pluggable/bloc/pluggable_bloc.dart';
 import 'package:eliud_pkg_shop/core/cart/cart_bloc.dart';
 import 'package:eliud_pkg_shop/core/cart/cart_event.dart';
-import 'package:eliud_pkg_shop/core/cart/cart_helper.dart';
-import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/cart_item_model.dart';
+import 'package:eliud_pkg_shop/core/cart/cart_tools.dart';
+import 'package:eliud_model/core/global_data.dart';
 import 'package:eliud_pkg_shop/model/order_item_model.dart';
 import 'package:eliud_pkg_shop/model/order_model.dart';
 import 'package:eliud_pkg_shop/model/shop_model.dart';
+import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
+import 'package:eliud_model/tools/random.dart';
 import 'package:flutter/cupertino.dart';
-import "../../core/cart/member_extension.dart";
 
 import 'payment_event.dart';
 import 'payment_state.dart';
@@ -19,9 +18,9 @@ import 'package:intl/intl.dart';
 
 class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   static DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
-  final CartBloc cartBloc;
+  final PluggableBloc pluggableBloc;
 
-  PaymentBloc(this.cartBloc): super(PayUninitialised());
+  PaymentBloc(this.pluggableBloc): super(PayUninitialised());
 
   bool _allInStock() {
     // TODO: verify if all products are in stock. If not, inform the customer that one of those items has been sold.
@@ -30,20 +29,21 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
   @override
   Stream<PaymentState> mapEventToState(PaymentEvent event) async* {
+/*
+    var currentState = state;
+    if (currentState is PayUninitialised) {
+*/
     if (event is CollectOrder) {
       // The payment screen is opened. We create an OrderModel instance in membory
         if (!GlobalData.isLoggedOn()) {
           yield NotLoggedOn();
           return;
+        } else if (!CartTools.hasItems(GlobalData.app(), GlobalData.member())) {
+          yield NoItemsInCart();
+          return;
         } else {
-          List<CartItemModel> items = await GlobalData.member().items();
-          if (items.isEmpty) {
-            yield NoItemsInCart();
-            return;
-          } else {
-            yield ConfirmOrder(await _getNewOrder(event.shop, items));
-            return;
-          }
+          yield ConfirmOrder(_getNewOrder(event.shop));
+          return;
         }
     } else if (event is PayTheOrder) {
       // The "Pay" button has been pressed. We store the OrderModel
@@ -76,7 +76,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         debugPrint('error' + error.toString());
       }
 
-      cartBloc.add(EmptyCart());
+      pluggableBloc.add(EmptyCart());
       // TODO: update stock
       yield OrderPaid(order: newOrder);
       return;
@@ -89,10 +89,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     }
   }
 
-  Future<OrderModel> _getNewOrder(ShopModel shop, List<CartItemModel> items) async {
-    List<CartItemModel> items = await GlobalData
-        .member().items();
-    double totalValue = CartHelper.totalValue(items);
+  OrderModel _getNewOrder(ShopModel shop) {
     return OrderModel(
         documentID: newRandomKey(),
         appId: GlobalData
@@ -147,7 +144,9 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
             .invoiceCountry,
         status: OrderStatus.Ordered,
         currency: shop.currency,
-        products: items
+        products: GlobalData
+            .member()
+            .items
             .map((item) =>
             OrderItemModel(
                 documentID: item.documentID,
@@ -156,6 +155,6 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
                 soldPrice: item.product.price,
                 product: item.product))
             .toList(),
-        totalPrice: totalValue);
+        totalPrice: CartTools.totalValue());
   }
 }

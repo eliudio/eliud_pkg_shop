@@ -15,12 +15,9 @@
 
 import 'dart:collection';
 import 'dart:convert';
-import 'shop_entity.dart';
-import 'package:eliud_model/shared/background_entity.dart';
-import 'package:eliud_model/shared/background_entity.dart';
-import 'package:eliud_model/shared/rgb_entity.dart';
-import 'package:eliud_model/shared/action_entity.dart';
 
+import 'package:eliud_model/model/rgb_entity.dart';
+import 'package:eliud_model/shared/action_entity.dart';
 class ShopFrontEntity {
   final String appId;
   final String title;

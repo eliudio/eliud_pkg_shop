@@ -15,10 +15,8 @@
 
 import 'dart:collection';
 import 'dart:convert';
-import 'shop_entity.dart';
-import 'product_image_entity.dart';
-import 'package:eliud_model/shared/pos_size_entity.dart';
 
+import 'package:eliud_pkg_shop/model/product_image_entity.dart';
 class ProductEntity {
   final String appId;
   final String title;

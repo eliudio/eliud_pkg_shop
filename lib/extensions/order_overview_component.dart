@@ -8,7 +8,7 @@ import 'package:eliud_pkg_shop/model/order_list_event.dart';
 import 'package:eliud_pkg_shop/model/order_overview_component.dart';
 import 'package:eliud_pkg_shop/model/order_overview_model.dart';
 import 'package:eliud_pkg_shop/model/order_overview_repository.dart';
-import 'package:eliud_pkg_shop/shared/abstract_repository_singleton.dart';
+import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

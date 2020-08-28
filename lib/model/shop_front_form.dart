@@ -15,13 +15,6 @@
 
 import 'package:eliud_model/core/global_data.dart';
 
-// import the main repository
-import 'package:eliud_model/tools/main_abstract_repository_singleton.dart';
-// import the shared repository
-import 'package:eliud_model/shared/abstract_repository_singleton.dart';
-// import the repository of this package:
-import '../shared/abstract_repository_singleton.dart';
-
 import 'package:eliud_model/shared/action_model.dart';
 import 'package:eliud_model/core/navigate/router.dart';
 import 'package:eliud_model/tools/screen_size.dart';
@@ -35,14 +28,29 @@ import 'package:intl/intl.dart';
 
 import 'package:eliud_model/core/eliud.dart';
 
-import 'package:eliud_model/shared/internal_component.dart';
-import 'package:eliud_model/shared/embedded_component.dart';
-import '../shared/embedded_component.dart';
+import 'package:eliud_model/model/internal_component.dart';
+import 'package:eliud_model/model/embedded_component.dart';
+import '../model/embedded_component.dart';
 import 'package:eliud_model/shared/bespoke_formfields.dart';
 
 import 'package:eliud_model/tools/enums.dart';
 import 'package:eliud_model/tools/etc.dart';
 
+// import the main classes
+import 'package:eliud_model/tools/main_abstract_repository_singleton.dart';
+
+// import the shared classes
+import 'package:eliud_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_model/model/repository_export.dart';
+import 'package:eliud_model/model/model_export.dart';
+import 'package:eliud_model/shared/action_model.dart';
+import 'package:eliud_model/model/entity_export.dart';
+  
+// import the classes of this package:
+import '../model/abstract_repository_singleton.dart';
+import '../model/repository_export.dart';
+import '../model/model_export.dart';
+import '../model/entity_export.dart';
 
 import 'shop_front_list_bloc.dart';
 import 'shop_front_list_event.dart';

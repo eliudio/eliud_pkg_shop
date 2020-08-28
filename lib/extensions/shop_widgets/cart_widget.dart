@@ -1,21 +1,20 @@
-import 'package:eliud_model/tools/custom_utils.dart';
-import 'package:eliud_pkg_shop/core/cart/cart_bloc.dart';
-import 'package:eliud_pkg_shop/core/cart/cart_event.dart';
-import 'package:eliud_pkg_shop/core/cart/cart_state.dart';
-import 'package:eliud_pkg_shop/core/cart/cart_tools.dart';
 import 'package:eliud_model/core/global_data.dart';
 import 'package:eliud_model/core/navigate/navigate_bloc.dart';
 import 'package:eliud_model/core/navigate/router.dart';
+import 'package:eliud_model/platform/platform.dart';
+import 'package:eliud_model/tools/custom_utils.dart';
+import 'package:eliud_model/tools/etc.dart';
+import 'package:eliud_pkg_shop/core/cart/cart_bloc.dart';
+import 'package:eliud_pkg_shop/core/cart/cart_event.dart';
+import 'package:eliud_pkg_shop/core/cart/cart_state.dart';
 import 'package:eliud_pkg_shop/extensions/shop_widgets/product_detail.dart';
 import 'package:eliud_pkg_shop/extensions/shop_widgets/size_route.dart';
 import 'package:eliud_pkg_shop/model/cart_item_model.dart';
 import 'package:eliud_pkg_shop/model/cart_model.dart';
-import 'package:eliud_model/platform/platform.dart';
-import 'package:eliud_model/tools/etc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-
+import "../../core/cart/member_extension.dart";
 import 'checkout_page.dart';
 
 class CartWidget extends StatefulWidget {
@@ -38,18 +37,19 @@ class _CartWidgetState extends State<CartWidget> {
           ),
         ],
         child: BlocBuilder<CartBloc, CartState>(builder: (context, state) {
-          return ListView(
-            shrinkWrap: true,
-            physics: ScrollPhysics(),
-            children: <Widget>[
-              //createHeader(),
-              _buttonRowTop(context),
-              createSubTitle(),
-              createCartList(context),
-              footer(context),
-              _buttonRowBottom(context)
-            ],
-          );
+          if (state is CartInitialised)
+            return ListView(
+              shrinkWrap: true,
+              physics: ScrollPhysics(),
+              children: <Widget>[
+                //createHeader(),
+                _buttonRowTop(context),
+                _createSubTitle(state.amountOfProducts()),
+                _createCartList(context, state.items),
+                _footer(context, state.totalValue()),
+                _buttonRowBottom(context)
+              ],
+            );
           }
     ));
 
@@ -76,7 +76,7 @@ class _CartWidgetState extends State<CartWidget> {
         child: Text('Checkout'));
   }
 
-  footer(BuildContext context) {
+  Widget _footer(BuildContext context, double totalValue) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -96,7 +96,7 @@ class _CartWidgetState extends State<CartWidget> {
                 margin: EdgeInsets.only(right: 30),
                 child: Text(
                   NumberFormat.simpleCurrency(locale: 'eu')
-                      .format(CartTools.totalValue()),
+                      .format(totalValue),
                   style: FontTools.textStyle(GlobalData.app().h3),
                 ),
               ),
@@ -108,7 +108,7 @@ class _CartWidgetState extends State<CartWidget> {
     );
   }
 
-  createHeader() {
+  Widget createHeader() {
     return Container(
       alignment: Alignment.topLeft,
       child: Text(
@@ -119,8 +119,7 @@ class _CartWidgetState extends State<CartWidget> {
     );
   }
 
-  createSubTitle() {
-    int amount = CartTools.amountOfProducts();
+  Widget _createSubTitle(int amount) {
     String text;
     if (amount == 1)
       text = "Total (1) item";
@@ -130,19 +129,17 @@ class _CartWidgetState extends State<CartWidget> {
       alignment: Alignment.topLeft,
       child: Text(
         text,
-        style: FontTools.textStyle(GlobalData.app().h2),
+        style: FontTools.textStyle(GlobalData
+            .app()
+            .h2),
       ),
       margin: EdgeInsets.only(left: 12, top: 4),
     );
   }
 
-  createCartList(BuildContext context) {
-    int amount = ((GlobalData.member().items != null) &&
-        (GlobalData.member().items != null))
-        ? GlobalData.member().items.length
-        : 0;
+  Widget _createCartList(BuildContext context, List<CartItemModel> cartItems) {
     List<Widget> items = List();
-    GlobalData.member().items.forEach((element) {
+    cartItems.forEach((element) {
       if (element.product != null) {
         items.add(createCartItem(element));
       }

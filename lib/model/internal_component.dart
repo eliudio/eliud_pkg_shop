@@ -7,19 +7,12 @@
   \___|_|_|\__,_|\__,_|
                        
  
- shared/internal_component.dart
+ model/internal_component.dart
                        
  This code is generated. This is read only. Don't touch!
 
 */
 
-
-// import the main repository
-import 'package:eliud_model/tools/main_abstract_repository_singleton.dart';
-// import the shared repository
-import 'package:eliud_model/shared/abstract_repository_singleton.dart';
-// import the repository of this package:
-import '../shared/abstract_repository_singleton.dart';
 
 import 'package:eliud_model/tools/component_constructor.dart';
 
@@ -34,48 +27,168 @@ import '../model/cart_list.dart';
 import '../model/cart_dropdown_button.dart';
 import '../model/cart_list_event.dart';
 
+// import the main classes
+import 'package:eliud_model/tools/main_abstract_repository_singleton.dart';
+
+// import the shared classes
+import 'package:eliud_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_model/model/repository_export.dart';
+import 'package:eliud_model/model/model_export.dart';
+import 'package:eliud_model/shared/action_model.dart';
+import 'package:eliud_model/model/entity_export.dart';
+  
+// import the classes of this package:
+import '../model/abstract_repository_singleton.dart';
+import '../model/repository_export.dart';
+import '../model/model_export.dart';
+import '../model/entity_export.dart';
 
 import '../model/order_list_bloc.dart';
 import '../model/order_list.dart';
 import '../model/order_dropdown_button.dart';
 import '../model/order_list_event.dart';
 
+// import the main classes
+import 'package:eliud_model/tools/main_abstract_repository_singleton.dart';
+
+// import the shared classes
+import 'package:eliud_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_model/model/repository_export.dart';
+import 'package:eliud_model/model/model_export.dart';
+import 'package:eliud_model/shared/action_model.dart';
+import 'package:eliud_model/model/entity_export.dart';
+  
+// import the classes of this package:
+import '../model/abstract_repository_singleton.dart';
+import '../model/repository_export.dart';
+import '../model/model_export.dart';
+import '../model/entity_export.dart';
 
 import '../model/order_overview_list_bloc.dart';
 import '../model/order_overview_list.dart';
 import '../model/order_overview_dropdown_button.dart';
 import '../model/order_overview_list_event.dart';
 
+// import the main classes
+import 'package:eliud_model/tools/main_abstract_repository_singleton.dart';
+
+// import the shared classes
+import 'package:eliud_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_model/model/repository_export.dart';
+import 'package:eliud_model/model/model_export.dart';
+import 'package:eliud_model/shared/action_model.dart';
+import 'package:eliud_model/model/entity_export.dart';
+  
+// import the classes of this package:
+import '../model/abstract_repository_singleton.dart';
+import '../model/repository_export.dart';
+import '../model/model_export.dart';
+import '../model/entity_export.dart';
 
 import '../model/pay_list_bloc.dart';
 import '../model/pay_list.dart';
 import '../model/pay_dropdown_button.dart';
 import '../model/pay_list_event.dart';
 
+// import the main classes
+import 'package:eliud_model/tools/main_abstract_repository_singleton.dart';
+
+// import the shared classes
+import 'package:eliud_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_model/model/repository_export.dart';
+import 'package:eliud_model/model/model_export.dart';
+import 'package:eliud_model/shared/action_model.dart';
+import 'package:eliud_model/model/entity_export.dart';
+  
+// import the classes of this package:
+import '../model/abstract_repository_singleton.dart';
+import '../model/repository_export.dart';
+import '../model/model_export.dart';
+import '../model/entity_export.dart';
 
 import '../model/pay_confirmation_list_bloc.dart';
 import '../model/pay_confirmation_list.dart';
 import '../model/pay_confirmation_dropdown_button.dart';
 import '../model/pay_confirmation_list_event.dart';
 
+// import the main classes
+import 'package:eliud_model/tools/main_abstract_repository_singleton.dart';
+
+// import the shared classes
+import 'package:eliud_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_model/model/repository_export.dart';
+import 'package:eliud_model/model/model_export.dart';
+import 'package:eliud_model/shared/action_model.dart';
+import 'package:eliud_model/model/entity_export.dart';
+  
+// import the classes of this package:
+import '../model/abstract_repository_singleton.dart';
+import '../model/repository_export.dart';
+import '../model/model_export.dart';
+import '../model/entity_export.dart';
 
 import '../model/product_list_bloc.dart';
 import '../model/product_list.dart';
 import '../model/product_dropdown_button.dart';
 import '../model/product_list_event.dart';
 
+// import the main classes
+import 'package:eliud_model/tools/main_abstract_repository_singleton.dart';
+
+// import the shared classes
+import 'package:eliud_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_model/model/repository_export.dart';
+import 'package:eliud_model/model/model_export.dart';
+import 'package:eliud_model/shared/action_model.dart';
+import 'package:eliud_model/model/entity_export.dart';
+  
+// import the classes of this package:
+import '../model/abstract_repository_singleton.dart';
+import '../model/repository_export.dart';
+import '../model/model_export.dart';
+import '../model/entity_export.dart';
 
 import '../model/shop_list_bloc.dart';
 import '../model/shop_list.dart';
 import '../model/shop_dropdown_button.dart';
 import '../model/shop_list_event.dart';
 
+// import the main classes
+import 'package:eliud_model/tools/main_abstract_repository_singleton.dart';
+
+// import the shared classes
+import 'package:eliud_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_model/model/repository_export.dart';
+import 'package:eliud_model/model/model_export.dart';
+import 'package:eliud_model/shared/action_model.dart';
+import 'package:eliud_model/model/entity_export.dart';
+  
+// import the classes of this package:
+import '../model/abstract_repository_singleton.dart';
+import '../model/repository_export.dart';
+import '../model/model_export.dart';
+import '../model/entity_export.dart';
 
 import '../model/shop_front_list_bloc.dart';
 import '../model/shop_front_list.dart';
 import '../model/shop_front_dropdown_button.dart';
 import '../model/shop_front_list_event.dart';
 
+// import the main classes
+import 'package:eliud_model/tools/main_abstract_repository_singleton.dart';
+
+// import the shared classes
+import 'package:eliud_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_model/model/repository_export.dart';
+import 'package:eliud_model/model/model_export.dart';
+import 'package:eliud_model/shared/action_model.dart';
+import 'package:eliud_model/model/entity_export.dart';
+  
+// import the classes of this package:
+import '../model/abstract_repository_singleton.dart';
+import '../model/repository_export.dart';
+import '../model/model_export.dart';
+import '../model/entity_export.dart';
 
 class ListComponentFactory implements ComponentConstructor {
   Widget createNew({String id, Map<String, String> parameters}) {

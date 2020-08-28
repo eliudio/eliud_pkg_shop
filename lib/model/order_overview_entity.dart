@@ -15,10 +15,6 @@
 
 import 'dart:collection';
 import 'dart:convert';
-import 'shop_entity.dart';
-import 'package:eliud_model/shared/background_entity.dart';
-import 'package:eliud_model/shared/background_entity.dart';
-
 class OrderOverviewEntity {
   final String appId;
   final String title;

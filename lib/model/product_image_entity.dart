@@ -15,8 +15,6 @@
 
 import 'dart:collection';
 import 'dart:convert';
-import 'package:eliud_model/shared/image_entity.dart';
-
 class ProductImageEntity {
   final String imageId;
 

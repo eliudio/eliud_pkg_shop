@@ -7,7 +7,7 @@
   \___|_|_|\__,_|\__,_|
                        
  
- shared/embedded_component.dart
+ model/embedded_component.dart
                        
  This code is generated. This is read only. Don't touch!
 

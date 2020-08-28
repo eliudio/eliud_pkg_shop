@@ -16,19 +16,24 @@
 import 'dart:async';
 import 'product_model.dart';
 import 'product_repository.dart';
-
-// import the main repository
+// import the main classes
 import 'package:eliud_model/tools/main_abstract_repository_singleton.dart';
-// import the shared repository
-import 'package:eliud_model/shared/abstract_repository_singleton.dart';
-// import the repository of this package:
-import '../shared/abstract_repository_singleton.dart';
 
+// import the shared classes
+import 'package:eliud_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_model/model/repository_export.dart';
+import 'package:eliud_model/model/cache_export.dart';
+import 'package:eliud_model/model/model_export.dart';
+import 'package:eliud_model/shared/action_model.dart';
+import 'package:eliud_model/model/entity_export.dart';
+  
+// import the classes of this package:
+import '../model/abstract_repository_singleton.dart';
+import '../model/repository_export.dart';
+import '../model/cache_export.dart';
+import '../model/model_export.dart';
+import '../model/entity_export.dart';
 
-import 'shop_model.dart';
-import 'product_image_model.dart';
-import 'package:eliud_model/shared/pos_size_model.dart';
-import 'product_image_cache.dart';
 class ProductCache implements ProductRepository {
 
   final ProductRepository reference;

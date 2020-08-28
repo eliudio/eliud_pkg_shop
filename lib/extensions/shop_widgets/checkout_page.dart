@@ -2,7 +2,7 @@ import 'package:eliud_model/core/global_data.dart';
 import 'package:eliud_model/model/member_form.dart';
 import 'package:eliud_model/model/member_list_bloc.dart';
 import 'package:eliud_model/model/member_list_event.dart';
-import 'package:eliud_model/shared/abstract_repository_singleton.dart';
+import 'package:eliud_model/model/abstract_repository_singleton.dart';
 import 'package:eliud_model/shared/action_model.dart';
 import 'package:eliud_model/tools/enums.dart';
 import 'package:flutter/material.dart';

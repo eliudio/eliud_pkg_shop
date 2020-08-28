@@ -7,23 +7,14 @@
   \___|_|_|\__,_|\__,_|
                        
  
- shared/admin_app.dart
+ model/admin_app.dart
                        
  This code is generated. This is read only. Don't touch!
 
 */
 
 
-// import the main repository
-import 'package:eliud_model/tools/main_abstract_repository_singleton.dart';
-// import the shared repository
-import 'package:eliud_model/shared/abstract_repository_singleton.dart';
-// import the repository of this package:
-import '../shared/abstract_repository_singleton.dart';
-
 import 'package:eliud_model/shared/action_model.dart';
-import 'package:eliud_model/shared/rgb_model.dart';
-import 'package:eliud_model/shared/icon_model.dart';
 
 import 'package:eliud_model/model/menu_def_model.dart';
 import 'package:eliud_model/model/page_model.dart';
@@ -33,6 +24,21 @@ import 'package:eliud_model/model/drawer_model.dart';
 import 'package:eliud_model/model/menu_item_model.dart';
 import 'package:eliud_model/model/home_menu_model.dart';
 
+// import the main classes
+import 'package:eliud_model/tools/main_abstract_repository_singleton.dart';
+
+// import the shared classes
+import 'package:eliud_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_model/model/repository_export.dart';
+import 'package:eliud_model/model/model_export.dart';
+import 'package:eliud_model/shared/action_model.dart';
+import 'package:eliud_model/model/entity_export.dart';
+  
+// import the classes of this package:
+import '../model/abstract_repository_singleton.dart';
+import '../model/repository_export.dart';
+import '../model/model_export.dart';
+import '../model/entity_export.dart';
 
 class AdminApp {
   final String appID;
@@ -329,7 +335,6 @@ class AdminApp {
   static Future<void> deleteAll(String appID) async {
     return await imageRepository().deleteAll()
         .then((_) => cartRepository().deleteAll())
-        .then((_) => memberCartRepository().deleteAll())
         .then((_) => orderRepository().deleteAll())
         .then((_) => orderOverviewRepository().deleteAll())
         .then((_) => payRepository().deleteAll())

@@ -15,9 +15,8 @@
 
 import 'dart:collection';
 import 'dart:convert';
-import 'package:eliud_model/shared/action_entity.dart';
-import 'shop_entity.dart';
 
+import 'package:eliud_model/shared/action_entity.dart';
 class PayEntity {
   final String appId;
   final String title;

@@ -13,9 +13,24 @@
 
 */
 
-import 'shop_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+// import the main classes
+import 'package:eliud_model/tools/main_abstract_repository_singleton.dart';
+
+// import the shared classes
+import 'package:eliud_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_model/model/repository_export.dart';
+import 'package:eliud_model/model/model_export.dart';
+import 'package:eliud_model/shared/action_model.dart';
+import 'package:eliud_model/model/entity_export.dart';
+  
+// import the classes of this package:
+import '../model/abstract_repository_singleton.dart';
+import '../model/repository_export.dart';
+import '../model/model_export.dart';
+import '../model/entity_export.dart';
+
 
 @immutable
 abstract class ShopFormEvent extends Equatable {

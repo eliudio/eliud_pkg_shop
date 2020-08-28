@@ -4,7 +4,7 @@ import 'package:eliud_model/tools/component_constructor.dart';
 import 'package:eliud_pkg_shop/model/product_component.dart';
 import 'package:eliud_pkg_shop/model/product_model.dart';
 import 'package:eliud_pkg_shop/model/product_repository.dart';
-import 'package:eliud_pkg_shop/shared/abstract_repository_singleton.dart';
+import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:flutter/material.dart';
 
 class ProductComponentConstructorDefault implements ComponentConstructor {

@@ -7,7 +7,7 @@
   \___|_|_|\__,_|\__,_|
                        
  
- shared/cross_component.dart
+ model/cross_component.dart
                        
  This code is generated. This is read only. Don't touch!
 

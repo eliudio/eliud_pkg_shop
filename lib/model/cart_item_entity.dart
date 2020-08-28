@@ -15,8 +15,6 @@
 
 import 'dart:collection';
 import 'dart:convert';
-import 'product_entity.dart';
-
 class CartItemEntity {
   final int amount;
   final String appId;

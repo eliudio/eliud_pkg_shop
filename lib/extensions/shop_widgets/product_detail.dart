@@ -1,4 +1,4 @@
-import 'package:eliud_model/component/fader_model.dart';
+import 'package:eliud_model/model/fader_model.dart';
 import 'package:eliud_pkg_shop/core/cart/cart_tools.dart';
 import 'package:eliud_model/core/global_data.dart';
 import 'package:eliud_model/core/navigate/router.dart';
@@ -8,8 +8,8 @@ import 'package:eliud_pkg_shop/model/product_model.dart';
 import 'package:eliud_pkg_shop/model/shop_front_model.dart';
 import 'package:eliud_model/platform/platform.dart';
 import 'package:eliud_model/shared/action_model.dart';
-import 'package:eliud_model/shared/background_model.dart';
-import 'package:eliud_model/shared/pos_size_model.dart';
+import 'package:eliud_model/model/background_model.dart';
+import 'package:eliud_model/model/pos_size_model.dart';
 import 'package:eliud_model/tools/etc.dart';
 import 'package:flutter/material.dart';
 

@@ -15,20 +15,10 @@
 
 import 'package:eliud_model/core/global_data.dart';
 
-// import the main repository
-import 'package:eliud_model/tools/main_abstract_repository_singleton.dart';
-// import the shared repository
-import 'package:eliud_model/shared/abstract_repository_singleton.dart';
-// import the repository of this package:
-import '../shared/abstract_repository_singleton.dart';
-
-import '../shared/abstract_repository_singleton.dart';
-
-
+import 'abstract_repository_singleton.dart';
 import 'cart_item_entity.dart';
 import 'product_model.dart';
 import 'product_repository.dart';
-import 'package:eliud_model/tools/random.dart';
 
 
 
@@ -88,7 +78,7 @@ class CartItemModel {
     ProductModel productHolder;
     if (entity.productId != null) {
       try {
-        await productRepository().get(entity.productId).then((val) {
+        await AbstractRepositorySingleton.singleton.productRepository().get(entity.productId).then((val) {
           productHolder = val;
         }).catchError((error) {});
       } catch (_) {}

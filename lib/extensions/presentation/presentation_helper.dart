@@ -1,6 +1,6 @@
 import 'package:eliud_model/model/presentation_model.dart';
 import 'package:eliud_model/platform/platform.dart';
-import 'package:eliud_model/shared/image_model.dart';
+import 'package:eliud_model/model/image_model.dart';
 import 'package:eliud_model/tools/screen_size.dart';
 import 'package:flutter/cupertino.dart';
 

@@ -15,11 +15,8 @@
 
 import 'dart:collection';
 import 'dart:convert';
-import 'member_entity.dart';
-import 'country_entity.dart';
-import 'country_entity.dart';
-import 'order_item_entity.dart';
 
+import 'order_item_entity.dart';
 class OrderEntity {
   final String appId;
   final String customerId;

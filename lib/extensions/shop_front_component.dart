@@ -7,10 +7,10 @@ import 'package:eliud_pkg_shop/model/product_list_event.dart';
 import 'package:eliud_pkg_shop/model/shop_front_component.dart';
 import 'package:eliud_pkg_shop/model/shop_front_model.dart';
 import 'package:eliud_pkg_shop/model/shop_front_repository.dart';
-import 'package:eliud_model/shared/font_model.dart';
+import 'package:eliud_model/model/font_model.dart';
 import 'package:eliud_model/tools/custom_utils.dart';
 import 'package:eliud_model/tools/etc.dart';
-import 'package:eliud_pkg_shop/shared/abstract_repository_singleton.dart';
+import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
