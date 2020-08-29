@@ -1,13 +1,12 @@
-// !!!AFTER!!! basically compare this entire file!!
-import 'package:eliud_model/core/access/bloc/access_bloc.dart';
-import 'package:eliud_model/core/access/bloc/access_event.dart';
-import 'package:eliud_model/core/global_data.dart';
-import 'package:eliud_model/shared/action_model.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_pkg_shop/model/product_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'cart_bloc.dart';
+import '../../bloc/cart/cart_bloc.dart';
 import 'cart_event.dart';
 // !!!AFTER!!! import
 import "member_extension.dart";

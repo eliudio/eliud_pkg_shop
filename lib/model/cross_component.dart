@@ -16,7 +16,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:eliud_model/tools/registry.dart';
+import 'package:eliud_core/tools/registry.dart';
 
 import 'internal_component.dart';
 

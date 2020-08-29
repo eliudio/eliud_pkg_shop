@@ -13,21 +13,21 @@
 
 */
 
-import 'package:eliud_model/core/global_data.dart';
-import 'package:eliud_model/shared/has_fab.dart';
+import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/tools/has_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eliud_model/tools/screen_size.dart';
+import 'package:eliud_core/tools/screen_size.dart';
 
-import 'package:eliud_model/tools/delete_snackbar.dart';
-import 'package:eliud_model/tools/router_builders.dart';
-import 'package:eliud_model/tools/etc.dart';
-import 'package:eliud_model/tools/enums.dart';
-import 'package:eliud_model/core/eliud.dart';
+import 'package:eliud_core/tools/delete_snackbar.dart';
+import 'package:eliud_core/tools/router_builders.dart';
+import 'package:eliud_core/tools/etc.dart';
+import 'package:eliud_core/tools/enums.dart';
+import 'package:eliud_core/core/eliud.dart';
 
 import 'order_item_list_event.dart';
 import 'order_item_list_state.dart';

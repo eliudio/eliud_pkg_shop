@@ -15,7 +15,7 @@
 
 
 import '../model/internal_component.dart';
-import 'package:eliud_model/tools/registry.dart';
+import 'package:eliud_core/tools/registry.dart';
 
 import '../extensions/cart_component.dart';
 import '../extensions/order_overview_component.dart';

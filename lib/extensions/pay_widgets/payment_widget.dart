@@ -1,11 +1,11 @@
-import 'package:eliud_model/core/global_data.dart';
-import 'package:eliud_model/core/navigate/router.dart';
+import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/core/navigate/router.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/payment_bloc.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/payment_event.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/payment_state.dart';
 import 'package:eliud_pkg_shop/model/order_model.dart';
 import 'package:eliud_pkg_shop/model/pay_model.dart';
-import 'package:eliud_model/tools/etc.dart';
+import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_pkg_shop/platform/payment_platform.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

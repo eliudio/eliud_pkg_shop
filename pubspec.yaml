@@ -12,8 +12,11 @@ dependencies:
   flutter:
     sdk: flutter
 
-  eliud_model:
-    path: ../eliud_model
+  eliud_core:
+    path: ../eliud_core
+
+  eliud_pkg_fundamentals:
+    path: ../eliud_pkg_fundamentals
 
   stripe_payment: 1.0.7
   cloud_functions: 0.4.1+8

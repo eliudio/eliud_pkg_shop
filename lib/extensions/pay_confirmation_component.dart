@@ -1,5 +1,5 @@
-import 'package:eliud_model/core/widgets/alert_widget.dart';
-import 'package:eliud_model/tools/component_constructor.dart';
+import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/confirmation_widget.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/payment_bloc.dart';
 import 'package:eliud_pkg_shop/model/order_component_bloc.dart';

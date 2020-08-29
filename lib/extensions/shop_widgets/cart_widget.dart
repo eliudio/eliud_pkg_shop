@@ -1,12 +1,12 @@
-import 'package:eliud_model/core/global_data.dart';
-import 'package:eliud_model/core/navigate/navigate_bloc.dart';
-import 'package:eliud_model/core/navigate/router.dart';
-import 'package:eliud_model/platform/platform.dart';
-import 'package:eliud_model/tools/custom_utils.dart';
-import 'package:eliud_model/tools/etc.dart';
-import 'package:eliud_pkg_shop/core/cart/cart_bloc.dart';
-import 'package:eliud_pkg_shop/core/cart/cart_event.dart';
-import 'package:eliud_pkg_shop/core/cart/cart_state.dart';
+import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/core/navigate/navigate_bloc.dart';
+import 'package:eliud_core/core/navigate/router.dart';
+import 'package:eliud_core/platform/platform.dart';
+import 'package:eliud_core/tools/custom_utils.dart';
+import 'package:eliud_core/tools/etc.dart';
+import 'package:eliud_pkg_shop/bloc/cart/cart_event.dart';
+import 'package:eliud_pkg_shop/bloc/cart/cart_state.dart';
+import 'package:eliud_pkg_shop/bloc/cart/cart_bloc.dart';
 import 'package:eliud_pkg_shop/extensions/shop_widgets/product_detail.dart';
 import 'package:eliud_pkg_shop/extensions/shop_widgets/size_route.dart';
 import 'package:eliud_pkg_shop/model/cart_item_model.dart';
@@ -14,7 +14,7 @@ import 'package:eliud_pkg_shop/model/cart_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import "../../core/cart/member_extension.dart";
+import "../../bloc/cart/member_extension.dart";
 import 'checkout_page.dart';
 
 class CartWidget extends StatefulWidget {

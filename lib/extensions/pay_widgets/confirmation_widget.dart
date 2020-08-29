@@ -1,9 +1,9 @@
-import 'package:eliud_model/core/global_data.dart';
-import 'package:eliud_model/core/navigate/router.dart';
+import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/core/navigate/router.dart';
 import 'package:eliud_pkg_shop/model/order_component_bloc.dart';
 import 'package:eliud_pkg_shop/model/order_component_state.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_model.dart';
-import 'package:eliud_model/tools/etc.dart';
+import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

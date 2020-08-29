@@ -1,16 +1,16 @@
-import 'package:eliud_model/model/fader_model.dart';
-import 'package:eliud_pkg_shop/core/cart/cart_tools.dart';
-import 'package:eliud_model/core/global_data.dart';
-import 'package:eliud_model/core/navigate/router.dart';
-import 'package:eliud_model/extensions/fader_widgets/fader_widgets.dart';
+import 'package:eliud_core/tools/action_model.dart';
+import 'package:eliud_pkg_fundamentals/extensions/fader_widgets/fader_widgets.dart';
+import 'package:eliud_pkg_fundamentals/model/fader_model.dart';
+import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/core/navigate/router.dart';
+import 'package:eliud_pkg_shop/bloc/cart/cart_tools.dart';
 import 'package:eliud_pkg_shop/model/product_image_model.dart';
 import 'package:eliud_pkg_shop/model/product_model.dart';
 import 'package:eliud_pkg_shop/model/shop_front_model.dart';
-import 'package:eliud_model/platform/platform.dart';
-import 'package:eliud_model/shared/action_model.dart';
-import 'package:eliud_model/model/background_model.dart';
-import 'package:eliud_model/model/pos_size_model.dart';
-import 'package:eliud_model/tools/etc.dart';
+import 'package:eliud_core/platform/platform.dart';
+import 'package:eliud_core/model/background_model.dart';
+import 'package:eliud_core/model/pos_size_model.dart';
+import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetail extends StatefulWidget {

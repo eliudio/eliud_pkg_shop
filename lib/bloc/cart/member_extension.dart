@@ -1,8 +1,8 @@
 import 'dart:collection';
 import 'dart:convert';
 
-import 'package:eliud_model/model/member_model.dart';
-import 'package:eliud_model/tools/random.dart';
+import 'package:eliud_core/model/member_model.dart';
+import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_pkg_shop/model/cart_item_entity.dart';
 import 'package:eliud_pkg_shop/model/cart_item_model.dart';
 

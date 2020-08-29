@@ -1,6 +1,6 @@
-import 'package:eliud_model/core/widgets/alert_widget.dart';
-import 'package:eliud_model/model/app_model.dart';
-import 'package:eliud_model/tools/component_constructor.dart';
+import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:eliud_pkg_shop/model/product_component.dart';
 import 'package:eliud_pkg_shop/model/product_model.dart';
 import 'package:eliud_pkg_shop/model/product_repository.dart';

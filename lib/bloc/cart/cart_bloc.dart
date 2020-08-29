@@ -1,26 +1,24 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
-import 'package:eliud_model/core/access/bloc/access_details.dart';
-import 'package:eliud_model/core/access/bloc/access_state.dart';
-import 'package:eliud_model/core/components/page_constructors/bottom_navigation_bar_constructor.dart';
-import 'package:eliud_model/core/global_data.dart';
-import 'package:eliud_model/core/navigate/navigate_bloc.dart';
-import 'package:eliud_model/core/navigate/navigation_event.dart';
-import 'package:eliud_model/core/navigate/router.dart';
-import 'package:eliud_model/model/abstract_repository_singleton.dart';
-import 'package:eliud_model/model/member_model.dart';
-import 'package:eliud_model/tools/etc.dart';
-import 'package:eliud_model/tools/random.dart';
+import 'package:eliud_core/core/access/bloc/access_details.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/components/page_constructors/bottom_navigation_bar_constructor.dart';
+import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/core/navigate/navigate_bloc.dart';
+import 'package:eliud_core/core/navigate/navigation_event.dart';
+import 'package:eliud_core/core/navigate/router.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core/model/member_model.dart';
+import 'package:eliud_core/tools/etc.dart';
+import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_pkg_shop/model/cart_item_model.dart';
 import 'package:eliud_pkg_shop/model/product_model.dart';
-
-// !!!AFTER!!! Compare this file!
-import 'cart_tools.dart';
 import "member_extension.dart";
 
 import 'cart_event.dart';
 import 'cart_state.dart';
+
 
 class CartBloc extends Bloc<CartEvent, CartState> {
   final NavigatorBloc navigatorBloc;

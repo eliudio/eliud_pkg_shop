@@ -14,7 +14,7 @@
 */
 
 
-import 'package:eliud_model/tools/random.dart';
+import 'package:eliud_core/tools/random.dart';
 
 import 'dart:async';
 
