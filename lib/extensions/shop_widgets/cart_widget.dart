@@ -1,6 +1,6 @@
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
-import 'package:eliud_core/core/navigate/router.dart';
+import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/platform/platform.dart';
 import 'package:eliud_core/tools/custom_utils.dart';
 import 'package:eliud_core/tools/etc.dart';
@@ -60,7 +60,7 @@ class _CartWidgetState extends State<CartWidget> {
           color:
           RgbHelper.color(rgbo: GlobalData.app().formSubmitButtonColor),
           onPressed: () {
-            Router.navigateTo(context, widget.cart.backToShopAction);
+            eliudrouter.Router.navigateTo(context, widget.cart.backToShopAction);
           },
           child: Text('Continue shopping'));
   }

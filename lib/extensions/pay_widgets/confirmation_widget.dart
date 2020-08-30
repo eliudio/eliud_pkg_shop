@@ -1,5 +1,5 @@
 import 'package:eliud_core/core/global_data.dart';
-import 'package:eliud_core/core/navigate/router.dart';
+import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_pkg_shop/model/order_component_bloc.dart';
 import 'package:eliud_pkg_shop/model/order_component_state.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_model.dart';
@@ -26,7 +26,7 @@ class ConfirmationState extends State<ConfirmationWidget> {
     return RaisedButton(
           color: RgbHelper.color(rgbo: GlobalData.app().formSubmitButtonColor),
           onPressed: () {
-              Router.navigateTo(context, widget.payConfirmationModel.backToShopAction);
+            eliudrouter.Router.navigateTo(context, widget.payConfirmationModel.backToShopAction);
           },
           child: Text('Back to the shop'));
   }

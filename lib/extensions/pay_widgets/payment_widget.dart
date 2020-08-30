@@ -1,5 +1,5 @@
 import 'package:eliud_core/core/global_data.dart';
-import 'package:eliud_core/core/navigate/router.dart';
+import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_pkg_shop/extensions/pay_widgets/payment_bloc.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/payment_event.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/payment_state.dart';
@@ -132,7 +132,7 @@ class PayState extends State<PayWidget> {
               ));
         } else if (state is OrderPaid) {
           var parameters = <String, String> { 'orderId': state.order.documentID };
-          Router.navigateTo(context, widget.pay.succeeded, parameters: parameters);
+          eliudrouter.Router.navigateTo(context, widget.pay.succeeded, parameters: parameters);
         } else if (state is PaymentFailed) {
           debugPrint('state is PaymentFailed');
           return _overviewAndPay(state.order,
