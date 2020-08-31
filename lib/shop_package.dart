@@ -5,9 +5,9 @@ import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:flutter_bloc/src/bloc_provider.dart';
 
-import 'bloc/cart/cart_bloc.dart';
-import 'model/component_registry.dart';
-import 'bloc/cart/member_extension.dart';
+import 'package:eliud_pkg_shop/bloc/cart/cart_bloc.dart';
+import 'package:eliud_pkg_shop/model/component_registry.dart';
+import 'package:eliud_pkg_shop/bloc/cart/member_extension.dart';
 
 abstract class ShopPlugin extends Plugin {
   static final String CONDITION_CARTS_HAS_ITEMS = 'MustHaveStuffInBasket';

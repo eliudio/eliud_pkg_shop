@@ -14,8 +14,8 @@ import 'package:eliud_pkg_shop/model/cart_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import "../../bloc/cart/member_extension.dart";
-import 'checkout_page.dart';
+import 'package:eliud_pkg_shop/bloc/cart/member_extension.dart';
+import 'package:eliud_pkg_shop/extensions/shop_widgets/checkout_page.dart';
 
 class CartWidget extends StatefulWidget {
   final CartModel cart;

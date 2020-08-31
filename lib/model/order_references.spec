@@ -1,5 +1,6 @@
 {
   "id": "OrderReferences",
+  "packageName": "eliud_pkg_shop",
   "isAppModel": true,
   "generate": {
     "generateComponent": false,

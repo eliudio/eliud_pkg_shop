@@ -11,10 +11,10 @@ import 'package:eliud_pkg_shop/model/order_model.dart';
 import 'package:eliud_pkg_shop/model/shop_model.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'payment_event.dart';
-import 'payment_state.dart';
+import 'package:eliud_pkg_shop/extensions/pay_widgets/payment_event.dart';
+import 'package:eliud_pkg_shop/extensions/pay_widgets/payment_state.dart';
 
-import '../../bloc/cart/member_extension.dart';
+import 'package:eliud_pkg_shop/bloc/cart/member_extension.dart';
 
 import 'package:intl/intl.dart';
 

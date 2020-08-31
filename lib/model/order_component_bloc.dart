@@ -16,10 +16,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import 'order_model.dart';
-import 'order_component_event.dart';
-import 'order_component_state.dart';
-import 'order_repository.dart';
+import 'package:eliud_pkg_shop/model/order_model.dart';
+import 'package:eliud_pkg_shop/model/order_component_event.dart';
+import 'package:eliud_pkg_shop/model/order_component_state.dart';
+import 'package:eliud_pkg_shop/model/order_repository.dart';
 
 class OrderBloc extends Bloc<OrderEvent, OrderState> {
   final OrderRepository orderRepository;

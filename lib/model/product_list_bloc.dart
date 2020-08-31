@@ -17,9 +17,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'product_repository.dart';
-import 'product_list_event.dart';
-import 'product_list_state.dart';
+import 'package:eliud_pkg_shop/model/product_repository.dart';
+import 'package:eliud_pkg_shop/model/product_list_event.dart';
+import 'package:eliud_pkg_shop/model/product_list_state.dart';
 
 
 class ProductListBloc extends Bloc<ProductListEvent, ProductListState> {

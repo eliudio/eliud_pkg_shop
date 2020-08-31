@@ -14,7 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
-import 'cart_item_model.dart';
+import 'package:eliud_pkg_shop/model/cart_item_model.dart';
 
 abstract class CartItemListState extends Equatable {
   const CartItemListState();

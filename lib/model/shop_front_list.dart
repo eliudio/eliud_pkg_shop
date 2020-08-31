@@ -29,10 +29,10 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/eliud.dart';
 
-import 'shop_front_list_event.dart';
-import 'shop_front_list_state.dart';
-import 'shop_front_list_bloc.dart';
-import 'shop_front_model.dart';
+import 'package:eliud_pkg_shop/model/shop_front_list_event.dart';
+import 'package:eliud_pkg_shop/model/shop_front_list_state.dart';
+import 'package:eliud_pkg_shop/model/shop_front_list_bloc.dart';
+import 'package:eliud_pkg_shop/model/shop_front_model.dart';
 
 import 'shop_front_form.dart';
 class ShopFrontListWidget extends StatefulWidget with HasFab {

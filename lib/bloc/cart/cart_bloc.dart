@@ -14,7 +14,7 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_pkg_shop/model/cart_item_model.dart';
 import 'package:eliud_pkg_shop/model/product_model.dart';
-import "member_extension.dart";
+import 'package:eliud_pkg_shop/bloc/cart/member_extension.dart';
 
 import 'cart_event.dart';
 import 'cart_state.dart';

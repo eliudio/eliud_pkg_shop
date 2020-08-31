@@ -14,7 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
-import 'product_image_model.dart';
+import 'package:eliud_pkg_shop/model/product_image_model.dart';
 
 abstract class ProductImageListEvent extends Equatable {
   const ProductImageListEvent();

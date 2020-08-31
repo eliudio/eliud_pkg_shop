@@ -29,10 +29,10 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/eliud.dart';
 
-import 'pay_list_event.dart';
-import 'pay_list_state.dart';
-import 'pay_list_bloc.dart';
-import 'pay_model.dart';
+import 'package:eliud_pkg_shop/model/pay_list_event.dart';
+import 'package:eliud_pkg_shop/model/pay_list_state.dart';
+import 'package:eliud_pkg_shop/model/pay_list_bloc.dart';
+import 'package:eliud_pkg_shop/model/pay_model.dart';
 
 import 'pay_form.dart';
 class PayListWidget extends StatefulWidget with HasFab {

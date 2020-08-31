@@ -14,21 +14,21 @@
 */
 
 import 'dart:async';
-import 'product_model.dart';
-import 'product_repository.dart';
+import 'package:eliud_pkg_shop/model/product_model.dart';
+import 'package:eliud_pkg_shop/model/product_repository.dart';
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import '../model/abstract_repository_singleton.dart';
-import 'repository_export.dart';
+import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
+import 'package:eliud_pkg_shop/model/repository_export.dart';
 import 'package:eliud_core/model/cache_export.dart';
-import '../model/cache_export.dart';
+import 'package:eliud_pkg_shop/model/cache_export.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/tools/action_model.dart';
-import '../model/model_export.dart';
+import 'package:eliud_pkg_shop/model/model_export.dart';
 import 'package:eliud_core/model/entity_export.dart';
 import 'package:eliud_core/tools/action_entity.dart';
-import '../model/entity_export.dart';
+import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class ProductCache implements ProductRepository {
 

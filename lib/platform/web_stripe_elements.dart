@@ -6,7 +6,7 @@ import 'dart:js' as js;
 import 'package:eliud_pkg_shop/model/order_model.dart';
 import 'package:flutter/material.dart';
 
-import 'payment_platform.dart';
+import 'package:eliud_pkg_shop/platform/payment_platform.dart';
 
 class WebStripeElements extends StatefulWidget {
   final HandlePayment handlePayment;

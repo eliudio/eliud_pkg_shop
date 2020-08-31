@@ -6,10 +6,9 @@ import 'package:eliud_pkg_shop/model/product_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../bloc/cart/cart_bloc.dart';
-import 'cart_event.dart';
-// !!!AFTER!!! import
-import "member_extension.dart";
+import 'package:eliud_pkg_shop/bloc/cart/cart_bloc.dart';
+import 'package:eliud_pkg_shop/bloc/cart/cart_event.dart';
+import 'package:eliud_pkg_shop/bloc/cart/member_extension.dart';
 
 class PostLoginAddProduct extends PostLoginAction {
   final CartBloc cartBloc;

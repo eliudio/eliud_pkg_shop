@@ -1,5 +1,6 @@
 {
   "id": "ProductImage",
+  "packageName": "eliud_pkg_shop",
   "generate": {
     "generateComponent": false,
     "generateRepository": true,

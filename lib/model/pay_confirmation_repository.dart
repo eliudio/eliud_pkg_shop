@@ -14,7 +14,7 @@
 */
 
 import 'dart:async';
-import 'pay_confirmation_model.dart';
+import 'package:eliud_pkg_shop/model/pay_confirmation_model.dart';
 
 typedef PayConfirmationModelTrigger(List<PayConfirmationModel> list);
 

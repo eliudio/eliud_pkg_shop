@@ -16,11 +16,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'pay_confirmation_component_bloc.dart';
-import 'pay_confirmation_component_event.dart';
-import 'pay_confirmation_model.dart';
-import 'pay_confirmation_repository.dart';
-import 'pay_confirmation_component_state.dart';
+import 'package:eliud_pkg_shop/model/pay_confirmation_component_bloc.dart';
+import 'package:eliud_pkg_shop/model/pay_confirmation_component_event.dart';
+import 'package:eliud_pkg_shop/model/pay_confirmation_model.dart';
+import 'package:eliud_pkg_shop/model/pay_confirmation_repository.dart';
+import 'package:eliud_pkg_shop/model/pay_confirmation_component_state.dart';
 
 abstract class AbstractPayConfirmationComponent extends StatelessWidget {
   static String componentName = "payConfirmations";

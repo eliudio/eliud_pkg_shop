@@ -14,7 +14,7 @@
 */
 
 import 'dart:async';
-import 'order_item_model.dart';
+import 'package:eliud_pkg_shop/model/order_item_model.dart';
 
 typedef OrderItemModelTrigger(List<OrderItemModel> list);
 

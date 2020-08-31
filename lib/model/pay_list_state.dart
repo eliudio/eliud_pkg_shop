@@ -14,7 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
-import 'pay_model.dart';
+import 'package:eliud_pkg_shop/model/pay_model.dart';
 
 abstract class PayListState extends Equatable {
   const PayListState();

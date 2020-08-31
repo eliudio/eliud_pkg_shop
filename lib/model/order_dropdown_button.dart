@@ -24,9 +24,9 @@ import 'package:eliud_core/platform/platform.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 
-import 'order_list_bloc.dart';
-import 'order_list_state.dart';
-import 'order_model.dart';
+import 'package:eliud_pkg_shop/model/order_list_bloc.dart';
+import 'package:eliud_pkg_shop/model/order_list_state.dart';
+import 'package:eliud_pkg_shop/model/order_model.dart';
 
 
 typedef OrderChanged(String value);

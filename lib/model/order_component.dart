@@ -16,11 +16,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'order_component_bloc.dart';
-import 'order_component_event.dart';
-import 'order_model.dart';
-import 'order_repository.dart';
-import 'order_component_state.dart';
+import 'package:eliud_pkg_shop/model/order_component_bloc.dart';
+import 'package:eliud_pkg_shop/model/order_component_event.dart';
+import 'package:eliud_pkg_shop/model/order_model.dart';
+import 'package:eliud_pkg_shop/model/order_repository.dart';
+import 'package:eliud_pkg_shop/model/order_component_state.dart';
 
 abstract class AbstractOrderComponent extends StatelessWidget {
   static String componentName = "orders";

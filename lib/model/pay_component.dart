@@ -16,11 +16,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'pay_component_bloc.dart';
-import 'pay_component_event.dart';
-import 'pay_model.dart';
-import 'pay_repository.dart';
-import 'pay_component_state.dart';
+import 'package:eliud_pkg_shop/model/pay_component_bloc.dart';
+import 'package:eliud_pkg_shop/model/pay_component_event.dart';
+import 'package:eliud_pkg_shop/model/pay_model.dart';
+import 'package:eliud_pkg_shop/model/pay_repository.dart';
+import 'package:eliud_pkg_shop/model/pay_component_state.dart';
 
 abstract class AbstractPayComponent extends StatelessWidget {
   static String componentName = "pays";

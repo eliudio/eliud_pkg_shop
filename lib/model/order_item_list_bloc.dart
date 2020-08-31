@@ -17,9 +17,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'order_item_repository.dart';
-import 'order_item_list_event.dart';
-import 'order_item_list_state.dart';
+import 'package:eliud_pkg_shop/model/order_item_repository.dart';
+import 'package:eliud_pkg_shop/model/order_item_list_event.dart';
+import 'package:eliud_pkg_shop/model/order_item_list_state.dart';
 
 
 class OrderItemListBloc extends Bloc<OrderItemListEvent, OrderItemListState> {

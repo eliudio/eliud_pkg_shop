@@ -14,7 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
-import 'pay_confirmation_model.dart';
+import 'package:eliud_pkg_shop/model/pay_confirmation_model.dart';
 
 abstract class PayConfirmationListEvent extends Equatable {
   const PayConfirmationListEvent();

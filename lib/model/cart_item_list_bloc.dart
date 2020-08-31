@@ -17,9 +17,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'cart_item_repository.dart';
-import 'cart_item_list_event.dart';
-import 'cart_item_list_state.dart';
+import 'package:eliud_pkg_shop/model/cart_item_repository.dart';
+import 'package:eliud_pkg_shop/model/cart_item_list_event.dart';
+import 'package:eliud_pkg_shop/model/cart_item_list_state.dart';
 
 
 class CartItemListBloc extends Bloc<CartItemListEvent, CartItemListState> {

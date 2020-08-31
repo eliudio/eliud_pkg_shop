@@ -7,7 +7,7 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'order_helper.dart';
+import 'package:eliud_pkg_shop/extensions/pay_widgets/order_helper.dart';
 
 // ignore: must_be_immutable
 class ConfirmationWidget extends StatefulWidget {

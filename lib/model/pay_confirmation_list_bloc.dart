@@ -17,9 +17,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'pay_confirmation_repository.dart';
-import 'pay_confirmation_list_event.dart';
-import 'pay_confirmation_list_state.dart';
+import 'package:eliud_pkg_shop/model/pay_confirmation_repository.dart';
+import 'package:eliud_pkg_shop/model/pay_confirmation_list_event.dart';
+import 'package:eliud_pkg_shop/model/pay_confirmation_list_state.dart';
 
 
 class PayConfirmationListBloc extends Bloc<PayConfirmationListEvent, PayConfirmationListState> {

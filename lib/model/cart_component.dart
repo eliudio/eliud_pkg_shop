@@ -16,11 +16,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'cart_component_bloc.dart';
-import 'cart_component_event.dart';
-import 'cart_model.dart';
-import 'cart_repository.dart';
-import 'cart_component_state.dart';
+import 'package:eliud_pkg_shop/model/cart_component_bloc.dart';
+import 'package:eliud_pkg_shop/model/cart_component_event.dart';
+import 'package:eliud_pkg_shop/model/cart_model.dart';
+import 'package:eliud_pkg_shop/model/cart_repository.dart';
+import 'package:eliud_pkg_shop/model/cart_component_state.dart';
 
 abstract class AbstractCartComponent extends StatelessWidget {
   static String componentName = "carts";

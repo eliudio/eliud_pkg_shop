@@ -17,9 +17,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'pay_repository.dart';
-import 'pay_list_event.dart';
-import 'pay_list_state.dart';
+import 'package:eliud_pkg_shop/model/pay_repository.dart';
+import 'package:eliud_pkg_shop/model/pay_list_event.dart';
+import 'package:eliud_pkg_shop/model/pay_list_state.dart';
 
 
 class PayListBloc extends Bloc<PayListEvent, PayListState> {

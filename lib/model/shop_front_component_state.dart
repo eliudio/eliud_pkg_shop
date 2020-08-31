@@ -14,7 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
-import 'shop_front_model.dart';
+import 'package:eliud_pkg_shop/model/shop_front_model.dart';
 
 abstract class ShopFrontState extends Equatable {
   const ShopFrontState();

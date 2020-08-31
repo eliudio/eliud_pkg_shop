@@ -16,10 +16,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import 'shop_front_model.dart';
-import 'shop_front_component_event.dart';
-import 'shop_front_component_state.dart';
-import 'shop_front_repository.dart';
+import 'package:eliud_pkg_shop/model/shop_front_model.dart';
+import 'package:eliud_pkg_shop/model/shop_front_component_event.dart';
+import 'package:eliud_pkg_shop/model/shop_front_component_state.dart';
+import 'package:eliud_pkg_shop/model/shop_front_repository.dart';
 
 class ShopFrontBloc extends Bloc<ShopFrontEvent, ShopFrontState> {
   final ShopFrontRepository shopFrontRepository;

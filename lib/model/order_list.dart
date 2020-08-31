@@ -29,10 +29,10 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/eliud.dart';
 
-import 'order_list_event.dart';
-import 'order_list_state.dart';
-import 'order_list_bloc.dart';
-import 'order_model.dart';
+import 'package:eliud_pkg_shop/model/order_list_event.dart';
+import 'package:eliud_pkg_shop/model/order_list_state.dart';
+import 'package:eliud_pkg_shop/model/order_list_bloc.dart';
+import 'package:eliud_pkg_shop/model/order_model.dart';
 
 import 'order_form.dart';
 class OrderListWidget extends StatefulWidget with HasFab {

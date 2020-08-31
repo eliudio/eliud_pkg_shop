@@ -14,7 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
-import 'product_model.dart';
+import 'package:eliud_pkg_shop/model/product_model.dart';
 
 abstract class ProductState extends Equatable {
   const ProductState();

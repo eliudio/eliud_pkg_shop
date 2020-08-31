@@ -16,10 +16,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import 'pay_confirmation_model.dart';
-import 'pay_confirmation_component_event.dart';
-import 'pay_confirmation_component_state.dart';
-import 'pay_confirmation_repository.dart';
+import 'package:eliud_pkg_shop/model/pay_confirmation_model.dart';
+import 'package:eliud_pkg_shop/model/pay_confirmation_component_event.dart';
+import 'package:eliud_pkg_shop/model/pay_confirmation_component_state.dart';
+import 'package:eliud_pkg_shop/model/pay_confirmation_repository.dart';
 
 class PayConfirmationBloc extends Bloc<PayConfirmationEvent, PayConfirmationState> {
   final PayConfirmationRepository payConfirmationRepository;

@@ -16,10 +16,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import 'order_overview_model.dart';
-import 'order_overview_component_event.dart';
-import 'order_overview_component_state.dart';
-import 'order_overview_repository.dart';
+import 'package:eliud_pkg_shop/model/order_overview_model.dart';
+import 'package:eliud_pkg_shop/model/order_overview_component_event.dart';
+import 'package:eliud_pkg_shop/model/order_overview_component_state.dart';
+import 'package:eliud_pkg_shop/model/order_overview_repository.dart';
 
 class OrderOverviewBloc extends Bloc<OrderOverviewEvent, OrderOverviewState> {
   final OrderOverviewRepository orderOverviewRepository;

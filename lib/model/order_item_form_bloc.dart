@@ -26,16 +26,16 @@ import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/tools/string_validator.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import '../model/abstract_repository_singleton.dart';
-import 'repository_export.dart';
+import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
+import 'package:eliud_pkg_shop/model/repository_export.dart';
 import 'package:eliud_core/tools/action_model.dart';
-import '../model/model_export.dart';
+import 'package:eliud_pkg_shop/model/model_export.dart';
 import 'package:eliud_core/tools/action_entity.dart';
-import '../model/entity_export.dart';
+import 'package:eliud_pkg_shop/model/entity_export.dart';
 
-import 'order_item_form_event.dart';
-import 'order_item_form_state.dart';
-import 'order_item_repository.dart';
+import 'package:eliud_pkg_shop/model/order_item_form_event.dart';
+import 'package:eliud_pkg_shop/model/order_item_form_state.dart';
+import 'package:eliud_pkg_shop/model/order_item_repository.dart';
 
 class OrderItemFormBloc extends Bloc<OrderItemFormEvent, OrderItemFormState> {
   final ProductRepository _productRepository = productRepository();

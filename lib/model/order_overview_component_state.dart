@@ -14,7 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
-import 'order_overview_model.dart';
+import 'package:eliud_pkg_shop/model/order_overview_model.dart';
 
 abstract class OrderOverviewState extends Equatable {
   const OrderOverviewState();

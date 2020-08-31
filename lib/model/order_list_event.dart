@@ -14,7 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
-import 'order_model.dart';
+import 'package:eliud_pkg_shop/model/order_model.dart';
 
 abstract class OrderListEvent extends Equatable {
   const OrderListEvent();

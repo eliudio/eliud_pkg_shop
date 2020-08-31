@@ -16,10 +16,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import 'pay_model.dart';
-import 'pay_component_event.dart';
-import 'pay_component_state.dart';
-import 'pay_repository.dart';
+import 'package:eliud_pkg_shop/model/pay_model.dart';
+import 'package:eliud_pkg_shop/model/pay_component_event.dart';
+import 'package:eliud_pkg_shop/model/pay_component_state.dart';
+import 'package:eliud_pkg_shop/model/pay_repository.dart';
 
 class PayBloc extends Bloc<PayEvent, PayState> {
   final PayRepository payRepository;

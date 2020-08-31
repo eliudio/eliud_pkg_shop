@@ -29,8 +29,8 @@ import 'package:intl/intl.dart';
 import 'package:eliud_core/eliud.dart';
 
 import 'package:eliud_core/model/internal_component.dart';
-import '../model/embedded_component.dart';
-import '../tools/bespoke_formfields.dart';
+import 'package:eliud_pkg_shop/model/embedded_component.dart';
+import 'package:eliud_pkg_shop/tools/bespoke_formfields.dart';
 import 'package:eliud_core/tools/bespoke_formfields.dart';
 
 import 'package:eliud_core/tools/enums.dart';
@@ -39,23 +39,23 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import '../model/abstract_repository_singleton.dart';
-import 'repository_export.dart';
+import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
+import 'package:eliud_pkg_shop/model/repository_export.dart';
 import 'package:eliud_core/model/embedded_component.dart';
-import '../model/embedded_component.dart';
+import 'package:eliud_pkg_shop/model/embedded_component.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/tools/action_model.dart';
-import '../model/model_export.dart';
+import 'package:eliud_pkg_shop/model/model_export.dart';
 import 'package:eliud_core/model/entity_export.dart';
 import 'package:eliud_core/tools/action_entity.dart';
-import '../model/entity_export.dart';
+import 'package:eliud_pkg_shop/model/entity_export.dart';
 
-import 'order_list_bloc.dart';
-import 'order_list_event.dart';
-import 'order_model.dart';
-import 'order_form_bloc.dart';
-import 'order_form_event.dart';
-import 'order_form_state.dart';
+import 'package:eliud_pkg_shop/model/order_list_bloc.dart';
+import 'package:eliud_pkg_shop/model/order_list_event.dart';
+import 'package:eliud_pkg_shop/model/order_model.dart';
+import 'package:eliud_pkg_shop/model/order_form_bloc.dart';
+import 'package:eliud_pkg_shop/model/order_form_event.dart';
+import 'package:eliud_pkg_shop/model/order_form_state.dart';
 
 
 class OrderForm extends StatelessWidget {

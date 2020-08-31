@@ -14,7 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
-import 'shop_model.dart';
+import 'package:eliud_pkg_shop/model/shop_model.dart';
 
 abstract class ShopListEvent extends Equatable {
   const ShopListEvent();

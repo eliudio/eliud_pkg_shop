@@ -1,5 +1,6 @@
 {
   "id": "Cart",
+  "packageName": "eliud_pkg_shop",
   "isAppModel": true,
   "generate": {
     "generateComponent": true,

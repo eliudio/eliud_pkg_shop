@@ -1,10 +1,9 @@
 import 'package:eliud_pkg_shop/model/order_model.dart';
 
-import 'payment_platform.dart';
+import 'package:eliud_pkg_shop/platform/payment_platform.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'web_stripe_elements.dart';
+import 'package:eliud_pkg_shop/platform/web_stripe_elements.dart';
 
 class WebPaymentPlatform extends AbstractPaymentPlatform {
   @override

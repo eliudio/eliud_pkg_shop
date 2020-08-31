@@ -16,10 +16,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import 'product_model.dart';
-import 'product_component_event.dart';
-import 'product_component_state.dart';
-import 'product_repository.dart';
+import 'package:eliud_pkg_shop/model/product_model.dart';
+import 'package:eliud_pkg_shop/model/product_component_event.dart';
+import 'package:eliud_pkg_shop/model/product_component_state.dart';
+import 'package:eliud_pkg_shop/model/product_repository.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final ProductRepository productRepository;

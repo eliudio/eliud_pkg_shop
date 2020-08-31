@@ -17,9 +17,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'shop_front_repository.dart';
-import 'shop_front_list_event.dart';
-import 'shop_front_list_state.dart';
+import 'package:eliud_pkg_shop/model/shop_front_repository.dart';
+import 'package:eliud_pkg_shop/model/shop_front_list_event.dart';
+import 'package:eliud_pkg_shop/model/shop_front_list_state.dart';
 
 
 class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {

@@ -16,10 +16,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import 'cart_model.dart';
-import 'cart_component_event.dart';
-import 'cart_component_state.dart';
-import 'cart_repository.dart';
+import 'package:eliud_pkg_shop/model/cart_model.dart';
+import 'package:eliud_pkg_shop/model/cart_component_event.dart';
+import 'package:eliud_pkg_shop/model/cart_component_state.dart';
+import 'package:eliud_pkg_shop/model/cart_repository.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
   final CartRepository cartRepository;

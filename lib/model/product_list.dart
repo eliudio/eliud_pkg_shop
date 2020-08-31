@@ -29,10 +29,10 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/eliud.dart';
 
-import 'product_list_event.dart';
-import 'product_list_state.dart';
-import 'product_list_bloc.dart';
-import 'product_model.dart';
+import 'package:eliud_pkg_shop/model/product_list_event.dart';
+import 'package:eliud_pkg_shop/model/product_list_state.dart';
+import 'package:eliud_pkg_shop/model/product_list_bloc.dart';
+import 'package:eliud_pkg_shop/model/product_model.dart';
 
 import 'product_form.dart';
 class ProductListWidget extends StatefulWidget with HasFab {

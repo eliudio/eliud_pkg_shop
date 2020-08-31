@@ -16,7 +16,7 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'package:eliud_core/tools/action_entity.dart';
-import '../model/entity_export.dart';
+import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class PayConfirmationEntity {
   final String appId;

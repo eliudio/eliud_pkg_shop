@@ -16,11 +16,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'shop_front_component_bloc.dart';
-import 'shop_front_component_event.dart';
-import 'shop_front_model.dart';
-import 'shop_front_repository.dart';
-import 'shop_front_component_state.dart';
+import 'package:eliud_pkg_shop/model/shop_front_component_bloc.dart';
+import 'package:eliud_pkg_shop/model/shop_front_component_event.dart';
+import 'package:eliud_pkg_shop/model/shop_front_model.dart';
+import 'package:eliud_pkg_shop/model/shop_front_repository.dart';
+import 'package:eliud_pkg_shop/model/shop_front_component_state.dart';
 
 abstract class AbstractShopFrontComponent extends StatelessWidget {
   static String componentName = "shopFronts";

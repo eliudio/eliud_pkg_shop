@@ -14,7 +14,7 @@
 */
 
 import 'dart:async';
-import 'shop_model.dart';
+import 'package:eliud_pkg_shop/model/shop_model.dart';
 
 typedef ShopModelTrigger(List<ShopModel> list);
 

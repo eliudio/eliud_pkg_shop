@@ -14,7 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
-import 'order_item_model.dart';
+import 'package:eliud_pkg_shop/model/order_item_model.dart';
 
 abstract class OrderItemListState extends Equatable {
   const OrderItemListState();
