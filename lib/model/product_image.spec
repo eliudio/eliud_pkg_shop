@@ -36,5 +36,6 @@
     "title": "image",
     "imageTitle": true,
     "subTitle": "documentID"
-  }
+  },
+  "depends": ["eliud_core"]
 }

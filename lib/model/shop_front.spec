@@ -166,5 +166,6 @@
   "listFields": {
     "title": "documentID",
     "subTitle": "description"
-  }
+  },
+  "depends": ["eliud_core"]
 }
