@@ -143,8 +143,9 @@ class AdminApp extends AdminAppInstallerBase {
     return menu;
   }
 
-  static Future<MenuDefModel> _setupMenuDef(String appID) {
-    return menuDefRepository().add(_adminMenuDef(appID));
+  Future<MenuDefModel> _setupMenuDef(String appID) async {
+    MenuDefModel menu = await menuDefRepository().add(_adminMenuDef(appID));
+    return menu;
   }
 
 
@@ -330,7 +331,8 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
   Future<MenuDefModel> menu(String appID) async {
-    return _setupMenuDef(appID);
+    MenuDefModel menu = await _setupMenuDef(appID);
+    return menu;
   }
 
   @override
@@ -341,7 +343,7 @@ class AdminApp extends AdminAppInstallerBase {
 
 }
 
-class AdminAppWhiper extends AdminAppWhiperBase {
+class AdminAppWiper extends AdminAppWiperBase {
 
   @override
   Future<void> deleteAll(String appID) async {
