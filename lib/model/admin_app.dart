@@ -59,7 +59,7 @@ class AdminApp extends AdminAppInstallerBase {
         text: "Carts",
         description: "Carts",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "cartspage"))
+        action: GotoPage(pageID: "eliud_pkg_shop_carts_page"))
     );
 
 
@@ -69,7 +69,7 @@ class AdminApp extends AdminAppInstallerBase {
         text: "Orders",
         description: "Orders",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "orderspage"))
+        action: GotoPage(pageID: "eliud_pkg_shop_orders_page"))
     );
 
 
@@ -79,7 +79,7 @@ class AdminApp extends AdminAppInstallerBase {
         text: "OrderOverviews",
         description: "OrderOverviews",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "orderoverviewspage"))
+        action: GotoPage(pageID: "eliud_pkg_shop_orderoverviews_page"))
     );
 
 
@@ -89,7 +89,7 @@ class AdminApp extends AdminAppInstallerBase {
         text: "Pays",
         description: "Pays",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "payspage"))
+        action: GotoPage(pageID: "eliud_pkg_shop_pays_page"))
     );
 
 
@@ -99,7 +99,7 @@ class AdminApp extends AdminAppInstallerBase {
         text: "PayConfirmations",
         description: "PayConfirmations",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "payconfirmationspage"))
+        action: GotoPage(pageID: "eliud_pkg_shop_payconfirmations_page"))
     );
 
 
@@ -109,7 +109,7 @@ class AdminApp extends AdminAppInstallerBase {
         text: "Products",
         description: "Products",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "productspage"))
+        action: GotoPage(pageID: "eliud_pkg_shop_products_page"))
     );
 
 
@@ -119,7 +119,7 @@ class AdminApp extends AdminAppInstallerBase {
         text: "Shops",
         description: "Shops",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "shopspage"))
+        action: GotoPage(pageID: "eliud_pkg_shop_shops_page"))
     );
 
 
@@ -129,7 +129,7 @@ class AdminApp extends AdminAppInstallerBase {
         text: "ShopFronts",
         description: "ShopFronts",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "shopfrontspage"))
+        action: GotoPage(pageID: "eliud_pkg_shop_shopfronts_page"))
     );
 
 
@@ -137,7 +137,7 @@ class AdminApp extends AdminAppInstallerBase {
       admin: true,
       documentID: "eliud_pkg_shop_admin_menu",
       appId: appID,
-      name: "Menu Definition 1",
+      name: "eliud_pkg_shop admin menu",
       menuItems: menuItems
     );
     await menuDefRepository().add(menu);
@@ -152,7 +152,7 @@ class AdminApp extends AdminAppInstallerBase {
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
-        documentID: "cartspage",
+        documentID: "eliud_pkg_shop_carts_page",
         title: "Carts",
         drawer: _drawer,
         endDrawer: _endDrawer,
@@ -172,7 +172,7 @@ class AdminApp extends AdminAppInstallerBase {
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
-        documentID: "orderspage",
+        documentID: "eliud_pkg_shop_orders_page",
         title: "Orders",
         drawer: _drawer,
         endDrawer: _endDrawer,
@@ -192,7 +192,7 @@ class AdminApp extends AdminAppInstallerBase {
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
-        documentID: "orderoverviewspage",
+        documentID: "eliud_pkg_shop_orderoverviews_page",
         title: "OrderOverviews",
         drawer: _drawer,
         endDrawer: _endDrawer,
@@ -212,7 +212,7 @@ class AdminApp extends AdminAppInstallerBase {
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
-        documentID: "payspage",
+        documentID: "eliud_pkg_shop_pays_page",
         title: "Pays",
         drawer: _drawer,
         endDrawer: _endDrawer,
@@ -232,7 +232,7 @@ class AdminApp extends AdminAppInstallerBase {
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
-        documentID: "payconfirmationspage",
+        documentID: "eliud_pkg_shop_payconfirmations_page",
         title: "PayConfirmations",
         drawer: _drawer,
         endDrawer: _endDrawer,
@@ -252,7 +252,7 @@ class AdminApp extends AdminAppInstallerBase {
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
-        documentID: "productspage",
+        documentID: "eliud_pkg_shop_products_page",
         title: "Products",
         drawer: _drawer,
         endDrawer: _endDrawer,
@@ -272,7 +272,7 @@ class AdminApp extends AdminAppInstallerBase {
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
-        documentID: "shopspage",
+        documentID: "eliud_pkg_shop_shops_page",
         title: "Shops",
         drawer: _drawer,
         endDrawer: _endDrawer,
@@ -292,7 +292,7 @@ class AdminApp extends AdminAppInstallerBase {
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
-        documentID: "shopfrontspage",
+        documentID: "eliud_pkg_shop_shopfronts_page",
         title: "ShopFronts",
         drawer: _drawer,
         endDrawer: _endDrawer,
