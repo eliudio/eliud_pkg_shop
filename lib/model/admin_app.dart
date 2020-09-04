@@ -50,101 +50,6 @@ class AdminApp extends AdminAppInstallerBase {
   AdminApp(this.appID, this._drawer, this._endDrawer, this._appBar, this._homeMenu, this.menuItemColor, this.selectedMenuItemColor, this.backgroundColor);
 
 
-  Future<MenuDefModel> menu(String appID) async {
-    List<MenuItemModel> menuItems = List<MenuItemModel>();
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "Carts",
-        text: "Carts",
-        description: "Carts",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_pkg_shop_carts_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "Orders",
-        text: "Orders",
-        description: "Orders",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_pkg_shop_orders_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "OrderOverviews",
-        text: "OrderOverviews",
-        description: "OrderOverviews",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_pkg_shop_orderoverviews_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "Pays",
-        text: "Pays",
-        description: "Pays",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_pkg_shop_pays_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "PayConfirmations",
-        text: "PayConfirmations",
-        description: "PayConfirmations",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_pkg_shop_payconfirmations_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "Products",
-        text: "Products",
-        description: "Products",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_pkg_shop_products_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "Shops",
-        text: "Shops",
-        description: "Shops",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_pkg_shop_shops_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "ShopFronts",
-        text: "ShopFronts",
-        description: "ShopFronts",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_pkg_shop_shopfronts_page"))
-    );
-
-
-    MenuDefModel menu = MenuDefModel(
-      admin: true,
-      documentID: "eliud_pkg_shop_admin_menu",
-      appId: appID,
-      name: "eliud_pkg_shop admin menu",
-      menuItems: menuItems
-    );
-    await menuDefRepository().add(menu);
-    return menu;
-  }
-
-
   PageModel _cartsPages() {
     List<BodyComponentModel> components = List();
     components.add(BodyComponentModel(
@@ -332,6 +237,103 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
+}
+
+class AdminMenu extends AdminAppMenuInstallerBase {
+
+  Future<MenuDefModel> menu(String appID) async {
+    List<MenuItemModel> menuItems = List<MenuItemModel>();
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "Carts",
+        text: "Carts",
+        description: "Carts",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(pageID: "eliud_pkg_shop_carts_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "Orders",
+        text: "Orders",
+        description: "Orders",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(pageID: "eliud_pkg_shop_orders_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "OrderOverviews",
+        text: "OrderOverviews",
+        description: "OrderOverviews",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(pageID: "eliud_pkg_shop_orderoverviews_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "Pays",
+        text: "Pays",
+        description: "Pays",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(pageID: "eliud_pkg_shop_pays_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "PayConfirmations",
+        text: "PayConfirmations",
+        description: "PayConfirmations",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(pageID: "eliud_pkg_shop_payconfirmations_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "Products",
+        text: "Products",
+        description: "Products",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(pageID: "eliud_pkg_shop_products_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "Shops",
+        text: "Shops",
+        description: "Shops",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(pageID: "eliud_pkg_shop_shops_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "ShopFronts",
+        text: "ShopFronts",
+        description: "ShopFronts",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(pageID: "eliud_pkg_shop_shopfronts_page"))
+    );
+
+
+    MenuDefModel menu = MenuDefModel(
+      admin: true,
+      documentID: "eliud_pkg_shop_admin_menu",
+      appId: appID,
+      name: "eliud_pkg_shop admin menu",
+      menuItems: menuItems
+    );
+    await menuDefRepository().add(menu);
+    return menu;
+  }
 }
 
 class AdminAppWiper extends AdminAppWiperBase {
