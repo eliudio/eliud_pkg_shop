@@ -148,7 +148,7 @@ class AdminApp extends AdminAppInstallerBase {
   PageModel _cartsPages() {
     List<BodyComponentModel> components = List();
     components.add(BodyComponentModel(
-      documentID: "internalWidget-carts", componentName: "internalWidgets", componentId: "carts"));
+      documentID: "internalWidget-carts", componentName: "eliud_pkg_shop_internalWidgets", componentId: "carts"));
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
@@ -168,7 +168,7 @@ class AdminApp extends AdminAppInstallerBase {
   PageModel _ordersPages() {
     List<BodyComponentModel> components = List();
     components.add(BodyComponentModel(
-      documentID: "internalWidget-orders", componentName: "internalWidgets", componentId: "orders"));
+      documentID: "internalWidget-orders", componentName: "eliud_pkg_shop_internalWidgets", componentId: "orders"));
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
@@ -188,7 +188,7 @@ class AdminApp extends AdminAppInstallerBase {
   PageModel _orderOverviewsPages() {
     List<BodyComponentModel> components = List();
     components.add(BodyComponentModel(
-      documentID: "internalWidget-orderOverviews", componentName: "internalWidgets", componentId: "orderOverviews"));
+      documentID: "internalWidget-orderOverviews", componentName: "eliud_pkg_shop_internalWidgets", componentId: "orderOverviews"));
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
@@ -208,7 +208,7 @@ class AdminApp extends AdminAppInstallerBase {
   PageModel _paysPages() {
     List<BodyComponentModel> components = List();
     components.add(BodyComponentModel(
-      documentID: "internalWidget-pays", componentName: "internalWidgets", componentId: "pays"));
+      documentID: "internalWidget-pays", componentName: "eliud_pkg_shop_internalWidgets", componentId: "pays"));
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
@@ -228,7 +228,7 @@ class AdminApp extends AdminAppInstallerBase {
   PageModel _payConfirmationsPages() {
     List<BodyComponentModel> components = List();
     components.add(BodyComponentModel(
-      documentID: "internalWidget-payConfirmations", componentName: "internalWidgets", componentId: "payConfirmations"));
+      documentID: "internalWidget-payConfirmations", componentName: "eliud_pkg_shop_internalWidgets", componentId: "payConfirmations"));
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
@@ -248,7 +248,7 @@ class AdminApp extends AdminAppInstallerBase {
   PageModel _productsPages() {
     List<BodyComponentModel> components = List();
     components.add(BodyComponentModel(
-      documentID: "internalWidget-products", componentName: "internalWidgets", componentId: "products"));
+      documentID: "internalWidget-products", componentName: "eliud_pkg_shop_internalWidgets", componentId: "products"));
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
@@ -268,7 +268,7 @@ class AdminApp extends AdminAppInstallerBase {
   PageModel _shopsPages() {
     List<BodyComponentModel> components = List();
     components.add(BodyComponentModel(
-      documentID: "internalWidget-shops", componentName: "internalWidgets", componentId: "shops"));
+      documentID: "internalWidget-shops", componentName: "eliud_pkg_shop_internalWidgets", componentId: "shops"));
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
@@ -288,7 +288,7 @@ class AdminApp extends AdminAppInstallerBase {
   PageModel _shopFrontsPages() {
     List<BodyComponentModel> components = List();
     components.add(BodyComponentModel(
-      documentID: "internalWidget-shopFronts", componentName: "internalWidgets", componentId: "shopFronts"));
+      documentID: "internalWidget-shopFronts", componentName: "eliud_pkg_shop_internalWidgets", componentId: "shopFronts"));
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,

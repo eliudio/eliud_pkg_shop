@@ -31,7 +31,7 @@ class ComponentRegistry {
   void init() {
     Registry.registry().addInternalComponents(["carts", "orders", "orderOverviews", "pays", "payConfirmations", "products", "shops", "shopFronts", ]);
 
-    Registry.registry().register(componentName: "internalWidgets", componentConstructor: ListComponentFactory());
+    Registry.registry().register(componentName: "eliud_pkg_shop_internalWidgets", componentConstructor: ListComponentFactory());
     Registry.registry().register(componentName: "carts", componentConstructor: CartComponentConstructorDefault());
     Registry.registry().register(componentName: "orderOverviews", componentConstructor: OrderOverviewComponentConstructorDefault());
     Registry.registry().register(componentName: "pays", componentConstructor: PayComponentConstructorDefault());

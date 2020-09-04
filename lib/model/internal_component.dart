@@ -215,7 +215,7 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'products') return _productBuild();
     if (componentId == 'shops') return _shopBuild();
     if (componentId == 'shopFronts') return _shopFrontBuild();
-    return Image(image: AssetImage('assets/images/component_not_available.png'));
+    return Text('Component with componentId == $componentId not found');
   }
 
   Widget initWidget() {
@@ -357,7 +357,7 @@ class DropdownButtonComponent extends StatelessWidget {
     if (componentId == 'products') return _productBuild();
     if (componentId == 'shops') return _shopBuild();
     if (componentId == 'shopFronts') return _shopFrontBuild();
-    return Image(image: AssetImage('assets/images/component_not_available.png'));
+    return Text('Component with componentId == $componentId not found');
   }
 
 
