@@ -36,7 +36,8 @@ extension CartMemberExtension on MemberModel {
     } else {
       newPluginData = HashMap();
     }
-    newPluginData['CART_ITEMS'] = jsonEncode(cartItems.map((cartItem) => cartItem.toEntity().toJsonString()).toList());
+    if (cartItems != null)
+      newPluginData['CART_ITEMS'] = jsonEncode(cartItems.map((cartItem) => cartItem.toEntity().toJsonString()).toList());
     return MemberModel(documentID: this.documentID, name: this.name, subscriptions: this.subscriptions, photoURL: this.photoURL,
                       shipStreet1: this.shipStreet1, shipStreet2: this.shipStreet2, shipCity: this.shipCity, shipState: this.shipState, postcode: this.postcode, country: this.country,
                       invoiceSame: this.invoiceSame, invoiceStreet1: this.invoiceStreet1, invoiceStreet2: this.invoiceStreet2, invoiceCity: this.invoiceCity, invoiceState: this.invoiceState, invoicePostcode: this.invoicePostcode, invoiceCountry: this.invoiceCountry,
