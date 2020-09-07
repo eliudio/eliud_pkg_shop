@@ -62,7 +62,7 @@ static Widget cartItemsList(List<CartItemModel> values, CartItemListChanged trig
           )..add(LoadCartItemList()),
         )
         ],
-    child: CartItemListWidget(),
+    child: CartItemListWidget(isEmbedded: true),
   );
 }
 
@@ -79,7 +79,7 @@ static Widget orderItemsList(List<OrderItemModel> values, OrderItemListChanged t
           )..add(LoadOrderItemList()),
         )
         ],
-    child: OrderItemListWidget(),
+    child: OrderItemListWidget(isEmbedded: true),
   );
 }
 
@@ -96,7 +96,7 @@ static Widget productImagesList(List<ProductImageModel> values, ProductImageList
           )..add(LoadProductImageList()),
         )
         ],
-    child: ProductImageListWidget(),
+    child: ProductImageListWidget(isEmbedded: true),
   );
 }
 
