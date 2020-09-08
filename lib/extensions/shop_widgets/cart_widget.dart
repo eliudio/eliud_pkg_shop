@@ -33,11 +33,11 @@ class _CartWidgetState extends State<CartWidget> {
     return MultiBlocProvider(
         providers: [
           BlocProvider.value(
-            value: BlocProvider.of<CartBloc>(context),
+            value: BlocProvider.of<CartBloc>(context)..add(LoadCart()),
           ),
         ],
         child: BlocBuilder<CartBloc, CartState>(builder: (context, state) {
-          if (state is CartInitialised)
+          if (state is CartInitialised) {
             return ListView(
               shrinkWrap: true,
               physics: ScrollPhysics(),
@@ -50,7 +50,10 @@ class _CartWidgetState extends State<CartWidget> {
                 _buttonRowBottom(context)
               ],
             );
+          } else {
+            return CircularProgressIndicator();
           }
+        }
     ));
 
   }

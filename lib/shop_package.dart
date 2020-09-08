@@ -20,10 +20,11 @@ abstract class ShopPlugin extends Plugin {
   @override
   Future<bool> isConditionOk(String pluginCondition, AppModel app, MemberModel member, bool isOwner) async {
     if (pluginCondition == CONDITION_CARTS_HAS_ITEMS) {
-      return (await GlobalData.member().items()).isNotEmpty;
-    } else {
+      if (member != null)
+        return (await member.items()).isNotEmpty;
       return false;
     }
+    return null;
   }
 
   @override

@@ -1,8 +1,8 @@
 import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_bloc.dart';
-import 'package:eliud_pkg_shop/extensions/pay_widgets/payment_bloc.dart';
-import 'package:eliud_pkg_shop/extensions/pay_widgets/payment_event.dart';
+import 'package:eliud_pkg_shop/extensions/pay_widgets/bloc/payment_event.dart';
+import 'file:///C:/src/eliud/eliud_pkg_shop/lib/extensions/pay_widgets/bloc/payment_bloc.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/payment_widget.dart';
 import 'package:eliud_pkg_shop/model/pay_component.dart';
 import 'package:eliud_pkg_shop/model/pay_model.dart';

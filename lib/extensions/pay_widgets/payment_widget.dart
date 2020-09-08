@@ -1,8 +1,8 @@
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
-import 'package:eliud_pkg_shop/extensions/pay_widgets/payment_bloc.dart';
-import 'package:eliud_pkg_shop/extensions/pay_widgets/payment_event.dart';
-import 'package:eliud_pkg_shop/extensions/pay_widgets/payment_state.dart';
+import 'package:eliud_pkg_shop/extensions/pay_widgets/bloc/payment_event.dart';
+import 'package:eliud_pkg_shop/extensions/pay_widgets/bloc/payment_state.dart';
+import 'file:///C:/src/eliud/eliud_pkg_shop/lib/extensions/pay_widgets/bloc/payment_bloc.dart';
 import 'package:eliud_pkg_shop/model/order_model.dart';
 import 'package:eliud_pkg_shop/model/pay_model.dart';
 import 'package:eliud_core/tools/etc.dart';
