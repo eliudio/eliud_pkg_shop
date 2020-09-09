@@ -63,7 +63,7 @@ class OrderHelper {
           semanticLabel: 'Contact',
         )));
     widgets.add(_getRow(
-        !order.invoiceSame ? 'Shipment address:' : 'Shipment & invoice address',
+        (order.invoiceSame != null) && (!order.invoiceSame) ? 'Shipment address:' : 'Shipment & invoice address',
         _getShipAddress(order),
         trailing: Icon(
           Icons.local_shipping,
@@ -71,7 +71,7 @@ class OrderHelper {
           size: 50.0,
           semanticLabel: 'Contact',
         )));
-    if (!order.invoiceSame) {
+    if ((order.invoiceSame != null) && (!order.invoiceSame)) {
       widgets.add(_getRow('Invoice address:', _getInvoiceAddress(order),
           trailing: Icon(
             Icons.note,
