@@ -8,8 +8,8 @@ import 'package:eliud_pkg_shop/model/cart_item_model.dart';
 
 extension CartMemberExtension on MemberModel {
   Future<List<CartItemModel>> items() async {
-    if (pluginData != null) {
-      var cartItems = pluginData['CART_ITEMS'];
+    if (packageData != null) {
+      var cartItems = packageData['CART_ITEMS'];
       if (cartItems != null) {
         var decoded = jsonDecode(cartItems);
         List<CartItemEntity> decodedItems = List();
@@ -30,17 +30,17 @@ extension CartMemberExtension on MemberModel {
   }
 
   MemberModel copyWithItems(List<CartItemModel> cartItems) {
-    Map<String, Object> newPluginData;
-    if (this.pluginData != null) {
-      newPluginData = this.pluginData;
+    Map<String, Object> newPackageData;
+    if (this.packageData != null) {
+      newPackageData = this.packageData;
     } else {
-      newPluginData = HashMap();
+      newPackageData = HashMap();
     }
     if (cartItems != null)
-      newPluginData['CART_ITEMS'] = jsonEncode(cartItems.map((cartItem) => cartItem.toEntity().toJsonString()).toList());
+      newPackageData['CART_ITEMS'] = jsonEncode(cartItems.map((cartItem) => cartItem.toEntity().toJsonString()).toList());
     return MemberModel(documentID: this.documentID, name: this.name, subscriptions: this.subscriptions, photoURL: this.photoURL,
                       shipStreet1: this.shipStreet1, shipStreet2: this.shipStreet2, shipCity: this.shipCity, shipState: this.shipState, postcode: this.postcode, country: this.country,
                       invoiceSame: this.invoiceSame, invoiceStreet1: this.invoiceStreet1, invoiceStreet2: this.invoiceStreet2, invoiceCity: this.invoiceCity, invoiceState: this.invoiceState, invoicePostcode: this.invoicePostcode, invoiceCountry: this.invoiceCountry,
-                      readAccess: this.readAccess, /*items: this.items,*/ email: this.email, isAnonymous: this.isAnonymous, pluginData: newPluginData);
+                      readAccess: this.readAccess, /*items: this.items,*/ email: this.email, isAnonymous: this.isAnonymous, packageData: newPackageData);
   }
 }

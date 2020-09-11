@@ -9,7 +9,7 @@ import 'package:eliud_pkg_shop/bloc/cart/cart_bloc.dart';
 import 'package:eliud_pkg_shop/model/component_registry.dart';
 import 'package:eliud_pkg_shop/bloc/cart/member_extension.dart';
 
-abstract class ShopPlugin extends Plugin {
+abstract class ShopPackage extends Package {
   static final String CONDITION_CARTS_HAS_ITEMS = 'MustHaveStuffInBasket';
 
   @override
@@ -18,8 +18,8 @@ abstract class ShopPlugin extends Plugin {
   }
 
   @override
-  Future<bool> isConditionOk(String pluginCondition, AppModel app, MemberModel member, bool isOwner) async {
-    if (pluginCondition == CONDITION_CARTS_HAS_ITEMS) {
+  Future<bool> isConditionOk(String packageCondition, AppModel app, MemberModel member, bool isOwner) async {
+    if (packageCondition == CONDITION_CARTS_HAS_ITEMS) {
       if (member != null)
         return (await member.items()).isNotEmpty;
       return false;
