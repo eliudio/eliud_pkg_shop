@@ -38,10 +38,10 @@ import 'package:eliud_pkg_shop/model/shop_form_state.dart';
 import 'package:eliud_pkg_shop/model/shop_repository.dart';
 
 class ShopFormBloc extends Bloc<ShopFormEvent, ShopFormState> {
-  final ShopRepository _shopRepository = shopRepository();
   final FormAction formAction;
+  final String appId;
 
-  ShopFormBloc({ this.formAction }): super(ShopFormUninitialized());
+  ShopFormBloc(this.appId, { this.formAction }): super(ShopFormUninitialized());
   @override
   Stream<ShopFormState> mapEventToState(ShopFormEvent event) async* {
     final currentState = state;
@@ -63,7 +63,7 @@ class ShopFormBloc extends Bloc<ShopFormEvent, ShopFormState> {
 
       if (event is InitialiseShopFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        ShopFormLoaded loaded = ShopFormLoaded(value: await _shopRepository.get(event.value.documentID));
+        ShopFormLoaded loaded = ShopFormLoaded(value: await shopRepository(appID: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseShopFormNoLoadEvent) {
@@ -110,7 +110,7 @@ class ShopFormBloc extends Bloc<ShopFormEvent, ShopFormState> {
   Future<ShopFormState> _isDocumentIDValid(String value, ShopModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<ShopModel> findDocument = _shopRepository.get(value);
+    Future<ShopModel> findDocument = shopRepository(appID: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableShopForm(value: newValue);

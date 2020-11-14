@@ -15,6 +15,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 
 import 'package:eliud_pkg_shop/model/order_overview_component_bloc.dart';
 import 'package:eliud_pkg_shop/model/order_overview_component_event.dart';
@@ -30,23 +31,23 @@ abstract class AbstractOrderOverviewComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<OrderOverviewBloc> (
-          create: (context) => OrderOverviewBloc(
-            orderOverviewRepository: getOrderOverviewRepository())
-        ..add(FetchOrderOverview(id: orderOverviewID)),
+    return BlocProvider<OrderOverviewComponentBloc> (
+          create: (context) => OrderOverviewComponentBloc(
+            orderOverviewRepository: getOrderOverviewRepository(context))
+        ..add(FetchOrderOverviewComponent(id: orderOverviewID)),
       child: _orderOverviewBlockBuilder(context),
     );
   }
 
   Widget _orderOverviewBlockBuilder(BuildContext context) {
-    return BlocBuilder<OrderOverviewBloc, OrderOverviewState>(builder: (context, state) {
-      if (state is OrderOverviewLoaded) {
+    return BlocBuilder<OrderOverviewComponentBloc, OrderOverviewComponentState>(builder: (context, state) {
+      if (state is OrderOverviewComponentLoaded) {
         if (state.value == null) {
           return alertWidget(title: 'Error', content: 'No orderOverview defined');
         } else {
           return yourWidget(context, state.value);
         }
-      } else if (state is OrderOverviewError) {
+      } else if (state is OrderOverviewComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
         return Center(
@@ -58,7 +59,7 @@ abstract class AbstractOrderOverviewComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, OrderOverviewModel value);
   Widget alertWidget({ title: String, content: String});
-  OrderOverviewRepository getOrderOverviewRepository();
+  OrderOverviewRepository getOrderOverviewRepository(BuildContext context);
 }
 
 

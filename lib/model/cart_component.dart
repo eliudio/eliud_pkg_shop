@@ -15,6 +15,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 
 import 'package:eliud_pkg_shop/model/cart_component_bloc.dart';
 import 'package:eliud_pkg_shop/model/cart_component_event.dart';
@@ -30,23 +31,23 @@ abstract class AbstractCartComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<CartBloc> (
-          create: (context) => CartBloc(
-            cartRepository: getCartRepository())
-        ..add(FetchCart(id: cartID)),
+    return BlocProvider<CartComponentBloc> (
+          create: (context) => CartComponentBloc(
+            cartRepository: getCartRepository(context))
+        ..add(FetchCartComponent(id: cartID)),
       child: _cartBlockBuilder(context),
     );
   }
 
   Widget _cartBlockBuilder(BuildContext context) {
-    return BlocBuilder<CartBloc, CartState>(builder: (context, state) {
-      if (state is CartLoaded) {
+    return BlocBuilder<CartComponentBloc, CartComponentState>(builder: (context, state) {
+      if (state is CartComponentLoaded) {
         if (state.value == null) {
           return alertWidget(title: 'Error', content: 'No cart defined');
         } else {
           return yourWidget(context, state.value);
         }
-      } else if (state is CartError) {
+      } else if (state is CartComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
         return Center(
@@ -58,7 +59,7 @@ abstract class AbstractCartComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, CartModel value);
   Widget alertWidget({ title: String, content: String});
-  CartRepository getCartRepository();
+  CartRepository getCartRepository(BuildContext context);
 }
 
 

@@ -212,21 +212,21 @@ class AdminApp extends AdminAppInstallerBase {
 
   Future<void> _setupAdminPages() {
 
-    return pageRepository().add(_cartsPages())
+    return pageRepository(appID: appID).add(_cartsPages())
 
-        .then((_) => pageRepository().add(_ordersPages()))
+        .then((_) => pageRepository(appID: appID).add(_ordersPages()))
 
-        .then((_) => pageRepository().add(_orderOverviewsPages()))
+        .then((_) => pageRepository(appID: appID).add(_orderOverviewsPages()))
 
-        .then((_) => pageRepository().add(_paysPages()))
+        .then((_) => pageRepository(appID: appID).add(_paysPages()))
 
-        .then((_) => pageRepository().add(_payConfirmationsPages()))
+        .then((_) => pageRepository(appID: appID).add(_payConfirmationsPages()))
 
-        .then((_) => pageRepository().add(_productsPages()))
+        .then((_) => pageRepository(appID: appID).add(_productsPages()))
 
-        .then((_) => pageRepository().add(_shopsPages()))
+        .then((_) => pageRepository(appID: appID).add(_shopsPages()))
 
-        .then((_) => pageRepository().add(_shopFrontsPages()))
+        .then((_) => pageRepository(appID: appID).add(_shopFrontsPages()))
 
     ;
   }
@@ -250,7 +250,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Carts",
         description: "Carts",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_pkg_shop_carts_page"))
+        action: GotoPage(appID, pageID: "eliud_pkg_shop_carts_page"))
     );
 
 
@@ -260,7 +260,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Orders",
         description: "Orders",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_pkg_shop_orders_page"))
+        action: GotoPage(appID, pageID: "eliud_pkg_shop_orders_page"))
     );
 
 
@@ -270,7 +270,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "OrderOverviews",
         description: "OrderOverviews",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_pkg_shop_orderoverviews_page"))
+        action: GotoPage(appID, pageID: "eliud_pkg_shop_orderoverviews_page"))
     );
 
 
@@ -280,7 +280,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Pays",
         description: "Pays",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_pkg_shop_pays_page"))
+        action: GotoPage(appID, pageID: "eliud_pkg_shop_pays_page"))
     );
 
 
@@ -290,7 +290,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "PayConfirmations",
         description: "PayConfirmations",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_pkg_shop_payconfirmations_page"))
+        action: GotoPage(appID, pageID: "eliud_pkg_shop_payconfirmations_page"))
     );
 
 
@@ -300,7 +300,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Products",
         description: "Products",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_pkg_shop_products_page"))
+        action: GotoPage(appID, pageID: "eliud_pkg_shop_products_page"))
     );
 
 
@@ -310,7 +310,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Shops",
         description: "Shops",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_pkg_shop_shops_page"))
+        action: GotoPage(appID, pageID: "eliud_pkg_shop_shops_page"))
     );
 
 
@@ -320,7 +320,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "ShopFronts",
         description: "ShopFronts",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_pkg_shop_shopfronts_page"))
+        action: GotoPage(appID, pageID: "eliud_pkg_shop_shopfronts_page"))
     );
 
 
@@ -331,7 +331,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
       name: "eliud_pkg_shop",
       menuItems: menuItems
     );
-    await menuDefRepository().add(menu);
+    await menuDefRepository(appID: appID).add(menu);
     return menu;
   }
 }
@@ -340,14 +340,14 @@ class AdminAppWiper extends AdminAppWiperBase {
 
   @override
   Future<void> deleteAll(String appID) async {
-    await cartRepository().deleteAll();
-    await orderRepository().deleteAll();
-    await orderOverviewRepository().deleteAll();
-    await payRepository().deleteAll();
-    await payConfirmationRepository().deleteAll();
-    await productRepository().deleteAll();
-    await shopRepository().deleteAll();
-    await shopFrontRepository().deleteAll();
+    await cartRepository(appID: appID).deleteAll();
+    await orderRepository(appID: appID).deleteAll();
+    await orderOverviewRepository(appID: appID).deleteAll();
+    await payRepository(appID: appID).deleteAll();
+    await payConfirmationRepository(appID: appID).deleteAll();
+    await productRepository(appID: appID).deleteAll();
+    await shopRepository(appID: appID).deleteAll();
+    await shopFrontRepository(appID: appID).deleteAll();
     ;
   }
 

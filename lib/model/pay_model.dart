@@ -64,12 +64,11 @@ class PayModel {
     return 'PayModel{documentID: $documentID, appId: $appId, title: $title, succeeded: $succeeded, shop: $shop}';
   }
 
-  PayEntity toEntity() {
-    appId = GlobalData.app().documentID;
+  PayEntity toEntity(String appId) {
     return PayEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
-          succeeded: (succeeded != null) ? succeeded.toEntity() : null, 
+          succeeded: (succeeded != null) ? succeeded.toEntity(appId) : null, 
           shopId: (shop != null) ? shop.documentID : null, 
     );
   }
@@ -91,7 +90,7 @@ class PayModel {
     ShopModel shopHolder;
     if (entity.shopId != null) {
       try {
-        await shopRepository().get(entity.shopId).then((val) {
+        await shopRepository(appID: entity.appId).get(entity.shopId).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}

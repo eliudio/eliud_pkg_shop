@@ -15,6 +15,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 
 import 'package:eliud_pkg_shop/model/product_component_bloc.dart';
 import 'package:eliud_pkg_shop/model/product_component_event.dart';
@@ -30,23 +31,23 @@ abstract class AbstractProductComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ProductBloc> (
-          create: (context) => ProductBloc(
-            productRepository: getProductRepository())
-        ..add(FetchProduct(id: productID)),
+    return BlocProvider<ProductComponentBloc> (
+          create: (context) => ProductComponentBloc(
+            productRepository: getProductRepository(context))
+        ..add(FetchProductComponent(id: productID)),
       child: _productBlockBuilder(context),
     );
   }
 
   Widget _productBlockBuilder(BuildContext context) {
-    return BlocBuilder<ProductBloc, ProductState>(builder: (context, state) {
-      if (state is ProductLoaded) {
+    return BlocBuilder<ProductComponentBloc, ProductComponentState>(builder: (context, state) {
+      if (state is ProductComponentLoaded) {
         if (state.value == null) {
           return alertWidget(title: 'Error', content: 'No product defined');
         } else {
           return yourWidget(context, state.value);
         }
-      } else if (state is ProductError) {
+      } else if (state is ProductComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
         return Center(
@@ -58,7 +59,7 @@ abstract class AbstractProductComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, ProductModel value);
   Widget alertWidget({ title: String, content: String});
-  ProductRepository getProductRepository();
+  ProductRepository getProductRepository(BuildContext context);
 }
 
 

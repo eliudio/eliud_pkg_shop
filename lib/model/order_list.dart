@@ -13,6 +13,12 @@
 
 */
 
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
+import 'package:eliud_core/core/app/app_state.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
+
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/tools/has_fab.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +40,8 @@ import 'package:eliud_pkg_shop/model/order_list_state.dart';
 import 'package:eliud_pkg_shop/model/order_list_bloc.dart';
 import 'package:eliud_pkg_shop/model/order_model.dart';
 
+import 'package:eliud_core/model/app_model.dart';
+
 import 'order_form.dart';
 class OrderListWidget extends StatefulWidget with HasFab {
   bool readOnly;
@@ -49,10 +57,13 @@ class OrderListWidget extends StatefulWidget with HasFab {
     return state;
   }
 
+  @override
   Widget fab(BuildContext context) {
     if ((readOnly != null) && readOnly) return null;
     state ??= OrderListWidgetState();
-    return state.fab(context);
+    var accessState = AccessBloc.getState(context);
+    var appState = AppBloc.getState(context);
+    return state.fab(context, accessState, appState);
   }
 }
 
@@ -72,76 +83,86 @@ class OrderListWidgetState extends State<OrderListWidget> {
   }
 
   @override
-  Widget fab(BuildContext aContext) {
-    return !GlobalData.memberIsOwner()  
+  Widget fab(BuildContext aContext, AccessState accessState, AppLoaded appState) {
+    if (appState is AppLoaded) {
+      return !accessState.memberIsOwner(appState) 
         ? null
         :FloatingActionButton(
-      heroTag: "OrderFloatBtnTag",
-      foregroundColor: RgbHelper.color(rgbo: GlobalData.app().floatingButtonForegroundColor),
-      backgroundColor: RgbHelper.color(rgbo: GlobalData.app().floatingButtonBackgroundColor),
-      child: Icon(Icons.add),
-      onPressed: () {
-        Navigator.of(context).push(
-          pageRouteBuilder(page: BlocProvider.value(
-              value: bloc,
-              child: OrderForm(
-                  value: null,
-                  formAction: FormAction.AddAction)
-          )),
-        );
-      },
-    );
+        heroTag: "OrderFloatBtnTag",
+        foregroundColor: RgbHelper.color(rgbo: appState.app.floatingButtonForegroundColor),
+        backgroundColor: RgbHelper.color(rgbo: appState.app.floatingButtonBackgroundColor),
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.of(context).push(
+            pageRouteBuilder(appState.app, page: BlocProvider.value(
+                value: bloc,
+                child: OrderForm(
+                    value: null,
+                    formAction: FormAction.AddAction)
+            )),
+          );
+        },
+      );
+    } else {
+      return Text('App not loaded');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<OrderListBloc, OrderListState>(builder: (context, state) {
-      if (state is OrderListLoading) {
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      } else if (state is OrderListLoaded) {
-        final values = state.values;
-        if ((widget.isEmbedded != null) && (widget.isEmbedded)) {
-          List<Widget> children = List();
-          children.add(theList(context, values));
-          children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: GlobalData.app().formSubmitButtonColor),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                              pageRouteBuilder(page: BlocProvider.value(
-                                  value: bloc,
-                                  child: OrderForm(
-                                      value: null,
-                                      formAction: FormAction.AddAction)
-                              )),
-                            );
-                  },
-                  child: Text('Add', style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formSubmitButtonTextColor))),
-                ));
-          return ListView(
-            padding: const EdgeInsets.all(8),
-            physics: ScrollPhysics(),
-            shrinkWrap: true,
-            children: children
+    var appState = AppBloc.getState(context);
+    var accessState = AccessBloc.getState(context);
+    if (appState is AppLoaded) {
+      return BlocBuilder<OrderListBloc, OrderListState>(builder: (context, state) {
+        if (state is OrderListLoading) {
+          return Center(
+            child: CircularProgressIndicator(),
           );
+        } else if (state is OrderListLoaded) {
+          final values = state.values;
+          if ((widget.isEmbedded != null) && (widget.isEmbedded)) {
+            List<Widget> children = List();
+            children.add(theList(context, values, appState, accessState));
+            children.add(RaisedButton(
+                    color: RgbHelper.color(rgbo: appState.app.formSubmitButtonColor),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                                pageRouteBuilder(appState.app, page: BlocProvider.value(
+                                    value: bloc,
+                                    child: OrderForm(
+                                        value: null,
+                                        formAction: FormAction.AddAction)
+                                )),
+                              );
+                    },
+                    child: Text('Add', style: TextStyle(color: RgbHelper.color(rgbo: appState.app.formSubmitButtonTextColor))),
+                  ));
+            return ListView(
+              padding: const EdgeInsets.all(8),
+              physics: ScrollPhysics(),
+              shrinkWrap: true,
+              children: children
+            );
+          } else {
+            return theList(context, values, appState, accessState);
+          }
         } else {
-          return theList(context, values);
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         }
-      } else {
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      }
-    });
+      });
+    } else {
+      return Text("App not loaded");
+    } 
   }
   
-  Widget theList(BuildContext context, values) {
+  Widget theList(BuildContext context, values, AppLoaded appState, AccessState accessState) {
     return Container(
-      decoration: BoxDecorationHelper.boxDecoration(GlobalData.app().listBackground),
+      decoration: BoxDecorationHelper.boxDecoration(accessState, appState.app.listBackground),
       child: ListView.separated(
         separatorBuilder: (context, index) => Divider(
-          color: RgbHelper.color(rgbo: GlobalData.app().dividerColor)
+          color: RgbHelper.color(rgbo: appState.app.dividerColor)
         ),
         shrinkWrap: true,
         physics: ScrollPhysics(),
@@ -150,6 +171,7 @@ class OrderListWidgetState extends State<OrderListWidget> {
           final value = values[index];
           return OrderListItem(
             value: value,
+            app: appState.app,
             onDismissed: (direction) {
               BlocProvider.of<OrderListBloc>(context)
                   .add(DeleteOrderList(value: value));
@@ -161,7 +183,7 @@ class OrderListWidgetState extends State<OrderListWidget> {
             },
             onTap: () async {
                                    final removedItem = await Navigator.of(context).push(
-                        pageRouteBuilder(page: BlocProvider.value(
+                        pageRouteBuilder(appState.app, page: BlocProvider.value(
                               value: BlocProvider.of<OrderListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
@@ -197,6 +219,7 @@ class OrderListWidgetState extends State<OrderListWidget> {
 class OrderListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
+  final AppModel app;
   final OrderModel value;
 
   OrderListItem({
@@ -204,6 +227,7 @@ class OrderListItem extends StatelessWidget {
     @required this.onDismissed,
     @required this.onTap,
     @required this.value,
+    @required this.app,
   }) : super(key: key);
 
   @override
@@ -219,7 +243,7 @@ class OrderListItem extends StatelessWidget {
             width: fullScreenWidth(context),
             child: Center(child: Text(
               value.documentID,
-              style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().listTextItemColor)),
+              style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),
             )),
           ),
         ),
@@ -228,7 +252,7 @@ class OrderListItem extends StatelessWidget {
           value.paymentReference,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().listTextItemColor)),
+          style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),
         ))
             : null,
       ),

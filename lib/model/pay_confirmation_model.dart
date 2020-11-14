@@ -64,13 +64,12 @@ class PayConfirmationModel {
     return 'PayConfirmationModel{documentID: $documentID, appId: $appId, title: $title, shop: $shop, backToShopAction: $backToShopAction}';
   }
 
-  PayConfirmationEntity toEntity() {
-    appId = GlobalData.app().documentID;
+  PayConfirmationEntity toEntity(String appId) {
     return PayConfirmationEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
           shopId: (shop != null) ? shop.documentID : null, 
-          backToShopAction: (backToShopAction != null) ? backToShopAction.toEntity() : null, 
+          backToShopAction: (backToShopAction != null) ? backToShopAction.toEntity(appId) : null, 
     );
   }
 
@@ -91,7 +90,7 @@ class PayConfirmationModel {
     ShopModel shopHolder;
     if (entity.shopId != null) {
       try {
-        await shopRepository().get(entity.shopId).then((val) {
+        await shopRepository(appID: entity.appId).get(entity.shopId).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}

@@ -111,7 +111,7 @@ class OrderCache implements OrderRepository {
     MemberModel customerHolder;
     if (model.customer != null) {
       try {
-        await memberRepository().get(model.customer.documentID).then((val) {
+        await memberRepository(appID: model.appId).get(model.customer.documentID).then((val) {
           customerHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -120,7 +120,7 @@ class OrderCache implements OrderRepository {
     CountryModel countryHolder;
     if (model.country != null) {
       try {
-        await countryRepository().get(model.country.documentID).then((val) {
+        await countryRepository(appID: model.appId).get(model.country.documentID).then((val) {
           countryHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -129,7 +129,7 @@ class OrderCache implements OrderRepository {
     CountryModel invoiceCountryHolder;
     if (model.invoiceCountry != null) {
       try {
-        await countryRepository().get(model.invoiceCountry.documentID).then((val) {
+        await countryRepository(appID: model.appId).get(model.invoiceCountry.documentID).then((val) {
           invoiceCountryHolder = val;
         }).catchError((error) {});
       } catch (_) {}

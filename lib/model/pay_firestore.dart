@@ -28,7 +28,7 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class PayFirestore implements PayRepository {
   Future<PayModel> add(PayModel value) {
-    return PayCollection.document(value.documentID).setData(value.toEntity().toDocument()).then((_) => value);
+    return PayCollection.document(value.documentID).setData(value.toEntity(appID).toDocument()).then((_) => value);
   }
 
   Future<void> delete(PayModel value) {
@@ -36,7 +36,7 @@ class PayFirestore implements PayRepository {
   }
 
   Future<PayModel> update(PayModel value) {
-    return PayCollection.document(value.documentID).updateData(value.toEntity().toDocument()).then((_) => value);
+    return PayCollection.document(value.documentID).updateData(value.toEntity(appID).toDocument()).then((_) => value);
   }
 
   PayModel _populateDoc(DocumentSnapshot doc) {

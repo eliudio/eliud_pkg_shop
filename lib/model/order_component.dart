@@ -15,6 +15,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 
 import 'package:eliud_pkg_shop/model/order_component_bloc.dart';
 import 'package:eliud_pkg_shop/model/order_component_event.dart';
@@ -30,23 +31,23 @@ abstract class AbstractOrderComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<OrderBloc> (
-          create: (context) => OrderBloc(
-            orderRepository: getOrderRepository())
-        ..add(FetchOrder(id: orderID)),
+    return BlocProvider<OrderComponentBloc> (
+          create: (context) => OrderComponentBloc(
+            orderRepository: getOrderRepository(context))
+        ..add(FetchOrderComponent(id: orderID)),
       child: _orderBlockBuilder(context),
     );
   }
 
   Widget _orderBlockBuilder(BuildContext context) {
-    return BlocBuilder<OrderBloc, OrderState>(builder: (context, state) {
-      if (state is OrderLoaded) {
+    return BlocBuilder<OrderComponentBloc, OrderComponentState>(builder: (context, state) {
+      if (state is OrderComponentLoaded) {
         if (state.value == null) {
           return alertWidget(title: 'Error', content: 'No order defined');
         } else {
           return yourWidget(context, state.value);
         }
-      } else if (state is OrderError) {
+      } else if (state is OrderComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
         return Center(
@@ -58,7 +59,7 @@ abstract class AbstractOrderComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, OrderModel value);
   Widget alertWidget({ title: String, content: String});
-  OrderRepository getOrderRepository();
+  OrderRepository getOrderRepository(BuildContext context);
 }
 
 

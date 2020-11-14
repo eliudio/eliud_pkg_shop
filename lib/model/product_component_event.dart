@@ -15,14 +15,14 @@
 
 import 'package:equatable/equatable.dart';
 
-abstract class ProductEvent extends Equatable {
+abstract class ProductComponentEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-class FetchProduct extends ProductEvent {
+class FetchProductComponent extends ProductComponentEvent {
   final String id;
 
-  FetchProduct({ this.id });
+  FetchProductComponent({ this.id });
 }
 

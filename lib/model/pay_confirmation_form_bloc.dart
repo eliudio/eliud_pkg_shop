@@ -38,11 +38,10 @@ import 'package:eliud_pkg_shop/model/pay_confirmation_form_state.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_repository.dart';
 
 class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirmationFormState> {
-  final PayConfirmationRepository _payConfirmationRepository = payConfirmationRepository();
   final FormAction formAction;
-  final ShopRepository _shopRepository = shopRepository();
+  final String appId;
 
-  PayConfirmationFormBloc({ this.formAction }): super(PayConfirmationFormUninitialized());
+  PayConfirmationFormBloc(this.appId, { this.formAction }): super(PayConfirmationFormUninitialized());
   @override
   Stream<PayConfirmationFormState> mapEventToState(PayConfirmationFormEvent event) async* {
     final currentState = state;
@@ -62,7 +61,7 @@ class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirma
 
       if (event is InitialisePayConfirmationFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        PayConfirmationFormLoaded loaded = PayConfirmationFormLoaded(value: await _payConfirmationRepository.get(event.value.documentID));
+        PayConfirmationFormLoaded loaded = PayConfirmationFormLoaded(value: await payConfirmationRepository(appID: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialisePayConfirmationFormNoLoadEvent) {
@@ -90,7 +89,7 @@ class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirma
       }
       if (event is ChangedPayConfirmationShop) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(shop: await _shopRepository.get(event.value));
+          newValue = currentState.value.copyWith(shop: await shopRepository(appID: appId).get(event.value));
         else
           newValue = new PayConfirmationModel(
                                  documentID: currentState.value.documentID,
@@ -118,7 +117,7 @@ class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirma
   Future<PayConfirmationFormState> _isDocumentIDValid(String value, PayConfirmationModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<PayConfirmationModel> findDocument = _payConfirmationRepository.get(value);
+    Future<PayConfirmationModel> findDocument = payConfirmationRepository(appID: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittablePayConfirmationForm(value: newValue);

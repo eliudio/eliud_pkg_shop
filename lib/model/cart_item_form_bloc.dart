@@ -38,9 +38,9 @@ import 'package:eliud_pkg_shop/model/cart_item_form_state.dart';
 import 'package:eliud_pkg_shop/model/cart_item_repository.dart';
 
 class CartItemFormBloc extends Bloc<CartItemFormEvent, CartItemFormState> {
-  final ProductRepository _productRepository = productRepository();
+  final String appId;
 
-  CartItemFormBloc(): super(CartItemFormUninitialized());
+  CartItemFormBloc(this.appId, ): super(CartItemFormUninitialized());
   @override
   Stream<CartItemFormState> mapEventToState(CartItemFormEvent event) async* {
     final currentState = state;
@@ -88,7 +88,7 @@ class CartItemFormBloc extends Bloc<CartItemFormEvent, CartItemFormState> {
       }
       if (event is ChangedCartItemProduct) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(product: await _productRepository.get(event.value));
+          newValue = currentState.value.copyWith(product: await productRepository(appID: appId).get(event.value));
         else
           newValue = new CartItemModel(
                                  documentID: currentState.value.documentID,

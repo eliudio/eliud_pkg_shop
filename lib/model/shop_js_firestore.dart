@@ -31,7 +31,7 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 class ShopJsFirestore implements ShopRepository {
   Future<ShopModel> add(ShopModel value) {
     return shopCollection.doc(value.documentID)
-        .set(value.toEntity().toDocument())
+        .set(value.toEntity(appID).toDocument())
         .then((_) => value);
   }
 
@@ -41,7 +41,7 @@ class ShopJsFirestore implements ShopRepository {
 
   Future<ShopModel> update(ShopModel value) {
     return shopCollection.doc(value.documentID)
-        .update(data: value.toEntity().toDocument())
+        .update(data: value.toEntity(appID).toDocument())
         .then((_) => value);
   }
 

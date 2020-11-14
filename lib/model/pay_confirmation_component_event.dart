@@ -15,14 +15,14 @@
 
 import 'package:equatable/equatable.dart';
 
-abstract class PayConfirmationEvent extends Equatable {
+abstract class PayConfirmationComponentEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-class FetchPayConfirmation extends PayConfirmationEvent {
+class FetchPayConfirmationComponent extends PayConfirmationComponentEvent {
   final String id;
 
-  FetchPayConfirmation({ this.id });
+  FetchPayConfirmationComponent({ this.id });
 }
 

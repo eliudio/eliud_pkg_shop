@@ -42,12 +42,10 @@ import 'package:eliud_pkg_shop/model/shop_front_form_state.dart';
 import 'package:eliud_pkg_shop/model/shop_front_repository.dart';
 
 class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
-  final ShopFrontRepository _shopFrontRepository = shopFrontRepository();
   final FormAction formAction;
-  final ShopRepository _shopRepository = shopRepository();
-  final BackgroundRepository _backgroundRepository = backgroundRepository();
+  final String appId;
 
-  ShopFrontFormBloc({ this.formAction }): super(ShopFrontFormUninitialized());
+  ShopFrontFormBloc(this.appId, { this.formAction }): super(ShopFrontFormUninitialized());
   @override
   Stream<ShopFrontFormState> mapEventToState(ShopFrontFormEvent event) async* {
     final currentState = state;
@@ -73,7 +71,7 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
 
       if (event is InitialiseShopFrontFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        ShopFrontFormLoaded loaded = ShopFrontFormLoaded(value: await _shopFrontRepository.get(event.value.documentID));
+        ShopFrontFormLoaded loaded = ShopFrontFormLoaded(value: await shopFrontRepository(appID: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseShopFrontFormNoLoadEvent) {
@@ -113,7 +111,7 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
       }
       if (event is ChangedShopFrontShop) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(shop: await _shopRepository.get(event.value));
+          newValue = currentState.value.copyWith(shop: await shopRepository(appID: appId).get(event.value));
         else
           newValue = new ShopFrontModel(
                                  documentID: currentState.value.documentID,
@@ -171,7 +169,7 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
       }
       if (event is ChangedShopFrontItemCardBackground) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(itemCardBackground: await _backgroundRepository.get(event.value));
+          newValue = currentState.value.copyWith(itemCardBackground: await backgroundRepository(appID: appId).get(event.value));
         else
           newValue = new ShopFrontModel(
                                  documentID: currentState.value.documentID,
@@ -196,7 +194,7 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
       }
       if (event is ChangedShopFrontItemDetailBackground) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(itemDetailBackground: await _backgroundRepository.get(event.value));
+          newValue = currentState.value.copyWith(itemDetailBackground: await backgroundRepository(appID: appId).get(event.value));
         else
           newValue = new ShopFrontModel(
                                  documentID: currentState.value.documentID,
@@ -252,7 +250,7 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
   Future<ShopFrontFormState> _isDocumentIDValid(String value, ShopFrontModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<ShopFrontModel> findDocument = _shopFrontRepository.get(value);
+    Future<ShopFrontModel> findDocument = shopFrontRepository(appID: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableShopFrontForm(value: newValue);

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_tools.dart';
 import 'package:eliud_pkg_shop/extensions/shop_widgets/product_detail.dart';
 import 'package:eliud_pkg_shop/extensions/shop_widgets/size_route.dart';
@@ -51,6 +52,7 @@ class _GridProductsState extends State<GridProducts> {
 
   @override
   Widget build(BuildContext context) {
+    var accessState = AccessBloc.getState(context);
     var amountAcross =
         max(1, fullScreenWidth(context) / widget.shopFrontModel.size);
     var width = (fullScreenWidth(context) / amountAcross) - 5;
@@ -72,7 +74,7 @@ class _GridProductsState extends State<GridProducts> {
                   imageModel: item.images[0].image);
             }
             return Container(
-                decoration: BoxDecorationHelper.boxDecoration(
+                decoration: BoxDecorationHelper.boxDecoration(accessState,
                     widget.shopFrontModel.itemCardBackground),
                 child: Card(
                   margin: EdgeInsets.all(0.0),

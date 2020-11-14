@@ -15,6 +15,7 @@
 
 
 import 'package:eliud_core/tools/component_constructor.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -221,14 +222,14 @@ class ListComponent extends StatelessWidget with HasFab {
   @override
   Widget build(BuildContext context) {
 
-    if (componentId == 'carts') return _cartBuild();
-    if (componentId == 'orders') return _orderBuild();
-    if (componentId == 'orderOverviews') return _orderOverviewBuild();
-    if (componentId == 'pays') return _payBuild();
-    if (componentId == 'payConfirmations') return _payConfirmationBuild();
-    if (componentId == 'products') return _productBuild();
-    if (componentId == 'shops') return _shopBuild();
-    if (componentId == 'shopFronts') return _shopFrontBuild();
+    if (componentId == 'carts') return _cartBuild(context);
+    if (componentId == 'orders') return _orderBuild(context);
+    if (componentId == 'orderOverviews') return _orderOverviewBuild(context);
+    if (componentId == 'pays') return _payBuild(context);
+    if (componentId == 'payConfirmations') return _payConfirmationBuild(context);
+    if (componentId == 'products') return _productBuild(context);
+    if (componentId == 'shops') return _shopBuild(context);
+    if (componentId == 'shopFronts') return _shopFrontBuild(context);
     return Text('Component with componentId == $componentId not found');
   }
 
@@ -243,12 +244,12 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'shopFronts') widget = ShopFrontListWidget();
   }
 
-  Widget _cartBuild() {
+  Widget _cartBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<CartListBloc>(
           create: (context) => CartListBloc(
-            cartRepository: cartRepository(),
+            cartRepository: cartRepository(appID: AppBloc.appId(context)),
           )..add(LoadCartList()),
         )
       ],
@@ -256,12 +257,12 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _orderBuild() {
+  Widget _orderBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<OrderListBloc>(
           create: (context) => OrderListBloc(
-            orderRepository: orderRepository(),
+            orderRepository: orderRepository(appID: AppBloc.appId(context)),
           )..add(LoadOrderList()),
         )
       ],
@@ -269,12 +270,12 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _orderOverviewBuild() {
+  Widget _orderOverviewBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<OrderOverviewListBloc>(
           create: (context) => OrderOverviewListBloc(
-            orderOverviewRepository: orderOverviewRepository(),
+            orderOverviewRepository: orderOverviewRepository(appID: AppBloc.appId(context)),
           )..add(LoadOrderOverviewList()),
         )
       ],
@@ -282,12 +283,12 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _payBuild() {
+  Widget _payBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<PayListBloc>(
           create: (context) => PayListBloc(
-            payRepository: payRepository(),
+            payRepository: payRepository(appID: AppBloc.appId(context)),
           )..add(LoadPayList()),
         )
       ],
@@ -295,12 +296,12 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _payConfirmationBuild() {
+  Widget _payConfirmationBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<PayConfirmationListBloc>(
           create: (context) => PayConfirmationListBloc(
-            payConfirmationRepository: payConfirmationRepository(),
+            payConfirmationRepository: payConfirmationRepository(appID: AppBloc.appId(context)),
           )..add(LoadPayConfirmationList()),
         )
       ],
@@ -308,12 +309,12 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _productBuild() {
+  Widget _productBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ProductListBloc>(
           create: (context) => ProductListBloc(
-            productRepository: productRepository(),
+            productRepository: productRepository(appID: AppBloc.appId(context)),
           )..add(LoadProductList()),
         )
       ],
@@ -321,12 +322,12 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _shopBuild() {
+  Widget _shopBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ShopListBloc>(
           create: (context) => ShopListBloc(
-            shopRepository: shopRepository(),
+            shopRepository: shopRepository(appID: AppBloc.appId(context)),
           )..add(LoadShopList()),
         )
       ],
@@ -334,12 +335,12 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _shopFrontBuild() {
+  Widget _shopFrontBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ShopFrontListBloc>(
           create: (context) => ShopFrontListBloc(
-            shopFrontRepository: shopFrontRepository(),
+            shopFrontRepository: shopFrontRepository(appID: AppBloc.appId(context)),
           )..add(LoadShopFrontList()),
         )
       ],
@@ -363,24 +364,24 @@ class DropdownButtonComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    if (componentId == 'carts') return _cartBuild();
-    if (componentId == 'orders') return _orderBuild();
-    if (componentId == 'orderOverviews') return _orderOverviewBuild();
-    if (componentId == 'pays') return _payBuild();
-    if (componentId == 'payConfirmations') return _payConfirmationBuild();
-    if (componentId == 'products') return _productBuild();
-    if (componentId == 'shops') return _shopBuild();
-    if (componentId == 'shopFronts') return _shopFrontBuild();
+    if (componentId == 'carts') return _cartBuild(context);
+    if (componentId == 'orders') return _orderBuild(context);
+    if (componentId == 'orderOverviews') return _orderOverviewBuild(context);
+    if (componentId == 'pays') return _payBuild(context);
+    if (componentId == 'payConfirmations') return _payConfirmationBuild(context);
+    if (componentId == 'products') return _productBuild(context);
+    if (componentId == 'shops') return _shopBuild(context);
+    if (componentId == 'shopFronts') return _shopFrontBuild(context);
     return Text('Component with componentId == $componentId not found');
   }
 
 
-  Widget _cartBuild() {
+  Widget _cartBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<CartListBloc>(
           create: (context) => CartListBloc(
-            cartRepository: cartRepository(),
+            cartRepository: cartRepository(appID: AppBloc.appId(context)),
           )..add(LoadCartList()),
         )
       ],
@@ -388,12 +389,12 @@ class DropdownButtonComponent extends StatelessWidget {
     );
   }
 
-  Widget _orderBuild() {
+  Widget _orderBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<OrderListBloc>(
           create: (context) => OrderListBloc(
-            orderRepository: orderRepository(),
+            orderRepository: orderRepository(appID: AppBloc.appId(context)),
           )..add(LoadOrderList()),
         )
       ],
@@ -401,12 +402,12 @@ class DropdownButtonComponent extends StatelessWidget {
     );
   }
 
-  Widget _orderOverviewBuild() {
+  Widget _orderOverviewBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<OrderOverviewListBloc>(
           create: (context) => OrderOverviewListBloc(
-            orderOverviewRepository: orderOverviewRepository(),
+            orderOverviewRepository: orderOverviewRepository(appID: AppBloc.appId(context)),
           )..add(LoadOrderOverviewList()),
         )
       ],
@@ -414,12 +415,12 @@ class DropdownButtonComponent extends StatelessWidget {
     );
   }
 
-  Widget _payBuild() {
+  Widget _payBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<PayListBloc>(
           create: (context) => PayListBloc(
-            payRepository: payRepository(),
+            payRepository: payRepository(appID: AppBloc.appId(context)),
           )..add(LoadPayList()),
         )
       ],
@@ -427,12 +428,12 @@ class DropdownButtonComponent extends StatelessWidget {
     );
   }
 
-  Widget _payConfirmationBuild() {
+  Widget _payConfirmationBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<PayConfirmationListBloc>(
           create: (context) => PayConfirmationListBloc(
-            payConfirmationRepository: payConfirmationRepository(),
+            payConfirmationRepository: payConfirmationRepository(appID: AppBloc.appId(context)),
           )..add(LoadPayConfirmationList()),
         )
       ],
@@ -440,12 +441,12 @@ class DropdownButtonComponent extends StatelessWidget {
     );
   }
 
-  Widget _productBuild() {
+  Widget _productBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ProductListBloc>(
           create: (context) => ProductListBloc(
-            productRepository: productRepository(),
+            productRepository: productRepository(appID: AppBloc.appId(context)),
           )..add(LoadProductList()),
         )
       ],
@@ -453,12 +454,12 @@ class DropdownButtonComponent extends StatelessWidget {
     );
   }
 
-  Widget _shopBuild() {
+  Widget _shopBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ShopListBloc>(
           create: (context) => ShopListBloc(
-            shopRepository: shopRepository(),
+            shopRepository: shopRepository(appID: AppBloc.appId(context)),
           )..add(LoadShopList()),
         )
       ],
@@ -466,12 +467,12 @@ class DropdownButtonComponent extends StatelessWidget {
     );
   }
 
-  Widget _shopFrontBuild() {
+  Widget _shopFrontBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ShopFrontListBloc>(
           create: (context) => ShopFrontListBloc(
-            shopFrontRepository: shopFrontRepository(),
+            shopFrontRepository: shopFrontRepository(appID: AppBloc.appId(context)),
           )..add(LoadShopFrontList()),
         )
       ],

@@ -79,8 +79,7 @@ class ProductModel {
     return 'ProductModel{documentID: $documentID, appId: $appId, title: $title, about: $about, price: $price, weight: $weight, shop: $shop, images: ProductImage[] { $imagesCsv }, posSize: $posSize}';
   }
 
-  ProductEntity toEntity() {
-    appId = GlobalData.app().documentID;
+  ProductEntity toEntity(String appId) {
     return ProductEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
@@ -89,7 +88,7 @@ class ProductModel {
           weight: (weight != null) ? weight : null, 
           shopId: (shop != null) ? shop.documentID : null, 
           images: (images != null) ? images
-            .map((item) => item.toEntity())
+            .map((item) => item.toEntity(appId))
             .toList() : null, 
           posSizeId: (posSize != null) ? posSize.documentID : null, 
     );
@@ -117,7 +116,7 @@ class ProductModel {
     ShopModel shopHolder;
     if (entity.shopId != null) {
       try {
-        await shopRepository().get(entity.shopId).then((val) {
+        await shopRepository(appID: entity.appId).get(entity.shopId).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -126,7 +125,7 @@ class ProductModel {
     PosSizeModel posSizeHolder;
     if (entity.posSizeId != null) {
       try {
-        await posSizeRepository().get(entity.posSizeId).then((val) {
+        await posSizeRepository(appID: entity.appId).get(entity.posSizeId).then((val) {
           posSizeHolder = val;
         }).catchError((error) {});
       } catch (_) {}

@@ -32,7 +32,7 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class ShopFrontFirestore implements ShopFrontRepository {
   Future<ShopFrontModel> add(ShopFrontModel value) {
-    return ShopFrontCollection.document(value.documentID).setData(value.toEntity().toDocument()).then((_) => value);
+    return ShopFrontCollection.document(value.documentID).setData(value.toEntity(appID).toDocument()).then((_) => value);
   }
 
   Future<void> delete(ShopFrontModel value) {
@@ -40,7 +40,7 @@ class ShopFrontFirestore implements ShopFrontRepository {
   }
 
   Future<ShopFrontModel> update(ShopFrontModel value) {
-    return ShopFrontCollection.document(value.documentID).updateData(value.toEntity().toDocument()).then((_) => value);
+    return ShopFrontCollection.document(value.documentID).updateData(value.toEntity(appID).toDocument()).then((_) => value);
   }
 
   ShopFrontModel _populateDoc(DocumentSnapshot doc) {

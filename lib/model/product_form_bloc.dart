@@ -42,12 +42,10 @@ import 'package:eliud_pkg_shop/model/product_form_state.dart';
 import 'package:eliud_pkg_shop/model/product_repository.dart';
 
 class ProductFormBloc extends Bloc<ProductFormEvent, ProductFormState> {
-  final ProductRepository _productRepository = productRepository();
   final FormAction formAction;
-  final ShopRepository _shopRepository = shopRepository();
-  final PosSizeRepository _posSizeRepository = posSizeRepository();
+  final String appId;
 
-  ProductFormBloc({ this.formAction }): super(ProductFormUninitialized());
+  ProductFormBloc(this.appId, { this.formAction }): super(ProductFormUninitialized());
   @override
   Stream<ProductFormState> mapEventToState(ProductFormEvent event) async* {
     final currentState = state;
@@ -71,7 +69,7 @@ class ProductFormBloc extends Bloc<ProductFormEvent, ProductFormState> {
 
       if (event is InitialiseProductFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        ProductFormLoaded loaded = ProductFormLoaded(value: await _productRepository.get(event.value.documentID));
+        ProductFormLoaded loaded = ProductFormLoaded(value: await productRepository(appID: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseProductFormNoLoadEvent) {
@@ -127,7 +125,7 @@ class ProductFormBloc extends Bloc<ProductFormEvent, ProductFormState> {
       }
       if (event is ChangedProductShop) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(shop: await _shopRepository.get(event.value));
+          newValue = currentState.value.copyWith(shop: await shopRepository(appID: appId).get(event.value));
         else
           newValue = new ProductModel(
                                  documentID: currentState.value.documentID,
@@ -152,7 +150,7 @@ class ProductFormBloc extends Bloc<ProductFormEvent, ProductFormState> {
       }
       if (event is ChangedProductPosSize) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(posSize: await _posSizeRepository.get(event.value));
+          newValue = currentState.value.copyWith(posSize: await posSizeRepository(appID: appId).get(event.value));
         else
           newValue = new ProductModel(
                                  documentID: currentState.value.documentID,
@@ -178,7 +176,7 @@ class ProductFormBloc extends Bloc<ProductFormEvent, ProductFormState> {
   Future<ProductFormState> _isDocumentIDValid(String value, ProductModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<ProductModel> findDocument = _productRepository.get(value);
+    Future<ProductModel> findDocument = productRepository(appID: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableProductForm(value: newValue);

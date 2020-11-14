@@ -62,8 +62,7 @@ class CartItemModel {
     return 'CartItemModel{documentID: $documentID, amount: $amount, appId: $appId, product: $product}';
   }
 
-  CartItemEntity toEntity() {
-    appId = GlobalData.app().documentID;
+  CartItemEntity toEntity(String appId) {
     return CartItemEntity(
           amount: (amount != null) ? amount : null, 
           appId: (appId != null) ? appId : null, 

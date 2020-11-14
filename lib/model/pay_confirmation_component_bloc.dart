@@ -21,28 +21,28 @@ import 'package:eliud_pkg_shop/model/pay_confirmation_component_event.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_component_state.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_repository.dart';
 
-class PayConfirmationBloc extends Bloc<PayConfirmationEvent, PayConfirmationState> {
+class PayConfirmationComponentBloc extends Bloc<PayConfirmationComponentEvent, PayConfirmationComponentState> {
   final PayConfirmationRepository payConfirmationRepository;
 
-  PayConfirmationBloc({ this.payConfirmationRepository }): super(PayConfirmationUninitialized());
+  PayConfirmationComponentBloc({ this.payConfirmationRepository }): super(PayConfirmationComponentUninitialized());
   @override
-  Stream<PayConfirmationState> mapEventToState(PayConfirmationEvent event) async* {
+  Stream<PayConfirmationComponentState> mapEventToState(PayConfirmationComponentEvent event) async* {
     final currentState = state;
-    if (event is FetchPayConfirmation) {
+    if (event is FetchPayConfirmationComponent) {
       try {
-        if (currentState is PayConfirmationUninitialized) {
+        if (currentState is PayConfirmationComponentUninitialized) {
           final PayConfirmationModel model = await _fetchPayConfirmation(event.id);
 
           if (model != null) {
-            yield PayConfirmationLoaded(value: model);
+            yield PayConfirmationComponentLoaded(value: model);
           } else {
             String id = event.id;
-            yield PayConfirmationError(message: "PayConfirmation with id = '$id' not found");
+            yield PayConfirmationComponentError(message: "PayConfirmation with id = '$id' not found");
           }
           return;
         }
       } catch (_) {
-        yield PayConfirmationError(message: "Unknown error whilst retrieving PayConfirmation");
+        yield PayConfirmationComponentError(message: "Unknown error whilst retrieving PayConfirmation");
       }
     }
   }

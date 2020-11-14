@@ -21,28 +21,28 @@ import 'package:eliud_pkg_shop/model/order_component_event.dart';
 import 'package:eliud_pkg_shop/model/order_component_state.dart';
 import 'package:eliud_pkg_shop/model/order_repository.dart';
 
-class OrderBloc extends Bloc<OrderEvent, OrderState> {
+class OrderComponentBloc extends Bloc<OrderComponentEvent, OrderComponentState> {
   final OrderRepository orderRepository;
 
-  OrderBloc({ this.orderRepository }): super(OrderUninitialized());
+  OrderComponentBloc({ this.orderRepository }): super(OrderComponentUninitialized());
   @override
-  Stream<OrderState> mapEventToState(OrderEvent event) async* {
+  Stream<OrderComponentState> mapEventToState(OrderComponentEvent event) async* {
     final currentState = state;
-    if (event is FetchOrder) {
+    if (event is FetchOrderComponent) {
       try {
-        if (currentState is OrderUninitialized) {
+        if (currentState is OrderComponentUninitialized) {
           final OrderModel model = await _fetchOrder(event.id);
 
           if (model != null) {
-            yield OrderLoaded(value: model);
+            yield OrderComponentLoaded(value: model);
           } else {
             String id = event.id;
-            yield OrderError(message: "Order with id = '$id' not found");
+            yield OrderComponentError(message: "Order with id = '$id' not found");
           }
           return;
         }
       } catch (_) {
-        yield OrderError(message: "Unknown error whilst retrieving Order");
+        yield OrderComponentError(message: "Unknown error whilst retrieving Order");
       }
     }
   }

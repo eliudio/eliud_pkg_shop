@@ -1,3 +1,5 @@
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/model/member_form.dart';
 import 'package:eliud_core/model/member_list_bloc.dart';
@@ -22,20 +24,25 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-        providers: [
-          BlocProvider<MemberListBloc>(
-            create: (context) =>
-            MemberListBloc(
-              memberRepository: AbstractRepositorySingleton.singleton
-                  .memberRepository(),
+    var accessState = AccessBloc.getState(context);
+    if (accessState is LoggedIn) {
+      return MultiBlocProvider(
+          providers: [
+            BlocProvider<MemberListBloc>(
+              create: (context) =>
+              MemberListBloc(
+                memberRepository: AbstractRepositorySingleton.singleton
+                    .memberRepository(),
+              )
+                ..add(LoadMemberList()),
             )
-              ..add(LoadMemberList()),
-          )
-        ],
-        child: MemberAddressForm(
-            submitAction: widget.checkoutAction,
-            value: GlobalData.member(),
-            formAction: FormAction.UpdateAction));
+          ],
+          child: MemberAddressForm(
+              submitAction: widget.checkoutAction,
+              value: accessState.member,
+              formAction: FormAction.UpdateAction));
+    } else {
+      return Text("Not logged in");
+    }
   }
 }

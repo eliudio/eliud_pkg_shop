@@ -32,7 +32,7 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class ProductFirestore implements ProductRepository {
   Future<ProductModel> add(ProductModel value) {
-    return ProductCollection.document(value.documentID).setData(value.toEntity().toDocument()).then((_) => value);
+    return ProductCollection.document(value.documentID).setData(value.toEntity(appID).toDocument()).then((_) => value);
   }
 
   Future<void> delete(ProductModel value) {
@@ -40,7 +40,7 @@ class ProductFirestore implements ProductRepository {
   }
 
   Future<ProductModel> update(ProductModel value) {
-    return ProductCollection.document(value.documentID).updateData(value.toEntity().toDocument()).then((_) => value);
+    return ProductCollection.document(value.documentID).updateData(value.toEntity(appID).toDocument()).then((_) => value);
   }
 
   ProductModel _populateDoc(DocumentSnapshot doc) {

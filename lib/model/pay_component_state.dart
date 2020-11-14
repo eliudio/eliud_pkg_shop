@@ -16,34 +16,34 @@
 import 'package:equatable/equatable.dart';
 import 'package:eliud_pkg_shop/model/pay_model.dart';
 
-abstract class PayState extends Equatable {
-  const PayState();
+abstract class PayComponentState extends Equatable {
+  const PayComponentState();
 
   @override
   List<Object> get props => [];
 }
 
-class PayUninitialized extends PayState {}
+class PayComponentUninitialized extends PayComponentState {}
 
-class PayError extends PayState {
+class PayComponentError extends PayComponentState {
   final String message;
-  PayError({ this.message });
+  PayComponentError({ this.message });
 }
 
-class PayLoaded extends PayState {
+class PayComponentLoaded extends PayComponentState {
   final PayModel value;
 
-  const PayLoaded({ this.value });
+  const PayComponentLoaded({ this.value });
 
-  PayLoaded copyWith({ PayModel copyThis }) {
-    return PayLoaded(value: copyThis ?? this.value);
+  PayComponentLoaded copyWith({ PayModel copyThis }) {
+    return PayComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
   List<Object> get props => [value];
 
   @override
-  String toString() => 'PayModelLoaded { value: $value }';
+  String toString() => 'PayComponentLoaded { value: $value }';
 }
 
 

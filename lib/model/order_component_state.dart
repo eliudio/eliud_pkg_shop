@@ -16,34 +16,34 @@
 import 'package:equatable/equatable.dart';
 import 'package:eliud_pkg_shop/model/order_model.dart';
 
-abstract class OrderState extends Equatable {
-  const OrderState();
+abstract class OrderComponentState extends Equatable {
+  const OrderComponentState();
 
   @override
   List<Object> get props => [];
 }
 
-class OrderUninitialized extends OrderState {}
+class OrderComponentUninitialized extends OrderComponentState {}
 
-class OrderError extends OrderState {
+class OrderComponentError extends OrderComponentState {
   final String message;
-  OrderError({ this.message });
+  OrderComponentError({ this.message });
 }
 
-class OrderLoaded extends OrderState {
+class OrderComponentLoaded extends OrderComponentState {
   final OrderModel value;
 
-  const OrderLoaded({ this.value });
+  const OrderComponentLoaded({ this.value });
 
-  OrderLoaded copyWith({ OrderModel copyThis }) {
-    return OrderLoaded(value: copyThis ?? this.value);
+  OrderComponentLoaded copyWith({ OrderModel copyThis }) {
+    return OrderComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
   List<Object> get props => [value];
 
   @override
-  String toString() => 'OrderModelLoaded { value: $value }';
+  String toString() => 'OrderComponentLoaded { value: $value }';
 }
 
 

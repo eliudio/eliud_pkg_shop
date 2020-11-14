@@ -16,34 +16,34 @@
 import 'package:equatable/equatable.dart';
 import 'package:eliud_pkg_shop/model/shop_front_model.dart';
 
-abstract class ShopFrontState extends Equatable {
-  const ShopFrontState();
+abstract class ShopFrontComponentState extends Equatable {
+  const ShopFrontComponentState();
 
   @override
   List<Object> get props => [];
 }
 
-class ShopFrontUninitialized extends ShopFrontState {}
+class ShopFrontComponentUninitialized extends ShopFrontComponentState {}
 
-class ShopFrontError extends ShopFrontState {
+class ShopFrontComponentError extends ShopFrontComponentState {
   final String message;
-  ShopFrontError({ this.message });
+  ShopFrontComponentError({ this.message });
 }
 
-class ShopFrontLoaded extends ShopFrontState {
+class ShopFrontComponentLoaded extends ShopFrontComponentState {
   final ShopFrontModel value;
 
-  const ShopFrontLoaded({ this.value });
+  const ShopFrontComponentLoaded({ this.value });
 
-  ShopFrontLoaded copyWith({ ShopFrontModel copyThis }) {
-    return ShopFrontLoaded(value: copyThis ?? this.value);
+  ShopFrontComponentLoaded copyWith({ ShopFrontModel copyThis }) {
+    return ShopFrontComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
   List<Object> get props => [value];
 
   @override
-  String toString() => 'ShopFrontModelLoaded { value: $value }';
+  String toString() => 'ShopFrontComponentLoaded { value: $value }';
 }
 
 

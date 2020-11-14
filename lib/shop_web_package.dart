@@ -9,11 +9,7 @@ class ShopWebPackage extends ShopPackage {
   @override
   void init() {
     AbstractPaymentPlatform.platform = WebPaymentPlatform();
+    AbstractRepositorySingleton.singleton = JsRepositorySingleton();
     super.init();
-  }
-
-  @override
-  void initRepository(String appID) {
-    AbstractRepositorySingleton.singleton = JsRepositorySingleton(appID);
   }
 }

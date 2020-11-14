@@ -38,9 +38,9 @@ import 'package:eliud_pkg_shop/model/order_item_form_state.dart';
 import 'package:eliud_pkg_shop/model/order_item_repository.dart';
 
 class OrderItemFormBloc extends Bloc<OrderItemFormEvent, OrderItemFormState> {
-  final ProductRepository _productRepository = productRepository();
+  final String appId;
 
-  OrderItemFormBloc(): super(OrderItemFormUninitialized());
+  OrderItemFormBloc(this.appId, ): super(OrderItemFormUninitialized());
   @override
   Stream<OrderItemFormState> mapEventToState(OrderItemFormEvent event) async* {
     final currentState = state;
@@ -100,7 +100,7 @@ class OrderItemFormBloc extends Bloc<OrderItemFormEvent, OrderItemFormState> {
       }
       if (event is ChangedOrderItemProduct) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(product: await _productRepository.get(event.value));
+          newValue = currentState.value.copyWith(product: await productRepository(appID: appId).get(event.value));
         else
           newValue = new OrderItemModel(
                                  documentID: currentState.value.documentID,

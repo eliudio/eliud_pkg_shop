@@ -21,28 +21,28 @@ import 'package:eliud_pkg_shop/model/order_overview_component_event.dart';
 import 'package:eliud_pkg_shop/model/order_overview_component_state.dart';
 import 'package:eliud_pkg_shop/model/order_overview_repository.dart';
 
-class OrderOverviewBloc extends Bloc<OrderOverviewEvent, OrderOverviewState> {
+class OrderOverviewComponentBloc extends Bloc<OrderOverviewComponentEvent, OrderOverviewComponentState> {
   final OrderOverviewRepository orderOverviewRepository;
 
-  OrderOverviewBloc({ this.orderOverviewRepository }): super(OrderOverviewUninitialized());
+  OrderOverviewComponentBloc({ this.orderOverviewRepository }): super(OrderOverviewComponentUninitialized());
   @override
-  Stream<OrderOverviewState> mapEventToState(OrderOverviewEvent event) async* {
+  Stream<OrderOverviewComponentState> mapEventToState(OrderOverviewComponentEvent event) async* {
     final currentState = state;
-    if (event is FetchOrderOverview) {
+    if (event is FetchOrderOverviewComponent) {
       try {
-        if (currentState is OrderOverviewUninitialized) {
+        if (currentState is OrderOverviewComponentUninitialized) {
           final OrderOverviewModel model = await _fetchOrderOverview(event.id);
 
           if (model != null) {
-            yield OrderOverviewLoaded(value: model);
+            yield OrderOverviewComponentLoaded(value: model);
           } else {
             String id = event.id;
-            yield OrderOverviewError(message: "OrderOverview with id = '$id' not found");
+            yield OrderOverviewComponentError(message: "OrderOverview with id = '$id' not found");
           }
           return;
         }
       } catch (_) {
-        yield OrderOverviewError(message: "Unknown error whilst retrieving OrderOverview");
+        yield OrderOverviewComponentError(message: "Unknown error whilst retrieving OrderOverview");
       }
     }
   }

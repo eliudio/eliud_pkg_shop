@@ -15,6 +15,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 
 import 'package:eliud_pkg_shop/model/pay_confirmation_component_bloc.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_component_event.dart';
@@ -30,23 +31,23 @@ abstract class AbstractPayConfirmationComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<PayConfirmationBloc> (
-          create: (context) => PayConfirmationBloc(
-            payConfirmationRepository: getPayConfirmationRepository())
-        ..add(FetchPayConfirmation(id: payConfirmationID)),
+    return BlocProvider<PayConfirmationComponentBloc> (
+          create: (context) => PayConfirmationComponentBloc(
+            payConfirmationRepository: getPayConfirmationRepository(context))
+        ..add(FetchPayConfirmationComponent(id: payConfirmationID)),
       child: _payConfirmationBlockBuilder(context),
     );
   }
 
   Widget _payConfirmationBlockBuilder(BuildContext context) {
-    return BlocBuilder<PayConfirmationBloc, PayConfirmationState>(builder: (context, state) {
-      if (state is PayConfirmationLoaded) {
+    return BlocBuilder<PayConfirmationComponentBloc, PayConfirmationComponentState>(builder: (context, state) {
+      if (state is PayConfirmationComponentLoaded) {
         if (state.value == null) {
           return alertWidget(title: 'Error', content: 'No payConfirmation defined');
         } else {
           return yourWidget(context, state.value);
         }
-      } else if (state is PayConfirmationError) {
+      } else if (state is PayConfirmationComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
         return Center(
@@ -58,7 +59,7 @@ abstract class AbstractPayConfirmationComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, PayConfirmationModel value);
   Widget alertWidget({ title: String, content: String});
-  PayConfirmationRepository getPayConfirmationRepository();
+  PayConfirmationRepository getPayConfirmationRepository(BuildContext context);
 }
 
 

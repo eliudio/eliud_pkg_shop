@@ -16,34 +16,34 @@
 import 'package:equatable/equatable.dart';
 import 'package:eliud_pkg_shop/model/cart_model.dart';
 
-abstract class CartState extends Equatable {
-  const CartState();
+abstract class CartComponentState extends Equatable {
+  const CartComponentState();
 
   @override
   List<Object> get props => [];
 }
 
-class CartUninitialized extends CartState {}
+class CartComponentUninitialized extends CartComponentState {}
 
-class CartError extends CartState {
+class CartComponentError extends CartComponentState {
   final String message;
-  CartError({ this.message });
+  CartComponentError({ this.message });
 }
 
-class CartLoaded extends CartState {
+class CartComponentLoaded extends CartComponentState {
   final CartModel value;
 
-  const CartLoaded({ this.value });
+  const CartComponentLoaded({ this.value });
 
-  CartLoaded copyWith({ CartModel copyThis }) {
-    return CartLoaded(value: copyThis ?? this.value);
+  CartComponentLoaded copyWith({ CartModel copyThis }) {
+    return CartComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
   List<Object> get props => [value];
 
   @override
-  String toString() => 'CartModelLoaded { value: $value }';
+  String toString() => 'CartComponentLoaded { value: $value }';
 }
 
 

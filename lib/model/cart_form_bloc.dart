@@ -42,12 +42,10 @@ import 'package:eliud_pkg_shop/model/cart_form_state.dart';
 import 'package:eliud_pkg_shop/model/cart_repository.dart';
 
 class CartFormBloc extends Bloc<CartFormEvent, CartFormState> {
-  final CartRepository _cartRepository = cartRepository();
   final FormAction formAction;
-  final ShopRepository _shopRepository = shopRepository();
-  final BackgroundRepository _backgroundRepository = backgroundRepository();
+  final String appId;
 
-  CartFormBloc({ this.formAction }): super(CartFormUninitialized());
+  CartFormBloc(this.appId, { this.formAction }): super(CartFormUninitialized());
   @override
   Stream<CartFormState> mapEventToState(CartFormEvent event) async* {
     final currentState = state;
@@ -69,7 +67,7 @@ class CartFormBloc extends Bloc<CartFormEvent, CartFormState> {
 
       if (event is InitialiseCartFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        CartFormLoaded loaded = CartFormLoaded(value: await _cartRepository.get(event.value.documentID));
+        CartFormLoaded loaded = CartFormLoaded(value: await cartRepository(appID: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseCartFormNoLoadEvent) {
@@ -109,7 +107,7 @@ class CartFormBloc extends Bloc<CartFormEvent, CartFormState> {
       }
       if (event is ChangedCartShop) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(shop: await _shopRepository.get(event.value));
+          newValue = currentState.value.copyWith(shop: await shopRepository(appID: appId).get(event.value));
         else
           newValue = new CartModel(
                                  documentID: currentState.value.documentID,
@@ -129,7 +127,7 @@ class CartFormBloc extends Bloc<CartFormEvent, CartFormState> {
       }
       if (event is ChangedCartItemImageBackground) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(itemImageBackground: await _backgroundRepository.get(event.value));
+          newValue = currentState.value.copyWith(itemImageBackground: await backgroundRepository(appID: appId).get(event.value));
         else
           newValue = new CartModel(
                                  documentID: currentState.value.documentID,
@@ -149,7 +147,7 @@ class CartFormBloc extends Bloc<CartFormEvent, CartFormState> {
       }
       if (event is ChangedCartItemDetailBackground) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(itemDetailBackground: await _backgroundRepository.get(event.value));
+          newValue = currentState.value.copyWith(itemDetailBackground: await backgroundRepository(appID: appId).get(event.value));
         else
           newValue = new CartModel(
                                  documentID: currentState.value.documentID,
@@ -188,7 +186,7 @@ class CartFormBloc extends Bloc<CartFormEvent, CartFormState> {
   Future<CartFormState> _isDocumentIDValid(String value, CartModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<CartModel> findDocument = _cartRepository.get(value);
+    Future<CartModel> findDocument = cartRepository(appID: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableCartForm(value: newValue);

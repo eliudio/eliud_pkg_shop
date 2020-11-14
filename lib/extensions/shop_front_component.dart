@@ -1,4 +1,5 @@
-import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
+import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:eliud_pkg_shop/extensions/shop_widgets/grid_products.dart';
@@ -15,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ShopFrontComponentConstructorDefault implements ComponentConstructor {
+  @override
   Widget createNew({String id, Map<String, String> parameters}) {
     return ShopFrontBase(id);
   }
@@ -31,8 +33,8 @@ class ShopFrontBase extends AbstractShopFrontComponent {
   }
 
   @override
-  ShopFrontRepository getShopFrontRepository() {
-    return AbstractRepositorySingleton.singleton.shopFrontRepository();
+  ShopFrontRepository getShopFrontRepository(BuildContext context) {
+    return AbstractRepositorySingleton.singleton.shopFrontRepository(AppBloc.appId(context));
   }
 
   @override
@@ -60,7 +62,7 @@ class ShopFrontState extends State<ShopFront> {
       BlocProvider<ProductListBloc>(
         create: (context) => ProductListBloc(
           productRepository:
-              AbstractRepositorySingleton.singleton.productRepository(),
+              AbstractRepositorySingleton.singleton.productRepository(AppBloc.appId(context)),
         )..add(LoadProductListWithDetails()),
       )
     ], child: GridProducts(shopFrontModel: widget.shopFrontModel));
@@ -68,7 +70,7 @@ class ShopFrontState extends State<ShopFront> {
 
   List<Widget> addWidget(
       List<Widget> widgets, String text, FontModel font) {
-    if ((text != null) && (text.length > 0)) {
+    if ((text != null) && (text.isNotEmpty)) {
       widgets.add(
         Text(text, style: FontTools.textStyle(font)),
       );
@@ -79,10 +81,17 @@ class ShopFrontState extends State<ShopFront> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> widgets = List();
-    addWidget(widgets, widget.shopFrontModel.title, GlobalData.app().fontText);
-    addWidget(widgets, widget.shopFrontModel.description, GlobalData.app().fontText);
-    widgets.add(_grid(context));
-    return Utils.getShrinkedListView(widgets);
+    var appState = AppBloc.getState(context);
+    if (appState is AppLoaded) {
+      var widgets = <Widget>[];
+      addWidget(widgets, widget.shopFrontModel.title, appState.app
+          .fontText);
+      addWidget(widgets, widget.shopFrontModel.description, appState.app
+          .fontText);
+      widgets.add(_grid(context));
+      return Utils.getShrinkedListView(widgets);
+    } else {
+      return Text('App not loaded');
+    }
   }
 }

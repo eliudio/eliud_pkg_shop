@@ -14,6 +14,7 @@
 */
 
 import 'abstract_repository_singleton.dart';
+import 'dart:collection';
 import '../model/cart_js_firestore.dart';
 import '../model/cart_repository.dart';
 import '../model/cart_cache.dart';
@@ -57,31 +58,46 @@ import '../model/product_image_model.dart';
 import '../model/shop_front_model.dart';
 
 class JsRepositorySingleton extends AbstractRepositorySingleton {
-  JsRepositorySingleton(String appID) {
-    _cartRepository = CartCache(CartJsFirestore(appID));
-    _orderRepository = OrderCache(OrderJsFirestore(appID));
-    _orderOverviewRepository = OrderOverviewCache(OrderOverviewJsFirestore(appID));
-    _payRepository = PayCache(PayJsFirestore(appID));
-    _payConfirmationRepository = PayConfirmationCache(PayConfirmationJsFirestore(appID));
-    _productRepository = ProductCache(ProductJsFirestore(appID));
-    _shopRepository = ShopCache(ShopJsFirestore(appID));
-    _shopFrontRepository = ShopFrontCache(ShopFrontJsFirestore(appID));
-  }
-  CartRepository cartRepository() => _cartRepository;
-  CartRepository _cartRepository;
-  OrderRepository orderRepository() => _orderRepository;
-  OrderRepository _orderRepository;
-  OrderOverviewRepository orderOverviewRepository() => _orderOverviewRepository;
-  OrderOverviewRepository _orderOverviewRepository;
-  PayRepository payRepository() => _payRepository;
-  PayRepository _payRepository;
-  PayConfirmationRepository payConfirmationRepository() => _payConfirmationRepository;
-  PayConfirmationRepository _payConfirmationRepository;
-  ProductRepository productRepository() => _productRepository;
-  ProductRepository _productRepository;
-  ShopRepository shopRepository() => _shopRepository;
-  ShopRepository _shopRepository;
-  ShopFrontRepository shopFrontRepository() => _shopFrontRepository;
-  ShopFrontRepository _shopFrontRepository;
+    var _cartRepository = HashMap<String, CartRepository>();
+    var _orderRepository = HashMap<String, OrderRepository>();
+    var _orderOverviewRepository = HashMap<String, OrderOverviewRepository>();
+    var _payRepository = HashMap<String, PayRepository>();
+    var _payConfirmationRepository = HashMap<String, PayConfirmationRepository>();
+    var _productRepository = HashMap<String, ProductRepository>();
+    var _shopRepository = HashMap<String, ShopRepository>();
+    var _shopFrontRepository = HashMap<String, ShopFrontRepository>();
+
+    CartRepository cartRepository(String appID) {
+      if (_cartRepository[appID] == null) _cartRepository[appID] = CartCache(CartJsFirestore(appID));
+      return _cartRepository[appID];
+    }
+    OrderRepository orderRepository(String appID) {
+      if (_orderRepository[appID] == null) _orderRepository[appID] = OrderCache(OrderJsFirestore(appID));
+      return _orderRepository[appID];
+    }
+    OrderOverviewRepository orderOverviewRepository(String appID) {
+      if (_orderOverviewRepository[appID] == null) _orderOverviewRepository[appID] = OrderOverviewCache(OrderOverviewJsFirestore(appID));
+      return _orderOverviewRepository[appID];
+    }
+    PayRepository payRepository(String appID) {
+      if (_payRepository[appID] == null) _payRepository[appID] = PayCache(PayJsFirestore(appID));
+      return _payRepository[appID];
+    }
+    PayConfirmationRepository payConfirmationRepository(String appID) {
+      if (_payConfirmationRepository[appID] == null) _payConfirmationRepository[appID] = PayConfirmationCache(PayConfirmationJsFirestore(appID));
+      return _payConfirmationRepository[appID];
+    }
+    ProductRepository productRepository(String appID) {
+      if (_productRepository[appID] == null) _productRepository[appID] = ProductCache(ProductJsFirestore(appID));
+      return _productRepository[appID];
+    }
+    ShopRepository shopRepository(String appID) {
+      if (_shopRepository[appID] == null) _shopRepository[appID] = ShopCache(ShopJsFirestore(appID));
+      return _shopRepository[appID];
+    }
+    ShopFrontRepository shopFrontRepository(String appID) {
+      if (_shopFrontRepository[appID] == null) _shopFrontRepository[appID] = ShopFrontCache(ShopFrontJsFirestore(appID));
+      return _shopFrontRepository[appID];
+    }
 
 }

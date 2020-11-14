@@ -16,34 +16,34 @@
 import 'package:equatable/equatable.dart';
 import 'package:eliud_pkg_shop/model/product_model.dart';
 
-abstract class ProductState extends Equatable {
-  const ProductState();
+abstract class ProductComponentState extends Equatable {
+  const ProductComponentState();
 
   @override
   List<Object> get props => [];
 }
 
-class ProductUninitialized extends ProductState {}
+class ProductComponentUninitialized extends ProductComponentState {}
 
-class ProductError extends ProductState {
+class ProductComponentError extends ProductComponentState {
   final String message;
-  ProductError({ this.message });
+  ProductComponentError({ this.message });
 }
 
-class ProductLoaded extends ProductState {
+class ProductComponentLoaded extends ProductComponentState {
   final ProductModel value;
 
-  const ProductLoaded({ this.value });
+  const ProductComponentLoaded({ this.value });
 
-  ProductLoaded copyWith({ ProductModel copyThis }) {
-    return ProductLoaded(value: copyThis ?? this.value);
+  ProductComponentLoaded copyWith({ ProductModel copyThis }) {
+    return ProductComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
   List<Object> get props => [value];
 
   @override
-  String toString() => 'ProductModelLoaded { value: $value }';
+  String toString() => 'ProductComponentLoaded { value: $value }';
 }
 
 

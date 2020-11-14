@@ -21,28 +21,28 @@ import 'package:eliud_pkg_shop/model/pay_component_event.dart';
 import 'package:eliud_pkg_shop/model/pay_component_state.dart';
 import 'package:eliud_pkg_shop/model/pay_repository.dart';
 
-class PayBloc extends Bloc<PayEvent, PayState> {
+class PayComponentBloc extends Bloc<PayComponentEvent, PayComponentState> {
   final PayRepository payRepository;
 
-  PayBloc({ this.payRepository }): super(PayUninitialized());
+  PayComponentBloc({ this.payRepository }): super(PayComponentUninitialized());
   @override
-  Stream<PayState> mapEventToState(PayEvent event) async* {
+  Stream<PayComponentState> mapEventToState(PayComponentEvent event) async* {
     final currentState = state;
-    if (event is FetchPay) {
+    if (event is FetchPayComponent) {
       try {
-        if (currentState is PayUninitialized) {
+        if (currentState is PayComponentUninitialized) {
           final PayModel model = await _fetchPay(event.id);
 
           if (model != null) {
-            yield PayLoaded(value: model);
+            yield PayComponentLoaded(value: model);
           } else {
             String id = event.id;
-            yield PayError(message: "Pay with id = '$id' not found");
+            yield PayComponentError(message: "Pay with id = '$id' not found");
           }
           return;
         }
       } catch (_) {
-        yield PayError(message: "Unknown error whilst retrieving Pay");
+        yield PayComponentError(message: "Unknown error whilst retrieving Pay");
       }
     }
   }

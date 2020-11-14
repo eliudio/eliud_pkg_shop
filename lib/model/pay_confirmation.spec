@@ -52,7 +52,7 @@
     {
       "fieldName": "backToShopAction",
       "fieldType": "Action",
-      "bespokeFormField": "ActionField",
+      "bespokeFormField": "ActionField(AppBloc.appId(context), state.value.backToShopAction, _onBackToShopActionChanged)",
       "group": "backToShopAction"
     }
   ],

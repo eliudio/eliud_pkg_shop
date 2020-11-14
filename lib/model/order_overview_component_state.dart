@@ -16,34 +16,34 @@
 import 'package:equatable/equatable.dart';
 import 'package:eliud_pkg_shop/model/order_overview_model.dart';
 
-abstract class OrderOverviewState extends Equatable {
-  const OrderOverviewState();
+abstract class OrderOverviewComponentState extends Equatable {
+  const OrderOverviewComponentState();
 
   @override
   List<Object> get props => [];
 }
 
-class OrderOverviewUninitialized extends OrderOverviewState {}
+class OrderOverviewComponentUninitialized extends OrderOverviewComponentState {}
 
-class OrderOverviewError extends OrderOverviewState {
+class OrderOverviewComponentError extends OrderOverviewComponentState {
   final String message;
-  OrderOverviewError({ this.message });
+  OrderOverviewComponentError({ this.message });
 }
 
-class OrderOverviewLoaded extends OrderOverviewState {
+class OrderOverviewComponentLoaded extends OrderOverviewComponentState {
   final OrderOverviewModel value;
 
-  const OrderOverviewLoaded({ this.value });
+  const OrderOverviewComponentLoaded({ this.value });
 
-  OrderOverviewLoaded copyWith({ OrderOverviewModel copyThis }) {
-    return OrderOverviewLoaded(value: copyThis ?? this.value);
+  OrderOverviewComponentLoaded copyWith({ OrderOverviewModel copyThis }) {
+    return OrderOverviewComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
   List<Object> get props => [value];
 
   @override
-  String toString() => 'OrderOverviewModelLoaded { value: $value }';
+  String toString() => 'OrderOverviewComponentLoaded { value: $value }';
 }
 
 

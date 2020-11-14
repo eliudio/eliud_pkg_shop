@@ -21,28 +21,28 @@ import 'package:eliud_pkg_shop/model/shop_front_component_event.dart';
 import 'package:eliud_pkg_shop/model/shop_front_component_state.dart';
 import 'package:eliud_pkg_shop/model/shop_front_repository.dart';
 
-class ShopFrontBloc extends Bloc<ShopFrontEvent, ShopFrontState> {
+class ShopFrontComponentBloc extends Bloc<ShopFrontComponentEvent, ShopFrontComponentState> {
   final ShopFrontRepository shopFrontRepository;
 
-  ShopFrontBloc({ this.shopFrontRepository }): super(ShopFrontUninitialized());
+  ShopFrontComponentBloc({ this.shopFrontRepository }): super(ShopFrontComponentUninitialized());
   @override
-  Stream<ShopFrontState> mapEventToState(ShopFrontEvent event) async* {
+  Stream<ShopFrontComponentState> mapEventToState(ShopFrontComponentEvent event) async* {
     final currentState = state;
-    if (event is FetchShopFront) {
+    if (event is FetchShopFrontComponent) {
       try {
-        if (currentState is ShopFrontUninitialized) {
+        if (currentState is ShopFrontComponentUninitialized) {
           final ShopFrontModel model = await _fetchShopFront(event.id);
 
           if (model != null) {
-            yield ShopFrontLoaded(value: model);
+            yield ShopFrontComponentLoaded(value: model);
           } else {
             String id = event.id;
-            yield ShopFrontError(message: "ShopFront with id = '$id' not found");
+            yield ShopFrontComponentError(message: "ShopFront with id = '$id' not found");
           }
           return;
         }
       } catch (_) {
-        yield ShopFrontError(message: "Unknown error whilst retrieving ShopFront");
+        yield ShopFrontComponentError(message: "Unknown error whilst retrieving ShopFront");
       }
     }
   }

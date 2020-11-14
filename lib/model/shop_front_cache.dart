@@ -111,7 +111,7 @@ class ShopFrontCache implements ShopFrontRepository {
     ShopModel shopHolder;
     if (model.shop != null) {
       try {
-        await shopRepository().get(model.shop.documentID).then((val) {
+        await shopRepository(appID: model.appId).get(model.shop.documentID).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -120,7 +120,7 @@ class ShopFrontCache implements ShopFrontRepository {
     BackgroundModel itemCardBackgroundHolder;
     if (model.itemCardBackground != null) {
       try {
-        await backgroundRepository().get(model.itemCardBackground.documentID).then((val) {
+        await backgroundRepository(appID: model.appId).get(model.itemCardBackground.documentID).then((val) {
           itemCardBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -129,7 +129,7 @@ class ShopFrontCache implements ShopFrontRepository {
     BackgroundModel itemDetailBackgroundHolder;
     if (model.itemDetailBackground != null) {
       try {
-        await backgroundRepository().get(model.itemDetailBackground.documentID).then((val) {
+        await backgroundRepository(appID: model.appId).get(model.itemDetailBackground.documentID).then((val) {
           itemDetailBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}

@@ -1,3 +1,5 @@
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_bloc.dart';
@@ -19,15 +21,15 @@ class PayComponentConstructorDefault implements ComponentConstructor {
 }
 
 class PayProfileComponent extends AbstractPayComponent {
-  PaymentBloc paymentBloc;
-
   PayProfileComponent({String id}) : super(payID: id);
 
   @override
   Widget yourWidget(BuildContext context, PayModel pay) {
     var cartBloc = BlocProvider.of<CartBloc>(context);
+    var appBloc = AppBloc.getBloc(context);
+    var accessBloc = AccessBloc.getBloc(context);
     return BlocProvider<PaymentBloc>(
-        create: (context) => PaymentBloc(cartBloc)..add(CollectOrder(pay.shop)),
+        create: (context) => PaymentBloc(cartBloc, appBloc, accessBloc)..add(CollectOrder(pay.shop)),
         child: PayWidget(pay),
     );
   }
@@ -38,7 +40,7 @@ class PayProfileComponent extends AbstractPayComponent {
   }
 
   @override
-  PayRepository getPayRepository() {
-    return AbstractRepositorySingleton.singleton.payRepository();
+  PayRepository getPayRepository(BuildContext context) {
+    return AbstractRepositorySingleton.singleton.payRepository(AppBloc.appId(context));
   }
 }

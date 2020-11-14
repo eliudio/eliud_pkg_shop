@@ -42,12 +42,10 @@ import 'package:eliud_pkg_shop/model/order_overview_form_state.dart';
 import 'package:eliud_pkg_shop/model/order_overview_repository.dart';
 
 class OrderOverviewFormBloc extends Bloc<OrderOverviewFormEvent, OrderOverviewFormState> {
-  final OrderOverviewRepository _orderOverviewRepository = orderOverviewRepository();
   final FormAction formAction;
-  final ShopRepository _shopRepository = shopRepository();
-  final BackgroundRepository _backgroundRepository = backgroundRepository();
+  final String appId;
 
-  OrderOverviewFormBloc({ this.formAction }): super(OrderOverviewFormUninitialized());
+  OrderOverviewFormBloc(this.appId, { this.formAction }): super(OrderOverviewFormUninitialized());
   @override
   Stream<OrderOverviewFormState> mapEventToState(OrderOverviewFormEvent event) async* {
     final currentState = state;
@@ -67,7 +65,7 @@ class OrderOverviewFormBloc extends Bloc<OrderOverviewFormEvent, OrderOverviewFo
 
       if (event is InitialiseOrderOverviewFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        OrderOverviewFormLoaded loaded = OrderOverviewFormLoaded(value: await _orderOverviewRepository.get(event.value.documentID));
+        OrderOverviewFormLoaded loaded = OrderOverviewFormLoaded(value: await orderOverviewRepository(appID: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseOrderOverviewFormNoLoadEvent) {
@@ -95,7 +93,7 @@ class OrderOverviewFormBloc extends Bloc<OrderOverviewFormEvent, OrderOverviewFo
       }
       if (event is ChangedOrderOverviewShop) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(shop: await _shopRepository.get(event.value));
+          newValue = currentState.value.copyWith(shop: await shopRepository(appID: appId).get(event.value));
         else
           newValue = new OrderOverviewModel(
                                  documentID: currentState.value.documentID,
@@ -111,7 +109,7 @@ class OrderOverviewFormBloc extends Bloc<OrderOverviewFormEvent, OrderOverviewFo
       }
       if (event is ChangedOrderOverviewItemImageBackground) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(itemImageBackground: await _backgroundRepository.get(event.value));
+          newValue = currentState.value.copyWith(itemImageBackground: await backgroundRepository(appID: appId).get(event.value));
         else
           newValue = new OrderOverviewModel(
                                  documentID: currentState.value.documentID,
@@ -127,7 +125,7 @@ class OrderOverviewFormBloc extends Bloc<OrderOverviewFormEvent, OrderOverviewFo
       }
       if (event is ChangedOrderOverviewItemDetailBackground) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(itemDetailBackground: await _backgroundRepository.get(event.value));
+          newValue = currentState.value.copyWith(itemDetailBackground: await backgroundRepository(appID: appId).get(event.value));
         else
           newValue = new OrderOverviewModel(
                                  documentID: currentState.value.documentID,
@@ -150,7 +148,7 @@ class OrderOverviewFormBloc extends Bloc<OrderOverviewFormEvent, OrderOverviewFo
   Future<OrderOverviewFormState> _isDocumentIDValid(String value, OrderOverviewModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<OrderOverviewModel> findDocument = _orderOverviewRepository.get(value);
+    Future<OrderOverviewModel> findDocument = orderOverviewRepository(appID: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableOrderOverviewForm(value: newValue);

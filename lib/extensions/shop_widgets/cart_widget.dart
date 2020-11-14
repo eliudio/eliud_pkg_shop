@@ -1,6 +1,9 @@
-import 'package:eliud_core/core/global_data.dart';
-import 'package:eliud_core/core/navigate/navigate_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
+import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/platform/platform.dart';
 import 'package:eliud_core/tools/custom_utils.dart';
 import 'package:eliud_core/tools/etc.dart';
@@ -14,7 +17,6 @@ import 'package:eliud_pkg_shop/model/cart_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:eliud_pkg_shop/bloc/cart/member_extension.dart';
 import 'package:eliud_pkg_shop/extensions/shop_widgets/checkout_page.dart';
 
 class CartWidget extends StatefulWidget {
@@ -29,57 +31,63 @@ class CartWidget extends StatefulWidget {
 class _CartWidgetState extends State<CartWidget> {
   @override
   Widget build(BuildContext context) {
-
-    return MultiBlocProvider(
-        providers: [
-          BlocProvider.value(
-            value: BlocProvider.of<CartBloc>(context)..add(LoadCart()),
-          ),
-        ],
-        child: BlocBuilder<CartBloc, CartState>(builder: (context, state) {
-          if (state is CartInitialised) {
-            return ListView(
-              shrinkWrap: true,
-              physics: ScrollPhysics(),
-              children: <Widget>[
-                //createHeader(),
-                _buttonRowTop(context),
-                _createSubTitle(state.amountOfProducts()),
-                _createCartList(context, state.items),
-                _footer(context, state.totalValue()),
-                _buttonRowBottom(context)
-              ],
-            );
-          } else {
-            return CircularProgressIndicator();
+    var appState = AppBloc.getState(context);
+    var accessState = AccessBloc.getState(context);
+    if (appState is AppLoaded) {
+      return MultiBlocProvider(
+          providers: [
+            BlocProvider.value(
+              value: BlocProvider.of<CartBloc>(context)
+                ..add(LoadCart()),
+            ),
+          ],
+          child: BlocBuilder<CartBloc, CartState>(builder: (context, state) {
+            if (state is CartInitialised) {
+              return ListView(
+                shrinkWrap: true,
+                physics: ScrollPhysics(),
+                children: <Widget>[
+                  //createHeader(),
+                  _buttonRowTop(context, appState.app),
+                  _createSubTitle(appState.app, state.amountOfProducts()),
+                  _createCartList(context, appState.app, accessState, state.items),
+                  _footer(context, appState.app, state.totalValue()),
+                  _buttonRowBottom(context, appState.app)
+                ],
+              );
+            } else {
+              return CircularProgressIndicator();
+            }
           }
-        }
-    ));
+          ));
+    } else {
+      return Text('App not loaded');
+    }
 
   }
 
-  Widget _buttonRowTop(BuildContext context) {
+  Widget _buttonRowTop(BuildContext context, AppModel app) {
     return RaisedButton(
           color:
-          RgbHelper.color(rgbo: GlobalData.app().formSubmitButtonColor),
+          RgbHelper.color(rgbo: app.formSubmitButtonColor),
           onPressed: () {
             eliudrouter.Router.navigateTo(context, widget.cart.backToShopAction);
           },
           child: Text('Continue shopping'));
   }
 
-  Widget _buttonRowBottom(BuildContext context) {
+  Widget _buttonRowBottom(BuildContext context, AppModel app) {
     return RaisedButton(
         color:
-        RgbHelper.color(rgbo: GlobalData.app().formSubmitButtonColor),
+        RgbHelper.color(rgbo: app.formSubmitButtonColor),
         onPressed: () {
           Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => CheckOutPage(checkoutAction: widget.cart.checkoutAction)));
+              MaterialPageRoute(builder: (context) => CheckOutPage(checkoutAction: widget.cart.checkoutAction)));
         },
         child: Text('Checkout'));
   }
 
-  Widget _footer(BuildContext context, double totalValue) {
+  Widget _footer(BuildContext context, AppModel app, double totalValue) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -91,8 +99,8 @@ class _CartWidgetState extends State<CartWidget> {
               Container(
                 margin: EdgeInsets.only(left: 30),
                 child: Text(
-                  "Total",
-                  style: FontTools.textStyle(GlobalData.app().h3),
+                  'Total',
+                  style: FontTools.textStyle(app.h3),
                 ),
               ),
               Container(
@@ -100,7 +108,7 @@ class _CartWidgetState extends State<CartWidget> {
                 child: Text(
                   NumberFormat.simpleCurrency(locale: 'eu')
                       .format(totalValue),
-                  style: FontTools.textStyle(GlobalData.app().h3),
+                  style: FontTools.textStyle(app.h3),
                 ),
               ),
             ],
@@ -111,40 +119,40 @@ class _CartWidgetState extends State<CartWidget> {
     );
   }
 
-  Widget createHeader() {
+  Widget createHeader(AppModel app) {
     return Container(
       alignment: Alignment.topLeft,
       child: Text(
-        "SHOPPING CART",
-        style: FontTools.textStyle(GlobalData.app().h1),
+        'SHOPPING CART',
+        style: FontTools.textStyle(app.h1),
       ),
       margin: EdgeInsets.only(left: 12, top: 12),
     );
   }
 
-  Widget _createSubTitle(int amount) {
+  Widget _createSubTitle(AppModel app, int amount) {
     String text;
-    if (amount == 1)
-      text = "Total (1) item";
-    else
-      text = "Total ($amount) items";
+    if (amount == 1) {
+      text = 'Total (1) item';
+    } else {
+      text = 'Total ($amount) items';
+    }
     return Container(
       alignment: Alignment.topLeft,
       child: Text(
         text,
-        style: FontTools.textStyle(GlobalData
-            .app()
+        style: FontTools.textStyle(app
             .h2),
       ),
       margin: EdgeInsets.only(left: 12, top: 4),
     );
   }
 
-  Widget _createCartList(BuildContext context, List<CartItemModel> cartItems) {
-    List<Widget> items = List();
+  Widget _createCartList(BuildContext context, AppModel app, AccessState accessState, List<CartItemModel> cartItems) {
+    List<Widget> items = [];
     cartItems.forEach((element) {
       if (element.product != null) {
-        items.add(createCartItem(element));
+        items.add(createCartItem(app, accessState, element));
       }
     });
     return ListView(
@@ -154,21 +162,22 @@ class _CartWidgetState extends State<CartWidget> {
     );
   }
 
-  createCartItem(CartItemModel item) {
+  Widget createCartItem(AppModel app, AccessState accessState, CartItemModel item) {
     return Stack(
       children: <Widget>[
         Container(
             margin: EdgeInsets.only(left: 16, right: 16, top: 16),
-            decoration: BoxDecorationHelper.boxDecoration(
+            decoration: BoxDecorationHelper.boxDecoration(accessState,
                 widget.cart.itemDetailBackground),
             child: ListView.builder(
               shrinkWrap: true,
               primary: false,
               itemBuilder: (context, index) {
-                if (index == 0)
-                  return createCartItemImage(item);
-                else
-                  return createCartItemPrice(item);
+                if (index == 0) {
+                  return createCartItemImage(accessState, item);
+                } else {
+                  return createCartItemPrice(app, item);
+                }
               },
               itemCount: 2,
             )),
@@ -198,9 +207,9 @@ class _CartWidgetState extends State<CartWidget> {
     );
   }
 
-  createCartItemImage(CartItemModel item) {
+  Widget createCartItemImage(AccessState accessState, CartItemModel item) {
     var image = item.product.images != null && item.product.images.length > 0 ? AbstractPlatform.platform
-        .getImageProvider(item.product.images[0].image) : null;
+        .getImageProvider(accessState, item.product.images[0].image) : null;
     Widget w;
     if (image == null) {
       w = Icon(Icons.image);
@@ -233,7 +242,7 @@ class _CartWidgetState extends State<CartWidget> {
         });
   }
 
-  createCartItemPrice(CartItemModel item) {
+  Widget createCartItemPrice(AppModel app, CartItemModel item) {
     return Container(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -245,7 +254,7 @@ class _CartWidgetState extends State<CartWidget> {
               item.product.title,
               maxLines: 2,
               softWrap: true,
-              style: FontTools.textStyle(GlobalData.app().h2),
+              style: FontTools.textStyle(app.h2),
             ),
           ),
           Utils.getSizedBox(height: 6),
@@ -254,7 +263,7 @@ class _CartWidgetState extends State<CartWidget> {
               item.product.about,
               maxLines: 4,
               softWrap: true,
-              style: FontTools.textStyle(GlobalData.app().fontText),
+              style: FontTools.textStyle(app.fontText),
             ),
           ),
           Utils.getSizedBox(height: 6),
@@ -265,7 +274,7 @@ class _CartWidgetState extends State<CartWidget> {
                 Text(
                   NumberFormat.simpleCurrency(locale: 'eu')
                       .format(item.product.price),
-                  style: FontTools.textStyle(GlobalData.app().h3),
+                  style: FontTools.textStyle(app.h3),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -290,7 +299,7 @@ class _CartWidgetState extends State<CartWidget> {
                             bottom: 2, right: 12, left: 12),
                         child: Text(
                           item.amount.toString(),
-                          style: FontTools.textStyle(GlobalData.app().h3),
+                          style: FontTools.textStyle(app.h3),
                         ),
                       ),
                       GestureDetector(

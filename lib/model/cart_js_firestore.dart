@@ -35,7 +35,7 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 class CartJsFirestore implements CartRepository {
   Future<CartModel> add(CartModel value) {
     return cartCollection.doc(value.documentID)
-        .set(value.toEntity().toDocument())
+        .set(value.toEntity(appID).toDocument())
         .then((_) => value);
   }
 
@@ -45,7 +45,7 @@ class CartJsFirestore implements CartRepository {
 
   Future<CartModel> update(CartModel value) {
     return cartCollection.doc(value.documentID)
-        .update(data: value.toEntity().toDocument())
+        .update(data: value.toEntity(appID).toDocument())
         .then((_) => value);
   }
 

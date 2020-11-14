@@ -27,35 +27,35 @@ import '../model/shop_front_repository.dart';
 import 'package:eliud_core/core/access/bloc/user_repository.dart';
 import 'package:eliud_core/tools/types.dart';
 
-CartRepository cartRepository() => AbstractRepositorySingleton.singleton.cartRepository();
-OrderRepository orderRepository() => AbstractRepositorySingleton.singleton.orderRepository();
-OrderOverviewRepository orderOverviewRepository() => AbstractRepositorySingleton.singleton.orderOverviewRepository();
-PayRepository payRepository() => AbstractRepositorySingleton.singleton.payRepository();
-PayConfirmationRepository payConfirmationRepository() => AbstractRepositorySingleton.singleton.payConfirmationRepository();
-ProductRepository productRepository() => AbstractRepositorySingleton.singleton.productRepository();
-ShopRepository shopRepository() => AbstractRepositorySingleton.singleton.shopRepository();
-ShopFrontRepository shopFrontRepository() => AbstractRepositorySingleton.singleton.shopFrontRepository();
+CartRepository cartRepository({ String appID }) => AbstractRepositorySingleton.singleton.cartRepository(appID);
+OrderRepository orderRepository({ String appID }) => AbstractRepositorySingleton.singleton.orderRepository(appID);
+OrderOverviewRepository orderOverviewRepository({ String appID }) => AbstractRepositorySingleton.singleton.orderOverviewRepository(appID);
+PayRepository payRepository({ String appID }) => AbstractRepositorySingleton.singleton.payRepository(appID);
+PayConfirmationRepository payConfirmationRepository({ String appID }) => AbstractRepositorySingleton.singleton.payConfirmationRepository(appID);
+ProductRepository productRepository({ String appID }) => AbstractRepositorySingleton.singleton.productRepository(appID);
+ShopRepository shopRepository({ String appID }) => AbstractRepositorySingleton.singleton.shopRepository(appID);
+ShopFrontRepository shopFrontRepository({ String appID }) => AbstractRepositorySingleton.singleton.shopFrontRepository(appID);
 
 abstract class AbstractRepositorySingleton {
   static AbstractRepositorySingleton singleton;
 
-  CartRepository cartRepository();
-  OrderRepository orderRepository();
-  OrderOverviewRepository orderOverviewRepository();
-  PayRepository payRepository();
-  PayConfirmationRepository payConfirmationRepository();
-  ProductRepository productRepository();
-  ShopRepository shopRepository();
-  ShopFrontRepository shopFrontRepository();
+  CartRepository cartRepository(String appID);
+  OrderRepository orderRepository(String appID);
+  OrderOverviewRepository orderOverviewRepository(String appID);
+  PayRepository payRepository(String appID);
+  PayConfirmationRepository payConfirmationRepository(String appID);
+  ProductRepository productRepository(String appID);
+  ShopRepository shopRepository(String appID);
+  ShopFrontRepository shopFrontRepository(String appID);
 
-  void flush() {
-    cartRepository().flush();
-    orderRepository().flush();
-    orderOverviewRepository().flush();
-    payRepository().flush();
-    payConfirmationRepository().flush();
-    productRepository().flush();
-    shopRepository().flush();
-    shopFrontRepository().flush();
+  void flush(String appID) {
+    cartRepository(appID).flush();
+    orderRepository(appID).flush();
+    orderOverviewRepository(appID).flush();
+    payRepository(appID).flush();
+    payConfirmationRepository(appID).flush();
+    productRepository(appID).flush();
+    shopRepository(appID).flush();
+    shopFrontRepository(appID).flush();
   }
 }

@@ -21,28 +21,28 @@ import 'package:eliud_pkg_shop/model/product_component_event.dart';
 import 'package:eliud_pkg_shop/model/product_component_state.dart';
 import 'package:eliud_pkg_shop/model/product_repository.dart';
 
-class ProductBloc extends Bloc<ProductEvent, ProductState> {
+class ProductComponentBloc extends Bloc<ProductComponentEvent, ProductComponentState> {
   final ProductRepository productRepository;
 
-  ProductBloc({ this.productRepository }): super(ProductUninitialized());
+  ProductComponentBloc({ this.productRepository }): super(ProductComponentUninitialized());
   @override
-  Stream<ProductState> mapEventToState(ProductEvent event) async* {
+  Stream<ProductComponentState> mapEventToState(ProductComponentEvent event) async* {
     final currentState = state;
-    if (event is FetchProduct) {
+    if (event is FetchProductComponent) {
       try {
-        if (currentState is ProductUninitialized) {
+        if (currentState is ProductComponentUninitialized) {
           final ProductModel model = await _fetchProduct(event.id);
 
           if (model != null) {
-            yield ProductLoaded(value: model);
+            yield ProductComponentLoaded(value: model);
           } else {
             String id = event.id;
-            yield ProductError(message: "Product with id = '$id' not found");
+            yield ProductComponentError(message: "Product with id = '$id' not found");
           }
           return;
         }
       } catch (_) {
-        yield ProductError(message: "Unknown error whilst retrieving Product");
+        yield ProductComponentError(message: "Unknown error whilst retrieving Product");
       }
     }
   }

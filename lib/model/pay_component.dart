@@ -15,6 +15,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 
 import 'package:eliud_pkg_shop/model/pay_component_bloc.dart';
 import 'package:eliud_pkg_shop/model/pay_component_event.dart';
@@ -30,23 +31,23 @@ abstract class AbstractPayComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<PayBloc> (
-          create: (context) => PayBloc(
-            payRepository: getPayRepository())
-        ..add(FetchPay(id: payID)),
+    return BlocProvider<PayComponentBloc> (
+          create: (context) => PayComponentBloc(
+            payRepository: getPayRepository(context))
+        ..add(FetchPayComponent(id: payID)),
       child: _payBlockBuilder(context),
     );
   }
 
   Widget _payBlockBuilder(BuildContext context) {
-    return BlocBuilder<PayBloc, PayState>(builder: (context, state) {
-      if (state is PayLoaded) {
+    return BlocBuilder<PayComponentBloc, PayComponentState>(builder: (context, state) {
+      if (state is PayComponentLoaded) {
         if (state.value == null) {
           return alertWidget(title: 'Error', content: 'No pay defined');
         } else {
           return yourWidget(context, state.value);
         }
-      } else if (state is PayError) {
+      } else if (state is PayComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
         return Center(
@@ -58,7 +59,7 @@ abstract class AbstractPayComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, PayModel value);
   Widget alertWidget({ title: String, content: String});
-  PayRepository getPayRepository();
+  PayRepository getPayRepository(BuildContext context);
 }
 
 

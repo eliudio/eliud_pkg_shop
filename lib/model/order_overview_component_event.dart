@@ -15,14 +15,14 @@
 
 import 'package:equatable/equatable.dart';
 
-abstract class OrderOverviewEvent extends Equatable {
+abstract class OrderOverviewComponentEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-class FetchOrderOverview extends OrderOverviewEvent {
+class FetchOrderOverviewComponent extends OrderOverviewComponentEvent {
   final String id;
 
-  FetchOrderOverview({ this.id });
+  FetchOrderOverviewComponent({ this.id });
 }
 

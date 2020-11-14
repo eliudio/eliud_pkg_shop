@@ -42,9 +42,9 @@ import 'package:eliud_pkg_shop/model/product_image_form_state.dart';
 import 'package:eliud_pkg_shop/model/product_image_repository.dart';
 
 class ProductImageFormBloc extends Bloc<ProductImageFormEvent, ProductImageFormState> {
-  final ImageRepository _imageRepository = imageRepository();
+  final String appId;
 
-  ProductImageFormBloc(): super(ProductImageFormUninitialized());
+  ProductImageFormBloc(this.appId, ): super(ProductImageFormUninitialized());
   @override
   Stream<ProductImageFormState> mapEventToState(ProductImageFormEvent event) async* {
     final currentState = state;
@@ -73,7 +73,7 @@ class ProductImageFormBloc extends Bloc<ProductImageFormEvent, ProductImageFormS
       ProductImageModel newValue = null;
       if (event is ChangedProductImageImage) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(image: await _imageRepository.get(event.value));
+          newValue = currentState.value.copyWith(image: await imageRepository(appID: appId).get(event.value));
         else
           newValue = new ProductImageModel(
                                  documentID: currentState.value.documentID,

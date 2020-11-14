@@ -1,5 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
+import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_bloc.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_event.dart';
@@ -20,8 +23,10 @@ import 'package:intl/intl.dart';
 class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   static DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
   final CartBloc cartBloc;
+  final AccessBloc accessBloc;
+  final AppBloc appBloc;
 
-  PaymentBloc(this.cartBloc): super(PayUninitialised());
+  PaymentBloc(this.cartBloc, this.appBloc, this.accessBloc): super(PayUninitialised());
 
   bool _allInStock() {
     // TODO: verify if all products are in stock. If not, inform the customer that one of those items has been sold.
@@ -31,20 +36,22 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   @override
   Stream<PaymentState> mapEventToState(PaymentEvent event) async* {
     if (event is CollectOrder) {
-      // The payment screen is opened. We create an OrderModel instance in membory
-        if (!GlobalData.isLoggedOn()) {
-          yield NotLoggedOn();
+      // The payment screen is opened. We create an OrderModel instance in memory
+      var accessState = accessBloc.state;
+      var appState = appBloc.state;
+      if ((accessState is LoggedIn) && (appState is AppLoaded)) {
+        var items = await accessState.member.items();
+        if (items.isEmpty) {
+          yield NoItemsInCart();
           return;
         } else {
-          List<CartItemModel> items = await GlobalData.member().items();
-          if (items.isEmpty) {
-            yield NoItemsInCart();
-            return;
-          } else {
-            yield ConfirmOrder(await _getNewOrder(event.shop, items));
-            return;
-          }
+          yield ConfirmOrder(await _getNewOrder(accessState, appState, event.shop, items));
+          return;
         }
+      } else {
+        yield NotLoggedOn();
+        return;
+      }
     } else if (event is PayTheOrder) {
       // The "Pay" button has been pressed. We store the OrderModel
       var newOrder = event.order.copyWith(status: OrderStatus.Ordered, timeStamp: dateFormat.format(DateTime.now()));
@@ -54,7 +61,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       // then you need to find an unpaid order which is the matched one. If you can't find it, refund the customer.
       if (_allInStock()) {
         try {
-          await AbstractRepositorySingleton.singleton.orderRepository().add(
+          await AbstractRepositorySingleton.singleton.orderRepository(event.order.appId).add(
               newOrder);
         } catch (error) {
           debugPrint('error');
@@ -71,7 +78,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     } else if (event is PaymentDoneWithSuccess) {
       var newOrder = event.order.copyWith(status: OrderStatus.Paid, timeStamp: dateFormat.format(DateTime.now()), paymentReference: event.reference);
       try {
-        await AbstractRepositorySingleton.singleton.orderRepository().update(newOrder);
+        await AbstractRepositorySingleton.singleton.orderRepository(event.order.appId).update(newOrder);
       } catch (error) {
         debugPrint('error' + error.toString());
       }
@@ -89,61 +96,45 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     }
   }
 
-  Future<OrderModel> _getNewOrder(ShopModel shop, List<CartItemModel> items) async {
-    List<CartItemModel> items = await GlobalData
-        .member().items();
-    double totalValue = CartHelper.totalValue(items);
+  Future<OrderModel> _getNewOrder(LoggedIn loggedInState, AppLoaded appState, ShopModel shop, List<CartItemModel> items) async {
+    var items = await loggedInState.member.items();
+    var totalValue = CartHelper.totalValue(items);
     return OrderModel(
         documentID: newRandomKey(),
-        appId: GlobalData
-            .app()
+        appId: appState
+            .app
             .documentID,
-        customer: GlobalData.member(),
+        customer: loggedInState.member,
         timeStamp: dateFormat.format(DateTime.now()),
-        name: GlobalData
-            .member()
+        name: loggedInState.member
             .name,
-        email: GlobalData
-            .member()
+        email: loggedInState.member
             .email,
-        shipStreet1: GlobalData
-            .member()
+        shipStreet1: loggedInState.member
             .shipStreet1,
-        shipStreet2: GlobalData
-            .member()
+        shipStreet2: loggedInState.member
             .shipStreet2,
-        shipCity: GlobalData
-            .member()
+        shipCity: loggedInState.member
             .shipCity,
-        shipState: GlobalData
-            .member()
+        shipState: loggedInState.member
             .shipState,
-        postcode: GlobalData
-            .member()
+        postcode: loggedInState.member
             .postcode,
-        country: GlobalData
-            .member()
+        country: loggedInState.member
             .country,
-        invoiceSame: GlobalData
-            .member()
+        invoiceSame: loggedInState.member
             .invoiceSame,
-        invoiceStreet1: GlobalData
-            .member()
+        invoiceStreet1: loggedInState.member
             .invoiceStreet1,
-        invoiceStreet2: GlobalData
-            .member()
+        invoiceStreet2: loggedInState.member
             .invoiceStreet2,
-        invoiceCity: GlobalData
-            .member()
+        invoiceCity: loggedInState.member
             .invoiceCity,
-        invoiceState: GlobalData
-            .member()
+        invoiceState: loggedInState.member
             .invoiceState,
-        invoicePostcode: GlobalData
-            .member()
+        invoicePostcode: loggedInState.member
             .invoicePostcode,
-        invoiceCountry: GlobalData
-            .member()
+        invoiceCountry: loggedInState.member
             .invoiceCountry,
         status: OrderStatus.Ordered,
         currency: shop.currency,

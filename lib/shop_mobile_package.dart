@@ -9,11 +9,7 @@ class ShopMobilePackage extends ShopPackage {
   @override
   void init() {
     AbstractPaymentPlatform.platform = MobilePaymentPlatform();
+    AbstractRepositorySingleton.singleton = RepositorySingleton();
     super.init();
-  }
-
-  @override
-  void initRepository(String appID) {
-    AbstractRepositorySingleton.singleton = RepositorySingleton(appID);
   }
 }

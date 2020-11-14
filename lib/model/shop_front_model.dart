@@ -112,8 +112,7 @@ class ShopFrontModel {
     return 'ShopFrontModel{documentID: $documentID, appId: $appId, title: $title, description: $description, addToBasketText: $addToBasketText, shop: $shop, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackground: $itemCardBackground, itemDetailBackground: $itemDetailBackground, addToCartColor: $addToCartColor, view: $view, scrollDirection: $scrollDirection, buyAction: $buyAction}';
   }
 
-  ShopFrontEntity toEntity() {
-    appId = GlobalData.app().documentID;
+  ShopFrontEntity toEntity(String appId) {
     return ShopFrontEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
@@ -125,10 +124,10 @@ class ShopFrontModel {
           cardAxisSpacing: (cardAxisSpacing != null) ? cardAxisSpacing : null, 
           itemCardBackgroundId: (itemCardBackground != null) ? itemCardBackground.documentID : null, 
           itemDetailBackgroundId: (itemDetailBackground != null) ? itemDetailBackground.documentID : null, 
-          addToCartColor: (addToCartColor != null) ? addToCartColor.toEntity() : null, 
+          addToCartColor: (addToCartColor != null) ? addToCartColor.toEntity(appId) : null, 
           view: (view != null) ? view.index : null, 
           scrollDirection: (scrollDirection != null) ? scrollDirection.index : null, 
-          buyAction: (buyAction != null) ? buyAction.toEntity() : null, 
+          buyAction: (buyAction != null) ? buyAction.toEntity(appId) : null, 
     );
   }
 
@@ -158,7 +157,7 @@ class ShopFrontModel {
     ShopModel shopHolder;
     if (entity.shopId != null) {
       try {
-        await shopRepository().get(entity.shopId).then((val) {
+        await shopRepository(appID: entity.appId).get(entity.shopId).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -167,7 +166,7 @@ class ShopFrontModel {
     BackgroundModel itemCardBackgroundHolder;
     if (entity.itemCardBackgroundId != null) {
       try {
-        await backgroundRepository().get(entity.itemCardBackgroundId).then((val) {
+        await backgroundRepository(appID: entity.appId).get(entity.itemCardBackgroundId).then((val) {
           itemCardBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -176,7 +175,7 @@ class ShopFrontModel {
     BackgroundModel itemDetailBackgroundHolder;
     if (entity.itemDetailBackgroundId != null) {
       try {
-        await backgroundRepository().get(entity.itemDetailBackgroundId).then((val) {
+        await backgroundRepository(appID: entity.appId).get(entity.itemDetailBackgroundId).then((val) {
           itemDetailBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}

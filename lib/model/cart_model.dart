@@ -78,8 +78,7 @@ class CartModel {
     return 'CartModel{documentID: $documentID, appId: $appId, title: $title, description: $description, checkoutText: $checkoutText, shop: $shop, itemImageBackground: $itemImageBackground, itemDetailBackground: $itemDetailBackground, checkoutAction: $checkoutAction, backToShopAction: $backToShopAction}';
   }
 
-  CartEntity toEntity() {
-    appId = GlobalData.app().documentID;
+  CartEntity toEntity(String appId) {
     return CartEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
@@ -88,8 +87,8 @@ class CartModel {
           shopId: (shop != null) ? shop.documentID : null, 
           itemImageBackgroundId: (itemImageBackground != null) ? itemImageBackground.documentID : null, 
           itemDetailBackgroundId: (itemDetailBackground != null) ? itemDetailBackground.documentID : null, 
-          checkoutAction: (checkoutAction != null) ? checkoutAction.toEntity() : null, 
-          backToShopAction: (backToShopAction != null) ? backToShopAction.toEntity() : null, 
+          checkoutAction: (checkoutAction != null) ? checkoutAction.toEntity(appId) : null, 
+          backToShopAction: (backToShopAction != null) ? backToShopAction.toEntity(appId) : null, 
     );
   }
 
@@ -114,7 +113,7 @@ class CartModel {
     ShopModel shopHolder;
     if (entity.shopId != null) {
       try {
-        await shopRepository().get(entity.shopId).then((val) {
+        await shopRepository(appID: entity.appId).get(entity.shopId).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -123,7 +122,7 @@ class CartModel {
     BackgroundModel itemImageBackgroundHolder;
     if (entity.itemImageBackgroundId != null) {
       try {
-        await backgroundRepository().get(entity.itemImageBackgroundId).then((val) {
+        await backgroundRepository(appID: entity.appId).get(entity.itemImageBackgroundId).then((val) {
           itemImageBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -132,7 +131,7 @@ class CartModel {
     BackgroundModel itemDetailBackgroundHolder;
     if (entity.itemDetailBackgroundId != null) {
       try {
-        await backgroundRepository().get(entity.itemDetailBackgroundId).then((val) {
+        await backgroundRepository(appID: entity.appId).get(entity.itemDetailBackgroundId).then((val) {
           itemDetailBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}

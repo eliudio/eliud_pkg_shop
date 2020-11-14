@@ -1,8 +1,9 @@
-import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
+import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/bloc/payment_event.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/bloc/payment_state.dart';
-import 'file:///C:/src/eliud/eliud_pkg_shop/lib/extensions/pay_widgets/bloc/payment_bloc.dart';
 import 'package:eliud_pkg_shop/model/order_model.dart';
 import 'package:eliud_pkg_shop/model/pay_model.dart';
 import 'package:eliud_core/tools/etc.dart';
@@ -10,9 +11,9 @@ import 'package:eliud_pkg_shop/platform/payment_platform.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'bloc/payment_bloc.dart';
 import 'order_helper.dart';
 
-// ignore: must_be_immutable
 class PayWidget extends StatefulWidget {
   final PayModel pay;
 
@@ -34,11 +35,11 @@ class PayState extends State<PayWidget> {
     }
   }
 
-  Widget _getButton(OrderModel order) {
+  Widget _getButton(AppModel app, OrderModel order) {
     var paymentBloc = BlocProvider.of<PaymentBloc>(context);
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       RaisedButton(
-          color: RgbHelper.color(rgbo: GlobalData.app().formSubmitButtonColor),
+          color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
           onPressed: () {
             paymentBloc.add(PayTheOrder(order));
           },
@@ -48,7 +49,7 @@ class PayState extends State<PayWidget> {
         child: null,
       ),
       RaisedButton(
-          color: RgbHelper.color(rgbo: GlobalData.app().formSubmitButtonColor),
+          color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -56,7 +57,7 @@ class PayState extends State<PayWidget> {
     ]);
   }
 
-  Widget _overviewAndPay(OrderModel order,
+  Widget _overviewAndPay(AppModel app, OrderModel order,
       {String message, String subMessage, Widget trailing}) {
     var widgets = <Widget>[];
     if (message != null) {
@@ -66,7 +67,7 @@ class PayState extends State<PayWidget> {
           subtitle: subMessage != null ? Text(subMessage) : null));
     }
     OrderHelper.addOrderOverviewBeforePayment(widgets, order, context);
-    widgets.add(_getButton(order));
+    widgets.add(_getButton(app, order));
     return ListView(
       shrinkWrap: true,
       physics: ScrollPhysics(),
@@ -82,73 +83,72 @@ class PayState extends State<PayWidget> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('build payment widget');
-    return BlocBuilder<PaymentBloc, PaymentState>(builder: (context, state) {
-      if (state is NotLoggedOn) {
-        debugPrint('not logged on');
-        return Text('Not logged on');
-      } else {
-        debugPrint('Evaluate ' + state.toString());
-        if (state is PayOrder) {
-          debugPrint('state is ayOrder');
-          AbstractPaymentPlatform.platform
-              .startPaymentProcess(context, handle, state.order);
-          return _overviewAndPay(state.order,
-              message: 'Please review your order.',
-              subMessage: "If you're happy with it, then press Pay",
-              trailing: Icon(
-                Icons.remove_red_eye,
-                color: Colors.black,
-                size: 50.0,
-                semanticLabel: 'Contact',
-              ));
-        } else if (state is NoItemsInCart) {
-          debugPrint('state is NoItemsInCart');
-
-          return Text('No items in cart');
-        } else if (state is ConfirmOrder) {
-          debugPrint('state is ConfirmOrder');
-          return _overviewAndPay(state.order,
-              message: 'Please review your order.',
-              subMessage: "If you're happy with it, then press Pay",
-              trailing: Icon(
-                Icons.remove_red_eye,
-                color: Colors.black,
-                size: 50.0,
-                semanticLabel: 'Contact',
-              ));
-        } else if (state is LackOfStock) {
-          debugPrint('state is LackOfStock');
-          return _overviewAndPay(state.order,
-              message:
-                  'Unfortunatly during checkout some items in your bag seem to have been sold to another customer.',
-              subMessage:
-                  'This item has been removed from your order and the new order is now updated below. Please verify and if you like to continue with the purchase, please press Pay.',
-              trailing: Icon(
-                Icons.warning,
-                color: Colors.red,
-                size: 50.0,
-                semanticLabel: 'Contact',
-              ));
-        } else if (state is OrderPaid) {
-          var parameters = <String, String> { 'orderId': state.order.documentID };
-          eliudrouter.Router.navigateTo(context, widget.pay.succeeded, parameters: parameters);
-        } else if (state is PaymentFailed) {
-          debugPrint('state is PaymentFailed');
-          return _overviewAndPay(state.order,
-              trailing: Icon(
-                Icons.warning,
-                color: Colors.red,
-                size: 50.0,
-                semanticLabel: 'Failure',
-              ),
-              message:
-                  'Purchase failed unfortunatly. Something went wrong during payment. ',
-              subMessage: state.msg);
+    var appState = AppBloc.getState(context);
+    if (appState is AppLoaded) {
+      return BlocBuilder<PaymentBloc, PaymentState>(builder: (context, state) {
+        if (state is NotLoggedOn) {
+          return Text('Not logged on');
+        } else {
+          if (state is PayOrder) {
+            AbstractPaymentPlatform.platform
+                .startPaymentProcess(context, handle, state.order);
+            return _overviewAndPay(appState.app, state.order,
+                message: 'Please review your order.',
+                subMessage: "If you're happy with it, then press Pay",
+                trailing: Icon(
+                  Icons.remove_red_eye,
+                  color: Colors.black,
+                  size: 50.0,
+                  semanticLabel: 'Contact',
+                ));
+          } else if (state is NoItemsInCart) {
+            return Text('No items in cart');
+          } else if (state is ConfirmOrder) {
+            return _overviewAndPay(appState.app, state.order,
+                message: 'Please review your order.',
+                subMessage: "If you're happy with it, then press Pay",
+                trailing: Icon(
+                  Icons.remove_red_eye,
+                  color: Colors.black,
+                  size: 50.0,
+                  semanticLabel: 'Contact',
+                ));
+          } else if (state is LackOfStock) {
+            return _overviewAndPay(appState.app, state.order,
+                message:
+                'Unfortunatly during checkout some items in your bag seem to have been sold to another customer.',
+                subMessage:
+                'This item has been removed from your order and the new order is now updated below. Please verify and if you like to continue with the purchase, please press Pay.',
+                trailing: Icon(
+                  Icons.warning,
+                  color: Colors.red,
+                  size: 50.0,
+                  semanticLabel: 'Contact',
+                ));
+          } else if (state is OrderPaid) {
+            var parameters = <String, String>{
+              'orderId': state.order.documentID
+            };
+            eliudrouter.Router.navigateTo(
+                context, widget.pay.succeeded, parameters: parameters);
+          } else if (state is PaymentFailed) {
+            return _overviewAndPay(appState.app, state.order,
+                trailing: Icon(
+                  Icons.warning,
+                  color: Colors.red,
+                  size: 50.0,
+                  semanticLabel: 'Failure',
+                ),
+                message:
+                'Purchase failed unfortunatly. Something went wrong during payment. ',
+                subMessage: state.msg);
+          }
         }
-      }
-      // in all other cases:
-      return CircularProgressIndicator();
-    });
+        // in all other cases:
+        return CircularProgressIndicator();
+      });
+    } else {
+      return Text('App not loaded');
+    }
   }
 }

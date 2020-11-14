@@ -21,28 +21,28 @@ import 'package:eliud_pkg_shop/model/cart_component_event.dart';
 import 'package:eliud_pkg_shop/model/cart_component_state.dart';
 import 'package:eliud_pkg_shop/model/cart_repository.dart';
 
-class CartBloc extends Bloc<CartEvent, CartState> {
+class CartComponentBloc extends Bloc<CartComponentEvent, CartComponentState> {
   final CartRepository cartRepository;
 
-  CartBloc({ this.cartRepository }): super(CartUninitialized());
+  CartComponentBloc({ this.cartRepository }): super(CartComponentUninitialized());
   @override
-  Stream<CartState> mapEventToState(CartEvent event) async* {
+  Stream<CartComponentState> mapEventToState(CartComponentEvent event) async* {
     final currentState = state;
-    if (event is FetchCart) {
+    if (event is FetchCartComponent) {
       try {
-        if (currentState is CartUninitialized) {
+        if (currentState is CartComponentUninitialized) {
           final CartModel model = await _fetchCart(event.id);
 
           if (model != null) {
-            yield CartLoaded(value: model);
+            yield CartComponentLoaded(value: model);
           } else {
             String id = event.id;
-            yield CartError(message: "Cart with id = '$id' not found");
+            yield CartComponentError(message: "Cart with id = '$id' not found");
           }
           return;
         }
       } catch (_) {
-        yield CartError(message: "Unknown error whilst retrieving Cart");
+        yield CartComponentError(message: "Unknown error whilst retrieving Cart");
       }
     }
   }

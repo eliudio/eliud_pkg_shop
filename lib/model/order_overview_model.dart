@@ -70,8 +70,7 @@ class OrderOverviewModel {
     return 'OrderOverviewModel{documentID: $documentID, appId: $appId, title: $title, shop: $shop, itemImageBackground: $itemImageBackground, itemDetailBackground: $itemDetailBackground}';
   }
 
-  OrderOverviewEntity toEntity() {
-    appId = GlobalData.app().documentID;
+  OrderOverviewEntity toEntity(String appId) {
     return OrderOverviewEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
@@ -96,7 +95,7 @@ class OrderOverviewModel {
     ShopModel shopHolder;
     if (entity.shopId != null) {
       try {
-        await shopRepository().get(entity.shopId).then((val) {
+        await shopRepository(appID: entity.appId).get(entity.shopId).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -105,7 +104,7 @@ class OrderOverviewModel {
     BackgroundModel itemImageBackgroundHolder;
     if (entity.itemImageBackgroundId != null) {
       try {
-        await backgroundRepository().get(entity.itemImageBackgroundId).then((val) {
+        await backgroundRepository(appID: entity.appId).get(entity.itemImageBackgroundId).then((val) {
           itemImageBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -114,7 +113,7 @@ class OrderOverviewModel {
     BackgroundModel itemDetailBackgroundHolder;
     if (entity.itemDetailBackgroundId != null) {
       try {
-        await backgroundRepository().get(entity.itemDetailBackgroundId).then((val) {
+        await backgroundRepository(appID: entity.appId).get(entity.itemDetailBackgroundId).then((val) {
           itemDetailBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
