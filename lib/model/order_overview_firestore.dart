@@ -32,7 +32,7 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class OrderOverviewFirestore implements OrderOverviewRepository {
   Future<OrderOverviewModel> add(OrderOverviewModel value) {
-    return OrderOverviewCollection.document(value.documentID).setData(value.toEntity(appID).toDocument()).then((_) => value);
+    return OrderOverviewCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
   }
 
   Future<void> delete(OrderOverviewModel value) {
@@ -40,7 +40,7 @@ class OrderOverviewFirestore implements OrderOverviewRepository {
   }
 
   Future<OrderOverviewModel> update(OrderOverviewModel value) {
-    return OrderOverviewCollection.document(value.documentID).updateData(value.toEntity(appID).toDocument()).then((_) => value);
+    return OrderOverviewCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
   }
 
   OrderOverviewModel _populateDoc(DocumentSnapshot doc) {

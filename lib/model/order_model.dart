@@ -134,7 +134,7 @@ class OrderModel {
     return 'OrderModel{documentID: $documentID, appId: $appId, customer: $customer, name: $name, email: $email, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, country: $country, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountry: $invoiceCountry, products: OrderItem[] { $productsCsv }, totalPrice: $totalPrice, currency: $currency, paymentReference: $paymentReference, shipmentReference: $shipmentReference, deliveryReference: $deliveryReference, paymentNote: $paymentNote, shipmentNote: $shipmentNote, deliveryNote: $deliveryNote, status: $status, timeStamp: $timeStamp}';
   }
 
-  OrderEntity toEntity(String appId) {
+  OrderEntity toEntity({String appId}) {
     return OrderEntity(
           appId: (appId != null) ? appId : null, 
           customerId: (customer != null) ? customer.documentID : null, 
@@ -154,7 +154,7 @@ class OrderModel {
           invoicePostcode: (invoicePostcode != null) ? invoicePostcode : null, 
           invoiceCountryId: (invoiceCountry != null) ? invoiceCountry.documentID : null, 
           products: (products != null) ? products
-            .map((item) => item.toEntity(appId))
+            .map((item) => item.toEntity(appId: appId))
             .toList() : null, 
           totalPrice: (totalPrice != null) ? totalPrice : null, 
           currency: (currency != null) ? currency : null, 

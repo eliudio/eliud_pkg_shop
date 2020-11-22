@@ -64,7 +64,7 @@ class OrderItemModel {
     return 'OrderItemModel{documentID: $documentID, amount: $amount, appId: $appId, soldPrice: $soldPrice, product: $product}';
   }
 
-  OrderItemEntity toEntity(String appId) {
+  OrderItemEntity toEntity({String appId}) {
     return OrderItemEntity(
           amount: (amount != null) ? amount : null, 
           appId: (appId != null) ? appId : null, 

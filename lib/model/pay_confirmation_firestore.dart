@@ -28,7 +28,7 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class PayConfirmationFirestore implements PayConfirmationRepository {
   Future<PayConfirmationModel> add(PayConfirmationModel value) {
-    return PayConfirmationCollection.document(value.documentID).setData(value.toEntity(appID).toDocument()).then((_) => value);
+    return PayConfirmationCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
   }
 
   Future<void> delete(PayConfirmationModel value) {
@@ -36,7 +36,7 @@ class PayConfirmationFirestore implements PayConfirmationRepository {
   }
 
   Future<PayConfirmationModel> update(PayConfirmationModel value) {
-    return PayConfirmationCollection.document(value.documentID).updateData(value.toEntity(appID).toDocument()).then((_) => value);
+    return PayConfirmationCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
   }
 
   PayConfirmationModel _populateDoc(DocumentSnapshot doc) {

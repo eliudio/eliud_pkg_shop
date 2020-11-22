@@ -78,7 +78,7 @@ class CartModel {
     return 'CartModel{documentID: $documentID, appId: $appId, title: $title, description: $description, checkoutText: $checkoutText, shop: $shop, itemImageBackground: $itemImageBackground, itemDetailBackground: $itemDetailBackground, checkoutAction: $checkoutAction, backToShopAction: $backToShopAction}';
   }
 
-  CartEntity toEntity(String appId) {
+  CartEntity toEntity({String appId}) {
     return CartEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
@@ -87,8 +87,8 @@ class CartModel {
           shopId: (shop != null) ? shop.documentID : null, 
           itemImageBackgroundId: (itemImageBackground != null) ? itemImageBackground.documentID : null, 
           itemDetailBackgroundId: (itemDetailBackground != null) ? itemDetailBackground.documentID : null, 
-          checkoutAction: (checkoutAction != null) ? checkoutAction.toEntity(appId) : null, 
-          backToShopAction: (backToShopAction != null) ? backToShopAction.toEntity(appId) : null, 
+          checkoutAction: (checkoutAction != null) ? checkoutAction.toEntity(appId: appId) : null, 
+          backToShopAction: (backToShopAction != null) ? backToShopAction.toEntity(appId: appId) : null, 
     );
   }
 

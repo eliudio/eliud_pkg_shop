@@ -62,7 +62,7 @@ class ProductImageModel {
     return 'ProductImageModel{documentID: $documentID, image: $image}';
   }
 
-  ProductImageEntity toEntity() {
+  ProductImageEntity toEntity({String appId}) {
     return ProductImageEntity(
           imageId: (image != null) ? image.documentID : null, 
     );

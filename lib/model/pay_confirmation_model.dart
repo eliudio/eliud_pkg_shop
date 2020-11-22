@@ -64,12 +64,12 @@ class PayConfirmationModel {
     return 'PayConfirmationModel{documentID: $documentID, appId: $appId, title: $title, shop: $shop, backToShopAction: $backToShopAction}';
   }
 
-  PayConfirmationEntity toEntity(String appId) {
+  PayConfirmationEntity toEntity({String appId}) {
     return PayConfirmationEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
           shopId: (shop != null) ? shop.documentID : null, 
-          backToShopAction: (backToShopAction != null) ? backToShopAction.toEntity(appId) : null, 
+          backToShopAction: (backToShopAction != null) ? backToShopAction.toEntity(appId: appId) : null, 
     );
   }
 

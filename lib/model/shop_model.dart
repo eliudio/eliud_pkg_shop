@@ -64,7 +64,7 @@ class ShopModel {
     return 'ShopModel{documentID: $documentID, appId: $appId, description: $description, shortDescription: $shortDescription, currency: $currency}';
   }
 
-  ShopEntity toEntity(String appId) {
+  ShopEntity toEntity({String appId}) {
     return ShopEntity(
           appId: (appId != null) ? appId : null, 
           description: (description != null) ? description : null, 

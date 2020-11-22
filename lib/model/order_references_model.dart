@@ -59,7 +59,7 @@ class OrderReferencesModel {
     return 'OrderReferencesModel{paymentReference: $paymentReference, shipmentReference: $shipmentReference, deliveryReference: $deliveryReference}';
   }
 
-  OrderReferencesEntity toEntity() {
+  OrderReferencesEntity toEntity({String appId}) {
     return OrderReferencesEntity(
           paymentReference: (paymentReference != null) ? paymentReference : null, 
           shipmentReference: (shipmentReference != null) ? shipmentReference : null, 

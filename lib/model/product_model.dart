@@ -79,7 +79,7 @@ class ProductModel {
     return 'ProductModel{documentID: $documentID, appId: $appId, title: $title, about: $about, price: $price, weight: $weight, shop: $shop, images: ProductImage[] { $imagesCsv }, posSize: $posSize}';
   }
 
-  ProductEntity toEntity(String appId) {
+  ProductEntity toEntity({String appId}) {
     return ProductEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
@@ -88,7 +88,7 @@ class ProductModel {
           weight: (weight != null) ? weight : null, 
           shopId: (shop != null) ? shop.documentID : null, 
           images: (images != null) ? images
-            .map((item) => item.toEntity(appId))
+            .map((item) => item.toEntity(appId: appId))
             .toList() : null, 
           posSizeId: (posSize != null) ? posSize.documentID : null, 
     );

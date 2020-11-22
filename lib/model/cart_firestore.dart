@@ -32,7 +32,7 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class CartFirestore implements CartRepository {
   Future<CartModel> add(CartModel value) {
-    return CartCollection.document(value.documentID).setData(value.toEntity(appID).toDocument()).then((_) => value);
+    return CartCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
   }
 
   Future<void> delete(CartModel value) {
@@ -40,7 +40,7 @@ class CartFirestore implements CartRepository {
   }
 
   Future<CartModel> update(CartModel value) {
-    return CartCollection.document(value.documentID).updateData(value.toEntity(appID).toDocument()).then((_) => value);
+    return CartCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
   }
 
   CartModel _populateDoc(DocumentSnapshot doc) {

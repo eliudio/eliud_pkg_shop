@@ -64,11 +64,11 @@ class PayModel {
     return 'PayModel{documentID: $documentID, appId: $appId, title: $title, succeeded: $succeeded, shop: $shop}';
   }
 
-  PayEntity toEntity(String appId) {
+  PayEntity toEntity({String appId}) {
     return PayEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
-          succeeded: (succeeded != null) ? succeeded.toEntity(appId) : null, 
+          succeeded: (succeeded != null) ? succeeded.toEntity(appId: appId) : null, 
           shopId: (shop != null) ? shop.documentID : null, 
     );
   }

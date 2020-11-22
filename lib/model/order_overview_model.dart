@@ -70,7 +70,7 @@ class OrderOverviewModel {
     return 'OrderOverviewModel{documentID: $documentID, appId: $appId, title: $title, shop: $shop, itemImageBackground: $itemImageBackground, itemDetailBackground: $itemDetailBackground}';
   }
 
-  OrderOverviewEntity toEntity(String appId) {
+  OrderOverviewEntity toEntity({String appId}) {
     return OrderOverviewEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 

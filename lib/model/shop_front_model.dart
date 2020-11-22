@@ -112,7 +112,7 @@ class ShopFrontModel {
     return 'ShopFrontModel{documentID: $documentID, appId: $appId, title: $title, description: $description, addToBasketText: $addToBasketText, shop: $shop, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackground: $itemCardBackground, itemDetailBackground: $itemDetailBackground, addToCartColor: $addToCartColor, view: $view, scrollDirection: $scrollDirection, buyAction: $buyAction}';
   }
 
-  ShopFrontEntity toEntity(String appId) {
+  ShopFrontEntity toEntity({String appId}) {
     return ShopFrontEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
@@ -124,10 +124,10 @@ class ShopFrontModel {
           cardAxisSpacing: (cardAxisSpacing != null) ? cardAxisSpacing : null, 
           itemCardBackgroundId: (itemCardBackground != null) ? itemCardBackground.documentID : null, 
           itemDetailBackgroundId: (itemDetailBackground != null) ? itemDetailBackground.documentID : null, 
-          addToCartColor: (addToCartColor != null) ? addToCartColor.toEntity(appId) : null, 
+          addToCartColor: (addToCartColor != null) ? addToCartColor.toEntity(appId: appId) : null, 
           view: (view != null) ? view.index : null, 
           scrollDirection: (scrollDirection != null) ? scrollDirection.index : null, 
-          buyAction: (buyAction != null) ? buyAction.toEntity(appId) : null, 
+          buyAction: (buyAction != null) ? buyAction.toEntity(appId: appId) : null, 
     );
   }
 
