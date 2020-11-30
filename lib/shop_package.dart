@@ -1,4 +1,5 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/eliud.dart';
 import 'package:eliud_core/model/app_model.dart';
@@ -14,7 +15,7 @@ abstract class ShopPackage extends Package {
   static final String CONDITION_CARTS_HAS_ITEMS = 'MustHaveStuffInBasket';
 
   @override
-  BlocProvider createMainBloc(BuildContext context, NavigatorBloc navigatorBloc, AccessBloc accessBloc) {
+  BlocProvider createMainBloc(NavigatorBloc navigatorBloc, AppBloc appBloc, AccessBloc accessBloc) {
     return BlocProvider<CartBloc>(create: (context) => CartBloc(navigatorBloc, accessBloc));
   }
 
