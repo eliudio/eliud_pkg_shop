@@ -88,7 +88,7 @@ class CartItemFormBloc extends Bloc<CartItemFormEvent, CartItemFormState> {
       }
       if (event is ChangedCartItemProduct) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(product: await productRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(product: await productRepository(appId: appId).get(event.value));
         else
           newValue = new CartItemModel(
                                  documentID: currentState.value.documentID,

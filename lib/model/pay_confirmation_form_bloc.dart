@@ -61,7 +61,7 @@ class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirma
 
       if (event is InitialisePayConfirmationFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        PayConfirmationFormLoaded loaded = PayConfirmationFormLoaded(value: await payConfirmationRepository(appID: appId).get(event.value.documentID));
+        PayConfirmationFormLoaded loaded = PayConfirmationFormLoaded(value: await payConfirmationRepository(appId: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialisePayConfirmationFormNoLoadEvent) {
@@ -89,7 +89,7 @@ class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirma
       }
       if (event is ChangedPayConfirmationShop) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(shop: await shopRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(shop: await shopRepository(appId: appId).get(event.value));
         else
           newValue = new PayConfirmationModel(
                                  documentID: currentState.value.documentID,
@@ -117,7 +117,7 @@ class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirma
   Future<PayConfirmationFormState> _isDocumentIDValid(String value, PayConfirmationModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<PayConfirmationModel> findDocument = payConfirmationRepository(appID: appId).get(value);
+    Future<PayConfirmationModel> findDocument = payConfirmationRepository(appId: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittablePayConfirmationForm(value: newValue);

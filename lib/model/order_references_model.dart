@@ -76,7 +76,7 @@ class OrderReferencesModel {
     );
   }
 
-  static Future<OrderReferencesModel> fromEntityPlus(OrderReferencesEntity entity) async {
+  static Future<OrderReferencesModel> fromEntityPlus(OrderReferencesEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     return OrderReferencesModel(

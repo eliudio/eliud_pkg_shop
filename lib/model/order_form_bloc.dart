@@ -87,7 +87,7 @@ class OrderFormBloc extends Bloc<OrderFormEvent, OrderFormState> {
 
       if (event is InitialiseOrderFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        OrderFormLoaded loaded = OrderFormLoaded(value: await orderRepository(appID: appId).get(event.value.documentID));
+        OrderFormLoaded loaded = OrderFormLoaded(value: await orderRepository(appId: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseOrderFormNoLoadEvent) {
@@ -109,7 +109,7 @@ class OrderFormBloc extends Bloc<OrderFormEvent, OrderFormState> {
       }
       if (event is ChangedOrderCustomer) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(customer: await memberRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(customer: await memberRepository(appId: appId).get(event.value));
         else
           newValue = new OrderModel(
                                  documentID: currentState.value.documentID,
@@ -190,7 +190,7 @@ class OrderFormBloc extends Bloc<OrderFormEvent, OrderFormState> {
       }
       if (event is ChangedOrderCountry) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(country: await countryRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(country: await countryRepository(appId: appId).get(event.value));
         else
           newValue = new OrderModel(
                                  documentID: currentState.value.documentID,
@@ -265,7 +265,7 @@ class OrderFormBloc extends Bloc<OrderFormEvent, OrderFormState> {
       }
       if (event is ChangedOrderInvoiceCountry) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(invoiceCountry: await countryRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(invoiceCountry: await countryRepository(appId: appId).get(event.value));
         else
           newValue = new OrderModel(
                                  documentID: currentState.value.documentID,
@@ -376,7 +376,7 @@ class OrderFormBloc extends Bloc<OrderFormEvent, OrderFormState> {
   Future<OrderFormState> _isDocumentIDValid(String value, OrderModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<OrderModel> findDocument = orderRepository(appID: appId).get(value);
+    Future<OrderModel> findDocument = orderRepository(appId: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableOrderForm(value: newValue);

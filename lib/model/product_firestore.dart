@@ -32,7 +32,7 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class ProductFirestore implements ProductRepository {
   Future<ProductModel> add(ProductModel value) {
-    return ProductCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return ProductCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(ProductModel value) {
@@ -40,15 +40,15 @@ class ProductFirestore implements ProductRepository {
   }
 
   Future<ProductModel> update(ProductModel value) {
-    return ProductCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return ProductCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  ProductModel _populateDoc(DocumentSnapshot doc) {
-    return ProductModel.fromEntity(doc.documentID, ProductEntity.fromMap(doc.data));
+  ProductModel _populateDoc(DocumentSnapshot value) {
+    return ProductModel.fromEntity(value.documentID, ProductEntity.fromMap(value.data));
   }
 
-  Future<ProductModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return ProductModel.fromEntityPlus(doc.documentID, ProductEntity.fromMap(doc.data));  }
+  Future<ProductModel> _populateDocPlus(DocumentSnapshot value) async {
+    return ProductModel.fromEntityPlus(value.documentID, ProductEntity.fromMap(value.data), appId: appId);  }
 
   Future<ProductModel> get(String id) {
     return ProductCollection.document(id).get().then((doc) {
@@ -124,9 +124,9 @@ class ProductFirestore implements ProductRepository {
   }
 
 
-  final String appID;
+  final String appId;
   final CollectionReference ProductCollection;
 
-  ProductFirestore(this.appID) : ProductCollection = Firestore.instance.collection('Product-${appID}');
+  ProductFirestore(this.appId) : ProductCollection = Firestore.instance.collection('Product-${appId}');
 }
 

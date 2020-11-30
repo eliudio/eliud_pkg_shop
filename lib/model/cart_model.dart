@@ -107,13 +107,13 @@ class CartModel {
     );
   }
 
-  static Future<CartModel> fromEntityPlus(String documentID, CartEntity entity) async {
+  static Future<CartModel> fromEntityPlus(String documentID, CartEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     ShopModel shopHolder;
     if (entity.shopId != null) {
       try {
-        await shopRepository(appID: entity.appId).get(entity.shopId).then((val) {
+        await shopRepository(appId: appId).get(entity.shopId).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -122,7 +122,7 @@ class CartModel {
     BackgroundModel itemImageBackgroundHolder;
     if (entity.itemImageBackgroundId != null) {
       try {
-        await backgroundRepository(appID: entity.appId).get(entity.itemImageBackgroundId).then((val) {
+        await backgroundRepository(appId: appId).get(entity.itemImageBackgroundId).then((val) {
           itemImageBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -131,7 +131,7 @@ class CartModel {
     BackgroundModel itemDetailBackgroundHolder;
     if (entity.itemDetailBackgroundId != null) {
       try {
-        await backgroundRepository(appID: entity.appId).get(entity.itemDetailBackgroundId).then((val) {
+        await backgroundRepository(appId: appId).get(entity.itemDetailBackgroundId).then((val) {
           itemDetailBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -147,9 +147,9 @@ class CartModel {
           itemImageBackground: itemImageBackgroundHolder, 
           itemDetailBackground: itemDetailBackgroundHolder, 
           checkoutAction: 
-            await ActionModel.fromEntityPlus(entity.checkoutAction), 
+            await ActionModel.fromEntityPlus(entity.checkoutAction, appId: appId), 
           backToShopAction: 
-            await ActionModel.fromEntityPlus(entity.backToShopAction), 
+            await ActionModel.fromEntityPlus(entity.backToShopAction, appId: appId), 
     );
   }
 

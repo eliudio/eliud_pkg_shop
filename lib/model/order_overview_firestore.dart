@@ -32,7 +32,7 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class OrderOverviewFirestore implements OrderOverviewRepository {
   Future<OrderOverviewModel> add(OrderOverviewModel value) {
-    return OrderOverviewCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return OrderOverviewCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(OrderOverviewModel value) {
@@ -40,15 +40,15 @@ class OrderOverviewFirestore implements OrderOverviewRepository {
   }
 
   Future<OrderOverviewModel> update(OrderOverviewModel value) {
-    return OrderOverviewCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return OrderOverviewCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  OrderOverviewModel _populateDoc(DocumentSnapshot doc) {
-    return OrderOverviewModel.fromEntity(doc.documentID, OrderOverviewEntity.fromMap(doc.data));
+  OrderOverviewModel _populateDoc(DocumentSnapshot value) {
+    return OrderOverviewModel.fromEntity(value.documentID, OrderOverviewEntity.fromMap(value.data));
   }
 
-  Future<OrderOverviewModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return OrderOverviewModel.fromEntityPlus(doc.documentID, OrderOverviewEntity.fromMap(doc.data));  }
+  Future<OrderOverviewModel> _populateDocPlus(DocumentSnapshot value) async {
+    return OrderOverviewModel.fromEntityPlus(value.documentID, OrderOverviewEntity.fromMap(value.data), appId: appId);  }
 
   Future<OrderOverviewModel> get(String id) {
     return OrderOverviewCollection.document(id).get().then((doc) {
@@ -124,9 +124,9 @@ class OrderOverviewFirestore implements OrderOverviewRepository {
   }
 
 
-  final String appID;
+  final String appId;
   final CollectionReference OrderOverviewCollection;
 
-  OrderOverviewFirestore(this.appID) : OrderOverviewCollection = Firestore.instance.collection('OrderOverview-${appID}');
+  OrderOverviewFirestore(this.appId) : OrderOverviewCollection = Firestore.instance.collection('OrderOverview-${appId}');
 }
 

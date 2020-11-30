@@ -32,7 +32,7 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class OrderFirestore implements OrderRepository {
   Future<OrderModel> add(OrderModel value) {
-    return OrderCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return OrderCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(OrderModel value) {
@@ -40,15 +40,15 @@ class OrderFirestore implements OrderRepository {
   }
 
   Future<OrderModel> update(OrderModel value) {
-    return OrderCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return OrderCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  OrderModel _populateDoc(DocumentSnapshot doc) {
-    return OrderModel.fromEntity(doc.documentID, OrderEntity.fromMap(doc.data));
+  OrderModel _populateDoc(DocumentSnapshot value) {
+    return OrderModel.fromEntity(value.documentID, OrderEntity.fromMap(value.data));
   }
 
-  Future<OrderModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return OrderModel.fromEntityPlus(doc.documentID, OrderEntity.fromMap(doc.data));  }
+  Future<OrderModel> _populateDocPlus(DocumentSnapshot value) async {
+    return OrderModel.fromEntityPlus(value.documentID, OrderEntity.fromMap(value.data), appId: appId);  }
 
   Future<OrderModel> get(String id) {
     return OrderCollection.document(id).get().then((doc) {
@@ -124,9 +124,9 @@ class OrderFirestore implements OrderRepository {
   }
 
 
-  final String appID;
+  final String appId;
   final CollectionReference OrderCollection;
 
-  OrderFirestore(this.appID) : OrderCollection = Firestore.instance.collection('Order-${appID}');
+  OrderFirestore(this.appId) : OrderCollection = Firestore.instance.collection('Order-${appId}');
 }
 

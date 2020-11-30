@@ -84,13 +84,13 @@ class PayModel {
     );
   }
 
-  static Future<PayModel> fromEntityPlus(String documentID, PayEntity entity) async {
+  static Future<PayModel> fromEntityPlus(String documentID, PayEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     ShopModel shopHolder;
     if (entity.shopId != null) {
       try {
-        await shopRepository(appID: entity.appId).get(entity.shopId).then((val) {
+        await shopRepository(appId: appId).get(entity.shopId).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -101,7 +101,7 @@ class PayModel {
           appId: entity.appId, 
           title: entity.title, 
           succeeded: 
-            await ActionModel.fromEntityPlus(entity.succeeded), 
+            await ActionModel.fromEntityPlus(entity.succeeded, appId: appId), 
           shop: shopHolder, 
     );
   }

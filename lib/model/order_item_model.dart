@@ -83,13 +83,13 @@ class OrderItemModel {
     );
   }
 
-  static Future<OrderItemModel> fromEntityPlus(String documentID, OrderItemEntity entity) async {
+  static Future<OrderItemModel> fromEntityPlus(String documentID, OrderItemEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     ProductModel productHolder;
     if (entity.productId != null) {
       try {
-        await productRepository().get(entity.productId).then((val) {
+        await productRepository(appId: appId).get(entity.productId).then((val) {
           productHolder = val;
         }).catchError((error) {});
       } catch (_) {}

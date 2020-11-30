@@ -35,7 +35,7 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 class ShopFrontJsFirestore implements ShopFrontRepository {
   Future<ShopFrontModel> add(ShopFrontModel value) {
     return shopFrontCollection.doc(value.documentID)
-        .set(value.toEntity(appId: appID).toDocument())
+        .set(value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -45,16 +45,16 @@ class ShopFrontJsFirestore implements ShopFrontRepository {
 
   Future<ShopFrontModel> update(ShopFrontModel value) {
     return shopFrontCollection.doc(value.documentID)
-        .update(data: value.toEntity(appId: appID).toDocument())
+        .update(data: value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
-  ShopFrontModel _populateDoc(DocumentSnapshot doc) {
-    return ShopFrontModel.fromEntity(doc.id, ShopFrontEntity.fromMap(doc.data()));
+  ShopFrontModel _populateDoc(DocumentSnapshot value) {
+    return ShopFrontModel.fromEntity(value.id, ShopFrontEntity.fromMap(value.data()));
   }
 
-  Future<ShopFrontModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return ShopFrontModel.fromEntityPlus(doc.id, ShopFrontEntity.fromMap(doc.data()));
+  Future<ShopFrontModel> _populateDocPlus(DocumentSnapshot value) async {
+    return ShopFrontModel.fromEntityPlus(value.id, ShopFrontEntity.fromMap(value.data()), appId: appId);
   }
 
   Future<ShopFrontModel> get(String id) {
@@ -128,11 +128,11 @@ class ShopFrontJsFirestore implements ShopFrontRepository {
     return shopFrontCollection.get().then((snapshot) => snapshot.docs
         .forEach((element) => shopFrontCollection.doc(element.id).delete()));
   }
-  CollectionReference getCollection() => firestore().collection('ShopFront-$appID');
+  CollectionReference getCollection() => firestore().collection('ShopFront-$appId');
 
-  final String appID;
+  final String appId;
   
-  ShopFrontJsFirestore(this.appID) : shopFrontCollection = firestore().collection('ShopFront-$appID');
+  ShopFrontJsFirestore(this.appId) : shopFrontCollection = firestore().collection('ShopFront-$appId');
 
   final CollectionReference shopFrontCollection;
 }

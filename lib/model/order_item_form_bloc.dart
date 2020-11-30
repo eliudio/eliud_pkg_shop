@@ -100,7 +100,7 @@ class OrderItemFormBloc extends Bloc<OrderItemFormEvent, OrderItemFormState> {
       }
       if (event is ChangedOrderItemProduct) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(product: await productRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(product: await productRepository(appId: appId).get(event.value));
         else
           newValue = new OrderItemModel(
                                  documentID: currentState.value.documentID,

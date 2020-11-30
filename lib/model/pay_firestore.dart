@@ -28,7 +28,7 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class PayFirestore implements PayRepository {
   Future<PayModel> add(PayModel value) {
-    return PayCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return PayCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(PayModel value) {
@@ -36,15 +36,15 @@ class PayFirestore implements PayRepository {
   }
 
   Future<PayModel> update(PayModel value) {
-    return PayCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return PayCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  PayModel _populateDoc(DocumentSnapshot doc) {
-    return PayModel.fromEntity(doc.documentID, PayEntity.fromMap(doc.data));
+  PayModel _populateDoc(DocumentSnapshot value) {
+    return PayModel.fromEntity(value.documentID, PayEntity.fromMap(value.data));
   }
 
-  Future<PayModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return PayModel.fromEntityPlus(doc.documentID, PayEntity.fromMap(doc.data));  }
+  Future<PayModel> _populateDocPlus(DocumentSnapshot value) async {
+    return PayModel.fromEntityPlus(value.documentID, PayEntity.fromMap(value.data), appId: appId);  }
 
   Future<PayModel> get(String id) {
     return PayCollection.document(id).get().then((doc) {
@@ -120,9 +120,9 @@ class PayFirestore implements PayRepository {
   }
 
 
-  final String appID;
+  final String appId;
   final CollectionReference PayCollection;
 
-  PayFirestore(this.appID) : PayCollection = Firestore.instance.collection('Pay-${appID}');
+  PayFirestore(this.appId) : PayCollection = Firestore.instance.collection('Pay-${appId}');
 }
 

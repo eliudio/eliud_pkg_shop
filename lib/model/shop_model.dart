@@ -84,7 +84,7 @@ class ShopModel {
     );
   }
 
-  static Future<ShopModel> fromEntityPlus(String documentID, ShopEntity entity) async {
+  static Future<ShopModel> fromEntityPlus(String documentID, ShopEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     return ShopModel(

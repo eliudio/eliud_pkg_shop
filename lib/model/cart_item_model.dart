@@ -79,13 +79,13 @@ class CartItemModel {
     );
   }
 
-  static Future<CartItemModel> fromEntityPlus(String documentID, CartItemEntity entity) async {
+  static Future<CartItemModel> fromEntityPlus(String documentID, CartItemEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     ProductModel productHolder;
     if (entity.productId != null) {
       try {
-        await productRepository().get(entity.productId).then((val) {
+        await productRepository(appId: appId).get(entity.productId).then((val) {
           productHolder = val;
         }).catchError((error) {});
       } catch (_) {}

@@ -28,7 +28,7 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class ShopFirestore implements ShopRepository {
   Future<ShopModel> add(ShopModel value) {
-    return ShopCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return ShopCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(ShopModel value) {
@@ -36,15 +36,15 @@ class ShopFirestore implements ShopRepository {
   }
 
   Future<ShopModel> update(ShopModel value) {
-    return ShopCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return ShopCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  ShopModel _populateDoc(DocumentSnapshot doc) {
-    return ShopModel.fromEntity(doc.documentID, ShopEntity.fromMap(doc.data));
+  ShopModel _populateDoc(DocumentSnapshot value) {
+    return ShopModel.fromEntity(value.documentID, ShopEntity.fromMap(value.data));
   }
 
-  Future<ShopModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return ShopModel.fromEntityPlus(doc.documentID, ShopEntity.fromMap(doc.data));  }
+  Future<ShopModel> _populateDocPlus(DocumentSnapshot value) async {
+    return ShopModel.fromEntityPlus(value.documentID, ShopEntity.fromMap(value.data), appId: appId);  }
 
   Future<ShopModel> get(String id) {
     return ShopCollection.document(id).get().then((doc) {
@@ -120,9 +120,9 @@ class ShopFirestore implements ShopRepository {
   }
 
 
-  final String appID;
+  final String appId;
   final CollectionReference ShopCollection;
 
-  ShopFirestore(this.appID) : ShopCollection = Firestore.instance.collection('Shop-${appID}');
+  ShopFirestore(this.appId) : ShopCollection = Firestore.instance.collection('Shop-${appId}');
 }
 

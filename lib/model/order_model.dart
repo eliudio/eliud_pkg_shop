@@ -204,13 +204,13 @@ class OrderModel {
     );
   }
 
-  static Future<OrderModel> fromEntityPlus(String documentID, OrderEntity entity) async {
+  static Future<OrderModel> fromEntityPlus(String documentID, OrderEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     MemberModel customerHolder;
     if (entity.customerId != null) {
       try {
-        await memberRepository(appID: entity.appId).get(entity.customerId).then((val) {
+        await memberRepository(appId: appId).get(entity.customerId).then((val) {
           customerHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -219,7 +219,7 @@ class OrderModel {
     CountryModel countryHolder;
     if (entity.countryId != null) {
       try {
-        await countryRepository(appID: entity.appId).get(entity.countryId).then((val) {
+        await countryRepository(appId: appId).get(entity.countryId).then((val) {
           countryHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -228,7 +228,7 @@ class OrderModel {
     CountryModel invoiceCountryHolder;
     if (entity.invoiceCountryId != null) {
       try {
-        await countryRepository(appID: entity.appId).get(entity.invoiceCountryId).then((val) {
+        await countryRepository(appId: appId).get(entity.invoiceCountryId).then((val) {
           invoiceCountryHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -255,7 +255,7 @@ class OrderModel {
           invoiceCountry: invoiceCountryHolder, 
           products: 
             new List<OrderItemModel>.from(await Future.wait(entity. products
-            .map((item) => OrderItemModel.fromEntityPlus(newRandomKey(), item))
+            .map((item) => OrderItemModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
           totalPrice: entity.totalPrice, 
           currency: entity.currency, 

@@ -14,8 +14,7 @@ abstract class ShopPackage extends Package {
   static final String CONDITION_CARTS_HAS_ITEMS = 'MustHaveStuffInBasket';
 
   @override
-  BlocProvider createMainBloc(BuildContext context, NavigatorBloc navigatorBloc) {
-    var accessBloc = AccessBloc.getBloc(context);
+  BlocProvider createMainBloc(BuildContext context, NavigatorBloc navigatorBloc, AccessBloc accessBloc) {
     return BlocProvider<CartBloc>(create: (context) => CartBloc(navigatorBloc, accessBloc));
   }
 

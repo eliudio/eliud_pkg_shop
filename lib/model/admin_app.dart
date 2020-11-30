@@ -38,7 +38,7 @@ import 'package:eliud_core/tools/action_entity.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class AdminApp extends AdminAppInstallerBase {
-  final String appID;
+  final String appId;
   final DrawerModel _drawer;
   final DrawerModel _endDrawer;
   final AppBarModel _appBar;
@@ -47,7 +47,7 @@ class AdminApp extends AdminAppInstallerBase {
   final RgbModel selectedMenuItemColor;
   final RgbModel backgroundColor;
   
-  AdminApp(this.appID, this._drawer, this._endDrawer, this._appBar, this._homeMenu, this.menuItemColor, this.selectedMenuItemColor, this.backgroundColor);
+  AdminApp(this.appId, this._drawer, this._endDrawer, this._appBar, this._homeMenu, this.menuItemColor, this.selectedMenuItemColor, this.backgroundColor);
 
 
   PageModel _cartsPages() {
@@ -56,7 +56,7 @@ class AdminApp extends AdminAppInstallerBase {
       documentID: "internalWidget-carts", componentName: "eliud_pkg_shop_internalWidgets", componentId: "carts"));
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
-        appId: appID,
+        appId: appId,
         documentID: "eliud_pkg_shop_carts_page",
         title: "Carts",
         drawer: _drawer,
@@ -76,7 +76,7 @@ class AdminApp extends AdminAppInstallerBase {
       documentID: "internalWidget-orders", componentName: "eliud_pkg_shop_internalWidgets", componentId: "orders"));
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
-        appId: appID,
+        appId: appId,
         documentID: "eliud_pkg_shop_orders_page",
         title: "Orders",
         drawer: _drawer,
@@ -96,7 +96,7 @@ class AdminApp extends AdminAppInstallerBase {
       documentID: "internalWidget-orderOverviews", componentName: "eliud_pkg_shop_internalWidgets", componentId: "orderOverviews"));
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
-        appId: appID,
+        appId: appId,
         documentID: "eliud_pkg_shop_orderoverviews_page",
         title: "OrderOverviews",
         drawer: _drawer,
@@ -116,7 +116,7 @@ class AdminApp extends AdminAppInstallerBase {
       documentID: "internalWidget-pays", componentName: "eliud_pkg_shop_internalWidgets", componentId: "pays"));
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
-        appId: appID,
+        appId: appId,
         documentID: "eliud_pkg_shop_pays_page",
         title: "Pays",
         drawer: _drawer,
@@ -136,7 +136,7 @@ class AdminApp extends AdminAppInstallerBase {
       documentID: "internalWidget-payConfirmations", componentName: "eliud_pkg_shop_internalWidgets", componentId: "payConfirmations"));
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
-        appId: appID,
+        appId: appId,
         documentID: "eliud_pkg_shop_payconfirmations_page",
         title: "PayConfirmations",
         drawer: _drawer,
@@ -156,7 +156,7 @@ class AdminApp extends AdminAppInstallerBase {
       documentID: "internalWidget-products", componentName: "eliud_pkg_shop_internalWidgets", componentId: "products"));
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
-        appId: appID,
+        appId: appId,
         documentID: "eliud_pkg_shop_products_page",
         title: "Products",
         drawer: _drawer,
@@ -176,7 +176,7 @@ class AdminApp extends AdminAppInstallerBase {
       documentID: "internalWidget-shops", componentName: "eliud_pkg_shop_internalWidgets", componentId: "shops"));
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
-        appId: appID,
+        appId: appId,
         documentID: "eliud_pkg_shop_shops_page",
         title: "Shops",
         drawer: _drawer,
@@ -196,7 +196,7 @@ class AdminApp extends AdminAppInstallerBase {
       documentID: "internalWidget-shopFronts", componentName: "eliud_pkg_shop_internalWidgets", componentId: "shopFronts"));
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
-        appId: appID,
+        appId: appId,
         documentID: "eliud_pkg_shop_shopfronts_page",
         title: "ShopFronts",
         drawer: _drawer,
@@ -212,21 +212,21 @@ class AdminApp extends AdminAppInstallerBase {
 
   Future<void> _setupAdminPages() {
 
-    return pageRepository(appID: appID).add(_cartsPages())
+    return pageRepository(appId: appId).add(_cartsPages())
 
-        .then((_) => pageRepository(appID: appID).add(_ordersPages()))
+        .then((_) => pageRepository(appId: appId).add(_ordersPages()))
 
-        .then((_) => pageRepository(appID: appID).add(_orderOverviewsPages()))
+        .then((_) => pageRepository(appId: appId).add(_orderOverviewsPages()))
 
-        .then((_) => pageRepository(appID: appID).add(_paysPages()))
+        .then((_) => pageRepository(appId: appId).add(_paysPages()))
 
-        .then((_) => pageRepository(appID: appID).add(_payConfirmationsPages()))
+        .then((_) => pageRepository(appId: appId).add(_payConfirmationsPages()))
 
-        .then((_) => pageRepository(appID: appID).add(_productsPages()))
+        .then((_) => pageRepository(appId: appId).add(_productsPages()))
 
-        .then((_) => pageRepository(appID: appID).add(_shopsPages()))
+        .then((_) => pageRepository(appId: appId).add(_shopsPages()))
 
-        .then((_) => pageRepository(appID: appID).add(_shopFrontsPages()))
+        .then((_) => pageRepository(appId: appId).add(_shopFrontsPages()))
 
     ;
   }
@@ -241,7 +241,7 @@ class AdminApp extends AdminAppInstallerBase {
 
 class AdminMenu extends AdminAppMenuInstallerBase {
 
-  Future<MenuDefModel> menu(String appID) async {
+  Future<MenuDefModel> menu(String appId) async {
     List<MenuItemModel> menuItems = List<MenuItemModel>();
 
     menuItems.add(
@@ -250,7 +250,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Carts",
         description: "Carts",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appID, pageID: "eliud_pkg_shop_carts_page"))
+        action: GotoPage(appId, pageID: "eliud_pkg_shop_carts_page"))
     );
 
 
@@ -260,7 +260,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Orders",
         description: "Orders",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appID, pageID: "eliud_pkg_shop_orders_page"))
+        action: GotoPage(appId, pageID: "eliud_pkg_shop_orders_page"))
     );
 
 
@@ -270,7 +270,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "OrderOverviews",
         description: "OrderOverviews",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appID, pageID: "eliud_pkg_shop_orderoverviews_page"))
+        action: GotoPage(appId, pageID: "eliud_pkg_shop_orderoverviews_page"))
     );
 
 
@@ -280,7 +280,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Pays",
         description: "Pays",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appID, pageID: "eliud_pkg_shop_pays_page"))
+        action: GotoPage(appId, pageID: "eliud_pkg_shop_pays_page"))
     );
 
 
@@ -290,7 +290,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "PayConfirmations",
         description: "PayConfirmations",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appID, pageID: "eliud_pkg_shop_payconfirmations_page"))
+        action: GotoPage(appId, pageID: "eliud_pkg_shop_payconfirmations_page"))
     );
 
 
@@ -300,7 +300,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Products",
         description: "Products",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appID, pageID: "eliud_pkg_shop_products_page"))
+        action: GotoPage(appId, pageID: "eliud_pkg_shop_products_page"))
     );
 
 
@@ -310,7 +310,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Shops",
         description: "Shops",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appID, pageID: "eliud_pkg_shop_shops_page"))
+        action: GotoPage(appId, pageID: "eliud_pkg_shop_shops_page"))
     );
 
 
@@ -320,18 +320,18 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "ShopFronts",
         description: "ShopFronts",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appID, pageID: "eliud_pkg_shop_shopfronts_page"))
+        action: GotoPage(appId, pageID: "eliud_pkg_shop_shopfronts_page"))
     );
 
 
     MenuDefModel menu = MenuDefModel(
       admin: true,
       documentID: "eliud_pkg_shop_admin_menu",
-      appId: appID,
+      appId: appId,
       name: "eliud_pkg_shop",
       menuItems: menuItems
     );
-    await menuDefRepository(appID: appID).add(menu);
+    await menuDefRepository(appId: appId).add(menu);
     return menu;
   }
 }
@@ -339,15 +339,15 @@ class AdminMenu extends AdminAppMenuInstallerBase {
 class AdminAppWiper extends AdminAppWiperBase {
 
   @override
-  Future<void> deleteAll(String appID) async {
-    await cartRepository(appID: appID).deleteAll();
-    await orderRepository(appID: appID).deleteAll();
-    await orderOverviewRepository(appID: appID).deleteAll();
-    await payRepository(appID: appID).deleteAll();
-    await payConfirmationRepository(appID: appID).deleteAll();
-    await productRepository(appID: appID).deleteAll();
-    await shopRepository(appID: appID).deleteAll();
-    await shopFrontRepository(appID: appID).deleteAll();
+  Future<void> deleteAll(String appId) async {
+    await cartRepository(appId: appId).deleteAll();
+    await orderRepository(appId: appId).deleteAll();
+    await orderOverviewRepository(appId: appId).deleteAll();
+    await payRepository(appId: appId).deleteAll();
+    await payConfirmationRepository(appId: appId).deleteAll();
+    await productRepository(appId: appId).deleteAll();
+    await shopRepository(appId: appId).deleteAll();
+    await shopFrontRepository(appId: appId).deleteAll();
     ;
   }
 

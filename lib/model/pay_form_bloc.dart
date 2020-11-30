@@ -61,7 +61,7 @@ class PayFormBloc extends Bloc<PayFormEvent, PayFormState> {
 
       if (event is InitialisePayFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        PayFormLoaded loaded = PayFormLoaded(value: await payRepository(appID: appId).get(event.value.documentID));
+        PayFormLoaded loaded = PayFormLoaded(value: await payRepository(appId: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialisePayFormNoLoadEvent) {
@@ -95,7 +95,7 @@ class PayFormBloc extends Bloc<PayFormEvent, PayFormState> {
       }
       if (event is ChangedPayShop) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(shop: await shopRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(shop: await shopRepository(appId: appId).get(event.value));
         else
           newValue = new PayModel(
                                  documentID: currentState.value.documentID,
@@ -117,7 +117,7 @@ class PayFormBloc extends Bloc<PayFormEvent, PayFormState> {
   Future<PayFormState> _isDocumentIDValid(String value, PayModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<PayModel> findDocument = payRepository(appID: appId).get(value);
+    Future<PayModel> findDocument = payRepository(appId: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittablePayForm(value: newValue);

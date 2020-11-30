@@ -35,7 +35,7 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 class CartJsFirestore implements CartRepository {
   Future<CartModel> add(CartModel value) {
     return cartCollection.doc(value.documentID)
-        .set(value.toEntity(appId: appID).toDocument())
+        .set(value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -45,16 +45,16 @@ class CartJsFirestore implements CartRepository {
 
   Future<CartModel> update(CartModel value) {
     return cartCollection.doc(value.documentID)
-        .update(data: value.toEntity(appId: appID).toDocument())
+        .update(data: value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
-  CartModel _populateDoc(DocumentSnapshot doc) {
-    return CartModel.fromEntity(doc.id, CartEntity.fromMap(doc.data()));
+  CartModel _populateDoc(DocumentSnapshot value) {
+    return CartModel.fromEntity(value.id, CartEntity.fromMap(value.data()));
   }
 
-  Future<CartModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return CartModel.fromEntityPlus(doc.id, CartEntity.fromMap(doc.data()));
+  Future<CartModel> _populateDocPlus(DocumentSnapshot value) async {
+    return CartModel.fromEntityPlus(value.id, CartEntity.fromMap(value.data()), appId: appId);
   }
 
   Future<CartModel> get(String id) {
@@ -128,11 +128,11 @@ class CartJsFirestore implements CartRepository {
     return cartCollection.get().then((snapshot) => snapshot.docs
         .forEach((element) => cartCollection.doc(element.id).delete()));
   }
-  CollectionReference getCollection() => firestore().collection('Cart-$appID');
+  CollectionReference getCollection() => firestore().collection('Cart-$appId');
 
-  final String appID;
+  final String appId;
   
-  CartJsFirestore(this.appID) : cartCollection = firestore().collection('Cart-$appID');
+  CartJsFirestore(this.appId) : cartCollection = firestore().collection('Cart-$appId');
 
   final CollectionReference cartCollection;
 }

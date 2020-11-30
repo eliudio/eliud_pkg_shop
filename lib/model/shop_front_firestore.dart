@@ -32,7 +32,7 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class ShopFrontFirestore implements ShopFrontRepository {
   Future<ShopFrontModel> add(ShopFrontModel value) {
-    return ShopFrontCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return ShopFrontCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(ShopFrontModel value) {
@@ -40,15 +40,15 @@ class ShopFrontFirestore implements ShopFrontRepository {
   }
 
   Future<ShopFrontModel> update(ShopFrontModel value) {
-    return ShopFrontCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return ShopFrontCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  ShopFrontModel _populateDoc(DocumentSnapshot doc) {
-    return ShopFrontModel.fromEntity(doc.documentID, ShopFrontEntity.fromMap(doc.data));
+  ShopFrontModel _populateDoc(DocumentSnapshot value) {
+    return ShopFrontModel.fromEntity(value.documentID, ShopFrontEntity.fromMap(value.data));
   }
 
-  Future<ShopFrontModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return ShopFrontModel.fromEntityPlus(doc.documentID, ShopFrontEntity.fromMap(doc.data));  }
+  Future<ShopFrontModel> _populateDocPlus(DocumentSnapshot value) async {
+    return ShopFrontModel.fromEntityPlus(value.documentID, ShopFrontEntity.fromMap(value.data), appId: appId);  }
 
   Future<ShopFrontModel> get(String id) {
     return ShopFrontCollection.document(id).get().then((doc) {
@@ -124,9 +124,9 @@ class ShopFrontFirestore implements ShopFrontRepository {
   }
 
 
-  final String appID;
+  final String appId;
   final CollectionReference ShopFrontCollection;
 
-  ShopFrontFirestore(this.appID) : ShopFrontCollection = Firestore.instance.collection('ShopFront-${appID}');
+  ShopFrontFirestore(this.appId) : ShopFrontCollection = Firestore.instance.collection('ShopFront-${appId}');
 }
 

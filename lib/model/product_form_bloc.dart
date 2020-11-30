@@ -69,7 +69,7 @@ class ProductFormBloc extends Bloc<ProductFormEvent, ProductFormState> {
 
       if (event is InitialiseProductFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        ProductFormLoaded loaded = ProductFormLoaded(value: await productRepository(appID: appId).get(event.value.documentID));
+        ProductFormLoaded loaded = ProductFormLoaded(value: await productRepository(appId: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseProductFormNoLoadEvent) {
@@ -125,7 +125,7 @@ class ProductFormBloc extends Bloc<ProductFormEvent, ProductFormState> {
       }
       if (event is ChangedProductShop) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(shop: await shopRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(shop: await shopRepository(appId: appId).get(event.value));
         else
           newValue = new ProductModel(
                                  documentID: currentState.value.documentID,
@@ -150,7 +150,7 @@ class ProductFormBloc extends Bloc<ProductFormEvent, ProductFormState> {
       }
       if (event is ChangedProductPosSize) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(posSize: await posSizeRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(posSize: await posSizeRepository(appId: appId).get(event.value));
         else
           newValue = new ProductModel(
                                  documentID: currentState.value.documentID,
@@ -176,7 +176,7 @@ class ProductFormBloc extends Bloc<ProductFormEvent, ProductFormState> {
   Future<ProductFormState> _isDocumentIDValid(String value, ProductModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<ProductModel> findDocument = productRepository(appID: appId).get(value);
+    Future<ProductModel> findDocument = productRepository(appId: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableProductForm(value: newValue);

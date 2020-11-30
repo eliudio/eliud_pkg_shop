@@ -151,13 +151,13 @@ class ShopFrontModel {
     );
   }
 
-  static Future<ShopFrontModel> fromEntityPlus(String documentID, ShopFrontEntity entity) async {
+  static Future<ShopFrontModel> fromEntityPlus(String documentID, ShopFrontEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     ShopModel shopHolder;
     if (entity.shopId != null) {
       try {
-        await shopRepository(appID: entity.appId).get(entity.shopId).then((val) {
+        await shopRepository(appId: appId).get(entity.shopId).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -166,7 +166,7 @@ class ShopFrontModel {
     BackgroundModel itemCardBackgroundHolder;
     if (entity.itemCardBackgroundId != null) {
       try {
-        await backgroundRepository(appID: entity.appId).get(entity.itemCardBackgroundId).then((val) {
+        await backgroundRepository(appId: appId).get(entity.itemCardBackgroundId).then((val) {
           itemCardBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -175,7 +175,7 @@ class ShopFrontModel {
     BackgroundModel itemDetailBackgroundHolder;
     if (entity.itemDetailBackgroundId != null) {
       try {
-        await backgroundRepository(appID: entity.appId).get(entity.itemDetailBackgroundId).then((val) {
+        await backgroundRepository(appId: appId).get(entity.itemDetailBackgroundId).then((val) {
           itemDetailBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -194,11 +194,11 @@ class ShopFrontModel {
           itemCardBackground: itemCardBackgroundHolder, 
           itemDetailBackground: itemDetailBackgroundHolder, 
           addToCartColor: 
-            await RgbModel.fromEntityPlus(entity.addToCartColor), 
+            await RgbModel.fromEntityPlus(entity.addToCartColor, appId: appId), 
           view: toShopFrontView(entity.view), 
           scrollDirection: toScrollDirection(entity.scrollDirection), 
           buyAction: 
-            await ActionModel.fromEntityPlus(entity.buyAction), 
+            await ActionModel.fromEntityPlus(entity.buyAction, appId: appId), 
     );
   }
 

@@ -111,7 +111,7 @@ class OrderOverviewCache implements OrderOverviewRepository {
     ShopModel shopHolder;
     if (model.shop != null) {
       try {
-        await shopRepository(appID: model.appId).get(model.shop.documentID).then((val) {
+        await shopRepository(appId: model.appId).get(model.shop.documentID).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -120,7 +120,7 @@ class OrderOverviewCache implements OrderOverviewRepository {
     BackgroundModel itemImageBackgroundHolder;
     if (model.itemImageBackground != null) {
       try {
-        await backgroundRepository(appID: model.appId).get(model.itemImageBackground.documentID).then((val) {
+        await backgroundRepository(appId: model.appId).get(model.itemImageBackground.documentID).then((val) {
           itemImageBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -129,7 +129,7 @@ class OrderOverviewCache implements OrderOverviewRepository {
     BackgroundModel itemDetailBackgroundHolder;
     if (model.itemDetailBackground != null) {
       try {
-        await backgroundRepository(appID: model.appId).get(model.itemDetailBackground.documentID).then((val) {
+        await backgroundRepository(appId: model.appId).get(model.itemDetailBackground.documentID).then((val) {
           itemDetailBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}

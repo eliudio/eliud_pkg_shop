@@ -28,7 +28,7 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class PayConfirmationFirestore implements PayConfirmationRepository {
   Future<PayConfirmationModel> add(PayConfirmationModel value) {
-    return PayConfirmationCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return PayConfirmationCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(PayConfirmationModel value) {
@@ -36,15 +36,15 @@ class PayConfirmationFirestore implements PayConfirmationRepository {
   }
 
   Future<PayConfirmationModel> update(PayConfirmationModel value) {
-    return PayConfirmationCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return PayConfirmationCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  PayConfirmationModel _populateDoc(DocumentSnapshot doc) {
-    return PayConfirmationModel.fromEntity(doc.documentID, PayConfirmationEntity.fromMap(doc.data));
+  PayConfirmationModel _populateDoc(DocumentSnapshot value) {
+    return PayConfirmationModel.fromEntity(value.documentID, PayConfirmationEntity.fromMap(value.data));
   }
 
-  Future<PayConfirmationModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return PayConfirmationModel.fromEntityPlus(doc.documentID, PayConfirmationEntity.fromMap(doc.data));  }
+  Future<PayConfirmationModel> _populateDocPlus(DocumentSnapshot value) async {
+    return PayConfirmationModel.fromEntityPlus(value.documentID, PayConfirmationEntity.fromMap(value.data), appId: appId);  }
 
   Future<PayConfirmationModel> get(String id) {
     return PayConfirmationCollection.document(id).get().then((doc) {
@@ -120,9 +120,9 @@ class PayConfirmationFirestore implements PayConfirmationRepository {
   }
 
 
-  final String appID;
+  final String appId;
   final CollectionReference PayConfirmationCollection;
 
-  PayConfirmationFirestore(this.appID) : PayConfirmationCollection = Firestore.instance.collection('PayConfirmation-${appID}');
+  PayConfirmationFirestore(this.appId) : PayConfirmationCollection = Firestore.instance.collection('PayConfirmation-${appId}');
 }
 

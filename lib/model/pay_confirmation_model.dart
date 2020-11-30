@@ -84,13 +84,13 @@ class PayConfirmationModel {
     );
   }
 
-  static Future<PayConfirmationModel> fromEntityPlus(String documentID, PayConfirmationEntity entity) async {
+  static Future<PayConfirmationModel> fromEntityPlus(String documentID, PayConfirmationEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     ShopModel shopHolder;
     if (entity.shopId != null) {
       try {
-        await shopRepository(appID: entity.appId).get(entity.shopId).then((val) {
+        await shopRepository(appId: appId).get(entity.shopId).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -102,7 +102,7 @@ class PayConfirmationModel {
           title: entity.title, 
           shop: shopHolder, 
           backToShopAction: 
-            await ActionModel.fromEntityPlus(entity.backToShopAction), 
+            await ActionModel.fromEntityPlus(entity.backToShopAction, appId: appId), 
     );
   }
 

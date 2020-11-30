@@ -110,13 +110,13 @@ class ProductModel {
     );
   }
 
-  static Future<ProductModel> fromEntityPlus(String documentID, ProductEntity entity) async {
+  static Future<ProductModel> fromEntityPlus(String documentID, ProductEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     ShopModel shopHolder;
     if (entity.shopId != null) {
       try {
-        await shopRepository(appID: entity.appId).get(entity.shopId).then((val) {
+        await shopRepository(appId: appId).get(entity.shopId).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -125,7 +125,7 @@ class ProductModel {
     PosSizeModel posSizeHolder;
     if (entity.posSizeId != null) {
       try {
-        await posSizeRepository(appID: entity.appId).get(entity.posSizeId).then((val) {
+        await posSizeRepository(appId: appId).get(entity.posSizeId).then((val) {
           posSizeHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -141,7 +141,7 @@ class ProductModel {
           shop: shopHolder, 
           images: 
             new List<ProductImageModel>.from(await Future.wait(entity. images
-            .map((item) => ProductImageModel.fromEntityPlus(newRandomKey(), item))
+            .map((item) => ProductImageModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
           posSize: posSizeHolder, 
     );

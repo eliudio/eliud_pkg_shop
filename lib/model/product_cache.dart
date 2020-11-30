@@ -111,7 +111,7 @@ class ProductCache implements ProductRepository {
     ShopModel shopHolder;
     if (model.shop != null) {
       try {
-        await shopRepository(appID: model.appId).get(model.shop.documentID).then((val) {
+        await shopRepository(appId: model.appId).get(model.shop.documentID).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -120,7 +120,7 @@ class ProductCache implements ProductRepository {
     PosSizeModel posSizeHolder;
     if (model.posSize != null) {
       try {
-        await posSizeRepository(appID: model.appId).get(model.posSize.documentID).then((val) {
+        await posSizeRepository(appId: model.appId).get(model.posSize.documentID).then((val) {
           posSizeHolder = val;
         }).catchError((error) {});
       } catch (_) {}

@@ -35,7 +35,7 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 class ProductJsFirestore implements ProductRepository {
   Future<ProductModel> add(ProductModel value) {
     return productCollection.doc(value.documentID)
-        .set(value.toEntity(appId: appID).toDocument())
+        .set(value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -45,16 +45,16 @@ class ProductJsFirestore implements ProductRepository {
 
   Future<ProductModel> update(ProductModel value) {
     return productCollection.doc(value.documentID)
-        .update(data: value.toEntity(appId: appID).toDocument())
+        .update(data: value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
-  ProductModel _populateDoc(DocumentSnapshot doc) {
-    return ProductModel.fromEntity(doc.id, ProductEntity.fromMap(doc.data()));
+  ProductModel _populateDoc(DocumentSnapshot value) {
+    return ProductModel.fromEntity(value.id, ProductEntity.fromMap(value.data()));
   }
 
-  Future<ProductModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return ProductModel.fromEntityPlus(doc.id, ProductEntity.fromMap(doc.data()));
+  Future<ProductModel> _populateDocPlus(DocumentSnapshot value) async {
+    return ProductModel.fromEntityPlus(value.id, ProductEntity.fromMap(value.data()), appId: appId);
   }
 
   Future<ProductModel> get(String id) {
@@ -128,11 +128,11 @@ class ProductJsFirestore implements ProductRepository {
     return productCollection.get().then((snapshot) => snapshot.docs
         .forEach((element) => productCollection.doc(element.id).delete()));
   }
-  CollectionReference getCollection() => firestore().collection('Product-$appID');
+  CollectionReference getCollection() => firestore().collection('Product-$appId');
 
-  final String appID;
+  final String appId;
   
-  ProductJsFirestore(this.appID) : productCollection = firestore().collection('Product-$appID');
+  ProductJsFirestore(this.appId) : productCollection = firestore().collection('Product-$appId');
 
   final CollectionReference productCollection;
 }
