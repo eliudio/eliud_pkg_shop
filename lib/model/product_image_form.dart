@@ -14,10 +14,8 @@
 */
 
 import 'package:eliud_core/core/global_data.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -70,12 +68,11 @@ class ProductImageForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
     var accessState = AccessBloc.getState(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     if (formAction == FormAction.ShowData) {
       return BlocProvider<ProductImageFormBloc >(
-            create: (context) => ProductImageFormBloc(AppBloc.appId(context),
+            create: (context) => ProductImageFormBloc(AccessBloc.appId(context),
                                        
                                                 )..add(InitialiseProductImageFormEvent(value: value)),
   
@@ -83,7 +80,7 @@ class ProductImageForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<ProductImageFormBloc >(
-            create: (context) => ProductImageFormBloc(AppBloc.appId(context),
+            create: (context) => ProductImageFormBloc(AccessBloc.appId(context),
                                        
                                                 )..add(InitialiseProductImageFormNoLoadEvent(value: value)),
   
@@ -103,7 +100,7 @@ class ProductImageForm extends StatelessWidget {
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
         body: BlocProvider<ProductImageFormBloc >(
-            create: (context) => ProductImageFormBloc(AppBloc.appId(context),
+            create: (context) => ProductImageFormBloc(AccessBloc.appId(context),
                                        
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseProductImageFormEvent(value: value) : InitialiseNewProductImageFormEvent())),
   
@@ -143,8 +140,7 @@ class _MyProductImageFormState extends State<MyProductImageForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<ProductImageFormBloc, ProductImageFormState>(builder: (context, state) {
       if (state is ProductImageFormUninitialized) return Center(
@@ -172,7 +168,7 @@ class _MyProductImageFormState extends State<MyProductImageForm> {
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
                   color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-                  onPressed: _readOnly(accessState, appState, state) ? null : () {
+                  onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is ProductImageFormError) {
                       return null;
                     } else {
@@ -240,8 +236,8 @@ class _MyProductImageFormState extends State<MyProductImageForm> {
     super.dispose();
   }
 
-  bool _readOnly(AccessState accessState, AppState appState, ProductImageFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(appState));
+  bool _readOnly(AccessState accessState, ProductImageFormInitialized state) {
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
   }
   
 

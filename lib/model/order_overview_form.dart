@@ -14,10 +14,8 @@
 */
 
 import 'package:eliud_core/core/global_data.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -70,12 +68,11 @@ class OrderOverviewForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
     var accessState = AccessBloc.getState(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     if (formAction == FormAction.ShowData) {
       return BlocProvider<OrderOverviewFormBloc >(
-            create: (context) => OrderOverviewFormBloc(AppBloc.appId(context),
+            create: (context) => OrderOverviewFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseOrderOverviewFormEvent(value: value)),
@@ -84,7 +81,7 @@ class OrderOverviewForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<OrderOverviewFormBloc >(
-            create: (context) => OrderOverviewFormBloc(AppBloc.appId(context),
+            create: (context) => OrderOverviewFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseOrderOverviewFormNoLoadEvent(value: value)),
@@ -105,7 +102,7 @@ class OrderOverviewForm extends StatelessWidget {
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
         body: BlocProvider<OrderOverviewFormBloc >(
-            create: (context) => OrderOverviewFormBloc(AppBloc.appId(context),
+            create: (context) => OrderOverviewFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseOrderOverviewFormEvent(value: value) : InitialiseNewOrderOverviewFormEvent())),
@@ -152,8 +149,7 @@ class _MyOrderOverviewFormState extends State<MyOrderOverviewForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<OrderOverviewFormBloc, OrderOverviewFormState>(builder: (context, state) {
       if (state is OrderOverviewFormUninitialized) return Center(
@@ -218,7 +214,7 @@ class _MyOrderOverviewFormState extends State<MyOrderOverviewForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _titleController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -294,7 +290,7 @@ class _MyOrderOverviewFormState extends State<MyOrderOverviewForm> {
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
                   color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-                  onPressed: _readOnly(accessState, appState, state) ? null : () {
+                  onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is OrderOverviewFormError) {
                       return null;
                     } else {
@@ -398,8 +394,8 @@ class _MyOrderOverviewFormState extends State<MyOrderOverviewForm> {
     super.dispose();
   }
 
-  bool _readOnly(AccessState accessState, AppState appState, OrderOverviewFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(appState));
+  bool _readOnly(AccessState accessState, OrderOverviewFormInitialized state) {
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
   }
   
 

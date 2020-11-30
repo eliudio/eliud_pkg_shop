@@ -127,7 +127,7 @@
     {
       "fieldName": "buyAction",
       "fieldType": "Action",
-      "bespokeFormField": "ActionField(AppBloc.appId(context), state.value.buyAction, _onBuyActionChanged)",
+      "bespokeFormField": "ActionField(AccessBloc.appId(context), state.value.buyAction, _onBuyActionChanged)",
       "group": "action"
     }
   ],

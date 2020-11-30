@@ -14,10 +14,8 @@
 */
 
 import 'package:eliud_core/core/global_data.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -70,12 +68,11 @@ class ShopFrontForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
     var accessState = AccessBloc.getState(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     if (formAction == FormAction.ShowData) {
       return BlocProvider<ShopFrontFormBloc >(
-            create: (context) => ShopFrontFormBloc(AppBloc.appId(context),
+            create: (context) => ShopFrontFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseShopFrontFormEvent(value: value)),
@@ -84,7 +81,7 @@ class ShopFrontForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<ShopFrontFormBloc >(
-            create: (context) => ShopFrontFormBloc(AppBloc.appId(context),
+            create: (context) => ShopFrontFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseShopFrontFormNoLoadEvent(value: value)),
@@ -105,7 +102,7 @@ class ShopFrontForm extends StatelessWidget {
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
         body: BlocProvider<ShopFrontFormBloc >(
-            create: (context) => ShopFrontFormBloc(AppBloc.appId(context),
+            create: (context) => ShopFrontFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseShopFrontFormEvent(value: value) : InitialiseNewShopFrontFormEvent())),
@@ -166,8 +163,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<ShopFrontFormBloc, ShopFrontFormState>(builder: (context, state) {
       if (state is ShopFrontFormUninitialized) return Center(
@@ -260,7 +256,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _titleController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -278,7 +274,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _descriptionController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -296,7 +292,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _addToBasketTextController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -314,7 +310,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _sizeController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -332,7 +328,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _cardElevationController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -350,7 +346,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _cardAxisSpacingController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -379,7 +375,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
 
         children.add(
 
-                ActionField(AppBloc.appId(context), state.value.buyAction, _onBuyActionChanged)
+                ActionField(AccessBloc.appId(context), state.value.buyAction, _onBuyActionChanged)
           );
 
 
@@ -421,7 +417,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
                     groupValue: _viewSelectedRadioTile,
                     title: Text("Slider", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Slider", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionView(val);
                     },
                 ),
@@ -434,7 +430,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
                     groupValue: _viewSelectedRadioTile,
                     title: Text("Grid", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Grid", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionView(val);
                     },
                 ),
@@ -515,7 +511,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
                     groupValue: _scrollDirectionSelectedRadioTile,
                     title: Text("Horizontal", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Horizontal", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionScrollDirection(val);
                     },
                 ),
@@ -528,7 +524,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
                     groupValue: _scrollDirectionSelectedRadioTile,
                     title: Text("Vertical", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Vertical", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionScrollDirection(val);
                     },
                 ),
@@ -542,7 +538,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
                   color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-                  onPressed: _readOnly(accessState, appState, state) ? null : () {
+                  onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is ShopFrontFormError) {
                       return null;
                     } else {
@@ -722,8 +718,8 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
     super.dispose();
   }
 
-  bool _readOnly(AccessState accessState, AppState appState, ShopFrontFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(appState));
+  bool _readOnly(AccessState accessState, ShopFrontFormInitialized state) {
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
   }
   
 

@@ -1,5 +1,5 @@
-import 'package:eliud_core/core/app/app_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:eliud_pkg_shop/extensions/shop_widgets/grid_products.dart';
@@ -34,7 +34,7 @@ class ShopFrontBase extends AbstractShopFrontComponent {
 
   @override
   ShopFrontRepository getShopFrontRepository(BuildContext context) {
-    return AbstractRepositorySingleton.singleton.shopFrontRepository(AppBloc.appId(context));
+    return AbstractRepositorySingleton.singleton.shopFrontRepository(AccessBloc.appId(context));
   }
 
   @override
@@ -62,7 +62,7 @@ class ShopFrontState extends State<ShopFront> {
       BlocProvider<ProductListBloc>(
         create: (context) => ProductListBloc(
           productRepository:
-              AbstractRepositorySingleton.singleton.productRepository(AppBloc.appId(context)),
+              AbstractRepositorySingleton.singleton.productRepository(AccessBloc.appId(context)),
         )..add(LoadProductListWithDetails()),
       )
     ], child: GridProducts(shopFrontModel: widget.shopFrontModel));
@@ -81,7 +81,7 @@ class ShopFrontState extends State<ShopFront> {
 
   @override
   Widget build(BuildContext context) {
-    var appState = AppBloc.getState(context);
+    var appState = AccessBloc.getState(context);
     if (appState is AppLoaded) {
       var widgets = <Widget>[];
       addWidget(widgets, widget.shopFrontModel.title, appState.app

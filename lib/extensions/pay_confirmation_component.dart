@@ -1,4 +1,4 @@
-import 'package:eliud_core/core/app/app_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/confirmation_widget.dart';
@@ -48,10 +48,10 @@ class PayConfirmationComponent extends AbstractPayConfirmationComponent {
 
   @override
   PayConfirmationRepository getPayConfirmationRepository(BuildContext context) {
-    return AbstractRepositorySingleton.singleton.payConfirmationRepository(AppBloc.appId(context));
+    return AbstractRepositorySingleton.singleton.payConfirmationRepository(AccessBloc.appId(context));
   }
 
   OrderRepository getOrderRepository(BuildContext context) {
-    return AbstractRepositorySingleton.singleton.orderRepository(AppBloc.appId(context));
+    return AbstractRepositorySingleton.singleton.orderRepository(AccessBloc.appId(context));
   }
 }

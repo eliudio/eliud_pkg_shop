@@ -1,5 +1,4 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:eliud_pkg_shop/model/order_list.dart';
@@ -24,14 +23,13 @@ class OrderOverviewComponent extends AbstractOrderOverviewComponent {
 
   @override
   Widget yourWidget(BuildContext context, OrderOverviewModel orderOverview) {
-    var appState = AppBloc.getState(context);
     var accessState = AccessBloc.getState(context);
-    if (accessState.memberIsOwner(appState)) {
+    if (accessState.memberIsOwner()) {
       // allow owner of the app to see ALL orders and update shipment details
       return BlocProvider<OrderListBloc>(
         create: (context) =>
         OrderListBloc(
-          orderRepository: AbstractRepositorySingleton.singleton.orderRepository(AppBloc.appId(context)),
+          orderRepository: AbstractRepositorySingleton.singleton.orderRepository(AccessBloc.appId(context)),
         )
           ..add(LoadOrderList()),
         child: OrderListWidget(readOnly: false, form: 'OrderShipmentForm'),
@@ -42,7 +40,7 @@ class OrderOverviewComponent extends AbstractOrderOverviewComponent {
         create: (context) =>
         OrderListBloc(
           orderRepository: AbstractRepositorySingleton.singleton
-              .orderRepository(AppBloc.appId(context)),
+              .orderRepository(AccessBloc.appId(context)),
         )
           ..add(LoadOrderList()),
         child: OrderListWidget(readOnly: true),
@@ -57,6 +55,6 @@ class OrderOverviewComponent extends AbstractOrderOverviewComponent {
 
   @override
   OrderOverviewRepository getOrderOverviewRepository(BuildContext context) {
-    return AbstractRepositorySingleton.singleton.orderOverviewRepository(AppBloc.appId(context));
+    return AbstractRepositorySingleton.singleton.orderOverviewRepository(AccessBloc.appId(context));
   }
 }

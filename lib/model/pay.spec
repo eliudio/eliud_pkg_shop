@@ -44,7 +44,7 @@
     {
       "fieldName": "succeeded",
       "fieldType": "Action",
-      "bespokeFormField": "ActionField(AppBloc.appId(context), state.value.succeeded, _onSucceededChanged)",
+      "bespokeFormField": "ActionField(AccessBloc.appId(context), state.value.succeeded, _onSucceededChanged)",
       "group": "succeeded"
     },
     {

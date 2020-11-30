@@ -1,5 +1,5 @@
-import 'package:eliud_core/core/app/app_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/bloc/payment_event.dart';
@@ -83,7 +83,7 @@ class PayState extends State<PayWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var appState = AppBloc.getState(context);
+    var appState = AccessBloc.getState(context);
     if (appState is AppLoaded) {
       return BlocBuilder<PaymentBloc, PaymentState>(builder: (context, state) {
         if (state is NotLoggedOn) {

@@ -1,7 +1,5 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/platform/platform.dart';
@@ -31,9 +29,8 @@ class CartWidget extends StatefulWidget {
 class _CartWidgetState extends State<CartWidget> {
   @override
   Widget build(BuildContext context) {
-    var appState = AppBloc.getState(context);
     var accessState = AccessBloc.getState(context);
-    if (appState is AppLoaded) {
+    if (accessState is AppLoaded) {
       return MultiBlocProvider(
           providers: [
             BlocProvider.value(
@@ -48,11 +45,11 @@ class _CartWidgetState extends State<CartWidget> {
                 physics: ScrollPhysics(),
                 children: <Widget>[
                   //createHeader(),
-                  _buttonRowTop(context, appState.app),
-                  _createSubTitle(appState.app, state.amountOfProducts()),
-                  _createCartList(context, appState.app, accessState, state.items),
-                  _footer(context, appState.app, state.totalValue()),
-                  _buttonRowBottom(context, appState.app)
+                  _buttonRowTop(context, accessState.app),
+                  _createSubTitle(accessState.app, state.amountOfProducts()),
+                  _createCartList(context, accessState.app, accessState, state.items),
+                  _footer(context, accessState.app, state.totalValue()),
+                  _buttonRowBottom(context, accessState.app)
                 ],
               );
             } else {

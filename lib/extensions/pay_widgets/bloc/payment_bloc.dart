@@ -1,8 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_bloc.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_event.dart';
@@ -24,9 +22,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   static DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
   final CartBloc cartBloc;
   final AccessBloc accessBloc;
-  final AppBloc appBloc;
 
-  PaymentBloc(this.cartBloc, this.appBloc, this.accessBloc): super(PayUninitialised());
+  PaymentBloc(this.cartBloc, this.accessBloc): super(PayUninitialised());
 
   bool _allInStock() {
     // TODO: verify if all products are in stock. If not, inform the customer that one of those items has been sold.
@@ -38,14 +35,13 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     if (event is CollectOrder) {
       // The payment screen is opened. We create an OrderModel instance in memory
       var accessState = accessBloc.state;
-      var appState = appBloc.state;
-      if ((accessState is LoggedIn) && (appState is AppLoaded)) {
+      if (accessState is LoggedIn) {
         var items = await accessState.member.items();
         if (items.isEmpty) {
           yield NoItemsInCart();
           return;
         } else {
-          yield ConfirmOrder(await _getNewOrder(accessState, appState, event.shop, items));
+          yield ConfirmOrder(await _getNewOrder(accessState, event.shop, items));
           return;
         }
       } else {
@@ -96,12 +92,12 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     }
   }
 
-  Future<OrderModel> _getNewOrder(LoggedIn loggedInState, AppLoaded appState, ShopModel shop, List<CartItemModel> items) async {
+  Future<OrderModel> _getNewOrder(LoggedIn loggedInState, ShopModel shop, List<CartItemModel> items) async {
     var items = await loggedInState.member.items();
     var totalValue = CartHelper.totalValue(items);
     return OrderModel(
         documentID: newRandomKey(),
-        appId: appState
+        appId: loggedInState
             .app
             .documentID,
         customer: loggedInState.member,

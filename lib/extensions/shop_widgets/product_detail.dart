@@ -1,7 +1,5 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_pkg_fundamentals/extensions/fader_widgets/fader_widgets.dart';
 import 'package:eliud_pkg_fundamentals/model/fader_model.dart';
@@ -34,9 +32,8 @@ class ProductDetail extends StatefulWidget {
 class _ProductDetailState extends State<ProductDetail> {
   @override
   Widget build(BuildContext context) {
-    var appState = AppBloc.getState(context);
     var accessState = AccessBloc.getState(context);
-    return ProductDetailWithAccess(appState, accessState, widget.itemDetailBackground, widget.addToBasketText, widget.continueShoppingAction, widget.productModel);
+    return ProductDetailWithAccess(accessState, widget.itemDetailBackground, widget.addToBasketText, widget.continueShoppingAction, widget.productModel);
   }
 
 }
@@ -46,10 +43,9 @@ class ProductDetailWithAccess extends StatefulWidget {
   final String addToBasketText;
   final ActionModel continueShoppingAction;
   final ProductModel productModel;
-  final AppState appState;
   final AccessState accessState;
 
-  const ProductDetailWithAccess(this.appState, this.accessState, this.itemDetailBackground, this.addToBasketText, this.continueShoppingAction, this.productModel);
+  const ProductDetailWithAccess(this.accessState, this.itemDetailBackground, this.addToBasketText, this.continueShoppingAction, this.productModel);
 
   @override
   State<StatefulWidget> createState()  => _ProductDetailWithAccessState();
@@ -80,18 +76,17 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
   Widget build(BuildContext context) {
     var title = widget.productModel.title;
     var orientation = MediaQuery.of(context).orientation;
-    var appState = widget.appState;
     var accessState = widget.accessState;
-    if (appState is AppLoaded) {
+    if (accessState is AppLoaded) {
       return Scaffold(
           appBar: AppBar(
             title: Text(title,
                 style: TextStyle(
                     color: RgbHelper.color(
-                        rgbo: appState.app.formAppBarTextColor))),
+                        rgbo: accessState.app.formAppBarTextColor))),
             flexibleSpace: Container(
                 decoration: BoxDecorationHelper.boxDecoration(accessState,
-                    appState.app.formAppBarBackground)),
+                    accessState.app.formAppBarBackground)),
           ),
           body: Container(
             decoration:
@@ -113,11 +108,11 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
                             children: <Widget>[
                               Text(
                                 title,
-                                style: FontTools.textStyle(appState.app.h3),
+                                style: FontTools.textStyle(accessState.app.h3),
                               ),
                               Text(
                                 widget.productModel.price.toString(),
-                                style: FontTools.textStyle(appState.app.h3),
+                                style: FontTools.textStyle(accessState.app.h3),
                               ),
                             ],
                           ),
@@ -126,12 +121,12 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
                           padding: const EdgeInsets.only(top: 20.0),
                           child: Text(
                             widget.productModel.about,
-                            style: FontTools.textStyle(appState.app.fontText),
+                            style: FontTools.textStyle(accessState.app.fontText),
                           ),
                         ),
                         RaisedButton(
                           color: RgbHelper.color(
-                              rgbo: appState.app.formSubmitButtonColor),
+                              rgbo: accessState.app.formSubmitButtonColor),
                           onPressed: () {
                             CartTools.addToCart(context, widget.continueShoppingAction, widget.productModel, 1);
                           },
@@ -142,7 +137,7 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
                                   : 'Add to basket',
                               style: TextStyle(
                                   color: RgbHelper.color(
-                                      rgbo: appState.app
+                                      rgbo: accessState.app
                                           .formSubmitButtonTextColor))),
                         ),
                       ],

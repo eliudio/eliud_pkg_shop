@@ -14,10 +14,8 @@
 */
 
 import 'package:eliud_core/core/global_data.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -65,12 +63,11 @@ class PayConfirmationForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
     var accessState = AccessBloc.getState(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     if (formAction == FormAction.ShowData) {
       return BlocProvider<PayConfirmationFormBloc >(
-            create: (context) => PayConfirmationFormBloc(AppBloc.appId(context),
+            create: (context) => PayConfirmationFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialisePayConfirmationFormEvent(value: value)),
@@ -79,7 +76,7 @@ class PayConfirmationForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<PayConfirmationFormBloc >(
-            create: (context) => PayConfirmationFormBloc(AppBloc.appId(context),
+            create: (context) => PayConfirmationFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialisePayConfirmationFormNoLoadEvent(value: value)),
@@ -100,7 +97,7 @@ class PayConfirmationForm extends StatelessWidget {
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
         body: BlocProvider<PayConfirmationFormBloc >(
-            create: (context) => PayConfirmationFormBloc(AppBloc.appId(context),
+            create: (context) => PayConfirmationFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialisePayConfirmationFormEvent(value: value) : InitialiseNewPayConfirmationFormEvent())),
@@ -145,8 +142,7 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<PayConfirmationFormBloc, PayConfirmationFormState>(builder: (context, state) {
       if (state is PayConfirmationFormUninitialized) return Center(
@@ -183,7 +179,7 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
 
         children.add(
 
-                ActionField(AppBloc.appId(context), state.value.backToShopAction, _onBackToShopActionChanged)
+                ActionField(AccessBloc.appId(context), state.value.backToShopAction, _onBackToShopActionChanged)
           );
 
 
@@ -221,7 +217,7 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _titleController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -261,7 +257,7 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
                   color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-                  onPressed: _readOnly(accessState, appState, state) ? null : () {
+                  onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is PayConfirmationFormError) {
                       return null;
                     } else {
@@ -353,8 +349,8 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
     super.dispose();
   }
 
-  bool _readOnly(AccessState accessState, AppState appState, PayConfirmationFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(appState));
+  bool _readOnly(AccessState accessState, PayConfirmationFormInitialized state) {
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
   }
   
 
