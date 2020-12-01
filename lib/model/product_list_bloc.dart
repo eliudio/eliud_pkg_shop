@@ -33,12 +33,12 @@ class ProductListBloc extends Bloc<ProductListEvent, ProductListState> {
 
   Stream<ProductListState> _mapLoadProductListToState() async* {
     _productsListSubscription?.cancel();
-    _productsListSubscription = _productRepository.listen((list) => add(ProductListUpdated(value: list)));
+    _productsListSubscription = _productRepository.listen( (list) => add(ProductListUpdated(value: list)));
   }
 
   Stream<ProductListState> _mapLoadProductListWithDetailsToState() async* {
     _productsListSubscription?.cancel();
-    _productsListSubscription = _productRepository.listenWithDetails((list) => add(ProductListUpdated(value: list)));
+    _productsListSubscription = _productRepository.listenWithDetails( (list) => add(ProductListUpdated(value: list)));
   }
 
   Stream<ProductListState> _mapAddProductListToState(AddProductList event) async* {

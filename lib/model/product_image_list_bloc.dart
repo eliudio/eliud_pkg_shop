@@ -33,12 +33,12 @@ class ProductImageListBloc extends Bloc<ProductImageListEvent, ProductImageListS
 
   Stream<ProductImageListState> _mapLoadProductImageListToState() async* {
     _productImagesListSubscription?.cancel();
-    _productImagesListSubscription = _productImageRepository.listen((list) => add(ProductImageListUpdated(value: list)));
+    _productImagesListSubscription = _productImageRepository.listen( (list) => add(ProductImageListUpdated(value: list)));
   }
 
   Stream<ProductImageListState> _mapLoadProductImageListWithDetailsToState() async* {
     _productImagesListSubscription?.cancel();
-    _productImagesListSubscription = _productImageRepository.listenWithDetails((list) => add(ProductImageListUpdated(value: list)));
+    _productImagesListSubscription = _productImageRepository.listenWithDetails( (list) => add(ProductImageListUpdated(value: list)));
   }
 
   Stream<ProductImageListState> _mapAddProductImageListToState(AddProductImageList event) async* {

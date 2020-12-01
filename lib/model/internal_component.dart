@@ -248,6 +248,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<CartListBloc>(
           create: (context) => CartListBloc(
+            
             cartRepository: cartRepository(appId: AccessBloc.appId(context)),
           )..add(LoadCartList()),
         )
@@ -261,6 +262,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<OrderListBloc>(
           create: (context) => OrderListBloc(
+            
             orderRepository: orderRepository(appId: AccessBloc.appId(context)),
           )..add(LoadOrderList()),
         )
@@ -274,6 +276,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<OrderOverviewListBloc>(
           create: (context) => OrderOverviewListBloc(
+            
             orderOverviewRepository: orderOverviewRepository(appId: AccessBloc.appId(context)),
           )..add(LoadOrderOverviewList()),
         )
@@ -287,6 +290,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<PayListBloc>(
           create: (context) => PayListBloc(
+            
             payRepository: payRepository(appId: AccessBloc.appId(context)),
           )..add(LoadPayList()),
         )
@@ -300,6 +304,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<PayConfirmationListBloc>(
           create: (context) => PayConfirmationListBloc(
+            
             payConfirmationRepository: payConfirmationRepository(appId: AccessBloc.appId(context)),
           )..add(LoadPayConfirmationList()),
         )
@@ -313,6 +318,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<ProductListBloc>(
           create: (context) => ProductListBloc(
+            
             productRepository: productRepository(appId: AccessBloc.appId(context)),
           )..add(LoadProductList()),
         )
@@ -326,6 +332,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<ShopListBloc>(
           create: (context) => ShopListBloc(
+            
             shopRepository: shopRepository(appId: AccessBloc.appId(context)),
           )..add(LoadShopList()),
         )
@@ -339,6 +346,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<ShopFrontListBloc>(
           create: (context) => ShopFrontListBloc(
+            
             shopFrontRepository: shopFrontRepository(appId: AccessBloc.appId(context)),
           )..add(LoadShopFrontList()),
         )
@@ -380,6 +388,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<CartListBloc>(
           create: (context) => CartListBloc(
+            
             cartRepository: cartRepository(appId: AccessBloc.appId(context)),
           )..add(LoadCartList()),
         )
@@ -393,6 +402,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<OrderListBloc>(
           create: (context) => OrderListBloc(
+            
             orderRepository: orderRepository(appId: AccessBloc.appId(context)),
           )..add(LoadOrderList()),
         )
@@ -406,6 +416,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<OrderOverviewListBloc>(
           create: (context) => OrderOverviewListBloc(
+            
             orderOverviewRepository: orderOverviewRepository(appId: AccessBloc.appId(context)),
           )..add(LoadOrderOverviewList()),
         )
@@ -419,6 +430,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<PayListBloc>(
           create: (context) => PayListBloc(
+            
             payRepository: payRepository(appId: AccessBloc.appId(context)),
           )..add(LoadPayList()),
         )
@@ -432,6 +444,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<PayConfirmationListBloc>(
           create: (context) => PayConfirmationListBloc(
+            
             payConfirmationRepository: payConfirmationRepository(appId: AccessBloc.appId(context)),
           )..add(LoadPayConfirmationList()),
         )
@@ -445,6 +458,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<ProductListBloc>(
           create: (context) => ProductListBloc(
+            
             productRepository: productRepository(appId: AccessBloc.appId(context)),
           )..add(LoadProductList()),
         )
@@ -458,6 +472,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<ShopListBloc>(
           create: (context) => ShopListBloc(
+            
             shopRepository: shopRepository(appId: AccessBloc.appId(context)),
           )..add(LoadShopList()),
         )
@@ -471,6 +486,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<ShopFrontListBloc>(
           create: (context) => ShopFrontListBloc(
+            
             shopFrontRepository: shopFrontRepository(appId: AccessBloc.appId(context)),
           )..add(LoadShopFrontList()),
         )
