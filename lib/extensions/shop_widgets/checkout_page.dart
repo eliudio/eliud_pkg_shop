@@ -1,12 +1,11 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/model/member_form.dart';
 import 'package:eliud_core/model/member_list_bloc.dart';
 import 'package:eliud_core/model/member_list_event.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/tools/enums.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,8 +31,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
             BlocProvider<MemberListBloc>(
               create: (context) =>
               MemberListBloc(accessBloc,
-                memberRepository: AbstractRepositorySingleton.singleton
-                    .memberRepository(),
+                memberRepository: memberRepository(),
               )
                 ..add(LoadMemberList()),
             )

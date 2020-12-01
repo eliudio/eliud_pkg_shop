@@ -5,8 +5,8 @@ import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/core/navigate/router.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/etc.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_pkg_shop/model/cart_item_model.dart';
 import 'package:eliud_pkg_shop/model/product_model.dart';
@@ -55,8 +55,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       var newItems = copyListAndChangeAmount(
           items, product, amount);
       var newMember = member.copyWithItems(newItems);
-      await AbstractRepositorySingleton.singleton
-          .memberRepository()
+      await memberRepository()
           .update(newMember);
 
       accessBloc.add(MemberUpdated(newMember));
@@ -67,8 +66,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     var member = accessState.member;
     if (member != null) {
       var newMember = member.copyWithItems([]);
-      await AbstractRepositorySingleton.singleton
-          .memberRepository()
+      await memberRepository()
           .update(newMember);
       accessBloc.add(MemberUpdated(newMember));
     }
