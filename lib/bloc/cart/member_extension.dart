@@ -18,7 +18,7 @@ extension CartMemberExtension on MemberModel {
         });
 
         var items = new List<CartItemModel>.from(await Future.wait(decodedItems
-            .map((item) => CartItemModel.fromEntityPlus(newRandomKey(), item))
+            .map((item) => CartItemModel.fromEntityPlus(newRandomKey(), item, appId: item.appId))
             .toList()));
 
         // TODO: we need to check if all item's have a reference to a product. If not it means the product has disappeared from our catalogue, in between pressing "buy" and checking out, which could be days in between
@@ -37,7 +37,7 @@ extension CartMemberExtension on MemberModel {
       newPackageData = HashMap();
     }
     if (cartItems != null)
-      newPackageData['CART_ITEMS'] = jsonEncode(cartItems.map((cartItem) => cartItem.toEntity().toJsonString()).toList());
+      newPackageData['CART_ITEMS'] = jsonEncode(cartItems.map((cartItem) => cartItem.toEntity(appId: cartItem.appId).toJsonString()).toList());
     return MemberModel(documentID: this.documentID, name: this.name, subscriptions: this.subscriptions, photoURL: this.photoURL,
                       shipStreet1: this.shipStreet1, shipStreet2: this.shipStreet2, shipCity: this.shipCity, shipState: this.shipState, postcode: this.postcode, country: this.country,
                       invoiceSame: this.invoiceSame, invoiceStreet1: this.invoiceStreet1, invoiceStreet2: this.invoiceStreet2, invoiceCity: this.invoiceCity, invoiceState: this.invoiceState, invoicePostcode: this.invoicePostcode, invoiceCountry: this.invoiceCountry,

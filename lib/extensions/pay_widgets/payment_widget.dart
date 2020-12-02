@@ -20,7 +20,7 @@ class PayWidget extends StatefulWidget {
   PayWidget(this.pay);
 
   @override
-  State<StatefulWidget> createState() {
+  PayState createState() {
     return PayState();
   }
 }
