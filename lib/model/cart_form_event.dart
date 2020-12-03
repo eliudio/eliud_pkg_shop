@@ -178,3 +178,15 @@ class ChangedCartBackToShopAction extends CartFormEvent {
   String toString() => 'ChangedCartBackToShopAction{ value: $value }';
 }
 
+class ChangedCartOpenProductAction extends CartFormEvent {
+  final ActionModel value;
+
+  ChangedCartOpenProductAction({this.value});
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedCartOpenProductAction{ value: $value }';
+}
+

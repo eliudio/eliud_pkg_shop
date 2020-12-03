@@ -120,6 +120,7 @@ class CartFormBloc extends Bloc<CartFormEvent, CartFormState> {
                                  itemDetailBackground: currentState.value.itemDetailBackground,
                                  checkoutAction: currentState.value.checkoutAction,
                                  backToShopAction: currentState.value.backToShopAction,
+                                 openProductAction: currentState.value.openProductAction,
           );
         yield SubmittableCartForm(value: newValue);
 
@@ -140,6 +141,7 @@ class CartFormBloc extends Bloc<CartFormEvent, CartFormState> {
                                  itemDetailBackground: currentState.value.itemDetailBackground,
                                  checkoutAction: currentState.value.checkoutAction,
                                  backToShopAction: currentState.value.backToShopAction,
+                                 openProductAction: currentState.value.openProductAction,
           );
         yield SubmittableCartForm(value: newValue);
 
@@ -160,6 +162,7 @@ class CartFormBloc extends Bloc<CartFormEvent, CartFormState> {
                                  itemDetailBackground: null,
                                  checkoutAction: currentState.value.checkoutAction,
                                  backToShopAction: currentState.value.backToShopAction,
+                                 openProductAction: currentState.value.openProductAction,
           );
         yield SubmittableCartForm(value: newValue);
 
@@ -173,6 +176,12 @@ class CartFormBloc extends Bloc<CartFormEvent, CartFormState> {
       }
       if (event is ChangedCartBackToShopAction) {
         newValue = currentState.value.copyWith(backToShopAction: event.value);
+        yield SubmittableCartForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedCartOpenProductAction) {
+        newValue = currentState.value.copyWith(openProductAction: event.value);
         yield SubmittableCartForm(value: newValue);
 
         return;

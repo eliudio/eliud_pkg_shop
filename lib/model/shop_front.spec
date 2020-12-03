@@ -50,14 +50,6 @@
       "group": "general"
     },
     {
-      "fieldName": "addToBasketText",
-      "displayName": "Add to basket text",
-      "group": "general",
-      "fieldType": "String",
-      "iconName": "text_format",
-      "group": "general"
-    },
-    {
       "fieldName": "shop",
       "displayName": "Shop",
       "fieldType": "Shop",
@@ -92,14 +84,6 @@
       "group": "itemCardBackground"
     },
     {
-      "fieldName": "itemDetailBackground",
-      "displayName": "Item Detail Background",
-      "fieldType": "Background",
-      "association": true,
-      "optional": true,
-      "group": "itemDetailBackground"
-    },
-    {
       "fieldName": "addToCartColor",
       "displayName": " Add To Card Color",
       "defaultValue": "RgbModel(r: 255, g: 0, b: 0, opacity: 1.00)",
@@ -129,6 +113,12 @@
       "fieldType": "Action",
       "bespokeFormField": "ActionField(AccessBloc.appId(context), state.value.buyAction, _onBuyActionChanged)",
       "group": "action"
+    },
+    {
+      "fieldName": "openProductAction",
+      "fieldType": "Action",
+      "bespokeFormField": "ActionField(AccessBloc.appId(context), state.value.openProductAction, _onOpenProductActionChanged)",
+      "group": "openProductAction"
     }
   ],
   "groups": [
@@ -139,6 +129,10 @@
     {
         "group": "action",
         "description": "Action After Buy"
+    },
+    {
+        "group": "openProductAction",
+        "description": "Open product action"
     },
     {
         "group": "shop",

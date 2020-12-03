@@ -225,17 +225,11 @@ class _CartWidgetState extends State<CartWidget> {
     return GestureDetector(
         child: w,
         onTap: () {
-          Navigator.of(context).push(SizeRoute(
-              page: ProductDetail(
-            continueShoppingAction: widget.cart.backToShopAction,
-            productModel: item.product,
-            itemDetailBackground: null,
-//todo: background
-//                                widget.shopFrontModel.itemDetailBackground,
-            addToBasketText: null,
-//todo: background
-//                                widget.shopFrontModel.addToBasketText
-          )));
+          var parameters = <String, String>{
+            'productId': item.product.documentID
+          };
+          eliudrouter.Router.navigateTo(
+              context, widget.cart.openProductAction, parameters: parameters);
         });
   }
 

@@ -106,18 +106,6 @@ class ChangedShopFrontDescription extends ShopFrontFormEvent {
   String toString() => 'ChangedShopFrontDescription{ value: $value }';
 }
 
-class ChangedShopFrontAddToBasketText extends ShopFrontFormEvent {
-  final String value;
-
-  ChangedShopFrontAddToBasketText({this.value});
-
-  @override
-  List<Object> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedShopFrontAddToBasketText{ value: $value }';
-}
-
 class ChangedShopFrontShop extends ShopFrontFormEvent {
   final String value;
 
@@ -178,18 +166,6 @@ class ChangedShopFrontItemCardBackground extends ShopFrontFormEvent {
   String toString() => 'ChangedShopFrontItemCardBackground{ value: $value }';
 }
 
-class ChangedShopFrontItemDetailBackground extends ShopFrontFormEvent {
-  final String value;
-
-  ChangedShopFrontItemDetailBackground({this.value});
-
-  @override
-  List<Object> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedShopFrontItemDetailBackground{ value: $value }';
-}
-
 class ChangedShopFrontAddToCartColor extends ShopFrontFormEvent {
   final RgbModel value;
 
@@ -236,5 +212,17 @@ class ChangedShopFrontBuyAction extends ShopFrontFormEvent {
 
   @override
   String toString() => 'ChangedShopFrontBuyAction{ value: $value }';
+}
+
+class ChangedShopFrontOpenProductAction extends ShopFrontFormEvent {
+  final ActionModel value;
+
+  ChangedShopFrontOpenProductAction({this.value});
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedShopFrontOpenProductAction{ value: $value }';
 }
 

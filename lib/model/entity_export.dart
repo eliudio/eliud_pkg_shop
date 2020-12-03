@@ -22,6 +22,7 @@ export '../model/order_references_entity.dart';
 export '../model/pay_entity.dart';
 export '../model/pay_confirmation_entity.dart';
 export '../model/product_entity.dart';
+export '../model/product_display_entity.dart';
 export '../model/product_image_entity.dart';
 export '../model/shop_entity.dart';
 export '../model/shop_front_entity.dart';

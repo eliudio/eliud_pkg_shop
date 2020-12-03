@@ -1,28 +1,20 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_pkg_fundamentals/extensions/fader_widgets/fader_widgets.dart';
 import 'package:eliud_pkg_fundamentals/model/fader_model.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_tools.dart';
+import 'package:eliud_pkg_shop/model/product_display_model.dart';
 import 'package:eliud_pkg_shop/model/product_model.dart';
 import 'package:eliud_core/platform/platform.dart';
-import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/pos_size_model.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetail extends StatefulWidget {
-  final BackgroundModel itemDetailBackground;
-  final String addToBasketText;
-  final ActionModel continueShoppingAction;
+  final ProductDisplayModel productDisplayModel;
   final ProductModel productModel;
 
-  const ProductDetail(
-      {Key key,
-      this.continueShoppingAction,
-      this.productModel,
-      this.itemDetailBackground,
-      this.addToBasketText})
+  const ProductDetail({Key key, this.productDisplayModel, this.productModel})
       : super(key: key);
 
   @override
@@ -33,22 +25,21 @@ class _ProductDetailState extends State<ProductDetail> {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    return ProductDetailWithAccess(accessState, widget.itemDetailBackground, widget.addToBasketText, widget.continueShoppingAction, widget.productModel);
+    return ProductDetailWithAccess(
+        accessState, widget.productDisplayModel, widget.productModel);
   }
-
 }
 
 class ProductDetailWithAccess extends StatefulWidget {
-  final BackgroundModel itemDetailBackground;
-  final String addToBasketText;
-  final ActionModel continueShoppingAction;
-  final ProductModel productModel;
+  final ProductDisplayModel productDisplayModel;
   final AccessState accessState;
+  final ProductModel productModel;
 
-  const ProductDetailWithAccess(this.accessState, this.itemDetailBackground, this.addToBasketText, this.continueShoppingAction, this.productModel);
+  const ProductDetailWithAccess(
+      this.accessState, this.productDisplayModel, this.productModel);
 
   @override
-  State<StatefulWidget> createState()  => _ProductDetailWithAccessState();
+  State<StatefulWidget> createState() => _ProductDetailWithAccessState();
 }
 
 class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
@@ -59,8 +50,8 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
   void didChangeDependencies() {
     var items = widget.productModel.images;
     cachedImages = items
-        .map((element) =>
-            AbstractPlatform.platform.getImageProvider(widget.accessState, element.image))
+        .map((element) => AbstractPlatform.platform
+            .getImageProvider(widget.accessState, element.image))
         .toList();
     positionsAndSizes =
         items.map((element) => (widget.productModel.posSize)).toList();
@@ -78,77 +69,72 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
     var orientation = MediaQuery.of(context).orientation;
     var accessState = widget.accessState;
     if (accessState is AppLoaded) {
-      return Scaffold(
-          appBar: AppBar(
-            title: Text(title,
-                style: TextStyle(
-                    color: RgbHelper.color(
-                        rgbo: accessState.app.formAppBarTextColor))),
-            flexibleSpace: Container(
-                decoration: BoxDecorationHelper.boxDecoration(accessState,
-                    accessState.app.formAppBarBackground)),
-          ),
-          body: Container(
-            decoration:
-                BoxDecorationHelper.boxDecoration(accessState, widget.itemDetailBackground),
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  TheImageGF(cachedImages, positionsAndSizes, null, orientation,
-                      1, FaderAnimation.Fade, 1000),
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 15.0),
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(top: 25.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                title,
-                                style: FontTools.textStyle(accessState.app.h3),
-                              ),
-                              Text(
-                                widget.productModel.price.toString(),
-                                style: FontTools.textStyle(accessState.app.h3),
-                              ),
-                            ],
-                          ),
+      return Container(
+          decoration: BoxDecorationHelper.boxDecoration(
+              accessState, widget.productDisplayModel.itemDetailBackground),
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                TheImageGF(cachedImages, positionsAndSizes, null, orientation,
+                    1, FaderAnimation.Fade, 1000),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 15.0),
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(top: 25.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              title,
+                              style: FontTools.textStyle(accessState.app.h3),
+                            ),
+                            Text(
+                              widget.productModel.price.toString(),
+                              style: FontTools.textStyle(accessState.app.h3),
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: Text(
-                            widget.productModel.about,
-                            style: FontTools.textStyle(accessState.app.fontText),
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: Text(
+                          widget.productModel.about,
+                          style: FontTools.textStyle(accessState.app.fontText),
                         ),
-                        RaisedButton(
-                          color: RgbHelper.color(
-                              rgbo: accessState.app.formSubmitButtonColor),
-                          onPressed: () {
-                            CartTools.addToCart(context, widget.continueShoppingAction, widget.productModel, 1);
-                          },
-                          child: Text(
-                              widget.addToBasketText != null &&
-                                      widget.addToBasketText.isNotEmpty
-                                  ? widget.addToBasketText
-                                  : 'Add to basket',
-                              style: TextStyle(
-                                  color: RgbHelper.color(
-                                      rgbo: accessState.app
-                                          .formSubmitButtonTextColor))),
-                        ),
-                      ],
-                    ),
+                      ),
+                      RaisedButton(
+                        color: RgbHelper.color(
+                            rgbo: accessState.app.formSubmitButtonColor),
+                        onPressed: () {
+                          CartTools.addToCart(
+                              context,
+                              widget.productDisplayModel.buyAction,
+                              widget.productModel,
+                              1);
+                        },
+                        child: Text(
+                            widget.productDisplayModel.addToBasketText !=
+                                        null &&
+                                    widget.productDisplayModel.addToBasketText
+                                        .isNotEmpty
+                                ? widget.productDisplayModel.addToBasketText
+                                : 'Add to basket',
+                            style: TextStyle(
+                                color: RgbHelper.color(
+                                    rgbo: accessState
+                                        .app.formSubmitButtonTextColor))),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ));
-  } else {
-    return Text('App not loaded');
-  }
+    } else {
+      return Text('App not loaded');
+    }
   }
 }

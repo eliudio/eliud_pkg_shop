@@ -92,6 +92,12 @@
       "fieldType": "Action",
       "bespokeFormField": "ActionField(AccessBloc.appId(context), state.value.backToShopAction, _onBackToShopActionChanged)",
       "group": "backToShopAction"
+    },
+    {
+      "fieldName": "openProductAction",
+      "fieldType": "Action",
+      "bespokeFormField": "ActionField(AccessBloc.appId(context), state.value.openProductAction, _onOpenProductActionChanged)",
+      "group": "openProductAction"
     }
   ],
   "groups": [

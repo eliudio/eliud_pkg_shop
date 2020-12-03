@@ -56,7 +56,6 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
                                  appId: "",
                                  title: "",
                                  description: "",
-                                 addToBasketText: "",
                                  size: 0.0,
                                  cardElevation: 0.0,
                                  cardAxisSpacing: 0.0,
@@ -103,12 +102,6 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
 
         return;
       }
-      if (event is ChangedShopFrontAddToBasketText) {
-        newValue = currentState.value.copyWith(addToBasketText: event.value);
-        yield SubmittableShopFrontForm(value: newValue);
-
-        return;
-      }
       if (event is ChangedShopFrontShop) {
         if (event.value != null)
           newValue = currentState.value.copyWith(shop: await shopRepository(appId: appId).get(event.value));
@@ -118,17 +111,16 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
                                  appId: currentState.value.appId,
                                  title: currentState.value.title,
                                  description: currentState.value.description,
-                                 addToBasketText: currentState.value.addToBasketText,
                                  shop: null,
                                  size: currentState.value.size,
                                  cardElevation: currentState.value.cardElevation,
                                  cardAxisSpacing: currentState.value.cardAxisSpacing,
                                  itemCardBackground: currentState.value.itemCardBackground,
-                                 itemDetailBackground: currentState.value.itemDetailBackground,
                                  addToCartColor: currentState.value.addToCartColor,
                                  view: currentState.value.view,
                                  scrollDirection: currentState.value.scrollDirection,
                                  buyAction: currentState.value.buyAction,
+                                 openProductAction: currentState.value.openProductAction,
           );
         yield SubmittableShopFrontForm(value: newValue);
 
@@ -176,42 +168,16 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
                                  appId: currentState.value.appId,
                                  title: currentState.value.title,
                                  description: currentState.value.description,
-                                 addToBasketText: currentState.value.addToBasketText,
                                  shop: currentState.value.shop,
                                  size: currentState.value.size,
                                  cardElevation: currentState.value.cardElevation,
                                  cardAxisSpacing: currentState.value.cardAxisSpacing,
                                  itemCardBackground: null,
-                                 itemDetailBackground: currentState.value.itemDetailBackground,
                                  addToCartColor: currentState.value.addToCartColor,
                                  view: currentState.value.view,
                                  scrollDirection: currentState.value.scrollDirection,
                                  buyAction: currentState.value.buyAction,
-          );
-        yield SubmittableShopFrontForm(value: newValue);
-
-        return;
-      }
-      if (event is ChangedShopFrontItemDetailBackground) {
-        if (event.value != null)
-          newValue = currentState.value.copyWith(itemDetailBackground: await backgroundRepository(appId: appId).get(event.value));
-        else
-          newValue = new ShopFrontModel(
-                                 documentID: currentState.value.documentID,
-                                 appId: currentState.value.appId,
-                                 title: currentState.value.title,
-                                 description: currentState.value.description,
-                                 addToBasketText: currentState.value.addToBasketText,
-                                 shop: currentState.value.shop,
-                                 size: currentState.value.size,
-                                 cardElevation: currentState.value.cardElevation,
-                                 cardAxisSpacing: currentState.value.cardAxisSpacing,
-                                 itemCardBackground: currentState.value.itemCardBackground,
-                                 itemDetailBackground: null,
-                                 addToCartColor: currentState.value.addToCartColor,
-                                 view: currentState.value.view,
-                                 scrollDirection: currentState.value.scrollDirection,
-                                 buyAction: currentState.value.buyAction,
+                                 openProductAction: currentState.value.openProductAction,
           );
         yield SubmittableShopFrontForm(value: newValue);
 
@@ -237,6 +203,12 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
       }
       if (event is ChangedShopFrontBuyAction) {
         newValue = currentState.value.copyWith(buyAction: event.value);
+        yield SubmittableShopFrontForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedShopFrontOpenProductAction) {
+        newValue = currentState.value.copyWith(openProductAction: event.value);
         yield SubmittableShopFrontForm(value: newValue);
 
         return;

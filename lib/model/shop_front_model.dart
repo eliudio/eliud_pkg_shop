@@ -63,28 +63,27 @@ class ShopFrontModel {
   String appId;
   String title;
   String description;
-  String addToBasketText;
   ShopModel shop;
   double size;
   double cardElevation;
   double cardAxisSpacing;
   BackgroundModel itemCardBackground;
-  BackgroundModel itemDetailBackground;
   RgbModel addToCartColor;
   ShopFrontView view;
   ScrollDirection scrollDirection;
   ActionModel buyAction;
+  ActionModel openProductAction;
 
-  ShopFrontModel({this.documentID, this.appId, this.title, this.description, this.addToBasketText, this.shop, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackground, this.itemDetailBackground, this.addToCartColor, this.view, this.scrollDirection, this.buyAction, })  {
+  ShopFrontModel({this.documentID, this.appId, this.title, this.description, this.shop, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackground, this.addToCartColor, this.view, this.scrollDirection, this.buyAction, this.openProductAction, })  {
     assert(documentID != null);
   }
 
-  ShopFrontModel copyWith({String documentID, String appId, String title, String description, String addToBasketText, ShopModel shop, double size, double cardElevation, double cardAxisSpacing, BackgroundModel itemCardBackground, BackgroundModel itemDetailBackground, RgbModel addToCartColor, ShopFrontView view, ScrollDirection scrollDirection, ActionModel buyAction, }) {
-    return ShopFrontModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, description: description ?? this.description, addToBasketText: addToBasketText ?? this.addToBasketText, shop: shop ?? this.shop, size: size ?? this.size, cardElevation: cardElevation ?? this.cardElevation, cardAxisSpacing: cardAxisSpacing ?? this.cardAxisSpacing, itemCardBackground: itemCardBackground ?? this.itemCardBackground, itemDetailBackground: itemDetailBackground ?? this.itemDetailBackground, addToCartColor: addToCartColor ?? this.addToCartColor, view: view ?? this.view, scrollDirection: scrollDirection ?? this.scrollDirection, buyAction: buyAction ?? this.buyAction, );
+  ShopFrontModel copyWith({String documentID, String appId, String title, String description, ShopModel shop, double size, double cardElevation, double cardAxisSpacing, BackgroundModel itemCardBackground, RgbModel addToCartColor, ShopFrontView view, ScrollDirection scrollDirection, ActionModel buyAction, ActionModel openProductAction, }) {
+    return ShopFrontModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, description: description ?? this.description, shop: shop ?? this.shop, size: size ?? this.size, cardElevation: cardElevation ?? this.cardElevation, cardAxisSpacing: cardAxisSpacing ?? this.cardAxisSpacing, itemCardBackground: itemCardBackground ?? this.itemCardBackground, addToCartColor: addToCartColor ?? this.addToCartColor, view: view ?? this.view, scrollDirection: scrollDirection ?? this.scrollDirection, buyAction: buyAction ?? this.buyAction, openProductAction: openProductAction ?? this.openProductAction, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ description.hashCode ^ addToBasketText.hashCode ^ shop.hashCode ^ size.hashCode ^ cardElevation.hashCode ^ cardAxisSpacing.hashCode ^ itemCardBackground.hashCode ^ itemDetailBackground.hashCode ^ addToCartColor.hashCode ^ view.hashCode ^ scrollDirection.hashCode ^ buyAction.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ description.hashCode ^ shop.hashCode ^ size.hashCode ^ cardElevation.hashCode ^ cardAxisSpacing.hashCode ^ itemCardBackground.hashCode ^ addToCartColor.hashCode ^ view.hashCode ^ scrollDirection.hashCode ^ buyAction.hashCode ^ openProductAction.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -95,21 +94,20 @@ class ShopFrontModel {
           appId == other.appId &&
           title == other.title &&
           description == other.description &&
-          addToBasketText == other.addToBasketText &&
           shop == other.shop &&
           size == other.size &&
           cardElevation == other.cardElevation &&
           cardAxisSpacing == other.cardAxisSpacing &&
           itemCardBackground == other.itemCardBackground &&
-          itemDetailBackground == other.itemDetailBackground &&
           addToCartColor == other.addToCartColor &&
           view == other.view &&
           scrollDirection == other.scrollDirection &&
-          buyAction == other.buyAction;
+          buyAction == other.buyAction &&
+          openProductAction == other.openProductAction;
 
   @override
   String toString() {
-    return 'ShopFrontModel{documentID: $documentID, appId: $appId, title: $title, description: $description, addToBasketText: $addToBasketText, shop: $shop, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackground: $itemCardBackground, itemDetailBackground: $itemDetailBackground, addToCartColor: $addToCartColor, view: $view, scrollDirection: $scrollDirection, buyAction: $buyAction}';
+    return 'ShopFrontModel{documentID: $documentID, appId: $appId, title: $title, description: $description, shop: $shop, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackground: $itemCardBackground, addToCartColor: $addToCartColor, view: $view, scrollDirection: $scrollDirection, buyAction: $buyAction, openProductAction: $openProductAction}';
   }
 
   ShopFrontEntity toEntity({String appId}) {
@@ -117,17 +115,16 @@ class ShopFrontModel {
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
           description: (description != null) ? description : null, 
-          addToBasketText: (addToBasketText != null) ? addToBasketText : null, 
           shopId: (shop != null) ? shop.documentID : null, 
           size: (size != null) ? size : null, 
           cardElevation: (cardElevation != null) ? cardElevation : null, 
           cardAxisSpacing: (cardAxisSpacing != null) ? cardAxisSpacing : null, 
           itemCardBackgroundId: (itemCardBackground != null) ? itemCardBackground.documentID : null, 
-          itemDetailBackgroundId: (itemDetailBackground != null) ? itemDetailBackground.documentID : null, 
           addToCartColor: (addToCartColor != null) ? addToCartColor.toEntity(appId: appId) : null, 
           view: (view != null) ? view.index : null, 
           scrollDirection: (scrollDirection != null) ? scrollDirection.index : null, 
           buyAction: (buyAction != null) ? buyAction.toEntity(appId: appId) : null, 
+          openProductAction: (openProductAction != null) ? openProductAction.toEntity(appId: appId) : null, 
     );
   }
 
@@ -138,7 +135,6 @@ class ShopFrontModel {
           appId: entity.appId, 
           title: entity.title, 
           description: entity.description, 
-          addToBasketText: entity.addToBasketText, 
           size: entity.size, 
           cardElevation: entity.cardElevation, 
           cardAxisSpacing: entity.cardAxisSpacing, 
@@ -148,6 +144,8 @@ class ShopFrontModel {
           scrollDirection: toScrollDirection(entity.scrollDirection), 
           buyAction: 
             ActionModel.fromEntity(entity.buyAction), 
+          openProductAction: 
+            ActionModel.fromEntity(entity.openProductAction), 
     );
   }
 
@@ -172,33 +170,24 @@ class ShopFrontModel {
       } catch (_) {}
     }
 
-    BackgroundModel itemDetailBackgroundHolder;
-    if (entity.itemDetailBackgroundId != null) {
-      try {
-        await backgroundRepository(appId: appId).get(entity.itemDetailBackgroundId).then((val) {
-          itemDetailBackgroundHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     return ShopFrontModel(
           documentID: documentID, 
           appId: entity.appId, 
           title: entity.title, 
           description: entity.description, 
-          addToBasketText: entity.addToBasketText, 
           shop: shopHolder, 
           size: entity.size, 
           cardElevation: entity.cardElevation, 
           cardAxisSpacing: entity.cardAxisSpacing, 
           itemCardBackground: itemCardBackgroundHolder, 
-          itemDetailBackground: itemDetailBackgroundHolder, 
           addToCartColor: 
             await RgbModel.fromEntityPlus(entity.addToCartColor, appId: appId), 
           view: toShopFrontView(entity.view), 
           scrollDirection: toScrollDirection(entity.scrollDirection), 
           buyAction: 
             await ActionModel.fromEntityPlus(entity.buyAction, appId: appId), 
+          openProductAction: 
+            await ActionModel.fromEntityPlus(entity.openProductAction, appId: appId), 
     );
   }
 

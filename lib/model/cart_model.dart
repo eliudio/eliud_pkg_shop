@@ -45,17 +45,18 @@ class CartModel {
   BackgroundModel itemDetailBackground;
   ActionModel checkoutAction;
   ActionModel backToShopAction;
+  ActionModel openProductAction;
 
-  CartModel({this.documentID, this.appId, this.title, this.description, this.checkoutText, this.shop, this.itemImageBackground, this.itemDetailBackground, this.checkoutAction, this.backToShopAction, })  {
+  CartModel({this.documentID, this.appId, this.title, this.description, this.checkoutText, this.shop, this.itemImageBackground, this.itemDetailBackground, this.checkoutAction, this.backToShopAction, this.openProductAction, })  {
     assert(documentID != null);
   }
 
-  CartModel copyWith({String documentID, String appId, String title, String description, String checkoutText, ShopModel shop, BackgroundModel itemImageBackground, BackgroundModel itemDetailBackground, ActionModel checkoutAction, ActionModel backToShopAction, }) {
-    return CartModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, description: description ?? this.description, checkoutText: checkoutText ?? this.checkoutText, shop: shop ?? this.shop, itemImageBackground: itemImageBackground ?? this.itemImageBackground, itemDetailBackground: itemDetailBackground ?? this.itemDetailBackground, checkoutAction: checkoutAction ?? this.checkoutAction, backToShopAction: backToShopAction ?? this.backToShopAction, );
+  CartModel copyWith({String documentID, String appId, String title, String description, String checkoutText, ShopModel shop, BackgroundModel itemImageBackground, BackgroundModel itemDetailBackground, ActionModel checkoutAction, ActionModel backToShopAction, ActionModel openProductAction, }) {
+    return CartModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, description: description ?? this.description, checkoutText: checkoutText ?? this.checkoutText, shop: shop ?? this.shop, itemImageBackground: itemImageBackground ?? this.itemImageBackground, itemDetailBackground: itemDetailBackground ?? this.itemDetailBackground, checkoutAction: checkoutAction ?? this.checkoutAction, backToShopAction: backToShopAction ?? this.backToShopAction, openProductAction: openProductAction ?? this.openProductAction, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ description.hashCode ^ checkoutText.hashCode ^ shop.hashCode ^ itemImageBackground.hashCode ^ itemDetailBackground.hashCode ^ checkoutAction.hashCode ^ backToShopAction.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ description.hashCode ^ checkoutText.hashCode ^ shop.hashCode ^ itemImageBackground.hashCode ^ itemDetailBackground.hashCode ^ checkoutAction.hashCode ^ backToShopAction.hashCode ^ openProductAction.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -71,11 +72,12 @@ class CartModel {
           itemImageBackground == other.itemImageBackground &&
           itemDetailBackground == other.itemDetailBackground &&
           checkoutAction == other.checkoutAction &&
-          backToShopAction == other.backToShopAction;
+          backToShopAction == other.backToShopAction &&
+          openProductAction == other.openProductAction;
 
   @override
   String toString() {
-    return 'CartModel{documentID: $documentID, appId: $appId, title: $title, description: $description, checkoutText: $checkoutText, shop: $shop, itemImageBackground: $itemImageBackground, itemDetailBackground: $itemDetailBackground, checkoutAction: $checkoutAction, backToShopAction: $backToShopAction}';
+    return 'CartModel{documentID: $documentID, appId: $appId, title: $title, description: $description, checkoutText: $checkoutText, shop: $shop, itemImageBackground: $itemImageBackground, itemDetailBackground: $itemDetailBackground, checkoutAction: $checkoutAction, backToShopAction: $backToShopAction, openProductAction: $openProductAction}';
   }
 
   CartEntity toEntity({String appId}) {
@@ -89,6 +91,7 @@ class CartModel {
           itemDetailBackgroundId: (itemDetailBackground != null) ? itemDetailBackground.documentID : null, 
           checkoutAction: (checkoutAction != null) ? checkoutAction.toEntity(appId: appId) : null, 
           backToShopAction: (backToShopAction != null) ? backToShopAction.toEntity(appId: appId) : null, 
+          openProductAction: (openProductAction != null) ? openProductAction.toEntity(appId: appId) : null, 
     );
   }
 
@@ -104,6 +107,8 @@ class CartModel {
             ActionModel.fromEntity(entity.checkoutAction), 
           backToShopAction: 
             ActionModel.fromEntity(entity.backToShopAction), 
+          openProductAction: 
+            ActionModel.fromEntity(entity.openProductAction), 
     );
   }
 
@@ -150,6 +155,8 @@ class CartModel {
             await ActionModel.fromEntityPlus(entity.checkoutAction, appId: appId), 
           backToShopAction: 
             await ActionModel.fromEntityPlus(entity.backToShopAction, appId: appId), 
+          openProductAction: 
+            await ActionModel.fromEntityPlus(entity.openProductAction, appId: appId), 
     );
   }
 

@@ -127,22 +127,6 @@ class DescriptionShopFrontFormError extends ShopFrontFormError {
 }
 
 
-class AddToBasketTextShopFrontFormError extends ShopFrontFormError { 
-  const AddToBasketTextShopFrontFormError({ String message, ShopFrontModel value }): super(message: message, value: value);
-
-  @override
-  List<Object> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''AddToBasketTextShopFrontFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
 class ShopShopFrontFormError extends ShopFrontFormError { 
   const ShopShopFrontFormError({ String message, ShopFrontModel value }): super(message: message, value: value);
 
@@ -223,22 +207,6 @@ class ItemCardBackgroundShopFrontFormError extends ShopFrontFormError {
 }
 
 
-class ItemDetailBackgroundShopFrontFormError extends ShopFrontFormError { 
-  const ItemDetailBackgroundShopFrontFormError({ String message, ShopFrontModel value }): super(message: message, value: value);
-
-  @override
-  List<Object> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''ItemDetailBackgroundShopFrontFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
 class AddToCartColorShopFrontFormError extends ShopFrontFormError { 
   const AddToCartColorShopFrontFormError({ String message, ShopFrontModel value }): super(message: message, value: value);
 
@@ -296,6 +264,22 @@ class BuyActionShopFrontFormError extends ShopFrontFormError {
   @override
   String toString() {
     return '''BuyActionShopFrontFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class OpenProductActionShopFrontFormError extends ShopFrontFormError { 
+  const OpenProductActionShopFrontFormError({ String message, ShopFrontModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''OpenProductActionShopFrontFormError {
       value: $value,
       message: $message,
     }''';

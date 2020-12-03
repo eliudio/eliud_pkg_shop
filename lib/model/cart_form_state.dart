@@ -223,6 +223,22 @@ class BackToShopActionCartFormError extends CartFormError {
 }
 
 
+class OpenProductActionCartFormError extends CartFormError { 
+  const OpenProductActionCartFormError({ String message, CartModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''OpenProductActionCartFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class CartFormLoaded extends CartFormInitialized { 
   const CartFormLoaded({ CartModel value }): super(value: value);
 

@@ -206,6 +206,24 @@ class _MyCartFormState extends State<MyCartForm> {
 
         children.add(
 
+                ActionField(AccessBloc.appId(context), state.value.openProductAction, _onOpenProductActionChanged)
+          );
+
+
+        children.add(Container(height: 20.0));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+
+
+         children.add(Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                  child: Text('General',
+                      style: TextStyle(
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                ));
+
+        children.add(
+
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: (formAction == FormAction.UpdateAction),
@@ -409,6 +427,7 @@ class _MyCartFormState extends State<MyCartForm> {
                               itemDetailBackground: state.value.itemDetailBackground, 
                               checkoutAction: state.value.checkoutAction, 
                               backToShopAction: state.value.backToShopAction, 
+                              openProductAction: state.value.openProductAction, 
                         )));
                       } else {
                         BlocProvider.of<CartListBloc>(context).add(
@@ -423,6 +442,7 @@ class _MyCartFormState extends State<MyCartForm> {
                               itemDetailBackground: state.value.itemDetailBackground, 
                               checkoutAction: state.value.checkoutAction, 
                               backToShopAction: state.value.backToShopAction, 
+                              openProductAction: state.value.openProductAction, 
                           )));
                       }
                       if (widget.submitAction != null) {
@@ -513,6 +533,12 @@ class _MyCartFormState extends State<MyCartForm> {
 
   void _onBackToShopActionChanged(value) {
     _myFormBloc.add(ChangedCartBackToShopAction(value: value));
+    
+  }
+
+
+  void _onOpenProductActionChanged(value) {
+    _myFormBloc.add(ChangedCartOpenProductAction(value: value));
     
   }
 

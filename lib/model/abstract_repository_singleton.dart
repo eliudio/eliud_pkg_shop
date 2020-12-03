@@ -21,6 +21,7 @@ import '../model/order_overview_repository.dart';
 import '../model/pay_repository.dart';
 import '../model/pay_confirmation_repository.dart';
 import '../model/product_repository.dart';
+import '../model/product_display_repository.dart';
 import '../model/product_image_repository.dart';
 import '../model/shop_repository.dart';
 import '../model/shop_front_repository.dart';
@@ -33,6 +34,7 @@ OrderOverviewRepository orderOverviewRepository({ String appId }) => AbstractRep
 PayRepository payRepository({ String appId }) => AbstractRepositorySingleton.singleton.payRepository(appId);
 PayConfirmationRepository payConfirmationRepository({ String appId }) => AbstractRepositorySingleton.singleton.payConfirmationRepository(appId);
 ProductRepository productRepository({ String appId }) => AbstractRepositorySingleton.singleton.productRepository(appId);
+ProductDisplayRepository productDisplayRepository({ String appId }) => AbstractRepositorySingleton.singleton.productDisplayRepository(appId);
 ShopRepository shopRepository({ String appId }) => AbstractRepositorySingleton.singleton.shopRepository(appId);
 ShopFrontRepository shopFrontRepository({ String appId }) => AbstractRepositorySingleton.singleton.shopFrontRepository(appId);
 
@@ -45,6 +47,7 @@ abstract class AbstractRepositorySingleton {
   PayRepository payRepository(String appId);
   PayConfirmationRepository payConfirmationRepository(String appId);
   ProductRepository productRepository(String appId);
+  ProductDisplayRepository productDisplayRepository(String appId);
   ShopRepository shopRepository(String appId);
   ShopFrontRepository shopFrontRepository(String appId);
 
@@ -55,6 +58,7 @@ abstract class AbstractRepositorySingleton {
     payRepository(appId).flush();
     payConfirmationRepository(appId).flush();
     productRepository(appId).flush();
+    productDisplayRepository(appId).flush();
     shopRepository(appId).flush();
     shopFrontRepository(appId).flush();
   }

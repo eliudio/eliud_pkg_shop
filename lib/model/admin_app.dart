@@ -170,6 +170,26 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
+  PageModel _productDisplaysPages() {
+    List<BodyComponentModel> components = List();
+    components.add(BodyComponentModel(
+      documentID: "internalWidget-productDisplays", componentName: "eliud_pkg_shop_internalWidgets", componentId: "productDisplays"));
+    PageModel page = PageModel(
+        conditional: PageCondition.AdminOnly,
+        appId: appId,
+        documentID: "eliud_pkg_shop_productdisplays_page",
+        title: "ProductDisplays",
+        drawer: _drawer,
+        endDrawer: _endDrawer,
+        appBar: _appBar,
+        homeMenu: _homeMenu,
+        bodyComponents: components,
+        layout: PageLayout.OnlyTheFirstComponent
+    );
+    return page;
+  }
+
+
   PageModel _shopsPages() {
     List<BodyComponentModel> components = List();
     components.add(BodyComponentModel(
@@ -223,6 +243,8 @@ class AdminApp extends AdminAppInstallerBase {
         .then((_) => pageRepository(appId: appId).add(_payConfirmationsPages()))
 
         .then((_) => pageRepository(appId: appId).add(_productsPages()))
+
+        .then((_) => pageRepository(appId: appId).add(_productDisplaysPages()))
 
         .then((_) => pageRepository(appId: appId).add(_shopsPages()))
 
@@ -306,6 +328,16 @@ class AdminMenu extends AdminAppMenuInstallerBase {
 
     menuItems.add(
       MenuItemModel(
+        documentID: "ProductDisplays",
+        text: "ProductDisplays",
+        description: "ProductDisplays",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(appId, pageID: "eliud_pkg_shop_productdisplays_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
         documentID: "Shops",
         text: "Shops",
         description: "Shops",
@@ -346,6 +378,7 @@ class AdminAppWiper extends AdminAppWiperBase {
     await payRepository(appId: appId).deleteAll();
     await payConfirmationRepository(appId: appId).deleteAll();
     await productRepository(appId: appId).deleteAll();
+    await productDisplayRepository(appId: appId).deleteAll();
     await shopRepository(appId: appId).deleteAll();
     await shopFrontRepository(appId: appId).deleteAll();
     ;

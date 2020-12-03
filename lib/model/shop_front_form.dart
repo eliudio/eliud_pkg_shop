@@ -132,13 +132,11 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _addToBasketTextController = TextEditingController();
   String _shop;
   final TextEditingController _sizeController = TextEditingController();
   final TextEditingController _cardElevationController = TextEditingController();
   final TextEditingController _cardAxisSpacingController = TextEditingController();
   String _itemCardBackground;
-  String _itemDetailBackground;
   int _viewSelectedRadioTile;
   int _scrollDirectionSelectedRadioTile;
 
@@ -153,7 +151,6 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
     _appIdController.addListener(_onAppIdChanged);
     _titleController.addListener(_onTitleChanged);
     _descriptionController.addListener(_onDescriptionChanged);
-    _addToBasketTextController.addListener(_onAddToBasketTextChanged);
     _sizeController.addListener(_onSizeChanged);
     _cardElevationController.addListener(_onCardElevationChanged);
     _cardAxisSpacingController.addListener(_onCardAxisSpacingChanged);
@@ -187,10 +184,6 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
           _descriptionController.text = state.value.description.toString();
         else
           _descriptionController.text = "";
-        if (state.value.addToBasketText != null)
-          _addToBasketTextController.text = state.value.addToBasketText.toString();
-        else
-          _addToBasketTextController.text = "";
         if (state.value.shop != null)
           _shop= state.value.shop.documentID;
         else
@@ -211,10 +204,6 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
           _itemCardBackground= state.value.itemCardBackground.documentID;
         else
           _itemCardBackground= "";
-        if (state.value.itemDetailBackground != null)
-          _itemDetailBackground= state.value.itemDetailBackground.documentID;
-        else
-          _itemDetailBackground= "";
         if (state.value.view != null)
           _viewSelectedRadioTile = state.value.view.index;
         else
@@ -293,24 +282,6 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
-                  controller: _addToBasketTextController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Add to basket text',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is AddToBasketTextShopFrontFormError ? state.message : null;
-                  },
-                ),
-          );
-
-        children.add(
-
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
                   controller: _sizeController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -376,6 +347,24 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
         children.add(
 
                 ActionField(AccessBloc.appId(context), state.value.buyAction, _onBuyActionChanged)
+          );
+
+
+        children.add(Container(height: 20.0));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+
+
+         children.add(Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                  child: Text('Open product action',
+                      style: TextStyle(
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                ));
+
+        children.add(
+
+                ActionField(AccessBloc.appId(context), state.value.openProductAction, _onOpenProductActionChanged)
           );
 
 
@@ -467,11 +456,6 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
                           color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
-        children.add(
-
-                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _itemDetailBackground, trigger: _onItemDetailBackgroundSelected, optional: true),
-          );
-
 
         children.add(Container(height: 20.0));
         children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
@@ -549,17 +533,16 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
                               appId: state.value.appId, 
                               title: state.value.title, 
                               description: state.value.description, 
-                              addToBasketText: state.value.addToBasketText, 
                               shop: state.value.shop, 
                               size: state.value.size, 
                               cardElevation: state.value.cardElevation, 
                               cardAxisSpacing: state.value.cardAxisSpacing, 
                               itemCardBackground: state.value.itemCardBackground, 
-                              itemDetailBackground: state.value.itemDetailBackground, 
                               addToCartColor: state.value.addToCartColor, 
                               view: state.value.view, 
                               scrollDirection: state.value.scrollDirection, 
                               buyAction: state.value.buyAction, 
+                              openProductAction: state.value.openProductAction, 
                         )));
                       } else {
                         BlocProvider.of<ShopFrontListBloc>(context).add(
@@ -568,17 +551,16 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
                               appId: state.value.appId, 
                               title: state.value.title, 
                               description: state.value.description, 
-                              addToBasketText: state.value.addToBasketText, 
                               shop: state.value.shop, 
                               size: state.value.size, 
                               cardElevation: state.value.cardElevation, 
                               cardAxisSpacing: state.value.cardAxisSpacing, 
                               itemCardBackground: state.value.itemCardBackground, 
-                              itemDetailBackground: state.value.itemDetailBackground, 
                               addToCartColor: state.value.addToCartColor, 
                               view: state.value.view, 
                               scrollDirection: state.value.scrollDirection, 
                               buyAction: state.value.buyAction, 
+                              openProductAction: state.value.openProductAction, 
                           )));
                       }
                       if (widget.submitAction != null) {
@@ -632,11 +614,6 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
   }
 
 
-  void _onAddToBasketTextChanged() {
-    _myFormBloc.add(ChangedShopFrontAddToBasketText(value: _addToBasketTextController.text));
-  }
-
-
   void _onShopSelected(String val) {
     setState(() {
       _shop = val;
@@ -668,14 +645,6 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
   }
 
 
-  void _onItemDetailBackgroundSelected(String val) {
-    setState(() {
-      _itemDetailBackground = val;
-    });
-    _myFormBloc.add(ChangedShopFrontItemDetailBackground(value: val));
-  }
-
-
   void _onAddToCartColorChanged(value) {
     _myFormBloc.add(ChangedShopFrontAddToCartColor(value: value));
     
@@ -704,6 +673,12 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
   }
 
 
+  void _onOpenProductActionChanged(value) {
+    _myFormBloc.add(ChangedShopFrontOpenProductAction(value: value));
+    
+  }
+
+
 
   @override
   void dispose() {
@@ -711,7 +686,6 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
     _appIdController.dispose();
     _titleController.dispose();
     _descriptionController.dispose();
-    _addToBasketTextController.dispose();
     _sizeController.dispose();
     _cardElevationController.dispose();
     _cardAxisSpacingController.dispose();

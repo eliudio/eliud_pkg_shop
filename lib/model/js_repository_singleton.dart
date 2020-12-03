@@ -37,6 +37,9 @@ import '../model/pay_confirmation_cache.dart';
 import '../model/product_js_firestore.dart';
 import '../model/product_repository.dart';
 import '../model/product_cache.dart';
+import '../model/product_display_js_firestore.dart';
+import '../model/product_display_repository.dart';
+import '../model/product_display_cache.dart';
 import '../model/product_image_repository.dart';
 import '../model/product_image_cache.dart';
 import '../model/shop_js_firestore.dart';
@@ -54,6 +57,7 @@ import '../model/order_overview_model.dart';
 import '../model/pay_model.dart';
 import '../model/pay_confirmation_model.dart';
 import '../model/product_model.dart';
+import '../model/product_display_model.dart';
 import '../model/product_image_model.dart';
 import '../model/shop_front_model.dart';
 
@@ -64,6 +68,7 @@ class JsRepositorySingleton extends AbstractRepositorySingleton {
     var _payRepository = HashMap<String, PayRepository>();
     var _payConfirmationRepository = HashMap<String, PayConfirmationRepository>();
     var _productRepository = HashMap<String, ProductRepository>();
+    var _productDisplayRepository = HashMap<String, ProductDisplayRepository>();
     var _shopRepository = HashMap<String, ShopRepository>();
     var _shopFrontRepository = HashMap<String, ShopFrontRepository>();
 
@@ -90,6 +95,10 @@ class JsRepositorySingleton extends AbstractRepositorySingleton {
     ProductRepository productRepository(String appId) {
       if (_productRepository[appId] == null) _productRepository[appId] = ProductCache(ProductJsFirestore(appId));
       return _productRepository[appId];
+    }
+    ProductDisplayRepository productDisplayRepository(String appId) {
+      if (_productDisplayRepository[appId] == null) _productDisplayRepository[appId] = ProductDisplayCache(ProductDisplayJsFirestore(appId));
+      return _productDisplayRepository[appId];
     }
     ShopRepository shopRepository(String appId) {
       if (_shopRepository[appId] == null) _shopRepository[appId] = ShopCache(ShopJsFirestore(appId));

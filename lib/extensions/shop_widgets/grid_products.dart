@@ -12,6 +12,7 @@ import 'package:eliud_core/tools/screen_size.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 
 class GridProducts extends StatefulWidget {
   final ShopFrontModel shopFrontModel;
@@ -87,15 +88,11 @@ class _GridProductsState extends State<GridProducts> {
                       GestureDetector(
                           child: show,
                           onTap: () {
-                            Navigator.of(context).push(SizeRoute(
-                                page: ProductDetail(
-                                    continueShoppingAction: widget.shopFrontModel.buyAction,
-                              productModel: item,
-                              itemDetailBackground:
-                                  widget.shopFrontModel.itemDetailBackground,
-                              addToBasketText:
-                                  widget.shopFrontModel.addToBasketText
-                            )));
+                            var parameters = <String, String>{
+                              'productId': item.documentID
+                            };
+                            eliudrouter.Router.navigateTo(
+                                context, widget.shopFrontModel.openProductAction, parameters: parameters);
                           }),
                       Align(
                           alignment: Alignment.topRight,

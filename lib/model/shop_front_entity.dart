@@ -23,25 +23,24 @@ class ShopFrontEntity {
   final String appId;
   final String title;
   final String description;
-  final String addToBasketText;
   final String shopId;
   final double size;
   final double cardElevation;
   final double cardAxisSpacing;
   final String itemCardBackgroundId;
-  final String itemDetailBackgroundId;
   final RgbEntity addToCartColor;
   final int view;
   final int scrollDirection;
   final ActionEntity buyAction;
+  final ActionEntity openProductAction;
 
-  ShopFrontEntity({this.appId, this.title, this.description, this.addToBasketText, this.shopId, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackgroundId, this.itemDetailBackgroundId, this.addToCartColor, this.view, this.scrollDirection, this.buyAction, });
+  ShopFrontEntity({this.appId, this.title, this.description, this.shopId, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackgroundId, this.addToCartColor, this.view, this.scrollDirection, this.buyAction, this.openProductAction, });
 
-  List<Object> get props => [appId, title, description, addToBasketText, shopId, size, cardElevation, cardAxisSpacing, itemCardBackgroundId, itemDetailBackgroundId, addToCartColor, view, scrollDirection, buyAction, ];
+  List<Object> get props => [appId, title, description, shopId, size, cardElevation, cardAxisSpacing, itemCardBackgroundId, addToCartColor, view, scrollDirection, buyAction, openProductAction, ];
 
   @override
   String toString() {
-    return 'ShopFrontEntity{appId: $appId, title: $title, description: $description, addToBasketText: $addToBasketText, shopId: $shopId, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackgroundId: $itemCardBackgroundId, itemDetailBackgroundId: $itemDetailBackgroundId, addToCartColor: $addToCartColor, view: $view, scrollDirection: $scrollDirection, buyAction: $buyAction}';
+    return 'ShopFrontEntity{appId: $appId, title: $title, description: $description, shopId: $shopId, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackgroundId: $itemCardBackgroundId, addToCartColor: $addToCartColor, view: $view, scrollDirection: $scrollDirection, buyAction: $buyAction, openProductAction: $openProductAction}';
   }
 
   static ShopFrontEntity fromMap(Map map) {
@@ -55,22 +54,25 @@ class ShopFrontEntity {
     buyActionFromMap = map['buyAction'];
     if (buyActionFromMap != null)
       buyActionFromMap = ActionEntity.fromMap(buyActionFromMap);
+    var openProductActionFromMap;
+    openProductActionFromMap = map['openProductAction'];
+    if (openProductActionFromMap != null)
+      openProductActionFromMap = ActionEntity.fromMap(openProductActionFromMap);
 
     return ShopFrontEntity(
       appId: map['appId'], 
       title: map['title'], 
       description: map['description'], 
-      addToBasketText: map['addToBasketText'], 
       shopId: map['shopId'], 
       size: double.tryParse(map['size'].toString()), 
       cardElevation: double.tryParse(map['cardElevation'].toString()), 
       cardAxisSpacing: double.tryParse(map['cardAxisSpacing'].toString()), 
       itemCardBackgroundId: map['itemCardBackgroundId'], 
-      itemDetailBackgroundId: map['itemDetailBackgroundId'], 
       addToCartColor: addToCartColorFromMap, 
       view: map['view'], 
       scrollDirection: map['scrollDirection'], 
       buyAction: buyActionFromMap, 
+      openProductAction: openProductActionFromMap, 
     );
   }
 
@@ -81,6 +83,9 @@ class ShopFrontEntity {
     final Map<String, dynamic> buyActionMap = buyAction != null 
         ? buyAction.toDocument()
         : null;
+    final Map<String, dynamic> openProductActionMap = openProductAction != null 
+        ? openProductAction.toDocument()
+        : null;
 
     Map<String, Object> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
@@ -89,8 +94,6 @@ class ShopFrontEntity {
       else theDocument["title"] = null;
     if (description != null) theDocument["description"] = description;
       else theDocument["description"] = null;
-    if (addToBasketText != null) theDocument["addToBasketText"] = addToBasketText;
-      else theDocument["addToBasketText"] = null;
     if (shopId != null) theDocument["shopId"] = shopId;
       else theDocument["shopId"] = null;
     if (size != null) theDocument["size"] = size;
@@ -101,8 +104,6 @@ class ShopFrontEntity {
       else theDocument["cardAxisSpacing"] = null;
     if (itemCardBackgroundId != null) theDocument["itemCardBackgroundId"] = itemCardBackgroundId;
       else theDocument["itemCardBackgroundId"] = null;
-    if (itemDetailBackgroundId != null) theDocument["itemDetailBackgroundId"] = itemDetailBackgroundId;
-      else theDocument["itemDetailBackgroundId"] = null;
     if (addToCartColor != null) theDocument["addToCartColor"] = addToCartColorMap;
       else theDocument["addToCartColor"] = null;
     if (view != null) theDocument["view"] = view;
@@ -111,6 +112,8 @@ class ShopFrontEntity {
       else theDocument["scrollDirection"] = null;
     if (buyAction != null) theDocument["buyAction"] = buyActionMap;
       else theDocument["buyAction"] = null;
+    if (openProductAction != null) theDocument["openProductAction"] = openProductActionMap;
+      else theDocument["openProductAction"] = null;
     return theDocument;
   }
 

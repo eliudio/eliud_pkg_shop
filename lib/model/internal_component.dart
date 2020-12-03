@@ -116,6 +116,23 @@ import 'package:eliud_core/model/entity_export.dart';
 import 'package:eliud_core/tools/action_entity.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
+import 'package:eliud_pkg_shop/model/product_display_list_bloc.dart';
+import 'package:eliud_pkg_shop/model/product_display_list.dart';
+import 'package:eliud_pkg_shop/model/product_display_dropdown_button.dart';
+import 'package:eliud_pkg_shop/model/product_display_list_event.dart';
+
+import 'package:eliud_core/model/repository_export.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
+import 'package:eliud_pkg_shop/model/repository_export.dart';
+import 'package:eliud_core/model/model_export.dart';
+import 'package:eliud_core/tools/action_model.dart';
+import 'package:eliud_pkg_shop/model/model_export.dart';
+import 'package:eliud_core/model/entity_export.dart';
+import 'package:eliud_core/tools/action_entity.dart';
+import 'package:eliud_pkg_shop/model/entity_export.dart';
+
 import 'package:eliud_pkg_shop/model/shop_list_bloc.dart';
 import 'package:eliud_pkg_shop/model/shop_list.dart';
 import 'package:eliud_pkg_shop/model/shop_dropdown_button.dart';
@@ -165,6 +182,7 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     if (id == "pays") return true;
     if (id == "payConfirmations") return true;
     if (id == "products") return true;
+    if (id == "productDisplays") return true;
     if (id == "shops") return true;
     if (id == "shopFronts") return true;
     return false;
@@ -188,6 +206,9 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
       return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "products")
+      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+
+    if (id == "productDisplays")
       return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "shops")
@@ -227,6 +248,7 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'pays') return _payBuild(context);
     if (componentId == 'payConfirmations') return _payConfirmationBuild(context);
     if (componentId == 'products') return _productBuild(context);
+    if (componentId == 'productDisplays') return _productDisplayBuild(context);
     if (componentId == 'shops') return _shopBuild(context);
     if (componentId == 'shopFronts') return _shopFrontBuild(context);
     return Text('Component with componentId == $componentId not found');
@@ -239,6 +261,7 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'pays') widget = PayListWidget();
     if (componentId == 'payConfirmations') widget = PayConfirmationListWidget();
     if (componentId == 'products') widget = ProductListWidget();
+    if (componentId == 'productDisplays') widget = ProductDisplayListWidget();
     if (componentId == 'shops') widget = ShopListWidget();
     if (componentId == 'shopFronts') widget = ShopFrontListWidget();
   }
@@ -327,6 +350,20 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
+  Widget _productDisplayBuild(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ProductDisplayListBloc>(
+          create: (context) => ProductDisplayListBloc(
+            
+            productDisplayRepository: productDisplayRepository(appId: AccessBloc.appId(context)),
+          )..add(LoadProductDisplayList()),
+        )
+      ],
+      child: widget,
+    );
+  }
+
   Widget _shopBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
@@ -377,6 +414,7 @@ class DropdownButtonComponent extends StatelessWidget {
     if (componentId == 'pays') return _payBuild(context);
     if (componentId == 'payConfirmations') return _payConfirmationBuild(context);
     if (componentId == 'products') return _productBuild(context);
+    if (componentId == 'productDisplays') return _productDisplayBuild(context);
     if (componentId == 'shops') return _shopBuild(context);
     if (componentId == 'shopFronts') return _shopFrontBuild(context);
     return Text('Component with componentId == $componentId not found');
@@ -464,6 +502,20 @@ class DropdownButtonComponent extends StatelessWidget {
         )
       ],
       child: ProductDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
+    );
+  }
+
+  Widget _productDisplayBuild(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ProductDisplayListBloc>(
+          create: (context) => ProductDisplayListBloc(
+            
+            productDisplayRepository: productDisplayRepository(appId: AccessBloc.appId(context)),
+          )..add(LoadProductDisplayList()),
+        )
+      ],
+      child: ProductDisplayDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
     );
   }
 
