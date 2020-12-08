@@ -24,12 +24,11 @@ abstract class ShopFrontRepository {
   Future<ShopFrontModel> get(String id);
   Future<ShopFrontModel> update(ShopFrontModel value);
   Stream<List<ShopFrontModel>> values();
-  Stream<List<ShopFrontModel>> valuesWithDetails();
+  Stream<List<ShopFrontModel>> valuesWithDetails();  Future<List<ShopFrontModel>> valuesList();
+  Future<List<ShopFrontModel>> valuesListWithDetails();
   StreamSubscription<List<ShopFrontModel>> listen(ShopFrontModelTrigger trigger, { String orderBy, bool descending });
   StreamSubscription<List<ShopFrontModel>> listenWithDetails(ShopFrontModelTrigger trigger);
   void flush();
-  Future<List<ShopFrontModel>> valuesList();
-  Future<List<ShopFrontModel>> valuesListWithDetails();
 
   Future<void> deleteAll();
 }

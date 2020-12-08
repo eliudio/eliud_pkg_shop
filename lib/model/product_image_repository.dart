@@ -24,12 +24,11 @@ abstract class ProductImageRepository {
   Future<ProductImageModel> get(String id);
   Future<ProductImageModel> update(ProductImageModel value);
   Stream<List<ProductImageModel>> values();
-  Stream<List<ProductImageModel>> valuesWithDetails();
+  Stream<List<ProductImageModel>> valuesWithDetails();  Future<List<ProductImageModel>> valuesList();
+  Future<List<ProductImageModel>> valuesListWithDetails();
   StreamSubscription<List<ProductImageModel>> listen(ProductImageModelTrigger trigger, { String orderBy, bool descending });
   StreamSubscription<List<ProductImageModel>> listenWithDetails(ProductImageModelTrigger trigger);
   void flush();
-  Future<List<ProductImageModel>> valuesList();
-  Future<List<ProductImageModel>> valuesListWithDetails();
 
   Future<void> deleteAll();
 }

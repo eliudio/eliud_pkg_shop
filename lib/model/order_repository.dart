@@ -24,12 +24,11 @@ abstract class OrderRepository {
   Future<OrderModel> get(String id);
   Future<OrderModel> update(OrderModel value);
   Stream<List<OrderModel>> values();
-  Stream<List<OrderModel>> valuesWithDetails();
+  Stream<List<OrderModel>> valuesWithDetails();  Future<List<OrderModel>> valuesList();
+  Future<List<OrderModel>> valuesListWithDetails();
   StreamSubscription<List<OrderModel>> listen(OrderModelTrigger trigger, { String orderBy, bool descending });
   StreamSubscription<List<OrderModel>> listenWithDetails(OrderModelTrigger trigger);
   void flush();
-  Future<List<OrderModel>> valuesList();
-  Future<List<OrderModel>> valuesListWithDetails();
 
   Future<void> deleteAll();
 }

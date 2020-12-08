@@ -24,12 +24,11 @@ abstract class OrderOverviewRepository {
   Future<OrderOverviewModel> get(String id);
   Future<OrderOverviewModel> update(OrderOverviewModel value);
   Stream<List<OrderOverviewModel>> values();
-  Stream<List<OrderOverviewModel>> valuesWithDetails();
+  Stream<List<OrderOverviewModel>> valuesWithDetails();  Future<List<OrderOverviewModel>> valuesList();
+  Future<List<OrderOverviewModel>> valuesListWithDetails();
   StreamSubscription<List<OrderOverviewModel>> listen(OrderOverviewModelTrigger trigger, { String orderBy, bool descending });
   StreamSubscription<List<OrderOverviewModel>> listenWithDetails(OrderOverviewModelTrigger trigger);
   void flush();
-  Future<List<OrderOverviewModel>> valuesList();
-  Future<List<OrderOverviewModel>> valuesListWithDetails();
 
   Future<void> deleteAll();
 }

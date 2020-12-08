@@ -56,15 +56,25 @@ class PayFirestore implements PayRepository {
   }
 
   StreamSubscription<List<PayModel>> listen(PayModelTrigger trigger, { String orderBy, bool descending }) {
-    var stream = (orderBy == null ?  PayCollection : PayCollection.orderBy(orderBy, descending: descending)).snapshots()
-        .map((data) {
-      Iterable<PayModel> pays  = data.documents.map((doc) {
-        PayModel value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return pays;
-    });
-
+    Stream<List<PayModel>> stream;
+    if (orderBy == null) {
+       stream = PayCollection.snapshots().map((data) {
+        Iterable<PayModel> pays  = data.documents.map((doc) {
+          PayModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return pays;
+      });
+    } else {
+      stream = PayCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
+        Iterable<PayModel> pays  = data.documents.map((doc) {
+          PayModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return pays;
+      });
+  
+    }
     return stream.listen((listOfPayModels) {
       trigger(listOfPayModels);
     });

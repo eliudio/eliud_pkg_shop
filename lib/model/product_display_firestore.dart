@@ -60,15 +60,25 @@ class ProductDisplayFirestore implements ProductDisplayRepository {
   }
 
   StreamSubscription<List<ProductDisplayModel>> listen(ProductDisplayModelTrigger trigger, { String orderBy, bool descending }) {
-    var stream = (orderBy == null ?  ProductDisplayCollection : ProductDisplayCollection.orderBy(orderBy, descending: descending)).snapshots()
-        .map((data) {
-      Iterable<ProductDisplayModel> productDisplays  = data.documents.map((doc) {
-        ProductDisplayModel value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return productDisplays;
-    });
-
+    Stream<List<ProductDisplayModel>> stream;
+    if (orderBy == null) {
+       stream = ProductDisplayCollection.snapshots().map((data) {
+        Iterable<ProductDisplayModel> productDisplays  = data.documents.map((doc) {
+          ProductDisplayModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return productDisplays;
+      });
+    } else {
+      stream = ProductDisplayCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
+        Iterable<ProductDisplayModel> productDisplays  = data.documents.map((doc) {
+          ProductDisplayModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return productDisplays;
+      });
+  
+    }
     return stream.listen((listOfProductDisplayModels) {
       trigger(listOfProductDisplayModels);
     });

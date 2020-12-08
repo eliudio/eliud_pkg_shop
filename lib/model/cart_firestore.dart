@@ -60,15 +60,25 @@ class CartFirestore implements CartRepository {
   }
 
   StreamSubscription<List<CartModel>> listen(CartModelTrigger trigger, { String orderBy, bool descending }) {
-    var stream = (orderBy == null ?  CartCollection : CartCollection.orderBy(orderBy, descending: descending)).snapshots()
-        .map((data) {
-      Iterable<CartModel> carts  = data.documents.map((doc) {
-        CartModel value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return carts;
-    });
-
+    Stream<List<CartModel>> stream;
+    if (orderBy == null) {
+       stream = CartCollection.snapshots().map((data) {
+        Iterable<CartModel> carts  = data.documents.map((doc) {
+          CartModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return carts;
+      });
+    } else {
+      stream = CartCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
+        Iterable<CartModel> carts  = data.documents.map((doc) {
+          CartModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return carts;
+      });
+  
+    }
     return stream.listen((listOfCartModels) {
       trigger(listOfCartModels);
     });

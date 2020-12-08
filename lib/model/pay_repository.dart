@@ -24,12 +24,11 @@ abstract class PayRepository {
   Future<PayModel> get(String id);
   Future<PayModel> update(PayModel value);
   Stream<List<PayModel>> values();
-  Stream<List<PayModel>> valuesWithDetails();
+  Stream<List<PayModel>> valuesWithDetails();  Future<List<PayModel>> valuesList();
+  Future<List<PayModel>> valuesListWithDetails();
   StreamSubscription<List<PayModel>> listen(PayModelTrigger trigger, { String orderBy, bool descending });
   StreamSubscription<List<PayModel>> listenWithDetails(PayModelTrigger trigger);
   void flush();
-  Future<List<PayModel>> valuesList();
-  Future<List<PayModel>> valuesListWithDetails();
 
   Future<void> deleteAll();
 }

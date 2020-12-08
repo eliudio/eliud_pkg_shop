@@ -24,12 +24,11 @@ abstract class PayConfirmationRepository {
   Future<PayConfirmationModel> get(String id);
   Future<PayConfirmationModel> update(PayConfirmationModel value);
   Stream<List<PayConfirmationModel>> values();
-  Stream<List<PayConfirmationModel>> valuesWithDetails();
+  Stream<List<PayConfirmationModel>> valuesWithDetails();  Future<List<PayConfirmationModel>> valuesList();
+  Future<List<PayConfirmationModel>> valuesListWithDetails();
   StreamSubscription<List<PayConfirmationModel>> listen(PayConfirmationModelTrigger trigger, { String orderBy, bool descending });
   StreamSubscription<List<PayConfirmationModel>> listenWithDetails(PayConfirmationModelTrigger trigger);
   void flush();
-  Future<List<PayConfirmationModel>> valuesList();
-  Future<List<PayConfirmationModel>> valuesListWithDetails();
 
   Future<void> deleteAll();
 }

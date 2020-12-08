@@ -24,12 +24,11 @@ abstract class ProductDisplayRepository {
   Future<ProductDisplayModel> get(String id);
   Future<ProductDisplayModel> update(ProductDisplayModel value);
   Stream<List<ProductDisplayModel>> values();
-  Stream<List<ProductDisplayModel>> valuesWithDetails();
+  Stream<List<ProductDisplayModel>> valuesWithDetails();  Future<List<ProductDisplayModel>> valuesList();
+  Future<List<ProductDisplayModel>> valuesListWithDetails();
   StreamSubscription<List<ProductDisplayModel>> listen(ProductDisplayModelTrigger trigger, { String orderBy, bool descending });
   StreamSubscription<List<ProductDisplayModel>> listenWithDetails(ProductDisplayModelTrigger trigger);
   void flush();
-  Future<List<ProductDisplayModel>> valuesList();
-  Future<List<ProductDisplayModel>> valuesListWithDetails();
 
   Future<void> deleteAll();
 }
