@@ -67,9 +67,9 @@ class ProductJsFirestore implements ProductRepository {
     });
   }
 
-  StreamSubscription<List<ProductModel>> listen(ProductModelTrigger trigger) {
-    // If we use productCollection here, then the second subscription fails
-    Stream<List<ProductModel>> stream = getCollection().onSnapshot
+  @override
+  StreamSubscription<List<ProductModel>> listen(ProductModelTrigger trigger, {String orderBy, bool descending }) {
+    var stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
         .map((data) {
       Iterable<ProductModel> products  = data.docs.map((doc) {
         ProductModel value = _populateDoc(doc);

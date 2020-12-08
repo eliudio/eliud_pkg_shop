@@ -59,8 +59,8 @@ class ShopFrontFirestore implements ShopFrontRepository {
     });
   }
 
-  StreamSubscription<List<ShopFrontModel>> listen(ShopFrontModelTrigger trigger) {
-    Stream<List<ShopFrontModel>> stream = ShopFrontCollection.snapshots()
+  StreamSubscription<List<ShopFrontModel>> listen(ShopFrontModelTrigger trigger, { String orderBy, bool descending }) {
+    var stream = (orderBy == null ?  ShopFrontCollection : ShopFrontCollection.orderBy(orderBy, descending: descending)).snapshots()
         .map((data) {
       Iterable<ShopFrontModel> shopFronts  = data.documents.map((doc) {
         ShopFrontModel value = _populateDoc(doc);

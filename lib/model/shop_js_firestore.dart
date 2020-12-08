@@ -63,9 +63,9 @@ class ShopJsFirestore implements ShopRepository {
     });
   }
 
-  StreamSubscription<List<ShopModel>> listen(ShopModelTrigger trigger) {
-    // If we use shopCollection here, then the second subscription fails
-    Stream<List<ShopModel>> stream = getCollection().onSnapshot
+  @override
+  StreamSubscription<List<ShopModel>> listen(ShopModelTrigger trigger, {String orderBy, bool descending }) {
+    var stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
         .map((data) {
       Iterable<ShopModel> shops  = data.docs.map((doc) {
         ShopModel value = _populateDoc(doc);

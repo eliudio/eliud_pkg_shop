@@ -59,8 +59,8 @@ class OrderFirestore implements OrderRepository {
     });
   }
 
-  StreamSubscription<List<OrderModel>> listen(OrderModelTrigger trigger) {
-    Stream<List<OrderModel>> stream = OrderCollection.snapshots()
+  StreamSubscription<List<OrderModel>> listen(OrderModelTrigger trigger, { String orderBy, bool descending }) {
+    var stream = (orderBy == null ?  OrderCollection : OrderCollection.orderBy(orderBy, descending: descending)).snapshots()
         .map((data) {
       Iterable<OrderModel> orders  = data.documents.map((doc) {
         OrderModel value = _populateDoc(doc);

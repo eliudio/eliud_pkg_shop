@@ -25,8 +25,8 @@ abstract class ProductImageRepository {
   Future<ProductImageModel> update(ProductImageModel value);
   Stream<List<ProductImageModel>> values();
   Stream<List<ProductImageModel>> valuesWithDetails();
-  StreamSubscription<List<ProductImageModel>> listen(ProductImageModelTrigger trigger);
-StreamSubscription<List<ProductImageModel>> listenWithDetails(ProductImageModelTrigger trigger);
+  StreamSubscription<List<ProductImageModel>> listen(ProductImageModelTrigger trigger, { String orderBy, bool descending });
+  StreamSubscription<List<ProductImageModel>> listenWithDetails(ProductImageModelTrigger trigger);
   void flush();
   Future<List<ProductImageModel>> valuesList();
   Future<List<ProductImageModel>> valuesListWithDetails();

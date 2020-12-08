@@ -22,7 +22,17 @@ abstract class ShopListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadShopList extends ShopListEvent {}
+class LoadShopList extends ShopListEvent {
+  final String orderBy;
+  final bool descending;
+
+  LoadShopList({this.orderBy, this.descending});
+
+  @override
+  List<Object> get props => [orderBy, descending];
+
+}
+
 class LoadShopListWithDetails extends ShopListEvent {}
 
 class AddShopList extends ShopListEvent {

@@ -31,9 +31,9 @@ class ProductImageListBloc extends Bloc<ProductImageListEvent, ProductImageListS
       _productImageRepository = productImageRepository,
       super(ProductImageListLoading());
 
-  Stream<ProductImageListState> _mapLoadProductImageListToState() async* {
+  Stream<ProductImageListState> _mapLoadProductImageListToState({ String orderBy, bool descending }) async* {
     _productImagesListSubscription?.cancel();
-    _productImagesListSubscription = _productImageRepository.listen( (list) => add(ProductImageListUpdated(value: list)));
+    _productImagesListSubscription = _productImageRepository.listen( (list) => add(ProductImageListUpdated(value: list)), orderBy: orderBy, descending: descending);
   }
 
   Stream<ProductImageListState> _mapLoadProductImageListWithDetailsToState() async* {
@@ -62,7 +62,7 @@ class ProductImageListBloc extends Bloc<ProductImageListEvent, ProductImageListS
   Stream<ProductImageListState> mapEventToState(ProductImageListEvent event) async* {
     final currentState = state;
     if (event is LoadProductImageList) {
-      yield* _mapLoadProductImageListToState();
+      yield* _mapLoadProductImageListToState(orderBy: event.orderBy, descending: event.descending);
     } if (event is LoadProductImageListWithDetails) {
       yield* _mapLoadProductImageListWithDetailsToState();
     } else if (event is AddProductImageList) {

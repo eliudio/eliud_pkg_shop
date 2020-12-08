@@ -31,9 +31,9 @@ class PayConfirmationListBloc extends Bloc<PayConfirmationListEvent, PayConfirma
       _payConfirmationRepository = payConfirmationRepository,
       super(PayConfirmationListLoading());
 
-  Stream<PayConfirmationListState> _mapLoadPayConfirmationListToState() async* {
+  Stream<PayConfirmationListState> _mapLoadPayConfirmationListToState({ String orderBy, bool descending }) async* {
     _payConfirmationsListSubscription?.cancel();
-    _payConfirmationsListSubscription = _payConfirmationRepository.listen( (list) => add(PayConfirmationListUpdated(value: list)));
+    _payConfirmationsListSubscription = _payConfirmationRepository.listen( (list) => add(PayConfirmationListUpdated(value: list)), orderBy: orderBy, descending: descending);
   }
 
   Stream<PayConfirmationListState> _mapLoadPayConfirmationListWithDetailsToState() async* {
@@ -62,7 +62,7 @@ class PayConfirmationListBloc extends Bloc<PayConfirmationListEvent, PayConfirma
   Stream<PayConfirmationListState> mapEventToState(PayConfirmationListEvent event) async* {
     final currentState = state;
     if (event is LoadPayConfirmationList) {
-      yield* _mapLoadPayConfirmationListToState();
+      yield* _mapLoadPayConfirmationListToState(orderBy: event.orderBy, descending: event.descending);
     } if (event is LoadPayConfirmationListWithDetails) {
       yield* _mapLoadPayConfirmationListWithDetailsToState();
     } else if (event is AddPayConfirmationList) {

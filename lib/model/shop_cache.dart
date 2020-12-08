@@ -91,8 +91,8 @@ class ShopCache implements ShopRepository {
   }
 
   @override
-  StreamSubscription<List<ShopModel>> listen(trigger) {
-    return reference.listen(trigger);
+  StreamSubscription<List<ShopModel>> listen(trigger, { String orderBy, bool descending }) {
+    return reference.listen(trigger, orderBy: orderBy, descending: descending);
   }
 
   @override

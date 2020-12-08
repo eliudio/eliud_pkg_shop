@@ -33,6 +33,7 @@ class CartEntity {
 
   CartEntity({this.appId, this.title, this.description, this.checkoutText, this.shopId, this.itemImageBackgroundId, this.itemDetailBackgroundId, this.checkoutAction, this.backToShopAction, this.openProductAction, });
 
+
   List<Object> get props => [appId, title, description, checkoutText, shopId, itemImageBackgroundId, itemDetailBackgroundId, checkoutAction, backToShopAction, openProductAction, ];
 
   @override

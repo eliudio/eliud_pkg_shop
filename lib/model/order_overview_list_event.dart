@@ -22,7 +22,17 @@ abstract class OrderOverviewListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadOrderOverviewList extends OrderOverviewListEvent {}
+class LoadOrderOverviewList extends OrderOverviewListEvent {
+  final String orderBy;
+  final bool descending;
+
+  LoadOrderOverviewList({this.orderBy, this.descending});
+
+  @override
+  List<Object> get props => [orderBy, descending];
+
+}
+
 class LoadOrderOverviewListWithDetails extends OrderOverviewListEvent {}
 
 class AddOrderOverviewList extends OrderOverviewListEvent {

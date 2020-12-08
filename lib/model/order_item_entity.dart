@@ -26,6 +26,7 @@ class OrderItemEntity {
 
   OrderItemEntity({this.amount, this.appId, this.soldPrice, this.productId, });
 
+
   List<Object> get props => [amount, appId, soldPrice, productId, ];
 
   @override

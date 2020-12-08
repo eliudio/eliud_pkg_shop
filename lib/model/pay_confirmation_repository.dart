@@ -25,8 +25,8 @@ abstract class PayConfirmationRepository {
   Future<PayConfirmationModel> update(PayConfirmationModel value);
   Stream<List<PayConfirmationModel>> values();
   Stream<List<PayConfirmationModel>> valuesWithDetails();
-  StreamSubscription<List<PayConfirmationModel>> listen(PayConfirmationModelTrigger trigger);
-StreamSubscription<List<PayConfirmationModel>> listenWithDetails(PayConfirmationModelTrigger trigger);
+  StreamSubscription<List<PayConfirmationModel>> listen(PayConfirmationModelTrigger trigger, { String orderBy, bool descending });
+  StreamSubscription<List<PayConfirmationModel>> listenWithDetails(PayConfirmationModelTrigger trigger);
   void flush();
   Future<List<PayConfirmationModel>> valuesList();
   Future<List<PayConfirmationModel>> valuesListWithDetails();

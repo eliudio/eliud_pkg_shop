@@ -24,6 +24,7 @@ class ProductImageEntity {
 
   ProductImageEntity({this.imageId, });
 
+
   List<Object> get props => [imageId, ];
 
   @override

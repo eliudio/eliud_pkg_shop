@@ -29,6 +29,7 @@ class ProductDisplayEntity {
 
   ProductDisplayEntity({this.appId, this.title, this.itemDetailBackgroundId, this.addToBasketText, this.buyAction, this.shopId, });
 
+
   List<Object> get props => [appId, title, itemDetailBackgroundId, addToBasketText, buyAction, shopId, ];
 
   @override

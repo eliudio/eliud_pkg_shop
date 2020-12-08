@@ -28,6 +28,7 @@ class OrderOverviewEntity {
 
   OrderOverviewEntity({this.appId, this.title, this.shopId, this.itemImageBackgroundId, this.itemDetailBackgroundId, });
 
+
   List<Object> get props => [appId, title, shopId, itemImageBackgroundId, itemDetailBackgroundId, ];
 
   @override

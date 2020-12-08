@@ -26,6 +26,7 @@ class PayEntity {
 
   PayEntity({this.appId, this.title, this.succeeded, this.shopId, });
 
+
   List<Object> get props => [appId, title, succeeded, shopId, ];
 
   @override

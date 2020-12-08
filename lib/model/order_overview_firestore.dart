@@ -59,8 +59,8 @@ class OrderOverviewFirestore implements OrderOverviewRepository {
     });
   }
 
-  StreamSubscription<List<OrderOverviewModel>> listen(OrderOverviewModelTrigger trigger) {
-    Stream<List<OrderOverviewModel>> stream = OrderOverviewCollection.snapshots()
+  StreamSubscription<List<OrderOverviewModel>> listen(OrderOverviewModelTrigger trigger, { String orderBy, bool descending }) {
+    var stream = (orderBy == null ?  OrderOverviewCollection : OrderOverviewCollection.orderBy(orderBy, descending: descending)).snapshots()
         .map((data) {
       Iterable<OrderOverviewModel> orderOverviews  = data.documents.map((doc) {
         OrderOverviewModel value = _populateDoc(doc);

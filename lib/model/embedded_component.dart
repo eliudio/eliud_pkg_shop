@@ -160,7 +160,7 @@ class CartItemInMemoryRepository implements CartItemRepository {
     }
     
     @override
-    StreamSubscription<List<CartItemModel>> listen(trigger) {
+    StreamSubscription<List<CartItemModel>> listen(trigger, { String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
   
@@ -239,7 +239,7 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
     }
     
     @override
-    StreamSubscription<List<OrderItemModel>> listen(trigger) {
+    StreamSubscription<List<OrderItemModel>> listen(trigger, { String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
   
@@ -318,7 +318,7 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
     }
     
     @override
-    StreamSubscription<List<ProductImageModel>> listen(trigger) {
+    StreamSubscription<List<ProductImageModel>> listen(trigger, { String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
   

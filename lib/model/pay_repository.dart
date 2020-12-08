@@ -25,8 +25,8 @@ abstract class PayRepository {
   Future<PayModel> update(PayModel value);
   Stream<List<PayModel>> values();
   Stream<List<PayModel>> valuesWithDetails();
-  StreamSubscription<List<PayModel>> listen(PayModelTrigger trigger);
-StreamSubscription<List<PayModel>> listenWithDetails(PayModelTrigger trigger);
+  StreamSubscription<List<PayModel>> listen(PayModelTrigger trigger, { String orderBy, bool descending });
+  StreamSubscription<List<PayModel>> listenWithDetails(PayModelTrigger trigger);
   void flush();
   Future<List<PayModel>> valuesList();
   Future<List<PayModel>> valuesListWithDetails();

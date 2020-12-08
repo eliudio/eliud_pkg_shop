@@ -55,8 +55,8 @@ class PayConfirmationFirestore implements PayConfirmationRepository {
     });
   }
 
-  StreamSubscription<List<PayConfirmationModel>> listen(PayConfirmationModelTrigger trigger) {
-    Stream<List<PayConfirmationModel>> stream = PayConfirmationCollection.snapshots()
+  StreamSubscription<List<PayConfirmationModel>> listen(PayConfirmationModelTrigger trigger, { String orderBy, bool descending }) {
+    var stream = (orderBy == null ?  PayConfirmationCollection : PayConfirmationCollection.orderBy(orderBy, descending: descending)).snapshots()
         .map((data) {
       Iterable<PayConfirmationModel> payConfirmations  = data.documents.map((doc) {
         PayConfirmationModel value = _populateDoc(doc);

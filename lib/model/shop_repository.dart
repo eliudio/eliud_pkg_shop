@@ -25,8 +25,8 @@ abstract class ShopRepository {
   Future<ShopModel> update(ShopModel value);
   Stream<List<ShopModel>> values();
   Stream<List<ShopModel>> valuesWithDetails();
-  StreamSubscription<List<ShopModel>> listen(ShopModelTrigger trigger);
-StreamSubscription<List<ShopModel>> listenWithDetails(ShopModelTrigger trigger);
+  StreamSubscription<List<ShopModel>> listen(ShopModelTrigger trigger, { String orderBy, bool descending });
+  StreamSubscription<List<ShopModel>> listenWithDetails(ShopModelTrigger trigger);
   void flush();
   Future<List<ShopModel>> valuesList();
   Future<List<ShopModel>> valuesListWithDetails();

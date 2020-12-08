@@ -63,9 +63,9 @@ class PayJsFirestore implements PayRepository {
     });
   }
 
-  StreamSubscription<List<PayModel>> listen(PayModelTrigger trigger) {
-    // If we use payCollection here, then the second subscription fails
-    Stream<List<PayModel>> stream = getCollection().onSnapshot
+  @override
+  StreamSubscription<List<PayModel>> listen(PayModelTrigger trigger, {String orderBy, bool descending }) {
+    var stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
         .map((data) {
       Iterable<PayModel> pays  = data.docs.map((doc) {
         PayModel value = _populateDoc(doc);

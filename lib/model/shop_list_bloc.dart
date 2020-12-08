@@ -31,9 +31,9 @@ class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
       _shopRepository = shopRepository,
       super(ShopListLoading());
 
-  Stream<ShopListState> _mapLoadShopListToState() async* {
+  Stream<ShopListState> _mapLoadShopListToState({ String orderBy, bool descending }) async* {
     _shopsListSubscription?.cancel();
-    _shopsListSubscription = _shopRepository.listen( (list) => add(ShopListUpdated(value: list)));
+    _shopsListSubscription = _shopRepository.listen( (list) => add(ShopListUpdated(value: list)), orderBy: orderBy, descending: descending);
   }
 
   Stream<ShopListState> _mapLoadShopListWithDetailsToState() async* {
@@ -62,7 +62,7 @@ class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
   Stream<ShopListState> mapEventToState(ShopListEvent event) async* {
     final currentState = state;
     if (event is LoadShopList) {
-      yield* _mapLoadShopListToState();
+      yield* _mapLoadShopListToState(orderBy: event.orderBy, descending: event.descending);
     } if (event is LoadShopListWithDetails) {
       yield* _mapLoadShopListWithDetailsToState();
     } else if (event is AddShopList) {

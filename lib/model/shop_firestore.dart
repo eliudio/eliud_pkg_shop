@@ -55,8 +55,8 @@ class ShopFirestore implements ShopRepository {
     });
   }
 
-  StreamSubscription<List<ShopModel>> listen(ShopModelTrigger trigger) {
-    Stream<List<ShopModel>> stream = ShopCollection.snapshots()
+  StreamSubscription<List<ShopModel>> listen(ShopModelTrigger trigger, { String orderBy, bool descending }) {
+    var stream = (orderBy == null ?  ShopCollection : ShopCollection.orderBy(orderBy, descending: descending)).snapshots()
         .map((data) {
       Iterable<ShopModel> shops  = data.documents.map((doc) {
         ShopModel value = _populateDoc(doc);

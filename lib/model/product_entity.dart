@@ -31,6 +31,7 @@ class ProductEntity {
 
   ProductEntity({this.appId, this.title, this.about, this.price, this.weight, this.shopId, this.images, this.posSizeId, });
 
+
   List<Object> get props => [appId, title, about, price, weight, shopId, images, posSizeId, ];
 
   @override

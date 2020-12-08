@@ -67,9 +67,9 @@ class ShopFrontJsFirestore implements ShopFrontRepository {
     });
   }
 
-  StreamSubscription<List<ShopFrontModel>> listen(ShopFrontModelTrigger trigger) {
-    // If we use shopFrontCollection here, then the second subscription fails
-    Stream<List<ShopFrontModel>> stream = getCollection().onSnapshot
+  @override
+  StreamSubscription<List<ShopFrontModel>> listen(ShopFrontModelTrigger trigger, {String orderBy, bool descending }) {
+    var stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
         .map((data) {
       Iterable<ShopFrontModel> shopFronts  = data.docs.map((doc) {
         ShopFrontModel value = _populateDoc(doc);

@@ -96,8 +96,8 @@ class ProductCache implements ProductRepository {
   }
 
   @override
-  StreamSubscription<List<ProductModel>> listen(trigger) {
-    return reference.listen(trigger);
+  StreamSubscription<List<ProductModel>> listen(trigger, { String orderBy, bool descending }) {
+    return reference.listen(trigger, orderBy: orderBy, descending: descending);
   }
 
   @override

@@ -26,6 +26,7 @@ class ShopEntity {
 
   ShopEntity({this.appId, this.description, this.shortDescription, this.currency, });
 
+
   List<Object> get props => [appId, description, shortDescription, currency, ];
 
   @override

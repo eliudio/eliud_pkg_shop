@@ -25,6 +25,7 @@ class OrderReferencesEntity {
 
   OrderReferencesEntity({this.paymentReference, this.shipmentReference, this.deliveryReference, });
 
+
   List<Object> get props => [paymentReference, shipmentReference, deliveryReference, ];
 
   @override

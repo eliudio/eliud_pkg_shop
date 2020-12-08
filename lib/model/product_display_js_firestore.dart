@@ -67,9 +67,9 @@ class ProductDisplayJsFirestore implements ProductDisplayRepository {
     });
   }
 
-  StreamSubscription<List<ProductDisplayModel>> listen(ProductDisplayModelTrigger trigger) {
-    // If we use productDisplayCollection here, then the second subscription fails
-    Stream<List<ProductDisplayModel>> stream = getCollection().onSnapshot
+  @override
+  StreamSubscription<List<ProductDisplayModel>> listen(ProductDisplayModelTrigger trigger, {String orderBy, bool descending }) {
+    var stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
         .map((data) {
       Iterable<ProductDisplayModel> productDisplays  = data.docs.map((doc) {
         ProductDisplayModel value = _populateDoc(doc);

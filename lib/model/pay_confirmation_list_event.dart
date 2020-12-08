@@ -22,7 +22,17 @@ abstract class PayConfirmationListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadPayConfirmationList extends PayConfirmationListEvent {}
+class LoadPayConfirmationList extends PayConfirmationListEvent {
+  final String orderBy;
+  final bool descending;
+
+  LoadPayConfirmationList({this.orderBy, this.descending});
+
+  @override
+  List<Object> get props => [orderBy, descending];
+
+}
+
 class LoadPayConfirmationListWithDetails extends PayConfirmationListEvent {}
 
 class AddPayConfirmationList extends PayConfirmationListEvent {

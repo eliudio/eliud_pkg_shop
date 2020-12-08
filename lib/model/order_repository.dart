@@ -25,8 +25,8 @@ abstract class OrderRepository {
   Future<OrderModel> update(OrderModel value);
   Stream<List<OrderModel>> values();
   Stream<List<OrderModel>> valuesWithDetails();
-  StreamSubscription<List<OrderModel>> listen(OrderModelTrigger trigger);
-StreamSubscription<List<OrderModel>> listenWithDetails(OrderModelTrigger trigger);
+  StreamSubscription<List<OrderModel>> listen(OrderModelTrigger trigger, { String orderBy, bool descending });
+  StreamSubscription<List<OrderModel>> listenWithDetails(OrderModelTrigger trigger);
   void flush();
   Future<List<OrderModel>> valuesList();
   Future<List<OrderModel>> valuesListWithDetails();

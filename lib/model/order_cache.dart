@@ -96,8 +96,8 @@ class OrderCache implements OrderRepository {
   }
 
   @override
-  StreamSubscription<List<OrderModel>> listen(trigger) {
-    return reference.listen(trigger);
+  StreamSubscription<List<OrderModel>> listen(trigger, { String orderBy, bool descending }) {
+    return reference.listen(trigger, orderBy: orderBy, descending: descending);
   }
 
   @override

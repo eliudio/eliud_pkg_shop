@@ -96,8 +96,8 @@ class CartCache implements CartRepository {
   }
 
   @override
-  StreamSubscription<List<CartModel>> listen(trigger) {
-    return reference.listen(trigger);
+  StreamSubscription<List<CartModel>> listen(trigger, { String orderBy, bool descending }) {
+    return reference.listen(trigger, orderBy: orderBy, descending: descending);
   }
 
   @override

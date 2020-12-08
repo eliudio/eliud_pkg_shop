@@ -91,8 +91,8 @@ class PayConfirmationCache implements PayConfirmationRepository {
   }
 
   @override
-  StreamSubscription<List<PayConfirmationModel>> listen(trigger) {
-    return reference.listen(trigger);
+  StreamSubscription<List<PayConfirmationModel>> listen(trigger, { String orderBy, bool descending }) {
+    return reference.listen(trigger, orderBy: orderBy, descending: descending);
   }
 
   @override

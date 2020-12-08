@@ -31,9 +31,9 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
       _orderRepository = orderRepository,
       super(OrderListLoading());
 
-  Stream<OrderListState> _mapLoadOrderListToState() async* {
+  Stream<OrderListState> _mapLoadOrderListToState({ String orderBy, bool descending }) async* {
     _ordersListSubscription?.cancel();
-    _ordersListSubscription = _orderRepository.listen( (list) => add(OrderListUpdated(value: list)));
+    _ordersListSubscription = _orderRepository.listen( (list) => add(OrderListUpdated(value: list)), orderBy: orderBy, descending: descending);
   }
 
   Stream<OrderListState> _mapLoadOrderListWithDetailsToState() async* {
@@ -62,7 +62,7 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
   Stream<OrderListState> mapEventToState(OrderListEvent event) async* {
     final currentState = state;
     if (event is LoadOrderList) {
-      yield* _mapLoadOrderListToState();
+      yield* _mapLoadOrderListToState(orderBy: event.orderBy, descending: event.descending);
     } if (event is LoadOrderListWithDetails) {
       yield* _mapLoadOrderListWithDetailsToState();
     } else if (event is AddOrderList) {

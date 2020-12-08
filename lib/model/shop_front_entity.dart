@@ -36,6 +36,7 @@ class ShopFrontEntity {
 
   ShopFrontEntity({this.appId, this.title, this.description, this.shopId, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackgroundId, this.addToCartColor, this.view, this.scrollDirection, this.buyAction, this.openProductAction, });
 
+
   List<Object> get props => [appId, title, description, shopId, size, cardElevation, cardAxisSpacing, itemCardBackgroundId, addToCartColor, view, scrollDirection, buyAction, openProductAction, ];
 
   @override

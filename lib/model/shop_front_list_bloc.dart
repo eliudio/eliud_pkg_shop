@@ -31,9 +31,9 @@ class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {
       _shopFrontRepository = shopFrontRepository,
       super(ShopFrontListLoading());
 
-  Stream<ShopFrontListState> _mapLoadShopFrontListToState() async* {
+  Stream<ShopFrontListState> _mapLoadShopFrontListToState({ String orderBy, bool descending }) async* {
     _shopFrontsListSubscription?.cancel();
-    _shopFrontsListSubscription = _shopFrontRepository.listen( (list) => add(ShopFrontListUpdated(value: list)));
+    _shopFrontsListSubscription = _shopFrontRepository.listen( (list) => add(ShopFrontListUpdated(value: list)), orderBy: orderBy, descending: descending);
   }
 
   Stream<ShopFrontListState> _mapLoadShopFrontListWithDetailsToState() async* {
@@ -62,7 +62,7 @@ class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {
   Stream<ShopFrontListState> mapEventToState(ShopFrontListEvent event) async* {
     final currentState = state;
     if (event is LoadShopFrontList) {
-      yield* _mapLoadShopFrontListToState();
+      yield* _mapLoadShopFrontListToState(orderBy: event.orderBy, descending: event.descending);
     } if (event is LoadShopFrontListWithDetails) {
       yield* _mapLoadShopFrontListWithDetailsToState();
     } else if (event is AddShopFrontList) {

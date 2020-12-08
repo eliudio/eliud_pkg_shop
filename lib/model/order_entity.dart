@@ -51,6 +51,7 @@ class OrderEntity {
 
   OrderEntity({this.appId, this.customerId, this.name, this.email, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.countryId, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountryId, this.products, this.totalPrice, this.currency, this.paymentReference, this.shipmentReference, this.deliveryReference, this.paymentNote, this.shipmentNote, this.deliveryNote, this.status, this.timeStamp, });
 
+
   List<Object> get props => [appId, customerId, name, email, shipStreet1, shipStreet2, shipCity, shipState, postcode, countryId, invoiceSame, invoiceStreet1, invoiceStreet2, invoiceCity, invoiceState, invoicePostcode, invoiceCountryId, products, totalPrice, currency, paymentReference, shipmentReference, deliveryReference, paymentNote, shipmentNote, deliveryNote, status, timeStamp, ];
 
   @override

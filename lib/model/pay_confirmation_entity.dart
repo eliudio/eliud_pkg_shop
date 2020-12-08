@@ -26,6 +26,7 @@ class PayConfirmationEntity {
 
   PayConfirmationEntity({this.appId, this.title, this.shopId, this.backToShopAction, });
 
+
   List<Object> get props => [appId, title, shopId, backToShopAction, ];
 
   @override

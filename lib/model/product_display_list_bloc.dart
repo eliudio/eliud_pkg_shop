@@ -31,9 +31,9 @@ class ProductDisplayListBloc extends Bloc<ProductDisplayListEvent, ProductDispla
       _productDisplayRepository = productDisplayRepository,
       super(ProductDisplayListLoading());
 
-  Stream<ProductDisplayListState> _mapLoadProductDisplayListToState() async* {
+  Stream<ProductDisplayListState> _mapLoadProductDisplayListToState({ String orderBy, bool descending }) async* {
     _productDisplaysListSubscription?.cancel();
-    _productDisplaysListSubscription = _productDisplayRepository.listen( (list) => add(ProductDisplayListUpdated(value: list)));
+    _productDisplaysListSubscription = _productDisplayRepository.listen( (list) => add(ProductDisplayListUpdated(value: list)), orderBy: orderBy, descending: descending);
   }
 
   Stream<ProductDisplayListState> _mapLoadProductDisplayListWithDetailsToState() async* {
@@ -62,7 +62,7 @@ class ProductDisplayListBloc extends Bloc<ProductDisplayListEvent, ProductDispla
   Stream<ProductDisplayListState> mapEventToState(ProductDisplayListEvent event) async* {
     final currentState = state;
     if (event is LoadProductDisplayList) {
-      yield* _mapLoadProductDisplayListToState();
+      yield* _mapLoadProductDisplayListToState(orderBy: event.orderBy, descending: event.descending);
     } if (event is LoadProductDisplayListWithDetails) {
       yield* _mapLoadProductDisplayListWithDetailsToState();
     } else if (event is AddProductDisplayList) {

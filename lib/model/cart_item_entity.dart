@@ -25,6 +25,7 @@ class CartItemEntity {
 
   CartItemEntity({this.amount, this.appId, this.productId, });
 
+
   List<Object> get props => [amount, appId, productId, ];
 
   @override

@@ -25,8 +25,8 @@ abstract class CartRepository {
   Future<CartModel> update(CartModel value);
   Stream<List<CartModel>> values();
   Stream<List<CartModel>> valuesWithDetails();
-  StreamSubscription<List<CartModel>> listen(CartModelTrigger trigger);
-StreamSubscription<List<CartModel>> listenWithDetails(CartModelTrigger trigger);
+  StreamSubscription<List<CartModel>> listen(CartModelTrigger trigger, { String orderBy, bool descending });
+  StreamSubscription<List<CartModel>> listenWithDetails(CartModelTrigger trigger);
   void flush();
   Future<List<CartModel>> valuesList();
   Future<List<CartModel>> valuesListWithDetails();

@@ -96,8 +96,8 @@ class ProductDisplayCache implements ProductDisplayRepository {
   }
 
   @override
-  StreamSubscription<List<ProductDisplayModel>> listen(trigger) {
-    return reference.listen(trigger);
+  StreamSubscription<List<ProductDisplayModel>> listen(trigger, { String orderBy, bool descending }) {
+    return reference.listen(trigger, orderBy: orderBy, descending: descending);
   }
 
   @override

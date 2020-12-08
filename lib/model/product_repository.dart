@@ -25,8 +25,8 @@ abstract class ProductRepository {
   Future<ProductModel> update(ProductModel value);
   Stream<List<ProductModel>> values();
   Stream<List<ProductModel>> valuesWithDetails();
-  StreamSubscription<List<ProductModel>> listen(ProductModelTrigger trigger);
-StreamSubscription<List<ProductModel>> listenWithDetails(ProductModelTrigger trigger);
+  StreamSubscription<List<ProductModel>> listen(ProductModelTrigger trigger, { String orderBy, bool descending });
+  StreamSubscription<List<ProductModel>> listenWithDetails(ProductModelTrigger trigger);
   void flush();
   Future<List<ProductModel>> valuesList();
   Future<List<ProductModel>> valuesListWithDetails();

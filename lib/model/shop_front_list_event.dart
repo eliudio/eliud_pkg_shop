@@ -22,7 +22,17 @@ abstract class ShopFrontListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadShopFrontList extends ShopFrontListEvent {}
+class LoadShopFrontList extends ShopFrontListEvent {
+  final String orderBy;
+  final bool descending;
+
+  LoadShopFrontList({this.orderBy, this.descending});
+
+  @override
+  List<Object> get props => [orderBy, descending];
+
+}
+
 class LoadShopFrontListWithDetails extends ShopFrontListEvent {}
 
 class AddShopFrontList extends ShopFrontListEvent {
