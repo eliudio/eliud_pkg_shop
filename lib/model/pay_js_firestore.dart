@@ -65,15 +65,26 @@ class PayJsFirestore implements PayRepository {
 
   @override
   StreamSubscription<List<PayModel>> listen(PayModelTrigger trigger, {String orderBy, bool descending }) {
-    var stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
-        .map((data) {
-      Iterable<PayModel> pays  = data.docs.map((doc) {
-        PayModel value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return pays;
-    });
-
+    var stream;
+    if (orderBy == null) {
+      stream = getCollection().onSnapshot
+          .map((data) {
+        Iterable<PayModel> pays  = data.docs.map((doc) {
+          PayModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return pays;
+      });
+    } else {
+      stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
+          .map((data) {
+        Iterable<PayModel> pays  = data.docs.map((doc) {
+          PayModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return pays;
+      });
+    }
     return stream.listen((listOfPayModels) {
       trigger(listOfPayModels);
     });

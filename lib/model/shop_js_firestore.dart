@@ -65,15 +65,26 @@ class ShopJsFirestore implements ShopRepository {
 
   @override
   StreamSubscription<List<ShopModel>> listen(ShopModelTrigger trigger, {String orderBy, bool descending }) {
-    var stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
-        .map((data) {
-      Iterable<ShopModel> shops  = data.docs.map((doc) {
-        ShopModel value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return shops;
-    });
-
+    var stream;
+    if (orderBy == null) {
+      stream = getCollection().onSnapshot
+          .map((data) {
+        Iterable<ShopModel> shops  = data.docs.map((doc) {
+          ShopModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return shops;
+      });
+    } else {
+      stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
+          .map((data) {
+        Iterable<ShopModel> shops  = data.docs.map((doc) {
+          ShopModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return shops;
+      });
+    }
     return stream.listen((listOfShopModels) {
       trigger(listOfShopModels);
     });

@@ -69,15 +69,26 @@ class OrderJsFirestore implements OrderRepository {
 
   @override
   StreamSubscription<List<OrderModel>> listen(OrderModelTrigger trigger, {String orderBy, bool descending }) {
-    var stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
-        .map((data) {
-      Iterable<OrderModel> orders  = data.docs.map((doc) {
-        OrderModel value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return orders;
-    });
-
+    var stream;
+    if (orderBy == null) {
+      stream = getCollection().onSnapshot
+          .map((data) {
+        Iterable<OrderModel> orders  = data.docs.map((doc) {
+          OrderModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return orders;
+      });
+    } else {
+      stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
+          .map((data) {
+        Iterable<OrderModel> orders  = data.docs.map((doc) {
+          OrderModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return orders;
+      });
+    }
     return stream.listen((listOfOrderModels) {
       trigger(listOfOrderModels);
     });

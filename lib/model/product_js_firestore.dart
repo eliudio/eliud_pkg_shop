@@ -69,15 +69,26 @@ class ProductJsFirestore implements ProductRepository {
 
   @override
   StreamSubscription<List<ProductModel>> listen(ProductModelTrigger trigger, {String orderBy, bool descending }) {
-    var stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
-        .map((data) {
-      Iterable<ProductModel> products  = data.docs.map((doc) {
-        ProductModel value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return products;
-    });
-
+    var stream;
+    if (orderBy == null) {
+      stream = getCollection().onSnapshot
+          .map((data) {
+        Iterable<ProductModel> products  = data.docs.map((doc) {
+          ProductModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return products;
+      });
+    } else {
+      stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
+          .map((data) {
+        Iterable<ProductModel> products  = data.docs.map((doc) {
+          ProductModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return products;
+      });
+    }
     return stream.listen((listOfProductModels) {
       trigger(listOfProductModels);
     });
