@@ -9,7 +9,7 @@ import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:flutter/material.dart';
 
 class CartComponentConstructorDefault implements ComponentConstructor {
-  Widget createNew({String id, Map<String, String> parameters}) {
+  Widget createNew({String id, Map<String, Object> parameters}) {
       return CartProfileComponent(id: id);
   }
 }

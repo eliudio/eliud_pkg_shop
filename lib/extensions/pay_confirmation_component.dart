@@ -6,8 +6,6 @@ import 'package:eliud_pkg_shop/model/order_component_bloc.dart';
 import 'package:eliud_pkg_shop/model/order_component_event.dart';
 import 'package:eliud_pkg_shop/model/order_repository.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_component.dart';
-import 'package:eliud_pkg_shop/model/pay_confirmation_component_bloc.dart';
-import 'package:eliud_pkg_shop/model/pay_confirmation_component_event.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_model.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_repository.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
@@ -16,13 +14,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PayConfirmationComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({String id, Map<String, String> parameters}) {
+  Widget createNew({String id, Map<String, Object> parameters}) {
     return PayConfirmationComponent(id: id, parameters: parameters,);
   }
 }
 
 class PayConfirmationComponent extends AbstractPayConfirmationComponent {
-  final Map<String, String> parameters;
+  final Map<String, Object> parameters;
 
   PayConfirmationComponent({String id, this.parameters}) : super(payConfirmationID: id);
 

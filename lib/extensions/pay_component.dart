@@ -22,7 +22,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PayComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({String id, Map<String, String> parameters}) {
+  Widget createNew({String id, Map<String, Object> parameters}) {
     return PayProfileComponent(id: id);
   }
 }
@@ -90,7 +90,7 @@ class PayProfileComponent extends AbstractPayComponent {
                   semanticLabel: 'Contact',
                 ));
           } else if (state is OrderPaid) {
-            var parameters = <String, String>{
+            var parameters = <String, Object>{
               'orderId': state.order.documentID
             };
             eliudrouter.Router.navigateTo(

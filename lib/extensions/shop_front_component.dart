@@ -17,7 +17,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ShopFrontComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({String id, Map<String, String> parameters}) {
+  Widget createNew({String id, Map<String, Object> parameters}) {
     return ShopFrontBase(id);
   }
 }

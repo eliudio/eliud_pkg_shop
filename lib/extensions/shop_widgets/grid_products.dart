@@ -88,7 +88,7 @@ class _GridProductsState extends State<GridProducts> {
                       GestureDetector(
                           child: show,
                           onTap: () {
-                            var parameters = <String, String>{
+                            var parameters = <String, Object>{
                               'productId': item.documentID
                             };
                             eliudrouter.Router.navigateTo(
