@@ -32,15 +32,15 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class ProductFirestore implements ProductRepository {
   Future<ProductModel> add(ProductModel value) {
-    return getProductCollection().document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
+    return ProductCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(ProductModel value) {
-    return getProductCollection().document(value.documentID).delete();
+    return ProductCollection.document(value.documentID).delete();
   }
 
   Future<ProductModel> update(ProductModel value) {
-    return getProductCollection().document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
+    return ProductCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   ProductModel _populateDoc(DocumentSnapshot value) {
@@ -51,7 +51,7 @@ class ProductFirestore implements ProductRepository {
     return ProductModel.fromEntityPlus(value.documentID, ProductEntity.fromMap(value.data), appId: appId);  }
 
   Future<ProductModel> get(String id) {
-    return getProductCollection().document(id).get().then((doc) {
+    return ProductCollection.document(id).get().then((doc) {
       if (doc.data != null)
         return _populateDocPlus(doc);
       else
@@ -62,7 +62,7 @@ class ProductFirestore implements ProductRepository {
   StreamSubscription<List<ProductModel>> listen(ProductModelTrigger trigger, { String orderBy, bool descending }) {
     Stream<List<ProductModel>> stream;
     if (orderBy == null) {
-       stream = getProductCollection().snapshots().map((data) {
+       stream = ProductCollection.snapshots().map((data) {
         Iterable<ProductModel> products  = data.documents.map((doc) {
           ProductModel value = _populateDoc(doc);
           return value;
@@ -70,7 +70,7 @@ class ProductFirestore implements ProductRepository {
         return products;
       });
     } else {
-      stream = getProductCollection().orderBy(orderBy, descending: descending).snapshots().map((data) {
+      stream = ProductCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
         Iterable<ProductModel> products  = data.documents.map((doc) {
           ProductModel value = _populateDoc(doc);
           return value;
@@ -85,7 +85,7 @@ class ProductFirestore implements ProductRepository {
   }
 
   StreamSubscription<List<ProductModel>> listenWithDetails(ProductModelTrigger trigger) {
-    Stream<List<ProductModel>> stream = getProductCollection().snapshots()
+    Stream<List<ProductModel>> stream = ProductCollection.snapshots()
         .asyncMap((data) async {
       return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
     });
@@ -97,28 +97,28 @@ class ProductFirestore implements ProductRepository {
 
 
   Stream<List<ProductModel>> values() {
-    return getProductCollection().snapshots().map((snapshot) {
+    return ProductCollection.snapshots().map((snapshot) {
       return snapshot.documents
             .map((doc) => _populateDoc(doc)).toList();
     });
   }
 
   Stream<List<ProductModel>> valuesWithDetails() {
-    return getProductCollection().snapshots().asyncMap((snapshot) {
+    return ProductCollection.snapshots().asyncMap((snapshot) {
       return Future.wait(snapshot.documents
           .map((doc) => _populateDocPlus(doc)).toList());
     });
   }
 
   Future<List<ProductModel>> valuesList() async {
-    return await getProductCollection().getDocuments().then((value) {
+    return await ProductCollection.getDocuments().then((value) {
       var list = value.documents;
       return list.map((doc) => _populateDoc(doc)).toList();
     });
   }
 
   Future<List<ProductModel>> valuesListWithDetails() async {
-    return await getProductCollection().getDocuments().then((value) {
+    return await ProductCollection.getDocuments().then((value) {
       var list = value.documents;
       return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
     });
@@ -127,7 +127,7 @@ class ProductFirestore implements ProductRepository {
   void flush() {}
 
   Future<void> deleteAll() {
-    return getProductCollection().getDocuments().then((snapshot) {
+    return ProductCollection.getDocuments().then((snapshot) {
       for (DocumentSnapshot ds in snapshot.documents){
         ds.reference.delete();
       }});
@@ -135,8 +135,8 @@ class ProductFirestore implements ProductRepository {
 
 
   final String appId;
-  CollectionReference getProductCollection() => Firestore.instance.collection('Product-${appId}');
+  final CollectionReference ProductCollection;
 
-  ProductFirestore(this.appId);
+  ProductFirestore(this.appId) : ProductCollection = Firestore.instance.collection('Product-${appId}');
 }
 
