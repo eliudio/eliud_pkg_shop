@@ -73,39 +73,39 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _shopFrontRepository = HashMap<String, ShopFrontRepository>();
 
     CartRepository cartRepository(String appId) {
-      if (_cartRepository[appId] == null) _cartRepository[appId] = CartFirestore(appId);
+      if (_cartRepository[appId] == null) _cartRepository[appId] = CartCache(CartFirestore(appId));
       return _cartRepository[appId];
     }
     OrderRepository orderRepository(String appId) {
-      if (_orderRepository[appId] == null) _orderRepository[appId] = OrderFirestore(appId);
+      if (_orderRepository[appId] == null) _orderRepository[appId] = OrderCache(OrderFirestore(appId));
       return _orderRepository[appId];
     }
     OrderOverviewRepository orderOverviewRepository(String appId) {
-      if (_orderOverviewRepository[appId] == null) _orderOverviewRepository[appId] = OrderOverviewFirestore(appId);
+      if (_orderOverviewRepository[appId] == null) _orderOverviewRepository[appId] = OrderOverviewCache(OrderOverviewFirestore(appId));
       return _orderOverviewRepository[appId];
     }
     PayRepository payRepository(String appId) {
-      if (_payRepository[appId] == null) _payRepository[appId] = PayFirestore(appId);
+      if (_payRepository[appId] == null) _payRepository[appId] = PayCache(PayFirestore(appId));
       return _payRepository[appId];
     }
     PayConfirmationRepository payConfirmationRepository(String appId) {
-      if (_payConfirmationRepository[appId] == null) _payConfirmationRepository[appId] = PayConfirmationFirestore(appId);
+      if (_payConfirmationRepository[appId] == null) _payConfirmationRepository[appId] = PayConfirmationCache(PayConfirmationFirestore(appId));
       return _payConfirmationRepository[appId];
     }
     ProductRepository productRepository(String appId) {
-      if (_productRepository[appId] == null) _productRepository[appId] = ProductFirestore(appId);
+      if (_productRepository[appId] == null) _productRepository[appId] = ProductCache(ProductFirestore(appId));
       return _productRepository[appId];
     }
     ProductDisplayRepository productDisplayRepository(String appId) {
-      if (_productDisplayRepository[appId] == null) _productDisplayRepository[appId] = ProductDisplayFirestore(appId);
+      if (_productDisplayRepository[appId] == null) _productDisplayRepository[appId] = ProductDisplayCache(ProductDisplayFirestore(appId));
       return _productDisplayRepository[appId];
     }
     ShopRepository shopRepository(String appId) {
-      if (_shopRepository[appId] == null) _shopRepository[appId] = ShopFirestore(appId);
+      if (_shopRepository[appId] == null) _shopRepository[appId] = ShopCache(ShopFirestore(appId));
       return _shopRepository[appId];
     }
     ShopFrontRepository shopFrontRepository(String appId) {
-      if (_shopFrontRepository[appId] == null) _shopFrontRepository[appId] = ShopFrontFirestore(appId);
+      if (_shopFrontRepository[appId] == null) _shopFrontRepository[appId] = ShopFrontCache(ShopFrontFirestore(appId));
       return _shopFrontRepository[appId];
     }
 
