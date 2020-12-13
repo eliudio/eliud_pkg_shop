@@ -6,6 +6,7 @@ import 'package:eliud_core/platform/platform.dart';
 import 'package:eliud_core/tools/custom_utils.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_event.dart';
+import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_state.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_bloc.dart';
 import 'package:eliud_pkg_shop/extensions/shop_widgets/product_detail.dart';
@@ -53,7 +54,7 @@ class _CartWidgetState extends State<CartWidget> {
                 ],
               );
             } else {
-              return CircularProgressIndicator();
+              return DelayedCircularProgressIndicator();
             }
           }
           ));

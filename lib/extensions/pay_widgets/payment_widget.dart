@@ -10,6 +10,7 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_pkg_shop/platform/payment_platform.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/core/widgets/progress_indicator.dart';
 
 import 'bloc/payment_bloc.dart';
 import 'order_helper.dart';
@@ -37,24 +38,23 @@ class PayState extends State<PayWidget> {
 
   Widget _getButton(AppModel app, OrderModel order) {
     var paymentBloc = BlocProvider.of<PaymentBloc>(context);
-    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      RaisedButton(
-          color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-          onPressed: () {
-            paymentBloc.add(PayTheOrder(order));
-          },
-          child: Text('Pay')),
-      SizedBox(
-        width: 50,
-        child: null,
-      ),
-      RaisedButton(
-          color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: Text('Back'))
-    ]);
+    return Wrap(
+      alignment: WrapAlignment.spaceAround, // set your alignment
+      children: <Widget>[
+        RaisedButton(
+            color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
+            onPressed: () {
+              paymentBloc.add(PayTheOrder(order));
+            },
+            child: Text('Pay')),
+        RaisedButton(
+            color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Back'))
+      ],
+    );
   }
 
   Widget _overviewAndPay(AppModel app, OrderModel order,
@@ -145,7 +145,7 @@ class PayState extends State<PayWidget> {
           }
         }
         // in all other cases:
-        return CircularProgressIndicator();
+        return DelayedCircularProgressIndicator();
       });
     } else {
       return Text('App not loaded');

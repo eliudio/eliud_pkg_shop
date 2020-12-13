@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
@@ -197,7 +198,7 @@ class _MyOrderFormState extends State<MyOrderForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<OrderFormBloc, OrderFormState>(builder: (context, state) {
       if (state is OrderFormUninitialized) return Center(
-        child: CircularProgressIndicator(),
+        child: DelayedCircularProgressIndicator(),
       );
 
       if (state is OrderFormLoaded) {
@@ -1049,7 +1050,7 @@ class _MyOrderFormState extends State<MyOrderForm> {
           )
         );
       } else {
-        return CircularProgressIndicator();
+        return DelayedCircularProgressIndicator();
       }
     });
   }
@@ -1367,7 +1368,7 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<OrderFormBloc, OrderFormState>(builder: (context, state) {
       if (state is OrderFormUninitialized) return Center(
-        child: CircularProgressIndicator(),
+        child: DelayedCircularProgressIndicator(),
       );
 
       if (state is OrderFormLoaded) {
@@ -1844,7 +1845,7 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
           )
         );
       } else {
-        return CircularProgressIndicator();
+        return DelayedCircularProgressIndicator();
       }
     });
   }
@@ -2054,7 +2055,7 @@ class _MyOrderShipmentFormState extends State<MyOrderShipmentForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<OrderFormBloc, OrderFormState>(builder: (context, state) {
       if (state is OrderFormUninitialized) return Center(
-        child: CircularProgressIndicator(),
+        child: DelayedCircularProgressIndicator(),
       );
 
       if (state is OrderFormLoaded) {
@@ -2177,7 +2178,7 @@ class _MyOrderShipmentFormState extends State<MyOrderShipmentForm> {
           )
         );
       } else {
-        return CircularProgressIndicator();
+        return DelayedCircularProgressIndicator();
       }
     });
   }

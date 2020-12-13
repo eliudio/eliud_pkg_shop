@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
@@ -143,7 +144,7 @@ class _MyCartItemFormState extends State<MyCartItemForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<CartItemFormBloc, CartItemFormState>(builder: (context, state) {
       if (state is CartItemFormUninitialized) return Center(
-        child: CircularProgressIndicator(),
+        child: DelayedCircularProgressIndicator(),
       );
 
       if (state is CartItemFormLoaded) {
@@ -296,7 +297,7 @@ class _MyCartItemFormState extends State<MyCartItemForm> {
           )
         );
       } else {
-        return CircularProgressIndicator();
+        return DelayedCircularProgressIndicator();
       }
     });
   }

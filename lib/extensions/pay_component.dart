@@ -19,6 +19,7 @@ import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/platform/payment_platform.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/core/widgets/progress_indicator.dart';
 
 class PayComponentConstructorDefault implements ComponentConstructor {
   @override
@@ -109,7 +110,7 @@ class PayProfileComponent extends AbstractPayComponent {
           }
         }
         // in all other cases:
-        return CircularProgressIndicator();
+        return DelayedCircularProgressIndicator();
       });
     } else {
       return Text('App not loaded');
@@ -137,24 +138,24 @@ class PayProfileComponent extends AbstractPayComponent {
 
   Widget _getButton(BuildContext context, AppModel app, OrderModel order) {
     var paymentBloc = BlocProvider.of<PaymentBloc>(context);
-    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      RaisedButton(
-          color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-          onPressed: () {
-            paymentBloc.add(PayTheOrder(order));
-          },
-          child: Text('Pay')),
-      SizedBox(
-        width: 50,
-        child: null,
-      ),
-      RaisedButton(
-          color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: Text('Back'))
-    ]);
+    return Wrap(
+      alignment: WrapAlignment.spaceAround, // set your alignment
+      children: <Widget>[
+        RaisedButton(
+            color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
+            onPressed: () {
+              paymentBloc.add(PayTheOrder(order));
+            },
+            child: Text('Pay')),
+        Spacer(),
+        RaisedButton(
+            color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Back'))
+      ],
+    );
   }
 
   Widget _overviewAndPay(BuildContext context, AppModel app, OrderModel order,

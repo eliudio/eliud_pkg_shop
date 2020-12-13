@@ -12,6 +12,7 @@ import 'package:eliud_pkg_shop/model/product_display_repository.dart';
 import 'package:eliud_pkg_shop/model/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/core/widgets/progress_indicator.dart';
 
 class ProductDisplayComponentConstructorDefault implements ComponentConstructor {
   @override
@@ -52,7 +53,7 @@ class ProductDisplayComponent extends AbstractProductDisplayComponent {
               content: 'Product with id $productId not available');
         }
       } else {
-        return CircularProgressIndicator();
+        return DelayedCircularProgressIndicator();
       }
     });
   }

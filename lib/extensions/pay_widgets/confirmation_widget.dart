@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:eliud_pkg_shop/extensions/pay_widgets/order_helper.dart';
+import 'package:eliud_core/core/widgets/progress_indicator.dart';
 
 // ignore: must_be_immutable
 class ConfirmationWidget extends StatefulWidget {
@@ -64,7 +65,7 @@ class ConfirmationState extends State<ConfirmationWidget> {
               );
             } else {
               return Center(
-                child: CircularProgressIndicator(),
+                child: DelayedCircularProgressIndicator(),
               );
             }
           });

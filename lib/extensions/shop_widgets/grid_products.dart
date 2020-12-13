@@ -13,6 +13,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
+import 'package:eliud_core/core/widgets/progress_indicator.dart';
 
 class GridProducts extends StatefulWidget {
   final ShopFrontModel shopFrontModel;
@@ -124,7 +125,7 @@ class _GridProductsState extends State<GridProducts> {
               children: cards);
         } else {
           return Center(
-            child: CircularProgressIndicator(),
+            child: DelayedCircularProgressIndicator(),
           );
         }
       },

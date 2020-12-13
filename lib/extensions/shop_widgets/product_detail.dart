@@ -77,7 +77,7 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
             child: Column(
               children: [
                 TheImageGF(cachedImages, positionsAndSizes, null, orientation,
-                    1, FaderAnimation.Fade, 1000),
+                    1, 1000),
                 Container(
                   padding: const EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 15.0),
                   child: Column(
