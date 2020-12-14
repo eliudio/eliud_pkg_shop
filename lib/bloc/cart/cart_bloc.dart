@@ -74,7 +74,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   @override
   Stream<CartState> mapEventToState(CartEvent event) async* {
-    LoggedIn accessState = accessBloc.state;
+    var accessState = accessBloc.state;
     if (accessState is LoggedIn) {
       var member = accessState.member;
       if (event is LoadCart) {
@@ -98,5 +98,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       }
     }
   }
+
 }
+
 

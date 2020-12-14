@@ -32,10 +32,10 @@ class CartTools {
 
   static void _runEvent(BuildContext context, CartEvent event) {
     var state = AccessBloc.getState(context);
-    if ((state is LoggedIn) && (state.member == null)) {
-      BlocProvider.of<AccessBloc>(context).add(LoginEvent(actions: PostLoginAddProduct(BlocProvider.of<CartBloc>(context), event)));
-    } else {
+    if (state is LoggedIn) {
       BlocProvider.of<CartBloc>(context).add(event);
+    } else {
+      BlocProvider.of<AccessBloc>(context).add(LoginEvent(actions: PostLoginAddProduct(BlocProvider.of<CartBloc>(context), event)));
     }
   }
 }
