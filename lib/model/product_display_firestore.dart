@@ -84,11 +84,19 @@ class ProductDisplayFirestore implements ProductDisplayRepository {
     });
   }
 
-  StreamSubscription<List<ProductDisplayModel>> listenWithDetails(ProductDisplayModelTrigger trigger) {
-    Stream<List<ProductDisplayModel>> stream = ProductDisplayCollection.snapshots()
-        .asyncMap((data) async {
-      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-    });
+  StreamSubscription<List<ProductDisplayModel>> listenWithDetails(ProductDisplayModelTrigger trigger, { String orderBy, bool descending }) {
+    Stream<List<ProductDisplayModel>> stream;
+    if (orderBy == null) {
+      stream = ProductDisplayCollection.snapshots()
+          .asyncMap((data) async {
+        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    } else {
+      stream = ProductDisplayCollection.orderBy(orderBy, descending: descending).snapshots()
+          .asyncMap((data) async {
+        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    }
 
     return stream.listen((listOfProductDisplayModels) {
       trigger(listOfProductDisplayModels);
@@ -96,32 +104,60 @@ class ProductDisplayFirestore implements ProductDisplayRepository {
   }
 
 
-  Stream<List<ProductDisplayModel>> values() {
-    return ProductDisplayCollection.snapshots().map((snapshot) {
-      return snapshot.documents
-            .map((doc) => _populateDoc(doc)).toList();
-    });
+  Stream<List<ProductDisplayModel>> values({ String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return ProductDisplayCollection.snapshots().map((snapshot) {
+        return snapshot.documents
+              .map((doc) => _populateDoc(doc)).toList();
+      });
+    } else {
+      return ProductDisplayCollection.orderBy(orderBy, descending: descending).snapshots().map((snapshot) {
+        return snapshot.documents
+              .map((doc) => _populateDoc(doc)).toList();
+      });
+    }
   }
 
-  Stream<List<ProductDisplayModel>> valuesWithDetails() {
-    return ProductDisplayCollection.snapshots().asyncMap((snapshot) {
-      return Future.wait(snapshot.documents
-          .map((doc) => _populateDocPlus(doc)).toList());
-    });
+  Stream<List<ProductDisplayModel>> valuesWithDetails({ String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return ProductDisplayCollection.snapshots().asyncMap((snapshot) {
+        return Future.wait(snapshot.documents
+            .map((doc) => _populateDocPlus(doc)).toList());
+      });
+    } else {
+      return ProductDisplayCollection.orderBy(orderBy, descending: descending).snapshots().asyncMap((snapshot) {
+        return Future.wait(snapshot.documents
+            .map((doc) => _populateDocPlus(doc)).toList());
+      });
+    }
   }
 
-  Future<List<ProductDisplayModel>> valuesList() async {
-    return await ProductDisplayCollection.getDocuments().then((value) {
-      var list = value.documents;
-      return list.map((doc) => _populateDoc(doc)).toList();
-    });
+  Future<List<ProductDisplayModel>> valuesList({ String orderBy, bool descending }) async {
+    if (orderBy == null) {
+      return await ProductDisplayCollection.getDocuments().then((value) {
+        var list = value.documents;
+        return list.map((doc) => _populateDoc(doc)).toList();
+      });
+    } else {
+      return await ProductDisplayCollection.orderBy(orderBy, descending: descending).getDocuments().then((value) {
+        var list = value.documents;
+        return list.map((doc) => _populateDoc(doc)).toList();
+      });
+    }
   }
 
-  Future<List<ProductDisplayModel>> valuesListWithDetails() async {
-    return await ProductDisplayCollection.getDocuments().then((value) {
-      var list = value.documents;
-      return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
-    });
+  Future<List<ProductDisplayModel>> valuesListWithDetails({ String orderBy, bool descending }) async {
+    if (orderBy == null) {
+      return await ProductDisplayCollection.getDocuments().then((value) {
+        var list = value.documents;
+        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    } else {
+      return await ProductDisplayCollection.orderBy(orderBy, descending: descending).getDocuments().then((value) {
+        var list = value.documents;
+        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    }
   }
 
   void flush() {}

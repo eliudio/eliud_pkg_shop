@@ -80,11 +80,19 @@ class PayFirestore implements PayRepository {
     });
   }
 
-  StreamSubscription<List<PayModel>> listenWithDetails(PayModelTrigger trigger) {
-    Stream<List<PayModel>> stream = PayCollection.snapshots()
-        .asyncMap((data) async {
-      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-    });
+  StreamSubscription<List<PayModel>> listenWithDetails(PayModelTrigger trigger, { String orderBy, bool descending }) {
+    Stream<List<PayModel>> stream;
+    if (orderBy == null) {
+      stream = PayCollection.snapshots()
+          .asyncMap((data) async {
+        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    } else {
+      stream = PayCollection.orderBy(orderBy, descending: descending).snapshots()
+          .asyncMap((data) async {
+        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    }
 
     return stream.listen((listOfPayModels) {
       trigger(listOfPayModels);
@@ -92,32 +100,60 @@ class PayFirestore implements PayRepository {
   }
 
 
-  Stream<List<PayModel>> values() {
-    return PayCollection.snapshots().map((snapshot) {
-      return snapshot.documents
-            .map((doc) => _populateDoc(doc)).toList();
-    });
+  Stream<List<PayModel>> values({ String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return PayCollection.snapshots().map((snapshot) {
+        return snapshot.documents
+              .map((doc) => _populateDoc(doc)).toList();
+      });
+    } else {
+      return PayCollection.orderBy(orderBy, descending: descending).snapshots().map((snapshot) {
+        return snapshot.documents
+              .map((doc) => _populateDoc(doc)).toList();
+      });
+    }
   }
 
-  Stream<List<PayModel>> valuesWithDetails() {
-    return PayCollection.snapshots().asyncMap((snapshot) {
-      return Future.wait(snapshot.documents
-          .map((doc) => _populateDocPlus(doc)).toList());
-    });
+  Stream<List<PayModel>> valuesWithDetails({ String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return PayCollection.snapshots().asyncMap((snapshot) {
+        return Future.wait(snapshot.documents
+            .map((doc) => _populateDocPlus(doc)).toList());
+      });
+    } else {
+      return PayCollection.orderBy(orderBy, descending: descending).snapshots().asyncMap((snapshot) {
+        return Future.wait(snapshot.documents
+            .map((doc) => _populateDocPlus(doc)).toList());
+      });
+    }
   }
 
-  Future<List<PayModel>> valuesList() async {
-    return await PayCollection.getDocuments().then((value) {
-      var list = value.documents;
-      return list.map((doc) => _populateDoc(doc)).toList();
-    });
+  Future<List<PayModel>> valuesList({ String orderBy, bool descending }) async {
+    if (orderBy == null) {
+      return await PayCollection.getDocuments().then((value) {
+        var list = value.documents;
+        return list.map((doc) => _populateDoc(doc)).toList();
+      });
+    } else {
+      return await PayCollection.orderBy(orderBy, descending: descending).getDocuments().then((value) {
+        var list = value.documents;
+        return list.map((doc) => _populateDoc(doc)).toList();
+      });
+    }
   }
 
-  Future<List<PayModel>> valuesListWithDetails() async {
-    return await PayCollection.getDocuments().then((value) {
-      var list = value.documents;
-      return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
-    });
+  Future<List<PayModel>> valuesListWithDetails({ String orderBy, bool descending }) async {
+    if (orderBy == null) {
+      return await PayCollection.getDocuments().then((value) {
+        var list = value.documents;
+        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    } else {
+      return await PayCollection.orderBy(orderBy, descending: descending).getDocuments().then((value) {
+        var list = value.documents;
+        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    }
   }
 
   void flush() {}

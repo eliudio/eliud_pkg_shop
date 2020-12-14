@@ -76,7 +76,7 @@ class PayConfirmationJsFirestore implements PayConfirmationRepository {
         return payConfirmations;
       });
     } else {
-      stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
+      stream = getCollection().orderBy(orderBy, descending ? 'desc': 'asc').onSnapshot
           .map((data) {
         Iterable<PayConfirmationModel> payConfirmations  = data.docs.map((doc) {
           PayConfirmationModel value = _populateDoc(doc);
@@ -90,42 +90,74 @@ class PayConfirmationJsFirestore implements PayConfirmationRepository {
     });
   }
 
-  StreamSubscription<List<PayConfirmationModel>> listenWithDetails(PayConfirmationModelTrigger trigger) {
-    // If we use payConfirmationCollection here, then the second subscription fails
-    Stream<List<PayConfirmationModel>> stream = getCollection().onSnapshot
-        .asyncMap((data) async {
-      return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
-    });
-
+  StreamSubscription<List<PayConfirmationModel>> listenWithDetails(PayConfirmationModelTrigger trigger, {String orderBy, bool descending }) {
+    var stream;
+    if (orderBy == null) {
+      // If we use payConfirmationCollection here, then the second subscription fails
+      stream = getCollection().onSnapshot
+          .asyncMap((data) async {
+        return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    } else {
+      // If we use payConfirmationCollection here, then the second subscription fails
+      stream = getCollection().orderBy(orderBy, descending ? 'desc': 'asc').onSnapshot
+          .asyncMap((data) async {
+        return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    }
     return stream.listen((listOfPayConfirmationModels) {
       trigger(listOfPayConfirmationModels);
     });
   }
 
-  Stream<List<PayConfirmationModel>> values() {
-    return payConfirmationCollection.onSnapshot
-        .map((data) => data.docs.map((doc) => _populateDoc(doc)).toList());
+  Stream<List<PayConfirmationModel>> values({String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return payConfirmationCollection.onSnapshot
+          .map((data) => data.docs.map((doc) => _populateDoc(doc)).toList());
+    } else {
+      return payConfirmationCollection.orderBy(orderBy, descending ? 'desc': 'asc').onSnapshot
+          .map((data) => data.docs.map((doc) => _populateDoc(doc)).toList());
+    }
   }
 
-  Stream<List<PayConfirmationModel>> valuesWithDetails() {
-    return payConfirmationCollection.onSnapshot
-        .asyncMap((data) => Future.wait(data.docs.map((doc) => _populateDocPlus(doc)).toList()));
+  Stream<List<PayConfirmationModel>> valuesWithDetails({String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return payConfirmationCollection.onSnapshot
+          .asyncMap((data) => Future.wait(data.docs.map((doc) => _populateDocPlus(doc)).toList()));
+    } else {
+      return payConfirmationCollection.orderBy(orderBy, descending ? 'desc': 'asc').onSnapshot
+          .asyncMap((data) => Future.wait(data.docs.map((doc) => _populateDocPlus(doc)).toList()));
+    }
   }
 
   @override
-  Future<List<PayConfirmationModel>> valuesList() {
-    return payConfirmationCollection.get().then((value) {
-      var list = value.docs;
-      return list.map((doc) => _populateDoc(doc)).toList();
-    });
+  Future<List<PayConfirmationModel>> valuesList({String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return payConfirmationCollection.get().then((value) {
+        var list = value.docs;
+        return list.map((doc) => _populateDoc(doc)).toList();
+      });
+    } else {
+      return payConfirmationCollection.orderBy(orderBy, descending ? 'desc': 'asc').get().then((value) {
+        var list = value.docs;
+        return list.map((doc) => _populateDoc(doc)).toList();
+      });
+    }
   }
 
   @override
-  Future<List<PayConfirmationModel>> valuesListWithDetails() {
-    return payConfirmationCollection.get().then((value) {
-      var list = value.docs;
-      return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
-    });
+  Future<List<PayConfirmationModel>> valuesListWithDetails({String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return payConfirmationCollection.get().then((value) {
+        var list = value.docs;
+        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    } else {
+      return payConfirmationCollection.orderBy(orderBy, descending ? 'desc': 'asc').get().then((value) {
+        var list = value.docs;
+        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    }
   }
 
   void flush() {

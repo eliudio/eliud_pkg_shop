@@ -84,11 +84,19 @@ class OrderOverviewFirestore implements OrderOverviewRepository {
     });
   }
 
-  StreamSubscription<List<OrderOverviewModel>> listenWithDetails(OrderOverviewModelTrigger trigger) {
-    Stream<List<OrderOverviewModel>> stream = OrderOverviewCollection.snapshots()
-        .asyncMap((data) async {
-      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-    });
+  StreamSubscription<List<OrderOverviewModel>> listenWithDetails(OrderOverviewModelTrigger trigger, { String orderBy, bool descending }) {
+    Stream<List<OrderOverviewModel>> stream;
+    if (orderBy == null) {
+      stream = OrderOverviewCollection.snapshots()
+          .asyncMap((data) async {
+        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    } else {
+      stream = OrderOverviewCollection.orderBy(orderBy, descending: descending).snapshots()
+          .asyncMap((data) async {
+        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    }
 
     return stream.listen((listOfOrderOverviewModels) {
       trigger(listOfOrderOverviewModels);
@@ -96,32 +104,60 @@ class OrderOverviewFirestore implements OrderOverviewRepository {
   }
 
 
-  Stream<List<OrderOverviewModel>> values() {
-    return OrderOverviewCollection.snapshots().map((snapshot) {
-      return snapshot.documents
-            .map((doc) => _populateDoc(doc)).toList();
-    });
+  Stream<List<OrderOverviewModel>> values({ String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return OrderOverviewCollection.snapshots().map((snapshot) {
+        return snapshot.documents
+              .map((doc) => _populateDoc(doc)).toList();
+      });
+    } else {
+      return OrderOverviewCollection.orderBy(orderBy, descending: descending).snapshots().map((snapshot) {
+        return snapshot.documents
+              .map((doc) => _populateDoc(doc)).toList();
+      });
+    }
   }
 
-  Stream<List<OrderOverviewModel>> valuesWithDetails() {
-    return OrderOverviewCollection.snapshots().asyncMap((snapshot) {
-      return Future.wait(snapshot.documents
-          .map((doc) => _populateDocPlus(doc)).toList());
-    });
+  Stream<List<OrderOverviewModel>> valuesWithDetails({ String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return OrderOverviewCollection.snapshots().asyncMap((snapshot) {
+        return Future.wait(snapshot.documents
+            .map((doc) => _populateDocPlus(doc)).toList());
+      });
+    } else {
+      return OrderOverviewCollection.orderBy(orderBy, descending: descending).snapshots().asyncMap((snapshot) {
+        return Future.wait(snapshot.documents
+            .map((doc) => _populateDocPlus(doc)).toList());
+      });
+    }
   }
 
-  Future<List<OrderOverviewModel>> valuesList() async {
-    return await OrderOverviewCollection.getDocuments().then((value) {
-      var list = value.documents;
-      return list.map((doc) => _populateDoc(doc)).toList();
-    });
+  Future<List<OrderOverviewModel>> valuesList({ String orderBy, bool descending }) async {
+    if (orderBy == null) {
+      return await OrderOverviewCollection.getDocuments().then((value) {
+        var list = value.documents;
+        return list.map((doc) => _populateDoc(doc)).toList();
+      });
+    } else {
+      return await OrderOverviewCollection.orderBy(orderBy, descending: descending).getDocuments().then((value) {
+        var list = value.documents;
+        return list.map((doc) => _populateDoc(doc)).toList();
+      });
+    }
   }
 
-  Future<List<OrderOverviewModel>> valuesListWithDetails() async {
-    return await OrderOverviewCollection.getDocuments().then((value) {
-      var list = value.documents;
-      return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
-    });
+  Future<List<OrderOverviewModel>> valuesListWithDetails({ String orderBy, bool descending }) async {
+    if (orderBy == null) {
+      return await OrderOverviewCollection.getDocuments().then((value) {
+        var list = value.documents;
+        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    } else {
+      return await OrderOverviewCollection.orderBy(orderBy, descending: descending).getDocuments().then((value) {
+        var list = value.documents;
+        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    }
   }
 
   void flush() {}

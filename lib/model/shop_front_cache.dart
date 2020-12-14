@@ -67,22 +67,22 @@ class ShopFrontCache implements ShopFrontRepository {
   }
 
   @override
-  Stream<List<ShopFrontModel>> values() {
+  Stream<List<ShopFrontModel>> values({String orderBy, bool descending }) {
     return reference.values();
   }
 
   @override
-  Stream<List<ShopFrontModel>> valuesWithDetails() {
+  Stream<List<ShopFrontModel>> valuesWithDetails({String orderBy, bool descending }) {
     return reference.valuesWithDetails();
   }
 
   @override
-  Future<List<ShopFrontModel>> valuesList() async {
+  Future<List<ShopFrontModel>> valuesList({String orderBy, bool descending }) async {
     return await reference.valuesList();
   }
   
   @override
-  Future<List<ShopFrontModel>> valuesListWithDetails() async {
+  Future<List<ShopFrontModel>> valuesListWithDetails({String orderBy, bool descending }) async {
     return await reference.valuesListWithDetails();
   }
 
@@ -101,7 +101,7 @@ class ShopFrontCache implements ShopFrontRepository {
   }
 
   @override
-  StreamSubscription<List<ShopFrontModel>> listenWithDetails(trigger) {
+  StreamSubscription<List<ShopFrontModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
     return reference.listenWithDetails(trigger);
   }
 

@@ -67,22 +67,22 @@ class OrderCache implements OrderRepository {
   }
 
   @override
-  Stream<List<OrderModel>> values() {
+  Stream<List<OrderModel>> values({String orderBy, bool descending }) {
     return reference.values();
   }
 
   @override
-  Stream<List<OrderModel>> valuesWithDetails() {
+  Stream<List<OrderModel>> valuesWithDetails({String orderBy, bool descending }) {
     return reference.valuesWithDetails();
   }
 
   @override
-  Future<List<OrderModel>> valuesList() async {
+  Future<List<OrderModel>> valuesList({String orderBy, bool descending }) async {
     return await reference.valuesList();
   }
   
   @override
-  Future<List<OrderModel>> valuesListWithDetails() async {
+  Future<List<OrderModel>> valuesListWithDetails({String orderBy, bool descending }) async {
     return await reference.valuesListWithDetails();
   }
 
@@ -101,7 +101,7 @@ class OrderCache implements OrderRepository {
   }
 
   @override
-  StreamSubscription<List<OrderModel>> listenWithDetails(trigger) {
+  StreamSubscription<List<OrderModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
     return reference.listenWithDetails(trigger);
   }
 

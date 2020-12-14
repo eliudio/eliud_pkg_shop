@@ -23,11 +23,11 @@ abstract class ProductRepository {
   Future<void> delete(ProductModel value);
   Future<ProductModel> get(String id);
   Future<ProductModel> update(ProductModel value);
-  Stream<List<ProductModel>> values();
-  Stream<List<ProductModel>> valuesWithDetails();  Future<List<ProductModel>> valuesList();
-  Future<List<ProductModel>> valuesListWithDetails();
+  Stream<List<ProductModel>> values({String orderBy, bool descending });
+  Stream<List<ProductModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<ProductModel>> valuesList({String orderBy, bool descending });
+  Future<List<ProductModel>> valuesListWithDetails({String orderBy, bool descending });
   StreamSubscription<List<ProductModel>> listen(ProductModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<ProductModel>> listenWithDetails(ProductModelTrigger trigger);
+  StreamSubscription<List<ProductModel>> listenWithDetails(ProductModelTrigger trigger, { String orderBy, bool descending });
   void flush();
 
   Future<void> deleteAll();

@@ -67,22 +67,22 @@ class CartCache implements CartRepository {
   }
 
   @override
-  Stream<List<CartModel>> values() {
+  Stream<List<CartModel>> values({String orderBy, bool descending }) {
     return reference.values();
   }
 
   @override
-  Stream<List<CartModel>> valuesWithDetails() {
+  Stream<List<CartModel>> valuesWithDetails({String orderBy, bool descending }) {
     return reference.valuesWithDetails();
   }
 
   @override
-  Future<List<CartModel>> valuesList() async {
+  Future<List<CartModel>> valuesList({String orderBy, bool descending }) async {
     return await reference.valuesList();
   }
   
   @override
-  Future<List<CartModel>> valuesListWithDetails() async {
+  Future<List<CartModel>> valuesListWithDetails({String orderBy, bool descending }) async {
     return await reference.valuesListWithDetails();
   }
 
@@ -101,7 +101,7 @@ class CartCache implements CartRepository {
   }
 
   @override
-  StreamSubscription<List<CartModel>> listenWithDetails(trigger) {
+  StreamSubscription<List<CartModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
     return reference.listenWithDetails(trigger);
   }
 

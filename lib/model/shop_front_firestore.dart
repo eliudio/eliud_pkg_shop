@@ -84,11 +84,19 @@ class ShopFrontFirestore implements ShopFrontRepository {
     });
   }
 
-  StreamSubscription<List<ShopFrontModel>> listenWithDetails(ShopFrontModelTrigger trigger) {
-    Stream<List<ShopFrontModel>> stream = ShopFrontCollection.snapshots()
-        .asyncMap((data) async {
-      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-    });
+  StreamSubscription<List<ShopFrontModel>> listenWithDetails(ShopFrontModelTrigger trigger, { String orderBy, bool descending }) {
+    Stream<List<ShopFrontModel>> stream;
+    if (orderBy == null) {
+      stream = ShopFrontCollection.snapshots()
+          .asyncMap((data) async {
+        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    } else {
+      stream = ShopFrontCollection.orderBy(orderBy, descending: descending).snapshots()
+          .asyncMap((data) async {
+        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    }
 
     return stream.listen((listOfShopFrontModels) {
       trigger(listOfShopFrontModels);
@@ -96,32 +104,60 @@ class ShopFrontFirestore implements ShopFrontRepository {
   }
 
 
-  Stream<List<ShopFrontModel>> values() {
-    return ShopFrontCollection.snapshots().map((snapshot) {
-      return snapshot.documents
-            .map((doc) => _populateDoc(doc)).toList();
-    });
+  Stream<List<ShopFrontModel>> values({ String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return ShopFrontCollection.snapshots().map((snapshot) {
+        return snapshot.documents
+              .map((doc) => _populateDoc(doc)).toList();
+      });
+    } else {
+      return ShopFrontCollection.orderBy(orderBy, descending: descending).snapshots().map((snapshot) {
+        return snapshot.documents
+              .map((doc) => _populateDoc(doc)).toList();
+      });
+    }
   }
 
-  Stream<List<ShopFrontModel>> valuesWithDetails() {
-    return ShopFrontCollection.snapshots().asyncMap((snapshot) {
-      return Future.wait(snapshot.documents
-          .map((doc) => _populateDocPlus(doc)).toList());
-    });
+  Stream<List<ShopFrontModel>> valuesWithDetails({ String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return ShopFrontCollection.snapshots().asyncMap((snapshot) {
+        return Future.wait(snapshot.documents
+            .map((doc) => _populateDocPlus(doc)).toList());
+      });
+    } else {
+      return ShopFrontCollection.orderBy(orderBy, descending: descending).snapshots().asyncMap((snapshot) {
+        return Future.wait(snapshot.documents
+            .map((doc) => _populateDocPlus(doc)).toList());
+      });
+    }
   }
 
-  Future<List<ShopFrontModel>> valuesList() async {
-    return await ShopFrontCollection.getDocuments().then((value) {
-      var list = value.documents;
-      return list.map((doc) => _populateDoc(doc)).toList();
-    });
+  Future<List<ShopFrontModel>> valuesList({ String orderBy, bool descending }) async {
+    if (orderBy == null) {
+      return await ShopFrontCollection.getDocuments().then((value) {
+        var list = value.documents;
+        return list.map((doc) => _populateDoc(doc)).toList();
+      });
+    } else {
+      return await ShopFrontCollection.orderBy(orderBy, descending: descending).getDocuments().then((value) {
+        var list = value.documents;
+        return list.map((doc) => _populateDoc(doc)).toList();
+      });
+    }
   }
 
-  Future<List<ShopFrontModel>> valuesListWithDetails() async {
-    return await ShopFrontCollection.getDocuments().then((value) {
-      var list = value.documents;
-      return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
-    });
+  Future<List<ShopFrontModel>> valuesListWithDetails({ String orderBy, bool descending }) async {
+    if (orderBy == null) {
+      return await ShopFrontCollection.getDocuments().then((value) {
+        var list = value.documents;
+        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    } else {
+      return await ShopFrontCollection.orderBy(orderBy, descending: descending).getDocuments().then((value) {
+        var list = value.documents;
+        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    }
   }
 
   void flush() {}

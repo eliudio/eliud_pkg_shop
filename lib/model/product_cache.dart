@@ -67,22 +67,22 @@ class ProductCache implements ProductRepository {
   }
 
   @override
-  Stream<List<ProductModel>> values() {
+  Stream<List<ProductModel>> values({String orderBy, bool descending }) {
     return reference.values();
   }
 
   @override
-  Stream<List<ProductModel>> valuesWithDetails() {
+  Stream<List<ProductModel>> valuesWithDetails({String orderBy, bool descending }) {
     return reference.valuesWithDetails();
   }
 
   @override
-  Future<List<ProductModel>> valuesList() async {
+  Future<List<ProductModel>> valuesList({String orderBy, bool descending }) async {
     return await reference.valuesList();
   }
   
   @override
-  Future<List<ProductModel>> valuesListWithDetails() async {
+  Future<List<ProductModel>> valuesListWithDetails({String orderBy, bool descending }) async {
     return await reference.valuesListWithDetails();
   }
 
@@ -101,7 +101,7 @@ class ProductCache implements ProductRepository {
   }
 
   @override
-  StreamSubscription<List<ProductModel>> listenWithDetails(trigger) {
+  StreamSubscription<List<ProductModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
     return reference.listenWithDetails(trigger);
   }
 

@@ -80,7 +80,7 @@ class ProductJsFirestore implements ProductRepository {
         return products;
       });
     } else {
-      stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
+      stream = getCollection().orderBy(orderBy, descending ? 'desc': 'asc').onSnapshot
           .map((data) {
         Iterable<ProductModel> products  = data.docs.map((doc) {
           ProductModel value = _populateDoc(doc);
@@ -94,42 +94,74 @@ class ProductJsFirestore implements ProductRepository {
     });
   }
 
-  StreamSubscription<List<ProductModel>> listenWithDetails(ProductModelTrigger trigger) {
-    // If we use productCollection here, then the second subscription fails
-    Stream<List<ProductModel>> stream = getCollection().onSnapshot
-        .asyncMap((data) async {
-      return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
-    });
-
+  StreamSubscription<List<ProductModel>> listenWithDetails(ProductModelTrigger trigger, {String orderBy, bool descending }) {
+    var stream;
+    if (orderBy == null) {
+      // If we use productCollection here, then the second subscription fails
+      stream = getCollection().onSnapshot
+          .asyncMap((data) async {
+        return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    } else {
+      // If we use productCollection here, then the second subscription fails
+      stream = getCollection().orderBy(orderBy, descending ? 'desc': 'asc').onSnapshot
+          .asyncMap((data) async {
+        return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    }
     return stream.listen((listOfProductModels) {
       trigger(listOfProductModels);
     });
   }
 
-  Stream<List<ProductModel>> values() {
-    return productCollection.onSnapshot
-        .map((data) => data.docs.map((doc) => _populateDoc(doc)).toList());
+  Stream<List<ProductModel>> values({String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return productCollection.onSnapshot
+          .map((data) => data.docs.map((doc) => _populateDoc(doc)).toList());
+    } else {
+      return productCollection.orderBy(orderBy, descending ? 'desc': 'asc').onSnapshot
+          .map((data) => data.docs.map((doc) => _populateDoc(doc)).toList());
+    }
   }
 
-  Stream<List<ProductModel>> valuesWithDetails() {
-    return productCollection.onSnapshot
-        .asyncMap((data) => Future.wait(data.docs.map((doc) => _populateDocPlus(doc)).toList()));
+  Stream<List<ProductModel>> valuesWithDetails({String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return productCollection.onSnapshot
+          .asyncMap((data) => Future.wait(data.docs.map((doc) => _populateDocPlus(doc)).toList()));
+    } else {
+      return productCollection.orderBy(orderBy, descending ? 'desc': 'asc').onSnapshot
+          .asyncMap((data) => Future.wait(data.docs.map((doc) => _populateDocPlus(doc)).toList()));
+    }
   }
 
   @override
-  Future<List<ProductModel>> valuesList() {
-    return productCollection.get().then((value) {
-      var list = value.docs;
-      return list.map((doc) => _populateDoc(doc)).toList();
-    });
+  Future<List<ProductModel>> valuesList({String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return productCollection.get().then((value) {
+        var list = value.docs;
+        return list.map((doc) => _populateDoc(doc)).toList();
+      });
+    } else {
+      return productCollection.orderBy(orderBy, descending ? 'desc': 'asc').get().then((value) {
+        var list = value.docs;
+        return list.map((doc) => _populateDoc(doc)).toList();
+      });
+    }
   }
 
   @override
-  Future<List<ProductModel>> valuesListWithDetails() {
-    return productCollection.get().then((value) {
-      var list = value.docs;
-      return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
-    });
+  Future<List<ProductModel>> valuesListWithDetails({String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return productCollection.get().then((value) {
+        var list = value.docs;
+        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    } else {
+      return productCollection.orderBy(orderBy, descending ? 'desc': 'asc').get().then((value) {
+        var list = value.docs;
+        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    }
   }
 
   void flush() {

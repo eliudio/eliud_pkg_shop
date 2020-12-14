@@ -62,22 +62,22 @@ class PayCache implements PayRepository {
   }
 
   @override
-  Stream<List<PayModel>> values() {
+  Stream<List<PayModel>> values({String orderBy, bool descending }) {
     return reference.values();
   }
 
   @override
-  Stream<List<PayModel>> valuesWithDetails() {
+  Stream<List<PayModel>> valuesWithDetails({String orderBy, bool descending }) {
     return reference.valuesWithDetails();
   }
 
   @override
-  Future<List<PayModel>> valuesList() async {
+  Future<List<PayModel>> valuesList({String orderBy, bool descending }) async {
     return await reference.valuesList();
   }
   
   @override
-  Future<List<PayModel>> valuesListWithDetails() async {
+  Future<List<PayModel>> valuesListWithDetails({String orderBy, bool descending }) async {
     return await reference.valuesListWithDetails();
   }
 
@@ -96,7 +96,7 @@ class PayCache implements PayRepository {
   }
 
   @override
-  StreamSubscription<List<PayModel>> listenWithDetails(trigger) {
+  StreamSubscription<List<PayModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
     return reference.listenWithDetails(trigger);
   }
 

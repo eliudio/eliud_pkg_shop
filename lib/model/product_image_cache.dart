@@ -67,22 +67,22 @@ class ProductImageCache implements ProductImageRepository {
   }
 
   @override
-  Stream<List<ProductImageModel>> values() {
+  Stream<List<ProductImageModel>> values({String orderBy, bool descending }) {
     return reference.values();
   }
 
   @override
-  Stream<List<ProductImageModel>> valuesWithDetails() {
+  Stream<List<ProductImageModel>> valuesWithDetails({String orderBy, bool descending }) {
     return reference.valuesWithDetails();
   }
 
   @override
-  Future<List<ProductImageModel>> valuesList() async {
+  Future<List<ProductImageModel>> valuesList({String orderBy, bool descending }) async {
     return await reference.valuesList();
   }
   
   @override
-  Future<List<ProductImageModel>> valuesListWithDetails() async {
+  Future<List<ProductImageModel>> valuesListWithDetails({String orderBy, bool descending }) async {
     return await reference.valuesListWithDetails();
   }
 
@@ -101,7 +101,7 @@ class ProductImageCache implements ProductImageRepository {
   }
 
   @override
-  StreamSubscription<List<ProductImageModel>> listenWithDetails(trigger) {
+  StreamSubscription<List<ProductImageModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
     return reference.listenWithDetails(trigger);
   }
 

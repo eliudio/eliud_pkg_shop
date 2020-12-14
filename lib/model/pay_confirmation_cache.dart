@@ -62,22 +62,22 @@ class PayConfirmationCache implements PayConfirmationRepository {
   }
 
   @override
-  Stream<List<PayConfirmationModel>> values() {
+  Stream<List<PayConfirmationModel>> values({String orderBy, bool descending }) {
     return reference.values();
   }
 
   @override
-  Stream<List<PayConfirmationModel>> valuesWithDetails() {
+  Stream<List<PayConfirmationModel>> valuesWithDetails({String orderBy, bool descending }) {
     return reference.valuesWithDetails();
   }
 
   @override
-  Future<List<PayConfirmationModel>> valuesList() async {
+  Future<List<PayConfirmationModel>> valuesList({String orderBy, bool descending }) async {
     return await reference.valuesList();
   }
   
   @override
-  Future<List<PayConfirmationModel>> valuesListWithDetails() async {
+  Future<List<PayConfirmationModel>> valuesListWithDetails({String orderBy, bool descending }) async {
     return await reference.valuesListWithDetails();
   }
 
@@ -96,7 +96,7 @@ class PayConfirmationCache implements PayConfirmationRepository {
   }
 
   @override
-  StreamSubscription<List<PayConfirmationModel>> listenWithDetails(trigger) {
+  StreamSubscription<List<PayConfirmationModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
     return reference.listenWithDetails(trigger);
   }
 

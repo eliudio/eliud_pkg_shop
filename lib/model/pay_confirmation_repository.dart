@@ -23,11 +23,11 @@ abstract class PayConfirmationRepository {
   Future<void> delete(PayConfirmationModel value);
   Future<PayConfirmationModel> get(String id);
   Future<PayConfirmationModel> update(PayConfirmationModel value);
-  Stream<List<PayConfirmationModel>> values();
-  Stream<List<PayConfirmationModel>> valuesWithDetails();  Future<List<PayConfirmationModel>> valuesList();
-  Future<List<PayConfirmationModel>> valuesListWithDetails();
+  Stream<List<PayConfirmationModel>> values({String orderBy, bool descending });
+  Stream<List<PayConfirmationModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<PayConfirmationModel>> valuesList({String orderBy, bool descending });
+  Future<List<PayConfirmationModel>> valuesListWithDetails({String orderBy, bool descending });
   StreamSubscription<List<PayConfirmationModel>> listen(PayConfirmationModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<PayConfirmationModel>> listenWithDetails(PayConfirmationModelTrigger trigger);
+  StreamSubscription<List<PayConfirmationModel>> listenWithDetails(PayConfirmationModelTrigger trigger, { String orderBy, bool descending });
   void flush();
 
   Future<void> deleteAll();

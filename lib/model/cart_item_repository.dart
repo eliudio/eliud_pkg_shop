@@ -23,11 +23,11 @@ abstract class CartItemRepository {
   Future<void> delete(CartItemModel value);
   Future<CartItemModel> get(String id);
   Future<CartItemModel> update(CartItemModel value);
-  Stream<List<CartItemModel>> values();
-  Stream<List<CartItemModel>> valuesWithDetails();  Future<List<CartItemModel>> valuesList();
-  Future<List<CartItemModel>> valuesListWithDetails();
+  Stream<List<CartItemModel>> values({String orderBy, bool descending });
+  Stream<List<CartItemModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<CartItemModel>> valuesList({String orderBy, bool descending });
+  Future<List<CartItemModel>> valuesListWithDetails({String orderBy, bool descending });
   StreamSubscription<List<CartItemModel>> listen(CartItemModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<CartItemModel>> listenWithDetails(CartItemModelTrigger trigger);
+  StreamSubscription<List<CartItemModel>> listenWithDetails(CartItemModelTrigger trigger, { String orderBy, bool descending });
   void flush();
 
   Future<void> deleteAll();
