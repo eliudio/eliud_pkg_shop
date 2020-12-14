@@ -13,8 +13,11 @@
 
 */
 
-import 'dart:async';
 import 'package:eliud_pkg_shop/model/pay_confirmation_model.dart';
+
+import 'dart:async';
+import 'package:eliud_core/tools/firestore_tools.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 typedef PayConfirmationModelTrigger(List<PayConfirmationModel> list);
 
@@ -23,11 +26,14 @@ abstract class PayConfirmationRepository {
   Future<void> delete(PayConfirmationModel value);
   Future<PayConfirmationModel> get(String id);
   Future<PayConfirmationModel> update(PayConfirmationModel value);
-  Stream<List<PayConfirmationModel>> values({String orderBy, bool descending });
-  Stream<List<PayConfirmationModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<PayConfirmationModel>> valuesList({String orderBy, bool descending });
-  Future<List<PayConfirmationModel>> valuesListWithDetails({String orderBy, bool descending });
-  StreamSubscription<List<PayConfirmationModel>> listen(PayConfirmationModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<PayConfirmationModel>> listenWithDetails(PayConfirmationModelTrigger trigger, { String orderBy, bool descending });
+
+  Stream<List<PayConfirmationModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Stream<List<PayConfirmationModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Future<List<PayConfirmationModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Future<List<PayConfirmationModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+
+  StreamSubscription<List<PayConfirmationModel>> listen(PayConfirmationModelTrigger trigger, {String currentMember, String orderBy, bool descending});
+  StreamSubscription<List<PayConfirmationModel>> listenWithDetails(PayConfirmationModelTrigger trigger, {String currentMember, String orderBy, bool descending});
   void flush();
 
   Future<void> deleteAll();

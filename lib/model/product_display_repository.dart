@@ -13,8 +13,11 @@
 
 */
 
-import 'dart:async';
 import 'package:eliud_pkg_shop/model/product_display_model.dart';
+
+import 'dart:async';
+import 'package:eliud_core/tools/firestore_tools.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 typedef ProductDisplayModelTrigger(List<ProductDisplayModel> list);
 
@@ -23,11 +26,14 @@ abstract class ProductDisplayRepository {
   Future<void> delete(ProductDisplayModel value);
   Future<ProductDisplayModel> get(String id);
   Future<ProductDisplayModel> update(ProductDisplayModel value);
-  Stream<List<ProductDisplayModel>> values({String orderBy, bool descending });
-  Stream<List<ProductDisplayModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<ProductDisplayModel>> valuesList({String orderBy, bool descending });
-  Future<List<ProductDisplayModel>> valuesListWithDetails({String orderBy, bool descending });
-  StreamSubscription<List<ProductDisplayModel>> listen(ProductDisplayModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<ProductDisplayModel>> listenWithDetails(ProductDisplayModelTrigger trigger, { String orderBy, bool descending });
+
+  Stream<List<ProductDisplayModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Stream<List<ProductDisplayModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Future<List<ProductDisplayModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Future<List<ProductDisplayModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+
+  StreamSubscription<List<ProductDisplayModel>> listen(ProductDisplayModelTrigger trigger, {String currentMember, String orderBy, bool descending});
+  StreamSubscription<List<ProductDisplayModel>> listenWithDetails(ProductDisplayModelTrigger trigger, {String currentMember, String orderBy, bool descending});
   void flush();
 
   Future<void> deleteAll();

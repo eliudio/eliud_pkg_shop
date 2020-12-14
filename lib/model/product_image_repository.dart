@@ -13,8 +13,11 @@
 
 */
 
-import 'dart:async';
 import 'package:eliud_pkg_shop/model/product_image_model.dart';
+
+import 'dart:async';
+import 'package:eliud_core/tools/firestore_tools.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 typedef ProductImageModelTrigger(List<ProductImageModel> list);
 
@@ -23,11 +26,14 @@ abstract class ProductImageRepository {
   Future<void> delete(ProductImageModel value);
   Future<ProductImageModel> get(String id);
   Future<ProductImageModel> update(ProductImageModel value);
-  Stream<List<ProductImageModel>> values({String orderBy, bool descending });
-  Stream<List<ProductImageModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<ProductImageModel>> valuesList({String orderBy, bool descending });
-  Future<List<ProductImageModel>> valuesListWithDetails({String orderBy, bool descending });
-  StreamSubscription<List<ProductImageModel>> listen(ProductImageModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<ProductImageModel>> listenWithDetails(ProductImageModelTrigger trigger, { String orderBy, bool descending });
+
+  Stream<List<ProductImageModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Stream<List<ProductImageModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Future<List<ProductImageModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Future<List<ProductImageModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+
+  StreamSubscription<List<ProductImageModel>> listen(ProductImageModelTrigger trigger, {String currentMember, String orderBy, bool descending});
+  StreamSubscription<List<ProductImageModel>> listenWithDetails(ProductImageModelTrigger trigger, {String currentMember, String orderBy, bool descending});
   void flush();
 
   Future<void> deleteAll();

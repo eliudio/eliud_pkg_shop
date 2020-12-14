@@ -13,8 +13,11 @@
 
 */
 
-import 'dart:async';
 import 'package:eliud_pkg_shop/model/cart_model.dart';
+
+import 'dart:async';
+import 'package:eliud_core/tools/firestore_tools.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 typedef CartModelTrigger(List<CartModel> list);
 
@@ -23,11 +26,14 @@ abstract class CartRepository {
   Future<void> delete(CartModel value);
   Future<CartModel> get(String id);
   Future<CartModel> update(CartModel value);
-  Stream<List<CartModel>> values({String orderBy, bool descending });
-  Stream<List<CartModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<CartModel>> valuesList({String orderBy, bool descending });
-  Future<List<CartModel>> valuesListWithDetails({String orderBy, bool descending });
-  StreamSubscription<List<CartModel>> listen(CartModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<CartModel>> listenWithDetails(CartModelTrigger trigger, { String orderBy, bool descending });
+
+  Stream<List<CartModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Stream<List<CartModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Future<List<CartModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Future<List<CartModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+
+  StreamSubscription<List<CartModel>> listen(CartModelTrigger trigger, {String currentMember, String orderBy, bool descending});
+  StreamSubscription<List<CartModel>> listenWithDetails(CartModelTrigger trigger, {String currentMember, String orderBy, bool descending});
   void flush();
 
   Future<void> deleteAll();

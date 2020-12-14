@@ -13,8 +13,11 @@
 
 */
 
-import 'dart:async';
 import 'package:eliud_pkg_shop/model/shop_front_model.dart';
+
+import 'dart:async';
+import 'package:eliud_core/tools/firestore_tools.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 typedef ShopFrontModelTrigger(List<ShopFrontModel> list);
 
@@ -23,11 +26,14 @@ abstract class ShopFrontRepository {
   Future<void> delete(ShopFrontModel value);
   Future<ShopFrontModel> get(String id);
   Future<ShopFrontModel> update(ShopFrontModel value);
-  Stream<List<ShopFrontModel>> values({String orderBy, bool descending });
-  Stream<List<ShopFrontModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<ShopFrontModel>> valuesList({String orderBy, bool descending });
-  Future<List<ShopFrontModel>> valuesListWithDetails({String orderBy, bool descending });
-  StreamSubscription<List<ShopFrontModel>> listen(ShopFrontModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<ShopFrontModel>> listenWithDetails(ShopFrontModelTrigger trigger, { String orderBy, bool descending });
+
+  Stream<List<ShopFrontModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Stream<List<ShopFrontModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Future<List<ShopFrontModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Future<List<ShopFrontModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+
+  StreamSubscription<List<ShopFrontModel>> listen(ShopFrontModelTrigger trigger, {String currentMember, String orderBy, bool descending});
+  StreamSubscription<List<ShopFrontModel>> listenWithDetails(ShopFrontModelTrigger trigger, {String currentMember, String orderBy, bool descending});
   void flush();
 
   Future<void> deleteAll();

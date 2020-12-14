@@ -33,12 +33,12 @@ class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
 
   Stream<ShopListState> _mapLoadShopListToState({ String orderBy, bool descending }) async* {
     _shopsListSubscription?.cancel();
-    _shopsListSubscription = _shopRepository.listen( (list) => add(ShopListUpdated(value: list)), orderBy: orderBy, descending: descending);
+    _shopsListSubscription = _shopRepository.listen((list) => add(ShopListUpdated(value: list)), orderBy: orderBy, descending: descending, );
   }
 
   Stream<ShopListState> _mapLoadShopListWithDetailsToState() async* {
     _shopsListSubscription?.cancel();
-    _shopsListSubscription = _shopRepository.listenWithDetails( (list) => add(ShopListUpdated(value: list)));
+    _shopsListSubscription = _shopRepository.listenWithDetails((list) => add(ShopListUpdated(value: list)), );
   }
 
   Stream<ShopListState> _mapAddShopListToState(AddShopList event) async* {

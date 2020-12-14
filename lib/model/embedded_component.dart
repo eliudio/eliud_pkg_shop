@@ -15,6 +15,7 @@
 
 
 import 'package:eliud_core/tools/random.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 import 'dart:async';
 
@@ -151,31 +152,31 @@ class CartItemInMemoryRepository implements CartItemRepository {
       return completer.future;
     }
 
-    Stream<List<CartItemModel>> values({String orderBy, bool descending }) {
+    Stream<List<CartItemModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return theValues;
     }
     
-    Stream<List<CartItemModel>> valuesWithDetails({String orderBy, bool descending }) {
+    Stream<List<CartItemModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return theValues;
     }
     
     @override
-    StreamSubscription<List<CartItemModel>> listen(trigger, { String orderBy, bool descending }) {
+    StreamSubscription<List<CartItemModel>> listen(trigger, { String currentMember, String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<CartItemModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
+    StreamSubscription<List<CartItemModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<CartItemModel>> valuesList({String orderBy, bool descending }) {
+    Future<List<CartItemModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return Future.value(items);
     }
     
-    Future<List<CartItemModel>> valuesListWithDetails({String orderBy, bool descending }) {
+    Future<List<CartItemModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return Future.value(items);
     }
 
@@ -230,31 +231,31 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
       return completer.future;
     }
 
-    Stream<List<OrderItemModel>> values({String orderBy, bool descending }) {
+    Stream<List<OrderItemModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return theValues;
     }
     
-    Stream<List<OrderItemModel>> valuesWithDetails({String orderBy, bool descending }) {
+    Stream<List<OrderItemModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return theValues;
     }
     
     @override
-    StreamSubscription<List<OrderItemModel>> listen(trigger, { String orderBy, bool descending }) {
+    StreamSubscription<List<OrderItemModel>> listen(trigger, { String currentMember, String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<OrderItemModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
+    StreamSubscription<List<OrderItemModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<OrderItemModel>> valuesList({String orderBy, bool descending }) {
+    Future<List<OrderItemModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return Future.value(items);
     }
     
-    Future<List<OrderItemModel>> valuesListWithDetails({String orderBy, bool descending }) {
+    Future<List<OrderItemModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return Future.value(items);
     }
 
@@ -309,31 +310,31 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
       return completer.future;
     }
 
-    Stream<List<ProductImageModel>> values({String orderBy, bool descending }) {
+    Stream<List<ProductImageModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return theValues;
     }
     
-    Stream<List<ProductImageModel>> valuesWithDetails({String orderBy, bool descending }) {
+    Stream<List<ProductImageModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return theValues;
     }
     
     @override
-    StreamSubscription<List<ProductImageModel>> listen(trigger, { String orderBy, bool descending }) {
+    StreamSubscription<List<ProductImageModel>> listen(trigger, { String currentMember, String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<ProductImageModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
+    StreamSubscription<List<ProductImageModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<ProductImageModel>> valuesList({String orderBy, bool descending }) {
+    Future<List<ProductImageModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return Future.value(items);
     }
     
-    Future<List<ProductImageModel>> valuesListWithDetails({String orderBy, bool descending }) {
+    Future<List<ProductImageModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return Future.value(items);
     }
 

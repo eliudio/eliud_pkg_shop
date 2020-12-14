@@ -33,12 +33,12 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
 
   Stream<OrderListState> _mapLoadOrderListToState({ String orderBy, bool descending }) async* {
     _ordersListSubscription?.cancel();
-    _ordersListSubscription = _orderRepository.listen( (list) => add(OrderListUpdated(value: list)), orderBy: orderBy, descending: descending);
+    _ordersListSubscription = _orderRepository.listen((list) => add(OrderListUpdated(value: list)), orderBy: orderBy, descending: descending, );
   }
 
   Stream<OrderListState> _mapLoadOrderListWithDetailsToState() async* {
     _ordersListSubscription?.cancel();
-    _ordersListSubscription = _orderRepository.listenWithDetails( (list) => add(OrderListUpdated(value: list)));
+    _ordersListSubscription = _orderRepository.listenWithDetails((list) => add(OrderListUpdated(value: list)), );
   }
 
   Stream<OrderListState> _mapAddOrderListToState(AddOrderList event) async* {

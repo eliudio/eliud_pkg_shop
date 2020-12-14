@@ -33,12 +33,12 @@ class OrderItemListBloc extends Bloc<OrderItemListEvent, OrderItemListState> {
 
   Stream<OrderItemListState> _mapLoadOrderItemListToState({ String orderBy, bool descending }) async* {
     _orderItemsListSubscription?.cancel();
-    _orderItemsListSubscription = _orderItemRepository.listen( (list) => add(OrderItemListUpdated(value: list)), orderBy: orderBy, descending: descending);
+    _orderItemsListSubscription = _orderItemRepository.listen((list) => add(OrderItemListUpdated(value: list)), orderBy: orderBy, descending: descending, );
   }
 
   Stream<OrderItemListState> _mapLoadOrderItemListWithDetailsToState() async* {
     _orderItemsListSubscription?.cancel();
-    _orderItemsListSubscription = _orderItemRepository.listenWithDetails( (list) => add(OrderItemListUpdated(value: list)));
+    _orderItemsListSubscription = _orderItemRepository.listenWithDetails((list) => add(OrderItemListUpdated(value: list)), );
   }
 
   Stream<OrderItemListState> _mapAddOrderItemListToState(AddOrderItemList event) async* {

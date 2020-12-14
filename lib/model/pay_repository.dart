@@ -13,8 +13,11 @@
 
 */
 
-import 'dart:async';
 import 'package:eliud_pkg_shop/model/pay_model.dart';
+
+import 'dart:async';
+import 'package:eliud_core/tools/firestore_tools.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 typedef PayModelTrigger(List<PayModel> list);
 
@@ -23,11 +26,14 @@ abstract class PayRepository {
   Future<void> delete(PayModel value);
   Future<PayModel> get(String id);
   Future<PayModel> update(PayModel value);
-  Stream<List<PayModel>> values({String orderBy, bool descending });
-  Stream<List<PayModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<PayModel>> valuesList({String orderBy, bool descending });
-  Future<List<PayModel>> valuesListWithDetails({String orderBy, bool descending });
-  StreamSubscription<List<PayModel>> listen(PayModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<PayModel>> listenWithDetails(PayModelTrigger trigger, { String orderBy, bool descending });
+
+  Stream<List<PayModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Stream<List<PayModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Future<List<PayModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Future<List<PayModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+
+  StreamSubscription<List<PayModel>> listen(PayModelTrigger trigger, {String currentMember, String orderBy, bool descending});
+  StreamSubscription<List<PayModel>> listenWithDetails(PayModelTrigger trigger, {String currentMember, String orderBy, bool descending});
   void flush();
 
   Future<void> deleteAll();
