@@ -41,14 +41,17 @@ import 'package:eliud_pkg_shop/model/order_model.dart';
 
 import 'package:eliud_core/model/app_model.dart';
 
+
 import 'order_form.dart';
+
 class OrderListWidget extends StatefulWidget with HasFab {
   bool readOnly;
   String form;
+  String listItemWidget;
   OrderListWidgetState state;
   bool isEmbedded;
 
-  OrderListWidget({ Key key, this.readOnly, this.form, this.isEmbedded }): super(key: key);
+  OrderListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded }): super(key: key);
 
   @override
   OrderListWidgetState createState() {
@@ -166,6 +169,7 @@ class OrderListWidgetState extends State<OrderListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+
           return OrderListItem(
             value: value,
             app: accessState.app,
@@ -209,6 +213,7 @@ class OrderListWidgetState extends State<OrderListWidget> {
       return null;
     }
   }
+  
   
 }
 

@@ -41,14 +41,17 @@ import 'package:eliud_pkg_shop/model/pay_confirmation_model.dart';
 
 import 'package:eliud_core/model/app_model.dart';
 
+
 import 'pay_confirmation_form.dart';
+
 class PayConfirmationListWidget extends StatefulWidget with HasFab {
   bool readOnly;
   String form;
+  String listItemWidget;
   PayConfirmationListWidgetState state;
   bool isEmbedded;
 
-  PayConfirmationListWidget({ Key key, this.readOnly, this.form, this.isEmbedded }): super(key: key);
+  PayConfirmationListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded }): super(key: key);
 
   @override
   PayConfirmationListWidgetState createState() {
@@ -166,6 +169,7 @@ class PayConfirmationListWidgetState extends State<PayConfirmationListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+
           return PayConfirmationListItem(
             value: value,
             app: accessState.app,
@@ -207,6 +211,7 @@ class PayConfirmationListWidgetState extends State<PayConfirmationListWidget> {
       return null;
     }
   }
+  
   
 }
 

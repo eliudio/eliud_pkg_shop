@@ -41,14 +41,17 @@ import 'package:eliud_pkg_shop/model/shop_front_model.dart';
 
 import 'package:eliud_core/model/app_model.dart';
 
+
 import 'shop_front_form.dart';
+
 class ShopFrontListWidget extends StatefulWidget with HasFab {
   bool readOnly;
   String form;
+  String listItemWidget;
   ShopFrontListWidgetState state;
   bool isEmbedded;
 
-  ShopFrontListWidget({ Key key, this.readOnly, this.form, this.isEmbedded }): super(key: key);
+  ShopFrontListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded }): super(key: key);
 
   @override
   ShopFrontListWidgetState createState() {
@@ -166,6 +169,7 @@ class ShopFrontListWidgetState extends State<ShopFrontListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+
           return ShopFrontListItem(
             value: value,
             app: accessState.app,
@@ -207,6 +211,7 @@ class ShopFrontListWidgetState extends State<ShopFrontListWidget> {
       return null;
     }
   }
+  
   
 }
 

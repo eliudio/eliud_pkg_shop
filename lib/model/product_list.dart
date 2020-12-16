@@ -41,14 +41,17 @@ import 'package:eliud_pkg_shop/model/product_model.dart';
 
 import 'package:eliud_core/model/app_model.dart';
 
+
 import 'product_form.dart';
+
 class ProductListWidget extends StatefulWidget with HasFab {
   bool readOnly;
   String form;
+  String listItemWidget;
   ProductListWidgetState state;
   bool isEmbedded;
 
-  ProductListWidget({ Key key, this.readOnly, this.form, this.isEmbedded }): super(key: key);
+  ProductListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded }): super(key: key);
 
   @override
   ProductListWidgetState createState() {
@@ -166,6 +169,7 @@ class ProductListWidgetState extends State<ProductListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+
           return ProductListItem(
             value: value,
             app: accessState.app,
@@ -207,6 +211,7 @@ class ProductListWidgetState extends State<ProductListWidget> {
       return null;
     }
   }
+  
   
 }
 

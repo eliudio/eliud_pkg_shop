@@ -41,14 +41,17 @@ import 'package:eliud_pkg_shop/model/pay_model.dart';
 
 import 'package:eliud_core/model/app_model.dart';
 
+
 import 'pay_form.dart';
+
 class PayListWidget extends StatefulWidget with HasFab {
   bool readOnly;
   String form;
+  String listItemWidget;
   PayListWidgetState state;
   bool isEmbedded;
 
-  PayListWidget({ Key key, this.readOnly, this.form, this.isEmbedded }): super(key: key);
+  PayListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded }): super(key: key);
 
   @override
   PayListWidgetState createState() {
@@ -166,6 +169,7 @@ class PayListWidgetState extends State<PayListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+
           return PayListItem(
             value: value,
             app: accessState.app,
@@ -207,6 +211,7 @@ class PayListWidgetState extends State<PayListWidget> {
       return null;
     }
   }
+  
   
 }
 
