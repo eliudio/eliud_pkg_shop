@@ -60,7 +60,7 @@ class ShopFrontState extends State<ShopFront> {
   Widget _grid(BuildContext context) {
     return MultiBlocProvider(providers: [
       BlocProvider<ProductListBloc>(
-        create: (context) => ProductListBloc(
+        create: (context) => ProductListBloc(AccessBloc.getBloc(context),
           productRepository:
               AbstractRepositorySingleton.singleton.productRepository(AccessBloc.appId(context)),
         )..add(LoadProductListWithDetails()),

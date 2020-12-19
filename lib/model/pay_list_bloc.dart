@@ -20,13 +20,17 @@ import 'package:meta/meta.dart';
 import 'package:eliud_pkg_shop/model/pay_repository.dart';
 import 'package:eliud_pkg_shop/model/pay_list_event.dart';
 import 'package:eliud_pkg_shop/model/pay_list_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
 class PayListBloc extends Bloc<PayListEvent, PayListState> {
   final PayRepository _payRepository;
   StreamSubscription _paysListSubscription;
+  final AccessBloc accessBloc;
 
-  PayListBloc({ @required PayRepository payRepository })
+  PayListBloc(this.accessBloc,{ @required PayRepository payRepository })
       : assert(payRepository != null),
       _payRepository = payRepository,
       super(PayListLoading());

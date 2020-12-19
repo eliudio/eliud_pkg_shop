@@ -20,13 +20,17 @@ import 'package:meta/meta.dart';
 import 'package:eliud_pkg_shop/model/order_item_repository.dart';
 import 'package:eliud_pkg_shop/model/order_item_list_event.dart';
 import 'package:eliud_pkg_shop/model/order_item_list_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
 class OrderItemListBloc extends Bloc<OrderItemListEvent, OrderItemListState> {
   final OrderItemRepository _orderItemRepository;
   StreamSubscription _orderItemsListSubscription;
+  final AccessBloc accessBloc;
 
-  OrderItemListBloc({ @required OrderItemRepository orderItemRepository })
+  OrderItemListBloc(this.accessBloc,{ @required OrderItemRepository orderItemRepository })
       : assert(orderItemRepository != null),
       _orderItemRepository = orderItemRepository,
       super(OrderItemListLoading());

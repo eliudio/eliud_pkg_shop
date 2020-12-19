@@ -20,13 +20,17 @@ import 'package:meta/meta.dart';
 import 'package:eliud_pkg_shop/model/shop_front_repository.dart';
 import 'package:eliud_pkg_shop/model/shop_front_list_event.dart';
 import 'package:eliud_pkg_shop/model/shop_front_list_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
 class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {
   final ShopFrontRepository _shopFrontRepository;
   StreamSubscription _shopFrontsListSubscription;
+  final AccessBloc accessBloc;
 
-  ShopFrontListBloc({ @required ShopFrontRepository shopFrontRepository })
+  ShopFrontListBloc(this.accessBloc,{ @required ShopFrontRepository shopFrontRepository })
       : assert(shopFrontRepository != null),
       _shopFrontRepository = shopFrontRepository,
       super(ShopFrontListLoading());

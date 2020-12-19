@@ -428,7 +428,7 @@ class _MyOrderFormState extends State<MyOrderForm> {
 
                 new Container(
                     height: (fullScreenHeight(context) / 2.5), 
-                    child: orderItemsList(state.value.products, _onProductsChanged)
+                    child: orderItemsList(context, state.value.products, _onProductsChanged)
                 )
           );
 

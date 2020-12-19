@@ -20,13 +20,17 @@ import 'package:meta/meta.dart';
 import 'package:eliud_pkg_shop/model/product_image_repository.dart';
 import 'package:eliud_pkg_shop/model/product_image_list_event.dart';
 import 'package:eliud_pkg_shop/model/product_image_list_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
 class ProductImageListBloc extends Bloc<ProductImageListEvent, ProductImageListState> {
   final ProductImageRepository _productImageRepository;
   StreamSubscription _productImagesListSubscription;
+  final AccessBloc accessBloc;
 
-  ProductImageListBloc({ @required ProductImageRepository productImageRepository })
+  ProductImageListBloc(this.accessBloc,{ @required ProductImageRepository productImageRepository })
       : assert(productImageRepository != null),
       _productImageRepository = productImageRepository,
       super(ProductImageListLoading());

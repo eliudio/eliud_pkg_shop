@@ -20,13 +20,17 @@ import 'package:meta/meta.dart';
 import 'package:eliud_pkg_shop/model/product_repository.dart';
 import 'package:eliud_pkg_shop/model/product_list_event.dart';
 import 'package:eliud_pkg_shop/model/product_list_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
 class ProductListBloc extends Bloc<ProductListEvent, ProductListState> {
   final ProductRepository _productRepository;
   StreamSubscription _productsListSubscription;
+  final AccessBloc accessBloc;
 
-  ProductListBloc({ @required ProductRepository productRepository })
+  ProductListBloc(this.accessBloc,{ @required ProductRepository productRepository })
       : assert(productRepository != null),
       _productRepository = productRepository,
       super(ProductListLoading());

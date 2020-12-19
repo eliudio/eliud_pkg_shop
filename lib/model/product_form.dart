@@ -332,7 +332,7 @@ class _MyProductFormState extends State<MyProductForm> {
 
                 new Container(
                     height: (fullScreenHeight(context) / 2.5), 
-                    child: productImagesList(state.value.images, _onImagesChanged)
+                    child: productImagesList(context, state.value.images, _onImagesChanged)
                 )
           );
 

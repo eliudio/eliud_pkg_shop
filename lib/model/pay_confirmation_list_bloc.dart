@@ -20,13 +20,17 @@ import 'package:meta/meta.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_repository.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_list_event.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_list_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
 class PayConfirmationListBloc extends Bloc<PayConfirmationListEvent, PayConfirmationListState> {
   final PayConfirmationRepository _payConfirmationRepository;
   StreamSubscription _payConfirmationsListSubscription;
+  final AccessBloc accessBloc;
 
-  PayConfirmationListBloc({ @required PayConfirmationRepository payConfirmationRepository })
+  PayConfirmationListBloc(this.accessBloc,{ @required PayConfirmationRepository payConfirmationRepository })
       : assert(payConfirmationRepository != null),
       _payConfirmationRepository = payConfirmationRepository,
       super(PayConfirmationListLoading());

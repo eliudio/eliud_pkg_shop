@@ -20,13 +20,17 @@ import 'package:meta/meta.dart';
 import 'package:eliud_pkg_shop/model/cart_repository.dart';
 import 'package:eliud_pkg_shop/model/cart_list_event.dart';
 import 'package:eliud_pkg_shop/model/cart_list_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
 class CartListBloc extends Bloc<CartListEvent, CartListState> {
   final CartRepository _cartRepository;
   StreamSubscription _cartsListSubscription;
+  final AccessBloc accessBloc;
 
-  CartListBloc({ @required CartRepository cartRepository })
+  CartListBloc(this.accessBloc,{ @required CartRepository cartRepository })
       : assert(cartRepository != null),
       _cartRepository = cartRepository,
       super(CartListLoading());
