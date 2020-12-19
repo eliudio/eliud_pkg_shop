@@ -26,7 +26,7 @@ import '../model/product_image_repository.dart';
 import '../model/shop_repository.dart';
 import '../model/shop_front_repository.dart';
 import 'package:eliud_core/core/access/bloc/user_repository.dart';
-import 'package:eliud_core/tools/types.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 CartRepository cartRepository({ String appId }) => AbstractRepositorySingleton.singleton.cartRepository(appId);
 OrderRepository orderRepository({ String appId }) => AbstractRepositorySingleton.singleton.orderRepository(appId);
