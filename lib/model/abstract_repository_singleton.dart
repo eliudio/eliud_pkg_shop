@@ -27,6 +27,7 @@ import '../model/shop_repository.dart';
 import '../model/shop_front_repository.dart';
 import 'package:eliud_core/core/access/bloc/user_repository.dart';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 
 CartRepository cartRepository({ String appId }) => AbstractRepositorySingleton.singleton.cartRepository(appId);
 OrderRepository orderRepository({ String appId }) => AbstractRepositorySingleton.singleton.orderRepository(appId);
@@ -52,14 +53,5 @@ abstract class AbstractRepositorySingleton {
   ShopFrontRepository shopFrontRepository(String appId);
 
   void flush(String appId) {
-    cartRepository(appId).flush();
-    orderRepository(appId).flush();
-    orderOverviewRepository(appId).flush();
-    payRepository(appId).flush();
-    payConfirmationRepository(appId).flush();
-    productRepository(appId).flush();
-    productDisplayRepository(appId).flush();
-    shopRepository(appId).flush();
-    shopFrontRepository(appId).flush();
   }
 }

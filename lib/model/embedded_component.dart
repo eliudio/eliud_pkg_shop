@@ -184,6 +184,11 @@ class CartItemInMemoryRepository implements CartItemRepository {
       return Future.value(items);
     }
 
+    @override
+    getSubCollection(String documentId, String name) {
+      throw UnimplementedError();
+    }
+
     Future<void> deleteAll() {}
 }
 
@@ -263,6 +268,11 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
       return Future.value(items);
     }
 
+    @override
+    getSubCollection(String documentId, String name) {
+      throw UnimplementedError();
+    }
+
     Future<void> deleteAll() {}
 }
 
@@ -340,6 +350,11 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
     
     Future<List<ProductImageModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
       return Future.value(items);
+    }
+
+    @override
+    getSubCollection(String documentId, String name) {
+      throw UnimplementedError();
     }
 
     Future<void> deleteAll() {}

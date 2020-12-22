@@ -383,15 +383,6 @@ class AdminAppWiper extends AdminAppWiperBase {
 
   @override
   Future<void> deleteAll(String appId) async {
-    await cartRepository(appId: appId).deleteAll();
-    await orderRepository(appId: appId).deleteAll();
-    await orderOverviewRepository(appId: appId).deleteAll();
-    await payRepository(appId: appId).deleteAll();
-    await payConfirmationRepository(appId: appId).deleteAll();
-    await productRepository(appId: appId).deleteAll();
-    await productDisplayRepository(appId: appId).deleteAll();
-    await shopRepository(appId: appId).deleteAll();
-    await shopFrontRepository(appId: appId).deleteAll();
     ;
   }
 

@@ -39,7 +39,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 class ProductJsFirestore implements ProductRepository {
   Future<ProductModel> add(ProductModel value) {
     return productCollection.doc(value.documentID)
-        .set(value.toEntity(appId: appId).toDocument())
+        .set(value.toEntity().toDocument())
         .then((_) => value);
   }
 
@@ -49,7 +49,7 @@ class ProductJsFirestore implements ProductRepository {
 
   Future<ProductModel> update(ProductModel value) {
     return productCollection.doc(value.documentID)
-        .update(data: value.toEntity(appId: appId).toDocument())
+        .update(data: value.toEntity().toDocument())
         .then((_) => value);
   }
 
@@ -58,7 +58,7 @@ class ProductJsFirestore implements ProductRepository {
   }
 
   Future<ProductModel> _populateDocPlus(DocumentSnapshot value) async {
-    return ProductModel.fromEntityPlus(value.id, ProductEntity.fromMap(value.data()), appId: appId);
+    return ProductModel.fromEntityPlus(value.id, ProductEntity.fromMap(value.data()), );
   }
 
   Future<ProductModel> get(String id) {
@@ -120,7 +120,7 @@ class ProductJsFirestore implements ProductRepository {
 
   Stream<List<ProductModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<ProductModel>> _values = getQuery(productCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId)
+    Stream<List<ProductModel>> _values = getQuery(productCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, )
       .onSnapshot
       .map((data) { 
         return data.docs.map((doc) {
@@ -133,7 +133,7 @@ class ProductJsFirestore implements ProductRepository {
 
   Stream<List<ProductModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<ProductModel>> _values = getQuery(productCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId)
+    Stream<List<ProductModel>> _values = getQuery(productCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, )
       .onSnapshot
       .asyncMap((data) {
         return Future.wait(data.docs.map((doc) { 
@@ -148,7 +148,7 @@ class ProductJsFirestore implements ProductRepository {
   @override
   Future<List<ProductModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<ProductModel> _values = await getQuery(productCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).get().then((value) {
+    List<ProductModel> _values = await getQuery(productCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).get().then((value) {
       var list = value.docs;
       return list.map((doc) { 
         lastDoc = doc;
@@ -162,7 +162,7 @@ class ProductJsFirestore implements ProductRepository {
   @override
   Future<List<ProductModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<ProductModel> _values = await getQuery(productCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).get().then((value) {
+    List<ProductModel> _values = await getQuery(productCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).get().then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {  
         lastDoc = doc;
@@ -180,11 +180,15 @@ class ProductJsFirestore implements ProductRepository {
     return productCollection.get().then((snapshot) => snapshot.docs
         .forEach((element) => productCollection.doc(element.id).delete()));
   }
-  CollectionReference getCollection() => firestore().collection('Product-$appId');
-
-  final String appId;
   
-  ProductJsFirestore(this.appId) : productCollection = firestore().collection('Product-$appId');
+  dynamic getSubCollection(String documentId, String name) {
+    return productCollection.doc(documentId).collection(name);
+  }
+
+  CollectionReference getCollection() => productCollection;
+
+  ProductJsFirestore(this.productCollection);
 
   final CollectionReference productCollection;
 }
+

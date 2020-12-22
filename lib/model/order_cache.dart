@@ -91,6 +91,10 @@ class OrderCache implements OrderRepository {
     fullCache.clear();
   }
   
+  dynamic getSubCollection(String documentId, String name) {
+    return reference.getSubCollection(documentId, name);
+  }
+
 
   Future<void> deleteAll() {
     return reference.deleteAll();

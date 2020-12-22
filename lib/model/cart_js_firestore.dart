@@ -39,7 +39,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 class CartJsFirestore implements CartRepository {
   Future<CartModel> add(CartModel value) {
     return cartCollection.doc(value.documentID)
-        .set(value.toEntity(appId: appId).toDocument())
+        .set(value.toEntity().toDocument())
         .then((_) => value);
   }
 
@@ -49,7 +49,7 @@ class CartJsFirestore implements CartRepository {
 
   Future<CartModel> update(CartModel value) {
     return cartCollection.doc(value.documentID)
-        .update(data: value.toEntity(appId: appId).toDocument())
+        .update(data: value.toEntity().toDocument())
         .then((_) => value);
   }
 
@@ -58,7 +58,7 @@ class CartJsFirestore implements CartRepository {
   }
 
   Future<CartModel> _populateDocPlus(DocumentSnapshot value) async {
-    return CartModel.fromEntityPlus(value.id, CartEntity.fromMap(value.data()), appId: appId);
+    return CartModel.fromEntityPlus(value.id, CartEntity.fromMap(value.data()), );
   }
 
   Future<CartModel> get(String id) {
@@ -120,7 +120,7 @@ class CartJsFirestore implements CartRepository {
 
   Stream<List<CartModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<CartModel>> _values = getQuery(cartCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId)
+    Stream<List<CartModel>> _values = getQuery(cartCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, )
       .onSnapshot
       .map((data) { 
         return data.docs.map((doc) {
@@ -133,7 +133,7 @@ class CartJsFirestore implements CartRepository {
 
   Stream<List<CartModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<CartModel>> _values = getQuery(cartCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId)
+    Stream<List<CartModel>> _values = getQuery(cartCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, )
       .onSnapshot
       .asyncMap((data) {
         return Future.wait(data.docs.map((doc) { 
@@ -148,7 +148,7 @@ class CartJsFirestore implements CartRepository {
   @override
   Future<List<CartModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<CartModel> _values = await getQuery(cartCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).get().then((value) {
+    List<CartModel> _values = await getQuery(cartCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).get().then((value) {
       var list = value.docs;
       return list.map((doc) { 
         lastDoc = doc;
@@ -162,7 +162,7 @@ class CartJsFirestore implements CartRepository {
   @override
   Future<List<CartModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<CartModel> _values = await getQuery(cartCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).get().then((value) {
+    List<CartModel> _values = await getQuery(cartCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).get().then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {  
         lastDoc = doc;
@@ -180,11 +180,15 @@ class CartJsFirestore implements CartRepository {
     return cartCollection.get().then((snapshot) => snapshot.docs
         .forEach((element) => cartCollection.doc(element.id).delete()));
   }
-  CollectionReference getCollection() => firestore().collection('Cart-$appId');
-
-  final String appId;
   
-  CartJsFirestore(this.appId) : cartCollection = firestore().collection('Cart-$appId');
+  dynamic getSubCollection(String documentId, String name) {
+    return cartCollection.doc(documentId).collection(name);
+  }
+
+  CollectionReference getCollection() => cartCollection;
+
+  CartJsFirestore(this.cartCollection);
 
   final CollectionReference cartCollection;
 }
+

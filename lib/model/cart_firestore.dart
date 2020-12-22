@@ -15,6 +15,7 @@
 
 import 'package:eliud_pkg_shop/model/cart_repository.dart';
 
+
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
@@ -35,7 +36,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class CartFirestore implements CartRepository {
   Future<CartModel> add(CartModel value) {
-    return CartCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
+    return CartCollection.document(value.documentID).setData(value.toEntity().toDocument()).then((_) => value);
   }
 
   Future<void> delete(CartModel value) {
@@ -43,7 +44,7 @@ class CartFirestore implements CartRepository {
   }
 
   Future<CartModel> update(CartModel value) {
-    return CartCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
+    return CartCollection.document(value.documentID).updateData(value.toEntity().toDocument()).then((_) => value);
   }
 
   CartModel _populateDoc(DocumentSnapshot value) {
@@ -51,7 +52,7 @@ class CartFirestore implements CartRepository {
   }
 
   Future<CartModel> _populateDocPlus(DocumentSnapshot value) async {
-    return CartModel.fromEntityPlus(value.documentID, CartEntity.fromMap(value.data), appId: appId);  }
+    return CartModel.fromEntityPlus(value.documentID, CartEntity.fromMap(value.data), );  }
 
   Future<CartModel> get(String id) {
     return CartCollection.document(id).get().then((doc) {
@@ -109,7 +110,7 @@ class CartFirestore implements CartRepository {
 
   Stream<List<CartModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<CartModel>> _values = getQuery(CartCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, appId: appId).snapshots().map((snapshot) {
+    Stream<List<CartModel>> _values = getQuery(CartCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().map((snapshot) {
       return snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
@@ -120,7 +121,7 @@ class CartFirestore implements CartRepository {
 
   Stream<List<CartModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<CartModel>> _values = getQuery(CartCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, appId: appId).snapshots().asyncMap((snapshot) {
+    Stream<List<CartModel>> _values = getQuery(CartCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().asyncMap((snapshot) {
       return Future.wait(snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
@@ -132,7 +133,7 @@ class CartFirestore implements CartRepository {
 
   Future<List<CartModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<CartModel> _values = await getQuery(CartCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).getDocuments().then((value) {
+    List<CartModel> _values = await getQuery(CartCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
       var list = value.documents;
       return list.map((doc) { 
         lastDoc = doc;
@@ -145,7 +146,7 @@ class CartFirestore implements CartRepository {
 
   Future<List<CartModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<CartModel> _values = await getQuery(CartCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).getDocuments().then((value) {
+    List<CartModel> _values = await getQuery(CartCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
       var list = value.documents;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
@@ -166,10 +167,13 @@ class CartFirestore implements CartRepository {
     });
   }
 
+  dynamic getSubCollection(String documentId, String name) {
+    return CartCollection.document(documentId).collection(name);
+  }
 
-  final String appId;
+
+  CartFirestore(this.CartCollection);
+
   final CollectionReference CartCollection;
-
-  CartFirestore(this.appId) : CartCollection = Firestore.instance.collection('Cart-${appId}');
 }
 

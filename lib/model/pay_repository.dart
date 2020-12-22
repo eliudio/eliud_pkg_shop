@@ -13,7 +13,17 @@
 
 */
 
-import 'package:eliud_pkg_shop/model/pay_model.dart';
+import 'package:eliud_pkg_shop/model/pay_repository.dart';
+
+
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
+import 'package:eliud_pkg_shop/model/repository_export.dart';
+import 'package:eliud_core/tools/action_model.dart';
+import 'package:eliud_pkg_shop/model/model_export.dart';
+import 'package:eliud_core/tools/action_entity.dart';
+import 'package:eliud_pkg_shop/model/entity_export.dart';
+
 
 import 'dart:async';
 import 'package:eliud_core/tools/firestore_tools.dart';
@@ -35,6 +45,8 @@ abstract class PayRepository {
   StreamSubscription<List<PayModel>> listen(PayModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<PayModel>> listenWithDetails(PayModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   void flush();
+
+  dynamic getSubCollection(String documentId, String name);
 
   Future<void> deleteAll();
 }
