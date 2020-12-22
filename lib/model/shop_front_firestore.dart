@@ -36,7 +36,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class ShopFrontFirestore implements ShopFrontRepository {
   Future<ShopFrontModel> add(ShopFrontModel value) {
-    return ShopFrontCollection.document(value.documentID).setData(value.toEntity().toDocument()).then((_) => value);
+    return ShopFrontCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(ShopFrontModel value) {
@@ -44,7 +44,7 @@ class ShopFrontFirestore implements ShopFrontRepository {
   }
 
   Future<ShopFrontModel> update(ShopFrontModel value) {
-    return ShopFrontCollection.document(value.documentID).updateData(value.toEntity().toDocument()).then((_) => value);
+    return ShopFrontCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   ShopFrontModel _populateDoc(DocumentSnapshot value) {
@@ -52,7 +52,7 @@ class ShopFrontFirestore implements ShopFrontRepository {
   }
 
   Future<ShopFrontModel> _populateDocPlus(DocumentSnapshot value) async {
-    return ShopFrontModel.fromEntityPlus(value.documentID, ShopFrontEntity.fromMap(value.data), );  }
+    return ShopFrontModel.fromEntityPlus(value.documentID, ShopFrontEntity.fromMap(value.data), appId: appId);  }
 
   Future<ShopFrontModel> get(String id) {
     return ShopFrontCollection.document(id).get().then((doc) {
@@ -110,7 +110,7 @@ class ShopFrontFirestore implements ShopFrontRepository {
 
   Stream<List<ShopFrontModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<ShopFrontModel>> _values = getQuery(ShopFrontCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().map((snapshot) {
+    Stream<List<ShopFrontModel>> _values = getQuery(ShopFrontCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, appId: appId).snapshots().map((snapshot) {
       return snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
@@ -121,7 +121,7 @@ class ShopFrontFirestore implements ShopFrontRepository {
 
   Stream<List<ShopFrontModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<ShopFrontModel>> _values = getQuery(ShopFrontCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().asyncMap((snapshot) {
+    Stream<List<ShopFrontModel>> _values = getQuery(ShopFrontCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, appId: appId).snapshots().asyncMap((snapshot) {
       return Future.wait(snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
@@ -133,7 +133,7 @@ class ShopFrontFirestore implements ShopFrontRepository {
 
   Future<List<ShopFrontModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<ShopFrontModel> _values = await getQuery(ShopFrontCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
+    List<ShopFrontModel> _values = await getQuery(ShopFrontCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).getDocuments().then((value) {
       var list = value.documents;
       return list.map((doc) { 
         lastDoc = doc;
@@ -146,7 +146,7 @@ class ShopFrontFirestore implements ShopFrontRepository {
 
   Future<List<ShopFrontModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<ShopFrontModel> _values = await getQuery(ShopFrontCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
+    List<ShopFrontModel> _values = await getQuery(ShopFrontCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).getDocuments().then((value) {
       var list = value.documents;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
@@ -172,7 +172,8 @@ class ShopFrontFirestore implements ShopFrontRepository {
   }
 
 
-  ShopFrontFirestore(this.ShopFrontCollection);
+  final String appId;
+  ShopFrontFirestore(this.ShopFrontCollection, this.appId);
 
   final CollectionReference ShopFrontCollection;
 }

@@ -32,7 +32,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class PayConfirmationFirestore implements PayConfirmationRepository {
   Future<PayConfirmationModel> add(PayConfirmationModel value) {
-    return PayConfirmationCollection.document(value.documentID).setData(value.toEntity().toDocument()).then((_) => value);
+    return PayConfirmationCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(PayConfirmationModel value) {
@@ -40,7 +40,7 @@ class PayConfirmationFirestore implements PayConfirmationRepository {
   }
 
   Future<PayConfirmationModel> update(PayConfirmationModel value) {
-    return PayConfirmationCollection.document(value.documentID).updateData(value.toEntity().toDocument()).then((_) => value);
+    return PayConfirmationCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   PayConfirmationModel _populateDoc(DocumentSnapshot value) {
@@ -48,7 +48,7 @@ class PayConfirmationFirestore implements PayConfirmationRepository {
   }
 
   Future<PayConfirmationModel> _populateDocPlus(DocumentSnapshot value) async {
-    return PayConfirmationModel.fromEntityPlus(value.documentID, PayConfirmationEntity.fromMap(value.data), );  }
+    return PayConfirmationModel.fromEntityPlus(value.documentID, PayConfirmationEntity.fromMap(value.data), appId: appId);  }
 
   Future<PayConfirmationModel> get(String id) {
     return PayConfirmationCollection.document(id).get().then((doc) {
@@ -106,7 +106,7 @@ class PayConfirmationFirestore implements PayConfirmationRepository {
 
   Stream<List<PayConfirmationModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<PayConfirmationModel>> _values = getQuery(PayConfirmationCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().map((snapshot) {
+    Stream<List<PayConfirmationModel>> _values = getQuery(PayConfirmationCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, appId: appId).snapshots().map((snapshot) {
       return snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
@@ -117,7 +117,7 @@ class PayConfirmationFirestore implements PayConfirmationRepository {
 
   Stream<List<PayConfirmationModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<PayConfirmationModel>> _values = getQuery(PayConfirmationCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().asyncMap((snapshot) {
+    Stream<List<PayConfirmationModel>> _values = getQuery(PayConfirmationCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, appId: appId).snapshots().asyncMap((snapshot) {
       return Future.wait(snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
@@ -129,7 +129,7 @@ class PayConfirmationFirestore implements PayConfirmationRepository {
 
   Future<List<PayConfirmationModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<PayConfirmationModel> _values = await getQuery(PayConfirmationCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
+    List<PayConfirmationModel> _values = await getQuery(PayConfirmationCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).getDocuments().then((value) {
       var list = value.documents;
       return list.map((doc) { 
         lastDoc = doc;
@@ -142,7 +142,7 @@ class PayConfirmationFirestore implements PayConfirmationRepository {
 
   Future<List<PayConfirmationModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<PayConfirmationModel> _values = await getQuery(PayConfirmationCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
+    List<PayConfirmationModel> _values = await getQuery(PayConfirmationCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).getDocuments().then((value) {
       var list = value.documents;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
@@ -168,7 +168,8 @@ class PayConfirmationFirestore implements PayConfirmationRepository {
   }
 
 
-  PayConfirmationFirestore(this.PayConfirmationCollection);
+  final String appId;
+  PayConfirmationFirestore(this.PayConfirmationCollection, this.appId);
 
   final CollectionReference PayConfirmationCollection;
 }

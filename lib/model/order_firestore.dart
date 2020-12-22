@@ -36,7 +36,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class OrderFirestore implements OrderRepository {
   Future<OrderModel> add(OrderModel value) {
-    return OrderCollection.document(value.documentID).setData(value.toEntity().toDocument()).then((_) => value);
+    return OrderCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(OrderModel value) {
@@ -44,7 +44,7 @@ class OrderFirestore implements OrderRepository {
   }
 
   Future<OrderModel> update(OrderModel value) {
-    return OrderCollection.document(value.documentID).updateData(value.toEntity().toDocument()).then((_) => value);
+    return OrderCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   OrderModel _populateDoc(DocumentSnapshot value) {
@@ -52,7 +52,7 @@ class OrderFirestore implements OrderRepository {
   }
 
   Future<OrderModel> _populateDocPlus(DocumentSnapshot value) async {
-    return OrderModel.fromEntityPlus(value.documentID, OrderEntity.fromMap(value.data), );  }
+    return OrderModel.fromEntityPlus(value.documentID, OrderEntity.fromMap(value.data), appId: appId);  }
 
   Future<OrderModel> get(String id) {
     return OrderCollection.document(id).get().then((doc) {
@@ -110,7 +110,7 @@ class OrderFirestore implements OrderRepository {
 
   Stream<List<OrderModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<OrderModel>> _values = getQuery(OrderCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().map((snapshot) {
+    Stream<List<OrderModel>> _values = getQuery(OrderCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, appId: appId).snapshots().map((snapshot) {
       return snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
@@ -121,7 +121,7 @@ class OrderFirestore implements OrderRepository {
 
   Stream<List<OrderModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<OrderModel>> _values = getQuery(OrderCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().asyncMap((snapshot) {
+    Stream<List<OrderModel>> _values = getQuery(OrderCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, appId: appId).snapshots().asyncMap((snapshot) {
       return Future.wait(snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
@@ -133,7 +133,7 @@ class OrderFirestore implements OrderRepository {
 
   Future<List<OrderModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<OrderModel> _values = await getQuery(OrderCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
+    List<OrderModel> _values = await getQuery(OrderCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).getDocuments().then((value) {
       var list = value.documents;
       return list.map((doc) { 
         lastDoc = doc;
@@ -146,7 +146,7 @@ class OrderFirestore implements OrderRepository {
 
   Future<List<OrderModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<OrderModel> _values = await getQuery(OrderCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
+    List<OrderModel> _values = await getQuery(OrderCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).getDocuments().then((value) {
       var list = value.documents;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
@@ -172,7 +172,8 @@ class OrderFirestore implements OrderRepository {
   }
 
 
-  OrderFirestore(this.OrderCollection);
+  final String appId;
+  OrderFirestore(this.OrderCollection, this.appId);
 
   final CollectionReference OrderCollection;
 }

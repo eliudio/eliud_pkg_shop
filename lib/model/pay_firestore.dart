@@ -32,7 +32,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class PayFirestore implements PayRepository {
   Future<PayModel> add(PayModel value) {
-    return PayCollection.document(value.documentID).setData(value.toEntity().toDocument()).then((_) => value);
+    return PayCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(PayModel value) {
@@ -40,7 +40,7 @@ class PayFirestore implements PayRepository {
   }
 
   Future<PayModel> update(PayModel value) {
-    return PayCollection.document(value.documentID).updateData(value.toEntity().toDocument()).then((_) => value);
+    return PayCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   PayModel _populateDoc(DocumentSnapshot value) {
@@ -48,7 +48,7 @@ class PayFirestore implements PayRepository {
   }
 
   Future<PayModel> _populateDocPlus(DocumentSnapshot value) async {
-    return PayModel.fromEntityPlus(value.documentID, PayEntity.fromMap(value.data), );  }
+    return PayModel.fromEntityPlus(value.documentID, PayEntity.fromMap(value.data), appId: appId);  }
 
   Future<PayModel> get(String id) {
     return PayCollection.document(id).get().then((doc) {
@@ -106,7 +106,7 @@ class PayFirestore implements PayRepository {
 
   Stream<List<PayModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<PayModel>> _values = getQuery(PayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().map((snapshot) {
+    Stream<List<PayModel>> _values = getQuery(PayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, appId: appId).snapshots().map((snapshot) {
       return snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
@@ -117,7 +117,7 @@ class PayFirestore implements PayRepository {
 
   Stream<List<PayModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<PayModel>> _values = getQuery(PayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().asyncMap((snapshot) {
+    Stream<List<PayModel>> _values = getQuery(PayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, appId: appId).snapshots().asyncMap((snapshot) {
       return Future.wait(snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
@@ -129,7 +129,7 @@ class PayFirestore implements PayRepository {
 
   Future<List<PayModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<PayModel> _values = await getQuery(PayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
+    List<PayModel> _values = await getQuery(PayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).getDocuments().then((value) {
       var list = value.documents;
       return list.map((doc) { 
         lastDoc = doc;
@@ -142,7 +142,7 @@ class PayFirestore implements PayRepository {
 
   Future<List<PayModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<PayModel> _values = await getQuery(PayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
+    List<PayModel> _values = await getQuery(PayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).getDocuments().then((value) {
       var list = value.documents;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
@@ -168,7 +168,8 @@ class PayFirestore implements PayRepository {
   }
 
 
-  PayFirestore(this.PayCollection);
+  final String appId;
+  PayFirestore(this.PayCollection, this.appId);
 
   final CollectionReference PayCollection;
 }

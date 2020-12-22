@@ -39,7 +39,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 class OrderJsFirestore implements OrderRepository {
   Future<OrderModel> add(OrderModel value) {
     return orderCollection.doc(value.documentID)
-        .set(value.toEntity().toDocument())
+        .set(value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -49,7 +49,7 @@ class OrderJsFirestore implements OrderRepository {
 
   Future<OrderModel> update(OrderModel value) {
     return orderCollection.doc(value.documentID)
-        .update(data: value.toEntity().toDocument())
+        .update(data: value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -58,7 +58,7 @@ class OrderJsFirestore implements OrderRepository {
   }
 
   Future<OrderModel> _populateDocPlus(DocumentSnapshot value) async {
-    return OrderModel.fromEntityPlus(value.id, OrderEntity.fromMap(value.data()), );
+    return OrderModel.fromEntityPlus(value.id, OrderEntity.fromMap(value.data()), appId: appId);
   }
 
   Future<OrderModel> get(String id) {
@@ -120,7 +120,7 @@ class OrderJsFirestore implements OrderRepository {
 
   Stream<List<OrderModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<OrderModel>> _values = getQuery(orderCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, )
+    Stream<List<OrderModel>> _values = getQuery(orderCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId)
       .onSnapshot
       .map((data) { 
         return data.docs.map((doc) {
@@ -133,7 +133,7 @@ class OrderJsFirestore implements OrderRepository {
 
   Stream<List<OrderModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<OrderModel>> _values = getQuery(orderCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, )
+    Stream<List<OrderModel>> _values = getQuery(orderCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId)
       .onSnapshot
       .asyncMap((data) {
         return Future.wait(data.docs.map((doc) { 
@@ -148,7 +148,7 @@ class OrderJsFirestore implements OrderRepository {
   @override
   Future<List<OrderModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<OrderModel> _values = await getQuery(orderCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).get().then((value) {
+    List<OrderModel> _values = await getQuery(orderCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).get().then((value) {
       var list = value.docs;
       return list.map((doc) { 
         lastDoc = doc;
@@ -162,7 +162,7 @@ class OrderJsFirestore implements OrderRepository {
   @override
   Future<List<OrderModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<OrderModel> _values = await getQuery(orderCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).get().then((value) {
+    List<OrderModel> _values = await getQuery(orderCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).get().then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {  
         lastDoc = doc;
@@ -185,10 +185,10 @@ class OrderJsFirestore implements OrderRepository {
     return orderCollection.doc(documentId).collection(name);
   }
 
+  final String appId;
+  OrderJsFirestore(this.orderCollection, this.appId);
+
   CollectionReference getCollection() => orderCollection;
-
-  OrderJsFirestore(this.orderCollection);
-
   final CollectionReference orderCollection;
 }
 

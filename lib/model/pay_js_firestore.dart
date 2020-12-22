@@ -35,7 +35,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 class PayJsFirestore implements PayRepository {
   Future<PayModel> add(PayModel value) {
     return payCollection.doc(value.documentID)
-        .set(value.toEntity().toDocument())
+        .set(value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -45,7 +45,7 @@ class PayJsFirestore implements PayRepository {
 
   Future<PayModel> update(PayModel value) {
     return payCollection.doc(value.documentID)
-        .update(data: value.toEntity().toDocument())
+        .update(data: value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -54,7 +54,7 @@ class PayJsFirestore implements PayRepository {
   }
 
   Future<PayModel> _populateDocPlus(DocumentSnapshot value) async {
-    return PayModel.fromEntityPlus(value.id, PayEntity.fromMap(value.data()), );
+    return PayModel.fromEntityPlus(value.id, PayEntity.fromMap(value.data()), appId: appId);
   }
 
   Future<PayModel> get(String id) {
@@ -116,7 +116,7 @@ class PayJsFirestore implements PayRepository {
 
   Stream<List<PayModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<PayModel>> _values = getQuery(payCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, )
+    Stream<List<PayModel>> _values = getQuery(payCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId)
       .onSnapshot
       .map((data) { 
         return data.docs.map((doc) {
@@ -129,7 +129,7 @@ class PayJsFirestore implements PayRepository {
 
   Stream<List<PayModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<PayModel>> _values = getQuery(payCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, )
+    Stream<List<PayModel>> _values = getQuery(payCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId)
       .onSnapshot
       .asyncMap((data) {
         return Future.wait(data.docs.map((doc) { 
@@ -144,7 +144,7 @@ class PayJsFirestore implements PayRepository {
   @override
   Future<List<PayModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<PayModel> _values = await getQuery(payCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).get().then((value) {
+    List<PayModel> _values = await getQuery(payCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).get().then((value) {
       var list = value.docs;
       return list.map((doc) { 
         lastDoc = doc;
@@ -158,7 +158,7 @@ class PayJsFirestore implements PayRepository {
   @override
   Future<List<PayModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<PayModel> _values = await getQuery(payCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).get().then((value) {
+    List<PayModel> _values = await getQuery(payCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).get().then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {  
         lastDoc = doc;
@@ -181,10 +181,10 @@ class PayJsFirestore implements PayRepository {
     return payCollection.doc(documentId).collection(name);
   }
 
+  final String appId;
+  PayJsFirestore(this.payCollection, this.appId);
+
   CollectionReference getCollection() => payCollection;
-
-  PayJsFirestore(this.payCollection);
-
   final CollectionReference payCollection;
 }
 

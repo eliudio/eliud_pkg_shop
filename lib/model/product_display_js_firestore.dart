@@ -39,7 +39,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 class ProductDisplayJsFirestore implements ProductDisplayRepository {
   Future<ProductDisplayModel> add(ProductDisplayModel value) {
     return productDisplayCollection.doc(value.documentID)
-        .set(value.toEntity().toDocument())
+        .set(value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -49,7 +49,7 @@ class ProductDisplayJsFirestore implements ProductDisplayRepository {
 
   Future<ProductDisplayModel> update(ProductDisplayModel value) {
     return productDisplayCollection.doc(value.documentID)
-        .update(data: value.toEntity().toDocument())
+        .update(data: value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -58,7 +58,7 @@ class ProductDisplayJsFirestore implements ProductDisplayRepository {
   }
 
   Future<ProductDisplayModel> _populateDocPlus(DocumentSnapshot value) async {
-    return ProductDisplayModel.fromEntityPlus(value.id, ProductDisplayEntity.fromMap(value.data()), );
+    return ProductDisplayModel.fromEntityPlus(value.id, ProductDisplayEntity.fromMap(value.data()), appId: appId);
   }
 
   Future<ProductDisplayModel> get(String id) {
@@ -120,7 +120,7 @@ class ProductDisplayJsFirestore implements ProductDisplayRepository {
 
   Stream<List<ProductDisplayModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<ProductDisplayModel>> _values = getQuery(productDisplayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, )
+    Stream<List<ProductDisplayModel>> _values = getQuery(productDisplayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId)
       .onSnapshot
       .map((data) { 
         return data.docs.map((doc) {
@@ -133,7 +133,7 @@ class ProductDisplayJsFirestore implements ProductDisplayRepository {
 
   Stream<List<ProductDisplayModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<ProductDisplayModel>> _values = getQuery(productDisplayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, )
+    Stream<List<ProductDisplayModel>> _values = getQuery(productDisplayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId)
       .onSnapshot
       .asyncMap((data) {
         return Future.wait(data.docs.map((doc) { 
@@ -148,7 +148,7 @@ class ProductDisplayJsFirestore implements ProductDisplayRepository {
   @override
   Future<List<ProductDisplayModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<ProductDisplayModel> _values = await getQuery(productDisplayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).get().then((value) {
+    List<ProductDisplayModel> _values = await getQuery(productDisplayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).get().then((value) {
       var list = value.docs;
       return list.map((doc) { 
         lastDoc = doc;
@@ -162,7 +162,7 @@ class ProductDisplayJsFirestore implements ProductDisplayRepository {
   @override
   Future<List<ProductDisplayModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<ProductDisplayModel> _values = await getQuery(productDisplayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).get().then((value) {
+    List<ProductDisplayModel> _values = await getQuery(productDisplayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).get().then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {  
         lastDoc = doc;
@@ -185,10 +185,10 @@ class ProductDisplayJsFirestore implements ProductDisplayRepository {
     return productDisplayCollection.doc(documentId).collection(name);
   }
 
+  final String appId;
+  ProductDisplayJsFirestore(this.productDisplayCollection, this.appId);
+
   CollectionReference getCollection() => productDisplayCollection;
-
-  ProductDisplayJsFirestore(this.productDisplayCollection);
-
   final CollectionReference productDisplayCollection;
 }
 

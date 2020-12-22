@@ -32,7 +32,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class ShopFirestore implements ShopRepository {
   Future<ShopModel> add(ShopModel value) {
-    return ShopCollection.document(value.documentID).setData(value.toEntity().toDocument()).then((_) => value);
+    return ShopCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(ShopModel value) {
@@ -40,7 +40,7 @@ class ShopFirestore implements ShopRepository {
   }
 
   Future<ShopModel> update(ShopModel value) {
-    return ShopCollection.document(value.documentID).updateData(value.toEntity().toDocument()).then((_) => value);
+    return ShopCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   ShopModel _populateDoc(DocumentSnapshot value) {
@@ -48,7 +48,7 @@ class ShopFirestore implements ShopRepository {
   }
 
   Future<ShopModel> _populateDocPlus(DocumentSnapshot value) async {
-    return ShopModel.fromEntityPlus(value.documentID, ShopEntity.fromMap(value.data), );  }
+    return ShopModel.fromEntityPlus(value.documentID, ShopEntity.fromMap(value.data), appId: appId);  }
 
   Future<ShopModel> get(String id) {
     return ShopCollection.document(id).get().then((doc) {
@@ -106,7 +106,7 @@ class ShopFirestore implements ShopRepository {
 
   Stream<List<ShopModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<ShopModel>> _values = getQuery(ShopCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().map((snapshot) {
+    Stream<List<ShopModel>> _values = getQuery(ShopCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, appId: appId).snapshots().map((snapshot) {
       return snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
@@ -117,7 +117,7 @@ class ShopFirestore implements ShopRepository {
 
   Stream<List<ShopModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<ShopModel>> _values = getQuery(ShopCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().asyncMap((snapshot) {
+    Stream<List<ShopModel>> _values = getQuery(ShopCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, appId: appId).snapshots().asyncMap((snapshot) {
       return Future.wait(snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
@@ -129,7 +129,7 @@ class ShopFirestore implements ShopRepository {
 
   Future<List<ShopModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<ShopModel> _values = await getQuery(ShopCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
+    List<ShopModel> _values = await getQuery(ShopCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).getDocuments().then((value) {
       var list = value.documents;
       return list.map((doc) { 
         lastDoc = doc;
@@ -142,7 +142,7 @@ class ShopFirestore implements ShopRepository {
 
   Future<List<ShopModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<ShopModel> _values = await getQuery(ShopCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
+    List<ShopModel> _values = await getQuery(ShopCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).getDocuments().then((value) {
       var list = value.documents;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
@@ -168,7 +168,8 @@ class ShopFirestore implements ShopRepository {
   }
 
 
-  ShopFirestore(this.ShopCollection);
+  final String appId;
+  ShopFirestore(this.ShopCollection, this.appId);
 
   final CollectionReference ShopCollection;
 }
