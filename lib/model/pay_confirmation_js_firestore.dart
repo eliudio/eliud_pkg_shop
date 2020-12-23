@@ -184,7 +184,9 @@ class PayConfirmationJsFirestore implements PayConfirmationRepository {
   final String appId;
   PayConfirmationJsFirestore(this.payConfirmationCollection, this.appId);
 
-  CollectionReference getCollection() => payConfirmationCollection;
+  // In flutterweb, it seems we require to re-retrieve the collection. If not then subscribing / listening to it a second time fails.
+  // CollectionReference getCollection() => payConfirmationCollection;
+  CollectionReference getCollection() => appRepository().getSubCollection(appId, 'payconfirmation');
   final CollectionReference payConfirmationCollection;
 }
 

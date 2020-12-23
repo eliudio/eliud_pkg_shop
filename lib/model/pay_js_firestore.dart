@@ -184,7 +184,9 @@ class PayJsFirestore implements PayRepository {
   final String appId;
   PayJsFirestore(this.payCollection, this.appId);
 
-  CollectionReference getCollection() => payCollection;
+  // In flutterweb, it seems we require to re-retrieve the collection. If not then subscribing / listening to it a second time fails.
+  // CollectionReference getCollection() => payCollection;
+  CollectionReference getCollection() => appRepository().getSubCollection(appId, 'pay');
   final CollectionReference payCollection;
 }
 

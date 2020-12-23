@@ -188,7 +188,9 @@ class CartJsFirestore implements CartRepository {
   final String appId;
   CartJsFirestore(this.cartCollection, this.appId);
 
-  CollectionReference getCollection() => cartCollection;
+  // In flutterweb, it seems we require to re-retrieve the collection. If not then subscribing / listening to it a second time fails.
+  // CollectionReference getCollection() => cartCollection;
+  CollectionReference getCollection() => appRepository().getSubCollection(appId, 'cart');
   final CollectionReference cartCollection;
 }
 

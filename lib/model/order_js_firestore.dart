@@ -188,7 +188,9 @@ class OrderJsFirestore implements OrderRepository {
   final String appId;
   OrderJsFirestore(this.orderCollection, this.appId);
 
-  CollectionReference getCollection() => orderCollection;
+  // In flutterweb, it seems we require to re-retrieve the collection. If not then subscribing / listening to it a second time fails.
+  // CollectionReference getCollection() => orderCollection;
+  CollectionReference getCollection() => appRepository().getSubCollection(appId, 'order');
   final CollectionReference orderCollection;
 }
 

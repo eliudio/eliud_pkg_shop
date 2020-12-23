@@ -188,7 +188,9 @@ class ProductDisplayJsFirestore implements ProductDisplayRepository {
   final String appId;
   ProductDisplayJsFirestore(this.productDisplayCollection, this.appId);
 
-  CollectionReference getCollection() => productDisplayCollection;
+  // In flutterweb, it seems we require to re-retrieve the collection. If not then subscribing / listening to it a second time fails.
+  // CollectionReference getCollection() => productDisplayCollection;
+  CollectionReference getCollection() => appRepository().getSubCollection(appId, 'productdisplay');
   final CollectionReference productDisplayCollection;
 }
 

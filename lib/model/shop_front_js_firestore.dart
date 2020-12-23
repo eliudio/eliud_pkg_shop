@@ -188,7 +188,9 @@ class ShopFrontJsFirestore implements ShopFrontRepository {
   final String appId;
   ShopFrontJsFirestore(this.shopFrontCollection, this.appId);
 
-  CollectionReference getCollection() => shopFrontCollection;
+  // In flutterweb, it seems we require to re-retrieve the collection. If not then subscribing / listening to it a second time fails.
+  // CollectionReference getCollection() => shopFrontCollection;
+  CollectionReference getCollection() => appRepository().getSubCollection(appId, 'shopfront');
   final CollectionReference shopFrontCollection;
 }
 
