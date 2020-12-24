@@ -3,7 +3,7 @@ import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/model/member_form.dart';
 import 'package:eliud_core/model/member_list_bloc.dart';
 import 'package:eliud_core/model/member_list_event.dart';
-import 'package:eliud_core/tools/action_model.dart';
+import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:flutter/material.dart';
