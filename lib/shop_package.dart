@@ -19,7 +19,7 @@ abstract class ShopPackage extends Package {
   }
 
   @override
-  Future<bool> isConditionOk(String packageCondition, AppModel app, MemberModel member, bool isOwner) async {
+  Future<bool> isConditionOk(String packageCondition, AppModel app, MemberModel member, bool isOwner, int privilegeLevel) async {
     if (packageCondition == CONDITION_CARTS_HAS_ITEMS) {
       if (member != null) {
         return (await member.items()).isNotEmpty;
@@ -27,6 +27,11 @@ abstract class ShopPackage extends Package {
       return false;
     }
     return null;
+  }
+
+  @override
+  List<String> retrieveAllPackageConditions() {
+    return [ CONDITION_CARTS_HAS_ITEMS ];
   }
 
   @override

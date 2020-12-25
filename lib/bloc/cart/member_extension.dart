@@ -12,12 +12,12 @@ extension CartMemberExtension on MemberModel {
       var cartItems = packageData['CART_ITEMS'];
       if (cartItems != null) {
         var decoded = jsonDecode(cartItems);
-        List<CartItemEntity> decodedItems = List();
+        List<CartItemEntity> decodedItems = [];
         decoded.forEach((item) {
           decodedItems.add(CartItemEntity.fromJsonString(item));
         });
 
-        var items = new List<CartItemModel>.from(await Future.wait(decodedItems
+        var items = List<CartItemModel>.from(await Future.wait(decodedItems
             .map((item) => CartItemModel.fromEntityPlus(newRandomKey(), item, appId: item.appId))
             .toList()));
 
@@ -31,16 +31,17 @@ extension CartMemberExtension on MemberModel {
 
   MemberModel copyWithItems(List<CartItemModel> cartItems) {
     Map<String, Object> newPackageData;
-    if (this.packageData != null) {
-      newPackageData = this.packageData;
+    if (packageData != null) {
+      newPackageData = packageData;
     } else {
       newPackageData = HashMap();
     }
-    if (cartItems != null)
+    if (cartItems != null) {
       newPackageData['CART_ITEMS'] = jsonEncode(cartItems.map((cartItem) => cartItem.toEntity(appId: cartItem.appId).toJsonString()).toList());
-    return MemberModel(documentID: this.documentID, name: this.name, subscriptions: this.subscriptions, photoURL: this.photoURL,
-                      shipStreet1: this.shipStreet1, shipStreet2: this.shipStreet2, shipCity: this.shipCity, shipState: this.shipState, postcode: this.postcode, country: this.country,
-                      invoiceSame: this.invoiceSame, invoiceStreet1: this.invoiceStreet1, invoiceStreet2: this.invoiceStreet2, invoiceCity: this.invoiceCity, invoiceState: this.invoiceState, invoicePostcode: this.invoicePostcode, invoiceCountry: this.invoiceCountry,
-                      readAccess: this.readAccess, /*items: this.items,*/ email: this.email, isAnonymous: this.isAnonymous, packageData: newPackageData);
+    }
+    return MemberModel(documentID: documentID, name: name, subscriptions: subscriptions, photoURL: photoURL,
+                      shipStreet1: shipStreet1, shipStreet2: shipStreet2, shipCity: shipCity, shipState: shipState, postcode: postcode, country: country,
+                      invoiceSame: invoiceSame, invoiceStreet1: invoiceStreet1, invoiceStreet2: invoiceStreet2, invoiceCity: invoiceCity, invoiceState: invoiceState, invoicePostcode: invoicePostcode, invoiceCountry: invoiceCountry,
+                      readAccess: readAccess, /*items: this.items,*/ email: email, isAnonymous: isAnonymous, packageData: newPackageData);
   }
 }
