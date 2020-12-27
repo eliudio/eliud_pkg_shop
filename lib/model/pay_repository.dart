@@ -45,6 +45,8 @@ abstract class PayRepository {
   StreamSubscription<List<PayModel>> listen(PayModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<PayModel>> listenWithDetails(PayModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   void flush();
+  
+  String timeStampToString(dynamic timeStamp);
 
   dynamic getSubCollection(String documentId, String name);
 

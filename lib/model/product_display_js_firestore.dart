@@ -185,6 +185,9 @@ class ProductDisplayJsFirestore implements ProductDisplayRepository {
     return productDisplayCollection.doc(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
   final String appId;
   ProductDisplayJsFirestore(this.productDisplayCollection, this.appId);
 

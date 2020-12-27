@@ -167,6 +167,9 @@ class PayConfirmationFirestore implements PayConfirmationRepository {
     return PayConfirmationCollection.document(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
 
   final String appId;
   PayConfirmationFirestore(this.PayConfirmationCollection, this.appId);

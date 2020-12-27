@@ -171,6 +171,9 @@ class ProductFirestore implements ProductRepository {
     return ProductCollection.document(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
 
   final String appId;
   ProductFirestore(this.ProductCollection, this.appId);

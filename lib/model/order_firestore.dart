@@ -171,6 +171,9 @@ class OrderFirestore implements OrderRepository {
     return OrderCollection.document(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
 
   final String appId;
   OrderFirestore(this.OrderCollection, this.appId);

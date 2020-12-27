@@ -181,6 +181,9 @@ class PayJsFirestore implements PayRepository {
     return payCollection.doc(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
   final String appId;
   PayJsFirestore(this.payCollection, this.appId);
 

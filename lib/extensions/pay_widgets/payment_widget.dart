@@ -2,12 +2,12 @@ import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_pkg_pay/platform/payment_platform.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/bloc/payment_event.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/bloc/payment_state.dart';
 import 'package:eliud_pkg_shop/model/order_model.dart';
 import 'package:eliud_pkg_shop/model/pay_model.dart';
 import 'package:eliud_core/tools/etc.dart';
-import 'package:eliud_pkg_shop/platform/payment_platform.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/core/widgets/progress_indicator.dart';
@@ -27,7 +27,8 @@ class PayWidget extends StatefulWidget {
 }
 
 class PayState extends State<PayWidget> {
-  void handle(OrderModel order, PaymentStatus status) {
+  OrderModel order;
+  void handle(PaymentStatus status) {
     var paymentBloc = BlocProvider.of<PaymentBloc>(context);
     if (status is PaymentFailure) {
       paymentBloc.add(PaymentDoneWithFailure(order, status.error));
@@ -90,8 +91,9 @@ class PayState extends State<PayWidget> {
           return Text('Not logged on');
         } else {
           if (state is PayOrder) {
+            order = state.order;
             AbstractPaymentPlatform.platform
-                .startPaymentProcess(context, handle, state.order);
+                .startPaymentProcess(context, handle, order.name, order.currency, order.totalPrice);
             return _overviewAndPay(appState.app, state.order,
                 message: 'Please review your order.',
                 subMessage: "If you're happy with it, then press Pay",

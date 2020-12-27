@@ -185,6 +185,9 @@ class OrderOverviewJsFirestore implements OrderOverviewRepository {
     return orderOverviewCollection.doc(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
   final String appId;
   OrderOverviewJsFirestore(this.orderOverviewCollection, this.appId);
 

@@ -189,6 +189,11 @@ class CartItemInMemoryRepository implements CartItemRepository {
       throw UnimplementedError();
     }
 
+  @override
+  String timeStampToString(timeStamp) {
+    throw UnimplementedError();
+  }
+
     Future<void> deleteAll() {}
 }
 
@@ -273,6 +278,11 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
       throw UnimplementedError();
     }
 
+  @override
+  String timeStampToString(timeStamp) {
+    throw UnimplementedError();
+  }
+
     Future<void> deleteAll() {}
 }
 
@@ -356,6 +366,11 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
     getSubCollection(String documentId, String name) {
       throw UnimplementedError();
     }
+
+  @override
+  String timeStampToString(timeStamp) {
+    throw UnimplementedError();
+  }
 
     Future<void> deleteAll() {}
 }

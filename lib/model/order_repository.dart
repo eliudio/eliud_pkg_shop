@@ -49,6 +49,8 @@ abstract class OrderRepository {
   StreamSubscription<List<OrderModel>> listen(OrderModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<OrderModel>> listenWithDetails(OrderModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   void flush();
+  
+  String timeStampToString(dynamic timeStamp);
 
   dynamic getSubCollection(String documentId, String name);
 

@@ -49,6 +49,8 @@ abstract class ProductDisplayRepository {
   StreamSubscription<List<ProductDisplayModel>> listen(ProductDisplayModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<ProductDisplayModel>> listenWithDetails(ProductDisplayModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   void flush();
+  
+  String timeStampToString(dynamic timeStamp);
 
   dynamic getSubCollection(String documentId, String name);
 

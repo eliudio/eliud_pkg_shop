@@ -181,6 +181,9 @@ class ShopJsFirestore implements ShopRepository {
     return shopCollection.doc(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
   final String appId;
   ShopJsFirestore(this.shopCollection, this.appId);
 

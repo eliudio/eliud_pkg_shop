@@ -177,7 +177,7 @@ packages:
     source: hosted
     version: "0.1.1+2"
   cloud_functions:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: cloud_functions
       url: "https://pub.dartlang.org"
@@ -302,6 +302,20 @@ packages:
       relative: true
     source: path
     version: "1.0.0+1"
+  eliud_pkg_pay:
+    dependency: "direct main"
+    description:
+      path: "../eliud_pkg_pay"
+      relative: true
+    source: path
+    version: "0.0.1"
+  eliud_pkg_workflow:
+    dependency: transitive
+    description:
+      path: "../eliud_pkg_workflow"
+      relative: true
+    source: path
+    version: "0.0.1"
   equatable:
     dependency: transitive
     description:
@@ -901,7 +915,7 @@ packages:
     source: hosted
     version: "1.0.5"
   stripe_payment:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: stripe_payment
       url: "https://pub.dartlang.org"

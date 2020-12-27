@@ -185,6 +185,9 @@ class ShopFrontJsFirestore implements ShopFrontRepository {
     return shopFrontCollection.doc(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
   final String appId;
   ShopFrontJsFirestore(this.shopFrontCollection, this.appId);
 

@@ -185,6 +185,9 @@ class CartJsFirestore implements CartRepository {
     return cartCollection.doc(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
   final String appId;
   CartJsFirestore(this.cartCollection, this.appId);
 

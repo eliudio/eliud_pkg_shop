@@ -45,6 +45,8 @@ abstract class CartItemRepository {
   StreamSubscription<List<CartItemModel>> listen(CartItemModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<CartItemModel>> listenWithDetails(CartItemModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   void flush();
+  
+  String timeStampToString(dynamic timeStamp);
 
   dynamic getSubCollection(String documentId, String name);
 
