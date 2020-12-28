@@ -44,4 +44,27 @@ extension CartMemberExtension on MemberModel {
                       invoiceSame: invoiceSame, invoiceStreet1: invoiceStreet1, invoiceStreet2: invoiceStreet2, invoiceCity: invoiceCity, invoiceState: invoiceState, invoicePostcode: invoicePostcode, invoiceCountry: invoiceCountry,
                       readAccess: readAccess, /*items: this.items,*/ email: email, isAnonymous: isAnonymous, packageData: newPackageData);
   }
+
+  static cartsEqual(List<CartItemModel> items1, List<CartItemModel> items2) {
+    if (items1.length != items2.length)
+      return false;
+    if (items1.isEmpty) return true;
+    for (var i = 0; i < items1.length; i++) {
+      var item1 = items1[i];
+      var item2 = items2[i];
+      if (item1.amount != item2.amount)
+        return false;
+      if (item1.appId != item2.appId)
+        return false;
+      if (item1.product != item2.product)
+        return false;
+    }
+    return true;
+  }
+
+  Future<bool> cartEqualsOtherCart(MemberModel otherMember) async {
+    var items1 = await items();
+    var items2 = await otherMember.items();
+    return cartsEqual(items1, items2);
+  }
 }

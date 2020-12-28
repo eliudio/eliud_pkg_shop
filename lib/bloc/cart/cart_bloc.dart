@@ -58,7 +58,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       await memberRepository()
           .update(newMember);
 
-      accessBloc.add(MemberUpdated(newMember));
+      //accessBloc.add(MemberUpdated(newMember));
     }
   }
 
@@ -68,7 +68,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       var newMember = member.copyWithItems([]);
       await memberRepository()
           .update(newMember);
-      accessBloc.add(MemberUpdated(newMember));
+      //accessBloc.add(MemberUpdated(newMember));
     }
   }
 
