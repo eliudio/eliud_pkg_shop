@@ -19,45 +19,38 @@ import 'model/cart_item_model.dart';
 
 abstract class ShopPackage extends Package {
   static final String CONDITION_CARTS_HAS_ITEMS = 'MustHaveStuffInBasket';
-  Timer timer;
   AccessBloc accessBloc;
   StreamSubscription _memberSubscription; // to check for items in cart
-  AppModel stateApp;
-  MemberModel stateMember;
-  List<CartItemModel> itemsInCart = List<CartItemModel>();
 
-  void mapAccessEvent(AccessEvent event, AccessState state) {
-    if ((event is SwitchAppEvent) || (event is SwitchAppAndPageEvent) || (event is LogoutEvent) || (event is LoginEvent))
-      _listenForCartChanges(state.app, state.getMember());
-  }
+  void mapAccessEvent(AccessEvent event, AccessState state) {}
 
-  void mapAccessState(AccessState state) {
-  }
-
-  void _listenForCartChanges(AppModel app, MemberModel currentMember) {
-    if ((itemsInCart == null) || (stateMember == null) || (stateApp == null) || (stateApp.documentID != app.documentID) || (stateMember.documentID != currentMember.documentID)) {
-      // remember which member and app we were observing
-      stateMember = currentMember;
-      stateApp = app;
-
-      // listen to the new member's cart, if the cart items change then send a MemberUpdate
-      _memberSubscription?.cancel();
-      if (stateMember != null) {
-        _memberSubscription = memberRepository(appId: app.documentID).listenTo(
-            stateMember.documentID, (member) async {
-          var itemsInUpdatedCart = await member.items();
-          if (!CartMemberExtension.cartsEqual(itemsInUpdatedCart, itemsInCart)) {
-            itemsInCart = itemsInUpdatedCart;
-            accessBloc.add(MemberUpdated(member));
-          }
-        });
+  void mapAccessState(AccessEvent event, AccessState state) {
+    // state is the state after it was handled by AccessBloc
+    if (state is AppLoaded) {
+      if (event is InitApp) {
+        _listenForCartChanges(state.app, state.getMember());
+      } else if (event is SwitchAppEvent) {
+        _listenForCartChanges(state.app, state.getMember());
+      } else if (event is LogoutEvent) {
+        _memberSubscription?.cancel();
+      } else if (event is LoginEvent) {
+        _listenForCartChanges(state.app, state.getMember());
       }
     }
   }
 
+  void _listenForCartChanges(AppModel app, MemberModel currentMember) {
+    if (currentMember == null) return;
+    _memberSubscription?.cancel();
+    _memberSubscription = memberRepository(appId: app.documentID)
+        .listenTo(currentMember.documentID, (member) async {
+      accessBloc.add(MemberUpdated(member));
+    });
+  }
+
   @override
-  BlocProvider createMainBloc(NavigatorBloc navigatorBloc,
-      AccessBloc accessBloc) {
+  BlocProvider createMainBloc(
+      NavigatorBloc navigatorBloc, AccessBloc accessBloc) {
     // store the accessBloc
     this.accessBloc = accessBloc;
 
@@ -84,7 +77,7 @@ abstract class ShopPackage extends Package {
 
   @override
   List<String> retrieveAllPackageConditions() {
-    return [ CONDITION_CARTS_HAS_ITEMS];
+    return [CONDITION_CARTS_HAS_ITEMS];
   }
 
   @override
