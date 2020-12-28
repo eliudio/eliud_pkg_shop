@@ -34,6 +34,7 @@ import 'package:eliud_core/tools/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 typedef ShopFrontModelTrigger(List<ShopFrontModel> list);
+typedef ShopFrontChanged(ShopFrontModel value);
 
 abstract class ShopFrontRepository {
   Future<ShopFrontModel> add(ShopFrontModel value);
@@ -48,6 +49,7 @@ abstract class ShopFrontRepository {
 
   StreamSubscription<List<ShopFrontModel>> listen(ShopFrontModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<ShopFrontModel>> listenWithDetails(ShopFrontModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
+  StreamSubscription<ShopFrontModel> listenTo(String documentId, ShopFrontChanged changed);
   void flush();
   
   String timeStampToString(dynamic timeStamp);

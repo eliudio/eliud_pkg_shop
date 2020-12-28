@@ -34,6 +34,7 @@ import 'package:eliud_core/tools/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 typedef ProductDisplayModelTrigger(List<ProductDisplayModel> list);
+typedef ProductDisplayChanged(ProductDisplayModel value);
 
 abstract class ProductDisplayRepository {
   Future<ProductDisplayModel> add(ProductDisplayModel value);
@@ -48,6 +49,7 @@ abstract class ProductDisplayRepository {
 
   StreamSubscription<List<ProductDisplayModel>> listen(ProductDisplayModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<ProductDisplayModel>> listenWithDetails(ProductDisplayModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
+  StreamSubscription<ProductDisplayModel> listenTo(String documentId, ProductDisplayChanged changed);
   void flush();
   
   String timeStampToString(dynamic timeStamp);

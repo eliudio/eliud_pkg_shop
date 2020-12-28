@@ -107,6 +107,17 @@ class OrderOverviewFirestore implements OrderOverviewRepository {
     });
   }
 
+  @override
+  StreamSubscription<OrderOverviewModel> listenTo(String documentId, OrderOverviewChanged changed) {
+    var stream = OrderOverviewCollection.document(documentId)
+        .snapshots()
+        .asyncMap((data) {
+      return _populateDocPlus(data);
+    });
+    return stream.listen((value) {
+      changed(value);
+    });
+  }
 
   Stream<List<OrderOverviewModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;

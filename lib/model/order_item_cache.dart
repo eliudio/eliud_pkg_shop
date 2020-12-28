@@ -109,6 +109,10 @@ class OrderItemCache implements OrderItemRepository {
     return reference.listenWithDetails(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending, privilegeLevel: privilegeLevel, );
   }
 
+  @override
+  StreamSubscription<OrderItemModel> listenTo(String documentId, changed) {
+    reference.listenTo(documentId, changed);
+  }
 
   static Future<OrderItemModel> refreshRelations(OrderItemModel model) async {
 

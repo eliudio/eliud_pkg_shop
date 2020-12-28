@@ -114,6 +114,10 @@ class ProductDisplayCache implements ProductDisplayRepository {
     return reference.listenWithDetails(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending, privilegeLevel: privilegeLevel, );
   }
 
+  @override
+  StreamSubscription<ProductDisplayModel> listenTo(String documentId, changed) {
+    reference.listenTo(documentId, changed);
+  }
 
   static Future<ProductDisplayModel> refreshRelations(ProductDisplayModel model) async {
 

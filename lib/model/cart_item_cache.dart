@@ -109,6 +109,10 @@ class CartItemCache implements CartItemRepository {
     return reference.listenWithDetails(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending, privilegeLevel: privilegeLevel, );
   }
 
+  @override
+  StreamSubscription<CartItemModel> listenTo(String documentId, changed) {
+    reference.listenTo(documentId, changed);
+  }
 
   static Future<CartItemModel> refreshRelations(CartItemModel model) async {
 

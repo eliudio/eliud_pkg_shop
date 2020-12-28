@@ -114,6 +114,10 @@ class ShopFrontCache implements ShopFrontRepository {
     return reference.listenWithDetails(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending, privilegeLevel: privilegeLevel, );
   }
 
+  @override
+  StreamSubscription<ShopFrontModel> listenTo(String documentId, changed) {
+    reference.listenTo(documentId, changed);
+  }
 
   static Future<ShopFrontModel> refreshRelations(ShopFrontModel model) async {
 

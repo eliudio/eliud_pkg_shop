@@ -114,6 +114,10 @@ class ProductImageCache implements ProductImageRepository {
     return reference.listenWithDetails(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending, privilegeLevel: privilegeLevel, );
   }
 
+  @override
+  StreamSubscription<ProductImageModel> listenTo(String documentId, changed) {
+    reference.listenTo(documentId, changed);
+  }
 
   static Future<ProductImageModel> refreshRelations(ProductImageModel model) async {
 

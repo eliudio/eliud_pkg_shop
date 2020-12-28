@@ -107,6 +107,17 @@ class OrderFirestore implements OrderRepository {
     });
   }
 
+  @override
+  StreamSubscription<OrderModel> listenTo(String documentId, OrderChanged changed) {
+    var stream = OrderCollection.document(documentId)
+        .snapshots()
+        .asyncMap((data) {
+      return _populateDocPlus(data);
+    });
+    return stream.listen((value) {
+      changed(value);
+    });
+  }
 
   Stream<List<OrderModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;

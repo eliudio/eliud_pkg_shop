@@ -109,6 +109,10 @@ class PayConfirmationCache implements PayConfirmationRepository {
     return reference.listenWithDetails(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending, privilegeLevel: privilegeLevel, );
   }
 
+  @override
+  StreamSubscription<PayConfirmationModel> listenTo(String documentId, changed) {
+    reference.listenTo(documentId, changed);
+  }
 
   static Future<PayConfirmationModel> refreshRelations(PayConfirmationModel model) async {
 

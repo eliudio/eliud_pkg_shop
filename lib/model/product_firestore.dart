@@ -107,6 +107,17 @@ class ProductFirestore implements ProductRepository {
     });
   }
 
+  @override
+  StreamSubscription<ProductModel> listenTo(String documentId, ProductChanged changed) {
+    var stream = ProductCollection.document(documentId)
+        .snapshots()
+        .asyncMap((data) {
+      return _populateDocPlus(data);
+    });
+    return stream.listen((value) {
+      changed(value);
+    });
+  }
 
   Stream<List<ProductModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;

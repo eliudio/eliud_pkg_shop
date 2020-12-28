@@ -193,6 +193,12 @@ class CartItemInMemoryRepository implements CartItemRepository {
   String timeStampToString(timeStamp) {
     throw UnimplementedError();
   }
+  
+  @override
+  StreamSubscription<CartItemModel> listenTo(String documentId, CartItemChanged changed) {
+    throw UnimplementedError();
+  }
+  
 
     Future<void> deleteAll() {}
 }
@@ -282,6 +288,12 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
   String timeStampToString(timeStamp) {
     throw UnimplementedError();
   }
+  
+  @override
+  StreamSubscription<OrderItemModel> listenTo(String documentId, OrderItemChanged changed) {
+    throw UnimplementedError();
+  }
+  
 
     Future<void> deleteAll() {}
 }
@@ -371,6 +383,12 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
   String timeStampToString(timeStamp) {
     throw UnimplementedError();
   }
+  
+  @override
+  StreamSubscription<ProductImageModel> listenTo(String documentId, ProductImageChanged changed) {
+    throw UnimplementedError();
+  }
+  
 
     Future<void> deleteAll() {}
 }

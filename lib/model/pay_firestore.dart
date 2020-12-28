@@ -103,6 +103,17 @@ class PayFirestore implements PayRepository {
     });
   }
 
+  @override
+  StreamSubscription<PayModel> listenTo(String documentId, PayChanged changed) {
+    var stream = PayCollection.document(documentId)
+        .snapshots()
+        .asyncMap((data) {
+      return _populateDocPlus(data);
+    });
+    return stream.listen((value) {
+      changed(value);
+    });
+  }
 
   Stream<List<PayModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;

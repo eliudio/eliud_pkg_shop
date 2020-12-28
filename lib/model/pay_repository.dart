@@ -30,6 +30,7 @@ import 'package:eliud_core/tools/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 typedef PayModelTrigger(List<PayModel> list);
+typedef PayChanged(PayModel value);
 
 abstract class PayRepository {
   Future<PayModel> add(PayModel value);
@@ -44,6 +45,7 @@ abstract class PayRepository {
 
   StreamSubscription<List<PayModel>> listen(PayModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<PayModel>> listenWithDetails(PayModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
+  StreamSubscription<PayModel> listenTo(String documentId, PayChanged changed);
   void flush();
   
   String timeStampToString(dynamic timeStamp);
