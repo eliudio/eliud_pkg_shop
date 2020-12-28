@@ -64,44 +64,26 @@ class OrderFirestore implements OrderRepository {
     });
   }
 
-  StreamSubscription<List<OrderModel>> listen(OrderModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<OrderModel>> listen(OrderModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<OrderModel>> stream;
-    if (orderBy == null) {
-       stream = OrderCollection.snapshots().map((data) {
-        Iterable<OrderModel> orders  = data.documents.map((doc) {
-          OrderModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return orders;
-      });
-    } else {
-      stream = OrderCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
-        Iterable<OrderModel> orders  = data.documents.map((doc) {
-          OrderModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return orders;
-      });
-  
-    }
+    stream = getQuery(OrderCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+      Iterable<OrderModel> orders  = data.documents.map((doc) {
+        OrderModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return orders;
+    });
     return stream.listen((listOfOrderModels) {
       trigger(listOfOrderModels);
     });
   }
 
-  StreamSubscription<List<OrderModel>> listenWithDetails(OrderModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<OrderModel>> listenWithDetails(OrderModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<OrderModel>> stream;
-    if (orderBy == null) {
-      stream = OrderCollection.snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      stream = OrderCollection.orderBy(orderBy, descending: descending).snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    stream = getQuery(OrderCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
 
     return stream.listen((listOfOrderModels) {
       trigger(listOfOrderModels);

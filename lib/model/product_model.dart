@@ -105,7 +105,8 @@ class ProductModel {
           price: entity.price, 
           weight: entity.weight, 
           images: 
-            entity. images
+            entity.images == null ? null :
+            entity.images
             .map((item) => ProductImageModel.fromEntity(newRandomKey(), item))
             .toList(), 
     );
@@ -141,7 +142,7 @@ class ProductModel {
           weight: entity.weight, 
           shop: shopHolder, 
           images: 
-            new List<ProductImageModel>.from(await Future.wait(entity. images
+            entity. images == null ? null : new List<ProductImageModel>.from(await Future.wait(entity. images
             .map((item) => ProductImageModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
           posSize: posSizeHolder, 

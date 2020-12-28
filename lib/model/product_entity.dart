@@ -46,7 +46,11 @@ class ProductEntity {
   static ProductEntity fromMap(Map map) {
     if (map == null) return null;
 
-    final imagesList = (map['images'] as List<dynamic>)
+    var imagesFromMap;
+    imagesFromMap = map['images'];
+    var imagesList;
+    if (imagesFromMap != null)
+      imagesList = (map['images'] as List<dynamic>)
         .map((dynamic item) =>
         ProductImageEntity.fromMap(item as Map))
         .toList();

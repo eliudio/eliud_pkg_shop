@@ -64,44 +64,26 @@ class ProductFirestore implements ProductRepository {
     });
   }
 
-  StreamSubscription<List<ProductModel>> listen(ProductModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<ProductModel>> listen(ProductModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<ProductModel>> stream;
-    if (orderBy == null) {
-       stream = ProductCollection.snapshots().map((data) {
-        Iterable<ProductModel> products  = data.documents.map((doc) {
-          ProductModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return products;
-      });
-    } else {
-      stream = ProductCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
-        Iterable<ProductModel> products  = data.documents.map((doc) {
-          ProductModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return products;
-      });
-  
-    }
+    stream = getQuery(ProductCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+      Iterable<ProductModel> products  = data.documents.map((doc) {
+        ProductModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return products;
+    });
     return stream.listen((listOfProductModels) {
       trigger(listOfProductModels);
     });
   }
 
-  StreamSubscription<List<ProductModel>> listenWithDetails(ProductModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<ProductModel>> listenWithDetails(ProductModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<ProductModel>> stream;
-    if (orderBy == null) {
-      stream = ProductCollection.snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      stream = ProductCollection.orderBy(orderBy, descending: descending).snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    stream = getQuery(ProductCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
 
     return stream.listen((listOfProductModels) {
       trigger(listOfProductModels);

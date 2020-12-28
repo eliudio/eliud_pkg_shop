@@ -60,44 +60,26 @@ class ShopFirestore implements ShopRepository {
     });
   }
 
-  StreamSubscription<List<ShopModel>> listen(ShopModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<ShopModel>> listen(ShopModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<ShopModel>> stream;
-    if (orderBy == null) {
-       stream = ShopCollection.snapshots().map((data) {
-        Iterable<ShopModel> shops  = data.documents.map((doc) {
-          ShopModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return shops;
-      });
-    } else {
-      stream = ShopCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
-        Iterable<ShopModel> shops  = data.documents.map((doc) {
-          ShopModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return shops;
-      });
-  
-    }
+    stream = getQuery(ShopCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+      Iterable<ShopModel> shops  = data.documents.map((doc) {
+        ShopModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return shops;
+    });
     return stream.listen((listOfShopModels) {
       trigger(listOfShopModels);
     });
   }
 
-  StreamSubscription<List<ShopModel>> listenWithDetails(ShopModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<ShopModel>> listenWithDetails(ShopModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<ShopModel>> stream;
-    if (orderBy == null) {
-      stream = ShopCollection.snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      stream = ShopCollection.orderBy(orderBy, descending: descending).snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    stream = getQuery(ShopCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
 
     return stream.listen((listOfShopModels) {
       trigger(listOfShopModels);

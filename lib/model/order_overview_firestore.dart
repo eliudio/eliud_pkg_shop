@@ -64,44 +64,26 @@ class OrderOverviewFirestore implements OrderOverviewRepository {
     });
   }
 
-  StreamSubscription<List<OrderOverviewModel>> listen(OrderOverviewModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<OrderOverviewModel>> listen(OrderOverviewModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<OrderOverviewModel>> stream;
-    if (orderBy == null) {
-       stream = OrderOverviewCollection.snapshots().map((data) {
-        Iterable<OrderOverviewModel> orderOverviews  = data.documents.map((doc) {
-          OrderOverviewModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return orderOverviews;
-      });
-    } else {
-      stream = OrderOverviewCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
-        Iterable<OrderOverviewModel> orderOverviews  = data.documents.map((doc) {
-          OrderOverviewModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return orderOverviews;
-      });
-  
-    }
+    stream = getQuery(OrderOverviewCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+      Iterable<OrderOverviewModel> orderOverviews  = data.documents.map((doc) {
+        OrderOverviewModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return orderOverviews;
+    });
     return stream.listen((listOfOrderOverviewModels) {
       trigger(listOfOrderOverviewModels);
     });
   }
 
-  StreamSubscription<List<OrderOverviewModel>> listenWithDetails(OrderOverviewModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<OrderOverviewModel>> listenWithDetails(OrderOverviewModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<OrderOverviewModel>> stream;
-    if (orderBy == null) {
-      stream = OrderOverviewCollection.snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      stream = OrderOverviewCollection.orderBy(orderBy, descending: descending).snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    stream = getQuery(OrderOverviewCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
 
     return stream.listen((listOfOrderOverviewModels) {
       trigger(listOfOrderOverviewModels);

@@ -60,44 +60,26 @@ class PayFirestore implements PayRepository {
     });
   }
 
-  StreamSubscription<List<PayModel>> listen(PayModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<PayModel>> listen(PayModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<PayModel>> stream;
-    if (orderBy == null) {
-       stream = PayCollection.snapshots().map((data) {
-        Iterable<PayModel> pays  = data.documents.map((doc) {
-          PayModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return pays;
-      });
-    } else {
-      stream = PayCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
-        Iterable<PayModel> pays  = data.documents.map((doc) {
-          PayModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return pays;
-      });
-  
-    }
+    stream = getQuery(PayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+      Iterable<PayModel> pays  = data.documents.map((doc) {
+        PayModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return pays;
+    });
     return stream.listen((listOfPayModels) {
       trigger(listOfPayModels);
     });
   }
 
-  StreamSubscription<List<PayModel>> listenWithDetails(PayModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<PayModel>> listenWithDetails(PayModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<PayModel>> stream;
-    if (orderBy == null) {
-      stream = PayCollection.snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      stream = PayCollection.orderBy(orderBy, descending: descending).snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    stream = getQuery(PayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
 
     return stream.listen((listOfPayModels) {
       trigger(listOfPayModels);

@@ -75,25 +75,14 @@ class ProductJsFirestore implements ProductRepository {
   @override
   StreamSubscription<List<ProductModel>> listen(ProductModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     var stream;
-    if (orderBy == null) {
-      stream = getCollection().onSnapshot
-          .map((data) {
-        Iterable<ProductModel> products  = data.docs.map((doc) {
-          ProductModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return products;
-      });
-    } else {
-      stream = getCollection().orderBy(orderBy, descending ? 'desc': 'asc').onSnapshot
-          .map((data) {
-        Iterable<ProductModel> products  = data.docs.map((doc) {
-          ProductModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return products;
-      });
-    }
+    stream = getQuery(getCollection(), currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).onSnapshot
+        .map((data) {
+      Iterable<ProductModel> products  = data.docs.map((doc) {
+        ProductModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return products;
+    });
     return stream.listen((listOfProductModels) {
       trigger(listOfProductModels);
     });
@@ -101,19 +90,11 @@ class ProductJsFirestore implements ProductRepository {
 
   StreamSubscription<List<ProductModel>> listenWithDetails(ProductModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     var stream;
-    if (orderBy == null) {
-      // If we use productCollection here, then the second subscription fails
-      stream = getCollection().onSnapshot
-          .asyncMap((data) async {
-        return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      // If we use productCollection here, then the second subscription fails
-      stream = getCollection().orderBy(orderBy, descending ? 'desc': 'asc').onSnapshot
-          .asyncMap((data) async {
-        return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    // If we use productCollection here, then the second subscription fails
+    stream = getQuery(getCollection(), currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).onSnapshot
+        .asyncMap((data) async {
+      return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
     return stream.listen((listOfProductModels) {
       trigger(listOfProductModels);
     });

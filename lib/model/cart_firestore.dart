@@ -64,44 +64,26 @@ class CartFirestore implements CartRepository {
     });
   }
 
-  StreamSubscription<List<CartModel>> listen(CartModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<CartModel>> listen(CartModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<CartModel>> stream;
-    if (orderBy == null) {
-       stream = CartCollection.snapshots().map((data) {
-        Iterable<CartModel> carts  = data.documents.map((doc) {
-          CartModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return carts;
-      });
-    } else {
-      stream = CartCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
-        Iterable<CartModel> carts  = data.documents.map((doc) {
-          CartModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return carts;
-      });
-  
-    }
+    stream = getQuery(CartCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+      Iterable<CartModel> carts  = data.documents.map((doc) {
+        CartModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return carts;
+    });
     return stream.listen((listOfCartModels) {
       trigger(listOfCartModels);
     });
   }
 
-  StreamSubscription<List<CartModel>> listenWithDetails(CartModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<CartModel>> listenWithDetails(CartModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<CartModel>> stream;
-    if (orderBy == null) {
-      stream = CartCollection.snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      stream = CartCollection.orderBy(orderBy, descending: descending).snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    stream = getQuery(CartCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
 
     return stream.listen((listOfCartModels) {
       trigger(listOfCartModels);

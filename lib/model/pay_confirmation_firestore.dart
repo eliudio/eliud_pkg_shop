@@ -60,44 +60,26 @@ class PayConfirmationFirestore implements PayConfirmationRepository {
     });
   }
 
-  StreamSubscription<List<PayConfirmationModel>> listen(PayConfirmationModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<PayConfirmationModel>> listen(PayConfirmationModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<PayConfirmationModel>> stream;
-    if (orderBy == null) {
-       stream = PayConfirmationCollection.snapshots().map((data) {
-        Iterable<PayConfirmationModel> payConfirmations  = data.documents.map((doc) {
-          PayConfirmationModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return payConfirmations;
-      });
-    } else {
-      stream = PayConfirmationCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
-        Iterable<PayConfirmationModel> payConfirmations  = data.documents.map((doc) {
-          PayConfirmationModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return payConfirmations;
-      });
-  
-    }
+    stream = getQuery(PayConfirmationCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+      Iterable<PayConfirmationModel> payConfirmations  = data.documents.map((doc) {
+        PayConfirmationModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return payConfirmations;
+    });
     return stream.listen((listOfPayConfirmationModels) {
       trigger(listOfPayConfirmationModels);
     });
   }
 
-  StreamSubscription<List<PayConfirmationModel>> listenWithDetails(PayConfirmationModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<PayConfirmationModel>> listenWithDetails(PayConfirmationModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<PayConfirmationModel>> stream;
-    if (orderBy == null) {
-      stream = PayConfirmationCollection.snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      stream = PayConfirmationCollection.orderBy(orderBy, descending: descending).snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    stream = getQuery(PayConfirmationCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
 
     return stream.listen((listOfPayConfirmationModels) {
       trigger(listOfPayConfirmationModels);

@@ -66,7 +66,11 @@ class OrderEntity {
   static OrderEntity fromMap(Map map) {
     if (map == null) return null;
 
-    final productsList = (map['products'] as List<dynamic>)
+    var productsFromMap;
+    productsFromMap = map['products'];
+    var productsList;
+    if (productsFromMap != null)
+      productsList = (map['products'] as List<dynamic>)
         .map((dynamic item) =>
         OrderItemEntity.fromMap(item as Map))
         .toList();

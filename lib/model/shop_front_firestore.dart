@@ -64,44 +64,26 @@ class ShopFrontFirestore implements ShopFrontRepository {
     });
   }
 
-  StreamSubscription<List<ShopFrontModel>> listen(ShopFrontModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<ShopFrontModel>> listen(ShopFrontModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<ShopFrontModel>> stream;
-    if (orderBy == null) {
-       stream = ShopFrontCollection.snapshots().map((data) {
-        Iterable<ShopFrontModel> shopFronts  = data.documents.map((doc) {
-          ShopFrontModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return shopFronts;
-      });
-    } else {
-      stream = ShopFrontCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
-        Iterable<ShopFrontModel> shopFronts  = data.documents.map((doc) {
-          ShopFrontModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return shopFronts;
-      });
-  
-    }
+    stream = getQuery(ShopFrontCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+      Iterable<ShopFrontModel> shopFronts  = data.documents.map((doc) {
+        ShopFrontModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return shopFronts;
+    });
     return stream.listen((listOfShopFrontModels) {
       trigger(listOfShopFrontModels);
     });
   }
 
-  StreamSubscription<List<ShopFrontModel>> listenWithDetails(ShopFrontModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<ShopFrontModel>> listenWithDetails(ShopFrontModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<ShopFrontModel>> stream;
-    if (orderBy == null) {
-      stream = ShopFrontCollection.snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      stream = ShopFrontCollection.orderBy(orderBy, descending: descending).snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    stream = getQuery(ShopFrontCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
 
     return stream.listen((listOfShopFrontModels) {
       trigger(listOfShopFrontModels);

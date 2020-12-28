@@ -166,12 +166,12 @@ class CartItemInMemoryRepository implements CartItemRepository {
     }
     
     @override
-    StreamSubscription<List<CartItemModel>> listen(trigger, { String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery }) {
+    StreamSubscription<List<CartItemModel>> listen(trigger, { String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
       return theValues.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<CartItemModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery }) {
+    StreamSubscription<List<CartItemModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
       return theValues.listen((theList) => trigger(theList));
     }
     
@@ -261,12 +261,12 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
     }
     
     @override
-    StreamSubscription<List<OrderItemModel>> listen(trigger, { String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery }) {
+    StreamSubscription<List<OrderItemModel>> listen(trigger, { String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
       return theValues.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<OrderItemModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery }) {
+    StreamSubscription<List<OrderItemModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
       return theValues.listen((theList) => trigger(theList));
     }
     
@@ -356,12 +356,12 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
     }
     
     @override
-    StreamSubscription<List<ProductImageModel>> listen(trigger, { String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery }) {
+    StreamSubscription<List<ProductImageModel>> listen(trigger, { String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
       return theValues.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<ProductImageModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery }) {
+    StreamSubscription<List<ProductImageModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
       return theValues.listen((theList) => trigger(theList));
     }
     

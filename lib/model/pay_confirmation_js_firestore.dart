@@ -71,25 +71,14 @@ class PayConfirmationJsFirestore implements PayConfirmationRepository {
   @override
   StreamSubscription<List<PayConfirmationModel>> listen(PayConfirmationModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     var stream;
-    if (orderBy == null) {
-      stream = getCollection().onSnapshot
-          .map((data) {
-        Iterable<PayConfirmationModel> payConfirmations  = data.docs.map((doc) {
-          PayConfirmationModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return payConfirmations;
-      });
-    } else {
-      stream = getCollection().orderBy(orderBy, descending ? 'desc': 'asc').onSnapshot
-          .map((data) {
-        Iterable<PayConfirmationModel> payConfirmations  = data.docs.map((doc) {
-          PayConfirmationModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return payConfirmations;
-      });
-    }
+    stream = getQuery(getCollection(), currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).onSnapshot
+        .map((data) {
+      Iterable<PayConfirmationModel> payConfirmations  = data.docs.map((doc) {
+        PayConfirmationModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return payConfirmations;
+    });
     return stream.listen((listOfPayConfirmationModels) {
       trigger(listOfPayConfirmationModels);
     });
@@ -97,19 +86,11 @@ class PayConfirmationJsFirestore implements PayConfirmationRepository {
 
   StreamSubscription<List<PayConfirmationModel>> listenWithDetails(PayConfirmationModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     var stream;
-    if (orderBy == null) {
-      // If we use payConfirmationCollection here, then the second subscription fails
-      stream = getCollection().onSnapshot
-          .asyncMap((data) async {
-        return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      // If we use payConfirmationCollection here, then the second subscription fails
-      stream = getCollection().orderBy(orderBy, descending ? 'desc': 'asc').onSnapshot
-          .asyncMap((data) async {
-        return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    // If we use payConfirmationCollection here, then the second subscription fails
+    stream = getQuery(getCollection(), currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).onSnapshot
+        .asyncMap((data) async {
+      return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
     return stream.listen((listOfPayConfirmationModels) {
       trigger(listOfPayConfirmationModels);
     });

@@ -189,7 +189,8 @@ class OrderModel {
           invoiceState: entity.invoiceState, 
           invoicePostcode: entity.invoicePostcode, 
           products: 
-            entity. products
+            entity.products == null ? null :
+            entity.products
             .map((item) => OrderItemModel.fromEntity(newRandomKey(), item))
             .toList(), 
           totalPrice: entity.totalPrice, 
@@ -255,7 +256,7 @@ class OrderModel {
           invoicePostcode: entity.invoicePostcode, 
           invoiceCountry: invoiceCountryHolder, 
           products: 
-            new List<OrderItemModel>.from(await Future.wait(entity. products
+            entity. products == null ? null : new List<OrderItemModel>.from(await Future.wait(entity. products
             .map((item) => OrderItemModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
           totalPrice: entity.totalPrice, 

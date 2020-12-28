@@ -75,25 +75,14 @@ class ShopFrontJsFirestore implements ShopFrontRepository {
   @override
   StreamSubscription<List<ShopFrontModel>> listen(ShopFrontModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     var stream;
-    if (orderBy == null) {
-      stream = getCollection().onSnapshot
-          .map((data) {
-        Iterable<ShopFrontModel> shopFronts  = data.docs.map((doc) {
-          ShopFrontModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return shopFronts;
-      });
-    } else {
-      stream = getCollection().orderBy(orderBy, descending ? 'desc': 'asc').onSnapshot
-          .map((data) {
-        Iterable<ShopFrontModel> shopFronts  = data.docs.map((doc) {
-          ShopFrontModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return shopFronts;
-      });
-    }
+    stream = getQuery(getCollection(), currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).onSnapshot
+        .map((data) {
+      Iterable<ShopFrontModel> shopFronts  = data.docs.map((doc) {
+        ShopFrontModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return shopFronts;
+    });
     return stream.listen((listOfShopFrontModels) {
       trigger(listOfShopFrontModels);
     });
@@ -101,19 +90,11 @@ class ShopFrontJsFirestore implements ShopFrontRepository {
 
   StreamSubscription<List<ShopFrontModel>> listenWithDetails(ShopFrontModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     var stream;
-    if (orderBy == null) {
-      // If we use shopFrontCollection here, then the second subscription fails
-      stream = getCollection().onSnapshot
-          .asyncMap((data) async {
-        return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      // If we use shopFrontCollection here, then the second subscription fails
-      stream = getCollection().orderBy(orderBy, descending ? 'desc': 'asc').onSnapshot
-          .asyncMap((data) async {
-        return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    // If we use shopFrontCollection here, then the second subscription fails
+    stream = getQuery(getCollection(), currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).onSnapshot
+        .asyncMap((data) async {
+      return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
     return stream.listen((listOfShopFrontModels) {
       trigger(listOfShopFrontModels);
     });
