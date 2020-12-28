@@ -17,6 +17,7 @@ import 'package:collection/collection.dart';
 
 import 'model/cart_item_model.dart';
 
+// Todo: clearly we can introduce some caching, as we are listening as well as querying the same data. So, instead: keep a cache and update the cache adnd use it from within the isConditionOk
 abstract class ShopPackage extends Package {
   static final String CONDITION_CARTS_HAS_ITEMS = 'MustHaveStuffInBasket';
   AccessBloc accessBloc;
