@@ -19,8 +19,6 @@ class CheckOutPage extends StatefulWidget {
 }
 
 class _CheckOutPageState extends State<CheckOutPage> {
-  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
-
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
