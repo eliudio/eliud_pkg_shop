@@ -22,6 +22,7 @@ import 'package:eliud_pkg_shop/model/cart_list_event.dart';
 import 'package:eliud_pkg_shop/model/cart_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class CartListBloc extends Bloc<CartListEvent, CartListState> {
   final CartRepository _cartRepository;
   StreamSubscription _cartsListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  CartListBloc(this.accessBloc,{ @required CartRepository cartRepository })
+
+  CartListBloc(this.accessBloc,{ this.eliudQuery, @required CartRepository cartRepository })
       : assert(cartRepository != null),
       _cartRepository = cartRepository,
       super(CartListLoading());
 
   Stream<CartListState> _mapLoadCartListToState({ String orderBy, bool descending }) async* {
     _cartsListSubscription?.cancel();
-    _cartsListSubscription = _cartRepository.listen((list) => add(CartListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _cartsListSubscription = _cartRepository.listen((list) => add(CartListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<CartListState> _mapLoadCartListWithDetailsToState() async* {

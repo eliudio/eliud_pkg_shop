@@ -22,6 +22,7 @@ import 'package:eliud_pkg_shop/model/order_list_event.dart';
 import 'package:eliud_pkg_shop/model/order_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
   final OrderRepository _orderRepository;
   StreamSubscription _ordersListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  OrderListBloc(this.accessBloc,{ @required OrderRepository orderRepository })
+
+  OrderListBloc(this.accessBloc,{ this.eliudQuery, @required OrderRepository orderRepository })
       : assert(orderRepository != null),
       _orderRepository = orderRepository,
       super(OrderListLoading());
 
   Stream<OrderListState> _mapLoadOrderListToState({ String orderBy, bool descending }) async* {
     _ordersListSubscription?.cancel();
-    _ordersListSubscription = _orderRepository.listen((list) => add(OrderListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _ordersListSubscription = _orderRepository.listen((list) => add(OrderListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<OrderListState> _mapLoadOrderListWithDetailsToState() async* {

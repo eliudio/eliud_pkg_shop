@@ -22,6 +22,7 @@ import 'package:eliud_pkg_shop/model/order_item_list_event.dart';
 import 'package:eliud_pkg_shop/model/order_item_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class OrderItemListBloc extends Bloc<OrderItemListEvent, OrderItemListState> {
   final OrderItemRepository _orderItemRepository;
   StreamSubscription _orderItemsListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  OrderItemListBloc(this.accessBloc,{ @required OrderItemRepository orderItemRepository })
+
+  OrderItemListBloc(this.accessBloc,{ this.eliudQuery, @required OrderItemRepository orderItemRepository })
       : assert(orderItemRepository != null),
       _orderItemRepository = orderItemRepository,
       super(OrderItemListLoading());
 
   Stream<OrderItemListState> _mapLoadOrderItemListToState({ String orderBy, bool descending }) async* {
     _orderItemsListSubscription?.cancel();
-    _orderItemsListSubscription = _orderItemRepository.listen((list) => add(OrderItemListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _orderItemsListSubscription = _orderItemRepository.listen((list) => add(OrderItemListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<OrderItemListState> _mapLoadOrderItemListWithDetailsToState() async* {

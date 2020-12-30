@@ -22,6 +22,7 @@ import 'package:eliud_pkg_shop/model/cart_item_list_event.dart';
 import 'package:eliud_pkg_shop/model/cart_item_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class CartItemListBloc extends Bloc<CartItemListEvent, CartItemListState> {
   final CartItemRepository _cartItemRepository;
   StreamSubscription _cartItemsListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  CartItemListBloc(this.accessBloc,{ @required CartItemRepository cartItemRepository })
+
+  CartItemListBloc(this.accessBloc,{ this.eliudQuery, @required CartItemRepository cartItemRepository })
       : assert(cartItemRepository != null),
       _cartItemRepository = cartItemRepository,
       super(CartItemListLoading());
 
   Stream<CartItemListState> _mapLoadCartItemListToState({ String orderBy, bool descending }) async* {
     _cartItemsListSubscription?.cancel();
-    _cartItemsListSubscription = _cartItemRepository.listen((list) => add(CartItemListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _cartItemsListSubscription = _cartItemRepository.listen((list) => add(CartItemListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<CartItemListState> _mapLoadCartItemListWithDetailsToState() async* {

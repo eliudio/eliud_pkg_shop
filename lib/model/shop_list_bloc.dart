@@ -22,6 +22,7 @@ import 'package:eliud_pkg_shop/model/shop_list_event.dart';
 import 'package:eliud_pkg_shop/model/shop_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
   final ShopRepository _shopRepository;
   StreamSubscription _shopsListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  ShopListBloc(this.accessBloc,{ @required ShopRepository shopRepository })
+
+  ShopListBloc(this.accessBloc,{ this.eliudQuery, @required ShopRepository shopRepository })
       : assert(shopRepository != null),
       _shopRepository = shopRepository,
       super(ShopListLoading());
 
   Stream<ShopListState> _mapLoadShopListToState({ String orderBy, bool descending }) async* {
     _shopsListSubscription?.cancel();
-    _shopsListSubscription = _shopRepository.listen((list) => add(ShopListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _shopsListSubscription = _shopRepository.listen((list) => add(ShopListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<ShopListState> _mapLoadShopListWithDetailsToState() async* {

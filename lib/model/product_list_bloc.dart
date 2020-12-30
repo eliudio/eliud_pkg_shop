@@ -22,6 +22,7 @@ import 'package:eliud_pkg_shop/model/product_list_event.dart';
 import 'package:eliud_pkg_shop/model/product_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class ProductListBloc extends Bloc<ProductListEvent, ProductListState> {
   final ProductRepository _productRepository;
   StreamSubscription _productsListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  ProductListBloc(this.accessBloc,{ @required ProductRepository productRepository })
+
+  ProductListBloc(this.accessBloc,{ this.eliudQuery, @required ProductRepository productRepository })
       : assert(productRepository != null),
       _productRepository = productRepository,
       super(ProductListLoading());
 
   Stream<ProductListState> _mapLoadProductListToState({ String orderBy, bool descending }) async* {
     _productsListSubscription?.cancel();
-    _productsListSubscription = _productRepository.listen((list) => add(ProductListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _productsListSubscription = _productRepository.listen((list) => add(ProductListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<ProductListState> _mapLoadProductListWithDetailsToState() async* {

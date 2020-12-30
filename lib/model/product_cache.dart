@@ -140,9 +140,12 @@ class ProductCache implements ProductRepository {
       } catch (_) {}
     }
 
-    List<ProductImageModel> imagesHolder = List<ProductImageModel>.from(await Future.wait(await model.images.map((element) async {
-      return await ProductImageCache.refreshRelations(element);
-    }))).toList();
+    List<ProductImageModel> imagesHolder;
+    if (model.images != null) {
+      imagesHolder = List<ProductImageModel>.from(await Future.wait(await model.images.map((element) async {
+        return await ProductImageCache.refreshRelations(element);
+      }))).toList();
+    }
 
     return model.copyWith(
         shop: shopHolder,

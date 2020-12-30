@@ -22,6 +22,7 @@ import 'package:eliud_pkg_shop/model/product_display_list_event.dart';
 import 'package:eliud_pkg_shop/model/product_display_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class ProductDisplayListBloc extends Bloc<ProductDisplayListEvent, ProductDispla
   final ProductDisplayRepository _productDisplayRepository;
   StreamSubscription _productDisplaysListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  ProductDisplayListBloc(this.accessBloc,{ @required ProductDisplayRepository productDisplayRepository })
+
+  ProductDisplayListBloc(this.accessBloc,{ this.eliudQuery, @required ProductDisplayRepository productDisplayRepository })
       : assert(productDisplayRepository != null),
       _productDisplayRepository = productDisplayRepository,
       super(ProductDisplayListLoading());
 
   Stream<ProductDisplayListState> _mapLoadProductDisplayListToState({ String orderBy, bool descending }) async* {
     _productDisplaysListSubscription?.cancel();
-    _productDisplaysListSubscription = _productDisplayRepository.listen((list) => add(ProductDisplayListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _productDisplaysListSubscription = _productDisplayRepository.listen((list) => add(ProductDisplayListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<ProductDisplayListState> _mapLoadProductDisplayListWithDetailsToState() async* {

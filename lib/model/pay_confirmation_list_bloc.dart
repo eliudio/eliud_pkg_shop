@@ -22,6 +22,7 @@ import 'package:eliud_pkg_shop/model/pay_confirmation_list_event.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class PayConfirmationListBloc extends Bloc<PayConfirmationListEvent, PayConfirma
   final PayConfirmationRepository _payConfirmationRepository;
   StreamSubscription _payConfirmationsListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  PayConfirmationListBloc(this.accessBloc,{ @required PayConfirmationRepository payConfirmationRepository })
+
+  PayConfirmationListBloc(this.accessBloc,{ this.eliudQuery, @required PayConfirmationRepository payConfirmationRepository })
       : assert(payConfirmationRepository != null),
       _payConfirmationRepository = payConfirmationRepository,
       super(PayConfirmationListLoading());
 
   Stream<PayConfirmationListState> _mapLoadPayConfirmationListToState({ String orderBy, bool descending }) async* {
     _payConfirmationsListSubscription?.cancel();
-    _payConfirmationsListSubscription = _payConfirmationRepository.listen((list) => add(PayConfirmationListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _payConfirmationsListSubscription = _payConfirmationRepository.listen((list) => add(PayConfirmationListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<PayConfirmationListState> _mapLoadPayConfirmationListWithDetailsToState() async* {

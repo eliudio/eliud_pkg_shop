@@ -22,6 +22,7 @@ import 'package:eliud_pkg_shop/model/shop_front_list_event.dart';
 import 'package:eliud_pkg_shop/model/shop_front_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {
   final ShopFrontRepository _shopFrontRepository;
   StreamSubscription _shopFrontsListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  ShopFrontListBloc(this.accessBloc,{ @required ShopFrontRepository shopFrontRepository })
+
+  ShopFrontListBloc(this.accessBloc,{ this.eliudQuery, @required ShopFrontRepository shopFrontRepository })
       : assert(shopFrontRepository != null),
       _shopFrontRepository = shopFrontRepository,
       super(ShopFrontListLoading());
 
   Stream<ShopFrontListState> _mapLoadShopFrontListToState({ String orderBy, bool descending }) async* {
     _shopFrontsListSubscription?.cancel();
-    _shopFrontsListSubscription = _shopFrontRepository.listen((list) => add(ShopFrontListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _shopFrontsListSubscription = _shopFrontRepository.listen((list) => add(ShopFrontListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<ShopFrontListState> _mapLoadShopFrontListWithDetailsToState() async* {

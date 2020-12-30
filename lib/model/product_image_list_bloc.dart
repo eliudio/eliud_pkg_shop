@@ -22,6 +22,7 @@ import 'package:eliud_pkg_shop/model/product_image_list_event.dart';
 import 'package:eliud_pkg_shop/model/product_image_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class ProductImageListBloc extends Bloc<ProductImageListEvent, ProductImageListS
   final ProductImageRepository _productImageRepository;
   StreamSubscription _productImagesListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  ProductImageListBloc(this.accessBloc,{ @required ProductImageRepository productImageRepository })
+
+  ProductImageListBloc(this.accessBloc,{ this.eliudQuery, @required ProductImageRepository productImageRepository })
       : assert(productImageRepository != null),
       _productImageRepository = productImageRepository,
       super(ProductImageListLoading());
 
   Stream<ProductImageListState> _mapLoadProductImageListToState({ String orderBy, bool descending }) async* {
     _productImagesListSubscription?.cancel();
-    _productImagesListSubscription = _productImageRepository.listen((list) => add(ProductImageListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _productImagesListSubscription = _productImageRepository.listen((list) => add(ProductImageListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<ProductImageListState> _mapLoadProductImageListWithDetailsToState() async* {

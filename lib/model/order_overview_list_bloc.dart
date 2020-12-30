@@ -22,6 +22,7 @@ import 'package:eliud_pkg_shop/model/order_overview_list_event.dart';
 import 'package:eliud_pkg_shop/model/order_overview_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class OrderOverviewListBloc extends Bloc<OrderOverviewListEvent, OrderOverviewLi
   final OrderOverviewRepository _orderOverviewRepository;
   StreamSubscription _orderOverviewsListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  OrderOverviewListBloc(this.accessBloc,{ @required OrderOverviewRepository orderOverviewRepository })
+
+  OrderOverviewListBloc(this.accessBloc,{ this.eliudQuery, @required OrderOverviewRepository orderOverviewRepository })
       : assert(orderOverviewRepository != null),
       _orderOverviewRepository = orderOverviewRepository,
       super(OrderOverviewListLoading());
 
   Stream<OrderOverviewListState> _mapLoadOrderOverviewListToState({ String orderBy, bool descending }) async* {
     _orderOverviewsListSubscription?.cancel();
-    _orderOverviewsListSubscription = _orderOverviewRepository.listen((list) => add(OrderOverviewListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _orderOverviewsListSubscription = _orderOverviewRepository.listen((list) => add(OrderOverviewListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<OrderOverviewListState> _mapLoadOrderOverviewListWithDetailsToState() async* {

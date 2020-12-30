@@ -149,9 +149,12 @@ class OrderCache implements OrderRepository {
       } catch (_) {}
     }
 
-    List<OrderItemModel> productsHolder = List<OrderItemModel>.from(await Future.wait(await model.products.map((element) async {
-      return await OrderItemCache.refreshRelations(element);
-    }))).toList();
+    List<OrderItemModel> productsHolder;
+    if (model.products != null) {
+      productsHolder = List<OrderItemModel>.from(await Future.wait(await model.products.map((element) async {
+        return await OrderItemCache.refreshRelations(element);
+      }))).toList();
+    }
 
     return model.copyWith(
         customer: customerHolder,

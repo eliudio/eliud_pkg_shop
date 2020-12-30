@@ -22,6 +22,7 @@ import 'package:eliud_pkg_shop/model/pay_list_event.dart';
 import 'package:eliud_pkg_shop/model/pay_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class PayListBloc extends Bloc<PayListEvent, PayListState> {
   final PayRepository _payRepository;
   StreamSubscription _paysListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  PayListBloc(this.accessBloc,{ @required PayRepository payRepository })
+
+  PayListBloc(this.accessBloc,{ this.eliudQuery, @required PayRepository payRepository })
       : assert(payRepository != null),
       _payRepository = payRepository,
       super(PayListLoading());
 
   Stream<PayListState> _mapLoadPayListToState({ String orderBy, bool descending }) async* {
     _paysListSubscription?.cancel();
-    _paysListSubscription = _payRepository.listen((list) => add(PayListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _paysListSubscription = _payRepository.listen((list) => add(PayListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<PayListState> _mapLoadPayListWithDetailsToState() async* {
