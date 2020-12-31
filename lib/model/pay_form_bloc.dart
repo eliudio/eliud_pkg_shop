@@ -102,6 +102,7 @@ class PayFormBloc extends Bloc<PayFormEvent, PayFormState> {
                                  appId: currentState.value.appId,
                                  title: currentState.value.title,
                                  succeeded: currentState.value.succeeded,
+                                 payAction: currentState.value.payAction,
                                  shop: null,
           );
         yield SubmittablePayForm(value: newValue);

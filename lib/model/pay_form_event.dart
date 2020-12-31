@@ -103,6 +103,18 @@ class ChangedPaySucceeded extends PayFormEvent {
   String toString() => 'ChangedPaySucceeded{ value: $value }';
 }
 
+class ChangedPayPayAction extends PayFormEvent {
+  final WorkflowActionModel value;
+
+  ChangedPayPayAction({this.value});
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedPayPayAction{ value: $value }';
+}
+
 class ChangedPayShop extends PayFormEvent {
   final String value;
 

@@ -127,6 +127,22 @@ class SucceededPayFormError extends PayFormError {
 }
 
 
+class PayActionPayFormError extends PayFormError { 
+  const PayActionPayFormError({ String message, PayModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''PayActionPayFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class ShopPayFormError extends PayFormError { 
   const ShopPayFormError({ String message, PayModel value }): super(message: message, value: value);
 

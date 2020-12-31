@@ -21,6 +21,9 @@ dependencies:
   eliud_pkg_pay:
     path: ../eliud_pkg_pay
 
+  eliud_pkg_workflow:
+    path: ../eliud_pkg_workflow
+
 dev_dependencies:
   build_runner: "1.10.2"
 

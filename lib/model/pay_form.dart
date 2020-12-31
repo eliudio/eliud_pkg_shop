@@ -241,6 +241,19 @@ class _MyPayFormState extends State<MyPayForm> {
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                  child: Text('Pay Action',
+                      style: TextStyle(
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                ));
+
+
+        children.add(Container(height: 20.0));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+
+
+         children.add(Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Shop',
                       style: TextStyle(
                           color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
@@ -270,6 +283,7 @@ class _MyPayFormState extends State<MyPayForm> {
                               appId: state.value.appId, 
                               title: state.value.title, 
                               succeeded: state.value.succeeded, 
+                              payAction: state.value.payAction, 
                               shop: state.value.shop, 
                         )));
                       } else {
@@ -279,6 +293,7 @@ class _MyPayFormState extends State<MyPayForm> {
                               appId: state.value.appId, 
                               title: state.value.title, 
                               succeeded: state.value.succeeded, 
+                              payAction: state.value.payAction, 
                               shop: state.value.shop, 
                           )));
                       }
@@ -330,6 +345,12 @@ class _MyPayFormState extends State<MyPayForm> {
 
   void _onSucceededChanged(value) {
     _myFormBloc.add(ChangedPaySucceeded(value: value));
+    
+  }
+
+
+  void _onPayActionChanged(value) {
+    _myFormBloc.add(ChangedPayPayAction(value: value));
     
   }
 

@@ -36,18 +36,21 @@ class PayModel {
   String appId;
   String title;
   ActionModel succeeded;
+
+  // requires a new implementation of a BespokeFormField WorkflowActionField
+  WorkflowActionModel payAction;
   ShopModel shop;
 
-  PayModel({this.documentID, this.appId, this.title, this.succeeded, this.shop, })  {
+  PayModel({this.documentID, this.appId, this.title, this.succeeded, this.payAction, this.shop, })  {
     assert(documentID != null);
   }
 
-  PayModel copyWith({String documentID, String appId, String title, ActionModel succeeded, ShopModel shop, }) {
-    return PayModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, succeeded: succeeded ?? this.succeeded, shop: shop ?? this.shop, );
+  PayModel copyWith({String documentID, String appId, String title, ActionModel succeeded, WorkflowActionModel payAction, ShopModel shop, }) {
+    return PayModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, succeeded: succeeded ?? this.succeeded, payAction: payAction ?? this.payAction, shop: shop ?? this.shop, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ succeeded.hashCode ^ shop.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ succeeded.hashCode ^ payAction.hashCode ^ shop.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -58,11 +61,12 @@ class PayModel {
           appId == other.appId &&
           title == other.title &&
           succeeded == other.succeeded &&
+          payAction == other.payAction &&
           shop == other.shop;
 
   @override
   String toString() {
-    return 'PayModel{documentID: $documentID, appId: $appId, title: $title, succeeded: $succeeded, shop: $shop}';
+    return 'PayModel{documentID: $documentID, appId: $appId, title: $title, succeeded: $succeeded, payAction: $payAction, shop: $shop}';
   }
 
   PayEntity toEntity({String appId}) {
@@ -70,6 +74,7 @@ class PayModel {
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
           succeeded: (succeeded != null) ? succeeded.toEntity(appId: appId) : null, 
+          payAction: (payAction != null) ? payAction.toEntity(appId: appId) : null, 
           shopId: (shop != null) ? shop.documentID : null, 
     );
   }
@@ -82,6 +87,8 @@ class PayModel {
           title: entity.title, 
           succeeded: 
             ActionModel.fromEntity(entity.succeeded), 
+          payAction: 
+            WorkflowActionModel.fromEntity(entity.payAction), 
     );
   }
 
@@ -103,6 +110,8 @@ class PayModel {
           title: entity.title, 
           succeeded: 
             await ActionModel.fromEntityPlus(entity.succeeded, appId: appId), 
+          payAction: 
+            await WorkflowActionModel.fromEntityPlus(entity.payAction, appId: appId), 
           shop: shopHolder, 
     );
   }
