@@ -7,6 +7,7 @@ import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/widgets/dialog_helper.dart';
 import 'package:eliud_pkg_pay/platform/payment_platform.dart';
+import 'package:eliud_pkg_pay/tools/task/pay_task_model.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_bloc.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/bloc/payment_bloc.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/bloc/payment_event.dart';
@@ -17,6 +18,8 @@ import 'package:eliud_pkg_shop/model/pay_component.dart';
 import 'package:eliud_pkg_shop/model/pay_model.dart';
 import 'package:eliud_pkg_shop/model/pay_repository.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
+import 'package:eliud_pkg_workflow/model/assignment_model.dart';
+import 'package:eliud_pkg_workflow/tools/helper/assignment_helper.dart';
 import 'package:eliud_pkg_workflow/tools/workflow_action_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,9 +52,17 @@ class PayProfileComponent extends AbstractPayComponent {
         }));
   }
 
-  void something() {
-    // todo: determine, based on workflow feedback
-    handle(PaymentSucceeded(''));
+  void something(bool success, AssignmentModel assignmentModel) {
+    if (success) {
+      handle(PaymentSucceeded(AssignmentHelper.getResultFor(
+          assignmentModel, PayTaskModel.PAY_TASK_FIELD_PAYMENT_REFERENCE)));
+    } else {
+      handle(PaymentFailure(
+          AssignmentHelper.getResultFor(
+              assignmentModel, PayTaskModel.PAY_TASK_FIELD_PAYMENT_REFERENCE),
+          AssignmentHelper.getResultFor(
+              assignmentModel, PayTaskModel.PAY_TASK_FIELD_ERROR)));
+    }
   }
 
   Widget _paymentWidget(BuildContext context, PayModel pay) {
@@ -63,15 +74,16 @@ class PayProfileComponent extends AbstractPayComponent {
         } else {
           if (state is PayOrder) {
             return BlocProvider<PayBloc>(
-                // todo: get amount from order
-                create: (context) => PayBloc()
-                  ..add(InitPayEvent(state.order.currency, 21, '')),
+                create: (context) =>
+                    PayBloc()..add(InitPayEvent(state.order.currency, state.order.totalPrice, state.order.documentID)),
                 child: BlocBuilder<PayBloc, PayState>(
                     builder: (pay_context, pay_state) {
                   if (pay_state is InitializedPayState) {
                     paymentBloc = BlocProvider.of<PaymentBloc>(context);
                     order = state.order;
-                    WorkflowActionHandler.executeWorkflow(pay_context, pay.payAction, finaliseWorkflow: something);
+                    WorkflowActionHandler.executeWorkflow(
+                        pay_context, pay.payAction,
+                        finaliseWorkflow: something);
                   }
                   return _overviewAndPay(context, appState.app, state.order,
                       message: 'Please review your order.',
