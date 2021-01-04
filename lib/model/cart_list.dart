@@ -44,15 +44,18 @@ import 'package:eliud_core/model/app_model.dart';
 
 import 'cart_form.dart';
 
+
+typedef CartWidgetProvider(CartModel value);
+
 class CartListWidget extends StatefulWidget with HasFab {
   BackgroundModel listBackground;
+  CartWidgetProvider widgetProvider;
   bool readOnly;
   String form;
-  String listItemWidget;
   CartListWidgetState state;
   bool isEmbedded;
 
-  CartListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded, this.listBackground }): super(key: key);
+  CartListWidget({ Key key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   CartListWidgetState createState() {
@@ -170,6 +173,8 @@ class CartListWidgetState extends State<CartListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+          
+          if (widget.widgetProvider != null) return widget.widgetProvider(value);
 
           return CartListItem(
             value: value,

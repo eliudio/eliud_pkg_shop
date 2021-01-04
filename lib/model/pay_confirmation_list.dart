@@ -44,15 +44,18 @@ import 'package:eliud_core/model/app_model.dart';
 
 import 'pay_confirmation_form.dart';
 
+
+typedef PayConfirmationWidgetProvider(PayConfirmationModel value);
+
 class PayConfirmationListWidget extends StatefulWidget with HasFab {
   BackgroundModel listBackground;
+  PayConfirmationWidgetProvider widgetProvider;
   bool readOnly;
   String form;
-  String listItemWidget;
   PayConfirmationListWidgetState state;
   bool isEmbedded;
 
-  PayConfirmationListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded, this.listBackground }): super(key: key);
+  PayConfirmationListWidget({ Key key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   PayConfirmationListWidgetState createState() {
@@ -170,6 +173,8 @@ class PayConfirmationListWidgetState extends State<PayConfirmationListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+          
+          if (widget.widgetProvider != null) return widget.widgetProvider(value);
 
           return PayConfirmationListItem(
             value: value,
