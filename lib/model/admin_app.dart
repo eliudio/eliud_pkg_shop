@@ -57,8 +57,10 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-carts", componentName: "eliud_pkg_shop_internalWidgets", componentId: "carts"));
     PageModel page = PageModel(
-        readCondition: ReadCondition.MemberOrPrivilegedMemberOnly,
-        privilegeLevelRequired: OWNER_PRIVILEGES,
+        conditions: ConditionsModel(
+          readCondition: ReadCondition.MemberOrPrivilegedMemberOnly,
+          privilegeLevelRequired: OWNER_PRIVILEGES
+        ),
         appId: appId,
         documentID: "eliud_pkg_shop_carts_page",
         title: "Carts",
@@ -78,8 +80,10 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-orders", componentName: "eliud_pkg_shop_internalWidgets", componentId: "orders"));
     PageModel page = PageModel(
-        readCondition: ReadCondition.MemberOrPrivilegedMemberOnly,
-        privilegeLevelRequired: OWNER_PRIVILEGES,
+        conditions: ConditionsModel(
+          readCondition: ReadCondition.MemberOrPrivilegedMemberOnly,
+          privilegeLevelRequired: OWNER_PRIVILEGES
+        ),
         appId: appId,
         documentID: "eliud_pkg_shop_orders_page",
         title: "Orders",
@@ -99,8 +103,10 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-orderOverviews", componentName: "eliud_pkg_shop_internalWidgets", componentId: "orderOverviews"));
     PageModel page = PageModel(
-        readCondition: ReadCondition.MemberOrPrivilegedMemberOnly,
-        privilegeLevelRequired: OWNER_PRIVILEGES,
+        conditions: ConditionsModel(
+          readCondition: ReadCondition.MemberOrPrivilegedMemberOnly,
+          privilegeLevelRequired: OWNER_PRIVILEGES
+        ),
         appId: appId,
         documentID: "eliud_pkg_shop_orderoverviews_page",
         title: "OrderOverviews",
@@ -120,8 +126,10 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-pays", componentName: "eliud_pkg_shop_internalWidgets", componentId: "pays"));
     PageModel page = PageModel(
-        readCondition: ReadCondition.MemberOrPrivilegedMemberOnly,
-        privilegeLevelRequired: OWNER_PRIVILEGES,
+        conditions: ConditionsModel(
+          readCondition: ReadCondition.MemberOrPrivilegedMemberOnly,
+          privilegeLevelRequired: OWNER_PRIVILEGES
+        ),
         appId: appId,
         documentID: "eliud_pkg_shop_pays_page",
         title: "Pays",
@@ -141,8 +149,10 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-payConfirmations", componentName: "eliud_pkg_shop_internalWidgets", componentId: "payConfirmations"));
     PageModel page = PageModel(
-        readCondition: ReadCondition.MemberOrPrivilegedMemberOnly,
-        privilegeLevelRequired: OWNER_PRIVILEGES,
+        conditions: ConditionsModel(
+          readCondition: ReadCondition.MemberOrPrivilegedMemberOnly,
+          privilegeLevelRequired: OWNER_PRIVILEGES
+        ),
         appId: appId,
         documentID: "eliud_pkg_shop_payconfirmations_page",
         title: "PayConfirmations",
@@ -162,8 +172,10 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-products", componentName: "eliud_pkg_shop_internalWidgets", componentId: "products"));
     PageModel page = PageModel(
-        readCondition: ReadCondition.MemberOrPrivilegedMemberOnly,
-        privilegeLevelRequired: OWNER_PRIVILEGES,
+        conditions: ConditionsModel(
+          readCondition: ReadCondition.MemberOrPrivilegedMemberOnly,
+          privilegeLevelRequired: OWNER_PRIVILEGES
+        ),
         appId: appId,
         documentID: "eliud_pkg_shop_products_page",
         title: "Products",
@@ -183,8 +195,10 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-productDisplays", componentName: "eliud_pkg_shop_internalWidgets", componentId: "productDisplays"));
     PageModel page = PageModel(
-        readCondition: ReadCondition.MemberOrPrivilegedMemberOnly,
-        privilegeLevelRequired: OWNER_PRIVILEGES,
+        conditions: ConditionsModel(
+          readCondition: ReadCondition.MemberOrPrivilegedMemberOnly,
+          privilegeLevelRequired: OWNER_PRIVILEGES
+        ),
         appId: appId,
         documentID: "eliud_pkg_shop_productdisplays_page",
         title: "ProductDisplays",
@@ -204,8 +218,10 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-shops", componentName: "eliud_pkg_shop_internalWidgets", componentId: "shops"));
     PageModel page = PageModel(
-        readCondition: ReadCondition.MemberOrPrivilegedMemberOnly,
-        privilegeLevelRequired: OWNER_PRIVILEGES,
+        conditions: ConditionsModel(
+          readCondition: ReadCondition.MemberOrPrivilegedMemberOnly,
+          privilegeLevelRequired: OWNER_PRIVILEGES
+        ),
         appId: appId,
         documentID: "eliud_pkg_shop_shops_page",
         title: "Shops",
@@ -225,8 +241,10 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-shopFronts", componentName: "eliud_pkg_shop_internalWidgets", componentId: "shopFronts"));
     PageModel page = PageModel(
-        readCondition: ReadCondition.MemberOrPrivilegedMemberOnly,
-        privilegeLevelRequired: OWNER_PRIVILEGES,
+        conditions: ConditionsModel(
+          readCondition: ReadCondition.MemberOrPrivilegedMemberOnly,
+          privilegeLevelRequired: OWNER_PRIVILEGES
+        ),
         appId: appId,
         documentID: "eliud_pkg_shop_shopfronts_page",
         title: "ShopFronts",
