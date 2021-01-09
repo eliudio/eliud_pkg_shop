@@ -287,6 +287,22 @@ class OpenProductActionShopFrontFormError extends ShopFrontFormError {
 }
 
 
+class ConditionsShopFrontFormError extends ShopFrontFormError { 
+  const ConditionsShopFrontFormError({ String message, ShopFrontModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''ConditionsShopFrontFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class ShopFrontFormLoaded extends ShopFrontFormInitialized { 
   const ShopFrontFormLoaded({ ShopFrontModel value }): super(value: value);
 

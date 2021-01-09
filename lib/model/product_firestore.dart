@@ -55,12 +55,16 @@ class ProductFirestore implements ProductRepository {
   Future<ProductModel> _populateDocPlus(DocumentSnapshot value) async {
     return ProductModel.fromEntityPlus(value.documentID, ProductEntity.fromMap(value.data), appId: appId);  }
 
-  Future<ProductModel> get(String id) {
+  Future<ProductModel> get(String id, {Function(Exception) onError}) {
     return ProductCollection.document(id).get().then((doc) {
       if (doc.data != null)
         return _populateDocPlus(doc);
       else
         return null;
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
+      }
     });
   }
 

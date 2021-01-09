@@ -43,10 +43,16 @@ abstract class AbstractOrderComponent extends StatelessWidget {
     return BlocBuilder<OrderComponentBloc, OrderComponentState>(builder: (context, state) {
       if (state is OrderComponentLoaded) {
         if (state.value == null) {
-          return alertWidget(title: 'Error', content: 'No order defined');
+          return alertWidget(title: 'Error', content: 'No Order defined');
         } else {
           return yourWidget(context, state.value);
         }
+      } else if (state is OrderComponentPermissionDenied) {
+        return Icon(
+          Icons.highlight_off,
+          color: Colors.red,
+          size: 30.0,
+        );
       } else if (state is OrderComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
@@ -61,5 +67,4 @@ abstract class AbstractOrderComponent extends StatelessWidget {
   Widget alertWidget({ title: String, content: String});
   OrderRepository getOrderRepository(BuildContext context);
 }
-
 

@@ -159,6 +159,22 @@ class ItemDetailBackgroundOrderOverviewFormError extends OrderOverviewFormError 
 }
 
 
+class ConditionsOrderOverviewFormError extends OrderOverviewFormError { 
+  const ConditionsOrderOverviewFormError({ String message, OrderOverviewModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''ConditionsOrderOverviewFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class OrderOverviewFormLoaded extends OrderOverviewFormInitialized { 
   const OrderOverviewFormLoaded({ OrderOverviewModel value }): super(value: value);
 

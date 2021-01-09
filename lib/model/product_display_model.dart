@@ -43,17 +43,18 @@ class ProductDisplayModel {
   String addToBasketText;
   ActionModel buyAction;
   ShopModel shop;
+  ConditionsSimpleModel conditions;
 
-  ProductDisplayModel({this.documentID, this.appId, this.title, this.itemDetailBackground, this.addToBasketText, this.buyAction, this.shop, })  {
+  ProductDisplayModel({this.documentID, this.appId, this.title, this.itemDetailBackground, this.addToBasketText, this.buyAction, this.shop, this.conditions, })  {
     assert(documentID != null);
   }
 
-  ProductDisplayModel copyWith({String documentID, String appId, String title, BackgroundModel itemDetailBackground, String addToBasketText, ActionModel buyAction, ShopModel shop, }) {
-    return ProductDisplayModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, itemDetailBackground: itemDetailBackground ?? this.itemDetailBackground, addToBasketText: addToBasketText ?? this.addToBasketText, buyAction: buyAction ?? this.buyAction, shop: shop ?? this.shop, );
+  ProductDisplayModel copyWith({String documentID, String appId, String title, BackgroundModel itemDetailBackground, String addToBasketText, ActionModel buyAction, ShopModel shop, ConditionsSimpleModel conditions, }) {
+    return ProductDisplayModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, itemDetailBackground: itemDetailBackground ?? this.itemDetailBackground, addToBasketText: addToBasketText ?? this.addToBasketText, buyAction: buyAction ?? this.buyAction, shop: shop ?? this.shop, conditions: conditions ?? this.conditions, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ itemDetailBackground.hashCode ^ addToBasketText.hashCode ^ buyAction.hashCode ^ shop.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ itemDetailBackground.hashCode ^ addToBasketText.hashCode ^ buyAction.hashCode ^ shop.hashCode ^ conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -66,11 +67,12 @@ class ProductDisplayModel {
           itemDetailBackground == other.itemDetailBackground &&
           addToBasketText == other.addToBasketText &&
           buyAction == other.buyAction &&
-          shop == other.shop;
+          shop == other.shop &&
+          conditions == other.conditions;
 
   @override
   String toString() {
-    return 'ProductDisplayModel{documentID: $documentID, appId: $appId, title: $title, itemDetailBackground: $itemDetailBackground, addToBasketText: $addToBasketText, buyAction: $buyAction, shop: $shop}';
+    return 'ProductDisplayModel{documentID: $documentID, appId: $appId, title: $title, itemDetailBackground: $itemDetailBackground, addToBasketText: $addToBasketText, buyAction: $buyAction, shop: $shop, conditions: $conditions}';
   }
 
   ProductDisplayEntity toEntity({String appId}) {
@@ -81,6 +83,7 @@ class ProductDisplayModel {
           addToBasketText: (addToBasketText != null) ? addToBasketText : null, 
           buyAction: (buyAction != null) ? buyAction.toEntity(appId: appId) : null, 
           shopId: (shop != null) ? shop.documentID : null, 
+          conditions: (conditions != null) ? conditions.toEntity(appId: appId) : null, 
     );
   }
 
@@ -93,6 +96,8 @@ class ProductDisplayModel {
           addToBasketText: entity.addToBasketText, 
           buyAction: 
             ActionModel.fromEntity(entity.buyAction), 
+          conditions: 
+            ConditionsSimpleModel.fromEntity(entity.conditions), 
     );
   }
 
@@ -126,6 +131,8 @@ class ProductDisplayModel {
           buyAction: 
             await ActionModel.fromEntityPlus(entity.buyAction, appId: appId), 
           shop: shopHolder, 
+          conditions: 
+            await ConditionsSimpleModel.fromEntityPlus(entity.conditions, appId: appId), 
     );
   }
 

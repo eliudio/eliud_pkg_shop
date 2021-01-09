@@ -35,7 +35,7 @@ typedef CartItemChanged(CartItemModel value);
 abstract class CartItemRepository {
   Future<CartItemModel> add(CartItemModel value);
   Future<void> delete(CartItemModel value);
-  Future<CartItemModel> get(String id);
+  Future<CartItemModel> get(String id, { Function(Exception) onError });
   Future<CartItemModel> update(CartItemModel value);
 
   Stream<List<CartItemModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });

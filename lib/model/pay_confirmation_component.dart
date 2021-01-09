@@ -43,10 +43,16 @@ abstract class AbstractPayConfirmationComponent extends StatelessWidget {
     return BlocBuilder<PayConfirmationComponentBloc, PayConfirmationComponentState>(builder: (context, state) {
       if (state is PayConfirmationComponentLoaded) {
         if (state.value == null) {
-          return alertWidget(title: 'Error', content: 'No payConfirmation defined');
+          return alertWidget(title: 'Error', content: 'No PayConfirmation defined');
         } else {
           return yourWidget(context, state.value);
         }
+      } else if (state is PayConfirmationComponentPermissionDenied) {
+        return Icon(
+          Icons.highlight_off,
+          color: Colors.red,
+          size: 30.0,
+        );
       } else if (state is PayConfirmationComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
@@ -61,5 +67,4 @@ abstract class AbstractPayConfirmationComponent extends StatelessWidget {
   Widget alertWidget({ title: String, content: String});
   PayConfirmationRepository getPayConfirmationRepository(BuildContext context);
 }
-
 

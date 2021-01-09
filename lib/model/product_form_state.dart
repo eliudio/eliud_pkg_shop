@@ -207,6 +207,22 @@ class PosSizeProductFormError extends ProductFormError {
 }
 
 
+class ConditionsProductFormError extends ProductFormError { 
+  const ConditionsProductFormError({ String message, ProductModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''ConditionsProductFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class ProductFormLoaded extends ProductFormInitialized { 
   const ProductFormLoaded({ ProductModel value }): super(value: value);
 

@@ -51,12 +51,16 @@ class ShopFirestore implements ShopRepository {
   Future<ShopModel> _populateDocPlus(DocumentSnapshot value) async {
     return ShopModel.fromEntityPlus(value.documentID, ShopEntity.fromMap(value.data), appId: appId);  }
 
-  Future<ShopModel> get(String id) {
+  Future<ShopModel> get(String id, {Function(Exception) onError}) {
     return ShopCollection.document(id).get().then((doc) {
       if (doc.data != null)
         return _populateDocPlus(doc);
       else
         return null;
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
+      }
     });
   }
 

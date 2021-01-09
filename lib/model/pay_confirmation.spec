@@ -56,6 +56,12 @@
       "fieldType": "Action",
       "bespokeFormField": "ActionField(AccessBloc.appId(context), state.value.backToShopAction, _onBackToShopActionChanged)",
       "group": "backToShopAction"
+    },
+    {
+      "fieldName": "conditions",
+      "displayName": "Conditions",
+      "fieldType": "ConditionsSimple",
+      "group": "conditions"
     }
   ],
   "groups": [
@@ -66,10 +72,15 @@
     {
         "group": "shop",
         "description": "Shop"
+    },
+    {
+        "group": "conditions",
+        "description": "Conditions"
     }
   ],
   "listFields": {
     "title": "documentID",
     "subTitle": "title"
-  }
+  },
+  "depends": ["eliud_core"]
 }

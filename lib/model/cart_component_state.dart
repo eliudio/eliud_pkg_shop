@@ -30,6 +30,10 @@ class CartComponentError extends CartComponentState {
   CartComponentError({ this.message });
 }
 
+class CartComponentPermissionDenied extends CartComponentState {
+  CartComponentPermissionDenied();
+}
+
 class CartComponentLoaded extends CartComponentState {
   final CartModel value;
 
@@ -45,5 +49,4 @@ class CartComponentLoaded extends CartComponentState {
   @override
   String toString() => 'CartComponentLoaded { value: $value }';
 }
-
 

@@ -82,6 +82,12 @@
       "group": "posSize",
       "optional": false,
       "association": true
+    },
+    {
+      "fieldName": "conditions",
+      "displayName": "Conditions",
+      "fieldType": "ConditionsSimple",
+      "group": "conditions"
     }
   ],
   "groups": [
@@ -100,6 +106,10 @@
     {
         "group": "posSize",
         "description": "Position and Size of images"
+    },
+    {
+        "group": "conditions",
+        "description": "Conditions"
     }
  ],
   "listFields": {

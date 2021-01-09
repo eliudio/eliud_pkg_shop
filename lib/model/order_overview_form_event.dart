@@ -131,3 +131,15 @@ class ChangedOrderOverviewItemDetailBackground extends OrderOverviewFormEvent {
   String toString() => 'ChangedOrderOverviewItemDetailBackground{ value: $value }';
 }
 
+class ChangedOrderOverviewConditions extends OrderOverviewFormEvent {
+  final ConditionsSimpleModel value;
+
+  ChangedOrderOverviewConditions({this.value});
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedOrderOverviewConditions{ value: $value }';
+}
+

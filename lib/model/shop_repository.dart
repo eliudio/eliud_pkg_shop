@@ -35,7 +35,7 @@ typedef ShopChanged(ShopModel value);
 abstract class ShopRepository {
   Future<ShopModel> add(ShopModel value);
   Future<void> delete(ShopModel value);
-  Future<ShopModel> get(String id);
+  Future<ShopModel> get(String id, { Function(Exception) onError });
   Future<ShopModel> update(ShopModel value);
 
   Stream<List<ShopModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });

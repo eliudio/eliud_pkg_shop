@@ -30,6 +30,10 @@ class OrderOverviewComponentError extends OrderOverviewComponentState {
   OrderOverviewComponentError({ this.message });
 }
 
+class OrderOverviewComponentPermissionDenied extends OrderOverviewComponentState {
+  OrderOverviewComponentPermissionDenied();
+}
+
 class OrderOverviewComponentLoaded extends OrderOverviewComponentState {
   final OrderOverviewModel value;
 
@@ -45,5 +49,4 @@ class OrderOverviewComponentLoaded extends OrderOverviewComponentState {
   @override
   String toString() => 'OrderOverviewComponentLoaded { value: $value }';
 }
-
 

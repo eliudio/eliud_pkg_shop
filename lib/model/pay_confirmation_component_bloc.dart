@@ -20,6 +20,8 @@ import 'package:eliud_pkg_shop/model/pay_confirmation_model.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_component_event.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_component_state.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_repository.dart';
+import 'package:flutter/services.dart';
+
 
 class PayConfirmationComponentBloc extends Bloc<PayConfirmationComponentEvent, PayConfirmationComponentState> {
   final PayConfirmationRepository payConfirmationRepository;
@@ -31,13 +33,23 @@ class PayConfirmationComponentBloc extends Bloc<PayConfirmationComponentEvent, P
     if (event is FetchPayConfirmationComponent) {
       try {
         if (currentState is PayConfirmationComponentUninitialized) {
-          final PayConfirmationModel model = await _fetchPayConfirmation(event.id);
-
-          if (model != null) {
-            yield PayConfirmationComponentLoaded(value: model);
+          bool permissionDenied = false;
+          final model = await payConfirmationRepository.get(event.id, onError: (error) {
+            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
+            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+              permissionDenied = true;
+            }
+          });
+          if (permissionDenied) {
+            yield PayConfirmationComponentPermissionDenied();
           } else {
-            String id = event.id;
-            yield PayConfirmationComponentError(message: "PayConfirmation with id = '$id' not found");
+            if (model != null) {
+              yield PayConfirmationComponentLoaded(value: model);
+            } else {
+              String id = event.id;
+              yield PayConfirmationComponentError(
+                  message: "PayConfirmation with id = '$id' not found");
+            }
           }
           return;
         }
@@ -47,15 +59,10 @@ class PayConfirmationComponentBloc extends Bloc<PayConfirmationComponentEvent, P
     }
   }
 
-  Future<PayConfirmationModel> _fetchPayConfirmation(String id) async {
-    return payConfirmationRepository.get(id);
-  }
-
   @override
   Future<void> close() {
     return super.close();
   }
 
 }
-
 

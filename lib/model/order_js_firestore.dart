@@ -62,12 +62,16 @@ class OrderJsFirestore implements OrderRepository {
     return OrderModel.fromEntityPlus(value.id, OrderEntity.fromMap(value.data()), appId: appId);
   }
 
-  Future<OrderModel> get(String id) {
+  Future<OrderModel> get(String id, { Function(Exception) onError }) {
     return orderCollection.doc(id).get().then((data) {
       if (data.data() != null) {
         return _populateDocPlus(data);
       } else {
         return null;
+      }
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
       }
     });
   }

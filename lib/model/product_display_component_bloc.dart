@@ -20,6 +20,8 @@ import 'package:eliud_pkg_shop/model/product_display_model.dart';
 import 'package:eliud_pkg_shop/model/product_display_component_event.dart';
 import 'package:eliud_pkg_shop/model/product_display_component_state.dart';
 import 'package:eliud_pkg_shop/model/product_display_repository.dart';
+import 'package:flutter/services.dart';
+
 
 class ProductDisplayComponentBloc extends Bloc<ProductDisplayComponentEvent, ProductDisplayComponentState> {
   final ProductDisplayRepository productDisplayRepository;
@@ -31,13 +33,23 @@ class ProductDisplayComponentBloc extends Bloc<ProductDisplayComponentEvent, Pro
     if (event is FetchProductDisplayComponent) {
       try {
         if (currentState is ProductDisplayComponentUninitialized) {
-          final ProductDisplayModel model = await _fetchProductDisplay(event.id);
-
-          if (model != null) {
-            yield ProductDisplayComponentLoaded(value: model);
+          bool permissionDenied = false;
+          final model = await productDisplayRepository.get(event.id, onError: (error) {
+            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
+            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+              permissionDenied = true;
+            }
+          });
+          if (permissionDenied) {
+            yield ProductDisplayComponentPermissionDenied();
           } else {
-            String id = event.id;
-            yield ProductDisplayComponentError(message: "ProductDisplay with id = '$id' not found");
+            if (model != null) {
+              yield ProductDisplayComponentLoaded(value: model);
+            } else {
+              String id = event.id;
+              yield ProductDisplayComponentError(
+                  message: "ProductDisplay with id = '$id' not found");
+            }
           }
           return;
         }
@@ -47,15 +59,10 @@ class ProductDisplayComponentBloc extends Bloc<ProductDisplayComponentEvent, Pro
     }
   }
 
-  Future<ProductDisplayModel> _fetchProductDisplay(String id) async {
-    return productDisplayRepository.get(id);
-  }
-
   @override
   Future<void> close() {
     return super.close();
   }
 
 }
-
 

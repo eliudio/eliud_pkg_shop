@@ -30,6 +30,10 @@ class OrderComponentError extends OrderComponentState {
   OrderComponentError({ this.message });
 }
 
+class OrderComponentPermissionDenied extends OrderComponentState {
+  OrderComponentPermissionDenied();
+}
+
 class OrderComponentLoaded extends OrderComponentState {
   final OrderModel value;
 
@@ -45,5 +49,4 @@ class OrderComponentLoaded extends OrderComponentState {
   @override
   String toString() => 'OrderComponentLoaded { value: $value }';
 }
-
 

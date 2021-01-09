@@ -20,6 +20,8 @@ import 'package:eliud_pkg_shop/model/pay_model.dart';
 import 'package:eliud_pkg_shop/model/pay_component_event.dart';
 import 'package:eliud_pkg_shop/model/pay_component_state.dart';
 import 'package:eliud_pkg_shop/model/pay_repository.dart';
+import 'package:flutter/services.dart';
+
 
 class PayComponentBloc extends Bloc<PayComponentEvent, PayComponentState> {
   final PayRepository payRepository;
@@ -31,13 +33,23 @@ class PayComponentBloc extends Bloc<PayComponentEvent, PayComponentState> {
     if (event is FetchPayComponent) {
       try {
         if (currentState is PayComponentUninitialized) {
-          final PayModel model = await _fetchPay(event.id);
-
-          if (model != null) {
-            yield PayComponentLoaded(value: model);
+          bool permissionDenied = false;
+          final model = await payRepository.get(event.id, onError: (error) {
+            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
+            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+              permissionDenied = true;
+            }
+          });
+          if (permissionDenied) {
+            yield PayComponentPermissionDenied();
           } else {
-            String id = event.id;
-            yield PayComponentError(message: "Pay with id = '$id' not found");
+            if (model != null) {
+              yield PayComponentLoaded(value: model);
+            } else {
+              String id = event.id;
+              yield PayComponentError(
+                  message: "Pay with id = '$id' not found");
+            }
           }
           return;
         }
@@ -47,15 +59,10 @@ class PayComponentBloc extends Bloc<PayComponentEvent, PayComponentState> {
     }
   }
 
-  Future<PayModel> _fetchPay(String id) async {
-    return payRepository.get(id);
-  }
-
   @override
   Future<void> close() {
     return super.close();
   }
 
 }
-
 

@@ -66,6 +66,12 @@
       "association": true,
       "optional": true,
       "group": "itemDetailBackground"
+    },
+    {
+      "fieldName": "conditions",
+      "displayName": "Conditions",
+      "fieldType": "ConditionsSimple",
+      "group": "conditions"
     }
   ],
   "groups": [
@@ -84,6 +90,10 @@
     {
         "group": "itemDetailBackground",
         "description": "Item Detail Background"
+    },
+    {
+        "group": "conditions",
+        "description": "Conditions"
     }
   ],
   "listFields": {

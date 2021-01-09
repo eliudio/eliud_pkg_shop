@@ -43,10 +43,16 @@ abstract class AbstractProductDisplayComponent extends StatelessWidget {
     return BlocBuilder<ProductDisplayComponentBloc, ProductDisplayComponentState>(builder: (context, state) {
       if (state is ProductDisplayComponentLoaded) {
         if (state.value == null) {
-          return alertWidget(title: 'Error', content: 'No productDisplay defined');
+          return alertWidget(title: 'Error', content: 'No ProductDisplay defined');
         } else {
           return yourWidget(context, state.value);
         }
+      } else if (state is ProductDisplayComponentPermissionDenied) {
+        return Icon(
+          Icons.highlight_off,
+          color: Colors.red,
+          size: 30.0,
+        );
       } else if (state is ProductDisplayComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
@@ -61,5 +67,4 @@ abstract class AbstractProductDisplayComponent extends StatelessWidget {
   Widget alertWidget({ title: String, content: String});
   ProductDisplayRepository getProductDisplayRepository(BuildContext context);
 }
-
 

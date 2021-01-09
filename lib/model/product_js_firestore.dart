@@ -62,12 +62,16 @@ class ProductJsFirestore implements ProductRepository {
     return ProductModel.fromEntityPlus(value.id, ProductEntity.fromMap(value.data()), appId: appId);
   }
 
-  Future<ProductModel> get(String id) {
+  Future<ProductModel> get(String id, { Function(Exception) onError }) {
     return productCollection.doc(id).get().then((data) {
       if (data.data() != null) {
         return _populateDocPlus(data);
       } else {
         return null;
+      }
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
       }
     });
   }

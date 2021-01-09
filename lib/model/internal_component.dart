@@ -78,11 +78,15 @@ import 'package:eliud_pkg_shop/model/pay_list.dart';
 import 'package:eliud_pkg_shop/model/pay_dropdown_button.dart';
 import 'package:eliud_pkg_shop/model/pay_list_event.dart';
 
+import 'package:eliud_core/model/repository_export.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/repository_export.dart';
+import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
+import 'package:eliud_core/model/entity_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
@@ -91,11 +95,15 @@ import 'package:eliud_pkg_shop/model/pay_confirmation_list.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_dropdown_button.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_list_event.dart';
 
+import 'package:eliud_core/model/repository_export.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/repository_export.dart';
+import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
+import 'package:eliud_core/model/entity_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 

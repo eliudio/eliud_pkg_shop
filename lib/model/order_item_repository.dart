@@ -35,7 +35,7 @@ typedef OrderItemChanged(OrderItemModel value);
 abstract class OrderItemRepository {
   Future<OrderItemModel> add(OrderItemModel value);
   Future<void> delete(OrderItemModel value);
-  Future<OrderItemModel> get(String id);
+  Future<OrderItemModel> get(String id, { Function(Exception) onError });
   Future<OrderItemModel> update(OrderItemModel value);
 
   Stream<List<OrderItemModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });

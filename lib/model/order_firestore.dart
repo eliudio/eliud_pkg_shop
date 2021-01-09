@@ -55,12 +55,16 @@ class OrderFirestore implements OrderRepository {
   Future<OrderModel> _populateDocPlus(DocumentSnapshot value) async {
     return OrderModel.fromEntityPlus(value.documentID, OrderEntity.fromMap(value.data), appId: appId);  }
 
-  Future<OrderModel> get(String id) {
+  Future<OrderModel> get(String id, {Function(Exception) onError}) {
     return OrderCollection.document(id).get().then((doc) {
       if (doc.data != null)
         return _populateDocPlus(doc);
       else
         return null;
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
+      }
     });
   }
 

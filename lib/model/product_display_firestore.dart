@@ -55,12 +55,16 @@ class ProductDisplayFirestore implements ProductDisplayRepository {
   Future<ProductDisplayModel> _populateDocPlus(DocumentSnapshot value) async {
     return ProductDisplayModel.fromEntityPlus(value.documentID, ProductDisplayEntity.fromMap(value.data), appId: appId);  }
 
-  Future<ProductDisplayModel> get(String id) {
+  Future<ProductDisplayModel> get(String id, {Function(Exception) onError}) {
     return ProductDisplayCollection.document(id).get().then((doc) {
       if (doc.data != null)
         return _populateDocPlus(doc);
       else
         return null;
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
+      }
     });
   }
 

@@ -20,6 +20,8 @@ import 'package:eliud_pkg_shop/model/product_model.dart';
 import 'package:eliud_pkg_shop/model/product_component_event.dart';
 import 'package:eliud_pkg_shop/model/product_component_state.dart';
 import 'package:eliud_pkg_shop/model/product_repository.dart';
+import 'package:flutter/services.dart';
+
 
 class ProductComponentBloc extends Bloc<ProductComponentEvent, ProductComponentState> {
   final ProductRepository productRepository;
@@ -31,13 +33,23 @@ class ProductComponentBloc extends Bloc<ProductComponentEvent, ProductComponentS
     if (event is FetchProductComponent) {
       try {
         if (currentState is ProductComponentUninitialized) {
-          final ProductModel model = await _fetchProduct(event.id);
-
-          if (model != null) {
-            yield ProductComponentLoaded(value: model);
+          bool permissionDenied = false;
+          final model = await productRepository.get(event.id, onError: (error) {
+            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
+            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+              permissionDenied = true;
+            }
+          });
+          if (permissionDenied) {
+            yield ProductComponentPermissionDenied();
           } else {
-            String id = event.id;
-            yield ProductComponentError(message: "Product with id = '$id' not found");
+            if (model != null) {
+              yield ProductComponentLoaded(value: model);
+            } else {
+              String id = event.id;
+              yield ProductComponentError(
+                  message: "Product with id = '$id' not found");
+            }
           }
           return;
         }
@@ -47,15 +59,10 @@ class ProductComponentBloc extends Bloc<ProductComponentEvent, ProductComponentS
     }
   }
 
-  Future<ProductModel> _fetchProduct(String id) async {
-    return productRepository.get(id);
-  }
-
   @override
   Future<void> close() {
     return super.close();
   }
 
 }
-
 

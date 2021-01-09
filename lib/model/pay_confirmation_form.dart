@@ -39,12 +39,17 @@ import 'package:eliud_core/tools/bespoke_formfields.dart';
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/tools/etc.dart';
 
+import 'package:eliud_core/model/repository_export.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/repository_export.dart';
+import 'package:eliud_core/model/embedded_component.dart';
 import 'package:eliud_pkg_shop/model/embedded_component.dart';
+import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
+import 'package:eliud_core/model/entity_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
@@ -256,6 +261,20 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
         children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
+         children.add(Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                  child: Text('Conditions',
+                      style: TextStyle(
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                ));
+
+
+
+        children.add(Container(height: 20.0));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+
+
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
                   color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
@@ -271,6 +290,7 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
                               title: state.value.title, 
                               shop: state.value.shop, 
                               backToShopAction: state.value.backToShopAction, 
+                              conditions: state.value.conditions, 
                         )));
                       } else {
                         BlocProvider.of<PayConfirmationListBloc>(context).add(
@@ -280,6 +300,7 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
                               title: state.value.title, 
                               shop: state.value.shop, 
                               backToShopAction: state.value.backToShopAction, 
+                              conditions: state.value.conditions, 
                           )));
                       }
                       if (widget.submitAction != null) {

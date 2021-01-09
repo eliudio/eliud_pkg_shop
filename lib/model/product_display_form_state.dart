@@ -175,6 +175,22 @@ class ShopProductDisplayFormError extends ProductDisplayFormError {
 }
 
 
+class ConditionsProductDisplayFormError extends ProductDisplayFormError { 
+  const ConditionsProductDisplayFormError({ String message, ProductDisplayModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''ConditionsProductDisplayFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class ProductDisplayFormLoaded extends ProductDisplayFormInitialized { 
   const ProductDisplayFormLoaded({ ProductDisplayModel value }): super(value: value);
 

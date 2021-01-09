@@ -30,6 +30,10 @@ class ShopFrontComponentError extends ShopFrontComponentState {
   ShopFrontComponentError({ this.message });
 }
 
+class ShopFrontComponentPermissionDenied extends ShopFrontComponentState {
+  ShopFrontComponentPermissionDenied();
+}
+
 class ShopFrontComponentLoaded extends ShopFrontComponentState {
   final ShopFrontModel value;
 
@@ -45,5 +49,4 @@ class ShopFrontComponentLoaded extends ShopFrontComponentState {
   @override
   String toString() => 'ShopFrontComponentLoaded { value: $value }';
 }
-
 

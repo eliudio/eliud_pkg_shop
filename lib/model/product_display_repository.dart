@@ -39,7 +39,7 @@ typedef ProductDisplayChanged(ProductDisplayModel value);
 abstract class ProductDisplayRepository {
   Future<ProductDisplayModel> add(ProductDisplayModel value);
   Future<void> delete(ProductDisplayModel value);
-  Future<ProductDisplayModel> get(String id);
+  Future<ProductDisplayModel> get(String id, { Function(Exception) onError });
   Future<ProductDisplayModel> update(ProductDisplayModel value);
 
   Stream<List<ProductDisplayModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });

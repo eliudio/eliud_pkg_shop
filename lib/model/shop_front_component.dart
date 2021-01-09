@@ -43,10 +43,16 @@ abstract class AbstractShopFrontComponent extends StatelessWidget {
     return BlocBuilder<ShopFrontComponentBloc, ShopFrontComponentState>(builder: (context, state) {
       if (state is ShopFrontComponentLoaded) {
         if (state.value == null) {
-          return alertWidget(title: 'Error', content: 'No shopFront defined');
+          return alertWidget(title: 'Error', content: 'No ShopFront defined');
         } else {
           return yourWidget(context, state.value);
         }
+      } else if (state is ShopFrontComponentPermissionDenied) {
+        return Icon(
+          Icons.highlight_off,
+          color: Colors.red,
+          size: 30.0,
+        );
       } else if (state is ShopFrontComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
@@ -61,5 +67,4 @@ abstract class AbstractShopFrontComponent extends StatelessWidget {
   Widget alertWidget({ title: String, content: String});
   ShopFrontRepository getShopFrontRepository(BuildContext context);
 }
-
 

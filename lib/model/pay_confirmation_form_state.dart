@@ -143,6 +143,22 @@ class BackToShopActionPayConfirmationFormError extends PayConfirmationFormError 
 }
 
 
+class ConditionsPayConfirmationFormError extends PayConfirmationFormError { 
+  const ConditionsPayConfirmationFormError({ String message, PayConfirmationModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''ConditionsPayConfirmationFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class PayConfirmationFormLoaded extends PayConfirmationFormInitialized { 
   const PayConfirmationFormLoaded({ PayConfirmationModel value }): super(value: value);
 

@@ -159,6 +159,22 @@ class ShopPayFormError extends PayFormError {
 }
 
 
+class ConditionsPayFormError extends PayFormError { 
+  const ConditionsPayFormError({ String message, PayModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''ConditionsPayFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class PayFormLoaded extends PayFormInitialized { 
   const PayFormLoaded({ PayModel value }): super(value: value);
 

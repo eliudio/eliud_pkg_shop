@@ -121,6 +121,7 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
                                  scrollDirection: currentState.value.scrollDirection,
                                  buyAction: currentState.value.buyAction,
                                  openProductAction: currentState.value.openProductAction,
+                                 conditions: currentState.value.conditions,
           );
         yield SubmittableShopFrontForm(value: newValue);
 
@@ -178,6 +179,7 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
                                  scrollDirection: currentState.value.scrollDirection,
                                  buyAction: currentState.value.buyAction,
                                  openProductAction: currentState.value.openProductAction,
+                                 conditions: currentState.value.conditions,
           );
         yield SubmittableShopFrontForm(value: newValue);
 
@@ -209,6 +211,12 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
       }
       if (event is ChangedShopFrontOpenProductAction) {
         newValue = currentState.value.copyWith(openProductAction: event.value);
+        yield SubmittableShopFrontForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedShopFrontConditions) {
+        newValue = currentState.value.copyWith(conditions: event.value);
         yield SubmittableShopFrontForm(value: newValue);
 
         return;

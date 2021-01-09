@@ -39,7 +39,7 @@ typedef OrderOverviewChanged(OrderOverviewModel value);
 abstract class OrderOverviewRepository {
   Future<OrderOverviewModel> add(OrderOverviewModel value);
   Future<void> delete(OrderOverviewModel value);
-  Future<OrderOverviewModel> get(String id);
+  Future<OrderOverviewModel> get(String id, { Function(Exception) onError });
   Future<OrderOverviewModel> update(OrderOverviewModel value);
 
   Stream<List<OrderOverviewModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });

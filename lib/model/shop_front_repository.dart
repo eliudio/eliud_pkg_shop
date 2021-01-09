@@ -39,7 +39,7 @@ typedef ShopFrontChanged(ShopFrontModel value);
 abstract class ShopFrontRepository {
   Future<ShopFrontModel> add(ShopFrontModel value);
   Future<void> delete(ShopFrontModel value);
-  Future<ShopFrontModel> get(String id);
+  Future<ShopFrontModel> get(String id, { Function(Exception) onError });
   Future<ShopFrontModel> update(ShopFrontModel value);
 
   Stream<List<ShopFrontModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });

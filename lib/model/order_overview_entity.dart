@@ -27,19 +27,25 @@ class OrderOverviewEntity {
   final String shopId;
   final String itemImageBackgroundId;
   final String itemDetailBackgroundId;
+  final ConditionsSimpleEntity conditions;
 
-  OrderOverviewEntity({this.appId, this.title, this.shopId, this.itemImageBackgroundId, this.itemDetailBackgroundId, });
+  OrderOverviewEntity({this.appId, this.title, this.shopId, this.itemImageBackgroundId, this.itemDetailBackgroundId, this.conditions, });
 
 
-  List<Object> get props => [appId, title, shopId, itemImageBackgroundId, itemDetailBackgroundId, ];
+  List<Object> get props => [appId, title, shopId, itemImageBackgroundId, itemDetailBackgroundId, conditions, ];
 
   @override
   String toString() {
-    return 'OrderOverviewEntity{appId: $appId, title: $title, shopId: $shopId, itemImageBackgroundId: $itemImageBackgroundId, itemDetailBackgroundId: $itemDetailBackgroundId}';
+    return 'OrderOverviewEntity{appId: $appId, title: $title, shopId: $shopId, itemImageBackgroundId: $itemImageBackgroundId, itemDetailBackgroundId: $itemDetailBackgroundId, conditions: $conditions}';
   }
 
   static OrderOverviewEntity fromMap(Map map) {
     if (map == null) return null;
+
+    var conditionsFromMap;
+    conditionsFromMap = map['conditions'];
+    if (conditionsFromMap != null)
+      conditionsFromMap = ConditionsSimpleEntity.fromMap(conditionsFromMap);
 
     return OrderOverviewEntity(
       appId: map['appId'], 
@@ -47,10 +53,15 @@ class OrderOverviewEntity {
       shopId: map['shopId'], 
       itemImageBackgroundId: map['itemImageBackgroundId'], 
       itemDetailBackgroundId: map['itemDetailBackgroundId'], 
+      conditions: conditionsFromMap, 
     );
   }
 
   Map<String, Object> toDocument() {
+    final Map<String, dynamic> conditionsMap = conditions != null 
+        ? conditions.toDocument()
+        : null;
+
     Map<String, Object> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
@@ -62,6 +73,8 @@ class OrderOverviewEntity {
       else theDocument["itemImageBackgroundId"] = null;
     if (itemDetailBackgroundId != null) theDocument["itemDetailBackgroundId"] = itemDetailBackgroundId;
       else theDocument["itemDetailBackgroundId"] = null;
+    if (conditions != null) theDocument["conditions"] = conditionsMap;
+      else theDocument["conditions"] = null;
     return theDocument;
   }
 

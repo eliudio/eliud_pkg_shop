@@ -227,3 +227,15 @@ class ChangedShopFrontOpenProductAction extends ShopFrontFormEvent {
   String toString() => 'ChangedShopFrontOpenProductAction{ value: $value }';
 }
 
+class ChangedShopFrontConditions extends ShopFrontFormEvent {
+  final ConditionsSimpleModel value;
+
+  ChangedShopFrontConditions({this.value});
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedShopFrontConditions{ value: $value }';
+}
+

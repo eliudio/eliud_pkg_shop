@@ -30,6 +30,10 @@ class ProductDisplayComponentError extends ProductDisplayComponentState {
   ProductDisplayComponentError({ this.message });
 }
 
+class ProductDisplayComponentPermissionDenied extends ProductDisplayComponentState {
+  ProductDisplayComponentPermissionDenied();
+}
+
 class ProductDisplayComponentLoaded extends ProductDisplayComponentState {
   final ProductDisplayModel value;
 
@@ -45,5 +49,4 @@ class ProductDisplayComponentLoaded extends ProductDisplayComponentState {
   @override
   String toString() => 'ProductDisplayComponentLoaded { value: $value }';
 }
-
 

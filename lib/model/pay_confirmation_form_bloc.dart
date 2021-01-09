@@ -25,11 +25,15 @@ import 'package:eliud_core/model/rgb_model.dart';
 
 import 'package:eliud_core/tools/string_validator.dart';
 
+import 'package:eliud_core/model/repository_export.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/repository_export.dart';
+import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
+import 'package:eliud_core/model/entity_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
@@ -97,6 +101,7 @@ class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirma
                                  title: currentState.value.title,
                                  shop: null,
                                  backToShopAction: currentState.value.backToShopAction,
+                                 conditions: currentState.value.conditions,
           );
         yield SubmittablePayConfirmationForm(value: newValue);
 
@@ -104,6 +109,12 @@ class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirma
       }
       if (event is ChangedPayConfirmationBackToShopAction) {
         newValue = currentState.value.copyWith(backToShopAction: event.value);
+        yield SubmittablePayConfirmationForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedPayConfirmationConditions) {
+        newValue = currentState.value.copyWith(conditions: event.value);
         yield SubmittablePayConfirmationForm(value: newValue);
 
         return;

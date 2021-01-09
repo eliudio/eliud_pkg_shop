@@ -30,6 +30,10 @@ class PayComponentError extends PayComponentState {
   PayComponentError({ this.message });
 }
 
+class PayComponentPermissionDenied extends PayComponentState {
+  PayComponentPermissionDenied();
+}
+
 class PayComponentLoaded extends PayComponentState {
   final PayModel value;
 
@@ -45,5 +49,4 @@ class PayComponentLoaded extends PayComponentState {
   @override
   String toString() => 'PayComponentLoaded { value: $value }';
 }
-
 

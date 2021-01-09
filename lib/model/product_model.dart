@@ -46,17 +46,18 @@ class ProductModel {
   ShopModel shop;
   List<ProductImageModel> images;
   PosSizeModel posSize;
+  ConditionsSimpleModel conditions;
 
-  ProductModel({this.documentID, this.appId, this.title, this.about, this.price, this.weight, this.shop, this.images, this.posSize, })  {
+  ProductModel({this.documentID, this.appId, this.title, this.about, this.price, this.weight, this.shop, this.images, this.posSize, this.conditions, })  {
     assert(documentID != null);
   }
 
-  ProductModel copyWith({String documentID, String appId, String title, String about, double price, double weight, ShopModel shop, List<ProductImageModel> images, PosSizeModel posSize, }) {
-    return ProductModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, about: about ?? this.about, price: price ?? this.price, weight: weight ?? this.weight, shop: shop ?? this.shop, images: images ?? this.images, posSize: posSize ?? this.posSize, );
+  ProductModel copyWith({String documentID, String appId, String title, String about, double price, double weight, ShopModel shop, List<ProductImageModel> images, PosSizeModel posSize, ConditionsSimpleModel conditions, }) {
+    return ProductModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, about: about ?? this.about, price: price ?? this.price, weight: weight ?? this.weight, shop: shop ?? this.shop, images: images ?? this.images, posSize: posSize ?? this.posSize, conditions: conditions ?? this.conditions, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ about.hashCode ^ price.hashCode ^ weight.hashCode ^ shop.hashCode ^ images.hashCode ^ posSize.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ about.hashCode ^ price.hashCode ^ weight.hashCode ^ shop.hashCode ^ images.hashCode ^ posSize.hashCode ^ conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -71,13 +72,14 @@ class ProductModel {
           weight == other.weight &&
           shop == other.shop &&
           ListEquality().equals(images, other.images) &&
-          posSize == other.posSize;
+          posSize == other.posSize &&
+          conditions == other.conditions;
 
   @override
   String toString() {
     String imagesCsv = (images == null) ? '' : images.join(', ');
 
-    return 'ProductModel{documentID: $documentID, appId: $appId, title: $title, about: $about, price: $price, weight: $weight, shop: $shop, images: ProductImage[] { $imagesCsv }, posSize: $posSize}';
+    return 'ProductModel{documentID: $documentID, appId: $appId, title: $title, about: $about, price: $price, weight: $weight, shop: $shop, images: ProductImage[] { $imagesCsv }, posSize: $posSize, conditions: $conditions}';
   }
 
   ProductEntity toEntity({String appId}) {
@@ -92,6 +94,7 @@ class ProductModel {
             .map((item) => item.toEntity(appId: appId))
             .toList() : null, 
           posSizeId: (posSize != null) ? posSize.documentID : null, 
+          conditions: (conditions != null) ? conditions.toEntity(appId: appId) : null, 
     );
   }
 
@@ -109,6 +112,8 @@ class ProductModel {
             entity.images
             .map((item) => ProductImageModel.fromEntity(newRandomKey(), item))
             .toList(), 
+          conditions: 
+            ConditionsSimpleModel.fromEntity(entity.conditions), 
     );
   }
 
@@ -146,6 +151,8 @@ class ProductModel {
             .map((item) => ProductImageModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
           posSize: posSizeHolder, 
+          conditions: 
+            await ConditionsSimpleModel.fromEntityPlus(entity.conditions, appId: appId), 
     );
   }
 

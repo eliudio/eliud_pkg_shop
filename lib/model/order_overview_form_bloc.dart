@@ -102,6 +102,7 @@ class OrderOverviewFormBloc extends Bloc<OrderOverviewFormEvent, OrderOverviewFo
                                  shop: null,
                                  itemImageBackground: currentState.value.itemImageBackground,
                                  itemDetailBackground: currentState.value.itemDetailBackground,
+                                 conditions: currentState.value.conditions,
           );
         yield SubmittableOrderOverviewForm(value: newValue);
 
@@ -118,6 +119,7 @@ class OrderOverviewFormBloc extends Bloc<OrderOverviewFormEvent, OrderOverviewFo
                                  shop: currentState.value.shop,
                                  itemImageBackground: null,
                                  itemDetailBackground: currentState.value.itemDetailBackground,
+                                 conditions: currentState.value.conditions,
           );
         yield SubmittableOrderOverviewForm(value: newValue);
 
@@ -134,7 +136,14 @@ class OrderOverviewFormBloc extends Bloc<OrderOverviewFormEvent, OrderOverviewFo
                                  shop: currentState.value.shop,
                                  itemImageBackground: currentState.value.itemImageBackground,
                                  itemDetailBackground: null,
+                                 conditions: currentState.value.conditions,
           );
+        yield SubmittableOrderOverviewForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedOrderOverviewConditions) {
+        newValue = currentState.value.copyWith(conditions: event.value);
         yield SubmittableOrderOverviewForm(value: newValue);
 
         return;

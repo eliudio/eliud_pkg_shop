@@ -32,15 +32,16 @@ class CartEntity {
   final ActionEntity checkoutAction;
   final ActionEntity backToShopAction;
   final ActionEntity openProductAction;
+  final ConditionsSimpleEntity conditions;
 
-  CartEntity({this.appId, this.title, this.description, this.checkoutText, this.shopId, this.itemImageBackgroundId, this.itemDetailBackgroundId, this.checkoutAction, this.backToShopAction, this.openProductAction, });
+  CartEntity({this.appId, this.title, this.description, this.checkoutText, this.shopId, this.itemImageBackgroundId, this.itemDetailBackgroundId, this.checkoutAction, this.backToShopAction, this.openProductAction, this.conditions, });
 
 
-  List<Object> get props => [appId, title, description, checkoutText, shopId, itemImageBackgroundId, itemDetailBackgroundId, checkoutAction, backToShopAction, openProductAction, ];
+  List<Object> get props => [appId, title, description, checkoutText, shopId, itemImageBackgroundId, itemDetailBackgroundId, checkoutAction, backToShopAction, openProductAction, conditions, ];
 
   @override
   String toString() {
-    return 'CartEntity{appId: $appId, title: $title, description: $description, checkoutText: $checkoutText, shopId: $shopId, itemImageBackgroundId: $itemImageBackgroundId, itemDetailBackgroundId: $itemDetailBackgroundId, checkoutAction: $checkoutAction, backToShopAction: $backToShopAction, openProductAction: $openProductAction}';
+    return 'CartEntity{appId: $appId, title: $title, description: $description, checkoutText: $checkoutText, shopId: $shopId, itemImageBackgroundId: $itemImageBackgroundId, itemDetailBackgroundId: $itemDetailBackgroundId, checkoutAction: $checkoutAction, backToShopAction: $backToShopAction, openProductAction: $openProductAction, conditions: $conditions}';
   }
 
   static CartEntity fromMap(Map map) {
@@ -58,6 +59,10 @@ class CartEntity {
     openProductActionFromMap = map['openProductAction'];
     if (openProductActionFromMap != null)
       openProductActionFromMap = ActionEntity.fromMap(openProductActionFromMap);
+    var conditionsFromMap;
+    conditionsFromMap = map['conditions'];
+    if (conditionsFromMap != null)
+      conditionsFromMap = ConditionsSimpleEntity.fromMap(conditionsFromMap);
 
     return CartEntity(
       appId: map['appId'], 
@@ -70,6 +75,7 @@ class CartEntity {
       checkoutAction: checkoutActionFromMap, 
       backToShopAction: backToShopActionFromMap, 
       openProductAction: openProductActionFromMap, 
+      conditions: conditionsFromMap, 
     );
   }
 
@@ -82,6 +88,9 @@ class CartEntity {
         : null;
     final Map<String, dynamic> openProductActionMap = openProductAction != null 
         ? openProductAction.toDocument()
+        : null;
+    final Map<String, dynamic> conditionsMap = conditions != null 
+        ? conditions.toDocument()
         : null;
 
     Map<String, Object> theDocument = HashMap();
@@ -105,6 +114,8 @@ class CartEntity {
       else theDocument["backToShopAction"] = null;
     if (openProductAction != null) theDocument["openProductAction"] = openProductActionMap;
       else theDocument["openProductAction"] = null;
+    if (conditions != null) theDocument["conditions"] = conditionsMap;
+      else theDocument["conditions"] = null;
     return theDocument;
   }
 

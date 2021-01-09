@@ -35,15 +35,16 @@ class ShopFrontEntity {
   final int scrollDirection;
   final ActionEntity buyAction;
   final ActionEntity openProductAction;
+  final ConditionsSimpleEntity conditions;
 
-  ShopFrontEntity({this.appId, this.title, this.description, this.shopId, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackgroundId, this.addToCartColor, this.view, this.scrollDirection, this.buyAction, this.openProductAction, });
+  ShopFrontEntity({this.appId, this.title, this.description, this.shopId, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackgroundId, this.addToCartColor, this.view, this.scrollDirection, this.buyAction, this.openProductAction, this.conditions, });
 
 
-  List<Object> get props => [appId, title, description, shopId, size, cardElevation, cardAxisSpacing, itemCardBackgroundId, addToCartColor, view, scrollDirection, buyAction, openProductAction, ];
+  List<Object> get props => [appId, title, description, shopId, size, cardElevation, cardAxisSpacing, itemCardBackgroundId, addToCartColor, view, scrollDirection, buyAction, openProductAction, conditions, ];
 
   @override
   String toString() {
-    return 'ShopFrontEntity{appId: $appId, title: $title, description: $description, shopId: $shopId, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackgroundId: $itemCardBackgroundId, addToCartColor: $addToCartColor, view: $view, scrollDirection: $scrollDirection, buyAction: $buyAction, openProductAction: $openProductAction}';
+    return 'ShopFrontEntity{appId: $appId, title: $title, description: $description, shopId: $shopId, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackgroundId: $itemCardBackgroundId, addToCartColor: $addToCartColor, view: $view, scrollDirection: $scrollDirection, buyAction: $buyAction, openProductAction: $openProductAction, conditions: $conditions}';
   }
 
   static ShopFrontEntity fromMap(Map map) {
@@ -61,6 +62,10 @@ class ShopFrontEntity {
     openProductActionFromMap = map['openProductAction'];
     if (openProductActionFromMap != null)
       openProductActionFromMap = ActionEntity.fromMap(openProductActionFromMap);
+    var conditionsFromMap;
+    conditionsFromMap = map['conditions'];
+    if (conditionsFromMap != null)
+      conditionsFromMap = ConditionsSimpleEntity.fromMap(conditionsFromMap);
 
     return ShopFrontEntity(
       appId: map['appId'], 
@@ -76,6 +81,7 @@ class ShopFrontEntity {
       scrollDirection: map['scrollDirection'], 
       buyAction: buyActionFromMap, 
       openProductAction: openProductActionFromMap, 
+      conditions: conditionsFromMap, 
     );
   }
 
@@ -88,6 +94,9 @@ class ShopFrontEntity {
         : null;
     final Map<String, dynamic> openProductActionMap = openProductAction != null 
         ? openProductAction.toDocument()
+        : null;
+    final Map<String, dynamic> conditionsMap = conditions != null 
+        ? conditions.toDocument()
         : null;
 
     Map<String, Object> theDocument = HashMap();
@@ -117,6 +126,8 @@ class ShopFrontEntity {
       else theDocument["buyAction"] = null;
     if (openProductAction != null) theDocument["openProductAction"] = openProductActionMap;
       else theDocument["openProductAction"] = null;
+    if (conditions != null) theDocument["conditions"] = conditionsMap;
+      else theDocument["conditions"] = null;
     return theDocument;
   }
 

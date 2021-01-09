@@ -20,6 +20,8 @@ import 'package:eliud_pkg_shop/model/order_overview_model.dart';
 import 'package:eliud_pkg_shop/model/order_overview_component_event.dart';
 import 'package:eliud_pkg_shop/model/order_overview_component_state.dart';
 import 'package:eliud_pkg_shop/model/order_overview_repository.dart';
+import 'package:flutter/services.dart';
+
 
 class OrderOverviewComponentBloc extends Bloc<OrderOverviewComponentEvent, OrderOverviewComponentState> {
   final OrderOverviewRepository orderOverviewRepository;
@@ -31,13 +33,23 @@ class OrderOverviewComponentBloc extends Bloc<OrderOverviewComponentEvent, Order
     if (event is FetchOrderOverviewComponent) {
       try {
         if (currentState is OrderOverviewComponentUninitialized) {
-          final OrderOverviewModel model = await _fetchOrderOverview(event.id);
-
-          if (model != null) {
-            yield OrderOverviewComponentLoaded(value: model);
+          bool permissionDenied = false;
+          final model = await orderOverviewRepository.get(event.id, onError: (error) {
+            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
+            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+              permissionDenied = true;
+            }
+          });
+          if (permissionDenied) {
+            yield OrderOverviewComponentPermissionDenied();
           } else {
-            String id = event.id;
-            yield OrderOverviewComponentError(message: "OrderOverview with id = '$id' not found");
+            if (model != null) {
+              yield OrderOverviewComponentLoaded(value: model);
+            } else {
+              String id = event.id;
+              yield OrderOverviewComponentError(
+                  message: "OrderOverview with id = '$id' not found");
+            }
           }
           return;
         }
@@ -47,15 +59,10 @@ class OrderOverviewComponentBloc extends Bloc<OrderOverviewComponentEvent, Order
     }
   }
 
-  Future<OrderOverviewModel> _fetchOrderOverview(String id) async {
-    return orderOverviewRepository.get(id);
-  }
-
   @override
   Future<void> close() {
     return super.close();
   }
 
 }
-
 

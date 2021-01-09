@@ -18,6 +18,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_pkg_shop/model/product_display_model.dart';
 import 'package:eliud_pkg_shop/model/product_display_repository.dart';
+
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
@@ -52,10 +53,10 @@ class ProductDisplayCache implements ProductDisplayRepository {
     return Future.value();
   }
 
-  Future<ProductDisplayModel> get(String id){
+  Future<ProductDisplayModel> get(String id, {Function(Exception) onError}) {
     ProductDisplayModel value = fullCache[id];
     if (value != null) return refreshRelations(value);
-    return reference.get(id).then((value) {
+    return reference.get(id, onError: onError).then((value) {
       fullCache[id] = value;
       return value;
     });

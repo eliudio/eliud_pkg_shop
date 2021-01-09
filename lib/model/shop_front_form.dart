@@ -521,6 +521,20 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
         children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
+         children.add(Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                  child: Text('Conditions',
+                      style: TextStyle(
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                ));
+
+
+
+        children.add(Container(height: 20.0));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+
+
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
                   color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
@@ -545,6 +559,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
                               scrollDirection: state.value.scrollDirection, 
                               buyAction: state.value.buyAction, 
                               openProductAction: state.value.openProductAction, 
+                              conditions: state.value.conditions, 
                         )));
                       } else {
                         BlocProvider.of<ShopFrontListBloc>(context).add(
@@ -563,6 +578,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
                               scrollDirection: state.value.scrollDirection, 
                               buyAction: state.value.buyAction, 
                               openProductAction: state.value.openProductAction, 
+                              conditions: state.value.conditions, 
                           )));
                       }
                       if (widget.submitAction != null) {

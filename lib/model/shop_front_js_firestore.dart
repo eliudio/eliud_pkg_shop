@@ -62,12 +62,16 @@ class ShopFrontJsFirestore implements ShopFrontRepository {
     return ShopFrontModel.fromEntityPlus(value.id, ShopFrontEntity.fromMap(value.data()), appId: appId);
   }
 
-  Future<ShopFrontModel> get(String id) {
+  Future<ShopFrontModel> get(String id, { Function(Exception) onError }) {
     return shopFrontCollection.doc(id).get().then((data) {
       if (data.data() != null) {
         return _populateDocPlus(data);
       } else {
         return null;
+      }
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
       }
     });
   }

@@ -30,17 +30,18 @@ class ProductEntity {
   final String shopId;
   final List<ProductImageEntity> images;
   final String posSizeId;
+  final ConditionsSimpleEntity conditions;
 
-  ProductEntity({this.appId, this.title, this.about, this.price, this.weight, this.shopId, this.images, this.posSizeId, });
+  ProductEntity({this.appId, this.title, this.about, this.price, this.weight, this.shopId, this.images, this.posSizeId, this.conditions, });
 
 
-  List<Object> get props => [appId, title, about, price, weight, shopId, images, posSizeId, ];
+  List<Object> get props => [appId, title, about, price, weight, shopId, images, posSizeId, conditions, ];
 
   @override
   String toString() {
     String imagesCsv = (images == null) ? '' : images.join(', ');
 
-    return 'ProductEntity{appId: $appId, title: $title, about: $about, price: $price, weight: $weight, shopId: $shopId, images: ProductImage[] { $imagesCsv }, posSizeId: $posSizeId}';
+    return 'ProductEntity{appId: $appId, title: $title, about: $about, price: $price, weight: $weight, shopId: $shopId, images: ProductImage[] { $imagesCsv }, posSizeId: $posSizeId, conditions: $conditions}';
   }
 
   static ProductEntity fromMap(Map map) {
@@ -54,6 +55,10 @@ class ProductEntity {
         .map((dynamic item) =>
         ProductImageEntity.fromMap(item as Map))
         .toList();
+    var conditionsFromMap;
+    conditionsFromMap = map['conditions'];
+    if (conditionsFromMap != null)
+      conditionsFromMap = ConditionsSimpleEntity.fromMap(conditionsFromMap);
 
     return ProductEntity(
       appId: map['appId'], 
@@ -64,12 +69,16 @@ class ProductEntity {
       shopId: map['shopId'], 
       images: imagesList, 
       posSizeId: map['posSizeId'], 
+      conditions: conditionsFromMap, 
     );
   }
 
   Map<String, Object> toDocument() {
     final List<Map<String, dynamic>> imagesListMap = images != null 
         ? images.map((item) => item.toDocument()).toList()
+        : null;
+    final Map<String, dynamic> conditionsMap = conditions != null 
+        ? conditions.toDocument()
         : null;
 
     Map<String, Object> theDocument = HashMap();
@@ -89,6 +98,8 @@ class ProductEntity {
       else theDocument["images"] = null;
     if (posSizeId != null) theDocument["posSizeId"] = posSizeId;
       else theDocument["posSizeId"] = null;
+    if (conditions != null) theDocument["conditions"] = conditionsMap;
+      else theDocument["conditions"] = null;
     return theDocument;
   }
 

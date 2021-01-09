@@ -62,12 +62,16 @@ class OrderOverviewJsFirestore implements OrderOverviewRepository {
     return OrderOverviewModel.fromEntityPlus(value.id, OrderOverviewEntity.fromMap(value.data()), appId: appId);
   }
 
-  Future<OrderOverviewModel> get(String id) {
+  Future<OrderOverviewModel> get(String id, { Function(Exception) onError }) {
     return orderOverviewCollection.doc(id).get().then((data) {
       if (data.data() != null) {
         return _populateDocPlus(data);
       } else {
         return null;
+      }
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
       }
     });
   }

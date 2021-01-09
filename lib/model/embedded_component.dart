@@ -150,7 +150,7 @@ class CartItemInMemoryRepository implements CartItemRepository {
       }
     }
 
-    Future<CartItemModel> get(String id) {
+    Future<CartItemModel> get(String id, { Function(Exception) onError }) {
       int index = _index(id);
       var completer = new Completer<CartItemModel>();
       completer.complete(items[index]);
@@ -245,7 +245,7 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
       }
     }
 
-    Future<OrderItemModel> get(String id) {
+    Future<OrderItemModel> get(String id, { Function(Exception) onError }) {
       int index = _index(id);
       var completer = new Completer<OrderItemModel>();
       completer.complete(items[index]);
@@ -340,7 +340,7 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
       }
     }
 
-    Future<ProductImageModel> get(String id) {
+    Future<ProductImageModel> get(String id, { Function(Exception) onError }) {
       int index = _index(id);
       var completer = new Completer<ProductImageModel>();
       completer.complete(items[index]);

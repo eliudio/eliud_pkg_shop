@@ -121,6 +121,12 @@
       "fieldType": "Action",
       "bespokeFormField": "ActionField(AccessBloc.appId(context), state.value.openProductAction, _onOpenProductActionChanged)",
       "group": "openProductAction"
+    },
+    {
+      "fieldName": "conditions",
+      "displayName": "Conditions",
+      "fieldType": "ConditionsSimple",
+      "group": "conditions"
     }
   ],
   "groups": [
@@ -159,6 +165,10 @@
     {
         "group": "scrollDirection",
         "description": "Scroll Direction"
+    },
+    {
+        "group": "conditions",
+        "description": "Conditions"
     }
   ],
   "listFields": {

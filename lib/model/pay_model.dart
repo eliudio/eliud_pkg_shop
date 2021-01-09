@@ -16,11 +16,15 @@
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
+import 'package:eliud_core/model/repository_export.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/repository_export.dart';
+import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
+import 'package:eliud_core/model/entity_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
@@ -40,17 +44,18 @@ class PayModel {
   // requires a new implementation of a BespokeFormField WorkflowActionField
   WorkflowActionModel payAction;
   ShopModel shop;
+  ConditionsSimpleModel conditions;
 
-  PayModel({this.documentID, this.appId, this.title, this.succeeded, this.payAction, this.shop, })  {
+  PayModel({this.documentID, this.appId, this.title, this.succeeded, this.payAction, this.shop, this.conditions, })  {
     assert(documentID != null);
   }
 
-  PayModel copyWith({String documentID, String appId, String title, ActionModel succeeded, WorkflowActionModel payAction, ShopModel shop, }) {
-    return PayModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, succeeded: succeeded ?? this.succeeded, payAction: payAction ?? this.payAction, shop: shop ?? this.shop, );
+  PayModel copyWith({String documentID, String appId, String title, ActionModel succeeded, WorkflowActionModel payAction, ShopModel shop, ConditionsSimpleModel conditions, }) {
+    return PayModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, succeeded: succeeded ?? this.succeeded, payAction: payAction ?? this.payAction, shop: shop ?? this.shop, conditions: conditions ?? this.conditions, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ succeeded.hashCode ^ payAction.hashCode ^ shop.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ succeeded.hashCode ^ payAction.hashCode ^ shop.hashCode ^ conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -62,11 +67,12 @@ class PayModel {
           title == other.title &&
           succeeded == other.succeeded &&
           payAction == other.payAction &&
-          shop == other.shop;
+          shop == other.shop &&
+          conditions == other.conditions;
 
   @override
   String toString() {
-    return 'PayModel{documentID: $documentID, appId: $appId, title: $title, succeeded: $succeeded, payAction: $payAction, shop: $shop}';
+    return 'PayModel{documentID: $documentID, appId: $appId, title: $title, succeeded: $succeeded, payAction: $payAction, shop: $shop, conditions: $conditions}';
   }
 
   PayEntity toEntity({String appId}) {
@@ -76,6 +82,7 @@ class PayModel {
           succeeded: (succeeded != null) ? succeeded.toEntity(appId: appId) : null, 
           payAction: (payAction != null) ? payAction.toEntity(appId: appId) : null, 
           shopId: (shop != null) ? shop.documentID : null, 
+          conditions: (conditions != null) ? conditions.toEntity(appId: appId) : null, 
     );
   }
 
@@ -89,6 +96,8 @@ class PayModel {
             ActionModel.fromEntity(entity.succeeded), 
           payAction: 
             WorkflowActionModel.fromEntity(entity.payAction), 
+          conditions: 
+            ConditionsSimpleModel.fromEntity(entity.conditions), 
     );
   }
 
@@ -113,6 +122,8 @@ class PayModel {
           payAction: 
             await WorkflowActionModel.fromEntityPlus(entity.payAction, appId: appId), 
           shop: shopHolder, 
+          conditions: 
+            await ConditionsSimpleModel.fromEntityPlus(entity.conditions, appId: appId), 
     );
   }
 

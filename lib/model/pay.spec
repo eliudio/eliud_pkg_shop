@@ -64,6 +64,12 @@
       "association": true,
       "optional": false,
       "group": "shop"
+    },
+    {
+      "fieldName": "conditions",
+      "displayName": "Conditions",
+      "fieldType": "ConditionsSimple",
+      "group": "conditions"
     }
   ],
   "groups": [
@@ -82,10 +88,15 @@
     {
         "group": "shop",
         "description": "Shop"
+    },
+    {
+        "group": "conditions",
+        "description": "Conditions"
     }
   ],
   "listFields": {
     "title": "documentID",
     "subTitle": "title"
-  }
+  },
+  "depends": ["eliud_core"]
 }

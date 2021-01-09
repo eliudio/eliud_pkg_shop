@@ -42,17 +42,18 @@ class OrderOverviewModel {
   ShopModel shop;
   BackgroundModel itemImageBackground;
   BackgroundModel itemDetailBackground;
+  ConditionsSimpleModel conditions;
 
-  OrderOverviewModel({this.documentID, this.appId, this.title, this.shop, this.itemImageBackground, this.itemDetailBackground, })  {
+  OrderOverviewModel({this.documentID, this.appId, this.title, this.shop, this.itemImageBackground, this.itemDetailBackground, this.conditions, })  {
     assert(documentID != null);
   }
 
-  OrderOverviewModel copyWith({String documentID, String appId, String title, ShopModel shop, BackgroundModel itemImageBackground, BackgroundModel itemDetailBackground, }) {
-    return OrderOverviewModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, shop: shop ?? this.shop, itemImageBackground: itemImageBackground ?? this.itemImageBackground, itemDetailBackground: itemDetailBackground ?? this.itemDetailBackground, );
+  OrderOverviewModel copyWith({String documentID, String appId, String title, ShopModel shop, BackgroundModel itemImageBackground, BackgroundModel itemDetailBackground, ConditionsSimpleModel conditions, }) {
+    return OrderOverviewModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, shop: shop ?? this.shop, itemImageBackground: itemImageBackground ?? this.itemImageBackground, itemDetailBackground: itemDetailBackground ?? this.itemDetailBackground, conditions: conditions ?? this.conditions, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ shop.hashCode ^ itemImageBackground.hashCode ^ itemDetailBackground.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ shop.hashCode ^ itemImageBackground.hashCode ^ itemDetailBackground.hashCode ^ conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -64,11 +65,12 @@ class OrderOverviewModel {
           title == other.title &&
           shop == other.shop &&
           itemImageBackground == other.itemImageBackground &&
-          itemDetailBackground == other.itemDetailBackground;
+          itemDetailBackground == other.itemDetailBackground &&
+          conditions == other.conditions;
 
   @override
   String toString() {
-    return 'OrderOverviewModel{documentID: $documentID, appId: $appId, title: $title, shop: $shop, itemImageBackground: $itemImageBackground, itemDetailBackground: $itemDetailBackground}';
+    return 'OrderOverviewModel{documentID: $documentID, appId: $appId, title: $title, shop: $shop, itemImageBackground: $itemImageBackground, itemDetailBackground: $itemDetailBackground, conditions: $conditions}';
   }
 
   OrderOverviewEntity toEntity({String appId}) {
@@ -78,6 +80,7 @@ class OrderOverviewModel {
           shopId: (shop != null) ? shop.documentID : null, 
           itemImageBackgroundId: (itemImageBackground != null) ? itemImageBackground.documentID : null, 
           itemDetailBackgroundId: (itemDetailBackground != null) ? itemDetailBackground.documentID : null, 
+          conditions: (conditions != null) ? conditions.toEntity(appId: appId) : null, 
     );
   }
 
@@ -87,6 +90,8 @@ class OrderOverviewModel {
           documentID: documentID, 
           appId: entity.appId, 
           title: entity.title, 
+          conditions: 
+            ConditionsSimpleModel.fromEntity(entity.conditions), 
     );
   }
 
@@ -127,6 +132,8 @@ class OrderOverviewModel {
           shop: shopHolder, 
           itemImageBackground: itemImageBackgroundHolder, 
           itemDetailBackground: itemDetailBackgroundHolder, 
+          conditions: 
+            await ConditionsSimpleModel.fromEntityPlus(entity.conditions, appId: appId), 
     );
   }
 

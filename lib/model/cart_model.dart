@@ -47,17 +47,18 @@ class CartModel {
   ActionModel checkoutAction;
   ActionModel backToShopAction;
   ActionModel openProductAction;
+  ConditionsSimpleModel conditions;
 
-  CartModel({this.documentID, this.appId, this.title, this.description, this.checkoutText, this.shop, this.itemImageBackground, this.itemDetailBackground, this.checkoutAction, this.backToShopAction, this.openProductAction, })  {
+  CartModel({this.documentID, this.appId, this.title, this.description, this.checkoutText, this.shop, this.itemImageBackground, this.itemDetailBackground, this.checkoutAction, this.backToShopAction, this.openProductAction, this.conditions, })  {
     assert(documentID != null);
   }
 
-  CartModel copyWith({String documentID, String appId, String title, String description, String checkoutText, ShopModel shop, BackgroundModel itemImageBackground, BackgroundModel itemDetailBackground, ActionModel checkoutAction, ActionModel backToShopAction, ActionModel openProductAction, }) {
-    return CartModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, description: description ?? this.description, checkoutText: checkoutText ?? this.checkoutText, shop: shop ?? this.shop, itemImageBackground: itemImageBackground ?? this.itemImageBackground, itemDetailBackground: itemDetailBackground ?? this.itemDetailBackground, checkoutAction: checkoutAction ?? this.checkoutAction, backToShopAction: backToShopAction ?? this.backToShopAction, openProductAction: openProductAction ?? this.openProductAction, );
+  CartModel copyWith({String documentID, String appId, String title, String description, String checkoutText, ShopModel shop, BackgroundModel itemImageBackground, BackgroundModel itemDetailBackground, ActionModel checkoutAction, ActionModel backToShopAction, ActionModel openProductAction, ConditionsSimpleModel conditions, }) {
+    return CartModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, description: description ?? this.description, checkoutText: checkoutText ?? this.checkoutText, shop: shop ?? this.shop, itemImageBackground: itemImageBackground ?? this.itemImageBackground, itemDetailBackground: itemDetailBackground ?? this.itemDetailBackground, checkoutAction: checkoutAction ?? this.checkoutAction, backToShopAction: backToShopAction ?? this.backToShopAction, openProductAction: openProductAction ?? this.openProductAction, conditions: conditions ?? this.conditions, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ description.hashCode ^ checkoutText.hashCode ^ shop.hashCode ^ itemImageBackground.hashCode ^ itemDetailBackground.hashCode ^ checkoutAction.hashCode ^ backToShopAction.hashCode ^ openProductAction.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ description.hashCode ^ checkoutText.hashCode ^ shop.hashCode ^ itemImageBackground.hashCode ^ itemDetailBackground.hashCode ^ checkoutAction.hashCode ^ backToShopAction.hashCode ^ openProductAction.hashCode ^ conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -74,11 +75,12 @@ class CartModel {
           itemDetailBackground == other.itemDetailBackground &&
           checkoutAction == other.checkoutAction &&
           backToShopAction == other.backToShopAction &&
-          openProductAction == other.openProductAction;
+          openProductAction == other.openProductAction &&
+          conditions == other.conditions;
 
   @override
   String toString() {
-    return 'CartModel{documentID: $documentID, appId: $appId, title: $title, description: $description, checkoutText: $checkoutText, shop: $shop, itemImageBackground: $itemImageBackground, itemDetailBackground: $itemDetailBackground, checkoutAction: $checkoutAction, backToShopAction: $backToShopAction, openProductAction: $openProductAction}';
+    return 'CartModel{documentID: $documentID, appId: $appId, title: $title, description: $description, checkoutText: $checkoutText, shop: $shop, itemImageBackground: $itemImageBackground, itemDetailBackground: $itemDetailBackground, checkoutAction: $checkoutAction, backToShopAction: $backToShopAction, openProductAction: $openProductAction, conditions: $conditions}';
   }
 
   CartEntity toEntity({String appId}) {
@@ -93,6 +95,7 @@ class CartModel {
           checkoutAction: (checkoutAction != null) ? checkoutAction.toEntity(appId: appId) : null, 
           backToShopAction: (backToShopAction != null) ? backToShopAction.toEntity(appId: appId) : null, 
           openProductAction: (openProductAction != null) ? openProductAction.toEntity(appId: appId) : null, 
+          conditions: (conditions != null) ? conditions.toEntity(appId: appId) : null, 
     );
   }
 
@@ -110,6 +113,8 @@ class CartModel {
             ActionModel.fromEntity(entity.backToShopAction), 
           openProductAction: 
             ActionModel.fromEntity(entity.openProductAction), 
+          conditions: 
+            ConditionsSimpleModel.fromEntity(entity.conditions), 
     );
   }
 
@@ -158,6 +163,8 @@ class CartModel {
             await ActionModel.fromEntityPlus(entity.backToShopAction, appId: appId), 
           openProductAction: 
             await ActionModel.fromEntityPlus(entity.openProductAction, appId: appId), 
+          conditions: 
+            await ConditionsSimpleModel.fromEntityPlus(entity.conditions, appId: appId), 
     );
   }
 

@@ -16,11 +16,15 @@
 import 'package:eliud_pkg_shop/model/pay_confirmation_repository.dart';
 
 
+import 'package:eliud_core/model/repository_export.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/repository_export.dart';
+import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
+import 'package:eliud_core/model/entity_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
@@ -51,12 +55,16 @@ class PayConfirmationFirestore implements PayConfirmationRepository {
   Future<PayConfirmationModel> _populateDocPlus(DocumentSnapshot value) async {
     return PayConfirmationModel.fromEntityPlus(value.documentID, PayConfirmationEntity.fromMap(value.data), appId: appId);  }
 
-  Future<PayConfirmationModel> get(String id) {
+  Future<PayConfirmationModel> get(String id, {Function(Exception) onError}) {
     return PayConfirmationCollection.document(id).get().then((doc) {
       if (doc.data != null)
         return _populateDocPlus(doc);
       else
         return null;
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
+      }
     });
   }
 

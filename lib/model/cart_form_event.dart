@@ -191,3 +191,15 @@ class ChangedCartOpenProductAction extends CartFormEvent {
   String toString() => 'ChangedCartOpenProductAction{ value: $value }';
 }
 
+class ChangedCartConditions extends CartFormEvent {
+  final ConditionsSimpleModel value;
+
+  ChangedCartConditions({this.value});
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedCartConditions{ value: $value }';
+}
+

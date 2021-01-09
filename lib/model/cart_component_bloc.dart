@@ -20,6 +20,8 @@ import 'package:eliud_pkg_shop/model/cart_model.dart';
 import 'package:eliud_pkg_shop/model/cart_component_event.dart';
 import 'package:eliud_pkg_shop/model/cart_component_state.dart';
 import 'package:eliud_pkg_shop/model/cart_repository.dart';
+import 'package:flutter/services.dart';
+
 
 class CartComponentBloc extends Bloc<CartComponentEvent, CartComponentState> {
   final CartRepository cartRepository;
@@ -31,13 +33,23 @@ class CartComponentBloc extends Bloc<CartComponentEvent, CartComponentState> {
     if (event is FetchCartComponent) {
       try {
         if (currentState is CartComponentUninitialized) {
-          final CartModel model = await _fetchCart(event.id);
-
-          if (model != null) {
-            yield CartComponentLoaded(value: model);
+          bool permissionDenied = false;
+          final model = await cartRepository.get(event.id, onError: (error) {
+            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
+            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+              permissionDenied = true;
+            }
+          });
+          if (permissionDenied) {
+            yield CartComponentPermissionDenied();
           } else {
-            String id = event.id;
-            yield CartComponentError(message: "Cart with id = '$id' not found");
+            if (model != null) {
+              yield CartComponentLoaded(value: model);
+            } else {
+              String id = event.id;
+              yield CartComponentError(
+                  message: "Cart with id = '$id' not found");
+            }
           }
           return;
         }
@@ -47,15 +59,10 @@ class CartComponentBloc extends Bloc<CartComponentEvent, CartComponentState> {
     }
   }
 
-  Future<CartModel> _fetchCart(String id) async {
-    return cartRepository.get(id);
-  }
-
   @override
   Future<void> close() {
     return super.close();
   }
 
 }
-
 

@@ -16,11 +16,15 @@
 import 'package:eliud_pkg_shop/model/pay_repository.dart';
 
 
+import 'package:eliud_core/model/repository_export.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/repository_export.dart';
+import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
+import 'package:eliud_core/model/entity_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
@@ -58,12 +62,16 @@ class PayJsFirestore implements PayRepository {
     return PayModel.fromEntityPlus(value.id, PayEntity.fromMap(value.data()), appId: appId);
   }
 
-  Future<PayModel> get(String id) {
+  Future<PayModel> get(String id, { Function(Exception) onError }) {
     return payCollection.doc(id).get().then((data) {
       if (data.data() != null) {
         return _populateDocPlus(data);
       } else {
         return null;
+      }
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
       }
     });
   }

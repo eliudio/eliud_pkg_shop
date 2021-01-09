@@ -17,6 +17,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'abstract_repository_singleton.dart';
+import 'package:eliud_core/model/entity_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
@@ -26,15 +27,16 @@ class PayEntity {
   final ActionEntity succeeded;
   final WorkflowActionEntity payAction;
   final String shopId;
+  final ConditionsSimpleEntity conditions;
 
-  PayEntity({this.appId, this.title, this.succeeded, this.payAction, this.shopId, });
+  PayEntity({this.appId, this.title, this.succeeded, this.payAction, this.shopId, this.conditions, });
 
 
-  List<Object> get props => [appId, title, succeeded, payAction, shopId, ];
+  List<Object> get props => [appId, title, succeeded, payAction, shopId, conditions, ];
 
   @override
   String toString() {
-    return 'PayEntity{appId: $appId, title: $title, succeeded: $succeeded, payAction: $payAction, shopId: $shopId}';
+    return 'PayEntity{appId: $appId, title: $title, succeeded: $succeeded, payAction: $payAction, shopId: $shopId, conditions: $conditions}';
   }
 
   static PayEntity fromMap(Map map) {
@@ -48,6 +50,10 @@ class PayEntity {
     payActionFromMap = map['payAction'];
     if (payActionFromMap != null)
       payActionFromMap = WorkflowActionEntity.fromMap(payActionFromMap);
+    var conditionsFromMap;
+    conditionsFromMap = map['conditions'];
+    if (conditionsFromMap != null)
+      conditionsFromMap = ConditionsSimpleEntity.fromMap(conditionsFromMap);
 
     return PayEntity(
       appId: map['appId'], 
@@ -55,6 +61,7 @@ class PayEntity {
       succeeded: succeededFromMap, 
       payAction: payActionFromMap, 
       shopId: map['shopId'], 
+      conditions: conditionsFromMap, 
     );
   }
 
@@ -64,6 +71,9 @@ class PayEntity {
         : null;
     final Map<String, dynamic> payActionMap = payAction != null 
         ? payAction.toDocument()
+        : null;
+    final Map<String, dynamic> conditionsMap = conditions != null 
+        ? conditions.toDocument()
         : null;
 
     Map<String, Object> theDocument = HashMap();
@@ -77,6 +87,8 @@ class PayEntity {
       else theDocument["payAction"] = null;
     if (shopId != null) theDocument["shopId"] = shopId;
       else theDocument["shopId"] = null;
+    if (conditions != null) theDocument["conditions"] = conditionsMap;
+      else theDocument["conditions"] = null;
     return theDocument;
   }
 

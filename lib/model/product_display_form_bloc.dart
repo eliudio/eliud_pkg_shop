@@ -104,6 +104,7 @@ class ProductDisplayFormBloc extends Bloc<ProductDisplayFormEvent, ProductDispla
                                  addToBasketText: currentState.value.addToBasketText,
                                  buyAction: currentState.value.buyAction,
                                  shop: currentState.value.shop,
+                                 conditions: currentState.value.conditions,
           );
         yield SubmittableProductDisplayForm(value: newValue);
 
@@ -133,7 +134,14 @@ class ProductDisplayFormBloc extends Bloc<ProductDisplayFormEvent, ProductDispla
                                  addToBasketText: currentState.value.addToBasketText,
                                  buyAction: currentState.value.buyAction,
                                  shop: null,
+                                 conditions: currentState.value.conditions,
           );
+        yield SubmittableProductDisplayForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedProductDisplayConditions) {
+        newValue = currentState.value.copyWith(conditions: event.value);
         yield SubmittableProductDisplayForm(value: newValue);
 
         return;

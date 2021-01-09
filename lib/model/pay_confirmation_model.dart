@@ -16,11 +16,15 @@
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
+import 'package:eliud_core/model/repository_export.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/repository_export.dart';
+import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
+import 'package:eliud_core/model/entity_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
@@ -37,17 +41,18 @@ class PayConfirmationModel {
   String title;
   ShopModel shop;
   ActionModel backToShopAction;
+  ConditionsSimpleModel conditions;
 
-  PayConfirmationModel({this.documentID, this.appId, this.title, this.shop, this.backToShopAction, })  {
+  PayConfirmationModel({this.documentID, this.appId, this.title, this.shop, this.backToShopAction, this.conditions, })  {
     assert(documentID != null);
   }
 
-  PayConfirmationModel copyWith({String documentID, String appId, String title, ShopModel shop, ActionModel backToShopAction, }) {
-    return PayConfirmationModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, shop: shop ?? this.shop, backToShopAction: backToShopAction ?? this.backToShopAction, );
+  PayConfirmationModel copyWith({String documentID, String appId, String title, ShopModel shop, ActionModel backToShopAction, ConditionsSimpleModel conditions, }) {
+    return PayConfirmationModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, shop: shop ?? this.shop, backToShopAction: backToShopAction ?? this.backToShopAction, conditions: conditions ?? this.conditions, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ shop.hashCode ^ backToShopAction.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ shop.hashCode ^ backToShopAction.hashCode ^ conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -58,11 +63,12 @@ class PayConfirmationModel {
           appId == other.appId &&
           title == other.title &&
           shop == other.shop &&
-          backToShopAction == other.backToShopAction;
+          backToShopAction == other.backToShopAction &&
+          conditions == other.conditions;
 
   @override
   String toString() {
-    return 'PayConfirmationModel{documentID: $documentID, appId: $appId, title: $title, shop: $shop, backToShopAction: $backToShopAction}';
+    return 'PayConfirmationModel{documentID: $documentID, appId: $appId, title: $title, shop: $shop, backToShopAction: $backToShopAction, conditions: $conditions}';
   }
 
   PayConfirmationEntity toEntity({String appId}) {
@@ -71,6 +77,7 @@ class PayConfirmationModel {
           title: (title != null) ? title : null, 
           shopId: (shop != null) ? shop.documentID : null, 
           backToShopAction: (backToShopAction != null) ? backToShopAction.toEntity(appId: appId) : null, 
+          conditions: (conditions != null) ? conditions.toEntity(appId: appId) : null, 
     );
   }
 
@@ -82,6 +89,8 @@ class PayConfirmationModel {
           title: entity.title, 
           backToShopAction: 
             ActionModel.fromEntity(entity.backToShopAction), 
+          conditions: 
+            ConditionsSimpleModel.fromEntity(entity.conditions), 
     );
   }
 
@@ -104,6 +113,8 @@ class PayConfirmationModel {
           shop: shopHolder, 
           backToShopAction: 
             await ActionModel.fromEntityPlus(entity.backToShopAction, appId: appId), 
+          conditions: 
+            await ConditionsSimpleModel.fromEntityPlus(entity.conditions, appId: appId), 
     );
   }
 

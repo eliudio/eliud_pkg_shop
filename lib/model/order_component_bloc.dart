@@ -20,6 +20,8 @@ import 'package:eliud_pkg_shop/model/order_model.dart';
 import 'package:eliud_pkg_shop/model/order_component_event.dart';
 import 'package:eliud_pkg_shop/model/order_component_state.dart';
 import 'package:eliud_pkg_shop/model/order_repository.dart';
+import 'package:flutter/services.dart';
+
 
 class OrderComponentBloc extends Bloc<OrderComponentEvent, OrderComponentState> {
   final OrderRepository orderRepository;
@@ -31,13 +33,23 @@ class OrderComponentBloc extends Bloc<OrderComponentEvent, OrderComponentState> 
     if (event is FetchOrderComponent) {
       try {
         if (currentState is OrderComponentUninitialized) {
-          final OrderModel model = await _fetchOrder(event.id);
-
-          if (model != null) {
-            yield OrderComponentLoaded(value: model);
+          bool permissionDenied = false;
+          final model = await orderRepository.get(event.id, onError: (error) {
+            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
+            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+              permissionDenied = true;
+            }
+          });
+          if (permissionDenied) {
+            yield OrderComponentPermissionDenied();
           } else {
-            String id = event.id;
-            yield OrderComponentError(message: "Order with id = '$id' not found");
+            if (model != null) {
+              yield OrderComponentLoaded(value: model);
+            } else {
+              String id = event.id;
+              yield OrderComponentError(
+                  message: "Order with id = '$id' not found");
+            }
           }
           return;
         }
@@ -47,15 +59,10 @@ class OrderComponentBloc extends Bloc<OrderComponentEvent, OrderComponentState> 
     }
   }
 
-  Future<OrderModel> _fetchOrder(String id) async {
-    return orderRepository.get(id);
-  }
-
   @override
   Future<void> close() {
     return super.close();
   }
 
 }
-
 

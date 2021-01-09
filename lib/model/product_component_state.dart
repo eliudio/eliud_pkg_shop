@@ -30,6 +30,10 @@ class ProductComponentError extends ProductComponentState {
   ProductComponentError({ this.message });
 }
 
+class ProductComponentPermissionDenied extends ProductComponentState {
+  ProductComponentPermissionDenied();
+}
+
 class ProductComponentLoaded extends ProductComponentState {
   final ProductModel value;
 
@@ -45,5 +49,4 @@ class ProductComponentLoaded extends ProductComponentState {
   @override
   String toString() => 'ProductComponentLoaded { value: $value }';
 }
-
 

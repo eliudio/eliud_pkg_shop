@@ -16,11 +16,15 @@
 import 'package:eliud_pkg_shop/model/pay_confirmation_repository.dart';
 
 
+import 'package:eliud_core/model/repository_export.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/repository_export.dart';
+import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
+import 'package:eliud_core/model/entity_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
@@ -35,7 +39,7 @@ typedef PayConfirmationChanged(PayConfirmationModel value);
 abstract class PayConfirmationRepository {
   Future<PayConfirmationModel> add(PayConfirmationModel value);
   Future<void> delete(PayConfirmationModel value);
-  Future<PayConfirmationModel> get(String id);
+  Future<PayConfirmationModel> get(String id, { Function(Exception) onError });
   Future<PayConfirmationModel> update(PayConfirmationModel value);
 
   Stream<List<PayConfirmationModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });

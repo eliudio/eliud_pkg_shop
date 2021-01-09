@@ -30,6 +30,10 @@ class PayConfirmationComponentError extends PayConfirmationComponentState {
   PayConfirmationComponentError({ this.message });
 }
 
+class PayConfirmationComponentPermissionDenied extends PayConfirmationComponentState {
+  PayConfirmationComponentPermissionDenied();
+}
+
 class PayConfirmationComponentLoaded extends PayConfirmationComponentState {
   final PayConfirmationModel value;
 
@@ -45,5 +49,4 @@ class PayConfirmationComponentLoaded extends PayConfirmationComponentState {
   @override
   String toString() => 'PayConfirmationComponentLoaded { value: $value }';
 }
-
 

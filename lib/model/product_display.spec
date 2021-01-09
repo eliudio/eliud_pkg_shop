@@ -72,12 +72,22 @@
       "association": true,
       "optional": false,
       "group": "shop"
+    },
+    {
+      "fieldName": "conditions",
+      "displayName": "Conditions",
+      "fieldType": "ConditionsSimple",
+      "group": "conditions"
     }
   ],
   "groups": [
     {
         "group": "general",
         "description": "General"
+    },
+    {
+        "group": "conditions",
+        "description": "Conditions"
     }
   ],
   "listFields": {

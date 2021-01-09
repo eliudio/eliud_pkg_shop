@@ -20,6 +20,8 @@ import 'package:eliud_pkg_shop/model/shop_front_model.dart';
 import 'package:eliud_pkg_shop/model/shop_front_component_event.dart';
 import 'package:eliud_pkg_shop/model/shop_front_component_state.dart';
 import 'package:eliud_pkg_shop/model/shop_front_repository.dart';
+import 'package:flutter/services.dart';
+
 
 class ShopFrontComponentBloc extends Bloc<ShopFrontComponentEvent, ShopFrontComponentState> {
   final ShopFrontRepository shopFrontRepository;
@@ -31,13 +33,23 @@ class ShopFrontComponentBloc extends Bloc<ShopFrontComponentEvent, ShopFrontComp
     if (event is FetchShopFrontComponent) {
       try {
         if (currentState is ShopFrontComponentUninitialized) {
-          final ShopFrontModel model = await _fetchShopFront(event.id);
-
-          if (model != null) {
-            yield ShopFrontComponentLoaded(value: model);
+          bool permissionDenied = false;
+          final model = await shopFrontRepository.get(event.id, onError: (error) {
+            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
+            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+              permissionDenied = true;
+            }
+          });
+          if (permissionDenied) {
+            yield ShopFrontComponentPermissionDenied();
           } else {
-            String id = event.id;
-            yield ShopFrontComponentError(message: "ShopFront with id = '$id' not found");
+            if (model != null) {
+              yield ShopFrontComponentLoaded(value: model);
+            } else {
+              String id = event.id;
+              yield ShopFrontComponentError(
+                  message: "ShopFront with id = '$id' not found");
+            }
           }
           return;
         }
@@ -47,15 +59,10 @@ class ShopFrontComponentBloc extends Bloc<ShopFrontComponentEvent, ShopFrontComp
     }
   }
 
-  Future<ShopFrontModel> _fetchShopFront(String id) async {
-    return shopFrontRepository.get(id);
-  }
-
   @override
   Future<void> close() {
     return super.close();
   }
 
 }
-
 

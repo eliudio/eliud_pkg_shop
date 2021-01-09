@@ -55,12 +55,16 @@ class CartFirestore implements CartRepository {
   Future<CartModel> _populateDocPlus(DocumentSnapshot value) async {
     return CartModel.fromEntityPlus(value.documentID, CartEntity.fromMap(value.data), appId: appId);  }
 
-  Future<CartModel> get(String id) {
+  Future<CartModel> get(String id, {Function(Exception) onError}) {
     return CartCollection.document(id).get().then((doc) {
       if (doc.data != null)
         return _populateDocPlus(doc);
       else
         return null;
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
+      }
     });
   }
 

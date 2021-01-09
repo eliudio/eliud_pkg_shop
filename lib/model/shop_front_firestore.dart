@@ -55,12 +55,16 @@ class ShopFrontFirestore implements ShopFrontRepository {
   Future<ShopFrontModel> _populateDocPlus(DocumentSnapshot value) async {
     return ShopFrontModel.fromEntityPlus(value.documentID, ShopFrontEntity.fromMap(value.data), appId: appId);  }
 
-  Future<ShopFrontModel> get(String id) {
+  Future<ShopFrontModel> get(String id, {Function(Exception) onError}) {
     return ShopFrontCollection.document(id).get().then((doc) {
       if (doc.data != null)
         return _populateDocPlus(doc);
       else
         return null;
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
+      }
     });
   }
 

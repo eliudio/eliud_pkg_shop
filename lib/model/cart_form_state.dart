@@ -239,6 +239,22 @@ class OpenProductActionCartFormError extends CartFormError {
 }
 
 
+class ConditionsCartFormError extends CartFormError { 
+  const ConditionsCartFormError({ String message, CartModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''ConditionsCartFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class CartFormLoaded extends CartFormInitialized { 
   const CartFormLoaded({ CartModel value }): super(value: value);
 
