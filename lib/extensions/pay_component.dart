@@ -81,9 +81,9 @@ class PayProfileComponent extends AbstractPayComponent {
                   if (pay_state is InitializedPayState) {
                     paymentBloc = BlocProvider.of<PaymentBloc>(context);
                     order = state.order;
-                    WorkflowActionHandler.executeWorkflow(
+                    WidgetsBinding.instance.addPostFrameCallback((_) => WorkflowActionHandler.executeWorkflow(
                         pay_context, pay.payAction,
-                        finaliseWorkflow: something);
+                        finaliseWorkflow: something));
                   }
                   return _overviewAndPay(context, appState.app, state.order,
                       message: 'Please review your order.',
