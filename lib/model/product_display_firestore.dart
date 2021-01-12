@@ -37,27 +37,27 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class ProductDisplayFirestore implements ProductDisplayRepository {
   Future<ProductDisplayModel> add(ProductDisplayModel value) {
-    return ProductDisplayCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
+    return ProductDisplayCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(ProductDisplayModel value) {
-    return ProductDisplayCollection.document(value.documentID).delete();
+    return ProductDisplayCollection.doc(value.documentID).delete();
   }
 
   Future<ProductDisplayModel> update(ProductDisplayModel value) {
-    return ProductDisplayCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
+    return ProductDisplayCollection.doc(value.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   ProductDisplayModel _populateDoc(DocumentSnapshot value) {
-    return ProductDisplayModel.fromEntity(value.documentID, ProductDisplayEntity.fromMap(value.data));
+    return ProductDisplayModel.fromEntity(value.id, ProductDisplayEntity.fromMap(value.data()));
   }
 
   Future<ProductDisplayModel> _populateDocPlus(DocumentSnapshot value) async {
-    return ProductDisplayModel.fromEntityPlus(value.documentID, ProductDisplayEntity.fromMap(value.data), appId: appId);  }
+    return ProductDisplayModel.fromEntityPlus(value.id, ProductDisplayEntity.fromMap(value.data()), appId: appId);  }
 
   Future<ProductDisplayModel> get(String id, {Function(Exception) onError}) {
-    return ProductDisplayCollection.document(id).get().then((doc) {
-      if (doc.data != null)
+    return ProductDisplayCollection.doc(id).get().then((doc) {
+      if (doc.data() != null)
         return _populateDocPlus(doc);
       else
         return null;
@@ -71,7 +71,7 @@ class ProductDisplayFirestore implements ProductDisplayRepository {
   StreamSubscription<List<ProductDisplayModel>> listen(ProductDisplayModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<ProductDisplayModel>> stream;
     stream = getQuery(ProductDisplayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
-      Iterable<ProductDisplayModel> productDisplays  = data.documents.map((doc) {
+      Iterable<ProductDisplayModel> productDisplays  = data.docs.map((doc) {
         ProductDisplayModel value = _populateDoc(doc);
         return value;
       }).toList();
@@ -86,7 +86,7 @@ class ProductDisplayFirestore implements ProductDisplayRepository {
     Stream<List<ProductDisplayModel>> stream;
     stream = getQuery(ProductDisplayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
         .asyncMap((data) async {
-      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+      return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
     });
 
     return stream.listen((listOfProductDisplayModels) {
@@ -96,7 +96,7 @@ class ProductDisplayFirestore implements ProductDisplayRepository {
 
   @override
   StreamSubscription<ProductDisplayModel> listenTo(String documentId, ProductDisplayChanged changed) {
-    var stream = ProductDisplayCollection.document(documentId)
+    var stream = ProductDisplayCollection.doc(documentId)
         .snapshots()
         .asyncMap((data) {
       return _populateDocPlus(data);
@@ -109,7 +109,7 @@ class ProductDisplayFirestore implements ProductDisplayRepository {
   Stream<List<ProductDisplayModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     DocumentSnapshot lastDoc;
     Stream<List<ProductDisplayModel>> _values = getQuery(ProductDisplayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((snapshot) {
-      return snapshot.documents.map((doc) {
+      return snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
       }).toList();});
@@ -120,7 +120,7 @@ class ProductDisplayFirestore implements ProductDisplayRepository {
   Stream<List<ProductDisplayModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     DocumentSnapshot lastDoc;
     Stream<List<ProductDisplayModel>> _values = getQuery(ProductDisplayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().asyncMap((snapshot) {
-      return Future.wait(snapshot.documents.map((doc) {
+      return Future.wait(snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
       }).toList());
@@ -131,8 +131,8 @@ class ProductDisplayFirestore implements ProductDisplayRepository {
 
   Future<List<ProductDisplayModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
     DocumentSnapshot lastDoc;
-    List<ProductDisplayModel> _values = await getQuery(ProductDisplayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).getDocuments().then((value) {
-      var list = value.documents;
+    List<ProductDisplayModel> _values = await getQuery(ProductDisplayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).get().then((value) {
+      var list = value.docs;
       return list.map((doc) { 
         lastDoc = doc;
         return _populateDoc(doc);
@@ -144,8 +144,8 @@ class ProductDisplayFirestore implements ProductDisplayRepository {
 
   Future<List<ProductDisplayModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
     DocumentSnapshot lastDoc;
-    List<ProductDisplayModel> _values = await getQuery(ProductDisplayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).getDocuments().then((value) {
-      var list = value.documents;
+    List<ProductDisplayModel> _values = await getQuery(ProductDisplayCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).get().then((value) {
+      var list = value.docs;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
@@ -158,15 +158,15 @@ class ProductDisplayFirestore implements ProductDisplayRepository {
   void flush() {}
 
   Future<void> deleteAll() {
-    return ProductDisplayCollection.getDocuments().then((snapshot) {
-      for (DocumentSnapshot ds in snapshot.documents){
+    return ProductDisplayCollection.get().then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs){
         ds.reference.delete();
       }
     });
   }
 
   dynamic getSubCollection(String documentId, String name) {
-    return ProductDisplayCollection.document(documentId).collection(name);
+    return ProductDisplayCollection.doc(documentId).collection(name);
   }
 
   String timeStampToString(dynamic timeStamp) {

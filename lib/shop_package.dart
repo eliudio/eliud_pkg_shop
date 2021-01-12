@@ -14,8 +14,10 @@ import 'package:flutter_bloc/src/bloc_provider.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_bloc.dart';
 import 'package:eliud_pkg_shop/model/component_registry.dart';
 import 'package:eliud_pkg_shop/bloc/cart/member_extension.dart';
-import 'package:collection/collection.dart';
+import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
+import 'package:eliud_pkg_shop/model/repository_singleton.dart';
 
+import 'package:collection/collection.dart';
 import 'model/cart_item_model.dart';
 
 // Todo: clearly we can introduce some caching, as we are listening as well as querying the same data. So, instead: keep a cache and update the cache adnd use it from within the isConditionOk
@@ -85,5 +87,7 @@ abstract class ShopPackage extends Package {
   @override
   void init() {
     ComponentRegistry().init();
+
+    AbstractRepositorySingleton.singleton = RepositorySingleton();
   }
 }

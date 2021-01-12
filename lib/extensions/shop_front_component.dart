@@ -2,9 +2,11 @@ import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/tools/component_constructor.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_pkg_shop/extensions/shop_widgets/grid_products.dart';
 import 'package:eliud_pkg_shop/model/product_list_bloc.dart';
 import 'package:eliud_pkg_shop/model/product_list_event.dart';
+import 'package:eliud_pkg_shop/model/product_model.dart';
 import 'package:eliud_pkg_shop/model/shop_front_component.dart';
 import 'package:eliud_pkg_shop/model/shop_front_model.dart';
 import 'package:eliud_pkg_shop/model/shop_front_repository.dart';
@@ -58,6 +60,7 @@ class ShopFrontState extends State<ShopFront> {
   ShopFrontState();
 
   Widget _grid(BuildContext context) {
+
     return MultiBlocProvider(providers: [
       BlocProvider<ProductListBloc>(
         create: (context) => ProductListBloc(AccessBloc.getBloc(context),
