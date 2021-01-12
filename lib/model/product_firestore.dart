@@ -70,7 +70,12 @@ class ProductFirestore implements ProductRepository {
 
   StreamSubscription<List<ProductModel>> listen(ProductModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<ProductModel>> stream;
-    stream = getQuery(appRepository().getSubCollection(appId, 'product'), currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+//    stream = getQuery(ProductCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+//    The above line is replaced by the below line. The reason is because the same collection can not be subscribed to twice
+//    The reason we're subscribing twice to the same list, is because the close on bloc isn't called. This needs to be fixed.
+//    See https://github.com/felangel/bloc/issues/2073.
+//    In the meantime:
+      stream = getQuery(appRepository().getSubCollection(appId, 'product'), currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
       Iterable<ProductModel> products  = data.docs.map((doc) {
         ProductModel value = _populateDoc(doc);
         return value;
@@ -84,6 +89,8 @@ class ProductFirestore implements ProductRepository {
 
   StreamSubscription<List<ProductModel>> listenWithDetails(ProductModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<ProductModel>> stream;
+//  stream = getQuery(ProductCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+//  see comment listen(...) above
     stream = getQuery(appRepository().getSubCollection(appId, 'product'), currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
         .asyncMap((data) async {
       return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
@@ -96,7 +103,7 @@ class ProductFirestore implements ProductRepository {
 
   @override
   StreamSubscription<ProductModel> listenTo(String documentId, ProductChanged changed) {
-    var stream = appRepository().getSubCollection(appId, 'product').doc(documentId)
+    var stream = ProductCollection.doc(documentId)
         .snapshots()
         .asyncMap((data) {
       return _populateDocPlus(data);
@@ -108,7 +115,7 @@ class ProductFirestore implements ProductRepository {
 
   Stream<List<ProductModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     DocumentSnapshot lastDoc;
-    Stream<List<ProductModel>> _values = getQuery(appRepository().getSubCollection(appId, 'product'), currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((snapshot) {
+    Stream<List<ProductModel>> _values = getQuery(ProductCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
@@ -137,8 +144,6 @@ class ProductFirestore implements ProductRepository {
         lastDoc = doc;
         return _populateDoc(doc);
       }).toList();
-    }).catchError((error) {
-      print(error);
     });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
     return _values;

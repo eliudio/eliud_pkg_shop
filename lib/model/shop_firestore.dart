@@ -66,7 +66,12 @@ class ShopFirestore implements ShopRepository {
 
   StreamSubscription<List<ShopModel>> listen(ShopModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<ShopModel>> stream;
-    stream = getQuery(ShopCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+//    stream = getQuery(ShopCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+//    The above line is replaced by the below line. The reason is because the same collection can not be subscribed to twice
+//    The reason we're subscribing twice to the same list, is because the close on bloc isn't called. This needs to be fixed.
+//    See https://github.com/felangel/bloc/issues/2073.
+//    In the meantime:
+      stream = getQuery(appRepository().getSubCollection(appId, 'shop'), currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
       Iterable<ShopModel> shops  = data.docs.map((doc) {
         ShopModel value = _populateDoc(doc);
         return value;
@@ -80,7 +85,9 @@ class ShopFirestore implements ShopRepository {
 
   StreamSubscription<List<ShopModel>> listenWithDetails(ShopModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<ShopModel>> stream;
-    stream = getQuery(ShopCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+//  stream = getQuery(ShopCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+//  see comment listen(...) above
+    stream = getQuery(appRepository().getSubCollection(appId, 'shop'), currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
         .asyncMap((data) async {
       return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
     });
