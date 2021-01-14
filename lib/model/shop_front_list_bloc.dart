@@ -43,9 +43,9 @@ class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {
     _shopFrontsListSubscription = _shopFrontRepository.listen((list) => add(ShopFrontListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
-  Stream<ShopFrontListState> _mapLoadShopFrontListWithDetailsToState() async* {
+  Stream<ShopFrontListState> _mapLoadShopFrontListWithDetailsToState({ String orderBy, bool descending }) async* {
     _shopFrontsListSubscription?.cancel();
-    _shopFrontsListSubscription = _shopFrontRepository.listenWithDetails((list) => add(ShopFrontListUpdated(value: list)), );
+    _shopFrontsListSubscription = _shopFrontRepository.listenWithDetails((list) => add(ShopFrontListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<ShopFrontListState> _mapAddShopFrontListToState(AddShopFrontList event) async* {

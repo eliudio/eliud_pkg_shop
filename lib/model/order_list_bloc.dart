@@ -43,9 +43,9 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
     _ordersListSubscription = _orderRepository.listen((list) => add(OrderListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
-  Stream<OrderListState> _mapLoadOrderListWithDetailsToState() async* {
+  Stream<OrderListState> _mapLoadOrderListWithDetailsToState({ String orderBy, bool descending }) async* {
     _ordersListSubscription?.cancel();
-    _ordersListSubscription = _orderRepository.listenWithDetails((list) => add(OrderListUpdated(value: list)), );
+    _ordersListSubscription = _orderRepository.listenWithDetails((list) => add(OrderListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<OrderListState> _mapAddOrderListToState(AddOrderList event) async* {

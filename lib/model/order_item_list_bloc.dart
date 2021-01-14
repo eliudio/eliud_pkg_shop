@@ -43,9 +43,9 @@ class OrderItemListBloc extends Bloc<OrderItemListEvent, OrderItemListState> {
     _orderItemsListSubscription = _orderItemRepository.listen((list) => add(OrderItemListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
-  Stream<OrderItemListState> _mapLoadOrderItemListWithDetailsToState() async* {
+  Stream<OrderItemListState> _mapLoadOrderItemListWithDetailsToState({ String orderBy, bool descending }) async* {
     _orderItemsListSubscription?.cancel();
-    _orderItemsListSubscription = _orderItemRepository.listenWithDetails((list) => add(OrderItemListUpdated(value: list)), );
+    _orderItemsListSubscription = _orderItemRepository.listenWithDetails((list) => add(OrderItemListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<OrderItemListState> _mapAddOrderItemListToState(AddOrderItemList event) async* {

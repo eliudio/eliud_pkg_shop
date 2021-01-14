@@ -43,9 +43,9 @@ class CartItemListBloc extends Bloc<CartItemListEvent, CartItemListState> {
     _cartItemsListSubscription = _cartItemRepository.listen((list) => add(CartItemListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
-  Stream<CartItemListState> _mapLoadCartItemListWithDetailsToState() async* {
+  Stream<CartItemListState> _mapLoadCartItemListWithDetailsToState({ String orderBy, bool descending }) async* {
     _cartItemsListSubscription?.cancel();
-    _cartItemsListSubscription = _cartItemRepository.listenWithDetails((list) => add(CartItemListUpdated(value: list)), );
+    _cartItemsListSubscription = _cartItemRepository.listenWithDetails((list) => add(CartItemListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<CartItemListState> _mapAddCartItemListToState(AddCartItemList event) async* {
