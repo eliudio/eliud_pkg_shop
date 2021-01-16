@@ -40,12 +40,12 @@ class ProductImageListBloc extends Bloc<ProductImageListEvent, ProductImageListS
 
   Stream<ProductImageListState> _mapLoadProductImageListToState({ String orderBy, bool descending }) async* {
     _productImagesListSubscription?.cancel();
-    _productImagesListSubscription = _productImageRepository.listen((list) => add(ProductImageListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
+    _productImagesListSubscription = _productImageRepository.listen((list) => add(ProductImageListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
   }
 
   Stream<ProductImageListState> _mapLoadProductImageListWithDetailsToState({ String orderBy, bool descending }) async* {
     _productImagesListSubscription?.cancel();
-    _productImagesListSubscription = _productImageRepository.listenWithDetails((list) => add(ProductImageListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
+    _productImagesListSubscription = _productImageRepository.listenWithDetails((list) => add(ProductImageListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
   }
 
   Stream<ProductImageListState> _mapAddProductImageListToState(AddProductImageList event) async* {

@@ -40,12 +40,12 @@ class OrderOverviewListBloc extends Bloc<OrderOverviewListEvent, OrderOverviewLi
 
   Stream<OrderOverviewListState> _mapLoadOrderOverviewListToState({ String orderBy, bool descending }) async* {
     _orderOverviewsListSubscription?.cancel();
-    _orderOverviewsListSubscription = _orderOverviewRepository.listen((list) => add(OrderOverviewListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
+    _orderOverviewsListSubscription = _orderOverviewRepository.listen((list) => add(OrderOverviewListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
   }
 
   Stream<OrderOverviewListState> _mapLoadOrderOverviewListWithDetailsToState({ String orderBy, bool descending }) async* {
     _orderOverviewsListSubscription?.cancel();
-    _orderOverviewsListSubscription = _orderOverviewRepository.listenWithDetails((list) => add(OrderOverviewListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
+    _orderOverviewsListSubscription = _orderOverviewRepository.listenWithDetails((list) => add(OrderOverviewListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
   }
 
   Stream<OrderOverviewListState> _mapAddOrderOverviewListToState(AddOrderOverviewList event) async* {

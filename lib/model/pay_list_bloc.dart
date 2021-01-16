@@ -40,12 +40,12 @@ class PayListBloc extends Bloc<PayListEvent, PayListState> {
 
   Stream<PayListState> _mapLoadPayListToState({ String orderBy, bool descending }) async* {
     _paysListSubscription?.cancel();
-    _paysListSubscription = _payRepository.listen((list) => add(PayListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
+    _paysListSubscription = _payRepository.listen((list) => add(PayListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
   }
 
   Stream<PayListState> _mapLoadPayListWithDetailsToState({ String orderBy, bool descending }) async* {
     _paysListSubscription?.cancel();
-    _paysListSubscription = _payRepository.listenWithDetails((list) => add(PayListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
+    _paysListSubscription = _payRepository.listenWithDetails((list) => add(PayListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
   }
 
   Stream<PayListState> _mapAddPayListToState(AddPayList event) async* {
