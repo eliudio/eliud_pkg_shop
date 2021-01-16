@@ -7,6 +7,17 @@ import 'package:eliud_pkg_shop/model/cart_item_entity.dart';
 import 'package:eliud_pkg_shop/model/cart_item_model.dart';
 
 extension CartMemberExtension on MemberModel {
+  bool hasItemsInCart() {
+    if (packageData != null) {
+      var cartItems = packageData['CART_ITEMS'];
+      if (cartItems == null) return false;
+      if (cartItems == '[]') return false;
+      var decoded = jsonDecode(cartItems);
+      return decoded.length > 0;
+    }
+    return false;
+  }
+
   Future<List<CartItemModel>> items() async {
     if (packageData != null) {
       var cartItems = packageData['CART_ITEMS'];
