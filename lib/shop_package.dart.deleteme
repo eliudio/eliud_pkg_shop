@@ -24,7 +24,6 @@ abstract class ShopPackage extends PackageWithSubscription {
     }
   }
 
-/*
   @override
   void resubscribe(AppModel app, MemberModel currentMember) {
     String appId = app.documentID;
@@ -41,29 +40,13 @@ abstract class ShopPackage extends PackageWithSubscription {
       _setState(false);
     }
   }
-*/
-  @override
-  void resubscribe(AppModel app, MemberModel currentMember) {
-    var appId = app.documentID;
-    if (currentMember != null) {
-      subscription = memberCartRepository(appId: appId).listen((list) {
-        if (list.isNotEmpty) {
-          _setState(((list.first.cartItems != null) && (list.first.cartItems.isNotEmpty)), currentMember: currentMember);
-        } else {
-          _setState(false, currentMember: currentMember);
-        }
-      }, eliudQuery: getCartQuery(
-          appId, currentMember.documentID));
-    } else {
-      _setState(false);
-    }
-  }
+
   static EliudQuery getCartQuery(String appId, String memberId) {
     return EliudQuery(
-        theConditions: [EliudQueryCondition(
-            DocumentIdField(),
-            isEqualTo: memberId
-        )]
+        theConditions: [
+          EliudQueryCondition('assigneeId', isEqualTo: memberId),
+          EliudQueryCondition('appId', isEqualTo: appId),
+        ]
     );
   }
 
