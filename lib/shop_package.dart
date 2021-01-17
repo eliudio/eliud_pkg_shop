@@ -24,24 +24,6 @@ abstract class ShopPackage extends PackageWithSubscription {
     }
   }
 
-/*
-  @override
-  void resubscribe(AppModel app, MemberModel currentMember) {
-    String appId = app.documentID;
-    if (currentMember != null) {
-      subscription = memberCartRepository(appId: appId)
-          .listenTo(currentMember.documentID, (memberCart) async {
-        if (memberCart != null) {
-          _setState(((memberCart.cartItems != null) && (memberCart.cartItems.length > 0)), currentMember: currentMember);
-        } else {
-          _setState(false, currentMember: currentMember);
-        }
-      });
-    } else {
-      _setState(false);
-    }
-  }
-*/
   @override
   void resubscribe(AppModel app, MemberModel currentMember) {
     var appId = app.documentID;
@@ -58,6 +40,7 @@ abstract class ShopPackage extends PackageWithSubscription {
       _setState(false);
     }
   }
+
   static EliudQuery getCartQuery(String appId, String memberId) {
     return EliudQuery(
         theConditions: [EliudQueryCondition(
