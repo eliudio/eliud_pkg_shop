@@ -49,6 +49,9 @@ import '../model/shop_cache.dart';
 import '../model/shop_front_firestore.dart';
 import '../model/shop_front_repository.dart';
 import '../model/shop_front_cache.dart';
+import '../model/member_cart_firestore.dart';
+import '../model/member_cart_repository.dart';
+import '../model/member_cart_cache.dart';
 
 import '../model/cart_model.dart';
 import '../model/cart_item_model.dart';
@@ -72,6 +75,7 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _productDisplayRepository = HashMap<String, ProductDisplayRepository>();
     var _shopRepository = HashMap<String, ShopRepository>();
     var _shopFrontRepository = HashMap<String, ShopFrontRepository>();
+    var _memberCartRepository = HashMap<String, MemberCartRepository>();
 
     CartRepository cartRepository(String appId) {
       if (_cartRepository[appId] == null) _cartRepository[appId] = CartCache(CartFirestore(appRepository().getSubCollection(appId, 'cart'), appId));
@@ -108,6 +112,10 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     ShopFrontRepository shopFrontRepository(String appId) {
       if (_shopFrontRepository[appId] == null) _shopFrontRepository[appId] = ShopFrontCache(ShopFrontFirestore(appRepository().getSubCollection(appId, 'shopfront'), appId));
       return _shopFrontRepository[appId];
+    }
+    MemberCartRepository memberCartRepository(String appId) {
+      if (_memberCartRepository[appId] == null) _memberCartRepository[appId] = MemberCartCache(MemberCartFirestore(appRepository().getSubCollection(appId, 'membercart'), appId));
+      return _memberCartRepository[appId];
     }
 
 }

@@ -26,3 +26,4 @@ export '../model/product_display_model.dart';
 export '../model/product_image_model.dart';
 export '../model/shop_model.dart';
 export '../model/shop_front_model.dart';
+export '../model/member_cart_model.dart';

@@ -25,3 +25,4 @@ export '../model/product_display_repository.dart';
 export '../model/product_image_repository.dart';
 export '../model/shop_repository.dart';
 export '../model/shop_front_repository.dart';
+export '../model/member_cart_repository.dart';

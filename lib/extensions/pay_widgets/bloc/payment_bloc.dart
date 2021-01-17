@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_bloc.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_event.dart';
@@ -14,7 +15,6 @@ import 'package:eliud_pkg_shop/model/order_model.dart';
 import 'package:eliud_pkg_shop/model/shop_model.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:eliud_pkg_shop/bloc/cart/member_extension.dart';
 
 import 'package:intl/intl.dart';
 
@@ -30,13 +30,18 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     return true;
   }
 
+  Future<List<CartItemModel>> getItems(String appId, MemberModel member) async {
+    var cart = await memberCartRepository(appId: appId).get(member.documentID);
+    return (cart != null) ? cart.cartItems : null;
+  }
+
   @override
   Stream<PaymentState> mapEventToState(PaymentEvent event) async* {
     if (event is CollectOrder) {
       // The payment screen is opened. We create an OrderModel instance in memory
       var accessState = accessBloc.state;
       if (accessState is LoggedIn) {
-        var items = await accessState.member.items();
+        var items = await getItems(accessState.app.documentID, accessState.member);
         if (items.isEmpty) {
           yield NoItemsInCart();
           return;
@@ -93,7 +98,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   }
 
   Future<OrderModel> _getNewOrder(LoggedIn loggedInState, ShopModel shop, List<CartItemModel> items) async {
-    var items = await loggedInState.member.items();
+    var items = await getItems(loggedInState.app.documentID, loggedInState.member);
     var totalValue = CartHelper.totalValue(items);
     return OrderModel(
         documentID: newRandomKey(),

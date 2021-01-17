@@ -24,12 +24,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 
-import '../model/cart_item_list_bloc.dart';
-import '../model/cart_item_list.dart';
-import '../model/cart_item_list_event.dart';
-import '../model/cart_item_model.dart';
-import '../model/cart_item_repository.dart';
-
 import '../model/order_item_list_bloc.dart';
 import '../model/order_item_list.dart';
 import '../model/order_item_list_event.dart';
@@ -42,33 +36,13 @@ import '../model/product_image_list_event.dart';
 import '../model/product_image_model.dart';
 import '../model/product_image_repository.dart';
 
-typedef CartItemListChanged(List<CartItemModel> values);
 typedef OrderItemListChanged(List<OrderItemModel> values);
 typedef ProductImageListChanged(List<ProductImageModel> values);
 
-cartItemsList(context, value, trigger) => EmbeddedComponentFactory.cartItemsList(context, value, trigger);
 orderItemsList(context, value, trigger) => EmbeddedComponentFactory.orderItemsList(context, value, trigger);
 productImagesList(context, value, trigger) => EmbeddedComponentFactory.productImagesList(context, value, trigger);
 
 class EmbeddedComponentFactory {
-
-static Widget cartItemsList(BuildContext context, List<CartItemModel> values, CartItemListChanged trigger) {
-  CartItemInMemoryRepository inMemoryRepository = CartItemInMemoryRepository(
-    trigger: trigger,
-    items: values,
-  );
-  return MultiBlocProvider(
-    providers: [
-      BlocProvider<CartItemListBloc>(
-        create: (context) => CartItemListBloc(
-          AccessBloc.getBloc(context), 
-          cartItemRepository: inMemoryRepository,
-          )..add(LoadCartItemList()),
-        )
-        ],
-    child: CartItemListWidget(isEmbedded: true),
-  );
-}
 
 static Widget orderItemsList(BuildContext context, List<OrderItemModel> values, OrderItemListChanged trigger) {
   OrderItemInMemoryRepository inMemoryRepository = OrderItemInMemoryRepository(
@@ -107,101 +81,6 @@ static Widget productImagesList(BuildContext context, List<ProductImageModel> va
 }
 
 
-}
-
-class CartItemInMemoryRepository implements CartItemRepository {
-    final List<CartItemModel> items;
-    final CartItemListChanged trigger;
-    Stream<List<CartItemModel>> theValues;
-
-    CartItemInMemoryRepository({this.trigger, this.items}) {
-        List<List<CartItemModel>> myList = new List<List<CartItemModel>>();
-        myList.add(items);
-        theValues = Stream<List<CartItemModel>>.fromIterable(myList);
-    }
-
-    int _index(String documentID) {
-      int i = 0;
-      for (final item in items) {
-        if (item.documentID == documentID) {
-          return i;
-        }
-        i++;
-      }
-      return -1;
-    }
-
-    Future<CartItemModel> add(CartItemModel value) {
-        items.add(value.copyWith(documentID: newRandomKey()));
-        trigger(items);
-    }
-
-    Future<void> delete(CartItemModel value) {
-      int index = _index(value.documentID);
-      if (index >= 0) items.removeAt(index);
-      trigger(items);
-    }
-
-    Future<CartItemModel> update(CartItemModel value) {
-      int index = _index(value.documentID);
-      if (index >= 0) {
-        items.replaceRange(index, index+1, [value]);
-        trigger(items);
-      }
-    }
-
-    Future<CartItemModel> get(String id, { Function(Exception) onError }) {
-      int index = _index(id);
-      var completer = new Completer<CartItemModel>();
-      completer.complete(items[index]);
-      return completer.future;
-    }
-
-    Stream<List<CartItemModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues;
-    }
-    
-    Stream<List<CartItemModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues;
-    }
-    
-    @override
-    StreamSubscription<List<CartItemModel>> listen(trigger, { String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues.listen((theList) => trigger(theList));
-    }
-  
-    @override
-    StreamSubscription<List<CartItemModel>> listenWithDetails(trigger, { String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues.listen((theList) => trigger(theList));
-    }
-    
-    void flush() {}
-
-    Future<List<CartItemModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
-      return Future.value(items);
-    }
-    
-    Future<List<CartItemModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
-      return Future.value(items);
-    }
-
-    @override
-    getSubCollection(String documentId, String name) {
-      throw UnimplementedError();
-    }
-
-  @override
-  String timeStampToString(timeStamp) {
-    throw UnimplementedError();
-  }
-  
-  @override
-  StreamSubscription<CartItemModel> listenTo(String documentId, CartItemChanged changed) {
-    throw UnimplementedError();
-  }
-  
-
-    Future<void> deleteAll() {}
 }
 
 class OrderItemInMemoryRepository implements OrderItemRepository {
