@@ -27,11 +27,12 @@ class ShopFrontListLoading extends ShopFrontListState {}
 
 class ShopFrontListLoaded extends ShopFrontListState {
   final List<ShopFrontModel> values;
+  final bool mightHaveMore;
 
-  const ShopFrontListLoaded({this.values = const []});
+  const ShopFrontListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'ShopFrontListLoaded { values: $values }';

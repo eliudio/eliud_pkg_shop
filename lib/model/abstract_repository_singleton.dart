@@ -15,6 +15,7 @@
 
 import '../model/cart_repository.dart';
 import '../model/cart_item_repository.dart';
+import '../model/member_cart_repository.dart';
 import '../model/order_repository.dart';
 import '../model/order_item_repository.dart';
 import '../model/order_overview_repository.dart';
@@ -25,12 +26,12 @@ import '../model/product_display_repository.dart';
 import '../model/product_image_repository.dart';
 import '../model/shop_repository.dart';
 import '../model/shop_front_repository.dart';
-import '../model/member_cart_repository.dart';
 import 'package:eliud_core/core/access/bloc/user_repository.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 
 CartRepository cartRepository({ String appId }) => AbstractRepositorySingleton.singleton.cartRepository(appId);
+MemberCartRepository memberCartRepository({ String appId }) => AbstractRepositorySingleton.singleton.memberCartRepository(appId);
 OrderRepository orderRepository({ String appId }) => AbstractRepositorySingleton.singleton.orderRepository(appId);
 OrderOverviewRepository orderOverviewRepository({ String appId }) => AbstractRepositorySingleton.singleton.orderOverviewRepository(appId);
 PayRepository payRepository({ String appId }) => AbstractRepositorySingleton.singleton.payRepository(appId);
@@ -39,12 +40,12 @@ ProductRepository productRepository({ String appId }) => AbstractRepositorySingl
 ProductDisplayRepository productDisplayRepository({ String appId }) => AbstractRepositorySingleton.singleton.productDisplayRepository(appId);
 ShopRepository shopRepository({ String appId }) => AbstractRepositorySingleton.singleton.shopRepository(appId);
 ShopFrontRepository shopFrontRepository({ String appId }) => AbstractRepositorySingleton.singleton.shopFrontRepository(appId);
-MemberCartRepository memberCartRepository({ String appId }) => AbstractRepositorySingleton.singleton.memberCartRepository(appId);
 
 abstract class AbstractRepositorySingleton {
   static AbstractRepositorySingleton singleton;
 
   CartRepository cartRepository(String appId);
+  MemberCartRepository memberCartRepository(String appId);
   OrderRepository orderRepository(String appId);
   OrderOverviewRepository orderOverviewRepository(String appId);
   PayRepository payRepository(String appId);
@@ -53,7 +54,6 @@ abstract class AbstractRepositorySingleton {
   ProductDisplayRepository productDisplayRepository(String appId);
   ShopRepository shopRepository(String appId);
   ShopFrontRepository shopFrontRepository(String appId);
-  MemberCartRepository memberCartRepository(String appId);
 
   void flush(String appId) {
   }

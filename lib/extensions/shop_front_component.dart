@@ -63,10 +63,11 @@ class ShopFrontState extends State<ShopFront> {
 
     return MultiBlocProvider(providers: [
       BlocProvider<ProductListBloc>(
-        create: (context) => ProductListBloc(AccessBloc.getBloc(context),
+        create: (context) => ProductListBloc(
+          detailed: true,
           productRepository:
               AbstractRepositorySingleton.singleton.productRepository(AccessBloc.appId(context)),
-        )..add(LoadProductListWithDetails()),
+        )..add(LoadProductList()),
       )
     ], child: GridProducts(shopFrontModel: widget.shopFrontModel));
   }

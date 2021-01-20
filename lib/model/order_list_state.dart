@@ -27,11 +27,12 @@ class OrderListLoading extends OrderListState {}
 
 class OrderListLoaded extends OrderListState {
   final List<OrderModel> values;
+  final bool mightHaveMore;
 
-  const OrderListLoaded({this.values = const []});
+  const OrderListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'OrderListLoaded { values: $values }';

@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_pkg_shop/model/order_repository.dart';
 import 'package:eliud_pkg_shop/model/order_list_event.dart';
 import 'package:eliud_pkg_shop/model/order_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _orderLimit = 5;
 
 class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
   final OrderRepository _orderRepository;
   StreamSubscription _ordersListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  OrderListBloc(this.accessBloc,{ this.eliudQuery, @required OrderRepository orderRepository })
+  OrderListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required OrderRepository orderRepository})
       : assert(orderRepository != null),
-      _orderRepository = orderRepository,
-      super(OrderListLoading());
+        _orderRepository = orderRepository,
+        super(OrderListLoading());
 
-  Stream<OrderListState> _mapLoadOrderListToState({ String orderBy, bool descending }) async* {
+  Stream<OrderListState> _mapLoadOrderListToState() async* {
+    int amountNow =  (state is OrderListLoaded) ? (state as OrderListLoaded).values.length : 0;
     _ordersListSubscription?.cancel();
-    _ordersListSubscription = _orderRepository.listen((list) => add(OrderListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _ordersListSubscription = _orderRepository.listen(
+          (list) => add(OrderListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _orderLimit : null
+    );
   }
 
-  Stream<OrderListState> _mapLoadOrderListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<OrderListState> _mapLoadOrderListWithDetailsToState() async* {
+    int amountNow =  (state is OrderListLoaded) ? (state as OrderListLoaded).values.length : 0;
     _ordersListSubscription?.cancel();
-    _ordersListSubscription = _orderRepository.listenWithDetails((list) => add(OrderListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _ordersListSubscription = _orderRepository.listenWithDetails(
+            (list) => add(OrderListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _orderLimit : null
+    );
   }
 
   Stream<OrderListState> _mapAddOrderListToState(AddOrderList event) async* {
@@ -60,17 +76,22 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
     _orderRepository.delete(event.value);
   }
 
-  Stream<OrderListState> _mapOrderListUpdatedToState(OrderListUpdated event) async* {
-    yield OrderListLoaded(values: event.value);
+  Stream<OrderListState> _mapOrderListUpdatedToState(
+      OrderListUpdated event) async* {
+    yield OrderListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<OrderListState> mapEventToState(OrderListEvent event) async* {
-    final currentState = state;
     if (event is LoadOrderList) {
-      yield* _mapLoadOrderListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadOrderListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadOrderListToState();
+      } else {
+        yield* _mapLoadOrderListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadOrderListWithDetailsToState();
     } else if (event is AddOrderList) {
       yield* _mapAddOrderListToState(event);
@@ -88,7 +109,6 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
     _ordersListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

@@ -16,18 +16,21 @@
 import 'package:eliud_pkg_shop/model/member_cart_repository.dart';
 
 
+import 'package:eliud_core/model/repository_export.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/repository_export.dart';
+import 'package:eliud_core/model/model_export.dart';
+import '../tools/bespoke_models.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
+import 'package:eliud_core/model/entity_export.dart';
+import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-
-
-
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
@@ -99,13 +102,15 @@ class MemberCartFirestore implements MemberCartRepository {
   }
 
   @override
-  StreamSubscription<List<MemberCartModel>> listenTo2(String documentId, MemberCartModelTrigger changed) {
-    return listen(changed, eliudQuery: EliudQuery(
-      theConditions: [EliudQueryCondition(
-          FieldPath.documentId,
-          isEqualTo: documentId
-      )]
-    ));
+  StreamSubscription<MemberCartModel> listenTo(String documentId, MemberCartChanged changed) {
+    var stream = MemberCartCollection.doc(documentId)
+        .snapshots()
+        .asyncMap((data) {
+      return _populateDocPlus(data);
+    });
+    return stream.listen((value) {
+      changed(value);
+    });
   }
 
   Stream<List<MemberCartModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
@@ -179,11 +184,5 @@ class MemberCartFirestore implements MemberCartRepository {
   MemberCartFirestore(this.MemberCartCollection, this.appId);
 
   final CollectionReference MemberCartCollection;
-
-  @override
-  StreamSubscription<MemberCartModel> listenTo(String documentId, changed) {
-    // TODO: implement listenTo
-    throw UnimplementedError();
-  }
 }
 

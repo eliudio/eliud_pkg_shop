@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_pkg_shop/model/shop_repository.dart';
 import 'package:eliud_pkg_shop/model/shop_list_event.dart';
 import 'package:eliud_pkg_shop/model/shop_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _shopLimit = 5;
 
 class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
   final ShopRepository _shopRepository;
   StreamSubscription _shopsListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  ShopListBloc(this.accessBloc,{ this.eliudQuery, @required ShopRepository shopRepository })
+  ShopListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required ShopRepository shopRepository})
       : assert(shopRepository != null),
-      _shopRepository = shopRepository,
-      super(ShopListLoading());
+        _shopRepository = shopRepository,
+        super(ShopListLoading());
 
-  Stream<ShopListState> _mapLoadShopListToState({ String orderBy, bool descending }) async* {
+  Stream<ShopListState> _mapLoadShopListToState() async* {
+    int amountNow =  (state is ShopListLoaded) ? (state as ShopListLoaded).values.length : 0;
     _shopsListSubscription?.cancel();
-    _shopsListSubscription = _shopRepository.listen((list) => add(ShopListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _shopsListSubscription = _shopRepository.listen(
+          (list) => add(ShopListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _shopLimit : null
+    );
   }
 
-  Stream<ShopListState> _mapLoadShopListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<ShopListState> _mapLoadShopListWithDetailsToState() async* {
+    int amountNow =  (state is ShopListLoaded) ? (state as ShopListLoaded).values.length : 0;
     _shopsListSubscription?.cancel();
-    _shopsListSubscription = _shopRepository.listenWithDetails((list) => add(ShopListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _shopsListSubscription = _shopRepository.listenWithDetails(
+            (list) => add(ShopListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _shopLimit : null
+    );
   }
 
   Stream<ShopListState> _mapAddShopListToState(AddShopList event) async* {
@@ -60,17 +76,22 @@ class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
     _shopRepository.delete(event.value);
   }
 
-  Stream<ShopListState> _mapShopListUpdatedToState(ShopListUpdated event) async* {
-    yield ShopListLoaded(values: event.value);
+  Stream<ShopListState> _mapShopListUpdatedToState(
+      ShopListUpdated event) async* {
+    yield ShopListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<ShopListState> mapEventToState(ShopListEvent event) async* {
-    final currentState = state;
     if (event is LoadShopList) {
-      yield* _mapLoadShopListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadShopListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadShopListToState();
+      } else {
+        yield* _mapLoadShopListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadShopListWithDetailsToState();
     } else if (event is AddShopList) {
       yield* _mapAddShopListToState(event);
@@ -88,7 +109,6 @@ class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
     _shopsListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

@@ -22,18 +22,9 @@ abstract class CartListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadCartList extends CartListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadCartList extends CartListEvent {}
 
-  LoadCartList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadCartListWithDetails extends CartListEvent {}
+class NewPage extends CartListEvent {}
 
 class AddCartList extends CartListEvent {
   final CartModel value;
@@ -73,13 +64,14 @@ class DeleteCartList extends CartListEvent {
 
 class CartListUpdated extends CartListEvent {
   final List<CartModel> value;
+  final bool mightHaveMore;
 
-  const CartListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const CartListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'CartListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'CartListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 

@@ -22,18 +22,9 @@ abstract class OrderListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadOrderList extends OrderListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadOrderList extends OrderListEvent {}
 
-  LoadOrderList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadOrderListWithDetails extends OrderListEvent {}
+class NewPage extends OrderListEvent {}
 
 class AddOrderList extends OrderListEvent {
   final OrderModel value;
@@ -73,13 +64,14 @@ class DeleteOrderList extends OrderListEvent {
 
 class OrderListUpdated extends OrderListEvent {
   final List<OrderModel> value;
+  final bool mightHaveMore;
 
-  const OrderListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const OrderListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'OrderListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'OrderListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 

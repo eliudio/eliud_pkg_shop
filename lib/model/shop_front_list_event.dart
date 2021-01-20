@@ -22,18 +22,9 @@ abstract class ShopFrontListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadShopFrontList extends ShopFrontListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadShopFrontList extends ShopFrontListEvent {}
 
-  LoadShopFrontList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadShopFrontListWithDetails extends ShopFrontListEvent {}
+class NewPage extends ShopFrontListEvent {}
 
 class AddShopFrontList extends ShopFrontListEvent {
   final ShopFrontModel value;
@@ -73,13 +64,14 @@ class DeleteShopFrontList extends ShopFrontListEvent {
 
 class ShopFrontListUpdated extends ShopFrontListEvent {
   final List<ShopFrontModel> value;
+  final bool mightHaveMore;
 
-  const ShopFrontListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const ShopFrontListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'ShopFrontListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'ShopFrontListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 

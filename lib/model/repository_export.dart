@@ -15,6 +15,7 @@
 
 export '../model/cart_repository.dart';
 export '../model/cart_item_repository.dart';
+export '../model/member_cart_repository.dart';
 export '../model/order_repository.dart';
 export '../model/order_item_repository.dart';
 export '../model/order_overview_repository.dart';
@@ -25,4 +26,3 @@ export '../model/product_display_repository.dart';
 export '../model/product_image_repository.dart';
 export '../model/shop_repository.dart';
 export '../model/shop_front_repository.dart';
-export '../model/member_cart_repository.dart';

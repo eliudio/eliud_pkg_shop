@@ -22,13 +22,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var accessBloc = AccessBloc.getBloc(context);
     if (accessState is LoggedIn) {
       return MultiBlocProvider(
           providers: [
             BlocProvider<MemberListBloc>(
               create: (context) =>
-              MemberListBloc(accessBloc,
+              MemberListBloc(
                 memberRepository: memberRepository(),
               )
                 ..add(LoadMemberList()),

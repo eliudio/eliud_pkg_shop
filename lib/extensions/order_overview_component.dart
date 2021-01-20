@@ -28,7 +28,7 @@ class OrderOverviewComponent extends AbstractOrderOverviewComponent {
       // allow owner of the app to see ALL orders and update shipment details
       return BlocProvider<OrderListBloc>(
         create: (context) =>
-        OrderListBloc(AccessBloc.getBloc(context),
+        OrderListBloc(
           orderRepository: AbstractRepositorySingleton.singleton.orderRepository(AccessBloc.appId(context)),
         )
           ..add(LoadOrderList()),
@@ -38,7 +38,7 @@ class OrderOverviewComponent extends AbstractOrderOverviewComponent {
       // allow member to view his own orders
       return BlocProvider<OrderListBloc>(
         create: (context) =>
-        OrderListBloc(AccessBloc.getBloc(context),
+        OrderListBloc(
           orderRepository: AbstractRepositorySingleton.singleton
               .orderRepository(AccessBloc.appId(context)),
         )

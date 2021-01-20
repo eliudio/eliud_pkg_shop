@@ -53,7 +53,6 @@ static Widget orderItemsList(BuildContext context, List<OrderItemModel> values, 
     providers: [
       BlocProvider<OrderItemListBloc>(
         create: (context) => OrderItemListBloc(
-          AccessBloc.getBloc(context), 
           orderItemRepository: inMemoryRepository,
           )..add(LoadOrderItemList()),
         )
@@ -71,7 +70,6 @@ static Widget productImagesList(BuildContext context, List<ProductImageModel> va
     providers: [
       BlocProvider<ProductImageListBloc>(
         create: (context) => ProductImageListBloc(
-          AccessBloc.getBloc(context), 
           productImageRepository: inMemoryRepository,
           )..add(LoadProductImageList()),
         )

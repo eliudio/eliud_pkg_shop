@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_pkg_shop/model/product_image_repository.dart';
 import 'package:eliud_pkg_shop/model/product_image_list_event.dart';
 import 'package:eliud_pkg_shop/model/product_image_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _productImageLimit = 5;
 
 class ProductImageListBloc extends Bloc<ProductImageListEvent, ProductImageListState> {
   final ProductImageRepository _productImageRepository;
   StreamSubscription _productImagesListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  ProductImageListBloc(this.accessBloc,{ this.eliudQuery, @required ProductImageRepository productImageRepository })
+  ProductImageListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required ProductImageRepository productImageRepository})
       : assert(productImageRepository != null),
-      _productImageRepository = productImageRepository,
-      super(ProductImageListLoading());
+        _productImageRepository = productImageRepository,
+        super(ProductImageListLoading());
 
-  Stream<ProductImageListState> _mapLoadProductImageListToState({ String orderBy, bool descending }) async* {
+  Stream<ProductImageListState> _mapLoadProductImageListToState() async* {
+    int amountNow =  (state is ProductImageListLoaded) ? (state as ProductImageListLoaded).values.length : 0;
     _productImagesListSubscription?.cancel();
-    _productImagesListSubscription = _productImageRepository.listen((list) => add(ProductImageListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _productImagesListSubscription = _productImageRepository.listen(
+          (list) => add(ProductImageListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _productImageLimit : null
+    );
   }
 
-  Stream<ProductImageListState> _mapLoadProductImageListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<ProductImageListState> _mapLoadProductImageListWithDetailsToState() async* {
+    int amountNow =  (state is ProductImageListLoaded) ? (state as ProductImageListLoaded).values.length : 0;
     _productImagesListSubscription?.cancel();
-    _productImagesListSubscription = _productImageRepository.listenWithDetails((list) => add(ProductImageListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _productImagesListSubscription = _productImageRepository.listenWithDetails(
+            (list) => add(ProductImageListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _productImageLimit : null
+    );
   }
 
   Stream<ProductImageListState> _mapAddProductImageListToState(AddProductImageList event) async* {
@@ -60,17 +76,22 @@ class ProductImageListBloc extends Bloc<ProductImageListEvent, ProductImageListS
     _productImageRepository.delete(event.value);
   }
 
-  Stream<ProductImageListState> _mapProductImageListUpdatedToState(ProductImageListUpdated event) async* {
-    yield ProductImageListLoaded(values: event.value);
+  Stream<ProductImageListState> _mapProductImageListUpdatedToState(
+      ProductImageListUpdated event) async* {
+    yield ProductImageListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<ProductImageListState> mapEventToState(ProductImageListEvent event) async* {
-    final currentState = state;
     if (event is LoadProductImageList) {
-      yield* _mapLoadProductImageListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadProductImageListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadProductImageListToState();
+      } else {
+        yield* _mapLoadProductImageListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadProductImageListWithDetailsToState();
     } else if (event is AddProductImageList) {
       yield* _mapAddProductImageListToState(event);
@@ -88,7 +109,6 @@ class ProductImageListBloc extends Bloc<ProductImageListEvent, ProductImageListS
     _productImagesListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

@@ -27,11 +27,12 @@ class PayListLoading extends PayListState {}
 
 class PayListLoaded extends PayListState {
   final List<PayModel> values;
+  final bool mightHaveMore;
 
-  const PayListLoaded({this.values = const []});
+  const PayListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'PayListLoaded { values: $values }';

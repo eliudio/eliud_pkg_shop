@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_pkg_shop/model/pay_repository.dart';
 import 'package:eliud_pkg_shop/model/pay_list_event.dart';
 import 'package:eliud_pkg_shop/model/pay_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _payLimit = 5;
 
 class PayListBloc extends Bloc<PayListEvent, PayListState> {
   final PayRepository _payRepository;
   StreamSubscription _paysListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  PayListBloc(this.accessBloc,{ this.eliudQuery, @required PayRepository payRepository })
+  PayListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required PayRepository payRepository})
       : assert(payRepository != null),
-      _payRepository = payRepository,
-      super(PayListLoading());
+        _payRepository = payRepository,
+        super(PayListLoading());
 
-  Stream<PayListState> _mapLoadPayListToState({ String orderBy, bool descending }) async* {
+  Stream<PayListState> _mapLoadPayListToState() async* {
+    int amountNow =  (state is PayListLoaded) ? (state as PayListLoaded).values.length : 0;
     _paysListSubscription?.cancel();
-    _paysListSubscription = _payRepository.listen((list) => add(PayListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _paysListSubscription = _payRepository.listen(
+          (list) => add(PayListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _payLimit : null
+    );
   }
 
-  Stream<PayListState> _mapLoadPayListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<PayListState> _mapLoadPayListWithDetailsToState() async* {
+    int amountNow =  (state is PayListLoaded) ? (state as PayListLoaded).values.length : 0;
     _paysListSubscription?.cancel();
-    _paysListSubscription = _payRepository.listenWithDetails((list) => add(PayListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _paysListSubscription = _payRepository.listenWithDetails(
+            (list) => add(PayListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _payLimit : null
+    );
   }
 
   Stream<PayListState> _mapAddPayListToState(AddPayList event) async* {
@@ -60,17 +76,22 @@ class PayListBloc extends Bloc<PayListEvent, PayListState> {
     _payRepository.delete(event.value);
   }
 
-  Stream<PayListState> _mapPayListUpdatedToState(PayListUpdated event) async* {
-    yield PayListLoaded(values: event.value);
+  Stream<PayListState> _mapPayListUpdatedToState(
+      PayListUpdated event) async* {
+    yield PayListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<PayListState> mapEventToState(PayListEvent event) async* {
-    final currentState = state;
     if (event is LoadPayList) {
-      yield* _mapLoadPayListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadPayListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadPayListToState();
+      } else {
+        yield* _mapLoadPayListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadPayListWithDetailsToState();
     } else if (event is AddPayList) {
       yield* _mapAddPayListToState(event);
@@ -88,7 +109,6 @@ class PayListBloc extends Bloc<PayListEvent, PayListState> {
     _paysListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

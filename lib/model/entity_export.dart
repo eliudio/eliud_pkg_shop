@@ -15,6 +15,7 @@
 
 export '../model/cart_entity.dart';
 export '../model/cart_item_entity.dart';
+export '../model/member_cart_entity.dart';
 export '../model/order_entity.dart';
 export '../model/order_item_entity.dart';
 export '../model/order_overview_entity.dart';
@@ -26,4 +27,3 @@ export '../model/product_display_entity.dart';
 export '../model/product_image_entity.dart';
 export '../model/shop_entity.dart';
 export '../model/shop_front_entity.dart';
-export '../model/member_cart_entity.dart';

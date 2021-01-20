@@ -27,11 +27,12 @@ class PayConfirmationListLoading extends PayConfirmationListState {}
 
 class PayConfirmationListLoaded extends PayConfirmationListState {
   final List<PayConfirmationModel> values;
+  final bool mightHaveMore;
 
-  const PayConfirmationListLoaded({this.values = const []});
+  const PayConfirmationListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'PayConfirmationListLoaded { values: $values }';

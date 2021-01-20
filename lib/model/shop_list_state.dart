@@ -27,11 +27,12 @@ class ShopListLoading extends ShopListState {}
 
 class ShopListLoaded extends ShopListState {
   final List<ShopModel> values;
+  final bool mightHaveMore;
 
-  const ShopListLoaded({this.values = const []});
+  const ShopListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'ShopListLoaded { values: $values }';

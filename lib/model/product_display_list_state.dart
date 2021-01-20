@@ -27,11 +27,12 @@ class ProductDisplayListLoading extends ProductDisplayListState {}
 
 class ProductDisplayListLoaded extends ProductDisplayListState {
   final List<ProductDisplayModel> values;
+  final bool mightHaveMore;
 
-  const ProductDisplayListLoaded({this.values = const []});
+  const ProductDisplayListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'ProductDisplayListLoaded { values: $values }';

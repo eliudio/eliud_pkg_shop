@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_pkg_shop/model/order_overview_repository.dart';
 import 'package:eliud_pkg_shop/model/order_overview_list_event.dart';
 import 'package:eliud_pkg_shop/model/order_overview_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _orderOverviewLimit = 5;
 
 class OrderOverviewListBloc extends Bloc<OrderOverviewListEvent, OrderOverviewListState> {
   final OrderOverviewRepository _orderOverviewRepository;
   StreamSubscription _orderOverviewsListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  OrderOverviewListBloc(this.accessBloc,{ this.eliudQuery, @required OrderOverviewRepository orderOverviewRepository })
+  OrderOverviewListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required OrderOverviewRepository orderOverviewRepository})
       : assert(orderOverviewRepository != null),
-      _orderOverviewRepository = orderOverviewRepository,
-      super(OrderOverviewListLoading());
+        _orderOverviewRepository = orderOverviewRepository,
+        super(OrderOverviewListLoading());
 
-  Stream<OrderOverviewListState> _mapLoadOrderOverviewListToState({ String orderBy, bool descending }) async* {
+  Stream<OrderOverviewListState> _mapLoadOrderOverviewListToState() async* {
+    int amountNow =  (state is OrderOverviewListLoaded) ? (state as OrderOverviewListLoaded).values.length : 0;
     _orderOverviewsListSubscription?.cancel();
-    _orderOverviewsListSubscription = _orderOverviewRepository.listen((list) => add(OrderOverviewListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _orderOverviewsListSubscription = _orderOverviewRepository.listen(
+          (list) => add(OrderOverviewListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _orderOverviewLimit : null
+    );
   }
 
-  Stream<OrderOverviewListState> _mapLoadOrderOverviewListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<OrderOverviewListState> _mapLoadOrderOverviewListWithDetailsToState() async* {
+    int amountNow =  (state is OrderOverviewListLoaded) ? (state as OrderOverviewListLoaded).values.length : 0;
     _orderOverviewsListSubscription?.cancel();
-    _orderOverviewsListSubscription = _orderOverviewRepository.listenWithDetails((list) => add(OrderOverviewListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _orderOverviewsListSubscription = _orderOverviewRepository.listenWithDetails(
+            (list) => add(OrderOverviewListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _orderOverviewLimit : null
+    );
   }
 
   Stream<OrderOverviewListState> _mapAddOrderOverviewListToState(AddOrderOverviewList event) async* {
@@ -60,17 +76,22 @@ class OrderOverviewListBloc extends Bloc<OrderOverviewListEvent, OrderOverviewLi
     _orderOverviewRepository.delete(event.value);
   }
 
-  Stream<OrderOverviewListState> _mapOrderOverviewListUpdatedToState(OrderOverviewListUpdated event) async* {
-    yield OrderOverviewListLoaded(values: event.value);
+  Stream<OrderOverviewListState> _mapOrderOverviewListUpdatedToState(
+      OrderOverviewListUpdated event) async* {
+    yield OrderOverviewListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<OrderOverviewListState> mapEventToState(OrderOverviewListEvent event) async* {
-    final currentState = state;
     if (event is LoadOrderOverviewList) {
-      yield* _mapLoadOrderOverviewListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadOrderOverviewListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadOrderOverviewListToState();
+      } else {
+        yield* _mapLoadOrderOverviewListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadOrderOverviewListWithDetailsToState();
     } else if (event is AddOrderOverviewList) {
       yield* _mapAddOrderOverviewListToState(event);
@@ -88,7 +109,6 @@ class OrderOverviewListBloc extends Bloc<OrderOverviewListEvent, OrderOverviewLi
     _orderOverviewsListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

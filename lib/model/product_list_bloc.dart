@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_pkg_shop/model/product_repository.dart';
 import 'package:eliud_pkg_shop/model/product_list_event.dart';
 import 'package:eliud_pkg_shop/model/product_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _productLimit = 5;
 
 class ProductListBloc extends Bloc<ProductListEvent, ProductListState> {
   final ProductRepository _productRepository;
   StreamSubscription _productsListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  ProductListBloc(this.accessBloc,{ this.eliudQuery, @required ProductRepository productRepository })
+  ProductListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required ProductRepository productRepository})
       : assert(productRepository != null),
-      _productRepository = productRepository,
-      super(ProductListLoading());
+        _productRepository = productRepository,
+        super(ProductListLoading());
 
-  Stream<ProductListState> _mapLoadProductListToState({ String orderBy, bool descending }) async* {
+  Stream<ProductListState> _mapLoadProductListToState() async* {
+    int amountNow =  (state is ProductListLoaded) ? (state as ProductListLoaded).values.length : 0;
     _productsListSubscription?.cancel();
-    _productsListSubscription = _productRepository.listen((list) => add(ProductListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _productsListSubscription = _productRepository.listen(
+          (list) => add(ProductListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _productLimit : null
+    );
   }
 
-  Stream<ProductListState> _mapLoadProductListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<ProductListState> _mapLoadProductListWithDetailsToState() async* {
+    int amountNow =  (state is ProductListLoaded) ? (state as ProductListLoaded).values.length : 0;
     _productsListSubscription?.cancel();
-    _productsListSubscription = _productRepository.listenWithDetails((list) => add(ProductListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _productsListSubscription = _productRepository.listenWithDetails(
+            (list) => add(ProductListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _productLimit : null
+    );
   }
 
   Stream<ProductListState> _mapAddProductListToState(AddProductList event) async* {
@@ -60,17 +76,22 @@ class ProductListBloc extends Bloc<ProductListEvent, ProductListState> {
     _productRepository.delete(event.value);
   }
 
-  Stream<ProductListState> _mapProductListUpdatedToState(ProductListUpdated event) async* {
-    yield ProductListLoaded(values: event.value);
+  Stream<ProductListState> _mapProductListUpdatedToState(
+      ProductListUpdated event) async* {
+    yield ProductListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<ProductListState> mapEventToState(ProductListEvent event) async* {
-    final currentState = state;
     if (event is LoadProductList) {
-      yield* _mapLoadProductListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadProductListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadProductListToState();
+      } else {
+        yield* _mapLoadProductListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadProductListWithDetailsToState();
     } else if (event is AddProductList) {
       yield* _mapAddProductListToState(event);
@@ -88,7 +109,6 @@ class ProductListBloc extends Bloc<ProductListEvent, ProductListState> {
     _productsListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

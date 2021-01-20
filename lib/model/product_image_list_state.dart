@@ -27,11 +27,12 @@ class ProductImageListLoading extends ProductImageListState {}
 
 class ProductImageListLoaded extends ProductImageListState {
   final List<ProductImageModel> values;
+  final bool mightHaveMore;
 
-  const ProductImageListLoaded({this.values = const []});
+  const ProductImageListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'ProductImageListLoaded { values: $values }';

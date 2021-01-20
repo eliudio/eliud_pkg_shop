@@ -22,18 +22,9 @@ abstract class PayListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadPayList extends PayListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadPayList extends PayListEvent {}
 
-  LoadPayList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadPayListWithDetails extends PayListEvent {}
+class NewPage extends PayListEvent {}
 
 class AddPayList extends PayListEvent {
   final PayModel value;
@@ -73,13 +64,14 @@ class DeletePayList extends PayListEvent {
 
 class PayListUpdated extends PayListEvent {
   final List<PayModel> value;
+  final bool mightHaveMore;
 
-  const PayListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const PayListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'PayListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'PayListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 

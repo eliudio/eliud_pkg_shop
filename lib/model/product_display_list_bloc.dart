@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_pkg_shop/model/product_display_repository.dart';
 import 'package:eliud_pkg_shop/model/product_display_list_event.dart';
 import 'package:eliud_pkg_shop/model/product_display_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _productDisplayLimit = 5;
 
 class ProductDisplayListBloc extends Bloc<ProductDisplayListEvent, ProductDisplayListState> {
   final ProductDisplayRepository _productDisplayRepository;
   StreamSubscription _productDisplaysListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  ProductDisplayListBloc(this.accessBloc,{ this.eliudQuery, @required ProductDisplayRepository productDisplayRepository })
+  ProductDisplayListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required ProductDisplayRepository productDisplayRepository})
       : assert(productDisplayRepository != null),
-      _productDisplayRepository = productDisplayRepository,
-      super(ProductDisplayListLoading());
+        _productDisplayRepository = productDisplayRepository,
+        super(ProductDisplayListLoading());
 
-  Stream<ProductDisplayListState> _mapLoadProductDisplayListToState({ String orderBy, bool descending }) async* {
+  Stream<ProductDisplayListState> _mapLoadProductDisplayListToState() async* {
+    int amountNow =  (state is ProductDisplayListLoaded) ? (state as ProductDisplayListLoaded).values.length : 0;
     _productDisplaysListSubscription?.cancel();
-    _productDisplaysListSubscription = _productDisplayRepository.listen((list) => add(ProductDisplayListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _productDisplaysListSubscription = _productDisplayRepository.listen(
+          (list) => add(ProductDisplayListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _productDisplayLimit : null
+    );
   }
 
-  Stream<ProductDisplayListState> _mapLoadProductDisplayListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<ProductDisplayListState> _mapLoadProductDisplayListWithDetailsToState() async* {
+    int amountNow =  (state is ProductDisplayListLoaded) ? (state as ProductDisplayListLoaded).values.length : 0;
     _productDisplaysListSubscription?.cancel();
-    _productDisplaysListSubscription = _productDisplayRepository.listenWithDetails((list) => add(ProductDisplayListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _productDisplaysListSubscription = _productDisplayRepository.listenWithDetails(
+            (list) => add(ProductDisplayListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _productDisplayLimit : null
+    );
   }
 
   Stream<ProductDisplayListState> _mapAddProductDisplayListToState(AddProductDisplayList event) async* {
@@ -60,17 +76,22 @@ class ProductDisplayListBloc extends Bloc<ProductDisplayListEvent, ProductDispla
     _productDisplayRepository.delete(event.value);
   }
 
-  Stream<ProductDisplayListState> _mapProductDisplayListUpdatedToState(ProductDisplayListUpdated event) async* {
-    yield ProductDisplayListLoaded(values: event.value);
+  Stream<ProductDisplayListState> _mapProductDisplayListUpdatedToState(
+      ProductDisplayListUpdated event) async* {
+    yield ProductDisplayListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<ProductDisplayListState> mapEventToState(ProductDisplayListEvent event) async* {
-    final currentState = state;
     if (event is LoadProductDisplayList) {
-      yield* _mapLoadProductDisplayListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadProductDisplayListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadProductDisplayListToState();
+      } else {
+        yield* _mapLoadProductDisplayListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadProductDisplayListWithDetailsToState();
     } else if (event is AddProductDisplayList) {
       yield* _mapAddProductDisplayListToState(event);
@@ -88,7 +109,6 @@ class ProductDisplayListBloc extends Bloc<ProductDisplayListEvent, ProductDispla
     _productDisplaysListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

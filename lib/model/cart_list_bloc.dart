@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_pkg_shop/model/cart_repository.dart';
 import 'package:eliud_pkg_shop/model/cart_list_event.dart';
 import 'package:eliud_pkg_shop/model/cart_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _cartLimit = 5;
 
 class CartListBloc extends Bloc<CartListEvent, CartListState> {
   final CartRepository _cartRepository;
   StreamSubscription _cartsListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  CartListBloc(this.accessBloc,{ this.eliudQuery, @required CartRepository cartRepository })
+  CartListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required CartRepository cartRepository})
       : assert(cartRepository != null),
-      _cartRepository = cartRepository,
-      super(CartListLoading());
+        _cartRepository = cartRepository,
+        super(CartListLoading());
 
-  Stream<CartListState> _mapLoadCartListToState({ String orderBy, bool descending }) async* {
+  Stream<CartListState> _mapLoadCartListToState() async* {
+    int amountNow =  (state is CartListLoaded) ? (state as CartListLoaded).values.length : 0;
     _cartsListSubscription?.cancel();
-    _cartsListSubscription = _cartRepository.listen((list) => add(CartListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _cartsListSubscription = _cartRepository.listen(
+          (list) => add(CartListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _cartLimit : null
+    );
   }
 
-  Stream<CartListState> _mapLoadCartListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<CartListState> _mapLoadCartListWithDetailsToState() async* {
+    int amountNow =  (state is CartListLoaded) ? (state as CartListLoaded).values.length : 0;
     _cartsListSubscription?.cancel();
-    _cartsListSubscription = _cartRepository.listenWithDetails((list) => add(CartListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _cartsListSubscription = _cartRepository.listenWithDetails(
+            (list) => add(CartListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _cartLimit : null
+    );
   }
 
   Stream<CartListState> _mapAddCartListToState(AddCartList event) async* {
@@ -60,17 +76,22 @@ class CartListBloc extends Bloc<CartListEvent, CartListState> {
     _cartRepository.delete(event.value);
   }
 
-  Stream<CartListState> _mapCartListUpdatedToState(CartListUpdated event) async* {
-    yield CartListLoaded(values: event.value);
+  Stream<CartListState> _mapCartListUpdatedToState(
+      CartListUpdated event) async* {
+    yield CartListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<CartListState> mapEventToState(CartListEvent event) async* {
-    final currentState = state;
     if (event is LoadCartList) {
-      yield* _mapLoadCartListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadCartListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadCartListToState();
+      } else {
+        yield* _mapLoadCartListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadCartListWithDetailsToState();
     } else if (event is AddCartList) {
       yield* _mapAddCartListToState(event);
@@ -88,7 +109,6 @@ class CartListBloc extends Bloc<CartListEvent, CartListState> {
     _cartsListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

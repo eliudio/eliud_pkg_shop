@@ -27,11 +27,12 @@ class CartListLoading extends CartListState {}
 
 class CartListLoaded extends CartListState {
   final List<CartModel> values;
+  final bool mightHaveMore;
 
-  const CartListLoaded({this.values = const []});
+  const CartListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'CartListLoaded { values: $values }';

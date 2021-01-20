@@ -22,18 +22,9 @@ abstract class ShopListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadShopList extends ShopListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadShopList extends ShopListEvent {}
 
-  LoadShopList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadShopListWithDetails extends ShopListEvent {}
+class NewPage extends ShopListEvent {}
 
 class AddShopList extends ShopListEvent {
   final ShopModel value;
@@ -73,13 +64,14 @@ class DeleteShopList extends ShopListEvent {
 
 class ShopListUpdated extends ShopListEvent {
   final List<ShopModel> value;
+  final bool mightHaveMore;
 
-  const ShopListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const ShopListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'ShopListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'ShopListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 

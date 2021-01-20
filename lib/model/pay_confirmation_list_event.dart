@@ -22,18 +22,9 @@ abstract class PayConfirmationListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadPayConfirmationList extends PayConfirmationListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadPayConfirmationList extends PayConfirmationListEvent {}
 
-  LoadPayConfirmationList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadPayConfirmationListWithDetails extends PayConfirmationListEvent {}
+class NewPage extends PayConfirmationListEvent {}
 
 class AddPayConfirmationList extends PayConfirmationListEvent {
   final PayConfirmationModel value;
@@ -73,13 +64,14 @@ class DeletePayConfirmationList extends PayConfirmationListEvent {
 
 class PayConfirmationListUpdated extends PayConfirmationListEvent {
   final List<PayConfirmationModel> value;
+  final bool mightHaveMore;
 
-  const PayConfirmationListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const PayConfirmationListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'PayConfirmationListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'PayConfirmationListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
