@@ -180,6 +180,12 @@ class OrderOverviewFirestore implements OrderOverviewRepository {
     return firestoreTimeStampToString(timeStamp);
   } 
 
+  Future<OrderOverviewModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return OrderOverviewCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+  }
+
+
   final String appId;
   OrderOverviewFirestore(this.OrderOverviewCollection, this.appId);
 

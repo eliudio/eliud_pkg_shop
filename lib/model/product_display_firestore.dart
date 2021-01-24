@@ -180,6 +180,12 @@ class ProductDisplayFirestore implements ProductDisplayRepository {
     return firestoreTimeStampToString(timeStamp);
   } 
 
+  Future<ProductDisplayModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return ProductDisplayCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+  }
+
+
   final String appId;
   ProductDisplayFirestore(this.ProductDisplayCollection, this.appId);
 

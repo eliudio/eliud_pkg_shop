@@ -180,6 +180,12 @@ class PayConfirmationFirestore implements PayConfirmationRepository {
     return firestoreTimeStampToString(timeStamp);
   } 
 
+  Future<PayConfirmationModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return PayConfirmationCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+  }
+
+
   final String appId;
   PayConfirmationFirestore(this.PayConfirmationCollection, this.appId);
 

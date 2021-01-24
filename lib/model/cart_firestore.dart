@@ -180,6 +180,12 @@ class CartFirestore implements CartRepository {
     return firestoreTimeStampToString(timeStamp);
   } 
 
+  Future<CartModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return CartCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+  }
+
+
   final String appId;
   CartFirestore(this.CartCollection, this.appId);
 

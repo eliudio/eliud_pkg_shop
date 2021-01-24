@@ -101,6 +101,12 @@ class OrderCache implements OrderRepository {
     return reference.getSubCollection(documentId, name);
   }
 
+  Future<OrderModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    return reference.changeValue(documentId, fieldName, changeByThisValue).then((newValue) {
+      fullCache[documentId] = newValue;
+      return newValue;
+    });
+  }
 
   Future<void> deleteAll() {
     return reference.deleteAll();

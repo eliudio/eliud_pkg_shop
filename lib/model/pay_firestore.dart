@@ -180,6 +180,12 @@ class PayFirestore implements PayRepository {
     return firestoreTimeStampToString(timeStamp);
   } 
 
+  Future<PayModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return PayCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+  }
+
+
   final String appId;
   PayFirestore(this.PayCollection, this.appId);
 

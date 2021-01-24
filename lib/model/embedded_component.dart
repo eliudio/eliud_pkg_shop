@@ -171,6 +171,11 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
   StreamSubscription<OrderItemModel> listenTo(String documentId, OrderItemChanged changed) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<OrderItemModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    throw UnimplementedError();
+  }
   
 
     Future<void> deleteAll() {}
@@ -264,6 +269,11 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
   
   @override
   StreamSubscription<ProductImageModel> listenTo(String documentId, ProductImageChanged changed) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ProductImageModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
     throw UnimplementedError();
   }
   

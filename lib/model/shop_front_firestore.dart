@@ -180,6 +180,12 @@ class ShopFrontFirestore implements ShopFrontRepository {
     return firestoreTimeStampToString(timeStamp);
   } 
 
+  Future<ShopFrontModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return ShopFrontCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+  }
+
+
   final String appId;
   ShopFrontFirestore(this.ShopFrontCollection, this.appId);
 

@@ -180,6 +180,12 @@ class MemberCartFirestore implements MemberCartRepository {
     return firestoreTimeStampToString(timeStamp);
   } 
 
+  Future<MemberCartModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return MemberCartCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+  }
+
+
   final String appId;
   MemberCartFirestore(this.MemberCartCollection, this.appId);
 
