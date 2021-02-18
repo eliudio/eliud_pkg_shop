@@ -43,28 +43,13 @@ class ProductDetailWithAccess extends StatefulWidget {
 }
 
 class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
-  List<ImageProvider> cachedImages;
-  List<PosSizeModel> positionsAndSizes;
-
-  @override
-  void didChangeDependencies() {
-    var items = widget.productModel.images;
-    cachedImages = items
-        .map((element) => AbstractPlatform.platform
-            .getImageProvider(widget.accessState, element.image))
-        .toList();
-    positionsAndSizes =
-        items.map((element) => (widget.productModel.posSize)).toList();
-    if (cachedImages != null) {
-      cachedImages.forEach((element) {
-        precacheImage(element, context);
-      });
-    }
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {
+    var items = widget.productModel.images;
+    var images = items.map((element) => element.image).toList();
+    var positionsAndSizes = items.map((element) => (widget.productModel.posSize)).toList();
+
     var title = widget.productModel.title;
     var orientation = MediaQuery.of(context).orientation;
     var accessState = widget.accessState;
@@ -76,7 +61,7 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
             physics: BouncingScrollPhysics(),
             child: Column(
               children: [
-                TheImageGF(cachedImages, positionsAndSizes, null, orientation,
+                TheImageGF(images, positionsAndSizes, null, orientation,
                     1, 1000),
                 Container(
                   padding: const EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 15.0),

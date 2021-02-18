@@ -206,8 +206,7 @@ class _CartWidgetState extends State<CartWidget> {
   }
 
   Widget createCartItemImage(AccessState accessState, CartItemModel item) {
-    var image = item.product.images != null && item.product.images.length > 0 ? AbstractPlatform.platform
-        .getImageProvider(accessState, item.product.images[0].image) : null;
+    var image = item.product.images != null && item.product.images.length > 0 ? NetworkImage(item.product.images[0].image.imageURLOriginal) : null;
     Widget w;
     if (image == null) {
       w = Icon(Icons.image);
