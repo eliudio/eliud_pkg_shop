@@ -89,7 +89,7 @@ class ShopFrontState extends State<ShopFront> {
     if (appState is AppLoaded) {
       var widgets = <Widget>[];
       addWidget(widgets, widget.shopFrontModel.title, appState.app
-          .fontText);
+          .h1);
       addWidget(widgets, widget.shopFrontModel.description, appState.app
           .fontText);
       widgets.add(_grid(context));
