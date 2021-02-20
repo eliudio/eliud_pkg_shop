@@ -68,12 +68,12 @@ class _GridProductsState extends State<GridProducts> {
             if ((item.images != null) &&
                 (item.images.isNotEmpty) &&
                 (item.images[0].image != null)) {
-              show = ImageHelper.getThumbnailFromImageModel(
+              show = ImageHelper.getThumbnailFromMembereMediumModel(
                   width: width,
                   height: width,
                   fit: BoxFit.fitHeight,
                   alignment: Alignment.topCenter,
-                  imageModel: item.images[0].image);
+                  memberMediumModel: item.images[0].image);
             }
             return Container(
                 decoration: BoxDecorationHelper.boxDecoration(accessState,

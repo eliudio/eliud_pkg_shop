@@ -2,15 +2,12 @@ import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/platform/platform.dart';
 import 'package:eliud_core/tools/custom_utils.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_event.dart';
 import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_state.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_bloc.dart';
-import 'package:eliud_pkg_shop/extensions/shop_widgets/product_detail.dart';
-import 'package:eliud_pkg_shop/extensions/shop_widgets/size_route.dart';
 import 'package:eliud_pkg_shop/model/cart_item_model.dart';
 import 'package:eliud_pkg_shop/model/cart_model.dart';
 import 'package:flutter/material.dart';
@@ -206,7 +203,7 @@ class _CartWidgetState extends State<CartWidget> {
   }
 
   Widget createCartItemImage(AccessState accessState, CartItemModel item) {
-    var image = item.product.images != null && item.product.images.length > 0 ? NetworkImage(item.product.images[0].image.imageURLOriginal) : null;
+    var image = item.product.images != null && item.product.images.length > 0 ? NetworkImage(item.product.images[0].image.url) : null;
     Widget w;
     if (image == null) {
       w = Icon(Icons.image);

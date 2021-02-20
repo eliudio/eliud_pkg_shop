@@ -247,7 +247,7 @@ class ProductImageListItem extends StatelessWidget {
           tag: '${value.documentID}__ProductImageheroTag',
           child: Container(
             width: fullScreenWidth(context),
-            child: Center( child: ImageHelper.getImageFromImageModel(imageModel: value.image, width: fullScreenWidth(context)))
+            child: Center( child: ImageHelper.getImageFromMediumModel(memberMediumModel: value.image, width: fullScreenWidth(context)))
           ),
         ),
         subtitle: (value.documentID != null) && (value.documentID.isNotEmpty)

@@ -37,13 +37,13 @@ import 'package:eliud_core/tools/random.dart';
 
 class ProductImageModel {
   String documentID;
-  ImageModel image;
+  MemberMediumModel image;
 
   ProductImageModel({this.documentID, this.image, })  {
     assert(documentID != null);
   }
 
-  ProductImageModel copyWith({String documentID, ImageModel image, }) {
+  ProductImageModel copyWith({String documentID, MemberMediumModel image, }) {
     return ProductImageModel(documentID: documentID ?? this.documentID, image: image ?? this.image, );
   }
 
@@ -79,10 +79,10 @@ class ProductImageModel {
   static Future<ProductImageModel> fromEntityPlus(String documentID, ProductImageEntity entity, { String appId}) async {
     if (entity == null) return null;
 
-    ImageModel imageHolder;
+    MemberMediumModel imageHolder;
     if (entity.imageId != null) {
       try {
-        await imageRepository(appId: appId).get(entity.imageId).then((val) {
+        await memberMediumRepository(appId: appId).get(entity.imageId).then((val) {
           imageHolder = val;
         }).catchError((error) {});
       } catch (_) {}

@@ -73,7 +73,7 @@ class ProductImageFormBloc extends Bloc<ProductImageFormEvent, ProductImageFormS
       ProductImageModel newValue = null;
       if (event is ChangedProductImageImage) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(image: await imageRepository(appId: appId).get(event.value));
+          newValue = currentState.value.copyWith(image: await memberMediumRepository(appId: appId).get(event.value));
         else
           newValue = new ProductImageModel(
                                  documentID: currentState.value.documentID,
