@@ -1,9 +1,9 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/platform/platform.dart';
-import 'package:eliud_core/model/image_model.dart';
+import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/tools/screen_size.dart';
 import 'package:eliud_pkg_fundamentals/model/presentation_model.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 // todo: merge bookelt and presentation
 class PresentationHelper {
@@ -44,7 +44,7 @@ class PresentationHelper {
   static Widget makeContainingTable(
       BuildContext context,
       List<Widget> widgets,
-      ImageModel image,
+      MemberMediumModel image,
       PresentationRelativeImagePosition relativeImagePosition,
       PresentationImageAlignment imageAlignment,
       double imageSize) {
@@ -66,8 +66,11 @@ class PresentationHelper {
     if (imageSize != null) {
       size = fullScreenWidth(context) * imageSize;
     }
-    var widgetImage =
-        AbstractPlatform.platform.getImage(accessState, image: image, width: size);
+    var widgetImage = FadeInImage.memoryNetwork(
+      placeholder: kTransparentImage,
+      image: image.url,
+      width: size,
+    );
 
     if (relativeImagePosition == PresentationRelativeImagePosition.Aside) {
       Widget column1;
