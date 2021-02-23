@@ -82,6 +82,7 @@ class RepositorySingleton extends AbstractRepositorySingleton {
       return _cartRepository[appId];
     }
     MemberCartRepository memberCartRepository(String appId) {
+      _memberCartRepository[appId] = null;
       if (_memberCartRepository[appId] == null) _memberCartRepository[appId] = MemberCartCache(MemberCartFirestore(appRepository().getSubCollection(appId, 'membercart'), appId));
       return _memberCartRepository[appId];
     }

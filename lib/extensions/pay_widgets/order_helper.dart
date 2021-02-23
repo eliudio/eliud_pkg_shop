@@ -1,12 +1,14 @@
+import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_pkg_shop/model/order_item_model.dart';
 import 'package:eliud_pkg_shop/model/order_model.dart';
 import 'package:flutter/material.dart';
 
 class OrderHelper {
-  static Widget _getRow(String title, String value, {Widget trailing}) => ListTile(
+  static Widget _getRow(AppModel app, String title, String value, {Widget trailing}) => ListTile(
         trailing: trailing,
-        title: Text(title),
-        subtitle: value != null ? Text(value) : null,
+        title: Text(title, style: FontTools.textStyle(app.h4)),
+        subtitle: value != null ? Text(value, style: FontTools.textStyle(app.fontText)) : null,
       );
 
   static String _getShipAddress(OrderModel order) {
@@ -54,28 +56,28 @@ class OrderHelper {
         order.currency;
   }
 
-  static List<Widget> addOrderOverviewBasics(List<Widget> widgets, OrderModel order) {
-    widgets.add(_getRow('Contact:', order.name + ', ' + order.email,
+  static List<Widget> addOrderOverviewBasics(AppModel app, List<Widget> widgets, OrderModel order) {
+    widgets.add(_getRow(app, 'Contact:', order.name + ', ' + order.email,
         trailing: Icon(
           Icons.contact_phone,
-          color: Colors.black,
+          color: RgbHelper.color(rgbo: app.iconColor),
           size: 50.0,
           semanticLabel: 'Contact',
         )));
-    widgets.add(_getRow(
+    widgets.add(_getRow(app,
         (order.invoiceSame != null) && (!order.invoiceSame) ? 'Shipment address:' : 'Shipment & invoice address',
         _getShipAddress(order),
         trailing: Icon(
           Icons.local_shipping,
-          color: Colors.black,
+          color: RgbHelper.color(rgbo: app.iconColor),
           size: 50.0,
           semanticLabel: 'Contact',
         )));
     if ((order.invoiceSame != null) && (!order.invoiceSame)) {
-      widgets.add(_getRow('Invoice address:', _getInvoiceAddress(order),
+      widgets.add(_getRow(app, 'Invoice address:', _getInvoiceAddress(order),
           trailing: Icon(
             Icons.note,
-            color: Colors.black,
+            color: RgbHelper.color(rgbo: app.iconColor),
             size: 50.0,
             semanticLabel: 'Contact',
           )));
@@ -83,32 +85,32 @@ class OrderHelper {
     return widgets;
   }
 
-  static List<Widget> addOrderOverviewBeforePayment(
+  static List<Widget> addOrderOverviewBeforePayment(AppModel app,
       List<Widget> widgets, OrderModel order, BuildContext context) {
-    addOrderOverviewBasics(widgets, order);
-    _addProducts(widgets, order, context);
+    addOrderOverviewBasics(app, widgets, order);
+    _addProducts(app, widgets, order, context);
     return widgets;
   }
 
-  static List<Widget> addOrderOverviewAfterPayment(
+  static List<Widget> addOrderOverviewAfterPayment(AppModel app,
       List<Widget> widgets, OrderModel order, BuildContext context) {
-    addOrderOverviewBasics(widgets, order);
-    widgets.add(_getRow('Payment reference:', order.paymentReference,
+    addOrderOverviewBasics(app, widgets, order);
+    widgets.add(_getRow(app, 'Payment reference:', order.paymentReference,
         trailing: Icon(
           Icons.payment,
-          color: Colors.black,
+          color: RgbHelper.color(rgbo: app.iconColor),
           size: 50.0,
           semanticLabel: 'Success',
         )));
-    _addProducts(widgets, order, context);
+    _addProducts(app, widgets, order, context);
     return widgets;
   }
 
-  static List<Widget> _addProducts(List<Widget> widgets, OrderModel order, BuildContext context) {
-    widgets.add(_getRow('Products:', "These are the produts you're ordering",
+  static List<Widget> _addProducts(AppModel app, List<Widget> widgets, OrderModel order, BuildContext context) {
+    widgets.add(_getRow(app, 'Products:', "These are the produts you're ordering",
         trailing: Icon(
           Icons.list,
-          color: Colors.black,
+          color: RgbHelper.color(rgbo: app.iconColor),
           size: 50.0,
           semanticLabel: 'Contact',
         )));
@@ -143,11 +145,11 @@ class OrderHelper {
       ]));
     });
 
-    widgets.add(_getRow(
+    widgets.add(_getRow(app,
         'Total price:', order.totalPrice.toString() + ' ' + order.currency,
         trailing: Icon(
           Icons.attach_money,
-          color: Colors.black,
+          color: RgbHelper.color(rgbo: app.iconColor),
           size: 50.0,
           semanticLabel: 'Total price',
         )));

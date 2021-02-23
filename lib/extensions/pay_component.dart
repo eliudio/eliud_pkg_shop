@@ -70,7 +70,7 @@ class PayProfileComponent extends AbstractPayComponent {
     if (appState is AppLoaded) {
       return BlocBuilder<PaymentBloc, PaymentState>(builder: (context, state) {
         if (state is NotLoggedOn) {
-          return Text('Not logged on');
+          return Text('Not logged on', style: FontTools.textStyle(appState.app.fontText));
         } else {
           if (state is PayOrder) {
             return BlocProvider<PayBloc>(
@@ -97,7 +97,7 @@ class PayProfileComponent extends AbstractPayComponent {
                 }));
             // initialise paymentBloc so that 'handle' can access it
           } else if (state is NoItemsInCart) {
-            return Text('No items in cart');
+            return Text('No items in cart', style: FontTools.textStyle(appState.app.fontText));
           } else if (state is ConfirmOrder) {
             return _overviewAndPay(context, appState.app, state.order,
                 message: 'Please review your order.',
@@ -198,10 +198,10 @@ class PayProfileComponent extends AbstractPayComponent {
     if (message != null) {
       widgets.add(ListTile(
           trailing: trailing,
-          title: message != null ? Text(message) : null,
-          subtitle: subMessage != null ? Text(subMessage) : null));
+          title: message != null ? Text(message, style: FontTools.textStyle(app.h4)) : null,
+          subtitle: subMessage != null ? Text(subMessage, style: FontTools.textStyle(app.fontText)) : null));
     }
-    OrderHelper.addOrderOverviewBeforePayment(widgets, order, context);
+    OrderHelper.addOrderOverviewBeforePayment(app, widgets, order, context);
     widgets.add(Divider());
     widgets.add(_getButton(context, app, order));
     return ListView(
@@ -210,10 +210,4 @@ class PayProfileComponent extends AbstractPayComponent {
       children: widgets,
     );
   }
-
-  Widget getRow(String title, String value, {Widget trailing}) => ListTile(
-        trailing: trailing,
-        title: Text(title),
-        subtitle: value != null ? Text(value) : null,
-      );
 }

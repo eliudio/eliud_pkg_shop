@@ -52,11 +52,11 @@ class ConfirmationState extends State<ConfirmationWidget> {
                       size: 50.0,
                       semanticLabel: 'Success',
                     ),
-                    title: Text('Payment successfull.'),
+                    title: Text('Payment successfull.', style: FontTools.textStyle(appState.app.h4)),
                     subtitle: Text(
-                        "We'll be working hard to get it to you asap. Thank you very much")),
+                        "We'll be working hard to get it to you asap. Thank you very much", style: FontTools.textStyle(appState.app.fontText))),
               );
-              OrderHelper.addOrderOverviewAfterPayment(widgets, order, context);
+              OrderHelper.addOrderOverviewAfterPayment(appState.app, widgets, order, context);
               widgets.add(_getButton(appState.app));
               return ListView(
                 shrinkWrap: true,
