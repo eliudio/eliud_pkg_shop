@@ -74,6 +74,7 @@ abstract class ShopPackage extends PackageWithSubscription {
       bool isBlocked,
       PrivilegeLevel privilegeLevel) async {
     if (packageCondition == CONDITION_CARTS_HAS_ITEMS) {
+      if (stateCONDITION_CARTS_HAS_ITEMS == null) return false;
       return stateCONDITION_CARTS_HAS_ITEMS;
     }
     return null;
