@@ -5,6 +5,7 @@ import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
+import 'package:eliud_core/package/package.dart';
 import 'package:eliud_core/package/package_with_subscription.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:flutter_bloc/src/bloc_provider.dart';
@@ -91,4 +92,7 @@ abstract class ShopPackage extends PackageWithSubscription {
 
     AbstractRepositorySingleton.singleton = RepositorySingleton();
   }
+
+  @override
+  List<MemberCollectionInfo> getMemberCollectionInfo() => AbstractRepositorySingleton.collections;
 }
