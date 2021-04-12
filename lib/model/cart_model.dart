@@ -36,24 +36,24 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class CartModel {
-  String documentID;
-  String appId;
-  String title;
-  String description;
-  String checkoutText;
-  ShopModel shop;
-  BackgroundModel itemImageBackground;
-  BackgroundModel itemDetailBackground;
-  ActionModel checkoutAction;
-  ActionModel backToShopAction;
-  ActionModel openProductAction;
-  ConditionsSimpleModel conditions;
+  String? documentID;
+  String? appId;
+  String? title;
+  String? description;
+  String? checkoutText;
+  ShopModel? shop;
+  BackgroundModel? itemImageBackground;
+  BackgroundModel? itemDetailBackground;
+  ActionModel? checkoutAction;
+  ActionModel? backToShopAction;
+  ActionModel? openProductAction;
+  ConditionsSimpleModel? conditions;
 
   CartModel({this.documentID, this.appId, this.title, this.description, this.checkoutText, this.shop, this.itemImageBackground, this.itemDetailBackground, this.checkoutAction, this.backToShopAction, this.openProductAction, this.conditions, })  {
     assert(documentID != null);
   }
 
-  CartModel copyWith({String documentID, String appId, String title, String description, String checkoutText, ShopModel shop, BackgroundModel itemImageBackground, BackgroundModel itemDetailBackground, ActionModel checkoutAction, ActionModel backToShopAction, ActionModel openProductAction, ConditionsSimpleModel conditions, }) {
+  CartModel copyWith({String? documentID, String? appId, String? title, String? description, String? checkoutText, ShopModel? shop, BackgroundModel? itemImageBackground, BackgroundModel? itemDetailBackground, ActionModel? checkoutAction, ActionModel? backToShopAction, ActionModel? openProductAction, ConditionsSimpleModel? conditions, }) {
     return CartModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, description: description ?? this.description, checkoutText: checkoutText ?? this.checkoutText, shop: shop ?? this.shop, itemImageBackground: itemImageBackground ?? this.itemImageBackground, itemDetailBackground: itemDetailBackground ?? this.itemDetailBackground, checkoutAction: checkoutAction ?? this.checkoutAction, backToShopAction: backToShopAction ?? this.backToShopAction, openProductAction: openProductAction ?? this.openProductAction, conditions: conditions ?? this.conditions, );
   }
 
@@ -83,23 +83,23 @@ class CartModel {
     return 'CartModel{documentID: $documentID, appId: $appId, title: $title, description: $description, checkoutText: $checkoutText, shop: $shop, itemImageBackground: $itemImageBackground, itemDetailBackground: $itemDetailBackground, checkoutAction: $checkoutAction, backToShopAction: $backToShopAction, openProductAction: $openProductAction, conditions: $conditions}';
   }
 
-  CartEntity toEntity({String appId}) {
+  CartEntity toEntity({String? appId}) {
     return CartEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
           description: (description != null) ? description : null, 
           checkoutText: (checkoutText != null) ? checkoutText : null, 
-          shopId: (shop != null) ? shop.documentID : null, 
-          itemImageBackgroundId: (itemImageBackground != null) ? itemImageBackground.documentID : null, 
-          itemDetailBackgroundId: (itemDetailBackground != null) ? itemDetailBackground.documentID : null, 
-          checkoutAction: (checkoutAction != null) ? checkoutAction.toEntity(appId: appId) : null, 
-          backToShopAction: (backToShopAction != null) ? backToShopAction.toEntity(appId: appId) : null, 
-          openProductAction: (openProductAction != null) ? openProductAction.toEntity(appId: appId) : null, 
-          conditions: (conditions != null) ? conditions.toEntity(appId: appId) : null, 
+          shopId: (shop != null) ? shop!.documentID : null, 
+          itemImageBackgroundId: (itemImageBackground != null) ? itemImageBackground!.documentID : null, 
+          itemDetailBackgroundId: (itemDetailBackground != null) ? itemDetailBackground!.documentID : null, 
+          checkoutAction: (checkoutAction != null) ? checkoutAction!.toEntity(appId: appId) : null, 
+          backToShopAction: (backToShopAction != null) ? backToShopAction!.toEntity(appId: appId) : null, 
+          openProductAction: (openProductAction != null) ? openProductAction!.toEntity(appId: appId) : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
 
-  static CartModel fromEntity(String documentID, CartEntity entity) {
+  static CartModel? fromEntity(String documentID, CartEntity? entity) {
     if (entity == null) return null;
     return CartModel(
           documentID: documentID, 
@@ -118,31 +118,31 @@ class CartModel {
     );
   }
 
-  static Future<CartModel> fromEntityPlus(String documentID, CartEntity entity, { String appId}) async {
+  static Future<CartModel?> fromEntityPlus(String documentID, CartEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
-    ShopModel shopHolder;
+    ShopModel? shopHolder;
     if (entity.shopId != null) {
       try {
-        await shopRepository(appId: appId).get(entity.shopId).then((val) {
+        await shopRepository(appId: appId)!.get(entity.shopId).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    BackgroundModel itemImageBackgroundHolder;
+    BackgroundModel? itemImageBackgroundHolder;
     if (entity.itemImageBackgroundId != null) {
       try {
-        await backgroundRepository(appId: appId).get(entity.itemImageBackgroundId).then((val) {
+        await backgroundRepository(appId: appId)!.get(entity.itemImageBackgroundId).then((val) {
           itemImageBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    BackgroundModel itemDetailBackgroundHolder;
+    BackgroundModel? itemDetailBackgroundHolder;
     if (entity.itemDetailBackgroundId != null) {
       try {
-        await backgroundRepository(appId: appId).get(entity.itemDetailBackgroundId).then((val) {
+        await backgroundRepository(appId: appId)!.get(entity.itemDetailBackgroundId).then((val) {
           itemDetailBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}

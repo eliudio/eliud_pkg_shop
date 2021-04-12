@@ -27,53 +27,59 @@ const _orderItemLimit = 5;
 
 class OrderItemListBloc extends Bloc<OrderItemListEvent, OrderItemListState> {
   final OrderItemRepository _orderItemRepository;
-  StreamSubscription _orderItemsListSubscription;
-  final EliudQuery eliudQuery;
+  StreamSubscription? _orderItemsListSubscription;
+  final EliudQuery? eliudQuery;
   int pages = 1;
-  final bool paged;
-  final String orderBy;
-  final bool descending;
-  final bool detailed;
+  final bool? paged;
+  final String? orderBy;
+  final bool? descending;
+  final bool? detailed;
 
-  OrderItemListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required OrderItemRepository orderItemRepository})
+  OrderItemListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required OrderItemRepository orderItemRepository})
       : assert(orderItemRepository != null),
         _orderItemRepository = orderItemRepository,
         super(OrderItemListLoading());
 
   Stream<OrderItemListState> _mapLoadOrderItemListToState() async* {
-    int amountNow =  (state is OrderItemListLoaded) ? (state as OrderItemListLoaded).values.length : 0;
+    int amountNow =  (state is OrderItemListLoaded) ? (state as OrderItemListLoaded).values!.length : 0;
     _orderItemsListSubscription?.cancel();
     _orderItemsListSubscription = _orderItemRepository.listen(
           (list) => add(OrderItemListUpdated(value: list, mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && (paged)) ? pages * _orderItemLimit : null
+      limit: ((paged != null) && paged!) ? pages * _orderItemLimit : null
     );
   }
 
   Stream<OrderItemListState> _mapLoadOrderItemListWithDetailsToState() async* {
-    int amountNow =  (state is OrderItemListLoaded) ? (state as OrderItemListLoaded).values.length : 0;
+    int amountNow =  (state is OrderItemListLoaded) ? (state as OrderItemListLoaded).values!.length : 0;
     _orderItemsListSubscription?.cancel();
     _orderItemsListSubscription = _orderItemRepository.listenWithDetails(
             (list) => add(OrderItemListUpdated(value: list, mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && (paged)) ? pages * _orderItemLimit : null
+        limit: ((paged != null) && paged!) ? pages * _orderItemLimit : null
     );
   }
 
   Stream<OrderItemListState> _mapAddOrderItemListToState(AddOrderItemList event) async* {
-    _orderItemRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _orderItemRepository.add(value);
   }
 
   Stream<OrderItemListState> _mapUpdateOrderItemListToState(UpdateOrderItemList event) async* {
-    _orderItemRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _orderItemRepository.update(value);
   }
 
   Stream<OrderItemListState> _mapDeleteOrderItemListToState(DeleteOrderItemList event) async* {
-    _orderItemRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _orderItemRepository.delete(value);
   }
 
   Stream<OrderItemListState> _mapOrderItemListUpdatedToState(
@@ -84,7 +90,7 @@ class OrderItemListBloc extends Bloc<OrderItemListEvent, OrderItemListState> {
   @override
   Stream<OrderItemListState> mapEventToState(OrderItemListEvent event) async* {
     if (event is LoadOrderItemList) {
-      if ((detailed == null) || (!detailed)) {
+      if ((detailed == null) || (!detailed!)) {
         yield* _mapLoadOrderItemListToState();
       } else {
         yield* _mapLoadOrderItemListWithDetailsToState();

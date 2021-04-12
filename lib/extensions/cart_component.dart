@@ -9,13 +9,13 @@ import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:flutter/material.dart';
 
 class CartComponentConstructorDefault implements ComponentConstructor {
-  Widget createNew({String id, Map<String, Object> parameters}) {
+  Widget createNew({String? id, Map<String, Object>? parameters}) {
       return CartProfileComponent(id: id);
   }
 }
 
 class CartProfileComponent extends AbstractCartComponent {
-  CartProfileComponent({String id}) : super(cartID: id);
+  CartProfileComponent({String? id}) : super(cartID: id);
 
   @override
   Widget alertWidget({title = String, content = String}) {
@@ -24,11 +24,11 @@ class CartProfileComponent extends AbstractCartComponent {
 
   @override
   CartRepository getCartRepository(BuildContext context) {
-    return AbstractRepositorySingleton.singleton.cartRepository(AccessBloc.appId(context));
+    return AbstractRepositorySingleton.singleton.cartRepository(AccessBloc.appId(context))!;
   }
 
   @override
-  Widget yourWidget(BuildContext context, CartModel cart) {
+  Widget yourWidget(BuildContext context, CartModel? cart) {
     return CartWidget(cart: cart,);
   }
 }

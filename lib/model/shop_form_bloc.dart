@@ -38,8 +38,8 @@ import 'package:eliud_pkg_shop/model/shop_form_state.dart';
 import 'package:eliud_pkg_shop/model/shop_repository.dart';
 
 class ShopFormBloc extends Bloc<ShopFormEvent, ShopFormState> {
-  final FormAction formAction;
-  final String appId;
+  final FormAction? formAction;
+  final String? appId;
 
   ShopFormBloc(this.appId, { this.formAction }): super(ShopFormUninitialized());
   @override
@@ -63,20 +63,20 @@ class ShopFormBloc extends Bloc<ShopFormEvent, ShopFormState> {
 
       if (event is InitialiseShopFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        ShopFormLoaded loaded = ShopFormLoaded(value: await shopRepository(appId: appId).get(event.value.documentID));
+        ShopFormLoaded loaded = ShopFormLoaded(value: await shopRepository(appId: appId)!.get(event!.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseShopFormNoLoadEvent) {
-        ShopFormLoaded loaded = ShopFormLoaded(value: event.value);
+        ShopFormLoaded loaded = ShopFormLoaded(value: event!.value);
         yield loaded;
         return;
       }
     } else if (currentState is ShopFormInitialized) {
-      ShopModel newValue = null;
+      ShopModel? newValue = null;
       if (event is ChangedShopDocumentID) {
-        newValue = currentState.value.copyWith(documentID: event.value);
+        newValue = currentState.value!.copyWith(documentID: event!.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          yield* _isDocumentIDValid(event!.value, newValue).asStream();
         } else {
           yield SubmittableShopForm(value: newValue);
         }
@@ -84,19 +84,19 @@ class ShopFormBloc extends Bloc<ShopFormEvent, ShopFormState> {
         return;
       }
       if (event is ChangedShopDescription) {
-        newValue = currentState.value.copyWith(description: event.value);
+        newValue = currentState.value!.copyWith(description: event!.value);
         yield SubmittableShopForm(value: newValue);
 
         return;
       }
       if (event is ChangedShopShortDescription) {
-        newValue = currentState.value.copyWith(shortDescription: event.value);
+        newValue = currentState.value!.copyWith(shortDescription: event!.value);
         yield SubmittableShopForm(value: newValue);
 
         return;
       }
       if (event is ChangedShopCurrency) {
-        newValue = currentState.value.copyWith(currency: event.value);
+        newValue = currentState.value!.copyWith(currency: event!.value);
         yield SubmittableShopForm(value: newValue);
 
         return;
@@ -107,10 +107,10 @@ class ShopFormBloc extends Bloc<ShopFormEvent, ShopFormState> {
 
   DocumentIDShopFormError error(String message, ShopModel newValue) => DocumentIDShopFormError(message: message, value: newValue);
 
-  Future<ShopFormState> _isDocumentIDValid(String value, ShopModel newValue) async {
+  Future<ShopFormState> _isDocumentIDValid(String? value, ShopModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<ShopModel> findDocument = shopRepository(appId: appId).get(value);
+    Future<ShopModel?> findDocument = shopRepository(appId: appId)!.get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableShopForm(value: newValue);

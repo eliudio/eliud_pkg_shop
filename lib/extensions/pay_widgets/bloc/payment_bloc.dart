@@ -30,8 +30,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     return true;
   }
 
-  Future<List<CartItemModel>> getItems(String appId, MemberModel member) async {
-    var cart = await memberCartRepository(appId: appId).get(member.documentID);
+  Future<List<CartItemModel>?> getItems(String appId, MemberModel member) async {
+    var cart = await memberCartRepository(appId: appId)!.get(member.documentID);
     return (cart != null) ? cart.cartItems : null;
   }
 
@@ -39,14 +39,14 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   Stream<PaymentState> mapEventToState(PaymentEvent event) async* {
     if (event is CollectOrder) {
       // The payment screen is opened. We create an OrderModel instance in memory
-      var accessState = accessBloc.state;
+      AccessState accessState = accessBloc.state;
       if (accessState is LoggedIn) {
-        var items = await getItems(accessState.app.documentID, accessState.member);
-        if (items.isEmpty) {
+        var items = await (getItems(accessState.app!.documentID!, accessState.member));
+        if ((items == null) || (items.isEmpty)) {
           yield NoItemsInCart();
           return;
         } else {
-          yield ConfirmOrder(await _getNewOrder(accessState, event.shop, items));
+          yield ConfirmOrder(await _getNewOrder(accessState, event.shop!, items));
           return;
         }
       } else {
@@ -62,7 +62,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       // then you need to find an unpaid order which is the matched one. If you can't find it, refund the customer.
       if (_allInStock()) {
         try {
-          await AbstractRepositorySingleton.singleton.orderRepository(event.order.appId).add(
+          await AbstractRepositorySingleton.singleton.orderRepository(event.order.appId)!.add(
               newOrder);
         } catch (error) {
           debugPrint('error');
@@ -77,9 +77,9 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         return;
       }
     } else if (event is PaymentDoneWithSuccess) {
-      var newOrder = event.order.copyWith(status: OrderStatus.Paid, timeStamp: dateFormat.format(DateTime.now()), paymentReference: event.reference);
+      var newOrder = event.order!.copyWith(status: OrderStatus.Paid, timeStamp: dateFormat.format(DateTime.now()), paymentReference: event.reference);
       try {
-        await AbstractRepositorySingleton.singleton.orderRepository(event.order.appId).update(newOrder);
+        await AbstractRepositorySingleton.singleton.orderRepository(event.order!.appId)!.update(newOrder);
       } catch (error) {
         debugPrint('error' + error.toString());
       }
@@ -89,7 +89,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       yield OrderPaid(order: newOrder);
       return;
     } else if (event is PaymentDoneWithFailure) {
-      var newOrder = event.order.copyWith(status: OrderStatus.PaymentFailed, paymentNote: event.msg, timeStamp: dateFormat.format(DateTime.now()));
+      var newOrder = event.order!.copyWith(status: OrderStatus.PaymentFailed, paymentNote: event.msg, timeStamp: dateFormat.format(DateTime.now()));
       yield PaymentFailed(order: newOrder, msg: event.msg);
       return;
     } else {
@@ -98,8 +98,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   }
 
   Future<OrderModel> _getNewOrder(LoggedIn loggedInState, ShopModel shop, List<CartItemModel> items) async {
-    var items = await getItems(loggedInState.app.documentID, loggedInState.member);
-    var totalValue = CartHelper.totalValue(items);
+    var items = await (getItems(loggedInState.app!.documentID!, loggedInState.member) );
+    double totalValue = items == null ? 0 : CartHelper.totalValue(items);
     return OrderModel(
         documentID: newRandomKey(),
         appId: loggedInState
@@ -139,13 +139,13 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
             .invoiceCountry,
         status: OrderStatus.Ordered,
         currency: shop.currency,
-        products: items
+        products: items == null ? null : items
             .map((item) =>
             OrderItemModel(
                 documentID: item.documentID,
                 amount: item.amount,
                 appId: item.appId,
-                soldPrice: item.product.price,
+                soldPrice: item.product!.price,
                 product: item.product))
             .toList(),
         totalPrice: totalValue);

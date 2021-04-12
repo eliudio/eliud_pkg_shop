@@ -54,7 +54,7 @@
     {
       "fieldName": "backToShopAction",
       "fieldType": "Action",
-      "bespokeFormField": "ActionField(AccessBloc.appId(context), state.value.backToShopAction, _onBackToShopActionChanged)",
+      "bespokeFormField": "ActionField(AccessBloc.appId(context), state.value!.backToShopAction, _onBackToShopActionChanged)",
       "group": "backToShopAction"
     },
     {

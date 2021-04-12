@@ -34,7 +34,7 @@ abstract class CartFormEvent extends Equatable {
   const CartFormEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitialiseNewCartFormEvent extends CartFormEvent {
@@ -42,162 +42,162 @@ class InitialiseNewCartFormEvent extends CartFormEvent {
 
 
 class InitialiseCartFormEvent extends CartFormEvent {
-  final CartModel value;
+  final CartModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseCartFormEvent({this.value});
 }
 
 class InitialiseCartFormNoLoadEvent extends CartFormEvent {
-  final CartModel value;
+  final CartModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseCartFormNoLoadEvent({this.value});
 }
 
 class ChangedCartDocumentID extends CartFormEvent {
-  final String value;
+  final String? value;
 
   ChangedCartDocumentID({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedCartDocumentID{ value: $value }';
 }
 
 class ChangedCartAppId extends CartFormEvent {
-  final String value;
+  final String? value;
 
   ChangedCartAppId({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedCartAppId{ value: $value }';
 }
 
 class ChangedCartTitle extends CartFormEvent {
-  final String value;
+  final String? value;
 
   ChangedCartTitle({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedCartTitle{ value: $value }';
 }
 
 class ChangedCartDescription extends CartFormEvent {
-  final String value;
+  final String? value;
 
   ChangedCartDescription({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedCartDescription{ value: $value }';
 }
 
 class ChangedCartCheckoutText extends CartFormEvent {
-  final String value;
+  final String? value;
 
   ChangedCartCheckoutText({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedCartCheckoutText{ value: $value }';
 }
 
 class ChangedCartShop extends CartFormEvent {
-  final String value;
+  final String? value;
 
   ChangedCartShop({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedCartShop{ value: $value }';
 }
 
 class ChangedCartItemImageBackground extends CartFormEvent {
-  final String value;
+  final String? value;
 
   ChangedCartItemImageBackground({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedCartItemImageBackground{ value: $value }';
 }
 
 class ChangedCartItemDetailBackground extends CartFormEvent {
-  final String value;
+  final String? value;
 
   ChangedCartItemDetailBackground({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedCartItemDetailBackground{ value: $value }';
 }
 
 class ChangedCartCheckoutAction extends CartFormEvent {
-  final ActionModel value;
+  final ActionModel? value;
 
   ChangedCartCheckoutAction({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedCartCheckoutAction{ value: $value }';
 }
 
 class ChangedCartBackToShopAction extends CartFormEvent {
-  final ActionModel value;
+  final ActionModel? value;
 
   ChangedCartBackToShopAction({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedCartBackToShopAction{ value: $value }';
 }
 
 class ChangedCartOpenProductAction extends CartFormEvent {
-  final ActionModel value;
+  final ActionModel? value;
 
   ChangedCartOpenProductAction({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedCartOpenProductAction{ value: $value }';
 }
 
 class ChangedCartConditions extends CartFormEvent {
-  final ConditionsSimpleModel value;
+  final ConditionsSimpleModel? value;
 
   ChangedCartConditions({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedCartConditions{ value: $value }';

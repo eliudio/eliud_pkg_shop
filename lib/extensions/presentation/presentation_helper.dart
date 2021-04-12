@@ -62,15 +62,20 @@ class PresentationHelper {
       imageAlignment = PresentationImageAlignment.Left;
     }
 
-    double size;
+    double? size;
     if (imageSize != null) {
       size = fullScreenWidth(context) * imageSize;
     }
-    var widgetImage = FadeInImage.memoryNetwork(
-      placeholder: kTransparentImage,
-      image: image.url,
-      width: size,
-    );
+    var widgetImage;
+    if (image.url != null) {
+      widgetImage = FadeInImage.memoryNetwork(
+        placeholder: kTransparentImage,
+        image: image.url!,
+        width: size,
+      );
+    } else {
+      widgetImage = Text("Image does not exist");
+    }
 
     if (relativeImagePosition == PresentationRelativeImagePosition.Aside) {
       Widget column1;

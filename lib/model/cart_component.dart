@@ -25,7 +25,7 @@ import 'package:eliud_pkg_shop/model/cart_component_state.dart';
 
 abstract class AbstractCartComponent extends StatelessWidget {
   static String componentName = "carts";
-  final String cartID;
+  final String? cartID;
 
   AbstractCartComponent({this.cartID});
 
@@ -63,7 +63,7 @@ abstract class AbstractCartComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, CartModel value);
+  Widget yourWidget(BuildContext context, CartModel? value);
   Widget alertWidget({ title: String, content: String});
   CartRepository getCartRepository(BuildContext context);
 }

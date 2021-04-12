@@ -36,14 +36,14 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class ProductImageModel {
-  String documentID;
-  MemberMediumModel image;
+  String? documentID;
+  MemberMediumModel? image;
 
   ProductImageModel({this.documentID, this.image, })  {
     assert(documentID != null);
   }
 
-  ProductImageModel copyWith({String documentID, MemberMediumModel image, }) {
+  ProductImageModel copyWith({String? documentID, MemberMediumModel? image, }) {
     return ProductImageModel(documentID: documentID ?? this.documentID, image: image ?? this.image, );
   }
 
@@ -63,26 +63,26 @@ class ProductImageModel {
     return 'ProductImageModel{documentID: $documentID, image: $image}';
   }
 
-  ProductImageEntity toEntity({String appId}) {
+  ProductImageEntity toEntity({String? appId}) {
     return ProductImageEntity(
-          imageId: (image != null) ? image.documentID : null, 
+          imageId: (image != null) ? image!.documentID : null, 
     );
   }
 
-  static ProductImageModel fromEntity(String documentID, ProductImageEntity entity) {
+  static ProductImageModel? fromEntity(String documentID, ProductImageEntity? entity) {
     if (entity == null) return null;
     return ProductImageModel(
           documentID: documentID, 
     );
   }
 
-  static Future<ProductImageModel> fromEntityPlus(String documentID, ProductImageEntity entity, { String appId}) async {
+  static Future<ProductImageModel?> fromEntityPlus(String documentID, ProductImageEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
-    MemberMediumModel imageHolder;
+    MemberMediumModel? imageHolder;
     if (entity.imageId != null) {
       try {
-        await memberMediumRepository(appId: appId).get(entity.imageId).then((val) {
+        await memberMediumRepository(appId: appId)!.get(entity.imageId).then((val) {
           imageHolder = val;
         }).catchError((error) {});
       } catch (_) {}

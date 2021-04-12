@@ -9,13 +9,13 @@ import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:flutter/material.dart';
 
 class ProductComponentConstructorDefault implements ComponentConstructor {
-  Widget createNew({String id, Map<String, Object> parameters}) {
+  Widget createNew({String? id, Map<String, Object>? parameters}) {
     return ProductBase(id);
   }
 }
 
 class ProductBase extends AbstractProductComponent {
-  final String id;
+  final String? id;
 
   ProductBase(this.id) : super(productID: id);
 
@@ -26,17 +26,17 @@ class ProductBase extends AbstractProductComponent {
 
   @override
   ProductRepository getProductRepository(BuildContext context) {
-    return AbstractRepositorySingleton.singleton.productRepository(AccessBloc.appId(context));
+    return AbstractRepositorySingleton.singleton.productRepository(AccessBloc.appId(context))!;
   }
 
   @override
-  Widget yourWidget(BuildContext context, ProductModel value) {
+  Widget yourWidget(BuildContext context, ProductModel? value) {
     return Product(value);
   }
 }
 
 class Product extends StatefulWidget {
-  final ProductModel productModel;
+  final ProductModel? productModel;
 
   Product(this.productModel);
 

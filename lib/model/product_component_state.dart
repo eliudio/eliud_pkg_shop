@@ -20,13 +20,13 @@ abstract class ProductComponentState extends Equatable {
   const ProductComponentState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class ProductComponentUninitialized extends ProductComponentState {}
 
 class ProductComponentError extends ProductComponentState {
-  final String message;
+  final String? message;
   ProductComponentError({ this.message });
 }
 
@@ -35,16 +35,16 @@ class ProductComponentPermissionDenied extends ProductComponentState {
 }
 
 class ProductComponentLoaded extends ProductComponentState {
-  final ProductModel value;
+  final ProductModel? value;
 
   const ProductComponentLoaded({ this.value });
 
-  ProductComponentLoaded copyWith({ ProductModel copyThis }) {
+  ProductComponentLoaded copyWith({ ProductModel? copyThis }) {
     return ProductComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
-  List<Object> get props => [value];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ProductComponentLoaded { value: $value }';

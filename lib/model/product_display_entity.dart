@@ -22,25 +22,25 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class ProductDisplayEntity {
-  final String appId;
-  final String title;
-  final String itemDetailBackgroundId;
-  final String addToBasketText;
-  final ActionEntity buyAction;
-  final String shopId;
-  final ConditionsSimpleEntity conditions;
+  final String? appId;
+  final String? title;
+  final String? itemDetailBackgroundId;
+  final String? addToBasketText;
+  final ActionEntity? buyAction;
+  final String? shopId;
+  final ConditionsSimpleEntity? conditions;
 
   ProductDisplayEntity({this.appId, this.title, this.itemDetailBackgroundId, this.addToBasketText, this.buyAction, this.shopId, this.conditions, });
 
 
-  List<Object> get props => [appId, title, itemDetailBackgroundId, addToBasketText, buyAction, shopId, conditions, ];
+  List<Object?> get props => [appId, title, itemDetailBackgroundId, addToBasketText, buyAction, shopId, conditions, ];
 
   @override
   String toString() {
     return 'ProductDisplayEntity{appId: $appId, title: $title, itemDetailBackgroundId: $itemDetailBackgroundId, addToBasketText: $addToBasketText, buyAction: $buyAction, shopId: $shopId, conditions: $conditions}';
   }
 
-  static ProductDisplayEntity fromMap(Map map) {
+  static ProductDisplayEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     var buyActionFromMap;
@@ -63,15 +63,15 @@ class ProductDisplayEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    final Map<String, dynamic> buyActionMap = buyAction != null 
-        ? buyAction.toDocument()
+  Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? buyActionMap = buyAction != null 
+        ? buyAction!.toDocument()
         : null;
-    final Map<String, dynamic> conditionsMap = conditions != null 
-        ? conditions.toDocument()
+    final Map<String, dynamic>? conditionsMap = conditions != null 
+        ? conditions!.toDocument()
         : null;
 
-    Map<String, Object> theDocument = HashMap();
+    Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     if (title != null) theDocument["title"] = title;
@@ -89,8 +89,8 @@ class ProductDisplayEntity {
     return theDocument;
   }
 
-  static ProductDisplayEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static ProductDisplayEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

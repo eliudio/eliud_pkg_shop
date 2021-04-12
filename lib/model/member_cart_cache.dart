@@ -36,56 +36,56 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 class MemberCartCache implements MemberCartRepository {
 
   final MemberCartRepository reference;
-  final Map<String, MemberCartModel> fullCache = Map();
+  final Map<String?, MemberCartModel?> fullCache = Map();
 
   MemberCartCache(this.reference);
 
   Future<MemberCartModel> add(MemberCartModel value) {
     return reference.add(value).then((newValue) {
-      fullCache[value.documentID] = newValue;
+      fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
   Future<void> delete(MemberCartModel value){
-    fullCache.remove(value.documentID);
+    fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
   }
 
-  Future<MemberCartModel> get(String id, {Function(Exception) onError}) {
-    MemberCartModel value = fullCache[id];
+  Future<MemberCartModel> get(String? id, {Function(Exception)? onError}) {
+    MemberCartModel? value = fullCache[id];
     if (value != null) return refreshRelations(value);
     return reference.get(id, onError: onError).then((value) {
       fullCache[id] = value;
-      return value;
+      return value!;
     });
   }
 
   Future<MemberCartModel> update(MemberCartModel value) {
     return reference.update(value).then((newValue) {
-      fullCache[value.documentID] = newValue;
+      fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
   @override
-  Stream<List<MemberCartModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+  Stream<List<MemberCartModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.values(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Stream<List<MemberCartModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+  Stream<List<MemberCartModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.valuesWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Future<List<MemberCartModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
+  Future<List<MemberCartModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
     return await reference.valuesList(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
   
   @override
-  Future<List<MemberCartModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
+  Future<List<MemberCartModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
     return await reference.valuesListWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
@@ -93,7 +93,7 @@ class MemberCartCache implements MemberCartRepository {
     fullCache.clear();
   }
   
-  String timeStampToString(dynamic timeStamp) {
+  String? timeStampToString(dynamic timeStamp) {
     return reference.timeStampToString(timeStamp);
   } 
 
@@ -104,7 +104,7 @@ class MemberCartCache implements MemberCartRepository {
   Future<MemberCartModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
     return reference.changeValue(documentId, fieldName, changeByThisValue).then((newValue) {
       fullCache[documentId] = newValue;
-      return newValue;
+      return newValue!;
     });
   }
 
@@ -113,25 +113,25 @@ class MemberCartCache implements MemberCartRepository {
   }
 
   @override
-  StreamSubscription<List<MemberCartModel>> listen(trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<MemberCartModel?>> listen(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listen(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<List<MemberCartModel>> listenWithDetails(trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<MemberCartModel?>> listenWithDetails(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listenWithDetails(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<MemberCartModel> listenTo(String documentId, changed) {
-    reference.listenTo(documentId, changed);
+  StreamSubscription<MemberCartModel?> listenTo(String documentId, MemberCartChanged changed) {
+    return reference.listenTo(documentId, changed);
   }
 
   static Future<MemberCartModel> refreshRelations(MemberCartModel model) async {
 
-    List<CartItemModel> cartItemsHolder;
+    List<CartItemModel>? cartItemsHolder;
     if (model.cartItems != null) {
-      cartItemsHolder = List<CartItemModel>.from(await Future.wait(await model.cartItems.map((element) async {
+      cartItemsHolder = List<CartItemModel>.from(await Future.wait(await model.cartItems!.map((element) async {
         return await CartItemCache.refreshRelations(element);
       }))).toList();
     }

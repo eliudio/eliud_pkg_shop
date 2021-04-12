@@ -22,22 +22,22 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class MemberCartEntity {
-  final String appId;
-  final List<CartItemEntity> cartItems;
+  final String? appId;
+  final List<CartItemEntity>? cartItems;
 
   MemberCartEntity({this.appId, this.cartItems, });
 
 
-  List<Object> get props => [appId, cartItems, ];
+  List<Object?> get props => [appId, cartItems, ];
 
   @override
   String toString() {
-    String cartItemsCsv = (cartItems == null) ? '' : cartItems.join(', ');
+    String cartItemsCsv = (cartItems == null) ? '' : cartItems!.join(', ');
 
     return 'MemberCartEntity{appId: $appId, cartItems: CartItem[] { $cartItemsCsv }}';
   }
 
-  static MemberCartEntity fromMap(Map map) {
+  static MemberCartEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     var cartItemsFromMap;
@@ -55,12 +55,12 @@ class MemberCartEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    final List<Map<String, dynamic>> cartItemsListMap = cartItems != null 
-        ? cartItems.map((item) => item.toDocument()).toList()
+  Map<String, Object?> toDocument() {
+    final List<Map<String?, dynamic>>? cartItemsListMap = cartItems != null 
+        ? cartItems!.map((item) => item.toDocument()).toList()
         : null;
 
-    Map<String, Object> theDocument = HashMap();
+    Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     if (cartItems != null) theDocument["cartItems"] = cartItemsListMap;
@@ -68,8 +68,8 @@ class MemberCartEntity {
     return theDocument;
   }
 
-  static MemberCartEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static MemberCartEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

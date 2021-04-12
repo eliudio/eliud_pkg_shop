@@ -7,7 +7,7 @@ abstract class PaymentState extends Equatable {
   const PaymentState();
 
   @override
-  List<Object> get props => [ ];
+  List<Object?> get props => [ ];
 }
 
 class PayUninitialised extends PaymentState {
@@ -55,12 +55,12 @@ class ConfirmOrder extends PaymentState {
 // State where user is expected to pay the order
 class PayOrder extends PaymentState {
   final String id = 'PayOrder';
-  final OrderModel order;
+  final OrderModel? order;
 
   const PayOrder({ this.order });
 
   @override
-  List<Object> get props => [ id, order ];
+  List<Object?> get props => [ id, order ];
 
   @override
   String toString() {
@@ -70,12 +70,12 @@ class PayOrder extends PaymentState {
 
 // Not enough stock PaymentState
 class LackOfStock extends PaymentState {
-  final OrderModel order;
+  final OrderModel? order;
 
   const LackOfStock({this.order});
 
   @override
-  List<Object> get props => [ order ];
+  List<Object?> get props => [ order ];
 
   @override
   String toString() {
@@ -85,12 +85,12 @@ class LackOfStock extends PaymentState {
 
 // State where user is informed he has paid the order
 class OrderPaid extends PaymentState {
-  final OrderModel order;
+  final OrderModel? order;
 
   const OrderPaid({this.order});
 
   @override
-  List<Object> get props => [ order ];
+  List<Object?> get props => [ order ];
 
   @override
   String toString() {
@@ -100,13 +100,13 @@ class OrderPaid extends PaymentState {
 
 // State where user is informed there was an issue in paying the order
 class PaymentFailed extends PaymentState {
-  final OrderModel order;
-  final String msg;
+  final OrderModel? order;
+  final String? msg;
 
   const PaymentFailed({this.order, this.msg});
 
   @override
-  List<Object> get props => [ order, msg ];
+  List<Object?> get props => [ order, msg ];
 
   @override
   String toString() {

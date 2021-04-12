@@ -58,10 +58,10 @@ import 'package:eliud_pkg_shop/model/order_item_form_state.dart';
 
 class OrderItemForm extends StatelessWidget {
   FormAction formAction;
-  OrderItemModel value;
-  ActionModel submitAction;
+  OrderItemModel? value;
+  ActionModel? submitAction;
 
-  OrderItemForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  OrderItemForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -87,14 +87,14 @@ class OrderItemForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update OrderItem", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update OrderItem", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add OrderItem", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add OrderItem", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
                 ),
         body: BlocProvider<OrderItemFormBloc >(
             create: (context) => OrderItemFormBloc(AccessBloc.appId(context),
@@ -109,8 +109,8 @@ class OrderItemForm extends StatelessWidget {
 
 
 class MyOrderItemForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyOrderItemForm({this.formAction, this.submitAction});
 
@@ -119,14 +119,14 @@ class MyOrderItemForm extends StatefulWidget {
 
 
 class _MyOrderItemFormState extends State<MyOrderItemForm> {
-  final FormAction formAction;
-  OrderItemFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late OrderItemFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _soldPriceController = TextEditingController();
-  String _product;
+  String? _product;
 
 
   _MyOrderItemFormState(this.formAction);
@@ -151,45 +151,45 @@ class _MyOrderItemFormState extends State<MyOrderItemForm> {
       );
 
       if (state is OrderItemFormLoaded) {
-        if (state.value.documentID != null)
-          _documentIDController.text = state.value.documentID.toString();
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value.amount != null)
-          _amountController.text = state.value.amount.toString();
+        if (state.value!.amount != null)
+          _amountController.text = state.value!.amount.toString();
         else
           _amountController.text = "";
-        if (state.value.appId != null)
-          _appIdController.text = state.value.appId.toString();
+        if (state.value!.appId != null)
+          _appIdController.text = state.value!.appId.toString();
         else
           _appIdController.text = "";
-        if (state.value.soldPrice != null)
-          _soldPriceController.text = state.value.soldPrice.toString();
+        if (state.value!.soldPrice != null)
+          _soldPriceController.text = state.value!.soldPrice.toString();
         else
           _soldPriceController.text = "";
-        if (state.value.product != null)
-          _product= state.value.product.documentID;
+        if (state.value!.product != null)
+          _product= state.value!.product!.documentID;
         else
           _product= "";
       }
       if (state is OrderItemFormInitialized) {
-        List<Widget> children = List();
+        List<Widget?> children = [];
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _amountController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'Amount',
                   ),
                   keyboardType: TextInputType.number,
@@ -203,11 +203,11 @@ class _MyOrderItemFormState extends State<MyOrderItemForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _soldPriceController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'Price',
                   ),
                   keyboardType: TextInputType.number,
@@ -220,7 +220,7 @@ class _MyOrderItemFormState extends State<MyOrderItemForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -228,17 +228,17 @@ class _MyOrderItemFormState extends State<MyOrderItemForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('App',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _appIdController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'App ID',
                   ),
                   keyboardType: TextInputType.text,
@@ -251,7 +251,7 @@ class _MyOrderItemFormState extends State<MyOrderItemForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -259,7 +259,7 @@ class _MyOrderItemFormState extends State<MyOrderItemForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Product',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -269,49 +269,48 @@ class _MyOrderItemFormState extends State<MyOrderItemForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
+                  color: RgbHelper.color(rgbo: app!.formSubmitButtonColor),
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is OrderItemFormError) {
                       return null;
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<OrderItemListBloc>(context).add(
-                          UpdateOrderItemList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              amount: state.value.amount, 
-                              appId: state.value.appId, 
-                              soldPrice: state.value.soldPrice, 
-                              product: state.value.product, 
+                          UpdateOrderItemList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              amount: state.value!.amount, 
+                              appId: state.value!.appId, 
+                              soldPrice: state.value!.soldPrice, 
+                              product: state.value!.product, 
                         )));
                       } else {
                         BlocProvider.of<OrderItemListBloc>(context).add(
                           AddOrderItemList(value: OrderItemModel(
-                              documentID: state.value.documentID, 
-                              amount: state.value.amount, 
-                              appId: state.value.appId, 
-                              soldPrice: state.value.soldPrice, 
-                              product: state.value.product, 
+                              documentID: state.value!.documentID, 
+                              amount: state.value!.amount, 
+                              appId: state.value!.appId, 
+                              soldPrice: state.value!.soldPrice, 
+                              product: state.value!.product, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }
-                      return true;
                     }
                   },
-                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
+                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app!.formSubmitButtonTextColor))),
                 ));
 
         return Container(
           color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
-          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app.formBackground),
+          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app!.formBackground),
           padding:
           const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
             child: Form(
@@ -319,7 +318,7 @@ class _MyOrderItemFormState extends State<MyOrderItemForm> {
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
-              children: children
+              children: children as List<Widget>
             ),
           )
         );
@@ -349,7 +348,7 @@ class _MyOrderItemFormState extends State<MyOrderItemForm> {
   }
 
 
-  void _onProductSelected(String val) {
+  void _onProductSelected(String? val) {
     setState(() {
       _product = val;
     });

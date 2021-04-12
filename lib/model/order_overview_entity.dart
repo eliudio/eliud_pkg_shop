@@ -22,24 +22,24 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class OrderOverviewEntity {
-  final String appId;
-  final String title;
-  final String shopId;
-  final String itemImageBackgroundId;
-  final String itemDetailBackgroundId;
-  final ConditionsSimpleEntity conditions;
+  final String? appId;
+  final String? title;
+  final String? shopId;
+  final String? itemImageBackgroundId;
+  final String? itemDetailBackgroundId;
+  final ConditionsSimpleEntity? conditions;
 
   OrderOverviewEntity({this.appId, this.title, this.shopId, this.itemImageBackgroundId, this.itemDetailBackgroundId, this.conditions, });
 
 
-  List<Object> get props => [appId, title, shopId, itemImageBackgroundId, itemDetailBackgroundId, conditions, ];
+  List<Object?> get props => [appId, title, shopId, itemImageBackgroundId, itemDetailBackgroundId, conditions, ];
 
   @override
   String toString() {
     return 'OrderOverviewEntity{appId: $appId, title: $title, shopId: $shopId, itemImageBackgroundId: $itemImageBackgroundId, itemDetailBackgroundId: $itemDetailBackgroundId, conditions: $conditions}';
   }
 
-  static OrderOverviewEntity fromMap(Map map) {
+  static OrderOverviewEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     var conditionsFromMap;
@@ -57,12 +57,12 @@ class OrderOverviewEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    final Map<String, dynamic> conditionsMap = conditions != null 
-        ? conditions.toDocument()
+  Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? conditionsMap = conditions != null 
+        ? conditions!.toDocument()
         : null;
 
-    Map<String, Object> theDocument = HashMap();
+    Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     if (title != null) theDocument["title"] = title;
@@ -78,8 +78,8 @@ class OrderOverviewEntity {
     return theDocument;
   }
 
-  static OrderOverviewEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static OrderOverviewEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

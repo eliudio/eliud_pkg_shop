@@ -36,56 +36,56 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 class ProductDisplayCache implements ProductDisplayRepository {
 
   final ProductDisplayRepository reference;
-  final Map<String, ProductDisplayModel> fullCache = Map();
+  final Map<String?, ProductDisplayModel?> fullCache = Map();
 
   ProductDisplayCache(this.reference);
 
   Future<ProductDisplayModel> add(ProductDisplayModel value) {
     return reference.add(value).then((newValue) {
-      fullCache[value.documentID] = newValue;
+      fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
   Future<void> delete(ProductDisplayModel value){
-    fullCache.remove(value.documentID);
+    fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
   }
 
-  Future<ProductDisplayModel> get(String id, {Function(Exception) onError}) {
-    ProductDisplayModel value = fullCache[id];
+  Future<ProductDisplayModel> get(String? id, {Function(Exception)? onError}) {
+    ProductDisplayModel? value = fullCache[id];
     if (value != null) return refreshRelations(value);
     return reference.get(id, onError: onError).then((value) {
       fullCache[id] = value;
-      return value;
+      return value!;
     });
   }
 
   Future<ProductDisplayModel> update(ProductDisplayModel value) {
     return reference.update(value).then((newValue) {
-      fullCache[value.documentID] = newValue;
+      fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
   @override
-  Stream<List<ProductDisplayModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+  Stream<List<ProductDisplayModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.values(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Stream<List<ProductDisplayModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+  Stream<List<ProductDisplayModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.valuesWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Future<List<ProductDisplayModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
+  Future<List<ProductDisplayModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
     return await reference.valuesList(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
   
   @override
-  Future<List<ProductDisplayModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
+  Future<List<ProductDisplayModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
     return await reference.valuesListWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
@@ -93,7 +93,7 @@ class ProductDisplayCache implements ProductDisplayRepository {
     fullCache.clear();
   }
   
-  String timeStampToString(dynamic timeStamp) {
+  String? timeStampToString(dynamic timeStamp) {
     return reference.timeStampToString(timeStamp);
   } 
 
@@ -104,7 +104,7 @@ class ProductDisplayCache implements ProductDisplayRepository {
   Future<ProductDisplayModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
     return reference.changeValue(documentId, fieldName, changeByThisValue).then((newValue) {
       fullCache[documentId] = newValue;
-      return newValue;
+      return newValue!;
     });
   }
 
@@ -113,35 +113,35 @@ class ProductDisplayCache implements ProductDisplayRepository {
   }
 
   @override
-  StreamSubscription<List<ProductDisplayModel>> listen(trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<ProductDisplayModel?>> listen(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listen(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<List<ProductDisplayModel>> listenWithDetails(trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<ProductDisplayModel?>> listenWithDetails(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listenWithDetails(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<ProductDisplayModel> listenTo(String documentId, changed) {
-    reference.listenTo(documentId, changed);
+  StreamSubscription<ProductDisplayModel?> listenTo(String documentId, ProductDisplayChanged changed) {
+    return reference.listenTo(documentId, changed);
   }
 
   static Future<ProductDisplayModel> refreshRelations(ProductDisplayModel model) async {
 
-    BackgroundModel itemDetailBackgroundHolder;
+    BackgroundModel? itemDetailBackgroundHolder;
     if (model.itemDetailBackground != null) {
       try {
-        await backgroundRepository(appId: model.itemDetailBackground.appId).get(model.itemDetailBackground.documentID).then((val) {
+        await backgroundRepository(appId: model.itemDetailBackground!.appId)!.get(model.itemDetailBackground!.documentID).then((val) {
           itemDetailBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    ShopModel shopHolder;
+    ShopModel? shopHolder;
     if (model.shop != null) {
       try {
-        await shopRepository(appId: model.shop.appId).get(model.shop.documentID).then((val) {
+        await shopRepository(appId: model.shop!.appId)!.get(model.shop!.documentID).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}

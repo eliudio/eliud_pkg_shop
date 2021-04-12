@@ -45,50 +45,36 @@ import 'package:eliud_core/model/app_model.dart';
 import 'order_item_form.dart';
 
 
-typedef OrderItemWidgetProvider(OrderItemModel value);
+typedef OrderItemWidgetProvider(OrderItemModel? value);
 
 class OrderItemListWidget extends StatefulWidget with HasFab {
-  BackgroundModel listBackground;
-  OrderItemWidgetProvider widgetProvider;
-  bool readOnly;
-  String form;
-  OrderItemListWidgetState state;
-  bool isEmbedded;
+  BackgroundModel? listBackground;
+  OrderItemWidgetProvider? widgetProvider;
+  bool? readOnly;
+  String? form;
+  OrderItemListWidgetState? state;
+  bool? isEmbedded;
 
-  OrderItemListWidget({ Key key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
+  OrderItemListWidget({ Key? key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   OrderItemListWidgetState createState() {
     state ??= OrderItemListWidgetState();
-    return state;
+    return state!;
   }
 
   @override
-  Widget fab(BuildContext context) {
-    if ((readOnly != null) && readOnly) return null;
+  Widget? fab(BuildContext context) {
+    if ((readOnly != null) && readOnly!) return null;
     state ??= OrderItemListWidgetState();
     var accessState = AccessBloc.getState(context);
-    return state.fab(context, accessState);
+    return state!.fab(context, accessState);
   }
 }
 
 class OrderItemListWidgetState extends State<OrderItemListWidget> {
-  OrderItemListBloc bloc;
-
   @override
-  void didChangeDependencies() {
-    bloc = BlocProvider.of<OrderItemListBloc>(context);
-    super.didChangeDependencies();
-  }
-
-  @override
-  void dispose () {
-    if (bloc != null) bloc.close();
-    super.dispose();
-  }
-
-  @override
-  Widget fab(BuildContext aContext, AccessState accessState) {
+  Widget? fab(BuildContext aContext, AccessState accessState) {
     if (accessState is AppLoaded) {
       return !accessState.memberIsOwner() 
         ? null
@@ -100,7 +86,7 @@ class OrderItemListWidgetState extends State<OrderItemListWidget> {
         onPressed: () {
           Navigator.of(context).push(
             pageRouteBuilder(accessState.app, page: BlocProvider.value(
-                value: bloc,
+                value: BlocProvider.of<OrderItemListBloc>(context),
                 child: OrderItemForm(
                     value: null,
                     formAction: FormAction.AddAction)
@@ -124,15 +110,15 @@ class OrderItemListWidgetState extends State<OrderItemListWidget> {
           );
         } else if (state is OrderItemListLoaded) {
           final values = state.values;
-          if ((widget.isEmbedded != null) && (widget.isEmbedded)) {
-            List<Widget> children = List();
+          if ((widget.isEmbedded != null) && widget.isEmbedded!) {
+            var children = <Widget>[];
             children.add(theList(context, values, accessState));
             children.add(RaisedButton(
                     color: RgbHelper.color(rgbo: accessState.app.formSubmitButtonColor),
                     onPressed: () {
                       Navigator.of(context).push(
                                 pageRouteBuilder(accessState.app, page: BlocProvider.value(
-                                    value: bloc,
+                                    value: BlocProvider.of<OrderItemListBloc>(context),
                                     child: OrderItemForm(
                                         value: null,
                                         formAction: FormAction.AddAction)
@@ -174,7 +160,7 @@ class OrderItemListWidgetState extends State<OrderItemListWidget> {
         itemBuilder: (context, index) {
           final value = values[index];
           
-          if (widget.widgetProvider != null) return widget.widgetProvider(value);
+          if (widget.widgetProvider != null) return widget.widgetProvider!(value);
 
           return OrderItemListItem(
             value: value,
@@ -210,7 +196,7 @@ class OrderItemListWidgetState extends State<OrderItemListWidget> {
   }
   
   
-  Widget getForm(value, action) {
+  Widget? getForm(value, action) {
     if (widget.form == null) {
       return OrderItemForm(value: value, formAction: action);
     } else {
@@ -226,29 +212,29 @@ class OrderItemListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
   final AppModel app;
-  final OrderItemModel value;
+  final OrderItemModel? value;
 
   OrderItemListItem({
-    Key key,
-    @required this.onDismissed,
-    @required this.onTap,
-    @required this.value,
-    @required this.app,
+    Key? key,
+    required this.onDismissed,
+    required this.onTap,
+    required this.value,
+    required this.app,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key('__OrderItem_item_${value.documentID}'),
+      key: Key('__OrderItem_item_${value!.documentID}'),
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
         title: Hero(
-          tag: '${value.documentID}__OrderItemheroTag',
+          tag: '${value!.documentID}__OrderItemheroTag',
           child: Container(
             width: fullScreenWidth(context),
             child: Center(child: Text(
-              value.amount != null ? value.amount.toString() + ' ' + (value.product == null ? '' : value.product.title) + ' ' + (value.soldPrice == null ? '' : value.soldPrice.toString()) : '0',
+              value!.amount != null ? value!.amount.toString() + ' ' + (value!.product == null ? '' : value!.product!.title!) + ' ' + (value!.soldPrice == null ? '' : value!.soldPrice!.toString()) : '0'!,
               style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),
             )),
           ),

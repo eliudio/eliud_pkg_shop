@@ -22,32 +22,32 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class ShopFrontEntity {
-  final String appId;
-  final String title;
-  final String description;
-  final String shopId;
-  final double size;
-  final double cardElevation;
-  final double cardAxisSpacing;
-  final String itemCardBackgroundId;
-  final RgbEntity addToCartColor;
-  final int view;
-  final int scrollDirection;
-  final ActionEntity buyAction;
-  final ActionEntity openProductAction;
-  final ConditionsSimpleEntity conditions;
+  final String? appId;
+  final String? title;
+  final String? description;
+  final String? shopId;
+  final double? size;
+  final double? cardElevation;
+  final double? cardAxisSpacing;
+  final String? itemCardBackgroundId;
+  final RgbEntity? addToCartColor;
+  final int? view;
+  final int? scrollDirection;
+  final ActionEntity? buyAction;
+  final ActionEntity? openProductAction;
+  final ConditionsSimpleEntity? conditions;
 
   ShopFrontEntity({this.appId, this.title, this.description, this.shopId, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackgroundId, this.addToCartColor, this.view, this.scrollDirection, this.buyAction, this.openProductAction, this.conditions, });
 
 
-  List<Object> get props => [appId, title, description, shopId, size, cardElevation, cardAxisSpacing, itemCardBackgroundId, addToCartColor, view, scrollDirection, buyAction, openProductAction, conditions, ];
+  List<Object?> get props => [appId, title, description, shopId, size, cardElevation, cardAxisSpacing, itemCardBackgroundId, addToCartColor, view, scrollDirection, buyAction, openProductAction, conditions, ];
 
   @override
   String toString() {
     return 'ShopFrontEntity{appId: $appId, title: $title, description: $description, shopId: $shopId, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackgroundId: $itemCardBackgroundId, addToCartColor: $addToCartColor, view: $view, scrollDirection: $scrollDirection, buyAction: $buyAction, openProductAction: $openProductAction, conditions: $conditions}';
   }
 
-  static ShopFrontEntity fromMap(Map map) {
+  static ShopFrontEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     var addToCartColorFromMap;
@@ -85,21 +85,21 @@ class ShopFrontEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    final Map<String, dynamic> addToCartColorMap = addToCartColor != null 
-        ? addToCartColor.toDocument()
+  Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? addToCartColorMap = addToCartColor != null 
+        ? addToCartColor!.toDocument()
         : null;
-    final Map<String, dynamic> buyActionMap = buyAction != null 
-        ? buyAction.toDocument()
+    final Map<String, dynamic>? buyActionMap = buyAction != null 
+        ? buyAction!.toDocument()
         : null;
-    final Map<String, dynamic> openProductActionMap = openProductAction != null 
-        ? openProductAction.toDocument()
+    final Map<String, dynamic>? openProductActionMap = openProductAction != null 
+        ? openProductAction!.toDocument()
         : null;
-    final Map<String, dynamic> conditionsMap = conditions != null 
-        ? conditions.toDocument()
+    final Map<String, dynamic>? conditionsMap = conditions != null 
+        ? conditions!.toDocument()
         : null;
 
-    Map<String, Object> theDocument = HashMap();
+    Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     if (title != null) theDocument["title"] = title;
@@ -131,8 +131,8 @@ class ShopFrontEntity {
     return theDocument;
   }
 
-  static ShopFrontEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static ShopFrontEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

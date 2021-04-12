@@ -20,19 +20,19 @@ abstract class PayListState extends Equatable {
   const PayListState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class PayListLoading extends PayListState {}
 
 class PayListLoaded extends PayListState {
-  final List<PayModel> values;
-  final bool mightHaveMore;
+  final List<PayModel?>? values;
+  final bool? mightHaveMore;
 
   const PayListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values, mightHaveMore ];
+  List<Object?> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'PayListLoaded { values: $values }';

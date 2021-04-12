@@ -92,7 +92,7 @@
       "fieldType": "Rgb",
       "group": "addToCartColor",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Add To Cart Color\", state.value.addToCartColor, _onAddToCartColorChanged)"
+      "bespokeFormField": "RgbField(\"Add To Cart Color\", state.value!.addToCartColor, _onAddToCartColorChanged)"
     },
     {
       "fieldName": "view",
@@ -113,13 +113,13 @@
     {
       "fieldName": "buyAction",
       "fieldType": "Action",
-      "bespokeFormField": "ActionField(AccessBloc.appId(context), state.value.buyAction, _onBuyActionChanged)",
+      "bespokeFormField": "ActionField(AccessBloc.appId(context), state.value!.buyAction, _onBuyActionChanged)",
       "group": "action"
     },
     {
       "fieldName": "openProductAction",
       "fieldType": "Action",
-      "bespokeFormField": "ActionField(AccessBloc.appId(context), state.value.openProductAction, _onOpenProductActionChanged)",
+      "bespokeFormField": "ActionField(AccessBloc.appId(context), state.value!.openProductAction, _onOpenProductActionChanged)",
       "group": "openProductAction"
     },
     {

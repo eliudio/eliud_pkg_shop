@@ -25,7 +25,7 @@ import 'package:eliud_pkg_shop/model/pay_component_state.dart';
 
 abstract class AbstractPayComponent extends StatelessWidget {
   static String componentName = "pays";
-  final String payID;
+  final String? payID;
 
   AbstractPayComponent({this.payID});
 
@@ -63,7 +63,7 @@ abstract class AbstractPayComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, PayModel value);
+  Widget yourWidget(BuildContext context, PayModel? value);
   Widget alertWidget({ title: String, content: String});
   PayRepository getPayRepository(BuildContext context);
 }

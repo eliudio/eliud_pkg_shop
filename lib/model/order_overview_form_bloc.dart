@@ -42,8 +42,8 @@ import 'package:eliud_pkg_shop/model/order_overview_form_state.dart';
 import 'package:eliud_pkg_shop/model/order_overview_repository.dart';
 
 class OrderOverviewFormBloc extends Bloc<OrderOverviewFormEvent, OrderOverviewFormState> {
-  final FormAction formAction;
-  final String appId;
+  final FormAction? formAction;
+  final String? appId;
 
   OrderOverviewFormBloc(this.appId, { this.formAction }): super(OrderOverviewFormUninitialized());
   @override
@@ -65,20 +65,20 @@ class OrderOverviewFormBloc extends Bloc<OrderOverviewFormEvent, OrderOverviewFo
 
       if (event is InitialiseOrderOverviewFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        OrderOverviewFormLoaded loaded = OrderOverviewFormLoaded(value: await orderOverviewRepository(appId: appId).get(event.value.documentID));
+        OrderOverviewFormLoaded loaded = OrderOverviewFormLoaded(value: await orderOverviewRepository(appId: appId)!.get(event!.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseOrderOverviewFormNoLoadEvent) {
-        OrderOverviewFormLoaded loaded = OrderOverviewFormLoaded(value: event.value);
+        OrderOverviewFormLoaded loaded = OrderOverviewFormLoaded(value: event!.value);
         yield loaded;
         return;
       }
     } else if (currentState is OrderOverviewFormInitialized) {
-      OrderOverviewModel newValue = null;
+      OrderOverviewModel? newValue = null;
       if (event is ChangedOrderOverviewDocumentID) {
-        newValue = currentState.value.copyWith(documentID: event.value);
+        newValue = currentState.value!.copyWith(documentID: event!.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          yield* _isDocumentIDValid(event!.value, newValue).asStream();
         } else {
           yield SubmittableOrderOverviewForm(value: newValue);
         }
@@ -86,64 +86,64 @@ class OrderOverviewFormBloc extends Bloc<OrderOverviewFormEvent, OrderOverviewFo
         return;
       }
       if (event is ChangedOrderOverviewTitle) {
-        newValue = currentState.value.copyWith(title: event.value);
+        newValue = currentState.value!.copyWith(title: event!.value);
         yield SubmittableOrderOverviewForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderOverviewShop) {
-        if (event.value != null)
-          newValue = currentState.value.copyWith(shop: await shopRepository(appId: appId).get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event!.value));
         else
           newValue = new OrderOverviewModel(
-                                 documentID: currentState.value.documentID,
-                                 appId: currentState.value.appId,
-                                 title: currentState.value.title,
+                                 documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
+                                 title: currentState.value!.title,
                                  shop: null,
-                                 itemImageBackground: currentState.value.itemImageBackground,
-                                 itemDetailBackground: currentState.value.itemDetailBackground,
-                                 conditions: currentState.value.conditions,
+                                 itemImageBackground: currentState.value!.itemImageBackground,
+                                 itemDetailBackground: currentState.value!.itemDetailBackground,
+                                 conditions: currentState.value!.conditions,
           );
         yield SubmittableOrderOverviewForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderOverviewItemImageBackground) {
-        if (event.value != null)
-          newValue = currentState.value.copyWith(itemImageBackground: await backgroundRepository(appId: appId).get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(itemImageBackground: await backgroundRepository(appId: appId)!.get(event!.value));
         else
           newValue = new OrderOverviewModel(
-                                 documentID: currentState.value.documentID,
-                                 appId: currentState.value.appId,
-                                 title: currentState.value.title,
-                                 shop: currentState.value.shop,
+                                 documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
+                                 title: currentState.value!.title,
+                                 shop: currentState.value!.shop,
                                  itemImageBackground: null,
-                                 itemDetailBackground: currentState.value.itemDetailBackground,
-                                 conditions: currentState.value.conditions,
+                                 itemDetailBackground: currentState.value!.itemDetailBackground,
+                                 conditions: currentState.value!.conditions,
           );
         yield SubmittableOrderOverviewForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderOverviewItemDetailBackground) {
-        if (event.value != null)
-          newValue = currentState.value.copyWith(itemDetailBackground: await backgroundRepository(appId: appId).get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(itemDetailBackground: await backgroundRepository(appId: appId)!.get(event!.value));
         else
           newValue = new OrderOverviewModel(
-                                 documentID: currentState.value.documentID,
-                                 appId: currentState.value.appId,
-                                 title: currentState.value.title,
-                                 shop: currentState.value.shop,
-                                 itemImageBackground: currentState.value.itemImageBackground,
+                                 documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
+                                 title: currentState.value!.title,
+                                 shop: currentState.value!.shop,
+                                 itemImageBackground: currentState.value!.itemImageBackground,
                                  itemDetailBackground: null,
-                                 conditions: currentState.value.conditions,
+                                 conditions: currentState.value!.conditions,
           );
         yield SubmittableOrderOverviewForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderOverviewConditions) {
-        newValue = currentState.value.copyWith(conditions: event.value);
+        newValue = currentState.value!.copyWith(conditions: event!.value);
         yield SubmittableOrderOverviewForm(value: newValue);
 
         return;
@@ -154,10 +154,10 @@ class OrderOverviewFormBloc extends Bloc<OrderOverviewFormEvent, OrderOverviewFo
 
   DocumentIDOrderOverviewFormError error(String message, OrderOverviewModel newValue) => DocumentIDOrderOverviewFormError(message: message, value: newValue);
 
-  Future<OrderOverviewFormState> _isDocumentIDValid(String value, OrderOverviewModel newValue) async {
+  Future<OrderOverviewFormState> _isDocumentIDValid(String? value, OrderOverviewModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<OrderOverviewModel> findDocument = orderOverviewRepository(appId: appId).get(value);
+    Future<OrderOverviewModel?> findDocument = orderOverviewRepository(appId: appId)!.get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableOrderOverviewForm(value: newValue);

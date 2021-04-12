@@ -21,7 +21,7 @@ abstract class ShopFrontComponentEvent extends Equatable {
 }
 
 class FetchShopFrontComponent extends ShopFrontComponentEvent {
-  final String id;
+  final String? id;
 
   FetchShopFrontComponent({ this.id });
 }

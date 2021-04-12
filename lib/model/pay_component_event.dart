@@ -21,7 +21,7 @@ abstract class PayComponentEvent extends Equatable {
 }
 
 class FetchPayComponent extends PayComponentEvent {
-  final String id;
+  final String? id;
 
   FetchPayComponent({ this.id });
 }

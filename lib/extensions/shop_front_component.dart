@@ -19,13 +19,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ShopFrontComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({String id, Map<String, Object> parameters}) {
+  Widget createNew({String? id, Map<String, Object>? parameters}) {
     return ShopFrontBase(id);
   }
 }
 
 class ShopFrontBase extends AbstractShopFrontComponent {
-  final String id;
+  final String? id;
 
   ShopFrontBase(this.id) : super(shopFrontID: id);
 
@@ -36,17 +36,17 @@ class ShopFrontBase extends AbstractShopFrontComponent {
 
   @override
   ShopFrontRepository getShopFrontRepository(BuildContext context) {
-    return AbstractRepositorySingleton.singleton.shopFrontRepository(AccessBloc.appId(context));
+    return AbstractRepositorySingleton.singleton.shopFrontRepository(AccessBloc.appId(context))!;
   }
 
   @override
-  Widget yourWidget(BuildContext context, ShopFrontModel value) {
+  Widget yourWidget(BuildContext context, ShopFrontModel? value) {
     return ShopFront(value);
   }
 }
 
 class ShopFront extends StatefulWidget {
-  final ShopFrontModel shopFrontModel;
+  final ShopFrontModel? shopFrontModel;
 
   ShopFront(this.shopFrontModel);
 
@@ -66,14 +66,14 @@ class ShopFrontState extends State<ShopFront> {
         create: (context) => ProductListBloc(
           detailed: true,
           productRepository:
-              AbstractRepositorySingleton.singleton.productRepository(AccessBloc.appId(context)),
+              AbstractRepositorySingleton.singleton.productRepository(AccessBloc.appId(context))!,
         )..add(LoadProductList()),
       )
     ], child: GridProducts(shopFrontModel: widget.shopFrontModel));
   }
 
-  List<Widget> addWidget(
-      List<Widget> widgets, String text, FontModel font) {
+  List<Widget?> addWidget(
+      List<Widget?> widgets, String? text, FontModel? font) {
     if ((text != null) && (text.isNotEmpty)) {
       widgets.add(
         Text(text, style: FontTools.textStyle(font)),
@@ -87,13 +87,13 @@ class ShopFrontState extends State<ShopFront> {
   Widget build(BuildContext context) {
     var appState = AccessBloc.getState(context);
     if (appState is AppLoaded) {
-      var widgets = <Widget>[];
-      addWidget(widgets, widget.shopFrontModel.title, appState.app
+      var widgets = <Widget?>[];
+      addWidget(widgets, widget.shopFrontModel!.title, appState.app
           .h1);
-      addWidget(widgets, widget.shopFrontModel.description, appState.app
+      addWidget(widgets, widget.shopFrontModel!.description, appState.app
           .fontText);
       widgets.add(_grid(context));
-      return Utils.getShrinkedListView(widgets);
+      return Utils.getShrinkedListView(widgets as List<Widget>);
     } else {
       return Text('App not loaded');
     }

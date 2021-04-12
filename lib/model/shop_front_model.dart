@@ -42,7 +42,7 @@ enum ScrollDirection {
 }
 
 
-ShopFrontView toShopFrontView(int index) {
+ShopFrontView toShopFrontView(int? index) {
   switch (index) {
     case 0: return ShopFrontView.Slider;
     case 1: return ShopFrontView.Grid;
@@ -50,7 +50,7 @@ ShopFrontView toShopFrontView(int index) {
   return ShopFrontView.Unknown;
 }
 
-ScrollDirection toScrollDirection(int index) {
+ScrollDirection toScrollDirection(int? index) {
   switch (index) {
     case 0: return ScrollDirection.Horizontal;
     case 1: return ScrollDirection.Vertical;
@@ -60,27 +60,27 @@ ScrollDirection toScrollDirection(int index) {
 
 
 class ShopFrontModel {
-  String documentID;
-  String appId;
-  String title;
-  String description;
-  ShopModel shop;
-  double size;
-  double cardElevation;
-  double cardAxisSpacing;
-  BackgroundModel itemCardBackground;
-  RgbModel addToCartColor;
-  ShopFrontView view;
-  ScrollDirection scrollDirection;
-  ActionModel buyAction;
-  ActionModel openProductAction;
-  ConditionsSimpleModel conditions;
+  String? documentID;
+  String? appId;
+  String? title;
+  String? description;
+  ShopModel? shop;
+  double? size;
+  double? cardElevation;
+  double? cardAxisSpacing;
+  BackgroundModel? itemCardBackground;
+  RgbModel? addToCartColor;
+  ShopFrontView? view;
+  ScrollDirection? scrollDirection;
+  ActionModel? buyAction;
+  ActionModel? openProductAction;
+  ConditionsSimpleModel? conditions;
 
   ShopFrontModel({this.documentID, this.appId, this.title, this.description, this.shop, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackground, this.addToCartColor, this.view, this.scrollDirection, this.buyAction, this.openProductAction, this.conditions, })  {
     assert(documentID != null);
   }
 
-  ShopFrontModel copyWith({String documentID, String appId, String title, String description, ShopModel shop, double size, double cardElevation, double cardAxisSpacing, BackgroundModel itemCardBackground, RgbModel addToCartColor, ShopFrontView view, ScrollDirection scrollDirection, ActionModel buyAction, ActionModel openProductAction, ConditionsSimpleModel conditions, }) {
+  ShopFrontModel copyWith({String? documentID, String? appId, String? title, String? description, ShopModel? shop, double? size, double? cardElevation, double? cardAxisSpacing, BackgroundModel? itemCardBackground, RgbModel? addToCartColor, ShopFrontView? view, ScrollDirection? scrollDirection, ActionModel? buyAction, ActionModel? openProductAction, ConditionsSimpleModel? conditions, }) {
     return ShopFrontModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, description: description ?? this.description, shop: shop ?? this.shop, size: size ?? this.size, cardElevation: cardElevation ?? this.cardElevation, cardAxisSpacing: cardAxisSpacing ?? this.cardAxisSpacing, itemCardBackground: itemCardBackground ?? this.itemCardBackground, addToCartColor: addToCartColor ?? this.addToCartColor, view: view ?? this.view, scrollDirection: scrollDirection ?? this.scrollDirection, buyAction: buyAction ?? this.buyAction, openProductAction: openProductAction ?? this.openProductAction, conditions: conditions ?? this.conditions, );
   }
 
@@ -113,26 +113,26 @@ class ShopFrontModel {
     return 'ShopFrontModel{documentID: $documentID, appId: $appId, title: $title, description: $description, shop: $shop, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackground: $itemCardBackground, addToCartColor: $addToCartColor, view: $view, scrollDirection: $scrollDirection, buyAction: $buyAction, openProductAction: $openProductAction, conditions: $conditions}';
   }
 
-  ShopFrontEntity toEntity({String appId}) {
+  ShopFrontEntity toEntity({String? appId}) {
     return ShopFrontEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
           description: (description != null) ? description : null, 
-          shopId: (shop != null) ? shop.documentID : null, 
+          shopId: (shop != null) ? shop!.documentID : null, 
           size: (size != null) ? size : null, 
           cardElevation: (cardElevation != null) ? cardElevation : null, 
           cardAxisSpacing: (cardAxisSpacing != null) ? cardAxisSpacing : null, 
-          itemCardBackgroundId: (itemCardBackground != null) ? itemCardBackground.documentID : null, 
-          addToCartColor: (addToCartColor != null) ? addToCartColor.toEntity(appId: appId) : null, 
-          view: (view != null) ? view.index : null, 
-          scrollDirection: (scrollDirection != null) ? scrollDirection.index : null, 
-          buyAction: (buyAction != null) ? buyAction.toEntity(appId: appId) : null, 
-          openProductAction: (openProductAction != null) ? openProductAction.toEntity(appId: appId) : null, 
-          conditions: (conditions != null) ? conditions.toEntity(appId: appId) : null, 
+          itemCardBackgroundId: (itemCardBackground != null) ? itemCardBackground!.documentID : null, 
+          addToCartColor: (addToCartColor != null) ? addToCartColor!.toEntity(appId: appId) : null, 
+          view: (view != null) ? view!.index : null, 
+          scrollDirection: (scrollDirection != null) ? scrollDirection!.index : null, 
+          buyAction: (buyAction != null) ? buyAction!.toEntity(appId: appId) : null, 
+          openProductAction: (openProductAction != null) ? openProductAction!.toEntity(appId: appId) : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
 
-  static ShopFrontModel fromEntity(String documentID, ShopFrontEntity entity) {
+  static ShopFrontModel? fromEntity(String documentID, ShopFrontEntity? entity) {
     if (entity == null) return null;
     return ShopFrontModel(
           documentID: documentID, 
@@ -155,22 +155,22 @@ class ShopFrontModel {
     );
   }
 
-  static Future<ShopFrontModel> fromEntityPlus(String documentID, ShopFrontEntity entity, { String appId}) async {
+  static Future<ShopFrontModel?> fromEntityPlus(String documentID, ShopFrontEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
-    ShopModel shopHolder;
+    ShopModel? shopHolder;
     if (entity.shopId != null) {
       try {
-        await shopRepository(appId: appId).get(entity.shopId).then((val) {
+        await shopRepository(appId: appId)!.get(entity.shopId).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    BackgroundModel itemCardBackgroundHolder;
+    BackgroundModel? itemCardBackgroundHolder;
     if (entity.itemCardBackgroundId != null) {
       try {
-        await backgroundRepository(appId: appId).get(entity.itemCardBackgroundId).then((val) {
+        await backgroundRepository(appId: appId)!.get(entity.itemCardBackgroundId).then((val) {
           itemCardBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}

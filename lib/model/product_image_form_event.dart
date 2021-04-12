@@ -34,7 +34,7 @@ abstract class ProductImageFormEvent extends Equatable {
   const ProductImageFormEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitialiseNewProductImageFormEvent extends ProductImageFormEvent {
@@ -42,42 +42,42 @@ class InitialiseNewProductImageFormEvent extends ProductImageFormEvent {
 
 
 class InitialiseProductImageFormEvent extends ProductImageFormEvent {
-  final ProductImageModel value;
+  final ProductImageModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseProductImageFormEvent({this.value});
 }
 
 class InitialiseProductImageFormNoLoadEvent extends ProductImageFormEvent {
-  final ProductImageModel value;
+  final ProductImageModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseProductImageFormNoLoadEvent({this.value});
 }
 
 class ChangedProductImageDocumentID extends ProductImageFormEvent {
-  final String value;
+  final String? value;
 
   ChangedProductImageDocumentID({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedProductImageDocumentID{ value: $value }';
 }
 
 class ChangedProductImageImage extends ProductImageFormEvent {
-  final String value;
+  final String? value;
 
   ChangedProductImageImage({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedProductImageImage{ value: $value }';

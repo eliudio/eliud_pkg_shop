@@ -42,8 +42,8 @@ import 'package:eliud_pkg_shop/model/order_form_state.dart';
 import 'package:eliud_pkg_shop/model/order_repository.dart';
 
 class OrderFormBloc extends Bloc<OrderFormEvent, OrderFormState> {
-  final FormAction formAction;
-  final String appId;
+  final FormAction? formAction;
+  final String? appId;
 
   OrderFormBloc(this.appId, { this.formAction }): super(OrderFormUninitialized());
   @override
@@ -87,20 +87,20 @@ class OrderFormBloc extends Bloc<OrderFormEvent, OrderFormState> {
 
       if (event is InitialiseOrderFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        OrderFormLoaded loaded = OrderFormLoaded(value: await orderRepository(appId: appId).get(event.value.documentID));
+        OrderFormLoaded loaded = OrderFormLoaded(value: await orderRepository(appId: appId)!.get(event!.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseOrderFormNoLoadEvent) {
-        OrderFormLoaded loaded = OrderFormLoaded(value: event.value);
+        OrderFormLoaded loaded = OrderFormLoaded(value: event!.value);
         yield loaded;
         return;
       }
     } else if (currentState is OrderFormInitialized) {
-      OrderModel newValue = null;
+      OrderModel? newValue = null;
       if (event is ChangedOrderDocumentID) {
-        newValue = currentState.value.copyWith(documentID: event.value);
+        newValue = currentState.value!.copyWith(documentID: event!.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          yield* _isDocumentIDValid(event!.value, newValue).asStream();
         } else {
           yield SubmittableOrderForm(value: newValue);
         }
@@ -108,261 +108,261 @@ class OrderFormBloc extends Bloc<OrderFormEvent, OrderFormState> {
         return;
       }
       if (event is ChangedOrderCustomer) {
-        if (event.value != null)
-          newValue = currentState.value.copyWith(customer: await memberRepository(appId: appId).get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(customer: await memberRepository(appId: appId)!.get(event!.value));
         else
           newValue = new OrderModel(
-                                 documentID: currentState.value.documentID,
-                                 appId: currentState.value.appId,
+                                 documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
                                  customer: null,
-                                 name: currentState.value.name,
-                                 email: currentState.value.email,
-                                 shipStreet1: currentState.value.shipStreet1,
-                                 shipStreet2: currentState.value.shipStreet2,
-                                 shipCity: currentState.value.shipCity,
-                                 shipState: currentState.value.shipState,
-                                 postcode: currentState.value.postcode,
-                                 country: currentState.value.country,
-                                 invoiceSame: currentState.value.invoiceSame,
-                                 invoiceStreet1: currentState.value.invoiceStreet1,
-                                 invoiceStreet2: currentState.value.invoiceStreet2,
-                                 invoiceCity: currentState.value.invoiceCity,
-                                 invoiceState: currentState.value.invoiceState,
-                                 invoicePostcode: currentState.value.invoicePostcode,
-                                 invoiceCountry: currentState.value.invoiceCountry,
-                                 products: currentState.value.products,
-                                 totalPrice: currentState.value.totalPrice,
-                                 currency: currentState.value.currency,
-                                 paymentReference: currentState.value.paymentReference,
-                                 shipmentReference: currentState.value.shipmentReference,
-                                 deliveryReference: currentState.value.deliveryReference,
-                                 paymentNote: currentState.value.paymentNote,
-                                 shipmentNote: currentState.value.shipmentNote,
-                                 deliveryNote: currentState.value.deliveryNote,
-                                 status: currentState.value.status,
-                                 timeStamp: currentState.value.timeStamp,
+                                 name: currentState.value!.name,
+                                 email: currentState.value!.email,
+                                 shipStreet1: currentState.value!.shipStreet1,
+                                 shipStreet2: currentState.value!.shipStreet2,
+                                 shipCity: currentState.value!.shipCity,
+                                 shipState: currentState.value!.shipState,
+                                 postcode: currentState.value!.postcode,
+                                 country: currentState.value!.country,
+                                 invoiceSame: currentState.value!.invoiceSame,
+                                 invoiceStreet1: currentState.value!.invoiceStreet1,
+                                 invoiceStreet2: currentState.value!.invoiceStreet2,
+                                 invoiceCity: currentState.value!.invoiceCity,
+                                 invoiceState: currentState.value!.invoiceState,
+                                 invoicePostcode: currentState.value!.invoicePostcode,
+                                 invoiceCountry: currentState.value!.invoiceCountry,
+                                 products: currentState.value!.products,
+                                 totalPrice: currentState.value!.totalPrice,
+                                 currency: currentState.value!.currency,
+                                 paymentReference: currentState.value!.paymentReference,
+                                 shipmentReference: currentState.value!.shipmentReference,
+                                 deliveryReference: currentState.value!.deliveryReference,
+                                 paymentNote: currentState.value!.paymentNote,
+                                 shipmentNote: currentState.value!.shipmentNote,
+                                 deliveryNote: currentState.value!.deliveryNote,
+                                 status: currentState.value!.status,
+                                 timeStamp: currentState.value!.timeStamp,
           );
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderName) {
-        newValue = currentState.value.copyWith(name: event.value);
+        newValue = currentState.value!.copyWith(name: event!.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderEmail) {
-        newValue = currentState.value.copyWith(email: event.value);
+        newValue = currentState.value!.copyWith(email: event!.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderShipStreet1) {
-        newValue = currentState.value.copyWith(shipStreet1: event.value);
+        newValue = currentState.value!.copyWith(shipStreet1: event!.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderShipStreet2) {
-        newValue = currentState.value.copyWith(shipStreet2: event.value);
+        newValue = currentState.value!.copyWith(shipStreet2: event!.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderShipCity) {
-        newValue = currentState.value.copyWith(shipCity: event.value);
+        newValue = currentState.value!.copyWith(shipCity: event!.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderShipState) {
-        newValue = currentState.value.copyWith(shipState: event.value);
+        newValue = currentState.value!.copyWith(shipState: event!.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderPostcode) {
-        newValue = currentState.value.copyWith(postcode: event.value);
+        newValue = currentState.value!.copyWith(postcode: event!.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderCountry) {
-        if (event.value != null)
-          newValue = currentState.value.copyWith(country: await countryRepository(appId: appId).get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(country: await countryRepository(appId: appId)!.get(event!.value));
         else
           newValue = new OrderModel(
-                                 documentID: currentState.value.documentID,
-                                 appId: currentState.value.appId,
-                                 customer: currentState.value.customer,
-                                 name: currentState.value.name,
-                                 email: currentState.value.email,
-                                 shipStreet1: currentState.value.shipStreet1,
-                                 shipStreet2: currentState.value.shipStreet2,
-                                 shipCity: currentState.value.shipCity,
-                                 shipState: currentState.value.shipState,
-                                 postcode: currentState.value.postcode,
+                                 documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
+                                 customer: currentState.value!.customer,
+                                 name: currentState.value!.name,
+                                 email: currentState.value!.email,
+                                 shipStreet1: currentState.value!.shipStreet1,
+                                 shipStreet2: currentState.value!.shipStreet2,
+                                 shipCity: currentState.value!.shipCity,
+                                 shipState: currentState.value!.shipState,
+                                 postcode: currentState.value!.postcode,
                                  country: null,
-                                 invoiceSame: currentState.value.invoiceSame,
-                                 invoiceStreet1: currentState.value.invoiceStreet1,
-                                 invoiceStreet2: currentState.value.invoiceStreet2,
-                                 invoiceCity: currentState.value.invoiceCity,
-                                 invoiceState: currentState.value.invoiceState,
-                                 invoicePostcode: currentState.value.invoicePostcode,
-                                 invoiceCountry: currentState.value.invoiceCountry,
-                                 products: currentState.value.products,
-                                 totalPrice: currentState.value.totalPrice,
-                                 currency: currentState.value.currency,
-                                 paymentReference: currentState.value.paymentReference,
-                                 shipmentReference: currentState.value.shipmentReference,
-                                 deliveryReference: currentState.value.deliveryReference,
-                                 paymentNote: currentState.value.paymentNote,
-                                 shipmentNote: currentState.value.shipmentNote,
-                                 deliveryNote: currentState.value.deliveryNote,
-                                 status: currentState.value.status,
-                                 timeStamp: currentState.value.timeStamp,
+                                 invoiceSame: currentState.value!.invoiceSame,
+                                 invoiceStreet1: currentState.value!.invoiceStreet1,
+                                 invoiceStreet2: currentState.value!.invoiceStreet2,
+                                 invoiceCity: currentState.value!.invoiceCity,
+                                 invoiceState: currentState.value!.invoiceState,
+                                 invoicePostcode: currentState.value!.invoicePostcode,
+                                 invoiceCountry: currentState.value!.invoiceCountry,
+                                 products: currentState.value!.products,
+                                 totalPrice: currentState.value!.totalPrice,
+                                 currency: currentState.value!.currency,
+                                 paymentReference: currentState.value!.paymentReference,
+                                 shipmentReference: currentState.value!.shipmentReference,
+                                 deliveryReference: currentState.value!.deliveryReference,
+                                 paymentNote: currentState.value!.paymentNote,
+                                 shipmentNote: currentState.value!.shipmentNote,
+                                 deliveryNote: currentState.value!.deliveryNote,
+                                 status: currentState.value!.status,
+                                 timeStamp: currentState.value!.timeStamp,
           );
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderInvoiceSame) {
-        newValue = currentState.value.copyWith(invoiceSame: event.value);
+        newValue = currentState.value!.copyWith(invoiceSame: event!.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderInvoiceStreet1) {
-        newValue = currentState.value.copyWith(invoiceStreet1: event.value);
+        newValue = currentState.value!.copyWith(invoiceStreet1: event!.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderInvoiceStreet2) {
-        newValue = currentState.value.copyWith(invoiceStreet2: event.value);
+        newValue = currentState.value!.copyWith(invoiceStreet2: event!.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderInvoiceCity) {
-        newValue = currentState.value.copyWith(invoiceCity: event.value);
+        newValue = currentState.value!.copyWith(invoiceCity: event!.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderInvoiceState) {
-        newValue = currentState.value.copyWith(invoiceState: event.value);
+        newValue = currentState.value!.copyWith(invoiceState: event!.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderInvoicePostcode) {
-        newValue = currentState.value.copyWith(invoicePostcode: event.value);
+        newValue = currentState.value!.copyWith(invoicePostcode: event!.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderInvoiceCountry) {
-        if (event.value != null)
-          newValue = currentState.value.copyWith(invoiceCountry: await countryRepository(appId: appId).get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(invoiceCountry: await countryRepository(appId: appId)!.get(event!.value));
         else
           newValue = new OrderModel(
-                                 documentID: currentState.value.documentID,
-                                 appId: currentState.value.appId,
-                                 customer: currentState.value.customer,
-                                 name: currentState.value.name,
-                                 email: currentState.value.email,
-                                 shipStreet1: currentState.value.shipStreet1,
-                                 shipStreet2: currentState.value.shipStreet2,
-                                 shipCity: currentState.value.shipCity,
-                                 shipState: currentState.value.shipState,
-                                 postcode: currentState.value.postcode,
-                                 country: currentState.value.country,
-                                 invoiceSame: currentState.value.invoiceSame,
-                                 invoiceStreet1: currentState.value.invoiceStreet1,
-                                 invoiceStreet2: currentState.value.invoiceStreet2,
-                                 invoiceCity: currentState.value.invoiceCity,
-                                 invoiceState: currentState.value.invoiceState,
-                                 invoicePostcode: currentState.value.invoicePostcode,
+                                 documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
+                                 customer: currentState.value!.customer,
+                                 name: currentState.value!.name,
+                                 email: currentState.value!.email,
+                                 shipStreet1: currentState.value!.shipStreet1,
+                                 shipStreet2: currentState.value!.shipStreet2,
+                                 shipCity: currentState.value!.shipCity,
+                                 shipState: currentState.value!.shipState,
+                                 postcode: currentState.value!.postcode,
+                                 country: currentState.value!.country,
+                                 invoiceSame: currentState.value!.invoiceSame,
+                                 invoiceStreet1: currentState.value!.invoiceStreet1,
+                                 invoiceStreet2: currentState.value!.invoiceStreet2,
+                                 invoiceCity: currentState.value!.invoiceCity,
+                                 invoiceState: currentState.value!.invoiceState,
+                                 invoicePostcode: currentState.value!.invoicePostcode,
                                  invoiceCountry: null,
-                                 products: currentState.value.products,
-                                 totalPrice: currentState.value.totalPrice,
-                                 currency: currentState.value.currency,
-                                 paymentReference: currentState.value.paymentReference,
-                                 shipmentReference: currentState.value.shipmentReference,
-                                 deliveryReference: currentState.value.deliveryReference,
-                                 paymentNote: currentState.value.paymentNote,
-                                 shipmentNote: currentState.value.shipmentNote,
-                                 deliveryNote: currentState.value.deliveryNote,
-                                 status: currentState.value.status,
-                                 timeStamp: currentState.value.timeStamp,
+                                 products: currentState.value!.products,
+                                 totalPrice: currentState.value!.totalPrice,
+                                 currency: currentState.value!.currency,
+                                 paymentReference: currentState.value!.paymentReference,
+                                 shipmentReference: currentState.value!.shipmentReference,
+                                 deliveryReference: currentState.value!.deliveryReference,
+                                 paymentNote: currentState.value!.paymentNote,
+                                 shipmentNote: currentState.value!.shipmentNote,
+                                 deliveryNote: currentState.value!.deliveryNote,
+                                 status: currentState.value!.status,
+                                 timeStamp: currentState.value!.timeStamp,
           );
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderProducts) {
-        newValue = currentState.value.copyWith(products: event.value);
+        newValue = currentState.value!.copyWith(products: event!.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderTotalPrice) {
-        if (isDouble(event.value)) {
-          newValue = currentState.value.copyWith(totalPrice: double.parse(event.value));
+        if (isDouble(event!.value!)) {
+          newValue = currentState.value!.copyWith(totalPrice: double.parse(event!.value!));
           yield SubmittableOrderForm(value: newValue);
 
         } else {
-          newValue = currentState.value.copyWith(totalPrice: 0.0);
+          newValue = currentState.value!.copyWith(totalPrice: 0.0);
           yield TotalPriceOrderFormError(message: "Value should be a number or decimal number", value: newValue);
         }
         return;
       }
       if (event is ChangedOrderCurrency) {
-        newValue = currentState.value.copyWith(currency: event.value);
+        newValue = currentState.value!.copyWith(currency: event!.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderPaymentReference) {
-        newValue = currentState.value.copyWith(paymentReference: event.value);
+        newValue = currentState.value!.copyWith(paymentReference: event!.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderShipmentReference) {
-        newValue = currentState.value.copyWith(shipmentReference: event.value);
+        newValue = currentState.value!.copyWith(shipmentReference: event!.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderDeliveryReference) {
-        newValue = currentState.value.copyWith(deliveryReference: event.value);
+        newValue = currentState.value!.copyWith(deliveryReference: event!.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderPaymentNote) {
-        newValue = currentState.value.copyWith(paymentNote: event.value);
+        newValue = currentState.value!.copyWith(paymentNote: event!.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderShipmentNote) {
-        newValue = currentState.value.copyWith(shipmentNote: event.value);
+        newValue = currentState.value!.copyWith(shipmentNote: event!.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderDeliveryNote) {
-        newValue = currentState.value.copyWith(deliveryNote: event.value);
+        newValue = currentState.value!.copyWith(deliveryNote: event!.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderStatus) {
-        newValue = currentState.value.copyWith(status: event.value);
+        newValue = currentState.value!.copyWith(status: event!.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
@@ -373,10 +373,10 @@ class OrderFormBloc extends Bloc<OrderFormEvent, OrderFormState> {
 
   DocumentIDOrderFormError error(String message, OrderModel newValue) => DocumentIDOrderFormError(message: message, value: newValue);
 
-  Future<OrderFormState> _isDocumentIDValid(String value, OrderModel newValue) async {
+  Future<OrderFormState> _isDocumentIDValid(String? value, OrderModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<OrderModel> findDocument = orderRepository(appId: appId).get(value);
+    Future<OrderModel?> findDocument = orderRepository(appId: appId)!.get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableOrderForm(value: newValue);

@@ -20,13 +20,13 @@ abstract class OrderComponentState extends Equatable {
   const OrderComponentState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class OrderComponentUninitialized extends OrderComponentState {}
 
 class OrderComponentError extends OrderComponentState {
-  final String message;
+  final String? message;
   OrderComponentError({ this.message });
 }
 
@@ -35,16 +35,16 @@ class OrderComponentPermissionDenied extends OrderComponentState {
 }
 
 class OrderComponentLoaded extends OrderComponentState {
-  final OrderModel value;
+  final OrderModel? value;
 
   const OrderComponentLoaded({ this.value });
 
-  OrderComponentLoaded copyWith({ OrderModel copyThis }) {
+  OrderComponentLoaded copyWith({ OrderModel? copyThis }) {
     return OrderComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
-  List<Object> get props => [value];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'OrderComponentLoaded { value: $value }';

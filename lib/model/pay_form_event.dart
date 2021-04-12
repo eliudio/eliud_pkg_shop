@@ -34,7 +34,7 @@ abstract class PayFormEvent extends Equatable {
   const PayFormEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitialiseNewPayFormEvent extends PayFormEvent {
@@ -42,102 +42,102 @@ class InitialiseNewPayFormEvent extends PayFormEvent {
 
 
 class InitialisePayFormEvent extends PayFormEvent {
-  final PayModel value;
+  final PayModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialisePayFormEvent({this.value});
 }
 
 class InitialisePayFormNoLoadEvent extends PayFormEvent {
-  final PayModel value;
+  final PayModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialisePayFormNoLoadEvent({this.value});
 }
 
 class ChangedPayDocumentID extends PayFormEvent {
-  final String value;
+  final String? value;
 
   ChangedPayDocumentID({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPayDocumentID{ value: $value }';
 }
 
 class ChangedPayAppId extends PayFormEvent {
-  final String value;
+  final String? value;
 
   ChangedPayAppId({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPayAppId{ value: $value }';
 }
 
 class ChangedPayTitle extends PayFormEvent {
-  final String value;
+  final String? value;
 
   ChangedPayTitle({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPayTitle{ value: $value }';
 }
 
 class ChangedPaySucceeded extends PayFormEvent {
-  final ActionModel value;
+  final ActionModel? value;
 
   ChangedPaySucceeded({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPaySucceeded{ value: $value }';
 }
 
 class ChangedPayPayAction extends PayFormEvent {
-  final WorkflowActionModel value;
+  final WorkflowActionModel? value;
 
   ChangedPayPayAction({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPayPayAction{ value: $value }';
 }
 
 class ChangedPayShop extends PayFormEvent {
-  final String value;
+  final String? value;
 
   ChangedPayShop({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPayShop{ value: $value }';
 }
 
 class ChangedPayConditions extends PayFormEvent {
-  final ConditionsSimpleModel value;
+  final ConditionsSimpleModel? value;
 
   ChangedPayConditions({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPayConditions{ value: $value }';

@@ -63,10 +63,10 @@ import 'package:eliud_pkg_shop/model/product_image_form_state.dart';
 
 class ProductImageForm extends StatelessWidget {
   FormAction formAction;
-  ProductImageModel value;
-  ActionModel submitAction;
+  ProductImageModel? value;
+  ActionModel? submitAction;
 
-  ProductImageForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  ProductImageForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -92,14 +92,14 @@ class ProductImageForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update ProductImage", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update ProductImage", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add ProductImage", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add ProductImage", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
                 ),
         body: BlocProvider<ProductImageFormBloc >(
             create: (context) => ProductImageFormBloc(AccessBloc.appId(context),
@@ -114,8 +114,8 @@ class ProductImageForm extends StatelessWidget {
 
 
 class MyProductImageForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyProductImageForm({this.formAction, this.submitAction});
 
@@ -124,11 +124,11 @@ class MyProductImageForm extends StatefulWidget {
 
 
 class _MyProductImageFormState extends State<MyProductImageForm> {
-  final FormAction formAction;
-  ProductImageFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late ProductImageFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
-  String _image;
+  String? _image;
 
 
   _MyProductImageFormState(this.formAction);
@@ -150,17 +150,17 @@ class _MyProductImageFormState extends State<MyProductImageForm> {
       );
 
       if (state is ProductImageFormLoaded) {
-        if (state.value.documentID != null)
-          _documentIDController.text = state.value.documentID.toString();
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value.image != null)
-          _image= state.value.image.documentID;
+        if (state.value!.image != null)
+          _image= state.value!.image!.documentID;
         else
           _image= "";
       }
       if (state is ProductImageFormInitialized) {
-        List<Widget> children = List();
+        List<Widget?> children = [];
         children.add(
 
                 DropdownButtonComponentFactory().createNew(id: "memberMediums", value: _image, trigger: _onImageSelected, optional: false),
@@ -169,38 +169,37 @@ class _MyProductImageFormState extends State<MyProductImageForm> {
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
+                  color: RgbHelper.color(rgbo: app!.formSubmitButtonColor),
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is ProductImageFormError) {
                       return null;
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<ProductImageListBloc>(context).add(
-                          UpdateProductImageList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              image: state.value.image, 
+                          UpdateProductImageList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              image: state.value!.image, 
                         )));
                       } else {
                         BlocProvider.of<ProductImageListBloc>(context).add(
                           AddProductImageList(value: ProductImageModel(
-                              documentID: state.value.documentID, 
-                              image: state.value.image, 
+                              documentID: state.value!.documentID, 
+                              image: state.value!.image, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }
-                      return true;
                     }
                   },
-                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
+                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app!.formSubmitButtonTextColor))),
                 ));
 
         return Container(
           color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
-          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app.formBackground),
+          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app!.formBackground),
           padding:
           const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
             child: Form(
@@ -208,7 +207,7 @@ class _MyProductImageFormState extends State<MyProductImageForm> {
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
-              children: children
+              children: children as List<Widget>
             ),
           )
         );
@@ -223,7 +222,7 @@ class _MyProductImageFormState extends State<MyProductImageForm> {
   }
 
 
-  void _onImageSelected(String val) {
+  void _onImageSelected(String? val) {
     setState(() {
       _image = val;
     });

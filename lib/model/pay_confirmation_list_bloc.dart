@@ -27,53 +27,59 @@ const _payConfirmationLimit = 5;
 
 class PayConfirmationListBloc extends Bloc<PayConfirmationListEvent, PayConfirmationListState> {
   final PayConfirmationRepository _payConfirmationRepository;
-  StreamSubscription _payConfirmationsListSubscription;
-  final EliudQuery eliudQuery;
+  StreamSubscription? _payConfirmationsListSubscription;
+  final EliudQuery? eliudQuery;
   int pages = 1;
-  final bool paged;
-  final String orderBy;
-  final bool descending;
-  final bool detailed;
+  final bool? paged;
+  final String? orderBy;
+  final bool? descending;
+  final bool? detailed;
 
-  PayConfirmationListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required PayConfirmationRepository payConfirmationRepository})
+  PayConfirmationListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PayConfirmationRepository payConfirmationRepository})
       : assert(payConfirmationRepository != null),
         _payConfirmationRepository = payConfirmationRepository,
         super(PayConfirmationListLoading());
 
   Stream<PayConfirmationListState> _mapLoadPayConfirmationListToState() async* {
-    int amountNow =  (state is PayConfirmationListLoaded) ? (state as PayConfirmationListLoaded).values.length : 0;
+    int amountNow =  (state is PayConfirmationListLoaded) ? (state as PayConfirmationListLoaded).values!.length : 0;
     _payConfirmationsListSubscription?.cancel();
     _payConfirmationsListSubscription = _payConfirmationRepository.listen(
           (list) => add(PayConfirmationListUpdated(value: list, mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && (paged)) ? pages * _payConfirmationLimit : null
+      limit: ((paged != null) && paged!) ? pages * _payConfirmationLimit : null
     );
   }
 
   Stream<PayConfirmationListState> _mapLoadPayConfirmationListWithDetailsToState() async* {
-    int amountNow =  (state is PayConfirmationListLoaded) ? (state as PayConfirmationListLoaded).values.length : 0;
+    int amountNow =  (state is PayConfirmationListLoaded) ? (state as PayConfirmationListLoaded).values!.length : 0;
     _payConfirmationsListSubscription?.cancel();
     _payConfirmationsListSubscription = _payConfirmationRepository.listenWithDetails(
             (list) => add(PayConfirmationListUpdated(value: list, mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && (paged)) ? pages * _payConfirmationLimit : null
+        limit: ((paged != null) && paged!) ? pages * _payConfirmationLimit : null
     );
   }
 
   Stream<PayConfirmationListState> _mapAddPayConfirmationListToState(AddPayConfirmationList event) async* {
-    _payConfirmationRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _payConfirmationRepository.add(value);
   }
 
   Stream<PayConfirmationListState> _mapUpdatePayConfirmationListToState(UpdatePayConfirmationList event) async* {
-    _payConfirmationRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _payConfirmationRepository.update(value);
   }
 
   Stream<PayConfirmationListState> _mapDeletePayConfirmationListToState(DeletePayConfirmationList event) async* {
-    _payConfirmationRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _payConfirmationRepository.delete(value);
   }
 
   Stream<PayConfirmationListState> _mapPayConfirmationListUpdatedToState(
@@ -84,7 +90,7 @@ class PayConfirmationListBloc extends Bloc<PayConfirmationListEvent, PayConfirma
   @override
   Stream<PayConfirmationListState> mapEventToState(PayConfirmationListEvent event) async* {
     if (event is LoadPayConfirmationList) {
-      if ((detailed == null) || (!detailed)) {
+      if ((detailed == null) || (!detailed!)) {
         yield* _mapLoadPayConfirmationListToState();
       } else {
         yield* _mapLoadPayConfirmationListWithDetailsToState();

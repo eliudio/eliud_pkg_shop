@@ -20,13 +20,13 @@ abstract class CartComponentState extends Equatable {
   const CartComponentState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class CartComponentUninitialized extends CartComponentState {}
 
 class CartComponentError extends CartComponentState {
-  final String message;
+  final String? message;
   CartComponentError({ this.message });
 }
 
@@ -35,16 +35,16 @@ class CartComponentPermissionDenied extends CartComponentState {
 }
 
 class CartComponentLoaded extends CartComponentState {
-  final CartModel value;
+  final CartModel? value;
 
   const CartComponentLoaded({ this.value });
 
-  CartComponentLoaded copyWith({ CartModel copyThis }) {
+  CartComponentLoaded copyWith({ CartModel? copyThis }) {
     return CartComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
-  List<Object> get props => [value];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'CartComponentLoaded { value: $value }';

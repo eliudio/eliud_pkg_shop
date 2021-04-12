@@ -25,7 +25,7 @@ import 'package:eliud_pkg_shop/model/shop_front_component_state.dart';
 
 abstract class AbstractShopFrontComponent extends StatelessWidget {
   static String componentName = "shopFronts";
-  final String shopFrontID;
+  final String? shopFrontID;
 
   AbstractShopFrontComponent({this.shopFrontID});
 
@@ -63,7 +63,7 @@ abstract class AbstractShopFrontComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, ShopFrontModel value);
+  Widget yourWidget(BuildContext context, ShopFrontModel? value);
   Widget alertWidget({ title: String, content: String});
   ShopFrontRepository getShopFrontRepository(BuildContext context);
 }

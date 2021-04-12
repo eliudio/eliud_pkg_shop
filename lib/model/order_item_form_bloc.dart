@@ -38,7 +38,7 @@ import 'package:eliud_pkg_shop/model/order_item_form_state.dart';
 import 'package:eliud_pkg_shop/model/order_item_repository.dart';
 
 class OrderItemFormBloc extends Bloc<OrderItemFormEvent, OrderItemFormState> {
-  final String appId;
+  final String? appId;
 
   OrderItemFormBloc(this.appId, ): super(OrderItemFormUninitialized());
   @override
@@ -60,53 +60,53 @@ class OrderItemFormBloc extends Bloc<OrderItemFormEvent, OrderItemFormState> {
 
 
       if (event is InitialiseOrderItemFormEvent) {
-        OrderItemFormLoaded loaded = OrderItemFormLoaded(value: event.value);
+        OrderItemFormLoaded loaded = OrderItemFormLoaded(value: event!.value);
         yield loaded;
         return;
       } else if (event is InitialiseOrderItemFormNoLoadEvent) {
-        OrderItemFormLoaded loaded = OrderItemFormLoaded(value: event.value);
+        OrderItemFormLoaded loaded = OrderItemFormLoaded(value: event!.value);
         yield loaded;
         return;
       }
     } else if (currentState is OrderItemFormInitialized) {
-      OrderItemModel newValue = null;
+      OrderItemModel? newValue = null;
       if (event is ChangedOrderItemAmount) {
-        if (isInt(event.value)) {
-          newValue = currentState.value.copyWith(amount: int.parse(event.value));
+        if (isInt(event!.value)) {
+          newValue = currentState.value!.copyWith(amount: int.parse(event!.value!));
           yield SubmittableOrderItemForm(value: newValue);
 
         } else {
-          newValue = currentState.value.copyWith(amount: 0);
+          newValue = currentState.value!.copyWith(amount: 0);
           yield AmountOrderItemFormError(message: "Value should be a number", value: newValue);
         }
         return;
       }
       if (event is ChangedOrderItemAppId) {
-        newValue = currentState.value.copyWith(appId: event.value);
+        newValue = currentState.value!.copyWith(appId: event!.value);
         yield SubmittableOrderItemForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderItemSoldPrice) {
-        if (isDouble(event.value)) {
-          newValue = currentState.value.copyWith(soldPrice: double.parse(event.value));
+        if (isDouble(event!.value!)) {
+          newValue = currentState.value!.copyWith(soldPrice: double.parse(event!.value!));
           yield SubmittableOrderItemForm(value: newValue);
 
         } else {
-          newValue = currentState.value.copyWith(soldPrice: 0.0);
+          newValue = currentState.value!.copyWith(soldPrice: 0.0);
           yield SoldPriceOrderItemFormError(message: "Value should be a number or decimal number", value: newValue);
         }
         return;
       }
       if (event is ChangedOrderItemProduct) {
-        if (event.value != null)
-          newValue = currentState.value.copyWith(product: await productRepository(appId: appId).get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(product: await productRepository(appId: appId)!.get(event!.value));
         else
           newValue = new OrderItemModel(
-                                 documentID: currentState.value.documentID,
-                                 amount: currentState.value.amount,
-                                 appId: currentState.value.appId,
-                                 soldPrice: currentState.value.soldPrice,
+                                 documentID: currentState.value!.documentID,
+                                 amount: currentState.value!.amount,
+                                 appId: currentState.value!.appId,
+                                 soldPrice: currentState.value!.soldPrice,
                                  product: null,
           );
         yield SubmittableOrderItemForm(value: newValue);

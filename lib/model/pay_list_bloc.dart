@@ -27,53 +27,59 @@ const _payLimit = 5;
 
 class PayListBloc extends Bloc<PayListEvent, PayListState> {
   final PayRepository _payRepository;
-  StreamSubscription _paysListSubscription;
-  final EliudQuery eliudQuery;
+  StreamSubscription? _paysListSubscription;
+  final EliudQuery? eliudQuery;
   int pages = 1;
-  final bool paged;
-  final String orderBy;
-  final bool descending;
-  final bool detailed;
+  final bool? paged;
+  final String? orderBy;
+  final bool? descending;
+  final bool? detailed;
 
-  PayListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required PayRepository payRepository})
+  PayListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PayRepository payRepository})
       : assert(payRepository != null),
         _payRepository = payRepository,
         super(PayListLoading());
 
   Stream<PayListState> _mapLoadPayListToState() async* {
-    int amountNow =  (state is PayListLoaded) ? (state as PayListLoaded).values.length : 0;
+    int amountNow =  (state is PayListLoaded) ? (state as PayListLoaded).values!.length : 0;
     _paysListSubscription?.cancel();
     _paysListSubscription = _payRepository.listen(
           (list) => add(PayListUpdated(value: list, mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && (paged)) ? pages * _payLimit : null
+      limit: ((paged != null) && paged!) ? pages * _payLimit : null
     );
   }
 
   Stream<PayListState> _mapLoadPayListWithDetailsToState() async* {
-    int amountNow =  (state is PayListLoaded) ? (state as PayListLoaded).values.length : 0;
+    int amountNow =  (state is PayListLoaded) ? (state as PayListLoaded).values!.length : 0;
     _paysListSubscription?.cancel();
     _paysListSubscription = _payRepository.listenWithDetails(
             (list) => add(PayListUpdated(value: list, mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && (paged)) ? pages * _payLimit : null
+        limit: ((paged != null) && paged!) ? pages * _payLimit : null
     );
   }
 
   Stream<PayListState> _mapAddPayListToState(AddPayList event) async* {
-    _payRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _payRepository.add(value);
   }
 
   Stream<PayListState> _mapUpdatePayListToState(UpdatePayList event) async* {
-    _payRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _payRepository.update(value);
   }
 
   Stream<PayListState> _mapDeletePayListToState(DeletePayList event) async* {
-    _payRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _payRepository.delete(value);
   }
 
   Stream<PayListState> _mapPayListUpdatedToState(
@@ -84,7 +90,7 @@ class PayListBloc extends Bloc<PayListEvent, PayListState> {
   @override
   Stream<PayListState> mapEventToState(PayListEvent event) async* {
     if (event is LoadPayList) {
-      if ((detailed == null) || (!detailed)) {
+      if ((detailed == null) || (!detailed!)) {
         yield* _mapLoadPayListToState();
       } else {
         yield* _mapLoadPayListWithDetailsToState();

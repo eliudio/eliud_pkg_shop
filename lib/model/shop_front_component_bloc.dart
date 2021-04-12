@@ -24,7 +24,7 @@ import 'package:flutter/services.dart';
 
 
 class ShopFrontComponentBloc extends Bloc<ShopFrontComponentEvent, ShopFrontComponentState> {
-  final ShopFrontRepository shopFrontRepository;
+  final ShopFrontRepository? shopFrontRepository;
 
   ShopFrontComponentBloc({ this.shopFrontRepository }): super(ShopFrontComponentUninitialized());
   @override
@@ -34,9 +34,9 @@ class ShopFrontComponentBloc extends Bloc<ShopFrontComponentEvent, ShopFrontComp
       try {
         if (currentState is ShopFrontComponentUninitialized) {
           bool permissionDenied = false;
-          final model = await shopFrontRepository.get(event.id, onError: (error) {
+          final model = await shopFrontRepository!.get(event.id, onError: (error) {
             // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
               permissionDenied = true;
             }
           });
@@ -46,7 +46,7 @@ class ShopFrontComponentBloc extends Bloc<ShopFrontComponentEvent, ShopFrontComp
             if (model != null) {
               yield ShopFrontComponentLoaded(value: model);
             } else {
-              String id = event.id;
+              String? id = event.id;
               yield ShopFrontComponentError(
                   message: "ShopFront with id = '$id' not found");
             }

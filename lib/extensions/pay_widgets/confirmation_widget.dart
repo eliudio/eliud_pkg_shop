@@ -14,7 +14,7 @@ import 'package:eliud_core/core/widgets/progress_indicator.dart';
 
 // ignore: must_be_immutable
 class ConfirmationWidget extends StatefulWidget {
-  final PayConfirmationModel payConfirmationModel;
+  final PayConfirmationModel? payConfirmationModel;
 
   ConfirmationWidget(this.payConfirmationModel);
 
@@ -29,7 +29,7 @@ class ConfirmationState extends State<ConfirmationWidget> {
     return RaisedButton(
           color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
           onPressed: () {
-            eliudrouter.Router.navigateTo(context, widget.payConfirmationModel.backToShopAction);
+            eliudrouter.Router.navigateTo(context, widget.payConfirmationModel!.backToShopAction!);
           },
           child: Text('Back to the shop'));
   }
@@ -41,7 +41,7 @@ class ConfirmationState extends State<ConfirmationWidget> {
       return BlocBuilder<OrderComponentBloc, OrderComponentState>(
           builder: (context, state) {
             if (state is OrderComponentLoaded) {
-              var order = state.value;
+              var order = state.value!;
               debugPrint('state is OrderPaid');
               var widgets = <Widget>[];
               widgets.add(

@@ -20,13 +20,13 @@ abstract class PayComponentState extends Equatable {
   const PayComponentState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class PayComponentUninitialized extends PayComponentState {}
 
 class PayComponentError extends PayComponentState {
-  final String message;
+  final String? message;
   PayComponentError({ this.message });
 }
 
@@ -35,16 +35,16 @@ class PayComponentPermissionDenied extends PayComponentState {
 }
 
 class PayComponentLoaded extends PayComponentState {
-  final PayModel value;
+  final PayModel? value;
 
   const PayComponentLoaded({ this.value });
 
-  PayComponentLoaded copyWith({ PayModel copyThis }) {
+  PayComponentLoaded copyWith({ PayModel? copyThis }) {
     return PayComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
-  List<Object> get props => [value];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'PayComponentLoaded { value: $value }';

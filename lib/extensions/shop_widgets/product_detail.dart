@@ -10,10 +10,10 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetail extends StatefulWidget {
-  final ProductDisplayModel productDisplayModel;
-  final ProductModel productModel;
+  final ProductDisplayModel? productDisplayModel;
+  final ProductModel? productModel;
 
-  const ProductDetail({Key key, this.productDisplayModel, this.productModel})
+  const ProductDetail({Key? key, this.productDisplayModel, this.productModel})
       : super(key: key);
 
   @override
@@ -30,9 +30,9 @@ class _ProductDetailState extends State<ProductDetail> {
 }
 
 class ProductDetailWithAccess extends StatefulWidget {
-  final ProductDisplayModel productDisplayModel;
+  final ProductDisplayModel? productDisplayModel;
   final AccessState accessState;
-  final ProductModel productModel;
+  final ProductModel? productModel;
 
   const ProductDetailWithAccess(
       this.accessState, this.productDisplayModel, this.productModel);
@@ -45,22 +45,22 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
 
   @override
   Widget build(BuildContext context) {
-    var items = widget.productModel.images;
+    var items = widget.productModel!.images!;
     var images = items.map((element) => element.image).toList();
-    var positionsAndSizes = items.map((element) => (widget.productModel.posSize)).toList();
+    var positionsAndSizes = items.map((element) => (widget.productModel!.posSize)).toList();
 
-    var title = widget.productModel.title;
+    var title = widget.productModel!.title;
     var orientation = MediaQuery.of(context).orientation;
     var accessState = widget.accessState;
     if (accessState is AppLoaded) {
       return Container(
           decoration: BoxDecorationHelper.boxDecoration(
-              accessState, widget.productDisplayModel.itemDetailBackground),
+              accessState, widget.productDisplayModel!.itemDetailBackground!),
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Column(
               children: [
-                TheImageGF(images, positionsAndSizes, null, orientation,
+                TheImageGF(images, positionsAndSizes as List<PosSizeModel>, null, orientation,
                     1, 1000),
                 Container(
                   padding: const EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 15.0),
@@ -72,11 +72,11 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              title,
+                              title!,
                               style: FontTools.textStyle(accessState.app.h3),
                             ),
                             Text(
-                              widget.productModel.price.toString(),
+                              widget.productModel!.price.toString(),
                               style: FontTools.textStyle(accessState.app.h3),
                             ),
                           ],
@@ -85,7 +85,7 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0),
                         child: Text(
-                          widget.productModel.about,
+                          widget.productModel!.about!,
                           style: FontTools.textStyle(accessState.app.fontText),
                         ),
                       ),
@@ -95,16 +95,16 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
                         onPressed: () {
                           CartTools.addToCart(
                               context,
-                              widget.productDisplayModel.buyAction,
+                              widget.productDisplayModel!.buyAction,
                               widget.productModel,
                               1);
                         },
                         child: Text(
-                            widget.productDisplayModel.addToBasketText !=
+                            widget.productDisplayModel!.addToBasketText !=
                                         null &&
-                                    widget.productDisplayModel.addToBasketText
+                                    widget.productDisplayModel!.addToBasketText!
                                         .isNotEmpty
-                                ? widget.productDisplayModel.addToBasketText
+                                ? widget.productDisplayModel!.addToBasketText!
                                 : 'Add to basket',
                             style: TextStyle(
                                 color: RgbHelper.color(

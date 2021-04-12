@@ -16,32 +16,32 @@ import 'package:eliud_core/core/widgets/progress_indicator.dart';
 
 class ProductDisplayComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({String id, Map<String, Object> parameters}) {
+  Widget createNew({String? id, Map<String, Object>? parameters}) {
     return ProductDisplayComponent(id: id, parameters: parameters);
   }
 }
 
 class ProductDisplayComponent extends AbstractProductDisplayComponent {
-  final Map<String, Object> parameters;
+  final Map<String, Object>? parameters;
 
-  ProductDisplayComponent({String id, this.parameters}) : super(productDisplayID: id);
+  ProductDisplayComponent({String? id, this.parameters}) : super(productDisplayID: id);
 
   @override
-  Widget yourWidget(BuildContext context, ProductDisplayModel value) {
-    var productId = parameters['productId'];
+  Widget yourWidget(BuildContext context, ProductDisplayModel? value) {
+    var productId = parameters!['productId'];
     if (productId != null) {
       return BlocProvider<ProductComponentBloc>(
         create: (context) =>
         ProductComponentBloc(productRepository: getProductRepository(context))
-          ..add(FetchProductComponent(id: productId)),
-        child: _widget(context, value, productId),
+          ..add(FetchProductComponent(id: productId as String?)),
+        child: _widget(context, value, productId as String),
       );
     } else {
       return alertWidget(title: 'error', content: 'Ordernumber not provided');
     }
   }
 
-  Widget _widget(BuildContext context, ProductDisplayModel value, String productId) {
+  Widget _widget(BuildContext context, ProductDisplayModel? value, String productId) {
     return BlocBuilder<ProductComponentBloc, ProductComponentState> (
       builder: (context, state) {
       if (state is ProductComponentLoaded) {
@@ -65,10 +65,10 @@ class ProductDisplayComponent extends AbstractProductDisplayComponent {
 
   @override
   ProductDisplayRepository getProductDisplayRepository(BuildContext context) {
-    return AbstractRepositorySingleton.singleton.productDisplayRepository(AccessBloc.appId(context));
+    return AbstractRepositorySingleton.singleton.productDisplayRepository(AccessBloc.appId(context))!;
   }
 
-  ProductRepository getProductRepository(BuildContext context) {
+  ProductRepository? getProductRepository(BuildContext context) {
     return AbstractRepositorySingleton.singleton.productRepository(AccessBloc.appId(context));
   }
 }

@@ -36,56 +36,56 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 class OrderCache implements OrderRepository {
 
   final OrderRepository reference;
-  final Map<String, OrderModel> fullCache = Map();
+  final Map<String?, OrderModel?> fullCache = Map();
 
   OrderCache(this.reference);
 
   Future<OrderModel> add(OrderModel value) {
     return reference.add(value).then((newValue) {
-      fullCache[value.documentID] = newValue;
+      fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
   Future<void> delete(OrderModel value){
-    fullCache.remove(value.documentID);
+    fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
   }
 
-  Future<OrderModel> get(String id, {Function(Exception) onError}) {
-    OrderModel value = fullCache[id];
+  Future<OrderModel> get(String? id, {Function(Exception)? onError}) {
+    OrderModel? value = fullCache[id];
     if (value != null) return refreshRelations(value);
     return reference.get(id, onError: onError).then((value) {
       fullCache[id] = value;
-      return value;
+      return value!;
     });
   }
 
   Future<OrderModel> update(OrderModel value) {
     return reference.update(value).then((newValue) {
-      fullCache[value.documentID] = newValue;
+      fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
   @override
-  Stream<List<OrderModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+  Stream<List<OrderModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.values(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Stream<List<OrderModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+  Stream<List<OrderModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.valuesWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Future<List<OrderModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
+  Future<List<OrderModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
     return await reference.valuesList(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
   
   @override
-  Future<List<OrderModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
+  Future<List<OrderModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
     return await reference.valuesListWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
@@ -93,7 +93,7 @@ class OrderCache implements OrderRepository {
     fullCache.clear();
   }
   
-  String timeStampToString(dynamic timeStamp) {
+  String? timeStampToString(dynamic timeStamp) {
     return reference.timeStampToString(timeStamp);
   } 
 
@@ -104,7 +104,7 @@ class OrderCache implements OrderRepository {
   Future<OrderModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
     return reference.changeValue(documentId, fieldName, changeByThisValue).then((newValue) {
       fullCache[documentId] = newValue;
-      return newValue;
+      return newValue!;
     });
   }
 
@@ -113,52 +113,52 @@ class OrderCache implements OrderRepository {
   }
 
   @override
-  StreamSubscription<List<OrderModel>> listen(trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<OrderModel?>> listen(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listen(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<List<OrderModel>> listenWithDetails(trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<OrderModel?>> listenWithDetails(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listenWithDetails(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<OrderModel> listenTo(String documentId, changed) {
-    reference.listenTo(documentId, changed);
+  StreamSubscription<OrderModel?> listenTo(String documentId, OrderChanged changed) {
+    return reference.listenTo(documentId, changed);
   }
 
   static Future<OrderModel> refreshRelations(OrderModel model) async {
 
-    MemberModel customerHolder;
+    MemberModel? customerHolder;
     if (model.customer != null) {
       try {
-        await memberRepository().get(model.customer.documentID).then((val) {
+        await memberRepository()!.get(model.customer!.documentID).then((val) {
           customerHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    CountryModel countryHolder;
+    CountryModel? countryHolder;
     if (model.country != null) {
       try {
-        await countryRepository().get(model.country.documentID).then((val) {
+        await countryRepository()!.get(model.country!.documentID).then((val) {
           countryHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    CountryModel invoiceCountryHolder;
+    CountryModel? invoiceCountryHolder;
     if (model.invoiceCountry != null) {
       try {
-        await countryRepository().get(model.invoiceCountry.documentID).then((val) {
+        await countryRepository()!.get(model.invoiceCountry!.documentID).then((val) {
           invoiceCountryHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    List<OrderItemModel> productsHolder;
+    List<OrderItemModel>? productsHolder;
     if (model.products != null) {
-      productsHolder = List<OrderItemModel>.from(await Future.wait(await model.products.map((element) async {
+      productsHolder = List<OrderItemModel>.from(await Future.wait(await model.products!.map((element) async {
         return await OrderItemCache.refreshRelations(element);
       }))).toList();
     }

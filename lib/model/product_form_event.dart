@@ -34,7 +34,7 @@ abstract class ProductFormEvent extends Equatable {
   const ProductFormEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitialiseNewProductFormEvent extends ProductFormEvent {
@@ -42,138 +42,138 @@ class InitialiseNewProductFormEvent extends ProductFormEvent {
 
 
 class InitialiseProductFormEvent extends ProductFormEvent {
-  final ProductModel value;
+  final ProductModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseProductFormEvent({this.value});
 }
 
 class InitialiseProductFormNoLoadEvent extends ProductFormEvent {
-  final ProductModel value;
+  final ProductModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseProductFormNoLoadEvent({this.value});
 }
 
 class ChangedProductDocumentID extends ProductFormEvent {
-  final String value;
+  final String? value;
 
   ChangedProductDocumentID({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedProductDocumentID{ value: $value }';
 }
 
 class ChangedProductAppId extends ProductFormEvent {
-  final String value;
+  final String? value;
 
   ChangedProductAppId({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedProductAppId{ value: $value }';
 }
 
 class ChangedProductTitle extends ProductFormEvent {
-  final String value;
+  final String? value;
 
   ChangedProductTitle({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedProductTitle{ value: $value }';
 }
 
 class ChangedProductAbout extends ProductFormEvent {
-  final String value;
+  final String? value;
 
   ChangedProductAbout({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedProductAbout{ value: $value }';
 }
 
 class ChangedProductPrice extends ProductFormEvent {
-  final String value;
+  final String? value;
 
   ChangedProductPrice({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedProductPrice{ value: $value }';
 }
 
 class ChangedProductWeight extends ProductFormEvent {
-  final String value;
+  final String? value;
 
   ChangedProductWeight({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedProductWeight{ value: $value }';
 }
 
 class ChangedProductShop extends ProductFormEvent {
-  final String value;
+  final String? value;
 
   ChangedProductShop({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedProductShop{ value: $value }';
 }
 
 class ChangedProductImages extends ProductFormEvent {
-  final List<ProductImageModel> value;
+  final List<ProductImageModel>? value;
 
   ChangedProductImages({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedProductImages{ value: $value }';
 }
 
 class ChangedProductPosSize extends ProductFormEvent {
-  final String value;
+  final String? value;
 
   ChangedProductPosSize({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedProductPosSize{ value: $value }';
 }
 
 class ChangedProductConditions extends ProductFormEvent {
-  final ConditionsSimpleModel value;
+  final ConditionsSimpleModel? value;
 
   ChangedProductConditions({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedProductConditions{ value: $value }';

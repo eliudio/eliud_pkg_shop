@@ -36,20 +36,20 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class ProductDisplayModel {
-  String documentID;
-  String appId;
-  String title;
-  BackgroundModel itemDetailBackground;
-  String addToBasketText;
-  ActionModel buyAction;
-  ShopModel shop;
-  ConditionsSimpleModel conditions;
+  String? documentID;
+  String? appId;
+  String? title;
+  BackgroundModel? itemDetailBackground;
+  String? addToBasketText;
+  ActionModel? buyAction;
+  ShopModel? shop;
+  ConditionsSimpleModel? conditions;
 
   ProductDisplayModel({this.documentID, this.appId, this.title, this.itemDetailBackground, this.addToBasketText, this.buyAction, this.shop, this.conditions, })  {
     assert(documentID != null);
   }
 
-  ProductDisplayModel copyWith({String documentID, String appId, String title, BackgroundModel itemDetailBackground, String addToBasketText, ActionModel buyAction, ShopModel shop, ConditionsSimpleModel conditions, }) {
+  ProductDisplayModel copyWith({String? documentID, String? appId, String? title, BackgroundModel? itemDetailBackground, String? addToBasketText, ActionModel? buyAction, ShopModel? shop, ConditionsSimpleModel? conditions, }) {
     return ProductDisplayModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, itemDetailBackground: itemDetailBackground ?? this.itemDetailBackground, addToBasketText: addToBasketText ?? this.addToBasketText, buyAction: buyAction ?? this.buyAction, shop: shop ?? this.shop, conditions: conditions ?? this.conditions, );
   }
 
@@ -75,19 +75,19 @@ class ProductDisplayModel {
     return 'ProductDisplayModel{documentID: $documentID, appId: $appId, title: $title, itemDetailBackground: $itemDetailBackground, addToBasketText: $addToBasketText, buyAction: $buyAction, shop: $shop, conditions: $conditions}';
   }
 
-  ProductDisplayEntity toEntity({String appId}) {
+  ProductDisplayEntity toEntity({String? appId}) {
     return ProductDisplayEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
-          itemDetailBackgroundId: (itemDetailBackground != null) ? itemDetailBackground.documentID : null, 
+          itemDetailBackgroundId: (itemDetailBackground != null) ? itemDetailBackground!.documentID : null, 
           addToBasketText: (addToBasketText != null) ? addToBasketText : null, 
-          buyAction: (buyAction != null) ? buyAction.toEntity(appId: appId) : null, 
-          shopId: (shop != null) ? shop.documentID : null, 
-          conditions: (conditions != null) ? conditions.toEntity(appId: appId) : null, 
+          buyAction: (buyAction != null) ? buyAction!.toEntity(appId: appId) : null, 
+          shopId: (shop != null) ? shop!.documentID : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
 
-  static ProductDisplayModel fromEntity(String documentID, ProductDisplayEntity entity) {
+  static ProductDisplayModel? fromEntity(String documentID, ProductDisplayEntity? entity) {
     if (entity == null) return null;
     return ProductDisplayModel(
           documentID: documentID, 
@@ -101,22 +101,22 @@ class ProductDisplayModel {
     );
   }
 
-  static Future<ProductDisplayModel> fromEntityPlus(String documentID, ProductDisplayEntity entity, { String appId}) async {
+  static Future<ProductDisplayModel?> fromEntityPlus(String documentID, ProductDisplayEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
-    BackgroundModel itemDetailBackgroundHolder;
+    BackgroundModel? itemDetailBackgroundHolder;
     if (entity.itemDetailBackgroundId != null) {
       try {
-        await backgroundRepository(appId: appId).get(entity.itemDetailBackgroundId).then((val) {
+        await backgroundRepository(appId: appId)!.get(entity.itemDetailBackgroundId).then((val) {
           itemDetailBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    ShopModel shopHolder;
+    ShopModel? shopHolder;
     if (entity.shopId != null) {
       try {
-        await shopRepository(appId: appId).get(entity.shopId).then((val) {
+        await shopRepository(appId: appId)!.get(entity.shopId).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}

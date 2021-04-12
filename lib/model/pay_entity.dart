@@ -22,24 +22,24 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class PayEntity {
-  final String appId;
-  final String title;
-  final ActionEntity succeeded;
-  final WorkflowActionEntity payAction;
-  final String shopId;
-  final ConditionsSimpleEntity conditions;
+  final String? appId;
+  final String? title;
+  final ActionEntity? succeeded;
+  final WorkflowActionEntity? payAction;
+  final String? shopId;
+  final ConditionsSimpleEntity? conditions;
 
   PayEntity({this.appId, this.title, this.succeeded, this.payAction, this.shopId, this.conditions, });
 
 
-  List<Object> get props => [appId, title, succeeded, payAction, shopId, conditions, ];
+  List<Object?> get props => [appId, title, succeeded, payAction, shopId, conditions, ];
 
   @override
   String toString() {
     return 'PayEntity{appId: $appId, title: $title, succeeded: $succeeded, payAction: $payAction, shopId: $shopId, conditions: $conditions}';
   }
 
-  static PayEntity fromMap(Map map) {
+  static PayEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     var succeededFromMap;
@@ -65,18 +65,18 @@ class PayEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    final Map<String, dynamic> succeededMap = succeeded != null 
-        ? succeeded.toDocument()
+  Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? succeededMap = succeeded != null 
+        ? succeeded!.toDocument()
         : null;
-    final Map<String, dynamic> payActionMap = payAction != null 
-        ? payAction.toDocument()
+    final Map<String, dynamic>? payActionMap = payAction != null 
+        ? payAction!.toDocument()
         : null;
-    final Map<String, dynamic> conditionsMap = conditions != null 
-        ? conditions.toDocument()
+    final Map<String, dynamic>? conditionsMap = conditions != null 
+        ? conditions!.toDocument()
         : null;
 
-    Map<String, Object> theDocument = HashMap();
+    Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     if (title != null) theDocument["title"] = title;
@@ -92,8 +92,8 @@ class PayEntity {
     return theDocument;
   }
 
-  static PayEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static PayEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

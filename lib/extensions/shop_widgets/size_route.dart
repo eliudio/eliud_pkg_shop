@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class SizeRoute extends PageRouteBuilder {
-  final Widget page;
+  final Widget? page;
   SizeRoute({this.page})
       : super(
     pageBuilder: (
@@ -9,7 +9,7 @@ class SizeRoute extends PageRouteBuilder {
         Animation<double> animation,
         Animation<double> secondaryAnimation,
         ) =>
-    page,
+    page!,
     transitionsBuilder: (
         BuildContext context,
         Animation<double> animation,

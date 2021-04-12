@@ -27,53 +27,59 @@ const _shopLimit = 5;
 
 class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
   final ShopRepository _shopRepository;
-  StreamSubscription _shopsListSubscription;
-  final EliudQuery eliudQuery;
+  StreamSubscription? _shopsListSubscription;
+  final EliudQuery? eliudQuery;
   int pages = 1;
-  final bool paged;
-  final String orderBy;
-  final bool descending;
-  final bool detailed;
+  final bool? paged;
+  final String? orderBy;
+  final bool? descending;
+  final bool? detailed;
 
-  ShopListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required ShopRepository shopRepository})
+  ShopListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ShopRepository shopRepository})
       : assert(shopRepository != null),
         _shopRepository = shopRepository,
         super(ShopListLoading());
 
   Stream<ShopListState> _mapLoadShopListToState() async* {
-    int amountNow =  (state is ShopListLoaded) ? (state as ShopListLoaded).values.length : 0;
+    int amountNow =  (state is ShopListLoaded) ? (state as ShopListLoaded).values!.length : 0;
     _shopsListSubscription?.cancel();
     _shopsListSubscription = _shopRepository.listen(
           (list) => add(ShopListUpdated(value: list, mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && (paged)) ? pages * _shopLimit : null
+      limit: ((paged != null) && paged!) ? pages * _shopLimit : null
     );
   }
 
   Stream<ShopListState> _mapLoadShopListWithDetailsToState() async* {
-    int amountNow =  (state is ShopListLoaded) ? (state as ShopListLoaded).values.length : 0;
+    int amountNow =  (state is ShopListLoaded) ? (state as ShopListLoaded).values!.length : 0;
     _shopsListSubscription?.cancel();
     _shopsListSubscription = _shopRepository.listenWithDetails(
             (list) => add(ShopListUpdated(value: list, mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && (paged)) ? pages * _shopLimit : null
+        limit: ((paged != null) && paged!) ? pages * _shopLimit : null
     );
   }
 
   Stream<ShopListState> _mapAddShopListToState(AddShopList event) async* {
-    _shopRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _shopRepository.add(value);
   }
 
   Stream<ShopListState> _mapUpdateShopListToState(UpdateShopList event) async* {
-    _shopRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _shopRepository.update(value);
   }
 
   Stream<ShopListState> _mapDeleteShopListToState(DeleteShopList event) async* {
-    _shopRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _shopRepository.delete(value);
   }
 
   Stream<ShopListState> _mapShopListUpdatedToState(
@@ -84,7 +90,7 @@ class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
   @override
   Stream<ShopListState> mapEventToState(ShopListEvent event) async* {
     if (event is LoadShopList) {
-      if ((detailed == null) || (!detailed)) {
+      if ((detailed == null) || (!detailed!)) {
         yield* _mapLoadShopListToState();
       } else {
         yield* _mapLoadShopListWithDetailsToState();

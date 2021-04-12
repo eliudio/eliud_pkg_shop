@@ -45,10 +45,7 @@ productImagesList(context, value, trigger) => EmbeddedComponentFactory.productIm
 class EmbeddedComponentFactory {
 
 static Widget orderItemsList(BuildContext context, List<OrderItemModel> values, OrderItemListChanged trigger) {
-  OrderItemInMemoryRepository inMemoryRepository = OrderItemInMemoryRepository(
-    trigger: trigger,
-    items: values,
-  );
+  OrderItemInMemoryRepository inMemoryRepository = OrderItemInMemoryRepository(trigger, values,);
   return MultiBlocProvider(
     providers: [
       BlocProvider<OrderItemListBloc>(
@@ -62,10 +59,7 @@ static Widget orderItemsList(BuildContext context, List<OrderItemModel> values, 
 }
 
 static Widget productImagesList(BuildContext context, List<ProductImageModel> values, ProductImageListChanged trigger) {
-  ProductImageInMemoryRepository inMemoryRepository = ProductImageInMemoryRepository(
-    trigger: trigger,
-    items: values,
-  );
+  ProductImageInMemoryRepository inMemoryRepository = ProductImageInMemoryRepository(trigger, values,);
   return MultiBlocProvider(
     providers: [
       BlocProvider<ProductImageListBloc>(
@@ -84,11 +78,11 @@ static Widget productImagesList(BuildContext context, List<ProductImageModel> va
 class OrderItemInMemoryRepository implements OrderItemRepository {
     final List<OrderItemModel> items;
     final OrderItemListChanged trigger;
-    Stream<List<OrderItemModel>> theValues;
+    Stream<List<OrderItemModel>>? theValues;
 
-    OrderItemInMemoryRepository({this.trigger, this.items}) {
-        List<List<OrderItemModel>> myList = new List<List<OrderItemModel>>();
-        myList.add(items);
+    OrderItemInMemoryRepository(this.trigger, this.items) {
+        List<List<OrderItemModel>> myList = <List<OrderItemModel>>[];
+        if (items != null) myList.add(items);
         theValues = Stream<List<OrderItemModel>>.fromIterable(myList);
     }
 
@@ -106,54 +100,57 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
     Future<OrderItemModel> add(OrderItemModel value) {
         items.add(value.copyWith(documentID: newRandomKey()));
         trigger(items);
+        return Future.value(value);
     }
 
     Future<void> delete(OrderItemModel value) {
-      int index = _index(value.documentID);
+      int index = _index(value!.documentID!);
       if (index >= 0) items.removeAt(index);
       trigger(items);
+      return Future.value(value);
     }
 
     Future<OrderItemModel> update(OrderItemModel value) {
-      int index = _index(value.documentID);
+      int index = _index(value!.documentID!);
       if (index >= 0) {
         items.replaceRange(index, index+1, [value]);
         trigger(items);
       }
+      return Future.value(value);
     }
 
-    Future<OrderItemModel> get(String id, { Function(Exception) onError }) {
-      int index = _index(id);
+    Future<OrderItemModel> get(String? id, { Function(Exception)? onError }) {
+      int index = _index(id!);
       var completer = new Completer<OrderItemModel>();
       completer.complete(items[index]);
       return completer.future;
     }
 
-    Stream<List<OrderItemModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues;
+    Stream<List<OrderItemModel>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!;
     }
     
-    Stream<List<OrderItemModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues;
+    Stream<List<OrderItemModel>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!;
     }
     
     @override
-    StreamSubscription<List<OrderItemModel>> listen(trigger, { String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues.listen((theList) => trigger(theList));
+    StreamSubscription<List<OrderItemModel>> listen(trigger, { String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<OrderItemModel>> listenWithDetails(trigger, { String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues.listen((theList) => trigger(theList));
+    StreamSubscription<List<OrderItemModel>> listenWithDetails(trigger, { String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<OrderItemModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Future<List<OrderItemModel>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return Future.value(items);
     }
     
-    Future<List<OrderItemModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Future<List<OrderItemModel>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return Future.value(items);
     }
 
@@ -178,17 +175,17 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
   }
   
 
-    Future<void> deleteAll() {}
+    Future<void> deleteAll() async {}
 }
 
 class ProductImageInMemoryRepository implements ProductImageRepository {
     final List<ProductImageModel> items;
     final ProductImageListChanged trigger;
-    Stream<List<ProductImageModel>> theValues;
+    Stream<List<ProductImageModel>>? theValues;
 
-    ProductImageInMemoryRepository({this.trigger, this.items}) {
-        List<List<ProductImageModel>> myList = new List<List<ProductImageModel>>();
-        myList.add(items);
+    ProductImageInMemoryRepository(this.trigger, this.items) {
+        List<List<ProductImageModel>> myList = <List<ProductImageModel>>[];
+        if (items != null) myList.add(items);
         theValues = Stream<List<ProductImageModel>>.fromIterable(myList);
     }
 
@@ -206,54 +203,57 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
     Future<ProductImageModel> add(ProductImageModel value) {
         items.add(value.copyWith(documentID: newRandomKey()));
         trigger(items);
+        return Future.value(value);
     }
 
     Future<void> delete(ProductImageModel value) {
-      int index = _index(value.documentID);
+      int index = _index(value!.documentID!);
       if (index >= 0) items.removeAt(index);
       trigger(items);
+      return Future.value(value);
     }
 
     Future<ProductImageModel> update(ProductImageModel value) {
-      int index = _index(value.documentID);
+      int index = _index(value!.documentID!);
       if (index >= 0) {
         items.replaceRange(index, index+1, [value]);
         trigger(items);
       }
+      return Future.value(value);
     }
 
-    Future<ProductImageModel> get(String id, { Function(Exception) onError }) {
-      int index = _index(id);
+    Future<ProductImageModel> get(String? id, { Function(Exception)? onError }) {
+      int index = _index(id!);
       var completer = new Completer<ProductImageModel>();
       completer.complete(items[index]);
       return completer.future;
     }
 
-    Stream<List<ProductImageModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues;
+    Stream<List<ProductImageModel>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!;
     }
     
-    Stream<List<ProductImageModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues;
+    Stream<List<ProductImageModel>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!;
     }
     
     @override
-    StreamSubscription<List<ProductImageModel>> listen(trigger, { String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues.listen((theList) => trigger(theList));
+    StreamSubscription<List<ProductImageModel>> listen(trigger, { String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<ProductImageModel>> listenWithDetails(trigger, { String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues.listen((theList) => trigger(theList));
+    StreamSubscription<List<ProductImageModel>> listenWithDetails(trigger, { String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<ProductImageModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Future<List<ProductImageModel>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return Future.value(items);
     }
     
-    Future<List<ProductImageModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Future<List<ProductImageModel>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return Future.value(items);
     }
 
@@ -278,6 +278,6 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
   }
   
 
-    Future<void> deleteAll() {}
+    Future<void> deleteAll() async {}
 }
 

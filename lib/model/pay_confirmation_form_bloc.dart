@@ -42,8 +42,8 @@ import 'package:eliud_pkg_shop/model/pay_confirmation_form_state.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_repository.dart';
 
 class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirmationFormState> {
-  final FormAction formAction;
-  final String appId;
+  final FormAction? formAction;
+  final String? appId;
 
   PayConfirmationFormBloc(this.appId, { this.formAction }): super(PayConfirmationFormUninitialized());
   @override
@@ -65,20 +65,20 @@ class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirma
 
       if (event is InitialisePayConfirmationFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        PayConfirmationFormLoaded loaded = PayConfirmationFormLoaded(value: await payConfirmationRepository(appId: appId).get(event.value.documentID));
+        PayConfirmationFormLoaded loaded = PayConfirmationFormLoaded(value: await payConfirmationRepository(appId: appId)!.get(event!.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialisePayConfirmationFormNoLoadEvent) {
-        PayConfirmationFormLoaded loaded = PayConfirmationFormLoaded(value: event.value);
+        PayConfirmationFormLoaded loaded = PayConfirmationFormLoaded(value: event!.value);
         yield loaded;
         return;
       }
     } else if (currentState is PayConfirmationFormInitialized) {
-      PayConfirmationModel newValue = null;
+      PayConfirmationModel? newValue = null;
       if (event is ChangedPayConfirmationDocumentID) {
-        newValue = currentState.value.copyWith(documentID: event.value);
+        newValue = currentState.value!.copyWith(documentID: event!.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          yield* _isDocumentIDValid(event!.value, newValue).asStream();
         } else {
           yield SubmittablePayConfirmationForm(value: newValue);
         }
@@ -86,35 +86,35 @@ class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirma
         return;
       }
       if (event is ChangedPayConfirmationTitle) {
-        newValue = currentState.value.copyWith(title: event.value);
+        newValue = currentState.value!.copyWith(title: event!.value);
         yield SubmittablePayConfirmationForm(value: newValue);
 
         return;
       }
       if (event is ChangedPayConfirmationShop) {
-        if (event.value != null)
-          newValue = currentState.value.copyWith(shop: await shopRepository(appId: appId).get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event!.value));
         else
           newValue = new PayConfirmationModel(
-                                 documentID: currentState.value.documentID,
-                                 appId: currentState.value.appId,
-                                 title: currentState.value.title,
+                                 documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
+                                 title: currentState.value!.title,
                                  shop: null,
-                                 backToShopAction: currentState.value.backToShopAction,
-                                 conditions: currentState.value.conditions,
+                                 backToShopAction: currentState.value!.backToShopAction,
+                                 conditions: currentState.value!.conditions,
           );
         yield SubmittablePayConfirmationForm(value: newValue);
 
         return;
       }
       if (event is ChangedPayConfirmationBackToShopAction) {
-        newValue = currentState.value.copyWith(backToShopAction: event.value);
+        newValue = currentState.value!.copyWith(backToShopAction: event!.value);
         yield SubmittablePayConfirmationForm(value: newValue);
 
         return;
       }
       if (event is ChangedPayConfirmationConditions) {
-        newValue = currentState.value.copyWith(conditions: event.value);
+        newValue = currentState.value!.copyWith(conditions: event!.value);
         yield SubmittablePayConfirmationForm(value: newValue);
 
         return;
@@ -125,10 +125,10 @@ class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirma
 
   DocumentIDPayConfirmationFormError error(String message, PayConfirmationModel newValue) => DocumentIDPayConfirmationFormError(message: message, value: newValue);
 
-  Future<PayConfirmationFormState> _isDocumentIDValid(String value, PayConfirmationModel newValue) async {
+  Future<PayConfirmationFormState> _isDocumentIDValid(String? value, PayConfirmationModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<PayConfirmationModel> findDocument = payConfirmationRepository(appId: appId).get(value);
+    Future<PayConfirmationModel?> findDocument = payConfirmationRepository(appId: appId)!.get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittablePayConfirmationForm(value: newValue);

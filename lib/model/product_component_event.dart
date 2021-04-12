@@ -21,7 +21,7 @@ abstract class ProductComponentEvent extends Equatable {
 }
 
 class FetchProductComponent extends ProductComponentEvent {
-  final String id;
+  final String? id;
 
   FetchProductComponent({ this.id });
 }

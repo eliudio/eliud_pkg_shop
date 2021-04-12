@@ -22,19 +22,19 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class ProductImageEntity {
-  final String imageId;
+  final String? imageId;
 
   ProductImageEntity({this.imageId, });
 
 
-  List<Object> get props => [imageId, ];
+  List<Object?> get props => [imageId, ];
 
   @override
   String toString() {
     return 'ProductImageEntity{imageId: $imageId}';
   }
 
-  static ProductImageEntity fromMap(Map map) {
+  static ProductImageEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     return ProductImageEntity(
@@ -42,15 +42,15 @@ class ProductImageEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    Map<String, Object> theDocument = HashMap();
+  Map<String, Object?> toDocument() {
+    Map<String, Object?> theDocument = HashMap();
     if (imageId != null) theDocument["imageId"] = imageId;
       else theDocument["imageId"] = null;
     return theDocument;
   }
 
-  static ProductImageEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static ProductImageEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

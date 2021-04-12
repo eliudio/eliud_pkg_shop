@@ -21,7 +21,7 @@ abstract class CartComponentEvent extends Equatable {
 }
 
 class FetchCartComponent extends CartComponentEvent {
-  final String id;
+  final String? id;
 
   FetchCartComponent({ this.id });
 }

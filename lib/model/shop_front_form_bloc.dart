@@ -42,8 +42,8 @@ import 'package:eliud_pkg_shop/model/shop_front_form_state.dart';
 import 'package:eliud_pkg_shop/model/shop_front_repository.dart';
 
 class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
-  final FormAction formAction;
-  final String appId;
+  final FormAction? formAction;
+  final String? appId;
 
   ShopFrontFormBloc(this.appId, { this.formAction }): super(ShopFrontFormUninitialized());
   @override
@@ -70,20 +70,20 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
 
       if (event is InitialiseShopFrontFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        ShopFrontFormLoaded loaded = ShopFrontFormLoaded(value: await shopFrontRepository(appId: appId).get(event.value.documentID));
+        ShopFrontFormLoaded loaded = ShopFrontFormLoaded(value: await shopFrontRepository(appId: appId)!.get(event!.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseShopFrontFormNoLoadEvent) {
-        ShopFrontFormLoaded loaded = ShopFrontFormLoaded(value: event.value);
+        ShopFrontFormLoaded loaded = ShopFrontFormLoaded(value: event!.value);
         yield loaded;
         return;
       }
     } else if (currentState is ShopFrontFormInitialized) {
-      ShopFrontModel newValue = null;
+      ShopFrontModel? newValue = null;
       if (event is ChangedShopFrontDocumentID) {
-        newValue = currentState.value.copyWith(documentID: event.value);
+        newValue = currentState.value!.copyWith(documentID: event!.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          yield* _isDocumentIDValid(event!.value, newValue).asStream();
         } else {
           yield SubmittableShopFrontForm(value: newValue);
         }
@@ -91,132 +91,132 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
         return;
       }
       if (event is ChangedShopFrontTitle) {
-        newValue = currentState.value.copyWith(title: event.value);
+        newValue = currentState.value!.copyWith(title: event!.value);
         yield SubmittableShopFrontForm(value: newValue);
 
         return;
       }
       if (event is ChangedShopFrontDescription) {
-        newValue = currentState.value.copyWith(description: event.value);
+        newValue = currentState.value!.copyWith(description: event!.value);
         yield SubmittableShopFrontForm(value: newValue);
 
         return;
       }
       if (event is ChangedShopFrontShop) {
-        if (event.value != null)
-          newValue = currentState.value.copyWith(shop: await shopRepository(appId: appId).get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event!.value));
         else
           newValue = new ShopFrontModel(
-                                 documentID: currentState.value.documentID,
-                                 appId: currentState.value.appId,
-                                 title: currentState.value.title,
-                                 description: currentState.value.description,
+                                 documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
+                                 title: currentState.value!.title,
+                                 description: currentState.value!.description,
                                  shop: null,
-                                 size: currentState.value.size,
-                                 cardElevation: currentState.value.cardElevation,
-                                 cardAxisSpacing: currentState.value.cardAxisSpacing,
-                                 itemCardBackground: currentState.value.itemCardBackground,
-                                 addToCartColor: currentState.value.addToCartColor,
-                                 view: currentState.value.view,
-                                 scrollDirection: currentState.value.scrollDirection,
-                                 buyAction: currentState.value.buyAction,
-                                 openProductAction: currentState.value.openProductAction,
-                                 conditions: currentState.value.conditions,
+                                 size: currentState.value!.size,
+                                 cardElevation: currentState.value!.cardElevation,
+                                 cardAxisSpacing: currentState.value!.cardAxisSpacing,
+                                 itemCardBackground: currentState.value!.itemCardBackground,
+                                 addToCartColor: currentState.value!.addToCartColor,
+                                 view: currentState.value!.view,
+                                 scrollDirection: currentState.value!.scrollDirection,
+                                 buyAction: currentState.value!.buyAction,
+                                 openProductAction: currentState.value!.openProductAction,
+                                 conditions: currentState.value!.conditions,
           );
         yield SubmittableShopFrontForm(value: newValue);
 
         return;
       }
       if (event is ChangedShopFrontSize) {
-        if (isDouble(event.value)) {
-          newValue = currentState.value.copyWith(size: double.parse(event.value));
+        if (isDouble(event!.value!)) {
+          newValue = currentState.value!.copyWith(size: double.parse(event!.value!));
           yield SubmittableShopFrontForm(value: newValue);
 
         } else {
-          newValue = currentState.value.copyWith(size: 0.0);
+          newValue = currentState.value!.copyWith(size: 0.0);
           yield SizeShopFrontFormError(message: "Value should be a number or decimal number", value: newValue);
         }
         return;
       }
       if (event is ChangedShopFrontCardElevation) {
-        if (isDouble(event.value)) {
-          newValue = currentState.value.copyWith(cardElevation: double.parse(event.value));
+        if (isDouble(event!.value!)) {
+          newValue = currentState.value!.copyWith(cardElevation: double.parse(event!.value!));
           yield SubmittableShopFrontForm(value: newValue);
 
         } else {
-          newValue = currentState.value.copyWith(cardElevation: 0.0);
+          newValue = currentState.value!.copyWith(cardElevation: 0.0);
           yield CardElevationShopFrontFormError(message: "Value should be a number or decimal number", value: newValue);
         }
         return;
       }
       if (event is ChangedShopFrontCardAxisSpacing) {
-        if (isDouble(event.value)) {
-          newValue = currentState.value.copyWith(cardAxisSpacing: double.parse(event.value));
+        if (isDouble(event!.value!)) {
+          newValue = currentState.value!.copyWith(cardAxisSpacing: double.parse(event!.value!));
           yield SubmittableShopFrontForm(value: newValue);
 
         } else {
-          newValue = currentState.value.copyWith(cardAxisSpacing: 0.0);
+          newValue = currentState.value!.copyWith(cardAxisSpacing: 0.0);
           yield CardAxisSpacingShopFrontFormError(message: "Value should be a number or decimal number", value: newValue);
         }
         return;
       }
       if (event is ChangedShopFrontItemCardBackground) {
-        if (event.value != null)
-          newValue = currentState.value.copyWith(itemCardBackground: await backgroundRepository(appId: appId).get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(itemCardBackground: await backgroundRepository(appId: appId)!.get(event!.value));
         else
           newValue = new ShopFrontModel(
-                                 documentID: currentState.value.documentID,
-                                 appId: currentState.value.appId,
-                                 title: currentState.value.title,
-                                 description: currentState.value.description,
-                                 shop: currentState.value.shop,
-                                 size: currentState.value.size,
-                                 cardElevation: currentState.value.cardElevation,
-                                 cardAxisSpacing: currentState.value.cardAxisSpacing,
+                                 documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
+                                 title: currentState.value!.title,
+                                 description: currentState.value!.description,
+                                 shop: currentState.value!.shop,
+                                 size: currentState.value!.size,
+                                 cardElevation: currentState.value!.cardElevation,
+                                 cardAxisSpacing: currentState.value!.cardAxisSpacing,
                                  itemCardBackground: null,
-                                 addToCartColor: currentState.value.addToCartColor,
-                                 view: currentState.value.view,
-                                 scrollDirection: currentState.value.scrollDirection,
-                                 buyAction: currentState.value.buyAction,
-                                 openProductAction: currentState.value.openProductAction,
-                                 conditions: currentState.value.conditions,
+                                 addToCartColor: currentState.value!.addToCartColor,
+                                 view: currentState.value!.view,
+                                 scrollDirection: currentState.value!.scrollDirection,
+                                 buyAction: currentState.value!.buyAction,
+                                 openProductAction: currentState.value!.openProductAction,
+                                 conditions: currentState.value!.conditions,
           );
         yield SubmittableShopFrontForm(value: newValue);
 
         return;
       }
       if (event is ChangedShopFrontAddToCartColor) {
-        newValue = currentState.value.copyWith(addToCartColor: event.value);
+        newValue = currentState.value!.copyWith(addToCartColor: event!.value);
         yield SubmittableShopFrontForm(value: newValue);
 
         return;
       }
       if (event is ChangedShopFrontView) {
-        newValue = currentState.value.copyWith(view: event.value);
+        newValue = currentState.value!.copyWith(view: event!.value);
         yield SubmittableShopFrontForm(value: newValue);
 
         return;
       }
       if (event is ChangedShopFrontScrollDirection) {
-        newValue = currentState.value.copyWith(scrollDirection: event.value);
+        newValue = currentState.value!.copyWith(scrollDirection: event!.value);
         yield SubmittableShopFrontForm(value: newValue);
 
         return;
       }
       if (event is ChangedShopFrontBuyAction) {
-        newValue = currentState.value.copyWith(buyAction: event.value);
+        newValue = currentState.value!.copyWith(buyAction: event!.value);
         yield SubmittableShopFrontForm(value: newValue);
 
         return;
       }
       if (event is ChangedShopFrontOpenProductAction) {
-        newValue = currentState.value.copyWith(openProductAction: event.value);
+        newValue = currentState.value!.copyWith(openProductAction: event!.value);
         yield SubmittableShopFrontForm(value: newValue);
 
         return;
       }
       if (event is ChangedShopFrontConditions) {
-        newValue = currentState.value.copyWith(conditions: event.value);
+        newValue = currentState.value!.copyWith(conditions: event!.value);
         yield SubmittableShopFrontForm(value: newValue);
 
         return;
@@ -227,10 +227,10 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
 
   DocumentIDShopFrontFormError error(String message, ShopFrontModel newValue) => DocumentIDShopFrontFormError(message: message, value: newValue);
 
-  Future<ShopFrontFormState> _isDocumentIDValid(String value, ShopFrontModel newValue) async {
+  Future<ShopFrontFormState> _isDocumentIDValid(String? value, ShopFrontModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<ShopFrontModel> findDocument = shopFrontRepository(appId: appId).get(value);
+    Future<ShopFrontModel?> findDocument = shopFrontRepository(appId: appId)!.get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableShopFrontForm(value: newValue);

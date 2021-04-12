@@ -25,7 +25,7 @@ import 'package:eliud_pkg_shop/model/product_component_state.dart';
 
 abstract class AbstractProductComponent extends StatelessWidget {
   static String componentName = "products";
-  final String productID;
+  final String? productID;
 
   AbstractProductComponent({this.productID});
 
@@ -63,7 +63,7 @@ abstract class AbstractProductComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, ProductModel value);
+  Widget yourWidget(BuildContext context, ProductModel? value);
   Widget alertWidget({ title: String, content: String});
   ProductRepository getProductRepository(BuildContext context);
 }

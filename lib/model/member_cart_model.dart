@@ -37,15 +37,15 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class MemberCartModel {
-  String documentID;
-  String appId;
-  List<CartItemModel> cartItems;
+  String? documentID;
+  String? appId;
+  List<CartItemModel>? cartItems;
 
   MemberCartModel({this.documentID, this.appId, this.cartItems, })  {
     assert(documentID != null);
   }
 
-  MemberCartModel copyWith({String documentID, String appId, List<CartItemModel> cartItems, }) {
+  MemberCartModel copyWith({String? documentID, String? appId, List<CartItemModel>? cartItems, }) {
     return MemberCartModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, cartItems: cartItems ?? this.cartItems, );
   }
 
@@ -63,21 +63,21 @@ class MemberCartModel {
 
   @override
   String toString() {
-    String cartItemsCsv = (cartItems == null) ? '' : cartItems.join(', ');
+    String cartItemsCsv = (cartItems == null) ? '' : cartItems!.join(', ');
 
     return 'MemberCartModel{documentID: $documentID, appId: $appId, cartItems: CartItem[] { $cartItemsCsv }}';
   }
 
-  MemberCartEntity toEntity({String appId}) {
+  MemberCartEntity toEntity({String? appId}) {
     return MemberCartEntity(
           appId: (appId != null) ? appId : null, 
           cartItems: (cartItems != null) ? cartItems
-            .map((item) => item.toEntity(appId: appId))
+            !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
     );
   }
 
-  static MemberCartModel fromEntity(String documentID, MemberCartEntity entity) {
+  static MemberCartModel? fromEntity(String documentID, MemberCartEntity? entity) {
     if (entity == null) return null;
     return MemberCartModel(
           documentID: documentID, 
@@ -85,12 +85,12 @@ class MemberCartModel {
           cartItems: 
             entity.cartItems == null ? null :
             entity.cartItems
-            .map((item) => CartItemModel.fromEntity(newRandomKey(), item))
+            !.map((item) => CartItemModel.fromEntity(newRandomKey(), item)!)
             .toList(), 
     );
   }
 
-  static Future<MemberCartModel> fromEntityPlus(String documentID, MemberCartEntity entity, { String appId}) async {
+  static Future<MemberCartModel?> fromEntityPlus(String documentID, MemberCartEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     return MemberCartModel(
@@ -98,7 +98,7 @@ class MemberCartModel {
           appId: entity.appId, 
           cartItems: 
             entity. cartItems == null ? null : new List<CartItemModel>.from(await Future.wait(entity. cartItems
-            .map((item) => CartItemModel.fromEntityPlus(newRandomKey(), item, appId: appId))
+            !.map((item) => CartItemModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
     );
   }

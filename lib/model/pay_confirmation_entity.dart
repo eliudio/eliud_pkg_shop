@@ -22,23 +22,23 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class PayConfirmationEntity {
-  final String appId;
-  final String title;
-  final String shopId;
-  final ActionEntity backToShopAction;
-  final ConditionsSimpleEntity conditions;
+  final String? appId;
+  final String? title;
+  final String? shopId;
+  final ActionEntity? backToShopAction;
+  final ConditionsSimpleEntity? conditions;
 
   PayConfirmationEntity({this.appId, this.title, this.shopId, this.backToShopAction, this.conditions, });
 
 
-  List<Object> get props => [appId, title, shopId, backToShopAction, conditions, ];
+  List<Object?> get props => [appId, title, shopId, backToShopAction, conditions, ];
 
   @override
   String toString() {
     return 'PayConfirmationEntity{appId: $appId, title: $title, shopId: $shopId, backToShopAction: $backToShopAction, conditions: $conditions}';
   }
 
-  static PayConfirmationEntity fromMap(Map map) {
+  static PayConfirmationEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     var backToShopActionFromMap;
@@ -59,15 +59,15 @@ class PayConfirmationEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    final Map<String, dynamic> backToShopActionMap = backToShopAction != null 
-        ? backToShopAction.toDocument()
+  Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? backToShopActionMap = backToShopAction != null 
+        ? backToShopAction!.toDocument()
         : null;
-    final Map<String, dynamic> conditionsMap = conditions != null 
-        ? conditions.toDocument()
+    final Map<String, dynamic>? conditionsMap = conditions != null 
+        ? conditions!.toDocument()
         : null;
 
-    Map<String, Object> theDocument = HashMap();
+    Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     if (title != null) theDocument["title"] = title;
@@ -81,8 +81,8 @@ class PayConfirmationEntity {
     return theDocument;
   }
 
-  static PayConfirmationEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static PayConfirmationEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

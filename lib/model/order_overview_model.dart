@@ -36,19 +36,19 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class OrderOverviewModel {
-  String documentID;
-  String appId;
-  String title;
-  ShopModel shop;
-  BackgroundModel itemImageBackground;
-  BackgroundModel itemDetailBackground;
-  ConditionsSimpleModel conditions;
+  String? documentID;
+  String? appId;
+  String? title;
+  ShopModel? shop;
+  BackgroundModel? itemImageBackground;
+  BackgroundModel? itemDetailBackground;
+  ConditionsSimpleModel? conditions;
 
   OrderOverviewModel({this.documentID, this.appId, this.title, this.shop, this.itemImageBackground, this.itemDetailBackground, this.conditions, })  {
     assert(documentID != null);
   }
 
-  OrderOverviewModel copyWith({String documentID, String appId, String title, ShopModel shop, BackgroundModel itemImageBackground, BackgroundModel itemDetailBackground, ConditionsSimpleModel conditions, }) {
+  OrderOverviewModel copyWith({String? documentID, String? appId, String? title, ShopModel? shop, BackgroundModel? itemImageBackground, BackgroundModel? itemDetailBackground, ConditionsSimpleModel? conditions, }) {
     return OrderOverviewModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, shop: shop ?? this.shop, itemImageBackground: itemImageBackground ?? this.itemImageBackground, itemDetailBackground: itemDetailBackground ?? this.itemDetailBackground, conditions: conditions ?? this.conditions, );
   }
 
@@ -73,18 +73,18 @@ class OrderOverviewModel {
     return 'OrderOverviewModel{documentID: $documentID, appId: $appId, title: $title, shop: $shop, itemImageBackground: $itemImageBackground, itemDetailBackground: $itemDetailBackground, conditions: $conditions}';
   }
 
-  OrderOverviewEntity toEntity({String appId}) {
+  OrderOverviewEntity toEntity({String? appId}) {
     return OrderOverviewEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
-          shopId: (shop != null) ? shop.documentID : null, 
-          itemImageBackgroundId: (itemImageBackground != null) ? itemImageBackground.documentID : null, 
-          itemDetailBackgroundId: (itemDetailBackground != null) ? itemDetailBackground.documentID : null, 
-          conditions: (conditions != null) ? conditions.toEntity(appId: appId) : null, 
+          shopId: (shop != null) ? shop!.documentID : null, 
+          itemImageBackgroundId: (itemImageBackground != null) ? itemImageBackground!.documentID : null, 
+          itemDetailBackgroundId: (itemDetailBackground != null) ? itemDetailBackground!.documentID : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
 
-  static OrderOverviewModel fromEntity(String documentID, OrderOverviewEntity entity) {
+  static OrderOverviewModel? fromEntity(String documentID, OrderOverviewEntity? entity) {
     if (entity == null) return null;
     return OrderOverviewModel(
           documentID: documentID, 
@@ -95,31 +95,31 @@ class OrderOverviewModel {
     );
   }
 
-  static Future<OrderOverviewModel> fromEntityPlus(String documentID, OrderOverviewEntity entity, { String appId}) async {
+  static Future<OrderOverviewModel?> fromEntityPlus(String documentID, OrderOverviewEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
-    ShopModel shopHolder;
+    ShopModel? shopHolder;
     if (entity.shopId != null) {
       try {
-        await shopRepository(appId: appId).get(entity.shopId).then((val) {
+        await shopRepository(appId: appId)!.get(entity.shopId).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    BackgroundModel itemImageBackgroundHolder;
+    BackgroundModel? itemImageBackgroundHolder;
     if (entity.itemImageBackgroundId != null) {
       try {
-        await backgroundRepository(appId: appId).get(entity.itemImageBackgroundId).then((val) {
+        await backgroundRepository(appId: appId)!.get(entity.itemImageBackgroundId).then((val) {
           itemImageBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    BackgroundModel itemDetailBackgroundHolder;
+    BackgroundModel? itemDetailBackgroundHolder;
     if (entity.itemDetailBackgroundId != null) {
       try {
-        await backgroundRepository(appId: appId).get(entity.itemDetailBackgroundId).then((val) {
+        await backgroundRepository(appId: appId)!.get(entity.itemDetailBackgroundId).then((val) {
           itemDetailBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}

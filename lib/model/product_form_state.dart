@@ -22,13 +22,13 @@ abstract class ProductFormState extends Equatable {
   const ProductFormState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 // Startup: menu has not been initialised yet and so we should show a "loading indicator" or something
 class ProductFormUninitialized extends ProductFormState {
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 
   @override
   String toString() {
@@ -38,22 +38,22 @@ class ProductFormUninitialized extends ProductFormState {
 
 // ProductModel has been initialised and hence ProductModel is available
 class ProductFormInitialized extends ProductFormState {
-  final ProductModel value;
+  final ProductModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   const ProductFormInitialized({ this.value });
 }
 
 // Menu has been initialised and hence a menu is available
 abstract class ProductFormError extends ProductFormInitialized {
-  final String message;
+  final String? message;
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
-  const ProductFormError({this.message, ProductModel value }) : super(value: value);
+  const ProductFormError({this.message, ProductModel? value }) : super(value: value);
 
   @override
   String toString() {
@@ -64,10 +64,10 @@ abstract class ProductFormError extends ProductFormInitialized {
   }
 }
 class DocumentIDProductFormError extends ProductFormError { 
-  const DocumentIDProductFormError({ String message, ProductModel value }): super(message: message, value: value);
+  const DocumentIDProductFormError({ String? message, ProductModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -80,10 +80,10 @@ class DocumentIDProductFormError extends ProductFormError {
 
 
 class AppIdProductFormError extends ProductFormError { 
-  const AppIdProductFormError({ String message, ProductModel value }): super(message: message, value: value);
+  const AppIdProductFormError({ String? message, ProductModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -96,10 +96,10 @@ class AppIdProductFormError extends ProductFormError {
 
 
 class TitleProductFormError extends ProductFormError { 
-  const TitleProductFormError({ String message, ProductModel value }): super(message: message, value: value);
+  const TitleProductFormError({ String? message, ProductModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -112,10 +112,10 @@ class TitleProductFormError extends ProductFormError {
 
 
 class AboutProductFormError extends ProductFormError { 
-  const AboutProductFormError({ String message, ProductModel value }): super(message: message, value: value);
+  const AboutProductFormError({ String? message, ProductModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -128,10 +128,10 @@ class AboutProductFormError extends ProductFormError {
 
 
 class PriceProductFormError extends ProductFormError { 
-  const PriceProductFormError({ String message, ProductModel value }): super(message: message, value: value);
+  const PriceProductFormError({ String? message, ProductModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -144,10 +144,10 @@ class PriceProductFormError extends ProductFormError {
 
 
 class WeightProductFormError extends ProductFormError { 
-  const WeightProductFormError({ String message, ProductModel value }): super(message: message, value: value);
+  const WeightProductFormError({ String? message, ProductModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -160,10 +160,10 @@ class WeightProductFormError extends ProductFormError {
 
 
 class ShopProductFormError extends ProductFormError { 
-  const ShopProductFormError({ String message, ProductModel value }): super(message: message, value: value);
+  const ShopProductFormError({ String? message, ProductModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -176,10 +176,10 @@ class ShopProductFormError extends ProductFormError {
 
 
 class ImagesProductFormError extends ProductFormError { 
-  const ImagesProductFormError({ String message, ProductModel value }): super(message: message, value: value);
+  const ImagesProductFormError({ String? message, ProductModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -192,10 +192,10 @@ class ImagesProductFormError extends ProductFormError {
 
 
 class PosSizeProductFormError extends ProductFormError { 
-  const PosSizeProductFormError({ String message, ProductModel value }): super(message: message, value: value);
+  const PosSizeProductFormError({ String? message, ProductModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -208,10 +208,10 @@ class PosSizeProductFormError extends ProductFormError {
 
 
 class ConditionsProductFormError extends ProductFormError { 
-  const ConditionsProductFormError({ String message, ProductModel value }): super(message: message, value: value);
+  const ConditionsProductFormError({ String? message, ProductModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -224,10 +224,10 @@ class ConditionsProductFormError extends ProductFormError {
 
 
 class ProductFormLoaded extends ProductFormInitialized { 
-  const ProductFormLoaded({ ProductModel value }): super(value: value);
+  const ProductFormLoaded({ ProductModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {
@@ -239,10 +239,10 @@ class ProductFormLoaded extends ProductFormInitialized {
 
 
 class SubmittableProductForm extends ProductFormInitialized { 
-  const SubmittableProductForm({ ProductModel value }): super(value: value);
+  const SubmittableProductForm({ ProductModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {

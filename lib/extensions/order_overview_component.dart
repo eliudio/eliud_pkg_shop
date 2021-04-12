@@ -13,23 +13,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OrderOverviewComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({String id, Map<String, Object> parameters}) {
+  Widget createNew({String? id, Map<String, Object>? parameters}) {
     return OrderOverviewComponent(id: id);
   }
 }
 
 class OrderOverviewComponent extends AbstractOrderOverviewComponent {
-  OrderOverviewComponent({String id}) : super(orderOverviewID: id);
+  OrderOverviewComponent({String? id}) : super(orderOverviewID: id);
 
   @override
-  Widget yourWidget(BuildContext context, OrderOverviewModel orderOverview) {
+  Widget yourWidget(BuildContext context, OrderOverviewModel? orderOverview) {
     var accessState = AccessBloc.getState(context);
     if (accessState.memberIsOwner()) {
       // allow owner of the app to see ALL orders and update shipment details
       return BlocProvider<OrderListBloc>(
         create: (context) =>
         OrderListBloc(
-          orderRepository: AbstractRepositorySingleton.singleton.orderRepository(AccessBloc.appId(context)),
+          orderRepository: AbstractRepositorySingleton.singleton.orderRepository(AccessBloc.appId(context))!,
         )
           ..add(LoadOrderList()),
         child: OrderListWidget(readOnly: false, form: 'OrderShipmentForm'),
@@ -40,7 +40,7 @@ class OrderOverviewComponent extends AbstractOrderOverviewComponent {
         create: (context) =>
         OrderListBloc(
           orderRepository: AbstractRepositorySingleton.singleton
-              .orderRepository(AccessBloc.appId(context)),
+              .orderRepository(AccessBloc.appId(context))!,
         )
           ..add(LoadOrderList()),
         child: OrderListWidget(readOnly: true),
@@ -55,6 +55,6 @@ class OrderOverviewComponent extends AbstractOrderOverviewComponent {
 
   @override
   OrderOverviewRepository getOrderOverviewRepository(BuildContext context) {
-    return AbstractRepositorySingleton.singleton.orderOverviewRepository(AccessBloc.appId(context));
+    return AbstractRepositorySingleton.singleton.orderOverviewRepository(AccessBloc.appId(context))!;
   }
 }

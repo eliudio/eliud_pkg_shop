@@ -16,9 +16,9 @@ import 'package:intl/intl.dart';
 import 'package:eliud_pkg_shop/extensions/shop_widgets/checkout_page.dart';
 
 class CartWidget extends StatefulWidget {
-  final CartModel cart;
+  final CartModel? cart;
 
-  const CartWidget({Key key, this.cart}) : super(key: key);
+  const CartWidget({Key? key, this.cart}) : super(key: key);
 
   @override
   _CartWidgetState createState() => _CartWidgetState();
@@ -45,7 +45,7 @@ class _CartWidgetState extends State<CartWidget> {
                   //createHeader(),
                   _buttonRowTop(context, accessState.app),
                   _createSubTitle(accessState.app, state.amountOfProducts()),
-                  _createCartList(context, accessState.app, accessState, state.items),
+                  _createCartList(context, accessState.app, accessState, state.items!),
                   _footer(context, accessState.app, state.totalValue()),
                   _buttonRowBottom(context, accessState.app)
                 ],
@@ -66,7 +66,7 @@ class _CartWidgetState extends State<CartWidget> {
           color:
           RgbHelper.color(rgbo: app.formSubmitButtonColor),
           onPressed: () {
-            eliudrouter.Router.navigateTo(context, widget.cart.backToShopAction);
+            eliudrouter.Router.navigateTo(context, widget.cart!.backToShopAction!);
           },
           child: Text('Continue shopping'));
   }
@@ -77,7 +77,7 @@ class _CartWidgetState extends State<CartWidget> {
         RgbHelper.color(rgbo: app.formSubmitButtonColor),
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CheckOutPage(checkoutAction: widget.cart.checkoutAction)));
+              MaterialPageRoute(builder: (context) => CheckOutPage(checkoutAction: widget.cart!.checkoutAction)));
         },
         child: Text('Checkout'));
   }
@@ -125,7 +125,7 @@ class _CartWidgetState extends State<CartWidget> {
     );
   }
 
-  Widget _createSubTitle(AppModel app, int amount) {
+  Widget _createSubTitle(AppModel app, int? amount) {
     String text;
     if (amount == 1) {
       text = 'Total (1) item';
@@ -163,7 +163,7 @@ class _CartWidgetState extends State<CartWidget> {
         Container(
             margin: EdgeInsets.only(left: 16, right: 16, top: 16),
             decoration: BoxDecorationHelper.boxDecoration(accessState,
-                widget.cart.itemDetailBackground),
+                widget.cart!.itemDetailBackground!),
             child: ListView.builder(
               shrinkWrap: true,
               primary: false,
@@ -191,7 +191,7 @@ class _CartWidgetState extends State<CartWidget> {
                 ),
                 onTap: () {
                   BlocProvider.of<CartBloc>(context)
-                      .add(SimpleAddProduct(-item.amount, item.product));
+                      .add(SimpleAddProduct(-item.amount!, item.product));
                 }),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -203,7 +203,7 @@ class _CartWidgetState extends State<CartWidget> {
   }
 
   Widget createCartItemImage(AccessState accessState, CartItemModel item) {
-    var image = item.product.images != null && item.product.images.length > 0 ? NetworkImage(item.product.images[0].image.url) : null;
+    var image = item.product!.images != null && item.product!.images!.length > 0 ? NetworkImage(item.product!.images![0].image!.url!) : null;
     Widget w;
     if (image == null) {
       w = Icon(Icons.image);
@@ -222,11 +222,11 @@ class _CartWidgetState extends State<CartWidget> {
     return GestureDetector(
         child: w,
         onTap: () {
-          var parameters = <String, String>{
-            'productId': item.product.documentID
+          var parameters = <String, String?>{
+            'productId': item.product!.documentID
           };
           eliudrouter.Router.navigateTo(
-              context, widget.cart.openProductAction, parameters: parameters);
+              context, widget.cart!.openProductAction!, parameters: parameters as Map<String, Object>);
         });
   }
 
@@ -239,7 +239,7 @@ class _CartWidgetState extends State<CartWidget> {
         children: <Widget>[
           Center(
             child: Text(
-              item.product.title,
+              item.product!.title!,
               maxLines: 2,
               softWrap: true,
               style: FontTools.textStyle(app.h2),
@@ -248,7 +248,7 @@ class _CartWidgetState extends State<CartWidget> {
           Utils.getSizedBox(height: 6),
           Center(
             child: Text(
-              item.product.about,
+              item.product!.about!,
               maxLines: 4,
               softWrap: true,
               style: FontTools.textStyle(app.fontText),
@@ -261,7 +261,7 @@ class _CartWidgetState extends State<CartWidget> {
               children: <Widget>[
                 Text(
                   NumberFormat.simpleCurrency(locale: 'eu')
-                      .format(item.product.price),
+                      .format(item.product!.price),
                   style: FontTools.textStyle(app.h3),
                 ),
                 Padding(

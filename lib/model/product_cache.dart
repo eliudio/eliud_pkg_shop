@@ -36,56 +36,56 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 class ProductCache implements ProductRepository {
 
   final ProductRepository reference;
-  final Map<String, ProductModel> fullCache = Map();
+  final Map<String?, ProductModel?> fullCache = Map();
 
   ProductCache(this.reference);
 
   Future<ProductModel> add(ProductModel value) {
     return reference.add(value).then((newValue) {
-      fullCache[value.documentID] = newValue;
+      fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
   Future<void> delete(ProductModel value){
-    fullCache.remove(value.documentID);
+    fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
   }
 
-  Future<ProductModel> get(String id, {Function(Exception) onError}) {
-    ProductModel value = fullCache[id];
+  Future<ProductModel> get(String? id, {Function(Exception)? onError}) {
+    ProductModel? value = fullCache[id];
     if (value != null) return refreshRelations(value);
     return reference.get(id, onError: onError).then((value) {
       fullCache[id] = value;
-      return value;
+      return value!;
     });
   }
 
   Future<ProductModel> update(ProductModel value) {
     return reference.update(value).then((newValue) {
-      fullCache[value.documentID] = newValue;
+      fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
   @override
-  Stream<List<ProductModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+  Stream<List<ProductModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.values(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Stream<List<ProductModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+  Stream<List<ProductModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.valuesWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Future<List<ProductModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
+  Future<List<ProductModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
     return await reference.valuesList(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
   
   @override
-  Future<List<ProductModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
+  Future<List<ProductModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
     return await reference.valuesListWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
@@ -93,7 +93,7 @@ class ProductCache implements ProductRepository {
     fullCache.clear();
   }
   
-  String timeStampToString(dynamic timeStamp) {
+  String? timeStampToString(dynamic timeStamp) {
     return reference.timeStampToString(timeStamp);
   } 
 
@@ -104,7 +104,7 @@ class ProductCache implements ProductRepository {
   Future<ProductModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
     return reference.changeValue(documentId, fieldName, changeByThisValue).then((newValue) {
       fullCache[documentId] = newValue;
-      return newValue;
+      return newValue!;
     });
   }
 
@@ -113,43 +113,43 @@ class ProductCache implements ProductRepository {
   }
 
   @override
-  StreamSubscription<List<ProductModel>> listen(trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<ProductModel?>> listen(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listen(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<List<ProductModel>> listenWithDetails(trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<ProductModel?>> listenWithDetails(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listenWithDetails(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<ProductModel> listenTo(String documentId, changed) {
-    reference.listenTo(documentId, changed);
+  StreamSubscription<ProductModel?> listenTo(String documentId, ProductChanged changed) {
+    return reference.listenTo(documentId, changed);
   }
 
   static Future<ProductModel> refreshRelations(ProductModel model) async {
 
-    ShopModel shopHolder;
+    ShopModel? shopHolder;
     if (model.shop != null) {
       try {
-        await shopRepository(appId: model.shop.appId).get(model.shop.documentID).then((val) {
+        await shopRepository(appId: model.shop!.appId)!.get(model.shop!.documentID).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    PosSizeModel posSizeHolder;
+    PosSizeModel? posSizeHolder;
     if (model.posSize != null) {
       try {
-        await posSizeRepository(appId: model.posSize.appId).get(model.posSize.documentID).then((val) {
+        await posSizeRepository(appId: model.posSize!.appId)!.get(model.posSize!.documentID).then((val) {
           posSizeHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    List<ProductImageModel> imagesHolder;
+    List<ProductImageModel>? imagesHolder;
     if (model.images != null) {
-      imagesHolder = List<ProductImageModel>.from(await Future.wait(await model.images.map((element) async {
+      imagesHolder = List<ProductImageModel>.from(await Future.wait(await model.images!.map((element) async {
         return await ProductImageCache.refreshRelations(element);
       }))).toList();
     }

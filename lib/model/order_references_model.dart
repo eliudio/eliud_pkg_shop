@@ -32,14 +32,14 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class OrderReferencesModel {
-  String paymentReference;
-  String shipmentReference;
-  String deliveryReference;
+  String? paymentReference;
+  String? shipmentReference;
+  String? deliveryReference;
 
   OrderReferencesModel({this.paymentReference, this.shipmentReference, this.deliveryReference, })  {
   }
 
-  OrderReferencesModel copyWith({String paymentReference, String shipmentReference, String deliveryReference, }) {
+  OrderReferencesModel copyWith({String? paymentReference, String? shipmentReference, String? deliveryReference, }) {
     return OrderReferencesModel(paymentReference: paymentReference ?? this.paymentReference, shipmentReference: shipmentReference ?? this.shipmentReference, deliveryReference: deliveryReference ?? this.deliveryReference, );
   }
 
@@ -60,7 +60,7 @@ class OrderReferencesModel {
     return 'OrderReferencesModel{paymentReference: $paymentReference, shipmentReference: $shipmentReference, deliveryReference: $deliveryReference}';
   }
 
-  OrderReferencesEntity toEntity({String appId}) {
+  OrderReferencesEntity toEntity({String? appId}) {
     return OrderReferencesEntity(
           paymentReference: (paymentReference != null) ? paymentReference : null, 
           shipmentReference: (shipmentReference != null) ? shipmentReference : null, 
@@ -68,7 +68,7 @@ class OrderReferencesModel {
     );
   }
 
-  static OrderReferencesModel fromEntity(OrderReferencesEntity entity) {
+  static OrderReferencesModel? fromEntity(OrderReferencesEntity? entity) {
     if (entity == null) return null;
     return OrderReferencesModel(
           paymentReference: entity.paymentReference, 
@@ -77,7 +77,7 @@ class OrderReferencesModel {
     );
   }
 
-  static Future<OrderReferencesModel> fromEntityPlus(OrderReferencesEntity entity, { String appId}) async {
+  static Future<OrderReferencesModel?> fromEntityPlus(OrderReferencesEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     return OrderReferencesModel(

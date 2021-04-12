@@ -42,8 +42,8 @@ import 'package:eliud_pkg_shop/model/pay_form_state.dart';
 import 'package:eliud_pkg_shop/model/pay_repository.dart';
 
 class PayFormBloc extends Bloc<PayFormEvent, PayFormState> {
-  final FormAction formAction;
-  final String appId;
+  final FormAction? formAction;
+  final String? appId;
 
   PayFormBloc(this.appId, { this.formAction }): super(PayFormUninitialized());
   @override
@@ -65,20 +65,20 @@ class PayFormBloc extends Bloc<PayFormEvent, PayFormState> {
 
       if (event is InitialisePayFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        PayFormLoaded loaded = PayFormLoaded(value: await payRepository(appId: appId).get(event.value.documentID));
+        PayFormLoaded loaded = PayFormLoaded(value: await payRepository(appId: appId)!.get(event!.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialisePayFormNoLoadEvent) {
-        PayFormLoaded loaded = PayFormLoaded(value: event.value);
+        PayFormLoaded loaded = PayFormLoaded(value: event!.value);
         yield loaded;
         return;
       }
     } else if (currentState is PayFormInitialized) {
-      PayModel newValue = null;
+      PayModel? newValue = null;
       if (event is ChangedPayDocumentID) {
-        newValue = currentState.value.copyWith(documentID: event.value);
+        newValue = currentState.value!.copyWith(documentID: event!.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          yield* _isDocumentIDValid(event!.value, newValue).asStream();
         } else {
           yield SubmittablePayForm(value: newValue);
         }
@@ -86,36 +86,36 @@ class PayFormBloc extends Bloc<PayFormEvent, PayFormState> {
         return;
       }
       if (event is ChangedPayTitle) {
-        newValue = currentState.value.copyWith(title: event.value);
+        newValue = currentState.value!.copyWith(title: event!.value);
         yield SubmittablePayForm(value: newValue);
 
         return;
       }
       if (event is ChangedPaySucceeded) {
-        newValue = currentState.value.copyWith(succeeded: event.value);
+        newValue = currentState.value!.copyWith(succeeded: event!.value);
         yield SubmittablePayForm(value: newValue);
 
         return;
       }
       if (event is ChangedPayShop) {
-        if (event.value != null)
-          newValue = currentState.value.copyWith(shop: await shopRepository(appId: appId).get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event!.value));
         else
           newValue = new PayModel(
-                                 documentID: currentState.value.documentID,
-                                 appId: currentState.value.appId,
-                                 title: currentState.value.title,
-                                 succeeded: currentState.value.succeeded,
-                                 payAction: currentState.value.payAction,
+                                 documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
+                                 title: currentState.value!.title,
+                                 succeeded: currentState.value!.succeeded,
+                                 payAction: currentState.value!.payAction,
                                  shop: null,
-                                 conditions: currentState.value.conditions,
+                                 conditions: currentState.value!.conditions,
           );
         yield SubmittablePayForm(value: newValue);
 
         return;
       }
       if (event is ChangedPayConditions) {
-        newValue = currentState.value.copyWith(conditions: event.value);
+        newValue = currentState.value!.copyWith(conditions: event!.value);
         yield SubmittablePayForm(value: newValue);
 
         return;
@@ -126,10 +126,10 @@ class PayFormBloc extends Bloc<PayFormEvent, PayFormState> {
 
   DocumentIDPayFormError error(String message, PayModel newValue) => DocumentIDPayFormError(message: message, value: newValue);
 
-  Future<PayFormState> _isDocumentIDValid(String value, PayModel newValue) async {
+  Future<PayFormState> _isDocumentIDValid(String? value, PayModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<PayModel> findDocument = payRepository(appId: appId).get(value);
+    Future<PayModel?> findDocument = payRepository(appId: appId)!.get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittablePayForm(value: newValue);

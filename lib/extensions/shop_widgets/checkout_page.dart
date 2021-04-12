@@ -10,9 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CheckOutPage extends StatefulWidget {
-  final ActionModel checkoutAction;
+  final ActionModel? checkoutAction;
 
-  const CheckOutPage({Key key, this.checkoutAction}) : super(key: key);
+  const CheckOutPage({Key? key, this.checkoutAction}) : super(key: key);
 
   @override
   _CheckOutPageState createState() => _CheckOutPageState();
@@ -28,13 +28,13 @@ class _CheckOutPageState extends State<CheckOutPage> {
             BlocProvider<MemberListBloc>(
               create: (context) =>
               MemberListBloc(
-                memberRepository: memberRepository(),
+                memberRepository: memberRepository()!,
               )
                 ..add(LoadMemberList()),
             )
           ],
           child: MemberAddressForm(
-              submitAction: widget.checkoutAction,
+              submitAction: widget.checkoutAction!,
               value: accessState.member,
               formAction: FormAction.UpdateAction));
     } else {

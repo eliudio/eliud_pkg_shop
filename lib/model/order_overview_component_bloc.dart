@@ -24,7 +24,7 @@ import 'package:flutter/services.dart';
 
 
 class OrderOverviewComponentBloc extends Bloc<OrderOverviewComponentEvent, OrderOverviewComponentState> {
-  final OrderOverviewRepository orderOverviewRepository;
+  final OrderOverviewRepository? orderOverviewRepository;
 
   OrderOverviewComponentBloc({ this.orderOverviewRepository }): super(OrderOverviewComponentUninitialized());
   @override
@@ -34,9 +34,9 @@ class OrderOverviewComponentBloc extends Bloc<OrderOverviewComponentEvent, Order
       try {
         if (currentState is OrderOverviewComponentUninitialized) {
           bool permissionDenied = false;
-          final model = await orderOverviewRepository.get(event.id, onError: (error) {
+          final model = await orderOverviewRepository!.get(event.id, onError: (error) {
             // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
               permissionDenied = true;
             }
           });
@@ -46,7 +46,7 @@ class OrderOverviewComponentBloc extends Bloc<OrderOverviewComponentEvent, Order
             if (model != null) {
               yield OrderOverviewComponentLoaded(value: model);
             } else {
-              String id = event.id;
+              String? id = event.id;
               yield OrderOverviewComponentError(
                   message: "OrderOverview with id = '$id' not found");
             }

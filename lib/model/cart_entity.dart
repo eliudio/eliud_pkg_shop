@@ -22,29 +22,29 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class CartEntity {
-  final String appId;
-  final String title;
-  final String description;
-  final String checkoutText;
-  final String shopId;
-  final String itemImageBackgroundId;
-  final String itemDetailBackgroundId;
-  final ActionEntity checkoutAction;
-  final ActionEntity backToShopAction;
-  final ActionEntity openProductAction;
-  final ConditionsSimpleEntity conditions;
+  final String? appId;
+  final String? title;
+  final String? description;
+  final String? checkoutText;
+  final String? shopId;
+  final String? itemImageBackgroundId;
+  final String? itemDetailBackgroundId;
+  final ActionEntity? checkoutAction;
+  final ActionEntity? backToShopAction;
+  final ActionEntity? openProductAction;
+  final ConditionsSimpleEntity? conditions;
 
   CartEntity({this.appId, this.title, this.description, this.checkoutText, this.shopId, this.itemImageBackgroundId, this.itemDetailBackgroundId, this.checkoutAction, this.backToShopAction, this.openProductAction, this.conditions, });
 
 
-  List<Object> get props => [appId, title, description, checkoutText, shopId, itemImageBackgroundId, itemDetailBackgroundId, checkoutAction, backToShopAction, openProductAction, conditions, ];
+  List<Object?> get props => [appId, title, description, checkoutText, shopId, itemImageBackgroundId, itemDetailBackgroundId, checkoutAction, backToShopAction, openProductAction, conditions, ];
 
   @override
   String toString() {
     return 'CartEntity{appId: $appId, title: $title, description: $description, checkoutText: $checkoutText, shopId: $shopId, itemImageBackgroundId: $itemImageBackgroundId, itemDetailBackgroundId: $itemDetailBackgroundId, checkoutAction: $checkoutAction, backToShopAction: $backToShopAction, openProductAction: $openProductAction, conditions: $conditions}';
   }
 
-  static CartEntity fromMap(Map map) {
+  static CartEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     var checkoutActionFromMap;
@@ -79,21 +79,21 @@ class CartEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    final Map<String, dynamic> checkoutActionMap = checkoutAction != null 
-        ? checkoutAction.toDocument()
+  Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? checkoutActionMap = checkoutAction != null 
+        ? checkoutAction!.toDocument()
         : null;
-    final Map<String, dynamic> backToShopActionMap = backToShopAction != null 
-        ? backToShopAction.toDocument()
+    final Map<String, dynamic>? backToShopActionMap = backToShopAction != null 
+        ? backToShopAction!.toDocument()
         : null;
-    final Map<String, dynamic> openProductActionMap = openProductAction != null 
-        ? openProductAction.toDocument()
+    final Map<String, dynamic>? openProductActionMap = openProductAction != null 
+        ? openProductAction!.toDocument()
         : null;
-    final Map<String, dynamic> conditionsMap = conditions != null 
-        ? conditions.toDocument()
+    final Map<String, dynamic>? conditionsMap = conditions != null 
+        ? conditions!.toDocument()
         : null;
 
-    Map<String, Object> theDocument = HashMap();
+    Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     if (title != null) theDocument["title"] = title;
@@ -119,8 +119,8 @@ class CartEntity {
     return theDocument;
   }
 
-  static CartEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static CartEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

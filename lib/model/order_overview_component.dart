@@ -25,7 +25,7 @@ import 'package:eliud_pkg_shop/model/order_overview_component_state.dart';
 
 abstract class AbstractOrderOverviewComponent extends StatelessWidget {
   static String componentName = "orderOverviews";
-  final String orderOverviewID;
+  final String? orderOverviewID;
 
   AbstractOrderOverviewComponent({this.orderOverviewID});
 
@@ -63,7 +63,7 @@ abstract class AbstractOrderOverviewComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, OrderOverviewModel value);
+  Widget yourWidget(BuildContext context, OrderOverviewModel? value);
   Widget alertWidget({ title: String, content: String});
   OrderOverviewRepository getOrderOverviewRepository(BuildContext context);
 }

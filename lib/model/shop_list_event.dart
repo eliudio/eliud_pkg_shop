@@ -19,7 +19,7 @@ import 'package:eliud_pkg_shop/model/shop_model.dart';
 abstract class ShopListEvent extends Equatable {
   const ShopListEvent();
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadShopList extends ShopListEvent {}
@@ -27,49 +27,49 @@ class LoadShopList extends ShopListEvent {}
 class NewPage extends ShopListEvent {}
 
 class AddShopList extends ShopListEvent {
-  final ShopModel value;
+  final ShopModel? value;
 
   const AddShopList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'AddShopList{ value: $value }';
 }
 
 class UpdateShopList extends ShopListEvent {
-  final ShopModel value;
+  final ShopModel? value;
 
   const UpdateShopList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'UpdateShopList{ value: $value }';
 }
 
 class DeleteShopList extends ShopListEvent {
-  final ShopModel value;
+  final ShopModel? value;
 
   const DeleteShopList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'DeleteShopList{ value: $value }';
 }
 
 class ShopListUpdated extends ShopListEvent {
-  final List<ShopModel> value;
-  final bool mightHaveMore;
+  final List<ShopModel?>? value;
+  final bool? mightHaveMore;
 
   const ShopListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  List<Object> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [ value, mightHaveMore ];
 
   @override
   String toString() => 'ShopListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';

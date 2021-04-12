@@ -21,7 +21,7 @@ abstract class OrderOverviewComponentEvent extends Equatable {
 }
 
 class FetchOrderOverviewComponent extends OrderOverviewComponentEvent {
-  final String id;
+  final String? id;
 
   FetchOrderOverviewComponent({ this.id });
 }

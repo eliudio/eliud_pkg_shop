@@ -32,17 +32,17 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class ShopModel {
-  String documentID;
-  String appId;
-  String description;
-  String shortDescription;
-  String currency;
+  String? documentID;
+  String? appId;
+  String? description;
+  String? shortDescription;
+  String? currency;
 
   ShopModel({this.documentID, this.appId, this.description, this.shortDescription, this.currency, })  {
     assert(documentID != null);
   }
 
-  ShopModel copyWith({String documentID, String appId, String description, String shortDescription, String currency, }) {
+  ShopModel copyWith({String? documentID, String? appId, String? description, String? shortDescription, String? currency, }) {
     return ShopModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, description: description ?? this.description, shortDescription: shortDescription ?? this.shortDescription, currency: currency ?? this.currency, );
   }
 
@@ -65,7 +65,7 @@ class ShopModel {
     return 'ShopModel{documentID: $documentID, appId: $appId, description: $description, shortDescription: $shortDescription, currency: $currency}';
   }
 
-  ShopEntity toEntity({String appId}) {
+  ShopEntity toEntity({String? appId}) {
     return ShopEntity(
           appId: (appId != null) ? appId : null, 
           description: (description != null) ? description : null, 
@@ -74,7 +74,7 @@ class ShopModel {
     );
   }
 
-  static ShopModel fromEntity(String documentID, ShopEntity entity) {
+  static ShopModel? fromEntity(String documentID, ShopEntity? entity) {
     if (entity == null) return null;
     return ShopModel(
           documentID: documentID, 
@@ -85,7 +85,7 @@ class ShopModel {
     );
   }
 
-  static Future<ShopModel> fromEntityPlus(String documentID, ShopEntity entity, { String appId}) async {
+  static Future<ShopModel?> fromEntityPlus(String documentID, ShopEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     return ShopModel(

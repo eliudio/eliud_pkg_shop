@@ -24,7 +24,7 @@ import 'package:flutter/services.dart';
 
 
 class ProductDisplayComponentBloc extends Bloc<ProductDisplayComponentEvent, ProductDisplayComponentState> {
-  final ProductDisplayRepository productDisplayRepository;
+  final ProductDisplayRepository? productDisplayRepository;
 
   ProductDisplayComponentBloc({ this.productDisplayRepository }): super(ProductDisplayComponentUninitialized());
   @override
@@ -34,9 +34,9 @@ class ProductDisplayComponentBloc extends Bloc<ProductDisplayComponentEvent, Pro
       try {
         if (currentState is ProductDisplayComponentUninitialized) {
           bool permissionDenied = false;
-          final model = await productDisplayRepository.get(event.id, onError: (error) {
+          final model = await productDisplayRepository!.get(event.id, onError: (error) {
             // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
               permissionDenied = true;
             }
           });
@@ -46,7 +46,7 @@ class ProductDisplayComponentBloc extends Bloc<ProductDisplayComponentEvent, Pro
             if (model != null) {
               yield ProductDisplayComponentLoaded(value: model);
             } else {
-              String id = event.id;
+              String? id = event.id;
               yield ProductDisplayComponentError(
                   message: "ProductDisplay with id = '$id' not found");
             }

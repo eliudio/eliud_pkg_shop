@@ -21,21 +21,21 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class OrderReferencesEntity {
-  final String paymentReference;
-  final String shipmentReference;
-  final String deliveryReference;
+  final String? paymentReference;
+  final String? shipmentReference;
+  final String? deliveryReference;
 
   OrderReferencesEntity({this.paymentReference, this.shipmentReference, this.deliveryReference, });
 
 
-  List<Object> get props => [paymentReference, shipmentReference, deliveryReference, ];
+  List<Object?> get props => [paymentReference, shipmentReference, deliveryReference, ];
 
   @override
   String toString() {
     return 'OrderReferencesEntity{paymentReference: $paymentReference, shipmentReference: $shipmentReference, deliveryReference: $deliveryReference}';
   }
 
-  static OrderReferencesEntity fromMap(Map map) {
+  static OrderReferencesEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     return OrderReferencesEntity(
@@ -45,8 +45,8 @@ class OrderReferencesEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    Map<String, Object> theDocument = HashMap();
+  Map<String, Object?> toDocument() {
+    Map<String, Object?> theDocument = HashMap();
     if (paymentReference != null) theDocument["paymentReference"] = paymentReference;
       else theDocument["paymentReference"] = null;
     if (shipmentReference != null) theDocument["shipmentReference"] = shipmentReference;
@@ -56,8 +56,8 @@ class OrderReferencesEntity {
     return theDocument;
   }
 
-  static OrderReferencesEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static OrderReferencesEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

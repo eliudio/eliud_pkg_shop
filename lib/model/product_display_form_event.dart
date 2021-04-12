@@ -34,7 +34,7 @@ abstract class ProductDisplayFormEvent extends Equatable {
   const ProductDisplayFormEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitialiseNewProductDisplayFormEvent extends ProductDisplayFormEvent {
@@ -42,114 +42,114 @@ class InitialiseNewProductDisplayFormEvent extends ProductDisplayFormEvent {
 
 
 class InitialiseProductDisplayFormEvent extends ProductDisplayFormEvent {
-  final ProductDisplayModel value;
+  final ProductDisplayModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseProductDisplayFormEvent({this.value});
 }
 
 class InitialiseProductDisplayFormNoLoadEvent extends ProductDisplayFormEvent {
-  final ProductDisplayModel value;
+  final ProductDisplayModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseProductDisplayFormNoLoadEvent({this.value});
 }
 
 class ChangedProductDisplayDocumentID extends ProductDisplayFormEvent {
-  final String value;
+  final String? value;
 
   ChangedProductDisplayDocumentID({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedProductDisplayDocumentID{ value: $value }';
 }
 
 class ChangedProductDisplayAppId extends ProductDisplayFormEvent {
-  final String value;
+  final String? value;
 
   ChangedProductDisplayAppId({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedProductDisplayAppId{ value: $value }';
 }
 
 class ChangedProductDisplayTitle extends ProductDisplayFormEvent {
-  final String value;
+  final String? value;
 
   ChangedProductDisplayTitle({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedProductDisplayTitle{ value: $value }';
 }
 
 class ChangedProductDisplayItemDetailBackground extends ProductDisplayFormEvent {
-  final String value;
+  final String? value;
 
   ChangedProductDisplayItemDetailBackground({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedProductDisplayItemDetailBackground{ value: $value }';
 }
 
 class ChangedProductDisplayAddToBasketText extends ProductDisplayFormEvent {
-  final String value;
+  final String? value;
 
   ChangedProductDisplayAddToBasketText({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedProductDisplayAddToBasketText{ value: $value }';
 }
 
 class ChangedProductDisplayBuyAction extends ProductDisplayFormEvent {
-  final ActionModel value;
+  final ActionModel? value;
 
   ChangedProductDisplayBuyAction({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedProductDisplayBuyAction{ value: $value }';
 }
 
 class ChangedProductDisplayShop extends ProductDisplayFormEvent {
-  final String value;
+  final String? value;
 
   ChangedProductDisplayShop({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedProductDisplayShop{ value: $value }';
 }
 
 class ChangedProductDisplayConditions extends ProductDisplayFormEvent {
-  final ConditionsSimpleModel value;
+  final ConditionsSimpleModel? value;
 
   ChangedProductDisplayConditions({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedProductDisplayConditions{ value: $value }';

@@ -21,13 +21,13 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   CartBloc(this.navigatorBloc, this.accessBloc): super(CartUninitialised());
 
-  List<CartItemModel> _copyListAndChangeAmount(
-      List<CartItemModel> original, ProductModel product, int changeBy) {
+  List<CartItemModel>? _copyListAndChangeAmount(
+      List<CartItemModel> original, ProductModel? product, int changeBy) {
     var copy = ListTool.copyAllExcept(
-        original, (t) => ((t.product!= null) && (t.product.documentID == product.documentID) && (t.appId == product.appId)));
-    CartItemModel cartItemModel;
+        original, (dynamic t) => ((t.product!= null) && (t.product.documentID == product!.documentID) && (t.appId == product.appId)));
+    CartItemModel? cartItemModel;
     original.forEach((element) {
-      if ((element.product != null) && (element.product.documentID == product.documentID) && (element.appId == product.appId)) cartItemModel = element;
+      if ((element.product != null) && (element.product!.documentID == product!.documentID) && (element.appId == product.appId)) cartItemModel = element;
     });
 
     CartItemModel newCartItem;
@@ -35,28 +35,28 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       if (changeBy <= 0) return null;
 
       newCartItem = CartItemModel(
-          documentID: newRandomKey(), product: product, amount: changeBy, appId: product.appId);
+          documentID: newRandomKey(), product: product, amount: changeBy, appId: product!.appId);
     } else {
       newCartItem =
-          cartItemModel.copyWith(amount: cartItemModel.amount + changeBy);
+          cartItemModel!.copyWith(amount: cartItemModel!.amount! + changeBy);
     }
-    if (newCartItem.amount > 0) {
+    if (newCartItem.amount! > 0) {
       copy.add(newCartItem);
     }
     return copy;
   }
 
-  Future<void> _updateCartChangeAmount(LoggedIn accessState, ProductModel product, int amount) async {
+  Future<void> _updateCartChangeAmount(LoggedIn accessState, ProductModel? product, int amount) async {
     var member = accessState.member;
     if (member != null) {
-      var cart = await memberCartRepository(appId: accessState.app.documentID).get(member.documentID);
-      List<CartItemModel> items;
+      var cart = await memberCartRepository(appId: accessState.app.documentID)!.get(member.documentID);
+      List<CartItemModel>? items;
       if (cart != null) {
         items = cart.cartItems;
-        var newItems = _copyListAndChangeAmount(items, product, amount);
-        await memberCartRepository(appId: accessState.app.documentID).update(cart.copyWith(cartItems: newItems));
+        var newItems = _copyListAndChangeAmount(items!, product, amount);
+        await memberCartRepository(appId: accessState.app.documentID)!.update(cart.copyWith(cartItems: newItems));
       } else {
-        await memberCartRepository(appId: accessState.app.documentID).add(MemberCartModel(
+        await memberCartRepository(appId: accessState.app.documentID)!.add(MemberCartModel(
             documentID: member.documentID,
             appId: accessState.app.documentID,
             cartItems: _copyListAndChangeAmount([], product, amount)
@@ -69,9 +69,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     var member = accessState.member;
     if (member != null) {
       var cart = await memberCartRepository(
-          appId: accessState.app.documentID).get(member.documentID);
+          appId: accessState.app.documentID)!.get(member.documentID);
       if (cart != null) {
-        await memberCartRepository(appId: accessState.app.documentID).update(
+        await memberCartRepository(appId: accessState.app.documentID)!.update(
             cart.copyWith(cartItems: []));
       }
     }
@@ -79,20 +79,20 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   Future<CartInitialised> toYield(LoggedIn accessState) async {
     var member = accessState.member;
-    var cart = await memberCartRepository(appId: accessState.app.documentID).get(member.documentID);
+    var cart = await memberCartRepository(appId: accessState.app.documentID)!.get(member.documentID);
     return CartInitialised(cart != null ? cart.cartItems : null);
   }
 
   @override
   Stream<CartState> mapEventToState(CartEvent event) async* {
-    var accessState = accessBloc.state;
+    AccessState accessState = accessBloc.state;
     if (accessState is LoggedIn) {
       if (event is LoadCart) {
         yield await toYield(accessState);
       } else {
         if (event is AddProduct) {
           await _updateCartChangeAmount(accessState, event.product, event.amount);
-          Router.navigateToPage(navigatorBloc, event.continueShoppingAction);
+          Router.navigateToPage(navigatorBloc, event.continueShoppingAction!);
           yield await toYield(accessState);
         } else if (event is SimpleAddProduct) {
           await _updateCartChangeAmount(accessState, event.product, event.amount);

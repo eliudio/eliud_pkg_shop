@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 
 abstract class CartEvent extends Equatable {
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadCart extends CartEvent {
@@ -12,21 +12,21 @@ class LoadCart extends CartEvent {
 
 class AddProduct extends CartEvent {
   final int amount;
-  final ProductModel product;
-  ActionModel continueShoppingAction;
+  final ProductModel? product;
+  ActionModel? continueShoppingAction;
 
   AddProduct(this.amount, this.product, this.continueShoppingAction);
 
-  List<Object> get props => [amount, product, continueShoppingAction];
+  List<Object?> get props => [amount, product, continueShoppingAction];
 }
 
 class SimpleAddProduct extends CartEvent {
   final int amount;
-  final ProductModel product;
+  final ProductModel? product;
 
   SimpleAddProduct(this.amount, this.product);
 
-  List<Object> get props => [amount, product];
+  List<Object?> get props => [amount, product];
 }
 
 class RemoveProduct extends CartEvent {

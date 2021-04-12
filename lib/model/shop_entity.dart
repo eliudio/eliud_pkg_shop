@@ -21,22 +21,22 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class ShopEntity {
-  final String appId;
-  final String description;
-  final String shortDescription;
-  final String currency;
+  final String? appId;
+  final String? description;
+  final String? shortDescription;
+  final String? currency;
 
   ShopEntity({this.appId, this.description, this.shortDescription, this.currency, });
 
 
-  List<Object> get props => [appId, description, shortDescription, currency, ];
+  List<Object?> get props => [appId, description, shortDescription, currency, ];
 
   @override
   String toString() {
     return 'ShopEntity{appId: $appId, description: $description, shortDescription: $shortDescription, currency: $currency}';
   }
 
-  static ShopEntity fromMap(Map map) {
+  static ShopEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     return ShopEntity(
@@ -47,8 +47,8 @@ class ShopEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    Map<String, Object> theDocument = HashMap();
+  Map<String, Object?> toDocument() {
+    Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     if (description != null) theDocument["description"] = description;
@@ -60,8 +60,8 @@ class ShopEntity {
     return theDocument;
   }
 
-  static ShopEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static ShopEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

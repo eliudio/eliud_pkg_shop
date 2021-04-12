@@ -7,7 +7,7 @@ abstract class CartState extends Equatable {
   const CartState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class CartUninitialised extends CartState {
@@ -15,13 +15,13 @@ class CartUninitialised extends CartState {
 
 class CartInitialised extends CartState {
   final int timestamp;
-  final List<CartItemModel> items;
+  final List<CartItemModel>? items;
 
   CartInitialised(this.items) : timestamp = new DateTime.now().millisecondsSinceEpoch;
 
   @override
-  List<Object> get props => [ timestamp, items ];
+  List<Object?> get props => [ timestamp, items ];
 
-  double totalValue() => CartHelper.totalValue(items);
-  int amountOfProducts() => CartHelper.amountOfProducts(items);
+  double totalValue() => CartHelper.totalValue(items!);
+  int? amountOfProducts() => CartHelper.amountOfProducts(items);
 }

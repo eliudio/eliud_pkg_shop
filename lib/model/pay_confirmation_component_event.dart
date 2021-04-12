@@ -21,7 +21,7 @@ abstract class PayConfirmationComponentEvent extends Equatable {
 }
 
 class FetchPayConfirmationComponent extends PayConfirmationComponentEvent {
-  final String id;
+  final String? id;
 
   FetchPayConfirmationComponent({ this.id });
 }

@@ -22,48 +22,48 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class OrderEntity {
-  final String appId;
-  final String customerId;
-  final String name;
-  final String email;
-  final String shipStreet1;
-  final String shipStreet2;
-  final String shipCity;
-  final String shipState;
-  final String postcode;
-  final String countryId;
-  final bool invoiceSame;
-  final String invoiceStreet1;
-  final String invoiceStreet2;
-  final String invoiceCity;
-  final String invoiceState;
-  final String invoicePostcode;
-  final String invoiceCountryId;
-  final List<OrderItemEntity> products;
-  final double totalPrice;
-  final String currency;
-  final String paymentReference;
-  final String shipmentReference;
-  final String deliveryReference;
-  final String paymentNote;
-  final String shipmentNote;
-  final String deliveryNote;
-  final int status;
-  final String timeStamp;
+  final String? appId;
+  final String? customerId;
+  final String? name;
+  final String? email;
+  final String? shipStreet1;
+  final String? shipStreet2;
+  final String? shipCity;
+  final String? shipState;
+  final String? postcode;
+  final String? countryId;
+  final bool? invoiceSame;
+  final String? invoiceStreet1;
+  final String? invoiceStreet2;
+  final String? invoiceCity;
+  final String? invoiceState;
+  final String? invoicePostcode;
+  final String? invoiceCountryId;
+  final List<OrderItemEntity>? products;
+  final double? totalPrice;
+  final String? currency;
+  final String? paymentReference;
+  final String? shipmentReference;
+  final String? deliveryReference;
+  final String? paymentNote;
+  final String? shipmentNote;
+  final String? deliveryNote;
+  final int? status;
+  final String? timeStamp;
 
   OrderEntity({this.appId, this.customerId, this.name, this.email, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.countryId, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountryId, this.products, this.totalPrice, this.currency, this.paymentReference, this.shipmentReference, this.deliveryReference, this.paymentNote, this.shipmentNote, this.deliveryNote, this.status, this.timeStamp, });
 
 
-  List<Object> get props => [appId, customerId, name, email, shipStreet1, shipStreet2, shipCity, shipState, postcode, countryId, invoiceSame, invoiceStreet1, invoiceStreet2, invoiceCity, invoiceState, invoicePostcode, invoiceCountryId, products, totalPrice, currency, paymentReference, shipmentReference, deliveryReference, paymentNote, shipmentNote, deliveryNote, status, timeStamp, ];
+  List<Object?> get props => [appId, customerId, name, email, shipStreet1, shipStreet2, shipCity, shipState, postcode, countryId, invoiceSame, invoiceStreet1, invoiceStreet2, invoiceCity, invoiceState, invoicePostcode, invoiceCountryId, products, totalPrice, currency, paymentReference, shipmentReference, deliveryReference, paymentNote, shipmentNote, deliveryNote, status, timeStamp, ];
 
   @override
   String toString() {
-    String productsCsv = (products == null) ? '' : products.join(', ');
+    String productsCsv = (products == null) ? '' : products!.join(', ');
 
     return 'OrderEntity{appId: $appId, customerId: $customerId, name: $name, email: $email, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, countryId: $countryId, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountryId: $invoiceCountryId, products: OrderItem[] { $productsCsv }, totalPrice: $totalPrice, currency: $currency, paymentReference: $paymentReference, shipmentReference: $shipmentReference, deliveryReference: $deliveryReference, paymentNote: $paymentNote, shipmentNote: $shipmentNote, deliveryNote: $deliveryNote, status: $status, timeStamp: $timeStamp}';
   }
 
-  static OrderEntity fromMap(Map map) {
+  static OrderEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     var productsFromMap;
@@ -107,12 +107,12 @@ class OrderEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    final List<Map<String, dynamic>> productsListMap = products != null 
-        ? products.map((item) => item.toDocument()).toList()
+  Map<String, Object?> toDocument() {
+    final List<Map<String?, dynamic>>? productsListMap = products != null 
+        ? products!.map((item) => item.toDocument()).toList()
         : null;
 
-    Map<String, Object> theDocument = HashMap();
+    Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     if (customerId != null) theDocument["customerId"] = customerId;
@@ -172,8 +172,8 @@ class OrderEntity {
     return theDocument;
   }
 
-  static OrderEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static OrderEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

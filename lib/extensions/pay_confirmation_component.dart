@@ -14,24 +14,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PayConfirmationComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({String id, Map<String, Object> parameters}) {
+  Widget createNew({String? id, Map<String, Object>? parameters}) {
     return PayConfirmationComponent(id: id, parameters: parameters,);
   }
 }
 
 class PayConfirmationComponent extends AbstractPayConfirmationComponent {
-  final Map<String, Object> parameters;
+  final Map<String, Object>? parameters;
 
-  PayConfirmationComponent({String id, this.parameters}) : super(payConfirmationID: id);
+  PayConfirmationComponent({String? id, this.parameters}) : super(payConfirmationID: id);
 
   @override
-  Widget yourWidget(BuildContext context, PayConfirmationModel payConfirmationModel) {
-    var orderNumber = parameters['orderId'];
+  Widget yourWidget(BuildContext context, PayConfirmationModel? payConfirmationModel) {
+    var orderNumber = parameters!['orderId'];
     if (orderNumber != null) {
       return BlocProvider<OrderComponentBloc>(
         create: (context) =>
         OrderComponentBloc(orderRepository: getOrderRepository(context))
-          ..add(FetchOrderComponent(id: orderNumber)),
+          ..add(FetchOrderComponent(id: orderNumber as String?)),
         child: ConfirmationWidget(payConfirmationModel),
       );
     } else {
@@ -46,10 +46,10 @@ class PayConfirmationComponent extends AbstractPayConfirmationComponent {
 
   @override
   PayConfirmationRepository getPayConfirmationRepository(BuildContext context) {
-    return AbstractRepositorySingleton.singleton.payConfirmationRepository(AccessBloc.appId(context));
+    return AbstractRepositorySingleton.singleton.payConfirmationRepository(AccessBloc.appId(context))!;
   }
 
-  OrderRepository getOrderRepository(BuildContext context) {
+  OrderRepository? getOrderRepository(BuildContext context) {
     return AbstractRepositorySingleton.singleton.orderRepository(AccessBloc.appId(context));
   }
 }

@@ -112,7 +112,7 @@
       "displayName": "Street Address",
       "fieldType": "String",
       "iconName": "text_format",
-      "conditional": "((state.value.invoiceSame == null) || (!state.value.invoiceSame))",
+      "conditional": "((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))",
       "group": "invoice"
     },
     {
@@ -120,7 +120,7 @@
       "displayName": "Street Address Line 2",
       "fieldType": "String",
       "iconName": "text_format",
-      "conditional": "((state.value.invoiceSame == null) || (!state.value.invoiceSame))",
+      "conditional": "((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))",
       "group": "invoice"
     },
     {
@@ -128,7 +128,7 @@
       "displayName": "City",
       "fieldType": "String",
       "iconName": "text_format",
-      "conditional": "((state.value.invoiceSame == null) || (!state.value.invoiceSame))",
+      "conditional": "((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))",
       "group": "invoice"
     },
     {
@@ -136,7 +136,7 @@
       "displayName": "State/Province",
       "fieldType": "String",
       "iconName": "text_format",
-      "conditional": "((state.value.invoiceSame == null) || (!state.value.invoiceSame))",
+      "conditional": "((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))",
       "group": "invoice"
     },
     {
@@ -144,7 +144,7 @@
       "displayName": "Postal / Zip Code",
       "fieldType": "String",
       "iconName": "text_format",
-      "conditional": "((state.value.invoiceSame == null) || (!state.value.invoiceSame))",
+      "conditional": "((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))",
       "group": "invoice"
     },
     {
@@ -153,7 +153,7 @@
       "fieldType": "Country",
       "association": true,
       "optional": false,
-      "conditional": "((state.value.invoiceSame == null) || (!state.value.invoiceSame))",
+      "conditional": "((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))",
       "group": "invoiceCountry"
     },
     {
@@ -262,12 +262,12 @@
     {
         "group": "invoice",
         "description": "Invoice Address",
-        "conditional": "((state.value.invoiceSame == null) || (!state.value.invoiceSame))"
+        "conditional": "((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))"
     },
     {
         "group": "invoiceCountry",
         "description": "Invoice Country",
-        "conditional": "((state.value.invoiceSame == null) || (!state.value.invoiceSame))"
+        "conditional": "((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))"
     },
     {
         "group": "orderStatus",

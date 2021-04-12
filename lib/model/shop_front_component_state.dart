@@ -20,13 +20,13 @@ abstract class ShopFrontComponentState extends Equatable {
   const ShopFrontComponentState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class ShopFrontComponentUninitialized extends ShopFrontComponentState {}
 
 class ShopFrontComponentError extends ShopFrontComponentState {
-  final String message;
+  final String? message;
   ShopFrontComponentError({ this.message });
 }
 
@@ -35,16 +35,16 @@ class ShopFrontComponentPermissionDenied extends ShopFrontComponentState {
 }
 
 class ShopFrontComponentLoaded extends ShopFrontComponentState {
-  final ShopFrontModel value;
+  final ShopFrontModel? value;
 
   const ShopFrontComponentLoaded({ this.value });
 
-  ShopFrontComponentLoaded copyWith({ ShopFrontModel copyThis }) {
+  ShopFrontComponentLoaded copyWith({ ShopFrontModel? copyThis }) {
     return ShopFrontComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
-  List<Object> get props => [value];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ShopFrontComponentLoaded { value: $value }';

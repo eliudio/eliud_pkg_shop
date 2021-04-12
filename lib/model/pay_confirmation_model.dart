@@ -36,18 +36,18 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class PayConfirmationModel {
-  String documentID;
-  String appId;
-  String title;
-  ShopModel shop;
-  ActionModel backToShopAction;
-  ConditionsSimpleModel conditions;
+  String? documentID;
+  String? appId;
+  String? title;
+  ShopModel? shop;
+  ActionModel? backToShopAction;
+  ConditionsSimpleModel? conditions;
 
   PayConfirmationModel({this.documentID, this.appId, this.title, this.shop, this.backToShopAction, this.conditions, })  {
     assert(documentID != null);
   }
 
-  PayConfirmationModel copyWith({String documentID, String appId, String title, ShopModel shop, ActionModel backToShopAction, ConditionsSimpleModel conditions, }) {
+  PayConfirmationModel copyWith({String? documentID, String? appId, String? title, ShopModel? shop, ActionModel? backToShopAction, ConditionsSimpleModel? conditions, }) {
     return PayConfirmationModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, shop: shop ?? this.shop, backToShopAction: backToShopAction ?? this.backToShopAction, conditions: conditions ?? this.conditions, );
   }
 
@@ -71,17 +71,17 @@ class PayConfirmationModel {
     return 'PayConfirmationModel{documentID: $documentID, appId: $appId, title: $title, shop: $shop, backToShopAction: $backToShopAction, conditions: $conditions}';
   }
 
-  PayConfirmationEntity toEntity({String appId}) {
+  PayConfirmationEntity toEntity({String? appId}) {
     return PayConfirmationEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
-          shopId: (shop != null) ? shop.documentID : null, 
-          backToShopAction: (backToShopAction != null) ? backToShopAction.toEntity(appId: appId) : null, 
-          conditions: (conditions != null) ? conditions.toEntity(appId: appId) : null, 
+          shopId: (shop != null) ? shop!.documentID : null, 
+          backToShopAction: (backToShopAction != null) ? backToShopAction!.toEntity(appId: appId) : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
 
-  static PayConfirmationModel fromEntity(String documentID, PayConfirmationEntity entity) {
+  static PayConfirmationModel? fromEntity(String documentID, PayConfirmationEntity? entity) {
     if (entity == null) return null;
     return PayConfirmationModel(
           documentID: documentID, 
@@ -94,13 +94,13 @@ class PayConfirmationModel {
     );
   }
 
-  static Future<PayConfirmationModel> fromEntityPlus(String documentID, PayConfirmationEntity entity, { String appId}) async {
+  static Future<PayConfirmationModel?> fromEntityPlus(String documentID, PayConfirmationEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
-    ShopModel shopHolder;
+    ShopModel? shopHolder;
     if (entity.shopId != null) {
       try {
-        await shopRepository(appId: appId).get(entity.shopId).then((val) {
+        await shopRepository(appId: appId)!.get(entity.shopId).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}

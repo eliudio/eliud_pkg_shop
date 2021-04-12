@@ -33,29 +33,29 @@ import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
-typedef ProductDisplayModelTrigger(List<ProductDisplayModel> list);
-typedef ProductDisplayChanged(ProductDisplayModel value);
+typedef ProductDisplayModelTrigger(List<ProductDisplayModel?> list);
+typedef ProductDisplayChanged(ProductDisplayModel? value);
 
 abstract class ProductDisplayRepository {
   Future<ProductDisplayModel> add(ProductDisplayModel value);
   Future<void> delete(ProductDisplayModel value);
-  Future<ProductDisplayModel> get(String id, { Function(Exception) onError });
+  Future<ProductDisplayModel?> get(String? id, { Function(Exception)? onError });
   Future<ProductDisplayModel> update(ProductDisplayModel value);
 
-  Stream<List<ProductDisplayModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });
-  Stream<List<ProductDisplayModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });
-  Future<List<ProductDisplayModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });
-  Future<List<ProductDisplayModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });
+  Stream<List<ProductDisplayModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  Stream<List<ProductDisplayModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  Future<List<ProductDisplayModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  Future<List<ProductDisplayModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
 
-  StreamSubscription<List<ProductDisplayModel>> listen(ProductDisplayModelTrigger trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery });
-  StreamSubscription<List<ProductDisplayModel>> listenWithDetails(ProductDisplayModelTrigger trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery });
-  StreamSubscription<ProductDisplayModel> listenTo(String documentId, ProductDisplayChanged changed);
+  StreamSubscription<List<ProductDisplayModel?>> listen(ProductDisplayModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
+  StreamSubscription<List<ProductDisplayModel?>> listenWithDetails(ProductDisplayModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
+  StreamSubscription<ProductDisplayModel?> listenTo(String documentId, ProductDisplayChanged changed);
   void flush();
   
-  String timeStampToString(dynamic timeStamp);
+  String? timeStampToString(dynamic timeStamp);
 
   dynamic getSubCollection(String documentId, String name);
-  Future<ProductDisplayModel> changeValue(String documentId, String fieldName, num changeByThisValue);
+  Future<ProductDisplayModel?> changeValue(String documentId, String fieldName, num changeByThisValue);
 
   Future<void> deleteAll();
 }

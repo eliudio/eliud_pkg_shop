@@ -22,13 +22,13 @@ abstract class ProductImageFormState extends Equatable {
   const ProductImageFormState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 // Startup: menu has not been initialised yet and so we should show a "loading indicator" or something
 class ProductImageFormUninitialized extends ProductImageFormState {
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 
   @override
   String toString() {
@@ -38,22 +38,22 @@ class ProductImageFormUninitialized extends ProductImageFormState {
 
 // ProductImageModel has been initialised and hence ProductImageModel is available
 class ProductImageFormInitialized extends ProductImageFormState {
-  final ProductImageModel value;
+  final ProductImageModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   const ProductImageFormInitialized({ this.value });
 }
 
 // Menu has been initialised and hence a menu is available
 abstract class ProductImageFormError extends ProductImageFormInitialized {
-  final String message;
+  final String? message;
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
-  const ProductImageFormError({this.message, ProductImageModel value }) : super(value: value);
+  const ProductImageFormError({this.message, ProductImageModel? value }) : super(value: value);
 
   @override
   String toString() {
@@ -64,10 +64,10 @@ abstract class ProductImageFormError extends ProductImageFormInitialized {
   }
 }
 class DocumentIDProductImageFormError extends ProductImageFormError { 
-  const DocumentIDProductImageFormError({ String message, ProductImageModel value }): super(message: message, value: value);
+  const DocumentIDProductImageFormError({ String? message, ProductImageModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -80,10 +80,10 @@ class DocumentIDProductImageFormError extends ProductImageFormError {
 
 
 class ImageProductImageFormError extends ProductImageFormError { 
-  const ImageProductImageFormError({ String message, ProductImageModel value }): super(message: message, value: value);
+  const ImageProductImageFormError({ String? message, ProductImageModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -96,10 +96,10 @@ class ImageProductImageFormError extends ProductImageFormError {
 
 
 class ProductImageFormLoaded extends ProductImageFormInitialized { 
-  const ProductImageFormLoaded({ ProductImageModel value }): super(value: value);
+  const ProductImageFormLoaded({ ProductImageModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {
@@ -111,10 +111,10 @@ class ProductImageFormLoaded extends ProductImageFormInitialized {
 
 
 class SubmittableProductImageForm extends ProductImageFormInitialized { 
-  const SubmittableProductImageForm({ ProductImageModel value }): super(value: value);
+  const SubmittableProductImageForm({ ProductImageModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {

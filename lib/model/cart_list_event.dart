@@ -19,7 +19,7 @@ import 'package:eliud_pkg_shop/model/cart_model.dart';
 abstract class CartListEvent extends Equatable {
   const CartListEvent();
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadCartList extends CartListEvent {}
@@ -27,49 +27,49 @@ class LoadCartList extends CartListEvent {}
 class NewPage extends CartListEvent {}
 
 class AddCartList extends CartListEvent {
-  final CartModel value;
+  final CartModel? value;
 
   const AddCartList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'AddCartList{ value: $value }';
 }
 
 class UpdateCartList extends CartListEvent {
-  final CartModel value;
+  final CartModel? value;
 
   const UpdateCartList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'UpdateCartList{ value: $value }';
 }
 
 class DeleteCartList extends CartListEvent {
-  final CartModel value;
+  final CartModel? value;
 
   const DeleteCartList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'DeleteCartList{ value: $value }';
 }
 
 class CartListUpdated extends CartListEvent {
-  final List<CartModel> value;
-  final bool mightHaveMore;
+  final List<CartModel?>? value;
+  final bool? mightHaveMore;
 
   const CartListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  List<Object> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [ value, mightHaveMore ];
 
   @override
   String toString() => 'CartListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';

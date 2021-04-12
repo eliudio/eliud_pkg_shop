@@ -22,13 +22,13 @@ abstract class ShopFrontFormState extends Equatable {
   const ShopFrontFormState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 // Startup: menu has not been initialised yet and so we should show a "loading indicator" or something
 class ShopFrontFormUninitialized extends ShopFrontFormState {
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 
   @override
   String toString() {
@@ -38,22 +38,22 @@ class ShopFrontFormUninitialized extends ShopFrontFormState {
 
 // ShopFrontModel has been initialised and hence ShopFrontModel is available
 class ShopFrontFormInitialized extends ShopFrontFormState {
-  final ShopFrontModel value;
+  final ShopFrontModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   const ShopFrontFormInitialized({ this.value });
 }
 
 // Menu has been initialised and hence a menu is available
 abstract class ShopFrontFormError extends ShopFrontFormInitialized {
-  final String message;
+  final String? message;
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
-  const ShopFrontFormError({this.message, ShopFrontModel value }) : super(value: value);
+  const ShopFrontFormError({this.message, ShopFrontModel? value }) : super(value: value);
 
   @override
   String toString() {
@@ -64,10 +64,10 @@ abstract class ShopFrontFormError extends ShopFrontFormInitialized {
   }
 }
 class DocumentIDShopFrontFormError extends ShopFrontFormError { 
-  const DocumentIDShopFrontFormError({ String message, ShopFrontModel value }): super(message: message, value: value);
+  const DocumentIDShopFrontFormError({ String? message, ShopFrontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -80,10 +80,10 @@ class DocumentIDShopFrontFormError extends ShopFrontFormError {
 
 
 class AppIdShopFrontFormError extends ShopFrontFormError { 
-  const AppIdShopFrontFormError({ String message, ShopFrontModel value }): super(message: message, value: value);
+  const AppIdShopFrontFormError({ String? message, ShopFrontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -96,10 +96,10 @@ class AppIdShopFrontFormError extends ShopFrontFormError {
 
 
 class TitleShopFrontFormError extends ShopFrontFormError { 
-  const TitleShopFrontFormError({ String message, ShopFrontModel value }): super(message: message, value: value);
+  const TitleShopFrontFormError({ String? message, ShopFrontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -112,10 +112,10 @@ class TitleShopFrontFormError extends ShopFrontFormError {
 
 
 class DescriptionShopFrontFormError extends ShopFrontFormError { 
-  const DescriptionShopFrontFormError({ String message, ShopFrontModel value }): super(message: message, value: value);
+  const DescriptionShopFrontFormError({ String? message, ShopFrontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -128,10 +128,10 @@ class DescriptionShopFrontFormError extends ShopFrontFormError {
 
 
 class ShopShopFrontFormError extends ShopFrontFormError { 
-  const ShopShopFrontFormError({ String message, ShopFrontModel value }): super(message: message, value: value);
+  const ShopShopFrontFormError({ String? message, ShopFrontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -144,10 +144,10 @@ class ShopShopFrontFormError extends ShopFrontFormError {
 
 
 class SizeShopFrontFormError extends ShopFrontFormError { 
-  const SizeShopFrontFormError({ String message, ShopFrontModel value }): super(message: message, value: value);
+  const SizeShopFrontFormError({ String? message, ShopFrontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -160,10 +160,10 @@ class SizeShopFrontFormError extends ShopFrontFormError {
 
 
 class CardElevationShopFrontFormError extends ShopFrontFormError { 
-  const CardElevationShopFrontFormError({ String message, ShopFrontModel value }): super(message: message, value: value);
+  const CardElevationShopFrontFormError({ String? message, ShopFrontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -176,10 +176,10 @@ class CardElevationShopFrontFormError extends ShopFrontFormError {
 
 
 class CardAxisSpacingShopFrontFormError extends ShopFrontFormError { 
-  const CardAxisSpacingShopFrontFormError({ String message, ShopFrontModel value }): super(message: message, value: value);
+  const CardAxisSpacingShopFrontFormError({ String? message, ShopFrontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -192,10 +192,10 @@ class CardAxisSpacingShopFrontFormError extends ShopFrontFormError {
 
 
 class ItemCardBackgroundShopFrontFormError extends ShopFrontFormError { 
-  const ItemCardBackgroundShopFrontFormError({ String message, ShopFrontModel value }): super(message: message, value: value);
+  const ItemCardBackgroundShopFrontFormError({ String? message, ShopFrontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -208,10 +208,10 @@ class ItemCardBackgroundShopFrontFormError extends ShopFrontFormError {
 
 
 class AddToCartColorShopFrontFormError extends ShopFrontFormError { 
-  const AddToCartColorShopFrontFormError({ String message, ShopFrontModel value }): super(message: message, value: value);
+  const AddToCartColorShopFrontFormError({ String? message, ShopFrontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -224,10 +224,10 @@ class AddToCartColorShopFrontFormError extends ShopFrontFormError {
 
 
 class ViewShopFrontFormError extends ShopFrontFormError { 
-  const ViewShopFrontFormError({ String message, ShopFrontModel value }): super(message: message, value: value);
+  const ViewShopFrontFormError({ String? message, ShopFrontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -240,10 +240,10 @@ class ViewShopFrontFormError extends ShopFrontFormError {
 
 
 class ScrollDirectionShopFrontFormError extends ShopFrontFormError { 
-  const ScrollDirectionShopFrontFormError({ String message, ShopFrontModel value }): super(message: message, value: value);
+  const ScrollDirectionShopFrontFormError({ String? message, ShopFrontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -256,10 +256,10 @@ class ScrollDirectionShopFrontFormError extends ShopFrontFormError {
 
 
 class BuyActionShopFrontFormError extends ShopFrontFormError { 
-  const BuyActionShopFrontFormError({ String message, ShopFrontModel value }): super(message: message, value: value);
+  const BuyActionShopFrontFormError({ String? message, ShopFrontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -272,10 +272,10 @@ class BuyActionShopFrontFormError extends ShopFrontFormError {
 
 
 class OpenProductActionShopFrontFormError extends ShopFrontFormError { 
-  const OpenProductActionShopFrontFormError({ String message, ShopFrontModel value }): super(message: message, value: value);
+  const OpenProductActionShopFrontFormError({ String? message, ShopFrontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -288,10 +288,10 @@ class OpenProductActionShopFrontFormError extends ShopFrontFormError {
 
 
 class ConditionsShopFrontFormError extends ShopFrontFormError { 
-  const ConditionsShopFrontFormError({ String message, ShopFrontModel value }): super(message: message, value: value);
+  const ConditionsShopFrontFormError({ String? message, ShopFrontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -304,10 +304,10 @@ class ConditionsShopFrontFormError extends ShopFrontFormError {
 
 
 class ShopFrontFormLoaded extends ShopFrontFormInitialized { 
-  const ShopFrontFormLoaded({ ShopFrontModel value }): super(value: value);
+  const ShopFrontFormLoaded({ ShopFrontModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {
@@ -319,10 +319,10 @@ class ShopFrontFormLoaded extends ShopFrontFormInitialized {
 
 
 class SubmittableShopFrontForm extends ShopFrontFormInitialized { 
-  const SubmittableShopFrontForm({ ShopFrontModel value }): super(value: value);
+  const SubmittableShopFrontForm({ ShopFrontModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {

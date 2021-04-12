@@ -32,14 +32,14 @@ import 'package:eliud_pkg_shop/model/order_list_state.dart';
 import 'package:eliud_pkg_shop/model/order_model.dart';
 
 
-typedef OrderChanged(String value);
+typedef OrderChanged(String? value);
 
 class OrderDropdownButtonWidget extends StatefulWidget {
-  final String value;
-  final OrderChanged trigger;
-  final bool optional;
+  final String? value;
+  final OrderChanged? trigger;
+  final bool? optional;
 
-  OrderDropdownButtonWidget({ this.value, this.trigger, this.optional, Key key }): super(key: key);
+  OrderDropdownButtonWidget({ this.value, this.trigger, this.optional, Key? key }): super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -48,7 +48,7 @@ class OrderDropdownButtonWidget extends StatefulWidget {
 }
 
 class OrderDropdownButtonWidgetState extends State<OrderDropdownButtonWidget> {
-  OrderListBloc bloc;
+  OrderListBloc? bloc;
 
   OrderDropdownButtonWidgetState();
 
@@ -60,14 +60,14 @@ class OrderDropdownButtonWidgetState extends State<OrderDropdownButtonWidget> {
 
   @override
   void dispose() {
-    if (bloc != null) bloc.close();
+    if (bloc != null) bloc!.close();
     super.dispose();
   }
 
 List<Widget> widgets(OrderModel pm) {
-List<Widget> widgets = List();
-if (pm.documentID != null) widgets.add(new Text(pm.documentID));
-if (pm.paymentReference != null) widgets.add(new Text(pm.paymentReference));
+var widgets = <Widget>[];
+if (pm.documentID != null) widgets.add(new Text(pm.documentID!));
+if (pm.paymentReference != null) widgets.add(new Text(pm.paymentReference!));
 return widgets;
 }
 
@@ -81,16 +81,16 @@ return widgets;
           child: DelayedCircularProgressIndicator(),
         );
       } else if (state is OrderListLoaded) {
-        String valueChosen;
-        if (state.values.indexWhere((v) => (v.documentID == widget.value)) >= 0)
+        String? valueChosen;
+        if (state.values!.indexWhere((v) => (v!.documentID == widget.value)) >= 0)
           valueChosen = widget.value;
         else
-          if (widget.optional != null && widget.optional) valueChosen = null;
+          if (widget.optional != null && widget.optional!) valueChosen = null;
           
         final values = state.values;
-        final List<DropdownMenuItem<String>> items = List();
-        if (state.values.isNotEmpty) {
-          if (widget.optional != null && widget.optional) {
+        final items = <DropdownMenuItem<String>>[];
+        if (state.values!.isNotEmpty) {
+          if (widget.optional != null && widget.optional!) {
             items.add(new DropdownMenuItem<String>(
                 value: null,
                 child: new Container(
@@ -102,9 +102,9 @@ return widgets;
                   ),
                 )));
           }
-          state.values.forEach((element) {
+          state.values!.forEach((element) {
             items.add(new DropdownMenuItem<String>(
-                value: element.documentID,
+                value: element!.documentID,
                 child: new Container(
                   padding: const EdgeInsets.only(bottom: 5.0),
                   height: 100.0,
@@ -137,8 +137,8 @@ return widgets;
     });
   }
 
-  void _onChange(String value) {
-    widget.trigger(value);
+  void _onChange(String? value) {
+    widget.trigger!(value);
   }
 }
 

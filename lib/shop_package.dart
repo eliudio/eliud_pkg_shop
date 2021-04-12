@@ -16,22 +16,22 @@ import 'package:eliud_pkg_shop/model/repository_singleton.dart';
 
 abstract class ShopPackage extends PackageWithSubscription {
   static final String CONDITION_CARTS_HAS_ITEMS = 'MustHaveStuffInBasket';
-  bool stateCONDITION_CARTS_HAS_ITEMS = null;
+  bool? stateCONDITION_CARTS_HAS_ITEMS = null;
 
-  void _setState(bool newState, {MemberModel currentMember}) {
+  void _setState(bool newState, {MemberModel? currentMember}) {
     if (newState != stateCONDITION_CARTS_HAS_ITEMS) {
       stateCONDITION_CARTS_HAS_ITEMS = newState;
-      accessBloc.add(MemberUpdated(currentMember));
+      accessBloc.add(MemberUpdated(currentMember!));
     }
   }
 
   @override
-  void resubscribe(AppModel app, MemberModel currentMember) {
-    var appId = app.documentID;
+  void resubscribe(AppModel? app, MemberModel? currentMember) {
+    var appId = app!.documentID;
     if (currentMember != null) {
-      subscription = memberCartRepository(appId: appId).listen((list) {
+      subscription = memberCartRepository(appId: appId)!.listen((list) {
         if (list.isNotEmpty) {
-          _setState(((list.first.cartItems != null) && (list.first.cartItems.isNotEmpty)), currentMember: currentMember);
+          _setState(((list.first!.cartItems != null) && (list.first!.cartItems!.isNotEmpty)), currentMember: currentMember);
         } else {
           _setState(false, currentMember: currentMember);
         }
@@ -42,7 +42,7 @@ abstract class ShopPackage extends PackageWithSubscription {
     }
   }
 
-  static EliudQuery getCartQuery(String appId, String memberId) {
+  static EliudQuery getCartQuery(String? appId, String? memberId) {
     return EliudQuery(
         theConditions: [EliudQueryCondition(
             DocumentIdField(),
@@ -67,13 +67,13 @@ abstract class ShopPackage extends PackageWithSubscription {
   }
 
   @override
-  Future<bool> isConditionOk(
-      String packageCondition,
-      AppModel app,
-      MemberModel member,
-      bool isOwner,
-      bool isBlocked,
-      PrivilegeLevel privilegeLevel) async {
+  Future<bool?> isConditionOk(
+      String? packageCondition,
+      AppModel? app,
+      MemberModel? member,
+      bool? isOwner,
+      bool? isBlocked,
+      PrivilegeLevel? privilegeLevel) async {
     if (packageCondition == CONDITION_CARTS_HAS_ITEMS) {
       if (stateCONDITION_CARTS_HAS_ITEMS == null) return false;
       return stateCONDITION_CARTS_HAS_ITEMS;

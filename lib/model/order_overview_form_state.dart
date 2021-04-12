@@ -22,13 +22,13 @@ abstract class OrderOverviewFormState extends Equatable {
   const OrderOverviewFormState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 // Startup: menu has not been initialised yet and so we should show a "loading indicator" or something
 class OrderOverviewFormUninitialized extends OrderOverviewFormState {
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 
   @override
   String toString() {
@@ -38,22 +38,22 @@ class OrderOverviewFormUninitialized extends OrderOverviewFormState {
 
 // OrderOverviewModel has been initialised and hence OrderOverviewModel is available
 class OrderOverviewFormInitialized extends OrderOverviewFormState {
-  final OrderOverviewModel value;
+  final OrderOverviewModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   const OrderOverviewFormInitialized({ this.value });
 }
 
 // Menu has been initialised and hence a menu is available
 abstract class OrderOverviewFormError extends OrderOverviewFormInitialized {
-  final String message;
+  final String? message;
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
-  const OrderOverviewFormError({this.message, OrderOverviewModel value }) : super(value: value);
+  const OrderOverviewFormError({this.message, OrderOverviewModel? value }) : super(value: value);
 
   @override
   String toString() {
@@ -64,10 +64,10 @@ abstract class OrderOverviewFormError extends OrderOverviewFormInitialized {
   }
 }
 class DocumentIDOrderOverviewFormError extends OrderOverviewFormError { 
-  const DocumentIDOrderOverviewFormError({ String message, OrderOverviewModel value }): super(message: message, value: value);
+  const DocumentIDOrderOverviewFormError({ String? message, OrderOverviewModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -80,10 +80,10 @@ class DocumentIDOrderOverviewFormError extends OrderOverviewFormError {
 
 
 class AppIdOrderOverviewFormError extends OrderOverviewFormError { 
-  const AppIdOrderOverviewFormError({ String message, OrderOverviewModel value }): super(message: message, value: value);
+  const AppIdOrderOverviewFormError({ String? message, OrderOverviewModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -96,10 +96,10 @@ class AppIdOrderOverviewFormError extends OrderOverviewFormError {
 
 
 class TitleOrderOverviewFormError extends OrderOverviewFormError { 
-  const TitleOrderOverviewFormError({ String message, OrderOverviewModel value }): super(message: message, value: value);
+  const TitleOrderOverviewFormError({ String? message, OrderOverviewModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -112,10 +112,10 @@ class TitleOrderOverviewFormError extends OrderOverviewFormError {
 
 
 class ShopOrderOverviewFormError extends OrderOverviewFormError { 
-  const ShopOrderOverviewFormError({ String message, OrderOverviewModel value }): super(message: message, value: value);
+  const ShopOrderOverviewFormError({ String? message, OrderOverviewModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -128,10 +128,10 @@ class ShopOrderOverviewFormError extends OrderOverviewFormError {
 
 
 class ItemImageBackgroundOrderOverviewFormError extends OrderOverviewFormError { 
-  const ItemImageBackgroundOrderOverviewFormError({ String message, OrderOverviewModel value }): super(message: message, value: value);
+  const ItemImageBackgroundOrderOverviewFormError({ String? message, OrderOverviewModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -144,10 +144,10 @@ class ItemImageBackgroundOrderOverviewFormError extends OrderOverviewFormError {
 
 
 class ItemDetailBackgroundOrderOverviewFormError extends OrderOverviewFormError { 
-  const ItemDetailBackgroundOrderOverviewFormError({ String message, OrderOverviewModel value }): super(message: message, value: value);
+  const ItemDetailBackgroundOrderOverviewFormError({ String? message, OrderOverviewModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -160,10 +160,10 @@ class ItemDetailBackgroundOrderOverviewFormError extends OrderOverviewFormError 
 
 
 class ConditionsOrderOverviewFormError extends OrderOverviewFormError { 
-  const ConditionsOrderOverviewFormError({ String message, OrderOverviewModel value }): super(message: message, value: value);
+  const ConditionsOrderOverviewFormError({ String? message, OrderOverviewModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -176,10 +176,10 @@ class ConditionsOrderOverviewFormError extends OrderOverviewFormError {
 
 
 class OrderOverviewFormLoaded extends OrderOverviewFormInitialized { 
-  const OrderOverviewFormLoaded({ OrderOverviewModel value }): super(value: value);
+  const OrderOverviewFormLoaded({ OrderOverviewModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {
@@ -191,10 +191,10 @@ class OrderOverviewFormLoaded extends OrderOverviewFormInitialized {
 
 
 class SubmittableOrderOverviewForm extends OrderOverviewFormInitialized { 
-  const SubmittableOrderOverviewForm({ OrderOverviewModel value }): super(value: value);
+  const SubmittableOrderOverviewForm({ OrderOverviewModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {

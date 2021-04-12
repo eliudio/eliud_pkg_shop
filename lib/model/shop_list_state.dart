@@ -20,19 +20,19 @@ abstract class ShopListState extends Equatable {
   const ShopListState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class ShopListLoading extends ShopListState {}
 
 class ShopListLoaded extends ShopListState {
-  final List<ShopModel> values;
-  final bool mightHaveMore;
+  final List<ShopModel?>? values;
+  final bool? mightHaveMore;
 
   const ShopListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values, mightHaveMore ];
+  List<Object?> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'ShopListLoaded { values: $values }';

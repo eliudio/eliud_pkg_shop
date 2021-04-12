@@ -22,7 +22,7 @@ class PostLoginAddProduct extends PostLoginAction {
 }
 
 class CartTools {
-  static void addToCart(BuildContext context, ActionModel continueShoppingAction, ProductModel product, int amount) {
+  static void addToCart(BuildContext context, ActionModel? continueShoppingAction, ProductModel? product, int amount) {
     print("addToCart 1");
     _runEvent(context, AddProduct(amount, product, continueShoppingAction));
   }

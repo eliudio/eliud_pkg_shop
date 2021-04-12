@@ -25,7 +25,7 @@ import 'package:eliud_pkg_shop/model/pay_confirmation_component_state.dart';
 
 abstract class AbstractPayConfirmationComponent extends StatelessWidget {
   static String componentName = "payConfirmations";
-  final String payConfirmationID;
+  final String? payConfirmationID;
 
   AbstractPayConfirmationComponent({this.payConfirmationID});
 
@@ -63,7 +63,7 @@ abstract class AbstractPayConfirmationComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, PayConfirmationModel value);
+  Widget yourWidget(BuildContext context, PayConfirmationModel? value);
   Widget alertWidget({ title: String, content: String});
   PayConfirmationRepository getPayConfirmationRepository(BuildContext context);
 }

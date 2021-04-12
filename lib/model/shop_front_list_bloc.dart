@@ -27,53 +27,59 @@ const _shopFrontLimit = 5;
 
 class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {
   final ShopFrontRepository _shopFrontRepository;
-  StreamSubscription _shopFrontsListSubscription;
-  final EliudQuery eliudQuery;
+  StreamSubscription? _shopFrontsListSubscription;
+  final EliudQuery? eliudQuery;
   int pages = 1;
-  final bool paged;
-  final String orderBy;
-  final bool descending;
-  final bool detailed;
+  final bool? paged;
+  final String? orderBy;
+  final bool? descending;
+  final bool? detailed;
 
-  ShopFrontListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required ShopFrontRepository shopFrontRepository})
+  ShopFrontListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ShopFrontRepository shopFrontRepository})
       : assert(shopFrontRepository != null),
         _shopFrontRepository = shopFrontRepository,
         super(ShopFrontListLoading());
 
   Stream<ShopFrontListState> _mapLoadShopFrontListToState() async* {
-    int amountNow =  (state is ShopFrontListLoaded) ? (state as ShopFrontListLoaded).values.length : 0;
+    int amountNow =  (state is ShopFrontListLoaded) ? (state as ShopFrontListLoaded).values!.length : 0;
     _shopFrontsListSubscription?.cancel();
     _shopFrontsListSubscription = _shopFrontRepository.listen(
           (list) => add(ShopFrontListUpdated(value: list, mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && (paged)) ? pages * _shopFrontLimit : null
+      limit: ((paged != null) && paged!) ? pages * _shopFrontLimit : null
     );
   }
 
   Stream<ShopFrontListState> _mapLoadShopFrontListWithDetailsToState() async* {
-    int amountNow =  (state is ShopFrontListLoaded) ? (state as ShopFrontListLoaded).values.length : 0;
+    int amountNow =  (state is ShopFrontListLoaded) ? (state as ShopFrontListLoaded).values!.length : 0;
     _shopFrontsListSubscription?.cancel();
     _shopFrontsListSubscription = _shopFrontRepository.listenWithDetails(
             (list) => add(ShopFrontListUpdated(value: list, mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && (paged)) ? pages * _shopFrontLimit : null
+        limit: ((paged != null) && paged!) ? pages * _shopFrontLimit : null
     );
   }
 
   Stream<ShopFrontListState> _mapAddShopFrontListToState(AddShopFrontList event) async* {
-    _shopFrontRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _shopFrontRepository.add(value);
   }
 
   Stream<ShopFrontListState> _mapUpdateShopFrontListToState(UpdateShopFrontList event) async* {
-    _shopFrontRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _shopFrontRepository.update(value);
   }
 
   Stream<ShopFrontListState> _mapDeleteShopFrontListToState(DeleteShopFrontList event) async* {
-    _shopFrontRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _shopFrontRepository.delete(value);
   }
 
   Stream<ShopFrontListState> _mapShopFrontListUpdatedToState(
@@ -84,7 +90,7 @@ class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {
   @override
   Stream<ShopFrontListState> mapEventToState(ShopFrontListEvent event) async* {
     if (event is LoadShopFrontList) {
-      if ((detailed == null) || (!detailed)) {
+      if ((detailed == null) || (!detailed!)) {
         yield* _mapLoadShopFrontListToState();
       } else {
         yield* _mapLoadShopFrontListWithDetailsToState();

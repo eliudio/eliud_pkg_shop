@@ -32,16 +32,16 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class CartItemModel {
-  String documentID;
-  int amount;
-  String appId;
-  ProductModel product;
+  String? documentID;
+  int? amount;
+  String? appId;
+  ProductModel? product;
 
   CartItemModel({this.documentID, this.amount, this.appId, this.product, })  {
     assert(documentID != null);
   }
 
-  CartItemModel copyWith({String documentID, int amount, String appId, ProductModel product, }) {
+  CartItemModel copyWith({String? documentID, int? amount, String? appId, ProductModel? product, }) {
     return CartItemModel(documentID: documentID ?? this.documentID, amount: amount ?? this.amount, appId: appId ?? this.appId, product: product ?? this.product, );
   }
 
@@ -63,15 +63,15 @@ class CartItemModel {
     return 'CartItemModel{documentID: $documentID, amount: $amount, appId: $appId, product: $product}';
   }
 
-  CartItemEntity toEntity({String appId}) {
+  CartItemEntity toEntity({String? appId}) {
     return CartItemEntity(
           amount: (amount != null) ? amount : null, 
           appId: (appId != null) ? appId : null, 
-          productId: (product != null) ? product.documentID : null, 
+          productId: (product != null) ? product!.documentID : null, 
     );
   }
 
-  static CartItemModel fromEntity(String documentID, CartItemEntity entity) {
+  static CartItemModel? fromEntity(String documentID, CartItemEntity? entity) {
     if (entity == null) return null;
     return CartItemModel(
           documentID: documentID, 
@@ -80,13 +80,13 @@ class CartItemModel {
     );
   }
 
-  static Future<CartItemModel> fromEntityPlus(String documentID, CartItemEntity entity, { String appId}) async {
+  static Future<CartItemModel?> fromEntityPlus(String documentID, CartItemEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
-    ProductModel productHolder;
+    ProductModel? productHolder;
     if (entity.productId != null) {
       try {
-        await productRepository(appId: appId).get(entity.productId).then((val) {
+        await productRepository(appId: appId)!.get(entity.productId).then((val) {
           productHolder = val;
         }).catchError((error) {});
       } catch (_) {}

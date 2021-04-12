@@ -27,53 +27,59 @@ const _productLimit = 5;
 
 class ProductListBloc extends Bloc<ProductListEvent, ProductListState> {
   final ProductRepository _productRepository;
-  StreamSubscription _productsListSubscription;
-  final EliudQuery eliudQuery;
+  StreamSubscription? _productsListSubscription;
+  final EliudQuery? eliudQuery;
   int pages = 1;
-  final bool paged;
-  final String orderBy;
-  final bool descending;
-  final bool detailed;
+  final bool? paged;
+  final String? orderBy;
+  final bool? descending;
+  final bool? detailed;
 
-  ProductListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required ProductRepository productRepository})
+  ProductListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ProductRepository productRepository})
       : assert(productRepository != null),
         _productRepository = productRepository,
         super(ProductListLoading());
 
   Stream<ProductListState> _mapLoadProductListToState() async* {
-    int amountNow =  (state is ProductListLoaded) ? (state as ProductListLoaded).values.length : 0;
+    int amountNow =  (state is ProductListLoaded) ? (state as ProductListLoaded).values!.length : 0;
     _productsListSubscription?.cancel();
     _productsListSubscription = _productRepository.listen(
           (list) => add(ProductListUpdated(value: list, mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && (paged)) ? pages * _productLimit : null
+      limit: ((paged != null) && paged!) ? pages * _productLimit : null
     );
   }
 
   Stream<ProductListState> _mapLoadProductListWithDetailsToState() async* {
-    int amountNow =  (state is ProductListLoaded) ? (state as ProductListLoaded).values.length : 0;
+    int amountNow =  (state is ProductListLoaded) ? (state as ProductListLoaded).values!.length : 0;
     _productsListSubscription?.cancel();
     _productsListSubscription = _productRepository.listenWithDetails(
             (list) => add(ProductListUpdated(value: list, mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && (paged)) ? pages * _productLimit : null
+        limit: ((paged != null) && paged!) ? pages * _productLimit : null
     );
   }
 
   Stream<ProductListState> _mapAddProductListToState(AddProductList event) async* {
-    _productRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _productRepository.add(value);
   }
 
   Stream<ProductListState> _mapUpdateProductListToState(UpdateProductList event) async* {
-    _productRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _productRepository.update(value);
   }
 
   Stream<ProductListState> _mapDeleteProductListToState(DeleteProductList event) async* {
-    _productRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _productRepository.delete(value);
   }
 
   Stream<ProductListState> _mapProductListUpdatedToState(
@@ -84,7 +90,7 @@ class ProductListBloc extends Bloc<ProductListEvent, ProductListState> {
   @override
   Stream<ProductListState> mapEventToState(ProductListEvent event) async* {
     if (event is LoadProductList) {
-      if ((detailed == null) || (!detailed)) {
+      if ((detailed == null) || (!detailed!)) {
         yield* _mapLoadProductListToState();
       } else {
         yield* _mapLoadProductListWithDetailsToState();

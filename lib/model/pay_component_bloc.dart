@@ -24,7 +24,7 @@ import 'package:flutter/services.dart';
 
 
 class PayComponentBloc extends Bloc<PayComponentEvent, PayComponentState> {
-  final PayRepository payRepository;
+  final PayRepository? payRepository;
 
   PayComponentBloc({ this.payRepository }): super(PayComponentUninitialized());
   @override
@@ -34,9 +34,9 @@ class PayComponentBloc extends Bloc<PayComponentEvent, PayComponentState> {
       try {
         if (currentState is PayComponentUninitialized) {
           bool permissionDenied = false;
-          final model = await payRepository.get(event.id, onError: (error) {
+          final model = await payRepository!.get(event.id, onError: (error) {
             // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
               permissionDenied = true;
             }
           });
@@ -46,7 +46,7 @@ class PayComponentBloc extends Bloc<PayComponentEvent, PayComponentState> {
             if (model != null) {
               yield PayComponentLoaded(value: model);
             } else {
-              String id = event.id;
+              String? id = event.id;
               yield PayComponentError(
                   message: "Pay with id = '$id' not found");
             }

@@ -67,6 +67,6 @@
     }
   ],
   "listFields": {
-    "title": "amount != null ? value.amount.toString() + ' ' + (value.product == null ? '' : value.product.title) + ' ' + (value.soldPrice == null ? '' : value.soldPrice.toString()) : '0'"
+    "title": "amount != null ? value!.amount.toString() + ' ' + (value!.product == null ? '' : value!.product!.title!) + ' ' + (value!.soldPrice == null ? '' : value!.soldPrice!.toString()) : '0'"
   }
 }

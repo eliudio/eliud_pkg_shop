@@ -24,7 +24,7 @@ import 'package:flutter/services.dart';
 
 
 class CartComponentBloc extends Bloc<CartComponentEvent, CartComponentState> {
-  final CartRepository cartRepository;
+  final CartRepository? cartRepository;
 
   CartComponentBloc({ this.cartRepository }): super(CartComponentUninitialized());
   @override
@@ -34,9 +34,9 @@ class CartComponentBloc extends Bloc<CartComponentEvent, CartComponentState> {
       try {
         if (currentState is CartComponentUninitialized) {
           bool permissionDenied = false;
-          final model = await cartRepository.get(event.id, onError: (error) {
+          final model = await cartRepository!.get(event.id, onError: (error) {
             // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
               permissionDenied = true;
             }
           });
@@ -46,7 +46,7 @@ class CartComponentBloc extends Bloc<CartComponentEvent, CartComponentState> {
             if (model != null) {
               yield CartComponentLoaded(value: model);
             } else {
-              String id = event.id;
+              String? id = event.id;
               yield CartComponentError(
                   message: "Cart with id = '$id' not found");
             }
