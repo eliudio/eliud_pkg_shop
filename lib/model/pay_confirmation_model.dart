@@ -100,10 +100,12 @@ class PayConfirmationModel {
     ShopModel? shopHolder;
     if (entity.shopId != null) {
       try {
-        await shopRepository(appId: appId)!.get(entity.shopId).then((val) {
-          shopHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          shopHolder = await shopRepository(appId: appId)!.get(entity.shopId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise shop');
+        print('Error whilst retrieving shop with id ${entity.shopId}');
+        print('Exception: $e');
+      }
     }
 
     return PayConfirmationModel(

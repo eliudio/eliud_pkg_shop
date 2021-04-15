@@ -48,13 +48,12 @@ class ShopCache implements ShopRepository {
     return Future.value();
   }
 
-  Future<ShopModel> get(String? id, {Function(Exception)? onError}) {
-    ShopModel? value = fullCache[id];
+  Future<ShopModel> get(String? id, {Function(Exception)? onError}) async {
+    var value = fullCache[id];
     if (value != null) return refreshRelations(value);
-    return reference.get(id, onError: onError).then((value) {
-      fullCache[id] = value;
-      return value!;
-    });
+    value = await reference.get(id, onError: onError);
+    fullCache[id] = value;
+    return Future.value(value);
   }
 
   Future<ShopModel> update(ShopModel value) {

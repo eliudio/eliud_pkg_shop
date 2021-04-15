@@ -161,19 +161,23 @@ class ShopFrontModel {
     ShopModel? shopHolder;
     if (entity.shopId != null) {
       try {
-        await shopRepository(appId: appId)!.get(entity.shopId).then((val) {
-          shopHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          shopHolder = await shopRepository(appId: appId)!.get(entity.shopId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise shop');
+        print('Error whilst retrieving shop with id ${entity.shopId}');
+        print('Exception: $e');
+      }
     }
 
     BackgroundModel? itemCardBackgroundHolder;
     if (entity.itemCardBackgroundId != null) {
       try {
-        await backgroundRepository(appId: appId)!.get(entity.itemCardBackgroundId).then((val) {
-          itemCardBackgroundHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          itemCardBackgroundHolder = await backgroundRepository(appId: appId)!.get(entity.itemCardBackgroundId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise itemCardBackground');
+        print('Error whilst retrieving background with id ${entity.itemCardBackgroundId}');
+        print('Exception: $e');
+      }
     }
 
     return ShopFrontModel(

@@ -86,10 +86,12 @@ class CartItemModel {
     ProductModel? productHolder;
     if (entity.productId != null) {
       try {
-        await productRepository(appId: appId)!.get(entity.productId).then((val) {
-          productHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          productHolder = await productRepository(appId: appId)!.get(entity.productId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise product');
+        print('Error whilst retrieving product with id ${entity.productId}');
+        print('Exception: $e');
+      }
     }
 
     return CartItemModel(

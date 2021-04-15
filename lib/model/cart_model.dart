@@ -124,28 +124,34 @@ class CartModel {
     ShopModel? shopHolder;
     if (entity.shopId != null) {
       try {
-        await shopRepository(appId: appId)!.get(entity.shopId).then((val) {
-          shopHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          shopHolder = await shopRepository(appId: appId)!.get(entity.shopId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise shop');
+        print('Error whilst retrieving shop with id ${entity.shopId}');
+        print('Exception: $e');
+      }
     }
 
     BackgroundModel? itemImageBackgroundHolder;
     if (entity.itemImageBackgroundId != null) {
       try {
-        await backgroundRepository(appId: appId)!.get(entity.itemImageBackgroundId).then((val) {
-          itemImageBackgroundHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          itemImageBackgroundHolder = await backgroundRepository(appId: appId)!.get(entity.itemImageBackgroundId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise itemImageBackground');
+        print('Error whilst retrieving background with id ${entity.itemImageBackgroundId}');
+        print('Exception: $e');
+      }
     }
 
     BackgroundModel? itemDetailBackgroundHolder;
     if (entity.itemDetailBackgroundId != null) {
       try {
-        await backgroundRepository(appId: appId)!.get(entity.itemDetailBackgroundId).then((val) {
-          itemDetailBackgroundHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          itemDetailBackgroundHolder = await backgroundRepository(appId: appId)!.get(entity.itemDetailBackgroundId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise itemDetailBackground');
+        print('Error whilst retrieving background with id ${entity.itemDetailBackgroundId}');
+        print('Exception: $e');
+      }
     }
 
     return CartModel(

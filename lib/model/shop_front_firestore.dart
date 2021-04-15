@@ -55,17 +55,18 @@ class ShopFrontFirestore implements ShopFrontRepository {
   Future<ShopFrontModel?> _populateDocPlus(DocumentSnapshot value) async {
     return ShopFrontModel.fromEntityPlus(value.id, ShopFrontEntity.fromMap(value.data()), appId: appId);  }
 
-  Future<ShopFrontModel?> get(String? id, {Function(Exception)? onError}) {
-    return ShopFrontCollection.doc(id).get().then((doc) async {
-      if (doc.data() != null)
-        return await _populateDocPlus(doc);
-      else
-        return null;
-    }).catchError((Object e) {
+  Future<ShopFrontModel?> get(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = ShopFrontCollection.doc(id);
+      var doc = await collection.get();
+      return await _populateDocPlus(doc);
+    } on Exception catch(e) {
+      print("Error whilst retrieving ShopFront with id $id");
+      print("Exceptoin: $e");
       if (onError != null) {
-        onError(e as Exception);
+        onError(e);
       }
-    });
+    };
   }
 
   StreamSubscription<List<ShopFrontModel?>> listen(ShopFrontModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {

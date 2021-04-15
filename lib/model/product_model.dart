@@ -123,19 +123,23 @@ class ProductModel {
     ShopModel? shopHolder;
     if (entity.shopId != null) {
       try {
-        await shopRepository(appId: appId)!.get(entity.shopId).then((val) {
-          shopHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          shopHolder = await shopRepository(appId: appId)!.get(entity.shopId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise shop');
+        print('Error whilst retrieving shop with id ${entity.shopId}');
+        print('Exception: $e');
+      }
     }
 
     PosSizeModel? posSizeHolder;
     if (entity.posSizeId != null) {
       try {
-        await posSizeRepository(appId: appId)!.get(entity.posSizeId).then((val) {
-          posSizeHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          posSizeHolder = await posSizeRepository(appId: appId)!.get(entity.posSizeId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise posSize');
+        print('Error whilst retrieving posSize with id ${entity.posSizeId}');
+        print('Exception: $e');
+      }
     }
 
     return ProductModel(

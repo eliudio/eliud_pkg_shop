@@ -55,17 +55,18 @@ class ProductDisplayFirestore implements ProductDisplayRepository {
   Future<ProductDisplayModel?> _populateDocPlus(DocumentSnapshot value) async {
     return ProductDisplayModel.fromEntityPlus(value.id, ProductDisplayEntity.fromMap(value.data()), appId: appId);  }
 
-  Future<ProductDisplayModel?> get(String? id, {Function(Exception)? onError}) {
-    return ProductDisplayCollection.doc(id).get().then((doc) async {
-      if (doc.data() != null)
-        return await _populateDocPlus(doc);
-      else
-        return null;
-    }).catchError((Object e) {
+  Future<ProductDisplayModel?> get(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = ProductDisplayCollection.doc(id);
+      var doc = await collection.get();
+      return await _populateDocPlus(doc);
+    } on Exception catch(e) {
+      print("Error whilst retrieving ProductDisplay with id $id");
+      print("Exceptoin: $e");
       if (onError != null) {
-        onError(e as Exception);
+        onError(e);
       }
-    });
+    };
   }
 
   StreamSubscription<List<ProductDisplayModel?>> listen(ProductDisplayModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
