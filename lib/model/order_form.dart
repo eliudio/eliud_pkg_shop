@@ -317,7 +317,7 @@ class _MyOrderFormState extends State<MyOrderForm> {
           _timeStampController.text = "";
       }
       if (state is OrderFormInitialized) {
-        List<Widget?> children = [];
+        List<Widget> children = [];
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
@@ -1438,7 +1438,7 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
           _currencyController.text = "";
       }
       if (state is OrderFormInitialized) {
-        List<Widget?> children = [];
+        List<Widget> children = [];
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
@@ -2068,7 +2068,7 @@ class _MyOrderShipmentFormState extends State<MyOrderShipmentForm> {
           _shipmentNoteController.text = "";
       }
       if (state is OrderFormInitialized) {
-        List<Widget?> children = [];
+        List<Widget> children = [];
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),

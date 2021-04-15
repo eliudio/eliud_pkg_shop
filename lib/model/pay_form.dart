@@ -175,7 +175,7 @@ class _MyPayFormState extends State<MyPayForm> {
           _shop= "";
       }
       if (state is PayFormInitialized) {
-        List<Widget?> children = [];
+        List<Widget> children = [];
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),

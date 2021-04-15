@@ -160,7 +160,7 @@ class _MyProductImageFormState extends State<MyProductImageForm> {
           _image= "";
       }
       if (state is ProductImageFormInitialized) {
-        List<Widget?> children = [];
+        List<Widget> children = [];
         children.add(
 
                 DropdownButtonComponentFactory().createNew(id: "memberMediums", value: _image, trigger: _onImageSelected, optional: false),

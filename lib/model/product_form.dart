@@ -198,7 +198,7 @@ class _MyProductFormState extends State<MyProductForm> {
           _posSize= "";
       }
       if (state is ProductFormInitialized) {
-        List<Widget?> children = [];
+        List<Widget> children = [];
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),

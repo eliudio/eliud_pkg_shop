@@ -185,7 +185,7 @@ class _MyOrderOverviewFormState extends State<MyOrderOverviewForm> {
           _itemDetailBackground= "";
       }
       if (state is OrderOverviewFormInitialized) {
-        List<Widget?> children = [];
+        List<Widget> children = [];
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),

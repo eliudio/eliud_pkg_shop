@@ -87,13 +87,13 @@ class ShopFrontState extends State<ShopFront> {
   Widget build(BuildContext context) {
     var appState = AccessBloc.getState(context);
     if (appState is AppLoaded) {
-      var widgets = <Widget?>[];
+      var widgets = <Widget>[];
       addWidget(widgets, widget.shopFrontModel!.title, appState.app
           .h1);
       addWidget(widgets, widget.shopFrontModel!.description, appState.app
           .fontText);
       widgets.add(_grid(context));
-      return Utils.getShrinkedListView(widgets as List<Widget>);
+      return Utils.getShrinkedListView(widgets);
     } else {
       return Text('App not loaded');
     }
