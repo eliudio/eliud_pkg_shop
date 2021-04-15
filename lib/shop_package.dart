@@ -21,7 +21,7 @@ abstract class ShopPackage extends PackageWithSubscription {
   void _setState(bool newState, {MemberModel? currentMember}) {
     if (newState != stateCONDITION_CARTS_HAS_ITEMS) {
       stateCONDITION_CARTS_HAS_ITEMS = newState;
-      accessBloc.add(MemberUpdated(currentMember!));
+      accessBloc!.add(MemberUpdated(currentMember));
     }
   }
 

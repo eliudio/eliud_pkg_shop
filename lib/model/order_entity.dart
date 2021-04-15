@@ -72,7 +72,7 @@ class OrderEntity {
     if (productsFromMap != null)
       productsList = (map['products'] as List<dynamic>)
         .map((dynamic item) =>
-        OrderItemEntity.fromMap(item as Map))
+        OrderItemEntity.fromMap(item as Map)!)
         .toList();
 
     return OrderEntity(

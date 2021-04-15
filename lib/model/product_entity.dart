@@ -53,7 +53,7 @@ class ProductEntity {
     if (imagesFromMap != null)
       imagesList = (map['images'] as List<dynamic>)
         .map((dynamic item) =>
-        ProductImageEntity.fromMap(item as Map))
+        ProductImageEntity.fromMap(item as Map)!)
         .toList();
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];

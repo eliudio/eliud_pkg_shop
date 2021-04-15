@@ -46,7 +46,7 @@ class MemberCartEntity {
     if (cartItemsFromMap != null)
       cartItemsList = (map['cartItems'] as List<dynamic>)
         .map((dynamic item) =>
-        CartItemEntity.fromMap(item as Map))
+        CartItemEntity.fromMap(item as Map)!)
         .toList();
 
     return MemberCartEntity(
