@@ -30,7 +30,7 @@ import 'package:eliud_pkg_pay/tools/bloc/pay_bloc.dart';
 
 class PayComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({String? id, Map<String, Object>? parameters}) {
+  Widget createNew({String? id, Map<String, dynamic>? parameters}) {
     return PayProfileComponent(id: id);
   }
 }
@@ -121,11 +121,11 @@ class PayProfileComponent extends AbstractPayComponent {
                   semanticLabel: 'Contact',
                 ));
           } else if (state is OrderPaid) {
-            var parameters = <String, Object?>{
+            var parameters = <String, dynamic>{
               'orderId': state.order!.documentID
             };
             eliudrouter.Router.navigateTo(context, pay!.succeeded!,
-                parameters: parameters as Map<String, Object>);
+                parameters: parameters as Map<String, dynamic>);
           } else if (state is PaymentFailed) {
             return _overviewAndPay(context, appState.app, state.order!,
                 trailing: Icon(

@@ -93,7 +93,7 @@ class _GridProductsState extends State<GridProducts> {
                               'productId': item.documentID
                             };
                             eliudrouter.Router.navigateTo(
-                                context, widget.shopFrontModel!.openProductAction!, parameters: parameters as Map<String, Object>);
+                                context, widget.shopFrontModel!.openProductAction!, parameters: parameters as Map<String, dynamic>);
                           }),
                       Align(
                           alignment: Alignment.topRight,

@@ -14,13 +14,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PayConfirmationComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({String? id, Map<String, Object>? parameters}) {
+  Widget createNew({String? id, Map<String, dynamic>? parameters}) {
     return PayConfirmationComponent(id: id, parameters: parameters,);
   }
 }
 
 class PayConfirmationComponent extends AbstractPayConfirmationComponent {
-  final Map<String, Object>? parameters;
+  final Map<String, dynamic>? parameters;
 
   PayConfirmationComponent({String? id, this.parameters}) : super(payConfirmationID: id);
 

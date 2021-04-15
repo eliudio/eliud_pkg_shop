@@ -222,11 +222,11 @@ class _CartWidgetState extends State<CartWidget> {
     return GestureDetector(
         child: w,
         onTap: () {
-          var parameters = <String, String?>{
+          var parameters = <String, dynamic>{
             'productId': item.product!.documentID
           };
           eliudrouter.Router.navigateTo(
-              context, widget.cart!.openProductAction!, parameters: parameters as Map<String, Object>);
+              context, widget.cart!.openProductAction!, parameters: parameters);
         });
   }
 

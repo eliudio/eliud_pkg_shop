@@ -53,12 +53,12 @@ class PayConfirmationCache implements PayConfirmationRepository {
     return Future.value();
   }
 
-  Future<PayConfirmationModel> get(String? id, {Function(Exception)? onError}) async {
+  Future<PayConfirmationModel?> get(String? id, {Function(Exception)? onError}) async {
     var value = fullCache[id];
     if (value != null) return refreshRelations(value);
     value = await reference.get(id, onError: onError);
     fullCache[id] = value;
-    return Future.value(value);
+    return value;
   }
 
   Future<PayConfirmationModel> update(PayConfirmationModel value) {

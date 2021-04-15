@@ -172,7 +172,7 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class ListComponentFactory implements ComponentConstructor {
-  Widget? createNew({String? id, Map<String, Object>? parameters}) {
+  Widget? createNew({String? id, Map<String, dynamic>? parameters}) {
     return ListComponent(componentId: id);
   }
 }
@@ -196,7 +196,7 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     return false;
   }
 
-  Widget createNew({String? id, Map<String, Object>? parameters, String? value, DropdownButtonChanged? trigger, bool? optional}) {
+  Widget createNew({String? id, Map<String, dynamic>? parameters, String? value, DropdownButtonChanged? trigger, bool? optional}) {
 
     if (id == "carts")
       return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);

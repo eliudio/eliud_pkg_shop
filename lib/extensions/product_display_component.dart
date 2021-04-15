@@ -16,13 +16,13 @@ import 'package:eliud_core/core/widgets/progress_indicator.dart';
 
 class ProductDisplayComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({String? id, Map<String, Object>? parameters}) {
+  Widget createNew({String? id, Map<String, dynamic>? parameters}) {
     return ProductDisplayComponent(id: id, parameters: parameters);
   }
 }
 
 class ProductDisplayComponent extends AbstractProductDisplayComponent {
-  final Map<String, Object>? parameters;
+  final Map<String, dynamic>? parameters;
 
   ProductDisplayComponent({String? id, this.parameters}) : super(productDisplayID: id);
 
