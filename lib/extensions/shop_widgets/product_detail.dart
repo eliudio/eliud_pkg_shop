@@ -60,7 +60,7 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
             physics: BouncingScrollPhysics(),
             child: Column(
               children: [
-                TheImageGF(images, positionsAndSizes as List<PosSizeModel>, null, orientation,
+                TheImageGF(images, positionsAndSizes, null, orientation,
                     1, 1000),
                 Container(
                   padding: const EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 15.0),
