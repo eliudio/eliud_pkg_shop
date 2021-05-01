@@ -41,7 +41,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       // The payment screen is opened. We create an OrderModel instance in memory
       AccessState accessState = accessBloc.state;
       if (accessState is LoggedIn) {
-        var items = await (getItems(accessState.app!.documentID!, accessState.member));
+        var items = await (getItems(accessState.app.documentID!, accessState.member));
         if ((items == null) || (items.isEmpty)) {
           yield NoItemsInCart();
           return;
@@ -98,7 +98,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   }
 
   Future<OrderModel> _getNewOrder(LoggedIn loggedInState, ShopModel shop, List<CartItemModel> items) async {
-    var items = await (getItems(loggedInState.app!.documentID!, loggedInState.member) );
+    var items = await (getItems(loggedInState.app.documentID!, loggedInState.member) );
     double totalValue = items == null ? 0 : CartHelper.totalValue(items);
     return OrderModel(
         documentID: newRandomKey(),
