@@ -70,20 +70,20 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
 
       if (event is InitialiseShopFrontFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        ShopFrontFormLoaded loaded = ShopFrontFormLoaded(value: await shopFrontRepository(appId: appId)!.get(event!.value!.documentID));
+        ShopFrontFormLoaded loaded = ShopFrontFormLoaded(value: await shopFrontRepository(appId: appId)!.get(event.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseShopFrontFormNoLoadEvent) {
-        ShopFrontFormLoaded loaded = ShopFrontFormLoaded(value: event!.value);
+        ShopFrontFormLoaded loaded = ShopFrontFormLoaded(value: event.value);
         yield loaded;
         return;
       }
     } else if (currentState is ShopFrontFormInitialized) {
       ShopFrontModel? newValue = null;
       if (event is ChangedShopFrontDocumentID) {
-        newValue = currentState.value!.copyWith(documentID: event!.value);
+        newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event!.value, newValue).asStream();
+          yield* _isDocumentIDValid(event.value, newValue).asStream();
         } else {
           yield SubmittableShopFrontForm(value: newValue);
         }
@@ -91,20 +91,20 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
         return;
       }
       if (event is ChangedShopFrontTitle) {
-        newValue = currentState.value!.copyWith(title: event!.value);
+        newValue = currentState.value!.copyWith(title: event.value);
         yield SubmittableShopFrontForm(value: newValue);
 
         return;
       }
       if (event is ChangedShopFrontDescription) {
-        newValue = currentState.value!.copyWith(description: event!.value);
+        newValue = currentState.value!.copyWith(description: event.value);
         yield SubmittableShopFrontForm(value: newValue);
 
         return;
       }
       if (event is ChangedShopFrontShop) {
-        if (event!.value != null)
-          newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event!.value));
+        if (event.value != null)
+          newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event.value));
         else
           newValue = new ShopFrontModel(
                                  documentID: currentState.value!.documentID,
@@ -128,8 +128,8 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
         return;
       }
       if (event is ChangedShopFrontSize) {
-        if (isDouble(event!.value!)) {
-          newValue = currentState.value!.copyWith(size: double.parse(event!.value!));
+        if (isDouble(event.value!)) {
+          newValue = currentState.value!.copyWith(size: double.parse(event.value!));
           yield SubmittableShopFrontForm(value: newValue);
 
         } else {
@@ -139,8 +139,8 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
         return;
       }
       if (event is ChangedShopFrontCardElevation) {
-        if (isDouble(event!.value!)) {
-          newValue = currentState.value!.copyWith(cardElevation: double.parse(event!.value!));
+        if (isDouble(event.value!)) {
+          newValue = currentState.value!.copyWith(cardElevation: double.parse(event.value!));
           yield SubmittableShopFrontForm(value: newValue);
 
         } else {
@@ -150,8 +150,8 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
         return;
       }
       if (event is ChangedShopFrontCardAxisSpacing) {
-        if (isDouble(event!.value!)) {
-          newValue = currentState.value!.copyWith(cardAxisSpacing: double.parse(event!.value!));
+        if (isDouble(event.value!)) {
+          newValue = currentState.value!.copyWith(cardAxisSpacing: double.parse(event.value!));
           yield SubmittableShopFrontForm(value: newValue);
 
         } else {
@@ -161,8 +161,8 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
         return;
       }
       if (event is ChangedShopFrontItemCardBackground) {
-        if (event!.value != null)
-          newValue = currentState.value!.copyWith(itemCardBackground: await backgroundRepository(appId: appId)!.get(event!.value));
+        if (event.value != null)
+          newValue = currentState.value!.copyWith(itemCardBackground: await backgroundRepository(appId: appId)!.get(event.value));
         else
           newValue = new ShopFrontModel(
                                  documentID: currentState.value!.documentID,
@@ -186,37 +186,37 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
         return;
       }
       if (event is ChangedShopFrontAddToCartColor) {
-        newValue = currentState.value!.copyWith(addToCartColor: event!.value);
+        newValue = currentState.value!.copyWith(addToCartColor: event.value);
         yield SubmittableShopFrontForm(value: newValue);
 
         return;
       }
       if (event is ChangedShopFrontView) {
-        newValue = currentState.value!.copyWith(view: event!.value);
+        newValue = currentState.value!.copyWith(view: event.value);
         yield SubmittableShopFrontForm(value: newValue);
 
         return;
       }
       if (event is ChangedShopFrontScrollDirection) {
-        newValue = currentState.value!.copyWith(scrollDirection: event!.value);
+        newValue = currentState.value!.copyWith(scrollDirection: event.value);
         yield SubmittableShopFrontForm(value: newValue);
 
         return;
       }
       if (event is ChangedShopFrontBuyAction) {
-        newValue = currentState.value!.copyWith(buyAction: event!.value);
+        newValue = currentState.value!.copyWith(buyAction: event.value);
         yield SubmittableShopFrontForm(value: newValue);
 
         return;
       }
       if (event is ChangedShopFrontOpenProductAction) {
-        newValue = currentState.value!.copyWith(openProductAction: event!.value);
+        newValue = currentState.value!.copyWith(openProductAction: event.value);
         yield SubmittableShopFrontForm(value: newValue);
 
         return;
       }
       if (event is ChangedShopFrontConditions) {
-        newValue = currentState.value!.copyWith(conditions: event!.value);
+        newValue = currentState.value!.copyWith(conditions: event.value);
         yield SubmittableShopFrontForm(value: newValue);
 
         return;

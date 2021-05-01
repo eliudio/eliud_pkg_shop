@@ -60,19 +60,19 @@ class OrderItemFormBloc extends Bloc<OrderItemFormEvent, OrderItemFormState> {
 
 
       if (event is InitialiseOrderItemFormEvent) {
-        OrderItemFormLoaded loaded = OrderItemFormLoaded(value: event!.value);
+        OrderItemFormLoaded loaded = OrderItemFormLoaded(value: event.value);
         yield loaded;
         return;
       } else if (event is InitialiseOrderItemFormNoLoadEvent) {
-        OrderItemFormLoaded loaded = OrderItemFormLoaded(value: event!.value);
+        OrderItemFormLoaded loaded = OrderItemFormLoaded(value: event.value);
         yield loaded;
         return;
       }
     } else if (currentState is OrderItemFormInitialized) {
       OrderItemModel? newValue = null;
       if (event is ChangedOrderItemAmount) {
-        if (isInt(event!.value)) {
-          newValue = currentState.value!.copyWith(amount: int.parse(event!.value!));
+        if (isInt(event.value)) {
+          newValue = currentState.value!.copyWith(amount: int.parse(event.value!));
           yield SubmittableOrderItemForm(value: newValue);
 
         } else {
@@ -82,14 +82,14 @@ class OrderItemFormBloc extends Bloc<OrderItemFormEvent, OrderItemFormState> {
         return;
       }
       if (event is ChangedOrderItemAppId) {
-        newValue = currentState.value!.copyWith(appId: event!.value);
+        newValue = currentState.value!.copyWith(appId: event.value);
         yield SubmittableOrderItemForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderItemSoldPrice) {
-        if (isDouble(event!.value!)) {
-          newValue = currentState.value!.copyWith(soldPrice: double.parse(event!.value!));
+        if (isDouble(event.value!)) {
+          newValue = currentState.value!.copyWith(soldPrice: double.parse(event.value!));
           yield SubmittableOrderItemForm(value: newValue);
 
         } else {
@@ -99,8 +99,8 @@ class OrderItemFormBloc extends Bloc<OrderItemFormEvent, OrderItemFormState> {
         return;
       }
       if (event is ChangedOrderItemProduct) {
-        if (event!.value != null)
-          newValue = currentState.value!.copyWith(product: await productRepository(appId: appId)!.get(event!.value));
+        if (event.value != null)
+          newValue = currentState.value!.copyWith(product: await productRepository(appId: appId)!.get(event.value));
         else
           newValue = new OrderItemModel(
                                  documentID: currentState.value!.documentID,

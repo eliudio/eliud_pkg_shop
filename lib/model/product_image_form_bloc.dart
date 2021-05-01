@@ -61,19 +61,19 @@ class ProductImageFormBloc extends Bloc<ProductImageFormEvent, ProductImageFormS
 
 
       if (event is InitialiseProductImageFormEvent) {
-        ProductImageFormLoaded loaded = ProductImageFormLoaded(value: event!.value);
+        ProductImageFormLoaded loaded = ProductImageFormLoaded(value: event.value);
         yield loaded;
         return;
       } else if (event is InitialiseProductImageFormNoLoadEvent) {
-        ProductImageFormLoaded loaded = ProductImageFormLoaded(value: event!.value);
+        ProductImageFormLoaded loaded = ProductImageFormLoaded(value: event.value);
         yield loaded;
         return;
       }
     } else if (currentState is ProductImageFormInitialized) {
       ProductImageModel? newValue = null;
       if (event is ChangedProductImageImage) {
-        if (event!.value != null)
-          newValue = currentState.value!.copyWith(image: await memberMediumRepository(appId: appId)!.get(event!.value));
+        if (event.value != null)
+          newValue = currentState.value!.copyWith(image: await memberMediumRepository(appId: appId)!.get(event.value));
         else
           newValue = new ProductImageModel(
                                  documentID: currentState.value!.documentID,

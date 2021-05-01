@@ -66,20 +66,20 @@ class ProductDisplayFormBloc extends Bloc<ProductDisplayFormEvent, ProductDispla
 
       if (event is InitialiseProductDisplayFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        ProductDisplayFormLoaded loaded = ProductDisplayFormLoaded(value: await productDisplayRepository(appId: appId)!.get(event!.value!.documentID));
+        ProductDisplayFormLoaded loaded = ProductDisplayFormLoaded(value: await productDisplayRepository(appId: appId)!.get(event.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseProductDisplayFormNoLoadEvent) {
-        ProductDisplayFormLoaded loaded = ProductDisplayFormLoaded(value: event!.value);
+        ProductDisplayFormLoaded loaded = ProductDisplayFormLoaded(value: event.value);
         yield loaded;
         return;
       }
     } else if (currentState is ProductDisplayFormInitialized) {
       ProductDisplayModel? newValue = null;
       if (event is ChangedProductDisplayDocumentID) {
-        newValue = currentState.value!.copyWith(documentID: event!.value);
+        newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event!.value, newValue).asStream();
+          yield* _isDocumentIDValid(event.value, newValue).asStream();
         } else {
           yield SubmittableProductDisplayForm(value: newValue);
         }
@@ -87,14 +87,14 @@ class ProductDisplayFormBloc extends Bloc<ProductDisplayFormEvent, ProductDispla
         return;
       }
       if (event is ChangedProductDisplayTitle) {
-        newValue = currentState.value!.copyWith(title: event!.value);
+        newValue = currentState.value!.copyWith(title: event.value);
         yield SubmittableProductDisplayForm(value: newValue);
 
         return;
       }
       if (event is ChangedProductDisplayItemDetailBackground) {
-        if (event!.value != null)
-          newValue = currentState.value!.copyWith(itemDetailBackground: await backgroundRepository(appId: appId)!.get(event!.value));
+        if (event.value != null)
+          newValue = currentState.value!.copyWith(itemDetailBackground: await backgroundRepository(appId: appId)!.get(event.value));
         else
           newValue = new ProductDisplayModel(
                                  documentID: currentState.value!.documentID,
@@ -111,20 +111,20 @@ class ProductDisplayFormBloc extends Bloc<ProductDisplayFormEvent, ProductDispla
         return;
       }
       if (event is ChangedProductDisplayAddToBasketText) {
-        newValue = currentState.value!.copyWith(addToBasketText: event!.value);
+        newValue = currentState.value!.copyWith(addToBasketText: event.value);
         yield SubmittableProductDisplayForm(value: newValue);
 
         return;
       }
       if (event is ChangedProductDisplayBuyAction) {
-        newValue = currentState.value!.copyWith(buyAction: event!.value);
+        newValue = currentState.value!.copyWith(buyAction: event.value);
         yield SubmittableProductDisplayForm(value: newValue);
 
         return;
       }
       if (event is ChangedProductDisplayShop) {
-        if (event!.value != null)
-          newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event!.value));
+        if (event.value != null)
+          newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event.value));
         else
           newValue = new ProductDisplayModel(
                                  documentID: currentState.value!.documentID,
@@ -141,7 +141,7 @@ class ProductDisplayFormBloc extends Bloc<ProductDisplayFormEvent, ProductDispla
         return;
       }
       if (event is ChangedProductDisplayConditions) {
-        newValue = currentState.value!.copyWith(conditions: event!.value);
+        newValue = currentState.value!.copyWith(conditions: event.value);
         yield SubmittableProductDisplayForm(value: newValue);
 
         return;

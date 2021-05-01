@@ -67,20 +67,20 @@ class CartFormBloc extends Bloc<CartFormEvent, CartFormState> {
 
       if (event is InitialiseCartFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        CartFormLoaded loaded = CartFormLoaded(value: await cartRepository(appId: appId)!.get(event!.value!.documentID));
+        CartFormLoaded loaded = CartFormLoaded(value: await cartRepository(appId: appId)!.get(event.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseCartFormNoLoadEvent) {
-        CartFormLoaded loaded = CartFormLoaded(value: event!.value);
+        CartFormLoaded loaded = CartFormLoaded(value: event.value);
         yield loaded;
         return;
       }
     } else if (currentState is CartFormInitialized) {
       CartModel? newValue = null;
       if (event is ChangedCartDocumentID) {
-        newValue = currentState.value!.copyWith(documentID: event!.value);
+        newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event!.value, newValue).asStream();
+          yield* _isDocumentIDValid(event.value, newValue).asStream();
         } else {
           yield SubmittableCartForm(value: newValue);
         }
@@ -88,26 +88,26 @@ class CartFormBloc extends Bloc<CartFormEvent, CartFormState> {
         return;
       }
       if (event is ChangedCartTitle) {
-        newValue = currentState.value!.copyWith(title: event!.value);
+        newValue = currentState.value!.copyWith(title: event.value);
         yield SubmittableCartForm(value: newValue);
 
         return;
       }
       if (event is ChangedCartDescription) {
-        newValue = currentState.value!.copyWith(description: event!.value);
+        newValue = currentState.value!.copyWith(description: event.value);
         yield SubmittableCartForm(value: newValue);
 
         return;
       }
       if (event is ChangedCartCheckoutText) {
-        newValue = currentState.value!.copyWith(checkoutText: event!.value);
+        newValue = currentState.value!.copyWith(checkoutText: event.value);
         yield SubmittableCartForm(value: newValue);
 
         return;
       }
       if (event is ChangedCartShop) {
-        if (event!.value != null)
-          newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event!.value));
+        if (event.value != null)
+          newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event.value));
         else
           newValue = new CartModel(
                                  documentID: currentState.value!.documentID,
@@ -128,8 +128,8 @@ class CartFormBloc extends Bloc<CartFormEvent, CartFormState> {
         return;
       }
       if (event is ChangedCartItemImageBackground) {
-        if (event!.value != null)
-          newValue = currentState.value!.copyWith(itemImageBackground: await backgroundRepository(appId: appId)!.get(event!.value));
+        if (event.value != null)
+          newValue = currentState.value!.copyWith(itemImageBackground: await backgroundRepository(appId: appId)!.get(event.value));
         else
           newValue = new CartModel(
                                  documentID: currentState.value!.documentID,
@@ -150,8 +150,8 @@ class CartFormBloc extends Bloc<CartFormEvent, CartFormState> {
         return;
       }
       if (event is ChangedCartItemDetailBackground) {
-        if (event!.value != null)
-          newValue = currentState.value!.copyWith(itemDetailBackground: await backgroundRepository(appId: appId)!.get(event!.value));
+        if (event.value != null)
+          newValue = currentState.value!.copyWith(itemDetailBackground: await backgroundRepository(appId: appId)!.get(event.value));
         else
           newValue = new CartModel(
                                  documentID: currentState.value!.documentID,
@@ -172,25 +172,25 @@ class CartFormBloc extends Bloc<CartFormEvent, CartFormState> {
         return;
       }
       if (event is ChangedCartCheckoutAction) {
-        newValue = currentState.value!.copyWith(checkoutAction: event!.value);
+        newValue = currentState.value!.copyWith(checkoutAction: event.value);
         yield SubmittableCartForm(value: newValue);
 
         return;
       }
       if (event is ChangedCartBackToShopAction) {
-        newValue = currentState.value!.copyWith(backToShopAction: event!.value);
+        newValue = currentState.value!.copyWith(backToShopAction: event.value);
         yield SubmittableCartForm(value: newValue);
 
         return;
       }
       if (event is ChangedCartOpenProductAction) {
-        newValue = currentState.value!.copyWith(openProductAction: event!.value);
+        newValue = currentState.value!.copyWith(openProductAction: event.value);
         yield SubmittableCartForm(value: newValue);
 
         return;
       }
       if (event is ChangedCartConditions) {
-        newValue = currentState.value!.copyWith(conditions: event!.value);
+        newValue = currentState.value!.copyWith(conditions: event.value);
         yield SubmittableCartForm(value: newValue);
 
         return;

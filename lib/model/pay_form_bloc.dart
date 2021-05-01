@@ -65,20 +65,20 @@ class PayFormBloc extends Bloc<PayFormEvent, PayFormState> {
 
       if (event is InitialisePayFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        PayFormLoaded loaded = PayFormLoaded(value: await payRepository(appId: appId)!.get(event!.value!.documentID));
+        PayFormLoaded loaded = PayFormLoaded(value: await payRepository(appId: appId)!.get(event.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialisePayFormNoLoadEvent) {
-        PayFormLoaded loaded = PayFormLoaded(value: event!.value);
+        PayFormLoaded loaded = PayFormLoaded(value: event.value);
         yield loaded;
         return;
       }
     } else if (currentState is PayFormInitialized) {
       PayModel? newValue = null;
       if (event is ChangedPayDocumentID) {
-        newValue = currentState.value!.copyWith(documentID: event!.value);
+        newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event!.value, newValue).asStream();
+          yield* _isDocumentIDValid(event.value, newValue).asStream();
         } else {
           yield SubmittablePayForm(value: newValue);
         }
@@ -86,20 +86,20 @@ class PayFormBloc extends Bloc<PayFormEvent, PayFormState> {
         return;
       }
       if (event is ChangedPayTitle) {
-        newValue = currentState.value!.copyWith(title: event!.value);
+        newValue = currentState.value!.copyWith(title: event.value);
         yield SubmittablePayForm(value: newValue);
 
         return;
       }
       if (event is ChangedPaySucceeded) {
-        newValue = currentState.value!.copyWith(succeeded: event!.value);
+        newValue = currentState.value!.copyWith(succeeded: event.value);
         yield SubmittablePayForm(value: newValue);
 
         return;
       }
       if (event is ChangedPayShop) {
-        if (event!.value != null)
-          newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event!.value));
+        if (event.value != null)
+          newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event.value));
         else
           newValue = new PayModel(
                                  documentID: currentState.value!.documentID,
@@ -115,7 +115,7 @@ class PayFormBloc extends Bloc<PayFormEvent, PayFormState> {
         return;
       }
       if (event is ChangedPayConditions) {
-        newValue = currentState.value!.copyWith(conditions: event!.value);
+        newValue = currentState.value!.copyWith(conditions: event.value);
         yield SubmittablePayForm(value: newValue);
 
         return;

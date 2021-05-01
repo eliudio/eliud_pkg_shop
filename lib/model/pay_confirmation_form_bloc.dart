@@ -65,20 +65,20 @@ class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirma
 
       if (event is InitialisePayConfirmationFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        PayConfirmationFormLoaded loaded = PayConfirmationFormLoaded(value: await payConfirmationRepository(appId: appId)!.get(event!.value!.documentID));
+        PayConfirmationFormLoaded loaded = PayConfirmationFormLoaded(value: await payConfirmationRepository(appId: appId)!.get(event.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialisePayConfirmationFormNoLoadEvent) {
-        PayConfirmationFormLoaded loaded = PayConfirmationFormLoaded(value: event!.value);
+        PayConfirmationFormLoaded loaded = PayConfirmationFormLoaded(value: event.value);
         yield loaded;
         return;
       }
     } else if (currentState is PayConfirmationFormInitialized) {
       PayConfirmationModel? newValue = null;
       if (event is ChangedPayConfirmationDocumentID) {
-        newValue = currentState.value!.copyWith(documentID: event!.value);
+        newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event!.value, newValue).asStream();
+          yield* _isDocumentIDValid(event.value, newValue).asStream();
         } else {
           yield SubmittablePayConfirmationForm(value: newValue);
         }
@@ -86,14 +86,14 @@ class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirma
         return;
       }
       if (event is ChangedPayConfirmationTitle) {
-        newValue = currentState.value!.copyWith(title: event!.value);
+        newValue = currentState.value!.copyWith(title: event.value);
         yield SubmittablePayConfirmationForm(value: newValue);
 
         return;
       }
       if (event is ChangedPayConfirmationShop) {
-        if (event!.value != null)
-          newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event!.value));
+        if (event.value != null)
+          newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event.value));
         else
           newValue = new PayConfirmationModel(
                                  documentID: currentState.value!.documentID,
@@ -108,13 +108,13 @@ class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirma
         return;
       }
       if (event is ChangedPayConfirmationBackToShopAction) {
-        newValue = currentState.value!.copyWith(backToShopAction: event!.value);
+        newValue = currentState.value!.copyWith(backToShopAction: event.value);
         yield SubmittablePayConfirmationForm(value: newValue);
 
         return;
       }
       if (event is ChangedPayConfirmationConditions) {
-        newValue = currentState.value!.copyWith(conditions: event!.value);
+        newValue = currentState.value!.copyWith(conditions: event.value);
         yield SubmittablePayConfirmationForm(value: newValue);
 
         return;

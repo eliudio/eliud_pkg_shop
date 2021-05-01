@@ -42,13 +42,13 @@ class ShopFrontCache implements ShopFrontRepository {
 
   Future<ShopFrontModel> add(ShopFrontModel value) {
     return reference.add(value).then((newValue) {
-      fullCache[value!.documentID] = newValue;
+      fullCache[value.documentID] = newValue;
       return newValue;
     });
   }
 
   Future<void> delete(ShopFrontModel value){
-    fullCache.remove(value!.documentID);
+    fullCache.remove(value.documentID);
     reference.delete(value);
     return Future.value();
   }
@@ -63,7 +63,7 @@ class ShopFrontCache implements ShopFrontRepository {
 
   Future<ShopFrontModel> update(ShopFrontModel value) {
     return reference.update(value).then((newValue) {
-      fullCache[value!.documentID] = newValue;
+      fullCache[value.documentID] = newValue;
       return newValue;
     });
   }

@@ -63,20 +63,20 @@ class ShopFormBloc extends Bloc<ShopFormEvent, ShopFormState> {
 
       if (event is InitialiseShopFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        ShopFormLoaded loaded = ShopFormLoaded(value: await shopRepository(appId: appId)!.get(event!.value!.documentID));
+        ShopFormLoaded loaded = ShopFormLoaded(value: await shopRepository(appId: appId)!.get(event.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseShopFormNoLoadEvent) {
-        ShopFormLoaded loaded = ShopFormLoaded(value: event!.value);
+        ShopFormLoaded loaded = ShopFormLoaded(value: event.value);
         yield loaded;
         return;
       }
     } else if (currentState is ShopFormInitialized) {
       ShopModel? newValue = null;
       if (event is ChangedShopDocumentID) {
-        newValue = currentState.value!.copyWith(documentID: event!.value);
+        newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event!.value, newValue).asStream();
+          yield* _isDocumentIDValid(event.value, newValue).asStream();
         } else {
           yield SubmittableShopForm(value: newValue);
         }
@@ -84,19 +84,19 @@ class ShopFormBloc extends Bloc<ShopFormEvent, ShopFormState> {
         return;
       }
       if (event is ChangedShopDescription) {
-        newValue = currentState.value!.copyWith(description: event!.value);
+        newValue = currentState.value!.copyWith(description: event.value);
         yield SubmittableShopForm(value: newValue);
 
         return;
       }
       if (event is ChangedShopShortDescription) {
-        newValue = currentState.value!.copyWith(shortDescription: event!.value);
+        newValue = currentState.value!.copyWith(shortDescription: event.value);
         yield SubmittableShopForm(value: newValue);
 
         return;
       }
       if (event is ChangedShopCurrency) {
-        newValue = currentState.value!.copyWith(currency: event!.value);
+        newValue = currentState.value!.copyWith(currency: event.value);
         yield SubmittableShopForm(value: newValue);
 
         return;

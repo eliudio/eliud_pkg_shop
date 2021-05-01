@@ -69,20 +69,20 @@ class ProductFormBloc extends Bloc<ProductFormEvent, ProductFormState> {
 
       if (event is InitialiseProductFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        ProductFormLoaded loaded = ProductFormLoaded(value: await productRepository(appId: appId)!.get(event!.value!.documentID));
+        ProductFormLoaded loaded = ProductFormLoaded(value: await productRepository(appId: appId)!.get(event.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseProductFormNoLoadEvent) {
-        ProductFormLoaded loaded = ProductFormLoaded(value: event!.value);
+        ProductFormLoaded loaded = ProductFormLoaded(value: event.value);
         yield loaded;
         return;
       }
     } else if (currentState is ProductFormInitialized) {
       ProductModel? newValue = null;
       if (event is ChangedProductDocumentID) {
-        newValue = currentState.value!.copyWith(documentID: event!.value);
+        newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event!.value, newValue).asStream();
+          yield* _isDocumentIDValid(event.value, newValue).asStream();
         } else {
           yield SubmittableProductForm(value: newValue);
         }
@@ -90,20 +90,20 @@ class ProductFormBloc extends Bloc<ProductFormEvent, ProductFormState> {
         return;
       }
       if (event is ChangedProductTitle) {
-        newValue = currentState.value!.copyWith(title: event!.value);
+        newValue = currentState.value!.copyWith(title: event.value);
         yield SubmittableProductForm(value: newValue);
 
         return;
       }
       if (event is ChangedProductAbout) {
-        newValue = currentState.value!.copyWith(about: event!.value);
+        newValue = currentState.value!.copyWith(about: event.value);
         yield SubmittableProductForm(value: newValue);
 
         return;
       }
       if (event is ChangedProductPrice) {
-        if (isDouble(event!.value!)) {
-          newValue = currentState.value!.copyWith(price: double.parse(event!.value!));
+        if (isDouble(event.value!)) {
+          newValue = currentState.value!.copyWith(price: double.parse(event.value!));
           yield SubmittableProductForm(value: newValue);
 
         } else {
@@ -113,8 +113,8 @@ class ProductFormBloc extends Bloc<ProductFormEvent, ProductFormState> {
         return;
       }
       if (event is ChangedProductWeight) {
-        if (isDouble(event!.value!)) {
-          newValue = currentState.value!.copyWith(weight: double.parse(event!.value!));
+        if (isDouble(event.value!)) {
+          newValue = currentState.value!.copyWith(weight: double.parse(event.value!));
           yield SubmittableProductForm(value: newValue);
 
         } else {
@@ -124,8 +124,8 @@ class ProductFormBloc extends Bloc<ProductFormEvent, ProductFormState> {
         return;
       }
       if (event is ChangedProductShop) {
-        if (event!.value != null)
-          newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event!.value));
+        if (event.value != null)
+          newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event.value));
         else
           newValue = new ProductModel(
                                  documentID: currentState.value!.documentID,
@@ -144,14 +144,14 @@ class ProductFormBloc extends Bloc<ProductFormEvent, ProductFormState> {
         return;
       }
       if (event is ChangedProductImages) {
-        newValue = currentState.value!.copyWith(images: event!.value);
+        newValue = currentState.value!.copyWith(images: event.value);
         yield SubmittableProductForm(value: newValue);
 
         return;
       }
       if (event is ChangedProductPosSize) {
-        if (event!.value != null)
-          newValue = currentState.value!.copyWith(posSize: await posSizeRepository(appId: appId)!.get(event!.value));
+        if (event.value != null)
+          newValue = currentState.value!.copyWith(posSize: await posSizeRepository(appId: appId)!.get(event.value));
         else
           newValue = new ProductModel(
                                  documentID: currentState.value!.documentID,
@@ -170,7 +170,7 @@ class ProductFormBloc extends Bloc<ProductFormEvent, ProductFormState> {
         return;
       }
       if (event is ChangedProductConditions) {
-        newValue = currentState.value!.copyWith(conditions: event!.value);
+        newValue = currentState.value!.copyWith(conditions: event.value);
         yield SubmittableProductForm(value: newValue);
 
         return;
