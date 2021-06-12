@@ -88,7 +88,7 @@ class OrderItemForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update OrderItem' : 'Add OrderItem'),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update OrderItem' : 'Add OrderItem'),
         body: BlocProvider<OrderItemFormBloc >(
             create: (context) => OrderItemFormBloc(AccessBloc.appId(context),
                                        
@@ -176,12 +176,12 @@ class _MyOrderItemFormState extends State<MyOrderItemForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Amount', Icons.text_format, _readOnly(accessState, state), _amountController, FieldType.Int, validator: (_) => state is AmountOrderItemFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Amount', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _amountController, keyboardType: TextInputType.number, validator: (_) => state is AmountOrderItemFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Price', Icons.text_format, _readOnly(accessState, state), _soldPriceController, FieldType.Double, validator: (_) => state is SoldPriceOrderItemFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Price', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _soldPriceController, keyboardType: TextInputType.number, validator: (_) => state is SoldPriceOrderItemFormError ? state.message : null, hintText: null)
           );
 
 
@@ -197,7 +197,7 @@ class _MyOrderItemFormState extends State<MyOrderItemForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'App ID', Icons.text_format, _readOnly(accessState, state), _appIdController, FieldType.String, validator: (_) => state is AppIdOrderItemFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'App ID', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _appIdController, keyboardType: TextInputType.text, validator: (_) => state is AppIdOrderItemFormError ? state.message : null, hintText: null)
           );
 
 
@@ -222,7 +222,7 @@ class _MyOrderItemFormState extends State<MyOrderItemForm> {
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is OrderItemFormError) {
                       return null;

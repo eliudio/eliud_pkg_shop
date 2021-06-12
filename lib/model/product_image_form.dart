@@ -93,7 +93,7 @@ class ProductImageForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update ProductImage' : 'Add ProductImage'),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update ProductImage' : 'Add ProductImage'),
         body: BlocProvider<ProductImageFormBloc >(
             create: (context) => ProductImageFormBloc(AccessBloc.appId(context),
                                        
@@ -162,7 +162,7 @@ class _MyProductImageFormState extends State<MyProductImageForm> {
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is ProductImageFormError) {
                       return null;

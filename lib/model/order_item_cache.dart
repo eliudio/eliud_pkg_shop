@@ -126,7 +126,7 @@ class OrderItemCache implements OrderItemRepository {
     ProductModel? productHolder;
     if (model.product != null) {
       try {
-        await productRepository(appId: model.product!.appId)!.get(model.product!.documentID).then((val) {
+        await productRepository()!.get(model.product!.documentID).then((val) {
           productHolder = val;
         }).catchError((error) {});
       } catch (_) {}

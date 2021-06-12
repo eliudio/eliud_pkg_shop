@@ -95,7 +95,7 @@ class ProductDisplayForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update ProductDisplay' : 'Add ProductDisplay'),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update ProductDisplay' : 'Add ProductDisplay'),
         body: BlocProvider<ProductDisplayFormBloc >(
             create: (context) => ProductDisplayFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
@@ -215,17 +215,17 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Document ID', Icons.vpn_key, (formAction == FormAction.UpdateAction), _documentIDController, FieldType.String, validator: (_) => state is DocumentIDProductDisplayFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDProductDisplayFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'description', Icons.text_format, _readOnly(accessState, state), _titleController, FieldType.String, validator: (_) => state is TitleProductDisplayFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'description', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _titleController, keyboardType: TextInputType.text, validator: (_) => state is TitleProductDisplayFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Add to basket text', Icons.text_format, _readOnly(accessState, state), _addToBasketTextController, FieldType.String, validator: (_) => state is AddToBasketTextProductDisplayFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Add to basket text', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _addToBasketTextController, keyboardType: TextInputType.text, validator: (_) => state is AddToBasketTextProductDisplayFormError ? state.message : null, hintText: null)
           );
 
 
@@ -246,7 +246,7 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is ProductDisplayFormError) {
                       return null;

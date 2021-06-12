@@ -131,7 +131,7 @@ class ProductDisplayCache implements ProductDisplayRepository {
     BackgroundModel? itemDetailBackgroundHolder;
     if (model.itemDetailBackground != null) {
       try {
-        await backgroundRepository(appId: model.itemDetailBackground!.appId)!.get(model.itemDetailBackground!.documentID).then((val) {
+        await backgroundRepository(appId: model.appId)!.get(model.itemDetailBackground!.documentID).then((val) {
           itemDetailBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -140,7 +140,7 @@ class ProductDisplayCache implements ProductDisplayRepository {
     ShopModel? shopHolder;
     if (model.shop != null) {
       try {
-        await shopRepository(appId: model.shop!.appId)!.get(model.shop!.documentID).then((val) {
+        await shopRepository(appId: model.appId)!.get(model.shop!.documentID).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}

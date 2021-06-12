@@ -131,7 +131,7 @@ class PayConfirmationCache implements PayConfirmationRepository {
     ShopModel? shopHolder;
     if (model.shop != null) {
       try {
-        await shopRepository(appId: model.shop!.appId)!.get(model.shop!.documentID).then((val) {
+        await shopRepository(appId: model.appId)!.get(model.shop!.documentID).then((val) {
           shopHolder = val;
         }).catchError((error) {});
       } catch (_) {}
