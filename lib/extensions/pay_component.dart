@@ -1,32 +1,31 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/tools/component_constructor.dart';
+import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/widgets/alert_widget.dart';
-import 'package:eliud_core/tools/etc.dart';
-import 'package:eliud_core/tools/widgets/dialog_helper.dart';
+import 'package:eliud_core/core/widgets/progress_indicator.dart';
+import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/style/style_registry.dart';
+import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:eliud_pkg_pay/platform/payment_platform.dart';
+import 'package:eliud_pkg_pay/tools/bloc/pay_bloc.dart';
+import 'package:eliud_pkg_pay/tools/bloc/pay_event.dart';
+import 'package:eliud_pkg_pay/tools/bloc/pay_state.dart';
 import 'package:eliud_pkg_pay/tools/task/pay_task_model.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_bloc.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/bloc/payment_bloc.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/bloc/payment_event.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/bloc/payment_state.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/order_helper.dart';
+import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/order_model.dart';
 import 'package:eliud_pkg_shop/model/pay_component.dart';
 import 'package:eliud_pkg_shop/model/pay_model.dart';
 import 'package:eliud_pkg_shop/model/pay_repository.dart';
-import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_workflow/model/assignment_model.dart';
 import 'package:eliud_pkg_workflow/tools/action/workflow_action_handler.dart';
 import 'package:eliud_pkg_workflow/tools/helper/assignment_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eliud_core/core/widgets/progress_indicator.dart';
-import 'package:eliud_pkg_pay/tools/bloc/pay_event.dart';
-import 'package:eliud_pkg_pay/tools/bloc/pay_state.dart';
-import 'package:eliud_pkg_pay/tools/bloc/pay_bloc.dart';
 
 class PayComponentConstructorDefault implements ComponentConstructor {
   @override
@@ -70,7 +69,7 @@ class PayProfileComponent extends AbstractPayComponent {
     if (appState is AppLoaded) {
       return BlocBuilder<PaymentBloc, PaymentState>(builder: (context, state) {
         if (state is NotLoggedOn) {
-          return Text('Not logged on', style: FontTools.textStyle(appState.app.fontText));
+          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().text(context, 'Not logged on');
         } else {
           if (state is PayOrder) {
             return BlocProvider<PayBloc>(
@@ -97,7 +96,7 @@ class PayProfileComponent extends AbstractPayComponent {
                 }));
             // initialise paymentBloc so that 'handle' can access it
           } else if (state is NoItemsInCart) {
-            return Text('No items in cart', style: FontTools.textStyle(appState.app.fontText));
+            return StyleRegistry.registry().styleWithContext(context).frontEndStyle().text(context, 'No items in cart');
           } else if (state is ConfirmOrder) {
             return _overviewAndPay(context, appState.app, state.order,
                 message: 'Please review your order.',
@@ -174,19 +173,13 @@ class PayProfileComponent extends AbstractPayComponent {
 //      alignment: WrapAlignment.spaceAround, // set your alignment
       children: <Widget>[
         Spacer(),
-        RaisedButton(
-            color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-            onPressed: () {
+        StyleRegistry.registry().styleWithContext(context).frontEndStyle().button(context, label: 'Cancel',            onPressed: () {
               Navigator.of(context).pop();
-            },
-            child: Text('Cancel')),
+            },),
         Spacer(),
-        RaisedButton(
-            color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-            onPressed: () {
-              paymentBloc.add(PayTheOrder(order));
-            },
-            child: Text('Continue')),
+        StyleRegistry.registry().styleWithContext(context).frontEndStyle().button(context, label: 'Continue',            onPressed: () {
+          paymentBloc.add(PayTheOrder(order));
+        },),
         Spacer(),
       ],
     );
@@ -198,8 +191,11 @@ class PayProfileComponent extends AbstractPayComponent {
     if (message != null) {
       widgets.add(ListTile(
           trailing: trailing,
-          title: message != null ? Text(message, style: FontTools.textStyle(app.h4)) : null,
-          subtitle: subMessage != null ? Text(subMessage, style: FontTools.textStyle(app.fontText)) : null));
+          title: message != null ?
+          StyleRegistry.registry().styleWithContext(context).frontEndStyle().h4(context, message) : null,
+          subtitle: subMessage != null ?
+          StyleRegistry.registry().styleWithContext(context).frontEndStyle().h4(context, subMessage) : null,
+      ));
     }
     OrderHelper.addOrderOverviewBeforePayment(app, widgets, order, context);
     widgets.add(Divider());

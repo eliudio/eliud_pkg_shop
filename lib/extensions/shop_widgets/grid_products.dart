@@ -1,19 +1,17 @@
 import 'dart:math';
 
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
+import 'package:eliud_core/core/widgets/progress_indicator.dart';
+import 'package:eliud_core/tools/etc.dart';
+import 'package:eliud_core/tools/screen_size.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_tools.dart';
-import 'package:eliud_pkg_shop/extensions/shop_widgets/product_detail.dart';
-import 'package:eliud_pkg_shop/extensions/shop_widgets/size_route.dart';
 import 'package:eliud_pkg_shop/model/product_list_bloc.dart';
 import 'package:eliud_pkg_shop/model/product_list_state.dart';
 import 'package:eliud_pkg_shop/model/shop_front_model.dart';
-import 'package:eliud_core/tools/etc.dart';
-import 'package:eliud_core/tools/screen_size.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
-import 'package:eliud_core/core/widgets/progress_indicator.dart';
 
 class GridProducts extends StatefulWidget {
   final ShopFrontModel? shopFrontModel;

@@ -1,19 +1,20 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
+import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/custom_utils.dart';
 import 'package:eliud_core/tools/etc.dart';
-import 'package:eliud_pkg_shop/bloc/cart/cart_event.dart';
-import 'package:eliud_core/core/widgets/progress_indicator.dart';
-import 'package:eliud_pkg_shop/bloc/cart/cart_state.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_bloc.dart';
+import 'package:eliud_pkg_shop/bloc/cart/cart_event.dart';
+import 'package:eliud_pkg_shop/bloc/cart/cart_state.dart';
+import 'package:eliud_pkg_shop/extensions/shop_widgets/checkout_page.dart';
 import 'package:eliud_pkg_shop/model/cart_item_model.dart';
 import 'package:eliud_pkg_shop/model/cart_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:eliud_pkg_shop/extensions/shop_widgets/checkout_page.dart';
 
 class CartWidget extends StatefulWidget {
   final CartModel? cart;
@@ -62,24 +63,23 @@ class _CartWidgetState extends State<CartWidget> {
   }
 
   Widget _buttonRowTop(BuildContext context, AppModel app) {
-    return RaisedButton(
-          color:
-          RgbHelper.color(rgbo: app.formSubmitButtonColor),
+    return StyleRegistry.registry()
+        .styleWithContext(context)
+        .frontEndStyle()
+        .button(context, label: 'Continue shopping',
           onPressed: () {
             eliudrouter.Router.navigateTo(context, widget.cart!.backToShopAction!);
-          },
-          child: Text('Continue shopping'));
+          });
   }
 
   Widget _buttonRowBottom(BuildContext context, AppModel app) {
-    return RaisedButton(
-        color:
-        RgbHelper.color(rgbo: app.formSubmitButtonColor),
+    return StyleRegistry.registry()
+        .styleWithContext(context)
+        .frontEndStyle()
+        .button(context, label: 'Checkout',
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CheckOutPage(checkoutAction: widget.cart!.checkoutAction)));
-        },
-        child: Text('Checkout'));
+          MaterialPageRoute(builder: (context) => CheckOutPage(checkoutAction: widget.cart!.checkoutAction));
+        });
   }
 
   Widget _footer(BuildContext context, AppModel app, double totalValue) {
@@ -93,17 +93,18 @@ class _CartWidgetState extends State<CartWidget> {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(left: 30),
-                child: Text(
-                  'Total',
-                  style: FontTools.textStyle(app.h3),
-                ),
+                child: StyleRegistry.registry()
+                    .styleWithContext(context)
+                    .frontEndStyle()
+                    .h3(context, 'Total',),
               ),
               Container(
                 margin: EdgeInsets.only(right: 30),
-                child: Text(
-                  NumberFormat.simpleCurrency(locale: 'eu')
+                child: StyleRegistry.registry()
+                    .styleWithContext(context)
+                    .frontEndStyle()
+                    .h3(context, NumberFormat.simpleCurrency(locale: 'eu')
                       .format(totalValue),
-                  style: FontTools.textStyle(app.h3),
                 ),
               ),
             ],
@@ -117,9 +118,10 @@ class _CartWidgetState extends State<CartWidget> {
   Widget createHeader(AppModel app) {
     return Container(
       alignment: Alignment.topLeft,
-      child: Text(
-        'SHOPPING CART',
-        style: FontTools.textStyle(app.h1),
+      child: StyleRegistry.registry()
+          .styleWithContext(context)
+          .frontEndStyle()
+          .h1(context, 'SHOPPING CART',
       ),
       margin: EdgeInsets.only(left: 12, top: 12),
     );
@@ -134,11 +136,10 @@ class _CartWidgetState extends State<CartWidget> {
     }
     return Container(
       alignment: Alignment.topLeft,
-      child: Text(
-        text,
-        style: FontTools.textStyle(app
-            .h2),
-      ),
+      child: StyleRegistry.registry()
+          .styleWithContext(context)
+          .frontEndStyle()
+          .h2(context, text),
       margin: EdgeInsets.only(left: 12, top: 4),
     );
   }
@@ -238,20 +239,19 @@ class _CartWidgetState extends State<CartWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Center(
-            child: Text(
-              item.product!.title!,
-              maxLines: 2,
-              softWrap: true,
-              style: FontTools.textStyle(app.h2),
-            ),
+            child: StyleRegistry.registry()
+                .styleWithContext(context)
+                .frontEndStyle()
+                .h2(context, item.product!.title!, maxLines: 2, softWrap: true),
           ),
           Utils.getSizedBox(height: 6),
           Center(
-            child: Text(
-              item.product!.about!,
+            child: StyleRegistry.registry()
+                .styleWithContext(context)
+                .frontEndStyle()
+                .text(context, item.product!.about!,
               maxLines: 4,
               softWrap: true,
-              style: FontTools.textStyle(app.fontText),
             ),
           ),
           Utils.getSizedBox(height: 6),
@@ -259,10 +259,11 @@ class _CartWidgetState extends State<CartWidget> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(
-                  NumberFormat.simpleCurrency(locale: 'eu')
+                StyleRegistry.registry()
+                    .styleWithContext(context)
+                    .frontEndStyle()
+                    .h3(context, NumberFormat.simpleCurrency(locale: 'eu')
                       .format(item.product!.price),
-                  style: FontTools.textStyle(app.h3),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -285,9 +286,11 @@ class _CartWidgetState extends State<CartWidget> {
                         color: Colors.grey.shade200,
                         padding: const EdgeInsets.only(
                             bottom: 2, right: 12, left: 12),
-                        child: Text(
+                        child: StyleRegistry.registry()
+                            .styleWithContext(context)
+                            .frontEndStyle()
+                            .h3(context,
                           item.amount.toString(),
-                          style: FontTools.textStyle(app.h3),
                         ),
                       ),
                       GestureDetector(

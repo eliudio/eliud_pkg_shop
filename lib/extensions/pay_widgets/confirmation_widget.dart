@@ -1,16 +1,15 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
+import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/style/style_registry.dart';
+import 'package:eliud_pkg_shop/extensions/pay_widgets/order_helper.dart';
 import 'package:eliud_pkg_shop/model/order_component_bloc.dart';
 import 'package:eliud_pkg_shop/model/order_component_state.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_model.dart';
-import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:eliud_pkg_shop/extensions/pay_widgets/order_helper.dart';
-import 'package:eliud_core/core/widgets/progress_indicator.dart';
 
 // ignore: must_be_immutable
 class ConfirmationWidget extends StatefulWidget {
@@ -26,12 +25,12 @@ class ConfirmationWidget extends StatefulWidget {
 
 class ConfirmationState extends State<ConfirmationWidget> {
   Widget _getButton(AppModel app) {
-    return RaisedButton(
-          color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-          onPressed: () {
-            eliudrouter.Router.navigateTo(context, widget.payConfirmationModel!.backToShopAction!);
-          },
-          child: Text('Back to the shop'));
+    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().
+      button(context, label: 'Back to the shop',
+      onPressed: () {
+        eliudrouter.Router.navigateTo(context, widget.payConfirmationModel!.backToShopAction!);
+      },
+    );
   }
 
   @override
@@ -52,9 +51,9 @@ class ConfirmationState extends State<ConfirmationWidget> {
                       size: 50.0,
                       semanticLabel: 'Success',
                     ),
-                    title: Text('Payment successfull.', style: FontTools.textStyle(appState.app.h4)),
-                    subtitle: Text(
-                        "We'll be working hard to get it to you asap. Thank you very much", style: FontTools.textStyle(appState.app.fontText))),
+                    title: StyleRegistry.registry().styleWithContext(context).frontEndStyle().h4(context, 'Payment successfull.'),
+                    subtitle: StyleRegistry.registry().styleWithContext(context).frontEndStyle().text(context, "We'll be working hard to get it to you asap. Thank you very much"),
+                )
               );
               OrderHelper.addOrderOverviewAfterPayment(appState.app, widgets, order, context);
               widgets.add(_getButton(appState.app));

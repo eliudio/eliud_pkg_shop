@@ -14,8 +14,6 @@ import 'package:eliud_pkg_shop/model/order_item_model.dart';
 import 'package:eliud_pkg_shop/model/order_model.dart';
 import 'package:eliud_pkg_shop/model/shop_model.dart';
 import 'package:flutter/cupertino.dart';
-
-
 import 'package:intl/intl.dart';
 
 class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
