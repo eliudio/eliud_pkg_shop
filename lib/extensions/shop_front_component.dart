@@ -86,7 +86,7 @@ class ShopFrontState extends State<ShopFront> {
         widgets.add(Utils.getSizedBox(height: 10));
       }
       widgets.add(_grid(context));
-      return Utils.getShrinkedListView(widgets);
+      return Utils.getShrinkedListView(context, widgets);
     } else {
       return Text('App not loaded');
     }
