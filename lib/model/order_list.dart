@@ -232,7 +232,7 @@ class OrderListItem extends StatelessWidget {
             child: Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!)),
           ),
         ),
-        subtitle: (value!.paymentReference != null) && (value!.paymentReference!.isNotEmpty)
+        subtitle: (value!.paymentReference! != null) && (value!.paymentReference!.isNotEmpty)
             ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.paymentReference!))
             : null,
       ),

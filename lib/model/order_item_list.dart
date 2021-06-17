@@ -227,7 +227,7 @@ class OrderItemListItem extends StatelessWidget {
           tag: '${value!.documentID}__OrderItemheroTag',
           child: Container(
             width: fullScreenWidth(context),
-            child: Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.amount != null ? value!.amount.toString() + ' ' + (value!.product == null ? '' : value!.product!.title!) + ' ' + (value!.soldPrice == null ? '' : value!.soldPrice!.toString()) : '0'!)),
+            child: Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.amount != null ? value!.amount.toString() + ' ' + (value!.product == null ? '' : value!.product!.title!) + ' ' + (value!.soldPrice == null ? '' : value!.soldPrice!.toString()) : '0')),
           ),
         ),
       ),

@@ -49,7 +49,7 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
         items.map((element) => (widget.productModel!.posSize)).toList();
 
     var title = widget.productModel!.title;
-    var orientation = MediaQuery.hallsof(context).orientation;
+    var orientation = MediaQuery.of(context).orientation;
     var accessState = widget.accessState;
     if (accessState is AppLoaded) {
       return Container(

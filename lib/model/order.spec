@@ -275,8 +275,8 @@
     }
   ],
   "listFields": {
-    "title": "documentID",
-    "subTitle": "paymentReference"
+    "title": "documentID!",
+    "subTitle": "paymentReference!"
   },
   "alternativeViews": [
     {

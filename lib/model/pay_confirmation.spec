@@ -79,8 +79,8 @@
     }
   ],
   "listFields": {
-    "title": "documentID",
-    "subTitle": "title"
+    "title": "documentID!",
+    "subTitle": "title!"
   },
   "depends": ["eliud_core"]
 }

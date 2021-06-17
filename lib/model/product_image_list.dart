@@ -227,10 +227,10 @@ class ProductImageListItem extends StatelessWidget {
           tag: '${value!.documentID}__ProductImageheroTag',
           child: Container(
             width: fullScreenWidth(context),
-            child: Center( child: ImageHelper.getImageFromMediumModel(memberMediumModel: value!.image, width: fullScreenWidth(context)))
+            child: Center( child: ImageHelper.getImageFromMediumModel(memberMediumModel: value!.image!, width: fullScreenWidth(context)))
           ),
         ),
-        subtitle: (value!.documentID != null) && (value!.documentID!.isNotEmpty)
+        subtitle: (value!.documentID! != null) && (value!.documentID!.isNotEmpty)
             ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!))
             : null,
       ),

@@ -36,9 +36,9 @@
     }
   ],
   "listFields": {
-    "title": "image",
+    "title": "image!",
     "imageTitle": true,
-    "subTitle": "documentID"
+    "subTitle": "documentID!"
   },
   "depends": ["eliud_core"]
 }

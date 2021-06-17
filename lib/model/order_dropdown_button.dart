@@ -66,8 +66,8 @@ class OrderDropdownButtonWidgetState extends State<OrderDropdownButtonWidget> {
 
 List<Widget> widgets(OrderModel pm) {
 var widgets = <Widget>[];
-if (pm.documentID != null) widgets.add(new Text(pm.documentID!));
-if (pm.paymentReference != null) widgets.add(new Text(pm.paymentReference!));
+if (pm.documentID! != null) widgets.add(new Text(pm.documentID!));
+if (pm.paymentReference! != null) widgets.add(new Text(pm.paymentReference!));
 return widgets;
 }
 
