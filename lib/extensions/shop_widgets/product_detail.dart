@@ -49,12 +49,12 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
         items.map((element) => (widget.productModel!.posSize)).toList();
 
     var title = widget.productModel!.title;
-    var orientation = MediaQuery.of(context).orientation;
+    var orientation = MediaQuery.hallsof(context).orientation;
     var accessState = widget.accessState;
     if (accessState is AppLoaded) {
       return Container(
           decoration: BoxDecorationHelper.boxDecoration(
-              accessState, widget.productDisplayModel!.itemDetailBackground!),
+              accessState, widget.productDisplayModel!.itemDetailBackground),
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Column(
