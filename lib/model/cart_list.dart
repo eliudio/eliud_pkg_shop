@@ -16,7 +16,6 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/tools/has_fab.dart';
@@ -101,9 +100,7 @@ class CartListWidgetState extends State<CartListWidget> {
     if (accessState is AppLoaded) {
       return BlocBuilder<CartListBloc, CartListState>(builder: (context, state) {
         if (state is CartListLoading) {
-          return Center(
-            child: DelayedCircularProgressIndicator(),
-          );
+          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
         } else if (state is CartListLoaded) {
           final values = state.values;
           if ((widget.isEmbedded != null) && widget.isEmbedded!) {
@@ -133,9 +130,7 @@ class CartListWidgetState extends State<CartListWidget> {
             return theList(context, values, accessState);
           }
         } else {
-          return Center(
-            child: DelayedCircularProgressIndicator(),
-          );
+          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
         }
       });
     } else {

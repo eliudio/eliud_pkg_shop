@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:eliud_pkg_shop/extensions/shop_widgets/product_detail.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
@@ -12,7 +13,6 @@ import 'package:eliud_pkg_shop/model/product_display_repository.dart';
 import 'package:eliud_pkg_shop/model/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eliud_core/core/widgets/progress_indicator.dart';
 
 class ProductDisplayComponentConstructorDefault implements ComponentConstructor {
   @override
@@ -53,7 +53,7 @@ class ProductDisplayComponent extends AbstractProductDisplayComponent {
               content: 'Product with id $productId not available');
         }
       } else {
-        return DelayedCircularProgressIndicator();
+        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
       }
     });
   }

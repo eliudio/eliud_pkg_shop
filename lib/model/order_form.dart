@@ -13,7 +13,6 @@
 
 */
 
-import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
@@ -193,7 +192,7 @@ class _MyOrderFormState extends State<MyOrderForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<OrderFormBloc, OrderFormState>(builder: (context, state) {
       if (state is OrderFormUninitialized) return Center(
-        child: DelayedCircularProgressIndicator(),
+        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
       );
 
       if (state is OrderFormLoaded) {
@@ -690,7 +689,7 @@ class _MyOrderFormState extends State<MyOrderForm> {
           ), formAction!
         );
       } else {
-        return DelayedCircularProgressIndicator();
+        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
       }
     });
   }
@@ -1000,7 +999,7 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<OrderFormBloc, OrderFormState>(builder: (context, state) {
       if (state is OrderFormUninitialized) return Center(
-        child: DelayedCircularProgressIndicator(),
+        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
       );
 
       if (state is OrderFormLoaded) {
@@ -1283,7 +1282,7 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
           ), formAction!
         );
       } else {
-        return DelayedCircularProgressIndicator();
+        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
       }
     });
   }
@@ -1485,7 +1484,7 @@ class _MyOrderShipmentFormState extends State<MyOrderShipmentForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<OrderFormBloc, OrderFormState>(builder: (context, state) {
       if (state is OrderFormUninitialized) return Center(
-        child: DelayedCircularProgressIndicator(),
+        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
       );
 
       if (state is OrderFormLoaded) {
@@ -1570,7 +1569,7 @@ class _MyOrderShipmentFormState extends State<MyOrderShipmentForm> {
           ), formAction!
         );
       } else {
-        return DelayedCircularProgressIndicator();
+        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
       }
     });
   }

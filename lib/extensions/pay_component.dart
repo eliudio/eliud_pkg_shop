@@ -2,7 +2,6 @@ import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/widgets/alert_widget.dart';
-import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/component_constructor.dart';
@@ -139,7 +138,7 @@ class PayProfileComponent extends AbstractPayComponent {
           }
         }
         // in all other cases:
-        return DelayedCircularProgressIndicator();
+        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
       });
     } else {
       return Text('App not loaded');

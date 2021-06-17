@@ -1,7 +1,6 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
-import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/custom_utils.dart';
@@ -52,7 +51,7 @@ class _CartWidgetState extends State<CartWidget> {
                 ],
               );
             } else {
-              return DelayedCircularProgressIndicator();
+              return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
             }
           }
           ));

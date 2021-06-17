@@ -13,7 +13,6 @@
 
 */
 
-import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
@@ -147,7 +146,7 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<PayConfirmationFormBloc, PayConfirmationFormState>(builder: (context, state) {
       if (state is PayConfirmationFormUninitialized) return Center(
-        child: DelayedCircularProgressIndicator(),
+        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
       );
 
       if (state is PayConfirmationFormLoaded) {
@@ -281,7 +280,7 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
           ), formAction!
         );
       } else {
-        return DelayedCircularProgressIndicator();
+        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
       }
     });
   }
