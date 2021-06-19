@@ -38,7 +38,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
               value: accessState.member,
               formAction: FormAction.UpdateAction));
     } else {
-      return Text("Not logged in");
+      return Text('Not logged in');
     }
   }
 }

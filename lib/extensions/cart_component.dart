@@ -9,6 +9,7 @@ import 'package:eliud_pkg_shop/model/cart_repository.dart';
 import 'package:flutter/material.dart';
 
 class CartComponentConstructorDefault implements ComponentConstructor {
+  @override
   Widget createNew({String? id, Map<String, dynamic>? parameters}) {
       return CartProfileComponent(id: id);
   }

@@ -190,8 +190,7 @@ class PayProfileComponent extends AbstractPayComponent {
     if (message != null) {
       widgets.add(ListTile(
           trailing: trailing,
-          title: message != null ?
-          StyleRegistry.registry().styleWithContext(context).frontEndStyle().h4(context, message) : null,
+          title: StyleRegistry.registry().styleWithContext(context).frontEndStyle().h4(context, message),
           subtitle: subMessage != null ?
           StyleRegistry.registry().styleWithContext(context).frontEndStyle().h4(context, subMessage) : null,
       ));

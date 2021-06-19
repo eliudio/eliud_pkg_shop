@@ -77,7 +77,7 @@ class _CartWidgetState extends State<CartWidget> {
         .frontEndStyle()
         .button(context, label: 'Checkout',
         onPressed: () {
-          MaterialPageRoute(builder: (context) => CheckOutPage(checkoutAction: widget.cart!.checkoutAction));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => CheckOutPage(checkoutAction: widget.cart!.checkoutAction)));
         });
   }
 
@@ -144,7 +144,7 @@ class _CartWidgetState extends State<CartWidget> {
   }
 
   Widget _createCartList(BuildContext context, AppModel app, AccessState accessState, List<CartItemModel> cartItems) {
-    List<Widget> items = [];
+    var items = <Widget>[];
     cartItems.forEach((element) {
       if (element.product != null) {
         items.add(createCartItem(app, accessState, element));
@@ -203,7 +203,7 @@ class _CartWidgetState extends State<CartWidget> {
   }
 
   Widget createCartItemImage(AccessState accessState, CartItemModel item) {
-    var image = item.product!.images != null && item.product!.images!.length > 0 ? NetworkImage(item.product!.images![0].image!.url!) : null;
+    var image = item.product!.images != null && item.product!.images!.isNotEmpty ? NetworkImage(item.product!.images![0].image!.url!) : null;
     Widget w;
     if (image == null) {
       w = Icon(Icons.image);
