@@ -45,15 +45,10 @@ class ProductDisplayComponent extends AbstractProductDisplayComponent {
     return BlocBuilder<ProductComponentBloc, ProductComponentState> (
       builder: (context, state) {
       if (state is ProductComponentLoaded) {
-        if (productId != null) {
-          return ProductDetail(
-              productDisplayModel: value, productModel: state.value);
-        } else {
-          return alertWidget(title: 'error',
-              content: 'Product with id $productId not available');
-        }
+        return ProductDetail(
+            productDisplayModel: value, productModel: state.value);
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
       }
     });
   }

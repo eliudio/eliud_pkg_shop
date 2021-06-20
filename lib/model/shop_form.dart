@@ -144,7 +144,7 @@ class _MyShopFormState extends State<MyShopForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<ShopFormBloc, ShopFormState>(builder: (context, state) {
       if (state is ShopFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is ShopFormLoaded) {
@@ -246,7 +246,7 @@ class _MyShopFormState extends State<MyShopForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }

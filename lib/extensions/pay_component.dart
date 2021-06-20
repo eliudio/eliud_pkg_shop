@@ -68,7 +68,7 @@ class PayProfileComponent extends AbstractPayComponent {
     if (appState is AppLoaded) {
       return BlocBuilder<PaymentBloc, PaymentState>(builder: (context, state) {
         if (state is NotLoggedOn) {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().text(context, 'Not logged on');
+          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, 'Not logged on');
         } else {
           if (state is PayOrder) {
             return BlocProvider<PayBloc>(
@@ -95,7 +95,7 @@ class PayProfileComponent extends AbstractPayComponent {
                 }));
             // initialise paymentBloc so that 'handle' can access it
           } else if (state is NoItemsInCart) {
-            return StyleRegistry.registry().styleWithContext(context).frontEndStyle().text(context, 'No items in cart');
+            return StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, 'No items in cart');
           } else if (state is ConfirmOrder) {
             return _overviewAndPay(context, appState.app, state.order,
                 message: 'Please review your order.',
@@ -138,7 +138,7 @@ class PayProfileComponent extends AbstractPayComponent {
           }
         }
         // in all other cases:
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
       });
     } else {
       return Text('App not loaded');
@@ -172,11 +172,11 @@ class PayProfileComponent extends AbstractPayComponent {
 //      alignment: WrapAlignment.spaceAround, // set your alignment
       children: <Widget>[
         Spacer(),
-        StyleRegistry.registry().styleWithContext(context).frontEndStyle().button(context, label: 'Cancel',            onPressed: () {
+        StyleRegistry.registry().styleWithContext(context).frontEndStyle().buttonStyle().button(context, label: 'Cancel',            onPressed: () {
               Navigator.of(context).pop();
             },),
         Spacer(),
-        StyleRegistry.registry().styleWithContext(context).frontEndStyle().button(context, label: 'Continue',            onPressed: () {
+        StyleRegistry.registry().styleWithContext(context).frontEndStyle().buttonStyle().button(context, label: 'Continue',            onPressed: () {
           paymentBloc.add(PayTheOrder(order));
         },),
         Spacer(),
@@ -190,9 +190,9 @@ class PayProfileComponent extends AbstractPayComponent {
     if (message != null) {
       widgets.add(ListTile(
           trailing: trailing,
-          title: StyleRegistry.registry().styleWithContext(context).frontEndStyle().h4(context, message),
+          title: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().h4(context, message),
           subtitle: subMessage != null ?
-          StyleRegistry.registry().styleWithContext(context).frontEndStyle().h4(context, subMessage) : null,
+          StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().h4(context, subMessage) : null,
       ));
     }
     OrderHelper.addOrderOverviewBeforePayment(app, widgets, order, context);

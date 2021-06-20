@@ -12,12 +12,12 @@ class OrderHelper {
         trailing: trailing,
         title: StyleRegistry.registry()
             .styleWithContext(context)
-            .frontEndStyle()
+            .frontEndStyle().textStyle()
             .h4(context, title),
         subtitle: value != null
             ? StyleRegistry.registry()
                 .styleWithContext(context)
-                .frontEndStyle()
+                .frontEndStyle().textStyle()
                 .text(context, value)
             : null,
       );
@@ -82,7 +82,7 @@ class OrderHelper {
         StyleRegistry.registry().styleWithContext(context).frontEndStyle();
     widgets.add(_getRow(
         context, app, 'Contact:', order.name! + ', ' + order.email!,
-        trailing: frontEndStyle.h1Icon2(context,
+        trailing: frontEndStyle.iconStyle().h1Icon2(context,
             iconData: Icons.contact_phone, semanticLabel: 'Contact')));
     widgets.add(_getRow(
         context,
@@ -91,12 +91,12 @@ class OrderHelper {
             ? 'Shipment address:'
             : 'Shipment & invoice address',
         _getShipAddress(order),
-        trailing: frontEndStyle.h1Icon2(context,
+        trailing: frontEndStyle.iconStyle().h1Icon2(context,
             iconData: Icons.local_shipping, semanticLabel: 'Contact')));
     if ((order.invoiceSame != null) && (!order.invoiceSame!)) {
       widgets.add(_getRow(
           context, app, 'Invoice address:', _getInvoiceAddress(order),
-          trailing: frontEndStyle.h1Icon2(context,
+          trailing: frontEndStyle.iconStyle().h1Icon2(context,
               iconData: Icons.note, semanticLabel: 'Contact')));
     }
     return widgets;
@@ -117,7 +117,7 @@ class OrderHelper {
         trailing: StyleRegistry.registry()
             .styleWithContext(context)
             .frontEndStyle()
-            .h1Icon2(
+            .iconStyle().h1Icon2(
               context,
               iconData: Icons.payment,
               semanticLabel: 'Success',
@@ -133,7 +133,7 @@ class OrderHelper {
         trailing: StyleRegistry.registry()
             .styleWithContext(context)
             .frontEndStyle()
-            .h1Icon2(context, iconData: Icons.list, semanticLabel: 'Contact')));
+            .iconStyle().h1Icon2(context, iconData: Icons.list, semanticLabel: 'Contact')));
 
     final theme = Theme.of(context);
     final style = theme.textTheme.bodyText2!
@@ -170,7 +170,7 @@ class OrderHelper {
         trailing: StyleRegistry.registry()
             .styleWithContext(context)
             .frontEndStyle()
-            .h1Icon2(
+            .iconStyle().h1Icon2(
               context,
               iconData: Icons.attach_money,
               semanticLabel: 'Total price',

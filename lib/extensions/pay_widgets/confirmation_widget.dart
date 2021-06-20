@@ -24,10 +24,16 @@ class ConfirmationWidget extends StatefulWidget {
 
 class ConfirmationState extends State<ConfirmationWidget> {
   Widget _getButton(AppModel app) {
-    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().
-      button(context, label: 'Back to the shop',
+    return StyleRegistry.registry()
+        .styleWithContext(context)
+        .frontEndStyle()
+        .buttonStyle()
+        .button(
+      context,
+      label: 'Back to the shop',
       onPressed: () {
-        eliudrouter.Router.navigateTo(context, widget.payConfirmationModel!.backToShopAction!);
+        eliudrouter.Router.navigateTo(
+            context, widget.payConfirmationModel!.backToShopAction!);
       },
     );
   }
@@ -38,33 +44,45 @@ class ConfirmationState extends State<ConfirmationWidget> {
     if (appState is AppLoaded) {
       return BlocBuilder<OrderComponentBloc, OrderComponentState>(
           builder: (context, state) {
-            if (state is OrderComponentLoaded) {
-              var order = state.value!;
-              debugPrint('state is OrderPaid');
-              var widgets = <Widget>[];
-              widgets.add(
-                ListTile(
-                    trailing: Icon(
-                      Icons.check_circle,
-                      color: Colors.green,
-                      size: 50.0,
-                      semanticLabel: 'Success',
-                    ),
-                    title: StyleRegistry.registry().styleWithContext(context).frontEndStyle().h4(context, 'Payment successfull.'),
-                    subtitle: StyleRegistry.registry().styleWithContext(context).frontEndStyle().text(context, "We'll be working hard to get it to you asap. Thank you very much"),
-                )
-              );
-              OrderHelper.addOrderOverviewAfterPayment(appState.app, widgets, order, context);
-              widgets.add(_getButton(appState.app));
-              return ListView(
-                shrinkWrap: true,
-                physics: ScrollPhysics(),
-                children: widgets,
-              );
-            } else {
-              return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
-            }
-          });
+        if (state is OrderComponentLoaded) {
+          var order = state.value!;
+          debugPrint('state is OrderPaid');
+          var widgets = <Widget>[];
+          widgets.add(ListTile(
+            trailing: Icon(
+              Icons.check_circle,
+              color: Colors.green,
+              size: 50.0,
+              semanticLabel: 'Success',
+            ),
+            title: StyleRegistry.registry()
+                .styleWithContext(context)
+                .frontEndStyle()
+                .textStyle()
+                .h4(context, 'Payment successfull.'),
+            subtitle: StyleRegistry.registry()
+                .styleWithContext(context)
+                .frontEndStyle()
+                .textStyle()
+                .text(context,
+                    "We'll be working hard to get it to you asap. Thank you very much"),
+          ));
+          OrderHelper.addOrderOverviewAfterPayment(
+              appState.app, widgets, order, context);
+          widgets.add(_getButton(appState.app));
+          return ListView(
+            shrinkWrap: true,
+            physics: ScrollPhysics(),
+            children: widgets,
+          );
+        } else {
+          return StyleRegistry.registry()
+              .styleWithContext(context)
+              .frontEndStyle()
+              .progressIndicatorStyle()
+              .progressIndicator(context);
+        }
+      });
     } else {
       return Text('App not loaded');
     }

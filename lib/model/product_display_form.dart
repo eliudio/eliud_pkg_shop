@@ -149,7 +149,7 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<ProductDisplayFormBloc, ProductDisplayFormState>(builder: (context, state) {
       if (state is ProductDisplayFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is ProductDisplayFormLoaded) {
@@ -294,7 +294,7 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }

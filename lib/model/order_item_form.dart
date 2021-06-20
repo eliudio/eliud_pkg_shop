@@ -140,7 +140,7 @@ class _MyOrderItemFormState extends State<MyOrderItemForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<OrderItemFormBloc, OrderItemFormState>(builder: (context, state) {
       if (state is OrderItemFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is OrderItemFormLoaded) {
@@ -264,7 +264,7 @@ class _MyOrderItemFormState extends State<MyOrderItemForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }

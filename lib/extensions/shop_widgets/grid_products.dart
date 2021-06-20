@@ -122,7 +122,7 @@ class _GridProductsState extends State<GridProducts> {
               padding: const EdgeInsets.all(0.0),
               children: cards);
         } else {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
         }
       },
     );

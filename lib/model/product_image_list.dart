@@ -100,7 +100,7 @@ class ProductImageListWidgetState extends State<ProductImageListWidget> {
     if (accessState is AppLoaded) {
       return BlocBuilder<ProductImageListBloc, ProductImageListState>(builder: (context, state) {
         if (state is ProductImageListLoading) {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
         } else if (state is ProductImageListLoaded) {
           final values = state.values;
           if ((widget.isEmbedded != null) && widget.isEmbedded!) {
@@ -130,7 +130,7 @@ class ProductImageListWidgetState extends State<ProductImageListWidget> {
             return theList(context, values, accessState);
           }
         } else {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
         }
       });
     } else {

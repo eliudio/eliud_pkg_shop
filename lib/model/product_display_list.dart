@@ -100,7 +100,7 @@ class ProductDisplayListWidgetState extends State<ProductDisplayListWidget> {
     if (accessState is AppLoaded) {
       return BlocBuilder<ProductDisplayListBloc, ProductDisplayListState>(builder: (context, state) {
         if (state is ProductDisplayListLoading) {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
         } else if (state is ProductDisplayListLoaded) {
           final values = state.values;
           if ((widget.isEmbedded != null) && widget.isEmbedded!) {
@@ -130,7 +130,7 @@ class ProductDisplayListWidgetState extends State<ProductDisplayListWidget> {
             return theList(context, values, accessState);
           }
         } else {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
         }
       });
     } else {

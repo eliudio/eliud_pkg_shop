@@ -192,7 +192,7 @@ class _MyOrderFormState extends State<MyOrderForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<OrderFormBloc, OrderFormState>(builder: (context, state) {
       if (state is OrderFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is OrderFormLoaded) {
@@ -689,7 +689,7 @@ class _MyOrderFormState extends State<MyOrderForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }
@@ -999,7 +999,7 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<OrderFormBloc, OrderFormState>(builder: (context, state) {
       if (state is OrderFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is OrderFormLoaded) {
@@ -1282,7 +1282,7 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }
@@ -1484,7 +1484,7 @@ class _MyOrderShipmentFormState extends State<MyOrderShipmentForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<OrderFormBloc, OrderFormState>(builder: (context, state) {
       if (state is OrderFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is OrderFormLoaded) {
@@ -1569,7 +1569,7 @@ class _MyOrderShipmentFormState extends State<MyOrderShipmentForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }

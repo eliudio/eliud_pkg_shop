@@ -51,7 +51,7 @@ class _CartWidgetState extends State<CartWidget> {
                 ],
               );
             } else {
-              return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+              return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
             }
           }
           ));
@@ -65,7 +65,7 @@ class _CartWidgetState extends State<CartWidget> {
     return StyleRegistry.registry()
         .styleWithContext(context)
         .frontEndStyle()
-        .button(context, label: 'Continue shopping',
+        .buttonStyle().button(context, label: 'Continue shopping',
           onPressed: () {
             eliudrouter.Router.navigateTo(context, widget.cart!.backToShopAction!);
           });
@@ -75,7 +75,7 @@ class _CartWidgetState extends State<CartWidget> {
     return StyleRegistry.registry()
         .styleWithContext(context)
         .frontEndStyle()
-        .button(context, label: 'Checkout',
+        .buttonStyle().button(context, label: 'Checkout',
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => CheckOutPage(checkoutAction: widget.cart!.checkoutAction)));
         });
@@ -94,14 +94,14 @@ class _CartWidgetState extends State<CartWidget> {
                 margin: EdgeInsets.only(left: 30),
                 child: StyleRegistry.registry()
                     .styleWithContext(context)
-                    .frontEndStyle()
+                    .frontEndStyle().textStyle()
                     .h3(context, 'Total',),
               ),
               Container(
                 margin: EdgeInsets.only(right: 30),
                 child: StyleRegistry.registry()
                     .styleWithContext(context)
-                    .frontEndStyle()
+                    .frontEndStyle().textStyle()
                     .h3(context, NumberFormat.simpleCurrency(locale: 'eu')
                       .format(totalValue),
                 ),
@@ -119,7 +119,7 @@ class _CartWidgetState extends State<CartWidget> {
       alignment: Alignment.topLeft,
       child: StyleRegistry.registry()
           .styleWithContext(context)
-          .frontEndStyle()
+          .frontEndStyle().textStyle()
           .h1(context, 'SHOPPING CART',
       ),
       margin: EdgeInsets.only(left: 12, top: 12),
@@ -137,7 +137,7 @@ class _CartWidgetState extends State<CartWidget> {
       alignment: Alignment.topLeft,
       child: StyleRegistry.registry()
           .styleWithContext(context)
-          .frontEndStyle()
+          .frontEndStyle().textStyle()
           .h2(context, text),
       margin: EdgeInsets.only(left: 12, top: 4),
     );
@@ -240,14 +240,14 @@ class _CartWidgetState extends State<CartWidget> {
           Center(
             child: StyleRegistry.registry()
                 .styleWithContext(context)
-                .frontEndStyle()
+                .frontEndStyle().textStyle()
                 .h2(context, item.product!.title!, maxLines: 2, softWrap: true),
           ),
           Utils.getSizedBox(height: 6),
           Center(
             child: StyleRegistry.registry()
                 .styleWithContext(context)
-                .frontEndStyle()
+                .frontEndStyle().textStyle()
                 .text(context, item.product!.about!,
               maxLines: 4,
               softWrap: true,
@@ -260,7 +260,7 @@ class _CartWidgetState extends State<CartWidget> {
               children: <Widget>[
                 StyleRegistry.registry()
                     .styleWithContext(context)
-                    .frontEndStyle()
+                    .frontEndStyle().textStyle()
                     .h3(context, NumberFormat.simpleCurrency(locale: 'eu')
                       .format(item.product!.price),
                 ),
@@ -287,7 +287,7 @@ class _CartWidgetState extends State<CartWidget> {
                             bottom: 2, right: 12, left: 12),
                         child: StyleRegistry.registry()
                             .styleWithContext(context)
-                            .frontEndStyle()
+                            .frontEndStyle().textStyle()
                             .h3(context,
                           item.amount.toString(),
                         ),

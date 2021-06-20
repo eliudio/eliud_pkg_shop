@@ -72,11 +72,11 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
                           children: <Widget>[
                             StyleRegistry.registry()
                                 .styleWithContext(context)
-                                .frontEndStyle()
+                                .frontEndStyle().textStyle()
                                 .h3(context, title!),
                             StyleRegistry.registry()
                                 .styleWithContext(context)
-                                .frontEndStyle()
+                                .frontEndStyle().textStyle()
                                 .h3(context,
                                     widget.productModel!.price.toString()),
                           ],
@@ -86,12 +86,12 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
                         padding: const EdgeInsets.only(top: 20.0),
                         child: StyleRegistry.registry()
                             .styleWithContext(context)
-                            .frontEndStyle()
+                            .frontEndStyle().textStyle()
                             .text(context, widget.productModel!.about!),
                       ),
                       StyleRegistry.registry()
                           .styleWithContext(context)
-                          .frontEndStyle()
+                          .frontEndStyle().buttonStyle()
                           .button(
                         context,
                         label: widget.productDisplayModel!.addToBasketText !=

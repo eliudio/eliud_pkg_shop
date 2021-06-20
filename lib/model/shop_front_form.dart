@@ -159,7 +159,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<ShopFrontFormBloc, ShopFrontFormState>(builder: (context, state) {
       if (state is ShopFrontFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is ShopFrontFormLoaded) {
@@ -458,7 +458,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }

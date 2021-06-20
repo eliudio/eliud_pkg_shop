@@ -75,13 +75,13 @@ class ShopFrontState extends State<ShopFront> {
     if (appState is AppLoaded) {
       var widgets = <Widget>[];
       if (widget.shopFrontModel!.title != null) {
-        widgets.add(StyleRegistry.registry().styleWithContext(context).frontEndStyle().h4(context, widget.shopFrontModel!.title!));
+        widgets.add(StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().h4(context, widget.shopFrontModel!.title!));
         widgets.add(Utils.getSizedBox(height: 10));
       }
 
       if (widget.shopFrontModel!.description != null) {
         widgets.add(StyleRegistry.registry().styleWithContext(context)
-            .frontEndStyle()
+            .frontEndStyle().textStyle()
             .text(context, widget.shopFrontModel!.description!));
         widgets.add(Utils.getSizedBox(height: 10));
       }
