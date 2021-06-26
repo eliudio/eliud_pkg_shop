@@ -61,10 +61,11 @@ class ShopFrontFirestore implements ShopFrontRepository {
       var doc = await collection.get();
       return await _populateDocPlus(doc);
     } on Exception catch(e) {
-      print("Error whilst retrieving ShopFront with id $id");
-      print("Exceptoin: $e");
       if (onError != null) {
         onError(e);
+      } else {
+        print("Error whilst retrieving ShopFront with id $id");
+        print("Exceptoin: $e");
       }
     };
   }
