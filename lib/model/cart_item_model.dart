@@ -72,6 +72,7 @@ class CartItemModel {
 
   static CartItemModel? fromEntity(String documentID, CartItemEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return CartItemModel(
           documentID: documentID, 
           amount: entity.amount, 
@@ -93,6 +94,7 @@ class CartItemModel {
       }
     }
 
+    var counter = 0;
     return CartItemModel(
           documentID: documentID, 
           amount: entity.amount, 

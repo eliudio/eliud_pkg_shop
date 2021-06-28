@@ -133,6 +133,7 @@ class ShopFrontModel {
 
   static ShopFrontModel? fromEntity(String documentID, ShopFrontEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return ShopFrontModel(
           documentID: documentID, 
           appId: entity.appId, 
@@ -179,6 +180,7 @@ class ShopFrontModel {
       }
     }
 
+    var counter = 0;
     return ShopFrontModel(
           documentID: documentID, 
           appId: entity.appId, 

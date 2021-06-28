@@ -85,6 +85,7 @@ class OrderOverviewModel {
 
   static OrderOverviewModel? fromEntity(String documentID, OrderOverviewEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return OrderOverviewModel(
           documentID: documentID, 
           appId: entity.appId, 
@@ -130,6 +131,7 @@ class OrderOverviewModel {
       }
     }
 
+    var counter = 0;
     return OrderOverviewModel(
           documentID: documentID, 
           appId: entity.appId, 

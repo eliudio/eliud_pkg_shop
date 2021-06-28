@@ -88,6 +88,7 @@ class ProductDisplayModel {
 
   static ProductDisplayModel? fromEntity(String documentID, ProductDisplayEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return ProductDisplayModel(
           documentID: documentID, 
           appId: entity.appId, 
@@ -125,6 +126,7 @@ class ProductDisplayModel {
       }
     }
 
+    var counter = 0;
     return ProductDisplayModel(
           documentID: documentID, 
           appId: entity.appId, 

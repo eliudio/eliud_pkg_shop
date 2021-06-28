@@ -69,6 +69,7 @@ class OrderReferencesModel {
 
   static OrderReferencesModel? fromEntity(OrderReferencesEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return OrderReferencesModel(
           paymentReference: entity.paymentReference, 
           shipmentReference: entity.shipmentReference, 
@@ -79,6 +80,7 @@ class OrderReferencesModel {
   static Future<OrderReferencesModel?> fromEntityPlus(OrderReferencesEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    var counter = 0;
     return OrderReferencesModel(
           paymentReference: entity.paymentReference, 
           shipmentReference: entity.shipmentReference, 

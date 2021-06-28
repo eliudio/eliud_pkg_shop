@@ -82,6 +82,7 @@ class PayConfirmationModel {
 
   static PayConfirmationModel? fromEntity(String documentID, PayConfirmationEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return PayConfirmationModel(
           documentID: documentID, 
           appId: entity.appId, 
@@ -107,6 +108,7 @@ class PayConfirmationModel {
       }
     }
 
+    var counter = 0;
     return PayConfirmationModel(
           documentID: documentID, 
           appId: entity.appId, 

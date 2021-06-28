@@ -87,6 +87,7 @@ class PayModel {
 
   static PayModel? fromEntity(String documentID, PayEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return PayModel(
           documentID: documentID, 
           appId: entity.appId, 
@@ -114,6 +115,7 @@ class PayModel {
       }
     }
 
+    var counter = 0;
     return PayModel(
           documentID: documentID, 
           appId: entity.appId, 

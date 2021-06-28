@@ -75,6 +75,7 @@ class OrderItemModel {
 
   static OrderItemModel? fromEntity(String documentID, OrderItemEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return OrderItemModel(
           documentID: documentID, 
           amount: entity.amount, 
@@ -97,6 +98,7 @@ class OrderItemModel {
       }
     }
 
+    var counter = 0;
     return OrderItemModel(
           documentID: documentID, 
           amount: entity.amount, 

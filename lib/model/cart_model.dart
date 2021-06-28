@@ -100,6 +100,7 @@ class CartModel {
 
   static CartModel? fromEntity(String documentID, CartEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return CartModel(
           documentID: documentID, 
           appId: entity.appId, 
@@ -153,6 +154,7 @@ class CartModel {
       }
     }
 
+    var counter = 0;
     return CartModel(
           documentID: documentID, 
           appId: entity.appId, 

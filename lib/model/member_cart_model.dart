@@ -78,13 +78,17 @@ class MemberCartModel {
 
   static MemberCartModel? fromEntity(String documentID, MemberCartEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return MemberCartModel(
           documentID: documentID, 
           appId: entity.appId, 
           cartItems: 
             entity.cartItems == null ? null :
             entity.cartItems
-            !.map((item) => CartItemModel.fromEntity(newRandomKey(), item)!)
+            !.map((item) {
+              counter++; 
+              return CartItemModel.fromEntity(counter.toString(), item)!;
+            })
             .toList(), 
     );
   }
@@ -92,12 +96,15 @@ class MemberCartModel {
   static Future<MemberCartModel?> fromEntityPlus(String documentID, MemberCartEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    var counter = 0;
     return MemberCartModel(
           documentID: documentID, 
           appId: entity.appId, 
           cartItems: 
-            entity. cartItems == null ? null : new List<CartItemModel>.from(await Future.wait(entity. cartItems
-            !.map((item) => CartItemModel.fromEntityPlus(newRandomKey(), item, appId: appId))
+            entity. cartItems == null ? null : List<CartItemModel>.from(await Future.wait(entity. cartItems
+            !.map((item) {
+            counter++;
+            return CartItemModel.fromEntityPlus(counter.toString(), item, appId: appId);})
             .toList())), 
     );
   }

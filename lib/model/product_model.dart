@@ -99,6 +99,7 @@ class ProductModel {
 
   static ProductModel? fromEntity(String documentID, ProductEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return ProductModel(
           documentID: documentID, 
           appId: entity.appId, 
@@ -109,7 +110,10 @@ class ProductModel {
           images: 
             entity.images == null ? null :
             entity.images
-            !.map((item) => ProductImageModel.fromEntity(newRandomKey(), item)!)
+            !.map((item) {
+              counter++; 
+              return ProductImageModel.fromEntity(counter.toString(), item)!;
+            })
             .toList(), 
           conditions: 
             ConditionsSimpleModel.fromEntity(entity.conditions), 
@@ -141,6 +145,7 @@ class ProductModel {
       }
     }
 
+    var counter = 0;
     return ProductModel(
           documentID: documentID, 
           appId: entity.appId, 
@@ -150,8 +155,10 @@ class ProductModel {
           weight: entity.weight, 
           shop: shopHolder, 
           images: 
-            entity. images == null ? null : new List<ProductImageModel>.from(await Future.wait(entity. images
-            !.map((item) => ProductImageModel.fromEntityPlus(newRandomKey(), item, appId: appId))
+            entity. images == null ? null : List<ProductImageModel>.from(await Future.wait(entity. images
+            !.map((item) {
+            counter++;
+            return ProductImageModel.fromEntityPlus(counter.toString(), item, appId: appId);})
             .toList())), 
           posSize: posSizeHolder, 
           conditions: 

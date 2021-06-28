@@ -171,6 +171,7 @@ class OrderModel {
 
   static OrderModel? fromEntity(String documentID, OrderEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return OrderModel(
           documentID: documentID, 
           appId: entity.appId, 
@@ -190,7 +191,10 @@ class OrderModel {
           products: 
             entity.products == null ? null :
             entity.products
-            !.map((item) => OrderItemModel.fromEntity(newRandomKey(), item)!)
+            !.map((item) {
+              counter++; 
+              return OrderItemModel.fromEntity(counter.toString(), item)!;
+            })
             .toList(), 
           totalPrice: entity.totalPrice, 
           currency: entity.currency, 
@@ -241,6 +245,7 @@ class OrderModel {
       }
     }
 
+    var counter = 0;
     return OrderModel(
           documentID: documentID, 
           appId: entity.appId, 
@@ -261,8 +266,10 @@ class OrderModel {
           invoicePostcode: entity.invoicePostcode, 
           invoiceCountry: invoiceCountryHolder, 
           products: 
-            entity. products == null ? null : new List<OrderItemModel>.from(await Future.wait(entity. products
-            !.map((item) => OrderItemModel.fromEntityPlus(newRandomKey(), item, appId: appId))
+            entity. products == null ? null : List<OrderItemModel>.from(await Future.wait(entity. products
+            !.map((item) {
+            counter++;
+            return OrderItemModel.fromEntityPlus(counter.toString(), item, appId: appId);})
             .toList())), 
           totalPrice: entity.totalPrice, 
           currency: entity.currency, 

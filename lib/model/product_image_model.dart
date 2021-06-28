@@ -70,6 +70,7 @@ class ProductImageModel {
 
   static ProductImageModel? fromEntity(String documentID, ProductImageEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return ProductImageModel(
           documentID: documentID, 
     );
@@ -89,6 +90,7 @@ class ProductImageModel {
       }
     }
 
+    var counter = 0;
     return ProductImageModel(
           documentID: documentID, 
           image: imageHolder, 

@@ -75,6 +75,7 @@ class ShopModel {
 
   static ShopModel? fromEntity(String documentID, ShopEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return ShopModel(
           documentID: documentID, 
           appId: entity.appId, 
@@ -87,6 +88,7 @@ class ShopModel {
   static Future<ShopModel?> fromEntityPlus(String documentID, ShopEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    var counter = 0;
     return ShopModel(
           documentID: documentID, 
           appId: entity.appId, 
