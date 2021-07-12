@@ -36,8 +36,9 @@ class ShopEntity {
     return 'ShopEntity{appId: $appId, description: $description, shortDescription: $shortDescription, currency: $currency}';
   }
 
-  static ShopEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static ShopEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     return ShopEntity(
       appId: map['appId'], 

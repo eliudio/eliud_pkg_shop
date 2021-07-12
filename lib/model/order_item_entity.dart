@@ -36,8 +36,9 @@ class OrderItemEntity {
     return 'OrderItemEntity{amount: $amount, appId: $appId, soldPrice: $soldPrice, productId: $productId}';
   }
 
-  static OrderItemEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static OrderItemEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     return OrderItemEntity(
       amount: int.tryParse(map['amount'].toString()), 

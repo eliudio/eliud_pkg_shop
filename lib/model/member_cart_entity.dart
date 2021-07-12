@@ -37,8 +37,9 @@ class MemberCartEntity {
     return 'MemberCartEntity{appId: $appId, cartItems: CartItem[] { $cartItemsCsv }}';
   }
 
-  static MemberCartEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static MemberCartEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var cartItemsFromMap;
     cartItemsFromMap = map['cartItems'];

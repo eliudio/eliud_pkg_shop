@@ -35,8 +35,9 @@ class CartItemEntity {
     return 'CartItemEntity{amount: $amount, appId: $appId, productId: $productId}';
   }
 
-  static CartItemEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static CartItemEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     return CartItemEntity(
       amount: int.tryParse(map['amount'].toString()), 

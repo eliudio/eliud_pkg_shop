@@ -40,8 +40,9 @@ class ProductDisplayEntity {
     return 'ProductDisplayEntity{appId: $appId, title: $title, itemDetailBackgroundId: $itemDetailBackgroundId, addToBasketText: $addToBasketText, buyAction: $buyAction, shopId: $shopId, conditions: $conditions}';
   }
 
-  static ProductDisplayEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static ProductDisplayEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var buyActionFromMap;
     buyActionFromMap = map['buyAction'];

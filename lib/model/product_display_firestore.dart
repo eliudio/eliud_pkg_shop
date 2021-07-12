@@ -49,11 +49,11 @@ class ProductDisplayFirestore implements ProductDisplayRepository {
   }
 
   ProductDisplayModel? _populateDoc(DocumentSnapshot value) {
-    return ProductDisplayModel.fromEntity(value.id, ProductDisplayEntity.fromMap(value.data() as Map<String, dynamic>));
+    return ProductDisplayModel.fromEntity(value.id, ProductDisplayEntity.fromMap(value.data()));
   }
 
   Future<ProductDisplayModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return ProductDisplayModel.fromEntityPlus(value.id, ProductDisplayEntity.fromMap(value.data() as Map<String, dynamic>), appId: appId);  }
+    return ProductDisplayModel.fromEntityPlus(value.id, ProductDisplayEntity.fromMap(value.data()), appId: appId);  }
 
   Future<ProductDisplayModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

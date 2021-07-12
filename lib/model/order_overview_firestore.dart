@@ -49,11 +49,11 @@ class OrderOverviewFirestore implements OrderOverviewRepository {
   }
 
   OrderOverviewModel? _populateDoc(DocumentSnapshot value) {
-    return OrderOverviewModel.fromEntity(value.id, OrderOverviewEntity.fromMap(value.data() as Map<String, dynamic>));
+    return OrderOverviewModel.fromEntity(value.id, OrderOverviewEntity.fromMap(value.data()));
   }
 
   Future<OrderOverviewModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return OrderOverviewModel.fromEntityPlus(value.id, OrderOverviewEntity.fromMap(value.data() as Map<String, dynamic>), appId: appId);  }
+    return OrderOverviewModel.fromEntityPlus(value.id, OrderOverviewEntity.fromMap(value.data()), appId: appId);  }
 
   Future<OrderOverviewModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

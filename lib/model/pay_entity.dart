@@ -39,8 +39,9 @@ class PayEntity {
     return 'PayEntity{appId: $appId, title: $title, succeeded: $succeeded, payAction: $payAction, shopId: $shopId, conditions: $conditions}';
   }
 
-  static PayEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static PayEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var succeededFromMap;
     succeededFromMap = map['succeeded'];

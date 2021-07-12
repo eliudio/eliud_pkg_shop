@@ -49,11 +49,11 @@ class ShopFrontFirestore implements ShopFrontRepository {
   }
 
   ShopFrontModel? _populateDoc(DocumentSnapshot value) {
-    return ShopFrontModel.fromEntity(value.id, ShopFrontEntity.fromMap(value.data() as Map<String, dynamic>));
+    return ShopFrontModel.fromEntity(value.id, ShopFrontEntity.fromMap(value.data()));
   }
 
   Future<ShopFrontModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return ShopFrontModel.fromEntityPlus(value.id, ShopFrontEntity.fromMap(value.data() as Map<String, dynamic>), appId: appId);  }
+    return ShopFrontModel.fromEntityPlus(value.id, ShopFrontEntity.fromMap(value.data()), appId: appId);  }
 
   Future<ShopFrontModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

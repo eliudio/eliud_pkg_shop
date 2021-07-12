@@ -44,8 +44,9 @@ class ProductEntity {
     return 'ProductEntity{appId: $appId, title: $title, about: $about, price: $price, weight: $weight, shopId: $shopId, images: ProductImage[] { $imagesCsv }, posSizeId: $posSizeId, conditions: $conditions}';
   }
 
-  static ProductEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static ProductEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var imagesFromMap;
     imagesFromMap = map['images'];

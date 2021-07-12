@@ -39,8 +39,9 @@ class OrderOverviewEntity {
     return 'OrderOverviewEntity{appId: $appId, title: $title, shopId: $shopId, itemImageBackgroundId: $itemImageBackgroundId, itemDetailBackgroundId: $itemDetailBackgroundId, conditions: $conditions}';
   }
 
-  static OrderOverviewEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static OrderOverviewEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];

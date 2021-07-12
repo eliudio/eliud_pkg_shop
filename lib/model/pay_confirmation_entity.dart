@@ -38,8 +38,9 @@ class PayConfirmationEntity {
     return 'PayConfirmationEntity{appId: $appId, title: $title, shopId: $shopId, backToShopAction: $backToShopAction, conditions: $conditions}';
   }
 
-  static PayConfirmationEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static PayConfirmationEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var backToShopActionFromMap;
     backToShopActionFromMap = map['backToShopAction'];

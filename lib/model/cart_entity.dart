@@ -44,8 +44,9 @@ class CartEntity {
     return 'CartEntity{appId: $appId, title: $title, description: $description, checkoutText: $checkoutText, shopId: $shopId, itemImageBackgroundId: $itemImageBackgroundId, itemDetailBackgroundId: $itemDetailBackgroundId, checkoutAction: $checkoutAction, backToShopAction: $backToShopAction, openProductAction: $openProductAction, conditions: $conditions}';
   }
 
-  static CartEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static CartEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var checkoutActionFromMap;
     checkoutActionFromMap = map['checkoutAction'];

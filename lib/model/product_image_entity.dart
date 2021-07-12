@@ -34,8 +34,9 @@ class ProductImageEntity {
     return 'ProductImageEntity{imageId: $imageId}';
   }
 
-  static ProductImageEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static ProductImageEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     return ProductImageEntity(
       imageId: map['imageId'], 

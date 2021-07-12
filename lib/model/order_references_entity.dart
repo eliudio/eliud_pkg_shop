@@ -35,8 +35,9 @@ class OrderReferencesEntity {
     return 'OrderReferencesEntity{paymentReference: $paymentReference, shipmentReference: $shipmentReference, deliveryReference: $deliveryReference}';
   }
 
-  static OrderReferencesEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static OrderReferencesEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     return OrderReferencesEntity(
       paymentReference: map['paymentReference'], 

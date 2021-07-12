@@ -49,11 +49,11 @@ class MemberCartFirestore implements MemberCartRepository {
   }
 
   MemberCartModel? _populateDoc(DocumentSnapshot value) {
-    return MemberCartModel.fromEntity(value.id, MemberCartEntity.fromMap(value.data() as Map<String, dynamic>));
+    return MemberCartModel.fromEntity(value.id, MemberCartEntity.fromMap(value.data()));
   }
 
   Future<MemberCartModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return MemberCartModel.fromEntityPlus(value.id, MemberCartEntity.fromMap(value.data() as Map<String, dynamic>), appId: appId);  }
+    return MemberCartModel.fromEntityPlus(value.id, MemberCartEntity.fromMap(value.data()), appId: appId);  }
 
   Future<MemberCartModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

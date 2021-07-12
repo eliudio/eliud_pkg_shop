@@ -49,11 +49,11 @@ class PayFirestore implements PayRepository {
   }
 
   PayModel? _populateDoc(DocumentSnapshot value) {
-    return PayModel.fromEntity(value.id, PayEntity.fromMap(value.data() as Map<String, dynamic>));
+    return PayModel.fromEntity(value.id, PayEntity.fromMap(value.data()));
   }
 
   Future<PayModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return PayModel.fromEntityPlus(value.id, PayEntity.fromMap(value.data() as Map<String, dynamic>), appId: appId);  }
+    return PayModel.fromEntityPlus(value.id, PayEntity.fromMap(value.data()), appId: appId);  }
 
   Future<PayModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

@@ -47,8 +47,9 @@ class ShopFrontEntity {
     return 'ShopFrontEntity{appId: $appId, title: $title, description: $description, shopId: $shopId, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackgroundId: $itemCardBackgroundId, addToCartColor: $addToCartColor, view: $view, scrollDirection: $scrollDirection, buyAction: $buyAction, openProductAction: $openProductAction, conditions: $conditions}';
   }
 
-  static ShopFrontEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static ShopFrontEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var addToCartColorFromMap;
     addToCartColorFromMap = map['addToCartColor'];
