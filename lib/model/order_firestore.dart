@@ -49,11 +49,11 @@ class OrderFirestore implements OrderRepository {
   }
 
   OrderModel? _populateDoc(DocumentSnapshot value) {
-    return OrderModel.fromEntity(value.id, OrderEntity.fromMap(value.data()));
+    return OrderModel.fromEntity(value.id, OrderEntity.fromMap(value.data() as Map<String, dynamic>));
   }
 
   Future<OrderModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return OrderModel.fromEntityPlus(value.id, OrderEntity.fromMap(value.data()), appId: appId);  }
+    return OrderModel.fromEntityPlus(value.id, OrderEntity.fromMap(value.data() as Map<String, dynamic>), appId: appId);  }
 
   Future<OrderModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

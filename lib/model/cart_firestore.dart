@@ -49,11 +49,11 @@ class CartFirestore implements CartRepository {
   }
 
   CartModel? _populateDoc(DocumentSnapshot value) {
-    return CartModel.fromEntity(value.id, CartEntity.fromMap(value.data()));
+    return CartModel.fromEntity(value.id, CartEntity.fromMap(value.data() as Map<String, dynamic>));
   }
 
   Future<CartModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return CartModel.fromEntityPlus(value.id, CartEntity.fromMap(value.data()), appId: appId);  }
+    return CartModel.fromEntityPlus(value.id, CartEntity.fromMap(value.data() as Map<String, dynamic>), appId: appId);  }
 
   Future<CartModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

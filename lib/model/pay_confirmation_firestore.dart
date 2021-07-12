@@ -49,11 +49,11 @@ class PayConfirmationFirestore implements PayConfirmationRepository {
   }
 
   PayConfirmationModel? _populateDoc(DocumentSnapshot value) {
-    return PayConfirmationModel.fromEntity(value.id, PayConfirmationEntity.fromMap(value.data()));
+    return PayConfirmationModel.fromEntity(value.id, PayConfirmationEntity.fromMap(value.data() as Map<String, dynamic>));
   }
 
   Future<PayConfirmationModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return PayConfirmationModel.fromEntityPlus(value.id, PayConfirmationEntity.fromMap(value.data()), appId: appId);  }
+    return PayConfirmationModel.fromEntityPlus(value.id, PayConfirmationEntity.fromMap(value.data() as Map<String, dynamic>), appId: appId);  }
 
   Future<PayConfirmationModel?> get(String? id, {Function(Exception)? onError}) async {
     try {
