@@ -152,7 +152,7 @@ class ShopListWidgetState extends State<ShopListWidget> {
 
           return ShopListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<ShopListBloc>(context)
                   .add(DeleteShopList(value: value));
@@ -199,7 +199,6 @@ class ShopListWidgetState extends State<ShopListWidget> {
 class ShopListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final ShopModel? value;
 
   ShopListItem({
@@ -207,7 +206,6 @@ class ShopListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

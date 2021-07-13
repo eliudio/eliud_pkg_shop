@@ -152,7 +152,7 @@ class ShopFrontListWidgetState extends State<ShopFrontListWidget> {
 
           return ShopFrontListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<ShopFrontListBloc>(context)
                   .add(DeleteShopFrontList(value: value));
@@ -199,7 +199,6 @@ class ShopFrontListWidgetState extends State<ShopFrontListWidget> {
 class ShopFrontListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final ShopFrontModel? value;
 
   ShopFrontListItem({
@@ -207,7 +206,6 @@ class ShopFrontListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

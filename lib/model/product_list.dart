@@ -152,7 +152,7 @@ class ProductListWidgetState extends State<ProductListWidget> {
 
           return ProductListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<ProductListBloc>(context)
                   .add(DeleteProductList(value: value));
@@ -199,7 +199,6 @@ class ProductListWidgetState extends State<ProductListWidget> {
 class ProductListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final ProductModel? value;
 
   ProductListItem({
@@ -207,7 +206,6 @@ class ProductListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

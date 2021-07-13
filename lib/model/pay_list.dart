@@ -152,7 +152,7 @@ class PayListWidgetState extends State<PayListWidget> {
 
           return PayListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<PayListBloc>(context)
                   .add(DeletePayList(value: value));
@@ -199,7 +199,6 @@ class PayListWidgetState extends State<PayListWidget> {
 class PayListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final PayModel? value;
 
   PayListItem({
@@ -207,7 +206,6 @@ class PayListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

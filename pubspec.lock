@@ -836,10 +836,10 @@ packages:
   stripe_payment:
     dependency: transitive
     description:
-      path: "../../flutter_stripe_payment"
-      relative: true
-    source: path
-    version: "1.0.11"
+      name: stripe_payment
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.4"
   synchronized:
     dependency: transitive
     description:

@@ -152,7 +152,7 @@ class OrderListWidgetState extends State<OrderListWidget> {
 
           return OrderListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<OrderListBloc>(context)
                   .add(DeleteOrderList(value: value));
@@ -201,7 +201,6 @@ class OrderListWidgetState extends State<OrderListWidget> {
 class OrderListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final OrderModel? value;
 
   OrderListItem({
@@ -209,7 +208,6 @@ class OrderListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

@@ -152,7 +152,7 @@ class PayConfirmationListWidgetState extends State<PayConfirmationListWidget> {
 
           return PayConfirmationListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<PayConfirmationListBloc>(context)
                   .add(DeletePayConfirmationList(value: value));
@@ -199,7 +199,6 @@ class PayConfirmationListWidgetState extends State<PayConfirmationListWidget> {
 class PayConfirmationListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final PayConfirmationModel? value;
 
   PayConfirmationListItem({
@@ -207,7 +206,6 @@ class PayConfirmationListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override
