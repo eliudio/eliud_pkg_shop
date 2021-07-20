@@ -60,5 +60,15 @@ abstract class AbstractRepositorySingleton {
   ShopFrontRepository? shopFrontRepository(String? appId);
 
   void flush(String? appId) {
+    cartRepository(appId)!.flush();
+    memberCartRepository(appId)!.flush();
+    orderRepository(appId)!.flush();
+    orderOverviewRepository(appId)!.flush();
+    payRepository(appId)!.flush();
+    payConfirmationRepository(appId)!.flush();
+    productRepository(appId)!.flush();
+    productDisplayRepository(appId)!.flush();
+    shopRepository(appId)!.flush();
+    shopFrontRepository(appId)!.flush();
   }
 }
