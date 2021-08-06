@@ -23,7 +23,6 @@ import 'package:eliud_pkg_shop/model/pay_confirmation_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _payConfirmationLimit = 5;
 
 class PayConfirmationListBloc extends Bloc<PayConfirmationListEvent, PayConfirmationListState> {
   final PayConfirmationRepository _payConfirmationRepository;
@@ -34,8 +33,9 @@ class PayConfirmationListBloc extends Bloc<PayConfirmationListEvent, PayConfirma
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int payConfirmationLimit;
 
-  PayConfirmationListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PayConfirmationRepository payConfirmationRepository})
+  PayConfirmationListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PayConfirmationRepository payConfirmationRepository, this.payConfirmationLimit = 5})
       : assert(payConfirmationRepository != null),
         _payConfirmationRepository = payConfirmationRepository,
         super(PayConfirmationListLoading());
@@ -48,7 +48,7 @@ class PayConfirmationListBloc extends Bloc<PayConfirmationListEvent, PayConfirma
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _payConfirmationLimit : null
+      limit: ((paged != null) && paged!) ? pages * payConfirmationLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class PayConfirmationListBloc extends Bloc<PayConfirmationListEvent, PayConfirma
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _payConfirmationLimit : null
+        limit: ((paged != null) && paged!) ? pages * payConfirmationLimit : null
     );
   }
 

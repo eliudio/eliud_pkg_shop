@@ -23,7 +23,6 @@ import 'package:eliud_pkg_shop/model/order_overview_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _orderOverviewLimit = 5;
 
 class OrderOverviewListBloc extends Bloc<OrderOverviewListEvent, OrderOverviewListState> {
   final OrderOverviewRepository _orderOverviewRepository;
@@ -34,8 +33,9 @@ class OrderOverviewListBloc extends Bloc<OrderOverviewListEvent, OrderOverviewLi
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int orderOverviewLimit;
 
-  OrderOverviewListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required OrderOverviewRepository orderOverviewRepository})
+  OrderOverviewListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required OrderOverviewRepository orderOverviewRepository, this.orderOverviewLimit = 5})
       : assert(orderOverviewRepository != null),
         _orderOverviewRepository = orderOverviewRepository,
         super(OrderOverviewListLoading());
@@ -48,7 +48,7 @@ class OrderOverviewListBloc extends Bloc<OrderOverviewListEvent, OrderOverviewLi
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _orderOverviewLimit : null
+      limit: ((paged != null) && paged!) ? pages * orderOverviewLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class OrderOverviewListBloc extends Bloc<OrderOverviewListEvent, OrderOverviewLi
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _orderOverviewLimit : null
+        limit: ((paged != null) && paged!) ? pages * orderOverviewLimit : null
     );
   }
 

@@ -23,7 +23,6 @@ import 'package:eliud_pkg_shop/model/order_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _orderLimit = 5;
 
 class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
   final OrderRepository _orderRepository;
@@ -34,8 +33,9 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int orderLimit;
 
-  OrderListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required OrderRepository orderRepository})
+  OrderListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required OrderRepository orderRepository, this.orderLimit = 5})
       : assert(orderRepository != null),
         _orderRepository = orderRepository,
         super(OrderListLoading());
@@ -48,7 +48,7 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _orderLimit : null
+      limit: ((paged != null) && paged!) ? pages * orderLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _orderLimit : null
+        limit: ((paged != null) && paged!) ? pages * orderLimit : null
     );
   }
 

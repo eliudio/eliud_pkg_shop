@@ -23,7 +23,6 @@ import 'package:eliud_pkg_shop/model/product_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _productLimit = 5;
 
 class ProductListBloc extends Bloc<ProductListEvent, ProductListState> {
   final ProductRepository _productRepository;
@@ -34,8 +33,9 @@ class ProductListBloc extends Bloc<ProductListEvent, ProductListState> {
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int productLimit;
 
-  ProductListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ProductRepository productRepository})
+  ProductListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ProductRepository productRepository, this.productLimit = 5})
       : assert(productRepository != null),
         _productRepository = productRepository,
         super(ProductListLoading());
@@ -48,7 +48,7 @@ class ProductListBloc extends Bloc<ProductListEvent, ProductListState> {
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _productLimit : null
+      limit: ((paged != null) && paged!) ? pages * productLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class ProductListBloc extends Bloc<ProductListEvent, ProductListState> {
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _productLimit : null
+        limit: ((paged != null) && paged!) ? pages * productLimit : null
     );
   }
 

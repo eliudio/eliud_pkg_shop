@@ -23,7 +23,6 @@ import 'package:eliud_pkg_shop/model/product_display_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _productDisplayLimit = 5;
 
 class ProductDisplayListBloc extends Bloc<ProductDisplayListEvent, ProductDisplayListState> {
   final ProductDisplayRepository _productDisplayRepository;
@@ -34,8 +33,9 @@ class ProductDisplayListBloc extends Bloc<ProductDisplayListEvent, ProductDispla
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int productDisplayLimit;
 
-  ProductDisplayListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ProductDisplayRepository productDisplayRepository})
+  ProductDisplayListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ProductDisplayRepository productDisplayRepository, this.productDisplayLimit = 5})
       : assert(productDisplayRepository != null),
         _productDisplayRepository = productDisplayRepository,
         super(ProductDisplayListLoading());
@@ -48,7 +48,7 @@ class ProductDisplayListBloc extends Bloc<ProductDisplayListEvent, ProductDispla
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _productDisplayLimit : null
+      limit: ((paged != null) && paged!) ? pages * productDisplayLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class ProductDisplayListBloc extends Bloc<ProductDisplayListEvent, ProductDispla
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _productDisplayLimit : null
+        limit: ((paged != null) && paged!) ? pages * productDisplayLimit : null
     );
   }
 

@@ -72,12 +72,11 @@ class MemberCartFirestore implements MemberCartRepository {
 
   StreamSubscription<List<MemberCartModel?>> listen(MemberCartModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<MemberCartModel?>> stream;
-//    stream = getQuery(MemberCartCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
-//    The above line is replaced by the below line. The reason is because the same collection can not be subscribed to twice
-//    The reason we're subscribing twice to the same list, is because the close on bloc isn't called. This needs to be fixed.
+//    stream = getQuery(appRepository()!.getSubCollection(appId, 'membercart'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
+//    The above line is replaced by the below line. The reason we had the above line is because we could not be subscribed to this collecction twice
 //    See https://github.com/felangel/bloc/issues/2073.
-//    In the meantime:
-      stream = getQuery(appRepository()!.getSubCollection(appId, 'membercart'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
+//    However... I believe this issue seems now resolved and hence we use the below. In case we do seem the issue re-occuring (in admin, then let's revisit... the above github has some other suggestions)
+      stream = getQuery(MemberCartCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
       Iterable<MemberCartModel?> memberCarts  = data.docs.map((doc) {
         MemberCartModel? value = _populateDoc(doc);
         return value;
@@ -91,9 +90,9 @@ class MemberCartFirestore implements MemberCartRepository {
 
   StreamSubscription<List<MemberCartModel?>> listenWithDetails(MemberCartModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<MemberCartModel?>> stream;
-//  stream = getQuery(MemberCartCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+//  stream = getQuery(appRepository()!.getSubCollection(appId, 'membercart'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
 //  see comment listen(...) above
-    stream = getQuery(appRepository()!.getSubCollection(appId, 'membercart'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
+    stream = getQuery(MemberCartCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
         .asyncMap((data) async {
       return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
     });

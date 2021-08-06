@@ -23,7 +23,6 @@ import 'package:eliud_pkg_shop/model/shop_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _shopLimit = 5;
 
 class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
   final ShopRepository _shopRepository;
@@ -34,8 +33,9 @@ class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int shopLimit;
 
-  ShopListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ShopRepository shopRepository})
+  ShopListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ShopRepository shopRepository, this.shopLimit = 5})
       : assert(shopRepository != null),
         _shopRepository = shopRepository,
         super(ShopListLoading());
@@ -48,7 +48,7 @@ class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _shopLimit : null
+      limit: ((paged != null) && paged!) ? pages * shopLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _shopLimit : null
+        limit: ((paged != null) && paged!) ? pages * shopLimit : null
     );
   }
 

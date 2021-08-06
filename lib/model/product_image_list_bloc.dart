@@ -23,7 +23,6 @@ import 'package:eliud_pkg_shop/model/product_image_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _productImageLimit = 5;
 
 class ProductImageListBloc extends Bloc<ProductImageListEvent, ProductImageListState> {
   final ProductImageRepository _productImageRepository;
@@ -34,8 +33,9 @@ class ProductImageListBloc extends Bloc<ProductImageListEvent, ProductImageListS
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int productImageLimit;
 
-  ProductImageListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ProductImageRepository productImageRepository})
+  ProductImageListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ProductImageRepository productImageRepository, this.productImageLimit = 5})
       : assert(productImageRepository != null),
         _productImageRepository = productImageRepository,
         super(ProductImageListLoading());
@@ -48,7 +48,7 @@ class ProductImageListBloc extends Bloc<ProductImageListEvent, ProductImageListS
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _productImageLimit : null
+      limit: ((paged != null) && paged!) ? pages * productImageLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class ProductImageListBloc extends Bloc<ProductImageListEvent, ProductImageListS
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _productImageLimit : null
+        limit: ((paged != null) && paged!) ? pages * productImageLimit : null
     );
   }
 

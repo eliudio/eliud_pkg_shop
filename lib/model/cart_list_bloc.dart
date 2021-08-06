@@ -23,7 +23,6 @@ import 'package:eliud_pkg_shop/model/cart_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _cartLimit = 5;
 
 class CartListBloc extends Bloc<CartListEvent, CartListState> {
   final CartRepository _cartRepository;
@@ -34,8 +33,9 @@ class CartListBloc extends Bloc<CartListEvent, CartListState> {
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int cartLimit;
 
-  CartListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required CartRepository cartRepository})
+  CartListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required CartRepository cartRepository, this.cartLimit = 5})
       : assert(cartRepository != null),
         _cartRepository = cartRepository,
         super(CartListLoading());
@@ -48,7 +48,7 @@ class CartListBloc extends Bloc<CartListEvent, CartListState> {
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _cartLimit : null
+      limit: ((paged != null) && paged!) ? pages * cartLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class CartListBloc extends Bloc<CartListEvent, CartListState> {
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _cartLimit : null
+        limit: ((paged != null) && paged!) ? pages * cartLimit : null
     );
   }
 

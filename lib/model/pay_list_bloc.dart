@@ -23,7 +23,6 @@ import 'package:eliud_pkg_shop/model/pay_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _payLimit = 5;
 
 class PayListBloc extends Bloc<PayListEvent, PayListState> {
   final PayRepository _payRepository;
@@ -34,8 +33,9 @@ class PayListBloc extends Bloc<PayListEvent, PayListState> {
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int payLimit;
 
-  PayListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PayRepository payRepository})
+  PayListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PayRepository payRepository, this.payLimit = 5})
       : assert(payRepository != null),
         _payRepository = payRepository,
         super(PayListLoading());
@@ -48,7 +48,7 @@ class PayListBloc extends Bloc<PayListEvent, PayListState> {
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _payLimit : null
+      limit: ((paged != null) && paged!) ? pages * payLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class PayListBloc extends Bloc<PayListEvent, PayListState> {
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _payLimit : null
+        limit: ((paged != null) && paged!) ? pages * payLimit : null
     );
   }
 
