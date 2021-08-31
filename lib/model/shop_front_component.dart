@@ -27,7 +27,7 @@ abstract class AbstractShopFrontComponent extends StatelessWidget {
   static String componentName = "shopFronts";
   final String? shopFrontID;
 
-  AbstractShopFrontComponent({this.shopFrontID});
+  AbstractShopFrontComponent({Key? key, this.shopFrontID}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -10,13 +10,13 @@ import 'package:flutter/material.dart';
 
 class CartComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({String? id, Map<String, dynamic>? parameters}) {
-      return CartProfileComponent(id: id);
+  Widget createNew({Key? key, required String id, Map<String, dynamic>? parameters}) {
+      return CartProfileComponent(key: key, id: id);
   }
 }
 
 class CartProfileComponent extends AbstractCartComponent {
-  CartProfileComponent({String? id}) : super(cartID: id);
+  CartProfileComponent({Key? key, required String id}) : super(key: key, cartID: id);
 
   @override
   Widget alertWidget({title = String, content = String}) {

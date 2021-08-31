@@ -28,14 +28,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PayComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({String? id, Map<String, dynamic>? parameters}) {
-    return PayProfileComponent(id: id);
+  Widget createNew({Key? key, required String id, Map<String, dynamic>? parameters}) {
+    return PayProfileComponent(key: key, id: id);
   }
 }
 
 class PayProfileComponent extends AbstractPayComponent {
   late PaymentBloc paymentBloc;
-  PayProfileComponent({String? id}) : super(payID: id);
+  PayProfileComponent({Key? key, required String id}) : super(key: key, payID: id);
 
   @override
   Widget yourWidget(BuildContext context, PayModel? pay) {

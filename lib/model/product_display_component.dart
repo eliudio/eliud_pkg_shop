@@ -27,7 +27,7 @@ abstract class AbstractProductDisplayComponent extends StatelessWidget {
   static String componentName = "productDisplays";
   final String? productDisplayID;
 
-  AbstractProductDisplayComponent({this.productDisplayID});
+  AbstractProductDisplayComponent({Key? key, this.productDisplayID}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

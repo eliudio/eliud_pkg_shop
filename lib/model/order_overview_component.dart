@@ -27,7 +27,7 @@ abstract class AbstractOrderOverviewComponent extends StatelessWidget {
   static String componentName = "orderOverviews";
   final String? orderOverviewID;
 
-  AbstractOrderOverviewComponent({this.orderOverviewID});
+  AbstractOrderOverviewComponent({Key? key, this.orderOverviewID}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

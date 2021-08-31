@@ -16,15 +16,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductDisplayComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({String? id, Map<String, dynamic>? parameters}) {
-    return ProductDisplayComponent(id: id, parameters: parameters);
+  Widget createNew({Key? key, required String id, Map<String, dynamic>? parameters}) {
+    return ProductDisplayComponent(key: key, id: id, parameters: parameters);
   }
 }
 
 class ProductDisplayComponent extends AbstractProductDisplayComponent {
   final Map<String, dynamic>? parameters;
 
-  ProductDisplayComponent({String? id, this.parameters}) : super(productDisplayID: id);
+  ProductDisplayComponent({Key? key, required String id, this.parameters}) : super(key: key, productDisplayID: id);
 
   @override
   Widget yourWidget(BuildContext context, ProductDisplayModel? value) {

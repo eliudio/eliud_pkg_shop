@@ -16,15 +16,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ShopFrontComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({String? id, Map<String, dynamic>? parameters}) {
-    return ShopFrontBase(id);
+  Widget createNew({Key? key, required String id, Map<String, dynamic>? parameters}) {
+    return ShopFrontBase(id, key: key);
   }
 }
 
 class ShopFrontBase extends AbstractShopFrontComponent {
   final String? id;
 
-  ShopFrontBase(this.id) : super(shopFrontID: id);
+  ShopFrontBase(this.id, {Key? key}) : super(key: key, shopFrontID: id);
 
   @override
   Widget alertWidget({title = String, content = String}) {

@@ -27,7 +27,7 @@ abstract class AbstractPayComponent extends StatelessWidget {
   static String componentName = "pays";
   final String? payID;
 
-  AbstractPayComponent({this.payID});
+  AbstractPayComponent({Key? key, this.payID}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -8,15 +8,15 @@ import 'package:eliud_pkg_shop/model/product_repository.dart';
 import 'package:flutter/material.dart';
 
 class ProductComponentConstructorDefault implements ComponentConstructor {
-  Widget createNew({String? id, Map<String, dynamic>? parameters}) {
-    return ProductBase(id);
+  Widget createNew({Key? key, required String id, Map<String, dynamic>? parameters}) {
+    return ProductBase(id, key: key);
   }
 }
 
 class ProductBase extends AbstractProductComponent {
   final String? id;
 
-  ProductBase(this.id) : super(productID: id);
+  ProductBase(this.id, {Key? key}) : super(key: key, productID: id);
 
   @override
   Widget alertWidget({title = String, content = String}) {

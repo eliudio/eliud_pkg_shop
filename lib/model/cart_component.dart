@@ -27,7 +27,7 @@ abstract class AbstractCartComponent extends StatelessWidget {
   static String componentName = "carts";
   final String? cartID;
 
-  AbstractCartComponent({this.cartID});
+  AbstractCartComponent({Key? key, this.cartID}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

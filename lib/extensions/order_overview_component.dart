@@ -13,13 +13,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OrderOverviewComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({String? id, Map<String, dynamic>? parameters}) {
-    return OrderOverviewComponent(id: id);
+  Widget createNew({Key? key, required String id, Map<String, dynamic>? parameters}) {
+    return OrderOverviewComponent(key: key, id: id);
   }
 }
 
 class OrderOverviewComponent extends AbstractOrderOverviewComponent {
-  OrderOverviewComponent({String? id}) : super(orderOverviewID: id);
+  OrderOverviewComponent({Key? key, required String id}) : super(key: key, orderOverviewID: id);
 
   @override
   Widget yourWidget(BuildContext context, OrderOverviewModel? orderOverview) {
