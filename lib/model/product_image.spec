@@ -36,9 +36,8 @@
     }
   ],
   "listFields": {
-    "title": "image!",
-    "imageTitle": true,
-    "subTitle": "documentID!"
+    "title": "ImageHelper.getImageFromMediumModel(memberMediumModel: value!.image!, width: fullScreenWidth(context))",
+    "subTitle": "value!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!)) : Container()"
   },
   "depends": ["eliud_core"]
 }

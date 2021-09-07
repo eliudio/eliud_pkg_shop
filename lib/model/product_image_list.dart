@@ -199,7 +199,7 @@ class ProductImageListWidgetState extends State<ProductImageListWidget> {
 class ProductImageListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final ProductImageModel? value;
+  final ProductImageModel value;
 
   ProductImageListItem({
     Key? key,
@@ -215,16 +215,8 @@ class ProductImageListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: Hero(
-          tag: '${value!.documentID}__ProductImageheroTag',
-          child: Container(
-            width: fullScreenWidth(context),
-            child: Center( child: ImageHelper.getImageFromMediumModel(memberMediumModel: value!.image!, width: fullScreenWidth(context)))
-          ),
-        ),
-        subtitle: (value!.documentID! != null) && (value!.documentID!.isNotEmpty)
-            ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!))
-            : null,
+        title: ImageHelper.getImageFromMediumModel(memberMediumModel: value!.image!, width: fullScreenWidth(context)),
+        subtitle: value!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!)) : Container(),
       ),
     );
   }

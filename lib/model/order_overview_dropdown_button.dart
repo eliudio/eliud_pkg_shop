@@ -61,10 +61,10 @@ class OrderOverviewDropdownButtonWidgetState extends State<OrderOverviewDropdown
     super.dispose();
   }
 
-List<Widget> widgets(OrderOverviewModel pm) {
+List<Widget> widgets(OrderOverviewModel value) {
 var widgets = <Widget>[];
-if (pm.documentID! != null) widgets.add(new Text(pm.documentID!));
-if (pm.title! != null) widgets.add(new Text(pm.title!));
+widgets.add(value!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!)) : Container());
+widgets.add(value!.title != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.title!)) : Container());
 return widgets;
 }
 

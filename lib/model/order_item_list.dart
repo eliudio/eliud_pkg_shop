@@ -199,7 +199,7 @@ class OrderItemListWidgetState extends State<OrderItemListWidget> {
 class OrderItemListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final OrderItemModel? value;
+  final OrderItemModel value;
 
   OrderItemListItem({
     Key? key,
@@ -215,13 +215,7 @@ class OrderItemListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: Hero(
-          tag: '${value!.documentID}__OrderItemheroTag',
-          child: Container(
-            width: fullScreenWidth(context),
-            child: Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.amount != null ? value!.amount.toString() + ' ' + (value!.product == null ? '' : value!.product!.title!) + ' ' + (value!.soldPrice == null ? '' : value!.soldPrice!.toString()) : '0')),
-          ),
-        ),
+        title: value!.amount != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.amount.toString() + ' ' + (value!.product == null ? '' : value!.product!.title!) + ' ' + (value!.soldPrice == null ? '' : value!.soldPrice!.toString()))) : Text('0'),
       ),
     );
   }
