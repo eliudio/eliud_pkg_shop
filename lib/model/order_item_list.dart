@@ -220,4 +220,3 @@ class OrderItemListItem extends StatelessWidget {
     );
   }
 }
-
