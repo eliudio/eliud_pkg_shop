@@ -211,12 +211,12 @@ class ProductImageListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key('__ProductImage_item_${value!.documentID}'),
+      key: Key('__ProductImage_item_${value.documentID}'),
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: ImageHelper.getImageFromMediumModel(memberMediumModel: value!.image!, width: fullScreenWidth(context)),
-        subtitle: value!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!)) : Container(),
+        title: ImageHelper.getImageFromMediumModel(memberMediumModel: value.image!, width: fullScreenWidth(context)),
+        subtitle: value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.documentID!)) : Container(),
       ),
     );
   }

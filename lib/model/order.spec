@@ -275,8 +275,8 @@
     }
   ],
   "listFields": {
-    "title": "value!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!)) : Container()",
-    "subTitle": "value!.paymentReference != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.paymentReference!)) : Container()"
+    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.documentID!)) : Container()",
+    "subTitle": "value.paymentReference != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.paymentReference!)) : Container()"
   },
   "alternativeViews": [
     {

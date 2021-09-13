@@ -63,8 +63,8 @@ class OrderDropdownButtonWidgetState extends State<OrderDropdownButtonWidget> {
 
 List<Widget> widgets(OrderModel value) {
 var widgets = <Widget>[];
-widgets.add(value!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!)) : Container());
-widgets.add(value!.paymentReference != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.paymentReference!)) : Container());
+widgets.add(value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.documentID!)) : Container());
+widgets.add(value.paymentReference != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.paymentReference!)) : Container());
 return widgets;
 }
 
