@@ -1,6 +1,7 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:eliud_core/tools/custom_utils.dart';
@@ -75,14 +76,12 @@ class ShopFrontState extends State<ShopFront> {
     if (appState is AppLoaded) {
       var widgets = <Widget>[];
       if (widget.shopFrontModel!.title != null) {
-        widgets.add(StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().h4(context, widget.shopFrontModel!.title!));
+        widgets.add(h4(context, widget.shopFrontModel!.title!));
         widgets.add(Utils.getSizedBox(height: 10));
       }
 
       if (widget.shopFrontModel!.description != null) {
-        widgets.add(StyleRegistry.registry().styleWithContext(context)
-            .frontEndStyle().textStyle()
-            .text(context, widget.shopFrontModel!.description!));
+        widgets.add(text(context, widget.shopFrontModel!.description!));
         widgets.add(Utils.getSizedBox(height: 10));
       }
       widgets.add(_grid(context));

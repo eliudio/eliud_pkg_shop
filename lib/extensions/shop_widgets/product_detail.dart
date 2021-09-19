@@ -1,5 +1,7 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/style/frontend/has_button.dart';
+import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_pkg_fundamentals/extensions/fader_widgets/fader_widgets.dart';
@@ -70,29 +72,17 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            StyleRegistry.registry()
-                                .styleWithContext(context)
-                                .frontEndStyle().textStyle()
-                                .h3(context, title!),
-                            StyleRegistry.registry()
-                                .styleWithContext(context)
-                                .frontEndStyle().textStyle()
-                                .h3(context,
+                            h3(context, title!),
+                            h3(context,
                                     widget.productModel!.price.toString()),
                           ],
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0),
-                        child: StyleRegistry.registry()
-                            .styleWithContext(context)
-                            .frontEndStyle().textStyle()
-                            .text(context, widget.productModel!.about!),
+                        child: text(context, widget.productModel!.about!),
                       ),
-                      StyleRegistry.registry()
-                          .styleWithContext(context)
-                          .frontEndStyle().buttonStyle()
-                          .button(
+                      button(
                         context,
                         label: widget.productDisplayModel!.addToBasketText !=
                                     null &&

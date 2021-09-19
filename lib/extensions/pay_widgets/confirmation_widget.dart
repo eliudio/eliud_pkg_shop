@@ -2,6 +2,9 @@ import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/style/frontend/has_button.dart';
+import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
+import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/order_helper.dart';
 import 'package:eliud_pkg_shop/model/order_component_bloc.dart';
@@ -24,11 +27,7 @@ class ConfirmationWidget extends StatefulWidget {
 
 class ConfirmationState extends State<ConfirmationWidget> {
   Widget _getButton(AppModel app) {
-    return StyleRegistry.registry()
-        .styleWithContext(context)
-        .frontEndStyle()
-        .buttonStyle()
-        .button(
+    return button(
       context,
       label: 'Back to the shop',
       onPressed: () {
@@ -55,17 +54,9 @@ class ConfirmationState extends State<ConfirmationWidget> {
               size: 50.0,
               semanticLabel: 'Success',
             ),
-            title: StyleRegistry.registry()
-                .styleWithContext(context)
-                .frontEndStyle()
-                .textStyle()
-                .h4(context, 'Payment successfull.'),
-            subtitle: StyleRegistry.registry()
-                .styleWithContext(context)
-                .frontEndStyle()
-                .textStyle()
-                .text(context,
-                    "We'll be working hard to get it to you asap. Thank you very much"),
+            title: h4(context, 'Payment successfull.'),
+            subtitle: text(context,
+                "We'll be working hard to get it to you asap. Thank you very much"),
           ));
           OrderHelper.addOrderOverviewAfterPayment(
               appState.app, widgets, order, context);
@@ -76,11 +67,7 @@ class ConfirmationState extends State<ConfirmationWidget> {
             children: widgets,
           );
         } else {
-          return StyleRegistry.registry()
-              .styleWithContext(context)
-              .frontEndStyle()
-              .progressIndicatorStyle()
-              .progressIndicator(context);
+          return progressIndicator(context);
         }
       });
     } else {

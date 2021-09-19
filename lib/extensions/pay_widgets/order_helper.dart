@@ -1,4 +1,6 @@
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/style/frontend/has_icon.dart';
+import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_pkg_shop/model/order_item_model.dart';
 import 'package:eliud_pkg_shop/model/order_model.dart';
@@ -10,15 +12,9 @@ class OrderHelper {
           {Widget? trailing}) =>
       ListTile(
         trailing: trailing,
-        title: StyleRegistry.registry()
-            .styleWithContext(context)
-            .frontEndStyle().textStyle()
-            .h4(context, title),
+        title: h4(context, title),
         subtitle: value != null
-            ? StyleRegistry.registry()
-                .styleWithContext(context)
-                .frontEndStyle().textStyle()
-                .text(context, value)
+            ? text(context, value)
             : null,
       );
 
@@ -78,11 +74,9 @@ class OrderHelper {
 
   static List<Widget> addOrderOverviewBasics(BuildContext context, AppModel app,
       List<Widget> widgets, OrderModel order) {
-    var frontEndStyle =
-        StyleRegistry.registry().styleWithContext(context).frontEndStyle();
     widgets.add(_getRow(
         context, app, 'Contact:', order.name! + ', ' + order.email!,
-        trailing: frontEndStyle.iconStyle().h1Icon2(context,
+        trailing: h1Icon2(context,
             iconData: Icons.contact_phone, semanticLabel: 'Contact')));
     widgets.add(_getRow(
         context,
@@ -91,12 +85,12 @@ class OrderHelper {
             ? 'Shipment address:'
             : 'Shipment & invoice address',
         _getShipAddress(order),
-        trailing: frontEndStyle.iconStyle().h1Icon2(context,
+        trailing: h1Icon2(context,
             iconData: Icons.local_shipping, semanticLabel: 'Contact')));
     if ((order.invoiceSame != null) && (!order.invoiceSame!)) {
       widgets.add(_getRow(
           context, app, 'Invoice address:', _getInvoiceAddress(order),
-          trailing: frontEndStyle.iconStyle().h1Icon2(context,
+          trailing: h1Icon2(context,
               iconData: Icons.note, semanticLabel: 'Contact')));
     }
     return widgets;
@@ -114,10 +108,7 @@ class OrderHelper {
     addOrderOverviewBasics(context, app, widgets, order);
     widgets.add(_getRow(
         context, app, 'Payment reference:', order.paymentReference,
-        trailing: StyleRegistry.registry()
-            .styleWithContext(context)
-            .frontEndStyle()
-            .iconStyle().h1Icon2(
+        trailing: h1Icon2(
               context,
               iconData: Icons.payment,
               semanticLabel: 'Success',
@@ -130,10 +121,7 @@ class OrderHelper {
       OrderModel order, BuildContext context) {
     widgets.add(_getRow(
         context, app, 'Products:', "These are the produts you're ordering",
-        trailing: StyleRegistry.registry()
-            .styleWithContext(context)
-            .frontEndStyle()
-            .iconStyle().h1Icon2(context, iconData: Icons.list, semanticLabel: 'Contact')));
+        trailing: h1Icon2(context, iconData: Icons.list, semanticLabel: 'Contact')));
 
     final theme = Theme.of(context);
     final style = theme.textTheme.bodyText2!
@@ -167,10 +155,7 @@ class OrderHelper {
 
     widgets.add(_getRow(context, app, 'Total price:',
         order.totalPrice.toString() + ' ' + order.currency!,
-        trailing: StyleRegistry.registry()
-            .styleWithContext(context)
-            .frontEndStyle()
-            .iconStyle().h1Icon2(
+        trailing: h1Icon2(
               context,
               iconData: Icons.attach_money,
               semanticLabel: 'Total price',

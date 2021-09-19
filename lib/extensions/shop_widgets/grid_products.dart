@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
+import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/screen_size.dart';
@@ -122,7 +123,7 @@ class _GridProductsState extends State<GridProducts> {
               padding: const EdgeInsets.all(0.0),
               children: cards);
         } else {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
+          return progressIndicator(context);
         }
       },
     );
