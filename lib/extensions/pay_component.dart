@@ -7,7 +7,7 @@ import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/style/style_registry.dart';
-import 'package:eliud_core/tools/component_constructor.dart';
+import 'package:eliud_core/tools/component/component_constructor.dart';
 import 'package:eliud_pkg_pay/platform/payment_platform.dart';
 import 'package:eliud_pkg_pay/tools/bloc/pay_bloc.dart';
 import 'package:eliud_pkg_pay/tools/bloc/pay_event.dart';
