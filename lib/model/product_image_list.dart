@@ -216,7 +216,7 @@ class ProductImageListItem extends StatelessWidget {
       child: ListTile(
         onTap: onTap,
         title: ImageHelper.getImageFromMediumModel(memberMediumModel: value.image!, width: fullScreenWidth(context)),
-        subtitle: value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.documentID!)) : Container(),
+        subtitle: value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.documentID!)) : Container(),
       ),
     );
   }

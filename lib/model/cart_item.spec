@@ -61,6 +61,6 @@
     }
   ],
   "listFields": {
-    "title": "value.amount != null ? StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.amount!.toString())) : Text('0')"
+    "title": "value.amount != null ? StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.amount!.toString())) : Text('0')"
   }
 }

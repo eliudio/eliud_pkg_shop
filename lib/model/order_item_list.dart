@@ -215,7 +215,7 @@ class OrderItemListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: value.amount != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.amount.toString() + ' ' + (value.product == null ? '' : value.product!.title!) + ' ' + (value.soldPrice == null ? '' : value.soldPrice!.toString()))) : Text('0'),
+        title: value.amount != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.amount.toString() + ' ' + (value.product == null ? '' : value.product!.title!) + ' ' + (value.soldPrice == null ? '' : value.soldPrice!.toString()))) : Text('0'),
       ),
     );
   }
