@@ -15,6 +15,8 @@ import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/repository_singleton.dart';
 
 abstract class ShopPackage extends PackageWithSubscription {
+  ShopPackage() : super('eliud_pkg_shop');
+
   static final String CONDITION_CARTS_HAS_ITEMS = 'MustHaveStuffInBasket';
   bool? stateCONDITION_CARTS_HAS_ITEMS = null;
 
