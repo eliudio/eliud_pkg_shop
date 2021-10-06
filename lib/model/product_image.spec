@@ -29,14 +29,14 @@
     {
       "fieldName": "image",
       "displayName": "Image",
-      "fieldType": "MemberMedium",
+      "fieldType": "PlatformMedium",
       "association": true,
       "optional": false,
       "group": "Image"
     }
   ],
   "listFields": {
-    "title": "ImageHelper.getImageFromMediumModel(memberMediumModel: value.image!, width: fullScreenWidth(context))",
+    "title": "ImageHelper.getImageFromPlatformModel(platformMediumModel: value.image!, width: fullScreenWidth(context))",
     "subTitle": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.documentID!)) : Container()"
   },
   "depends": ["eliud_core"]

@@ -37,13 +37,13 @@ import 'package:eliud_core/tools/random.dart';
 
 class ProductImageModel {
   String? documentID;
-  MemberMediumModel? image;
+  PlatformMediumModel? image;
 
   ProductImageModel({this.documentID, this.image, })  {
     assert(documentID != null);
   }
 
-  ProductImageModel copyWith({String? documentID, MemberMediumModel? image, }) {
+  ProductImageModel copyWith({String? documentID, PlatformMediumModel? image, }) {
     return ProductImageModel(documentID: documentID ?? this.documentID, image: image ?? this.image, );
   }
 
@@ -80,13 +80,13 @@ class ProductImageModel {
   static Future<ProductImageModel?> fromEntityPlus(String documentID, ProductImageEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
-    MemberMediumModel? imageHolder;
+    PlatformMediumModel? imageHolder;
     if (entity.imageId != null) {
       try {
-          imageHolder = await memberMediumRepository(appId: appId)!.get(entity.imageId);
+          imageHolder = await platformMediumRepository(appId: appId)!.get(entity.imageId);
       } on Exception catch(e) {
         print('Error whilst trying to initialise image');
-        print('Error whilst retrieving memberMedium with id ${entity.imageId}');
+        print('Error whilst retrieving platformMedium with id ${entity.imageId}');
         print('Exception: $e');
       }
     }
