@@ -20,6 +20,9 @@ class ShopFrontComponentConstructorDefault implements ComponentConstructor {
   Widget createNew({Key? key, required String id, Map<String, dynamic>? parameters}) {
     return ShopFrontBase(id, key: key);
   }
+
+  @override
+  Future<dynamic> getModel({required String appId, required String id}) async => await shopFrontRepository(appId: appId)!.get(id);
 }
 
 class ShopFrontBase extends AbstractShopFrontComponent {

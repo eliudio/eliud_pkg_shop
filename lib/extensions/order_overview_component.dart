@@ -16,6 +16,9 @@ class OrderOverviewComponentConstructorDefault implements ComponentConstructor {
   Widget createNew({Key? key, required String id, Map<String, dynamic>? parameters}) {
     return OrderOverviewComponent(key: key, id: id);
   }
+
+  @override
+  Future<dynamic> getModel({required String appId, required String id}) async => await orderOverviewRepository(appId: appId)!.get(id);
 }
 
 class OrderOverviewComponent extends AbstractOrderOverviewComponent {

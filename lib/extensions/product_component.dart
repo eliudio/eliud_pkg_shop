@@ -8,9 +8,13 @@ import 'package:eliud_pkg_shop/model/product_repository.dart';
 import 'package:flutter/material.dart';
 
 class ProductComponentConstructorDefault implements ComponentConstructor {
+  @override
   Widget createNew({Key? key, required String id, Map<String, dynamic>? parameters}) {
     return ProductBase(id, key: key);
   }
+
+  @override
+  Future<dynamic> getModel({required String appId, required String id}) async => await productRepository(appId: appId)!.get(id);
 }
 
 class ProductBase extends AbstractProductComponent {

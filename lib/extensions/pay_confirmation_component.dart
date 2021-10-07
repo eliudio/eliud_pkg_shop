@@ -17,6 +17,9 @@ class PayConfirmationComponentConstructorDefault implements ComponentConstructor
   Widget createNew({Key? key, required String id, Map<String, dynamic>? parameters}) {
     return PayConfirmationComponent(key: key, id: id, parameters: parameters,);
   }
+
+  @override
+  Future<dynamic> getModel({required String appId, required String id}) async => await payConfirmationRepository(appId: appId)!.get(id);
 }
 
 class PayConfirmationComponent extends AbstractPayConfirmationComponent {

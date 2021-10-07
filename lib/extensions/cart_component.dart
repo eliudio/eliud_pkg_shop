@@ -13,6 +13,9 @@ class CartComponentConstructorDefault implements ComponentConstructor {
   Widget createNew({Key? key, required String id, Map<String, dynamic>? parameters}) {
       return CartProfileComponent(key: key, id: id);
   }
+
+  @override
+  Future<dynamic> getModel({required String appId, required String id}) async => await cartRepository(appId: appId)!.get(id);
 }
 
 class CartProfileComponent extends AbstractCartComponent {

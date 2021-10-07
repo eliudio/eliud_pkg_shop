@@ -35,6 +35,9 @@ class PayComponentConstructorDefault implements ComponentConstructor {
       {Key? key, required String id, Map<String, dynamic>? parameters}) {
     return PayProfileComponent(key: key, id: id);
   }
+
+  @override
+  Future<dynamic> getModel({required String appId, required String id}) async => await payRepository(appId: appId)!.get(id);
 }
 
 class PayProfileComponent extends AbstractPayComponent {

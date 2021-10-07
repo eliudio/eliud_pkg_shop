@@ -20,6 +20,9 @@ class ProductDisplayComponentConstructorDefault implements ComponentConstructor 
   Widget createNew({Key? key, required String id, Map<String, dynamic>? parameters}) {
     return ProductDisplayComponent(key: key, id: id, parameters: parameters);
   }
+
+  @override
+  Future<dynamic> getModel({required String appId, required String id}) async => await productDisplayRepository(appId: appId)!.get(id);
 }
 
 class ProductDisplayComponent extends AbstractProductDisplayComponent {
