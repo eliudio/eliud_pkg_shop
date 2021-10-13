@@ -25,42 +25,30 @@ import 'package:flutter/services.dart';
 
 class OrderOverviewComponentBloc extends Bloc<OrderOverviewComponentEvent, OrderOverviewComponentState> {
   final OrderOverviewRepository? orderOverviewRepository;
+  StreamSubscription? _orderOverviewSubscription;
+
+  Stream<OrderOverviewComponentState> _mapLoadOrderOverviewComponentUpdateToState(String documentId) async* {
+    _orderOverviewSubscription?.cancel();
+    _orderOverviewSubscription = orderOverviewRepository!.listenTo(documentId, (value) {
+      if (value != null) add(OrderOverviewComponentUpdated(value: value!));
+    });
+  }
 
   OrderOverviewComponentBloc({ this.orderOverviewRepository }): super(OrderOverviewComponentUninitialized());
+
   @override
   Stream<OrderOverviewComponentState> mapEventToState(OrderOverviewComponentEvent event) async* {
     final currentState = state;
     if (event is FetchOrderOverviewComponent) {
-      try {
-        if (currentState is OrderOverviewComponentUninitialized) {
-          bool permissionDenied = false;
-          final model = await orderOverviewRepository!.get(event.id, onError: (error) {
-            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
-              permissionDenied = true;
-            }
-          });
-          if (permissionDenied) {
-            yield OrderOverviewComponentPermissionDenied();
-          } else {
-            if (model != null) {
-              yield OrderOverviewComponentLoaded(value: model);
-            } else {
-              String? id = event.id;
-              yield OrderOverviewComponentError(
-                  message: "OrderOverview with id = '$id' not found");
-            }
-          }
-          return;
-        }
-      } catch (_) {
-        yield OrderOverviewComponentError(message: "Unknown error whilst retrieving OrderOverview");
-      }
+      yield* _mapLoadOrderOverviewComponentUpdateToState(event.id!);
+    } else if (event is OrderOverviewComponentUpdated) {
+      yield OrderOverviewComponentLoaded(value: event.value);
     }
   }
 
   @override
   Future<void> close() {
+    _orderOverviewSubscription?.cancel();
     return super.close();
   }
 

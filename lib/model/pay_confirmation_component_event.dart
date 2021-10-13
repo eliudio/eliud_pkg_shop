@@ -14,6 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
+import 'package:eliud_pkg_shop/model/pay_confirmation_model.dart';
 
 abstract class PayConfirmationComponentEvent extends Equatable {
   @override
@@ -25,4 +26,11 @@ class FetchPayConfirmationComponent extends PayConfirmationComponentEvent {
 
   FetchPayConfirmationComponent({ this.id });
 }
+
+class PayConfirmationComponentUpdated extends PayConfirmationComponentEvent {
+  final PayConfirmationModel value;
+
+  PayConfirmationComponentUpdated({ required this.value });
+}
+
 

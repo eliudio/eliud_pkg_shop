@@ -25,42 +25,30 @@ import 'package:flutter/services.dart';
 
 class OrderComponentBloc extends Bloc<OrderComponentEvent, OrderComponentState> {
   final OrderRepository? orderRepository;
+  StreamSubscription? _orderSubscription;
+
+  Stream<OrderComponentState> _mapLoadOrderComponentUpdateToState(String documentId) async* {
+    _orderSubscription?.cancel();
+    _orderSubscription = orderRepository!.listenTo(documentId, (value) {
+      if (value != null) add(OrderComponentUpdated(value: value!));
+    });
+  }
 
   OrderComponentBloc({ this.orderRepository }): super(OrderComponentUninitialized());
+
   @override
   Stream<OrderComponentState> mapEventToState(OrderComponentEvent event) async* {
     final currentState = state;
     if (event is FetchOrderComponent) {
-      try {
-        if (currentState is OrderComponentUninitialized) {
-          bool permissionDenied = false;
-          final model = await orderRepository!.get(event.id, onError: (error) {
-            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
-              permissionDenied = true;
-            }
-          });
-          if (permissionDenied) {
-            yield OrderComponentPermissionDenied();
-          } else {
-            if (model != null) {
-              yield OrderComponentLoaded(value: model);
-            } else {
-              String? id = event.id;
-              yield OrderComponentError(
-                  message: "Order with id = '$id' not found");
-            }
-          }
-          return;
-        }
-      } catch (_) {
-        yield OrderComponentError(message: "Unknown error whilst retrieving Order");
-      }
+      yield* _mapLoadOrderComponentUpdateToState(event.id!);
+    } else if (event is OrderComponentUpdated) {
+      yield OrderComponentLoaded(value: event.value);
     }
   }
 
   @override
   Future<void> close() {
+    _orderSubscription?.cancel();
     return super.close();
   }
 

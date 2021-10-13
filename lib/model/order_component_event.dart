@@ -14,6 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
+import 'package:eliud_pkg_shop/model/order_model.dart';
 
 abstract class OrderComponentEvent extends Equatable {
   @override
@@ -25,4 +26,11 @@ class FetchOrderComponent extends OrderComponentEvent {
 
   FetchOrderComponent({ this.id });
 }
+
+class OrderComponentUpdated extends OrderComponentEvent {
+  final OrderModel value;
+
+  OrderComponentUpdated({ required this.value });
+}
+
 

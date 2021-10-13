@@ -14,6 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
+import 'package:eliud_pkg_shop/model/pay_model.dart';
 
 abstract class PayComponentEvent extends Equatable {
   @override
@@ -25,4 +26,11 @@ class FetchPayComponent extends PayComponentEvent {
 
   FetchPayComponent({ this.id });
 }
+
+class PayComponentUpdated extends PayComponentEvent {
+  final PayModel value;
+
+  PayComponentUpdated({ required this.value });
+}
+
 

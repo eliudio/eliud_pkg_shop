@@ -25,42 +25,30 @@ import 'package:flutter/services.dart';
 
 class ShopFrontComponentBloc extends Bloc<ShopFrontComponentEvent, ShopFrontComponentState> {
   final ShopFrontRepository? shopFrontRepository;
+  StreamSubscription? _shopFrontSubscription;
+
+  Stream<ShopFrontComponentState> _mapLoadShopFrontComponentUpdateToState(String documentId) async* {
+    _shopFrontSubscription?.cancel();
+    _shopFrontSubscription = shopFrontRepository!.listenTo(documentId, (value) {
+      if (value != null) add(ShopFrontComponentUpdated(value: value!));
+    });
+  }
 
   ShopFrontComponentBloc({ this.shopFrontRepository }): super(ShopFrontComponentUninitialized());
+
   @override
   Stream<ShopFrontComponentState> mapEventToState(ShopFrontComponentEvent event) async* {
     final currentState = state;
     if (event is FetchShopFrontComponent) {
-      try {
-        if (currentState is ShopFrontComponentUninitialized) {
-          bool permissionDenied = false;
-          final model = await shopFrontRepository!.get(event.id, onError: (error) {
-            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
-              permissionDenied = true;
-            }
-          });
-          if (permissionDenied) {
-            yield ShopFrontComponentPermissionDenied();
-          } else {
-            if (model != null) {
-              yield ShopFrontComponentLoaded(value: model);
-            } else {
-              String? id = event.id;
-              yield ShopFrontComponentError(
-                  message: "ShopFront with id = '$id' not found");
-            }
-          }
-          return;
-        }
-      } catch (_) {
-        yield ShopFrontComponentError(message: "Unknown error whilst retrieving ShopFront");
-      }
+      yield* _mapLoadShopFrontComponentUpdateToState(event.id!);
+    } else if (event is ShopFrontComponentUpdated) {
+      yield ShopFrontComponentLoaded(value: event.value);
     }
   }
 
   @override
   Future<void> close() {
+    _shopFrontSubscription?.cancel();
     return super.close();
   }
 

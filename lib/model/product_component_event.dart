@@ -14,6 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
+import 'package:eliud_pkg_shop/model/product_model.dart';
 
 abstract class ProductComponentEvent extends Equatable {
   @override
@@ -25,4 +26,11 @@ class FetchProductComponent extends ProductComponentEvent {
 
   FetchProductComponent({ this.id });
 }
+
+class ProductComponentUpdated extends ProductComponentEvent {
+  final ProductModel value;
+
+  ProductComponentUpdated({ required this.value });
+}
+
 

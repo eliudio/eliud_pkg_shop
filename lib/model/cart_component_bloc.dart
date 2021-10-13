@@ -25,42 +25,30 @@ import 'package:flutter/services.dart';
 
 class CartComponentBloc extends Bloc<CartComponentEvent, CartComponentState> {
   final CartRepository? cartRepository;
+  StreamSubscription? _cartSubscription;
+
+  Stream<CartComponentState> _mapLoadCartComponentUpdateToState(String documentId) async* {
+    _cartSubscription?.cancel();
+    _cartSubscription = cartRepository!.listenTo(documentId, (value) {
+      if (value != null) add(CartComponentUpdated(value: value!));
+    });
+  }
 
   CartComponentBloc({ this.cartRepository }): super(CartComponentUninitialized());
+
   @override
   Stream<CartComponentState> mapEventToState(CartComponentEvent event) async* {
     final currentState = state;
     if (event is FetchCartComponent) {
-      try {
-        if (currentState is CartComponentUninitialized) {
-          bool permissionDenied = false;
-          final model = await cartRepository!.get(event.id, onError: (error) {
-            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
-              permissionDenied = true;
-            }
-          });
-          if (permissionDenied) {
-            yield CartComponentPermissionDenied();
-          } else {
-            if (model != null) {
-              yield CartComponentLoaded(value: model);
-            } else {
-              String? id = event.id;
-              yield CartComponentError(
-                  message: "Cart with id = '$id' not found");
-            }
-          }
-          return;
-        }
-      } catch (_) {
-        yield CartComponentError(message: "Unknown error whilst retrieving Cart");
-      }
+      yield* _mapLoadCartComponentUpdateToState(event.id!);
+    } else if (event is CartComponentUpdated) {
+      yield CartComponentLoaded(value: event.value);
     }
   }
 
   @override
   Future<void> close() {
+    _cartSubscription?.cancel();
     return super.close();
   }
 

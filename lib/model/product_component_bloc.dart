@@ -25,42 +25,30 @@ import 'package:flutter/services.dart';
 
 class ProductComponentBloc extends Bloc<ProductComponentEvent, ProductComponentState> {
   final ProductRepository? productRepository;
+  StreamSubscription? _productSubscription;
+
+  Stream<ProductComponentState> _mapLoadProductComponentUpdateToState(String documentId) async* {
+    _productSubscription?.cancel();
+    _productSubscription = productRepository!.listenTo(documentId, (value) {
+      if (value != null) add(ProductComponentUpdated(value: value!));
+    });
+  }
 
   ProductComponentBloc({ this.productRepository }): super(ProductComponentUninitialized());
+
   @override
   Stream<ProductComponentState> mapEventToState(ProductComponentEvent event) async* {
     final currentState = state;
     if (event is FetchProductComponent) {
-      try {
-        if (currentState is ProductComponentUninitialized) {
-          bool permissionDenied = false;
-          final model = await productRepository!.get(event.id, onError: (error) {
-            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
-              permissionDenied = true;
-            }
-          });
-          if (permissionDenied) {
-            yield ProductComponentPermissionDenied();
-          } else {
-            if (model != null) {
-              yield ProductComponentLoaded(value: model);
-            } else {
-              String? id = event.id;
-              yield ProductComponentError(
-                  message: "Product with id = '$id' not found");
-            }
-          }
-          return;
-        }
-      } catch (_) {
-        yield ProductComponentError(message: "Unknown error whilst retrieving Product");
-      }
+      yield* _mapLoadProductComponentUpdateToState(event.id!);
+    } else if (event is ProductComponentUpdated) {
+      yield ProductComponentLoaded(value: event.value);
     }
   }
 
   @override
   Future<void> close() {
+    _productSubscription?.cancel();
     return super.close();
   }
 

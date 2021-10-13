@@ -14,6 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
+import 'package:eliud_pkg_shop/model/shop_front_model.dart';
 
 abstract class ShopFrontComponentEvent extends Equatable {
   @override
@@ -25,4 +26,11 @@ class FetchShopFrontComponent extends ShopFrontComponentEvent {
 
   FetchShopFrontComponent({ this.id });
 }
+
+class ShopFrontComponentUpdated extends ShopFrontComponentEvent {
+  final ShopFrontModel value;
+
+  ShopFrontComponentUpdated({ required this.value });
+}
+
 

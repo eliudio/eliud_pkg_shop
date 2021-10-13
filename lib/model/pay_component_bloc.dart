@@ -25,42 +25,30 @@ import 'package:flutter/services.dart';
 
 class PayComponentBloc extends Bloc<PayComponentEvent, PayComponentState> {
   final PayRepository? payRepository;
+  StreamSubscription? _paySubscription;
+
+  Stream<PayComponentState> _mapLoadPayComponentUpdateToState(String documentId) async* {
+    _paySubscription?.cancel();
+    _paySubscription = payRepository!.listenTo(documentId, (value) {
+      if (value != null) add(PayComponentUpdated(value: value!));
+    });
+  }
 
   PayComponentBloc({ this.payRepository }): super(PayComponentUninitialized());
+
   @override
   Stream<PayComponentState> mapEventToState(PayComponentEvent event) async* {
     final currentState = state;
     if (event is FetchPayComponent) {
-      try {
-        if (currentState is PayComponentUninitialized) {
-          bool permissionDenied = false;
-          final model = await payRepository!.get(event.id, onError: (error) {
-            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
-              permissionDenied = true;
-            }
-          });
-          if (permissionDenied) {
-            yield PayComponentPermissionDenied();
-          } else {
-            if (model != null) {
-              yield PayComponentLoaded(value: model);
-            } else {
-              String? id = event.id;
-              yield PayComponentError(
-                  message: "Pay with id = '$id' not found");
-            }
-          }
-          return;
-        }
-      } catch (_) {
-        yield PayComponentError(message: "Unknown error whilst retrieving Pay");
-      }
+      yield* _mapLoadPayComponentUpdateToState(event.id!);
+    } else if (event is PayComponentUpdated) {
+      yield PayComponentLoaded(value: event.value);
     }
   }
 
   @override
   Future<void> close() {
+    _paySubscription?.cancel();
     return super.close();
   }
 

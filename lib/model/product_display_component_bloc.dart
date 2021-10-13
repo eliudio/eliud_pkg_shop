@@ -25,42 +25,30 @@ import 'package:flutter/services.dart';
 
 class ProductDisplayComponentBloc extends Bloc<ProductDisplayComponentEvent, ProductDisplayComponentState> {
   final ProductDisplayRepository? productDisplayRepository;
+  StreamSubscription? _productDisplaySubscription;
+
+  Stream<ProductDisplayComponentState> _mapLoadProductDisplayComponentUpdateToState(String documentId) async* {
+    _productDisplaySubscription?.cancel();
+    _productDisplaySubscription = productDisplayRepository!.listenTo(documentId, (value) {
+      if (value != null) add(ProductDisplayComponentUpdated(value: value!));
+    });
+  }
 
   ProductDisplayComponentBloc({ this.productDisplayRepository }): super(ProductDisplayComponentUninitialized());
+
   @override
   Stream<ProductDisplayComponentState> mapEventToState(ProductDisplayComponentEvent event) async* {
     final currentState = state;
     if (event is FetchProductDisplayComponent) {
-      try {
-        if (currentState is ProductDisplayComponentUninitialized) {
-          bool permissionDenied = false;
-          final model = await productDisplayRepository!.get(event.id, onError: (error) {
-            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
-              permissionDenied = true;
-            }
-          });
-          if (permissionDenied) {
-            yield ProductDisplayComponentPermissionDenied();
-          } else {
-            if (model != null) {
-              yield ProductDisplayComponentLoaded(value: model);
-            } else {
-              String? id = event.id;
-              yield ProductDisplayComponentError(
-                  message: "ProductDisplay with id = '$id' not found");
-            }
-          }
-          return;
-        }
-      } catch (_) {
-        yield ProductDisplayComponentError(message: "Unknown error whilst retrieving ProductDisplay");
-      }
+      yield* _mapLoadProductDisplayComponentUpdateToState(event.id!);
+    } else if (event is ProductDisplayComponentUpdated) {
+      yield ProductDisplayComponentLoaded(value: event.value);
     }
   }
 
   @override
   Future<void> close() {
+    _productDisplaySubscription?.cancel();
     return super.close();
   }
 
