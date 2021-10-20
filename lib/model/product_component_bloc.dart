@@ -30,7 +30,7 @@ class ProductComponentBloc extends Bloc<ProductComponentEvent, ProductComponentS
   Stream<ProductComponentState> _mapLoadProductComponentUpdateToState(String documentId) async* {
     _productSubscription?.cancel();
     _productSubscription = productRepository!.listenTo(documentId, (value) {
-      if (value != null) add(ProductComponentUpdated(value: value!));
+      if (value != null) add(ProductComponentUpdated(value: value));
     });
   }
 

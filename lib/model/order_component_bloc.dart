@@ -30,7 +30,7 @@ class OrderComponentBloc extends Bloc<OrderComponentEvent, OrderComponentState> 
   Stream<OrderComponentState> _mapLoadOrderComponentUpdateToState(String documentId) async* {
     _orderSubscription?.cancel();
     _orderSubscription = orderRepository!.listenTo(documentId, (value) {
-      if (value != null) add(OrderComponentUpdated(value: value!));
+      if (value != null) add(OrderComponentUpdated(value: value));
     });
   }
 

@@ -30,7 +30,7 @@ class PayConfirmationComponentBloc extends Bloc<PayConfirmationComponentEvent, P
   Stream<PayConfirmationComponentState> _mapLoadPayConfirmationComponentUpdateToState(String documentId) async* {
     _payConfirmationSubscription?.cancel();
     _payConfirmationSubscription = payConfirmationRepository!.listenTo(documentId, (value) {
-      if (value != null) add(PayConfirmationComponentUpdated(value: value!));
+      if (value != null) add(PayConfirmationComponentUpdated(value: value));
     });
   }
 

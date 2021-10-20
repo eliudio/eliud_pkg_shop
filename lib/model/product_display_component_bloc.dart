@@ -30,7 +30,7 @@ class ProductDisplayComponentBloc extends Bloc<ProductDisplayComponentEvent, Pro
   Stream<ProductDisplayComponentState> _mapLoadProductDisplayComponentUpdateToState(String documentId) async* {
     _productDisplaySubscription?.cancel();
     _productDisplaySubscription = productDisplayRepository!.listenTo(documentId, (value) {
-      if (value != null) add(ProductDisplayComponentUpdated(value: value!));
+      if (value != null) add(ProductDisplayComponentUpdated(value: value));
     });
   }
 

@@ -30,7 +30,7 @@ class CartComponentBloc extends Bloc<CartComponentEvent, CartComponentState> {
   Stream<CartComponentState> _mapLoadCartComponentUpdateToState(String documentId) async* {
     _cartSubscription?.cancel();
     _cartSubscription = cartRepository!.listenTo(documentId, (value) {
-      if (value != null) add(CartComponentUpdated(value: value!));
+      if (value != null) add(CartComponentUpdated(value: value));
     });
   }
 

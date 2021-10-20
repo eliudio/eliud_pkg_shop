@@ -72,11 +72,10 @@ class ShopFrontFirestore implements ShopFrontRepository {
 
   StreamSubscription<List<ShopFrontModel?>> listen(ShopFrontModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<ShopFrontModel?>> stream;
-//    stream = getQuery(appRepository()!.getSubCollection(appId, 'shopfront'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
-//    The above line is replaced by the below line. The reason we had the above line is because we could not be subscribed to this collecction twice
+      stream = getQuery(appRepository()!.getSubCollection(appId, 'shopfront'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
+//    The above line should eventually become the below line
 //    See https://github.com/felangel/bloc/issues/2073.
-//    However... I believe this issue seems now resolved and hence we use the below. In case we do seem the issue re-occuring (in admin, then let's revisit... the above github has some other suggestions)
-      stream = getQuery(ShopFrontCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
+//    stream = getQuery(ShopFrontCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
       Iterable<ShopFrontModel?> shopFronts  = data.docs.map((doc) {
         ShopFrontModel? value = _populateDoc(doc);
         return value;
@@ -90,9 +89,9 @@ class ShopFrontFirestore implements ShopFrontRepository {
 
   StreamSubscription<List<ShopFrontModel?>> listenWithDetails(ShopFrontModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<ShopFrontModel?>> stream;
-//  stream = getQuery(appRepository()!.getSubCollection(appId, 'shopfront'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
+    stream = getQuery(appRepository()!.getSubCollection(appId, 'shopfront'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
 //  see comment listen(...) above
-    stream = getQuery(ShopFrontCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
+//  stream = getQuery(ShopFrontCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
         .asyncMap((data) async {
       return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
     });

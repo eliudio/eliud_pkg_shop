@@ -30,7 +30,7 @@ class PayComponentBloc extends Bloc<PayComponentEvent, PayComponentState> {
   Stream<PayComponentState> _mapLoadPayComponentUpdateToState(String documentId) async* {
     _paySubscription?.cancel();
     _paySubscription = payRepository!.listenTo(documentId, (value) {
-      if (value != null) add(PayComponentUpdated(value: value!));
+      if (value != null) add(PayComponentUpdated(value: value));
     });
   }
 

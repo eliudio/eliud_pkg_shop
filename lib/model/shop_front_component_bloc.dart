@@ -30,7 +30,7 @@ class ShopFrontComponentBloc extends Bloc<ShopFrontComponentEvent, ShopFrontComp
   Stream<ShopFrontComponentState> _mapLoadShopFrontComponentUpdateToState(String documentId) async* {
     _shopFrontSubscription?.cancel();
     _shopFrontSubscription = shopFrontRepository!.listenTo(documentId, (value) {
-      if (value != null) add(ShopFrontComponentUpdated(value: value!));
+      if (value != null) add(ShopFrontComponentUpdated(value: value));
     });
   }
 
