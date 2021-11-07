@@ -23,7 +23,6 @@ abstract class ShopPackage extends PackageWithSubscription {
   void _setState(bool newState, {MemberModel? currentMember}) {
     if (newState != stateCONDITION_CARTS_HAS_ITEMS) {
       stateCONDITION_CARTS_HAS_ITEMS = newState;
-      accessBloc!.add(MemberUpdated(currentMember));
     }
   }
 
@@ -58,15 +57,6 @@ abstract class ShopPackage extends PackageWithSubscription {
     _setState(false);
   }
 
-  @override
-  BlocProvider createMainBloc(
-      NavigatorBloc navigatorBloc, AccessBloc accessBloc) {
-    super.createMainBloc(navigatorBloc, accessBloc);
-    // create a top level bloc
-    // todo: review. I don't believe we have to do this!
-    return BlocProvider<CartBloc>(
-        create: (context) => CartBloc(navigatorBloc, accessBloc));
-  }
 
   @override
   Future<bool?> isConditionOk(
