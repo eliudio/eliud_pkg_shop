@@ -13,8 +13,9 @@
 
 */
 
-import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_state.dart';
+import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -71,11 +72,11 @@ class PayConfirmationForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.app(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<PayConfirmationFormBloc >(
-            create: (context) => PayConfirmationFormBloc(AccessBloc.appId(context),
+            create: (context) => PayConfirmationFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialisePayConfirmationFormEvent(value: value)),
@@ -84,7 +85,7 @@ class PayConfirmationForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<PayConfirmationFormBloc >(
-            create: (context) => PayConfirmationFormBloc(AccessBloc.appId(context),
+            create: (context) => PayConfirmationFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialisePayConfirmationFormNoLoadEvent(value: value)),
@@ -95,7 +96,7 @@ class PayConfirmationForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update PayConfirmation' : 'Add PayConfirmation'),
         body: BlocProvider<PayConfirmationFormBloc >(
-            create: (context) => PayConfirmationFormBloc(AccessBloc.appId(context),
+            create: (context) => PayConfirmationFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialisePayConfirmationFormEvent(value: value) : InitialiseNewPayConfirmationFormEvent())),
@@ -140,7 +141,7 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.app(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<PayConfirmationFormBloc, PayConfirmationFormState>(builder: (context, state) {
@@ -176,7 +177,7 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
 
         children.add(
 
-                ActionField(AccessBloc.appId(context), state.value!.backToShopAction, _onBackToShopActionChanged)
+                ActionField(AccessBloc.currentAppId(context), state.value!.backToShopAction, _onBackToShopActionChanged)
           );
 
 
@@ -323,7 +324,7 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
   }
 
   bool _readOnly(AccessState accessState, PayConfirmationFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AccessBloc.currentAppId(context)));
   }
   
 

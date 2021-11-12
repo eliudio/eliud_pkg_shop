@@ -1,11 +1,11 @@
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
+import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
-import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/custom_utils.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_bloc.dart';
@@ -30,37 +30,40 @@ class CartWidget extends StatefulWidget {
 class _CartWidgetState extends State<CartWidget> {
   @override
   Widget build(BuildContext context) {
-    var accessState = AccessBloc.getState(context);
-    if (accessState is AppLoaded) {
-      return MultiBlocProvider(
-          providers: [
-            BlocProvider.value(
-              value: BlocProvider.of<CartBloc>(context)
-                ..add(LoadCart()),
-            ),
-          ],
-          child: BlocBuilder<CartBloc, CartState>(builder: (context, state) {
-            if (state is CartInitialised) {
-              return ListView(
-                shrinkWrap: true,
-                physics: ScrollPhysics(),
-                children: <Widget>[
-                  //createHeader(),
-                  _buttonRowTop(context, accessState.app),
-                  _createSubTitle(accessState.app, state.amountOfProducts()),
-                  _createCartList(context, accessState.app, accessState, state.items!),
-                  _footer(context, accessState.app, state.totalValue()),
-                  _buttonRowBottom(context, accessState.app)
+    return BlocBuilder<AccessBloc, AccessState>(
+        builder: (context, accessState) {
+          if (accessState is AccessDetermined) {
+            return MultiBlocProvider(
+                providers: [
+                  BlocProvider.value(
+                    value: BlocProvider.of<CartBloc>(context)
+                      ..add(LoadCart()),
+                  ),
                 ],
-              );
-            } else {
-              return progressIndicator(context);
-            }
+                child: BlocBuilder<CartBloc, CartState>(builder: (context, state) {
+                  if (state is CartInitialised) {
+                    return ListView(
+                      shrinkWrap: true,
+                      physics: ScrollPhysics(),
+                      children: <Widget>[
+                        //createHeader(),
+                        _buttonRowTop(context, accessState.currentApp),
+                        _createSubTitle(accessState.currentApp, state.amountOfProducts()),
+                        _createCartList(context, accessState.currentApp, accessState, state.items!),
+                        _footer(context, accessState.currentApp, state.totalValue()),
+                        _buttonRowBottom(context, accessState.currentApp)
+                      ],
+                    );
+                  } else {
+                    return progressIndicator(context);
+                  }
+                }
+                ));
+          } else {
+            return progressIndicator(context);
           }
-          ));
-    } else {
-      return Text('App not loaded');
-    }
+        });
+
 
   }
 

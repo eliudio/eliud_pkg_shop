@@ -86,19 +86,19 @@
     {
       "fieldName": "checkoutAction",
       "fieldType": "Action",
-      "bespokeFormField": "ActionField(AccessBloc.appId(context), state.value!.checkoutAction, _onCheckoutActionChanged)",
+      "bespokeFormField": "ActionField(AccessBloc.currentAppId(context), state.value!.checkoutAction, _onCheckoutActionChanged)",
       "group": "checkoutAction"
     },
     {
       "fieldName": "backToShopAction",
       "fieldType": "Action",
-      "bespokeFormField": "ActionField(AccessBloc.appId(context), state.value!.backToShopAction, _onBackToShopActionChanged)",
+      "bespokeFormField": "ActionField(AccessBloc.currentAppId(context), state.value!.backToShopAction, _onBackToShopActionChanged)",
       "group": "backToShopAction"
     },
     {
       "fieldName": "openProductAction",
       "fieldType": "Action",
-      "bespokeFormField": "ActionField(AccessBloc.appId(context), state.value!.openProductAction, _onOpenProductActionChanged)",
+      "bespokeFormField": "ActionField(AccessBloc.currentAppId(context), state.value!.openProductAction, _onOpenProductActionChanged)",
       "group": "openProductAction"
     },
     {

@@ -1,4 +1,4 @@
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/tools/component/component_constructor.dart';
 import 'package:eliud_pkg_shop/extensions/shop_widgets/cart_widget.dart';
@@ -28,7 +28,7 @@ class CartProfileComponent extends AbstractCartComponent {
 
   @override
   CartRepository getCartRepository(BuildContext context) {
-    return AbstractRepositorySingleton.singleton.cartRepository(AccessBloc.appId(context))!;
+    return AbstractRepositorySingleton.singleton.cartRepository(AccessBloc.currentAppId(context))!;
   }
 
   @override

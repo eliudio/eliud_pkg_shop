@@ -1,9 +1,9 @@
 import 'dart:math';
-
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
+import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
-import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/screen_size.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_tools.dart';
@@ -53,79 +53,85 @@ class _GridProductsState extends State<GridProducts> {
 
   @override
   Widget build(BuildContext context) {
-    var accessState = AccessBloc.getState(context);
-    var amountAcross =
-        max(1, fullScreenWidth(context) / widget.shopFrontModel!.size!);
-    var width = (fullScreenWidth(context) / amountAcross) - 5;
-    return BlocBuilder<ProductListBloc, ProductListState>(
-      builder: (context, state) {
-        if (state is ProductListLoaded) {
-          var products = state.values!;
+    return BlocBuilder<AccessBloc, AccessState>(
+        builder: (context, accessState) {
+          if (accessState is AccessDetermined) {
+            var amountAcross =
+            max(1, fullScreenWidth(context) / widget.shopFrontModel!.size!);
+            var width = (fullScreenWidth(context) / amountAcross) - 5;
+            return BlocBuilder<ProductListBloc, ProductListState>(
+              builder: (context, state) {
+                if (state is ProductListLoaded) {
+                  var products = state.values!;
 
-          List<Widget> cards = products.map((item) {
-            Widget? show;
-            if ((item!.images != null) &&
-                (item.images!.isNotEmpty) &&
-                (item.images![0].image != null)) {
-              show = ImageHelper.getThumbnailFromPlatformMediumModel(
-                  width: width,
-                  height: width,
-                  fit: BoxFit.fitHeight,
-                  alignment: Alignment.topCenter,
-                  platformMediumModel: item.images![0].image!);
-            }
-            return Container(
-                decoration: BoxDecorationHelper.boxDecoration(accessState,
-                    widget.shopFrontModel!.itemCardBackground!),
-                child: Card(
-                  margin: EdgeInsets.all(0.0),
-                  elevation: widget.shopFrontModel!.cardElevation,
-                  color: Colors.transparent,
-                  child: Stack(
-                    fit: StackFit.loose,
-                    alignment: Alignment.center,
-                    children: <Widget>[
-                      GestureDetector(
-                          child: show,
-                          onTap: () {
-                            var parameters = <String, Object?>{
-                              'productId': item.documentID
-                            };
-                            eliudrouter.Router.navigateTo(
-                                context, widget.shopFrontModel!.openProductAction!, parameters: parameters as Map<String, dynamic>);
-                          }),
-                      Align(
-                          alignment: Alignment.topRight,
-                          child: IconButton(
-                              icon: Icon(Icons.add_shopping_cart,
-                                  color: RgbHelper.color(rgbo: widget.shopFrontModel!.addToCartColor!)),
-                              onPressed: () {
-                                CartTools.addToCart(
-                                    context, widget.shopFrontModel!.buyAction, item, 1);
-                              })),
-                    ],
-                  ),
-                ));
-          }).toList();
+                  List<Widget> cards = products.map((item) {
+                    Widget? show;
+                    if ((item!.images != null) &&
+                        (item.images!.isNotEmpty) &&
+                        (item.images![0].image != null)) {
+                      show = ImageHelper.getThumbnailFromPlatformMediumModel(
+                          width: width,
+                          height: width,
+                          fit: BoxFit.fitHeight,
+                          alignment: Alignment.topCenter,
+                          platformMediumModel: item.images![0].image!);
+                    }
+                    return Container(
+                        decoration: BoxDecorationHelper.boxDecoration(accessState,
+                            widget.shopFrontModel!.itemCardBackground!),
+                        child: Card(
+                          margin: EdgeInsets.all(0.0),
+                          elevation: widget.shopFrontModel!.cardElevation,
+                          color: Colors.transparent,
+                          child: Stack(
+                            fit: StackFit.loose,
+                            alignment: Alignment.center,
+                            children: <Widget>[
+                              GestureDetector(
+                                  child: show,
+                                  onTap: () {
+                                    var parameters = <String, Object?>{
+                                      'productId': item.documentID
+                                    };
+                                    eliudrouter.Router.navigateTo(
+                                        context, widget.shopFrontModel!.openProductAction!, parameters: parameters as Map<String, dynamic>);
+                                  }),
+                              Align(
+                                  alignment: Alignment.topRight,
+                                  child: IconButton(
+                                      icon: Icon(Icons.add_shopping_cart,
+                                          color: RgbHelper.color(rgbo: widget.shopFrontModel!.addToCartColor!)),
+                                      onPressed: () {
+                                        CartTools.addToCart(
+                                            context, widget.shopFrontModel!.buyAction, item, 1);
+                                      })),
+                            ],
+                          ),
+                        ));
+                  }).toList();
 
-          return GridView.count(
-              crossAxisCount: amountAcross.toInt(),
-              crossAxisSpacing: widget.shopFrontModel!.cardAxisSpacing!,
-              childAspectRatio: 1,
-              mainAxisSpacing: widget.shopFrontModel!.cardAxisSpacing!,
-              controller: ScrollController(keepScrollOffset: false),
-              shrinkWrap: true,
-              physics: ScrollPhysics(),
-              scrollDirection: widget.shopFrontModel!.scrollDirection ==
-                      ScrollDirection.Vertical
-                  ? Axis.vertical
-                  : Axis.horizontal,
-              padding: const EdgeInsets.all(0.0),
-              children: cards);
-        } else {
-          return progressIndicator(context);
-        }
-      },
-    );
+                  return GridView.count(
+                      crossAxisCount: amountAcross.toInt(),
+                      crossAxisSpacing: widget.shopFrontModel!.cardAxisSpacing!,
+                      childAspectRatio: 1,
+                      mainAxisSpacing: widget.shopFrontModel!.cardAxisSpacing!,
+                      controller: ScrollController(keepScrollOffset: false),
+                      shrinkWrap: true,
+                      physics: ScrollPhysics(),
+                      scrollDirection: widget.shopFrontModel!.scrollDirection ==
+                          ScrollDirection.Vertical
+                          ? Axis.vertical
+                          : Axis.horizontal,
+                      padding: const EdgeInsets.all(0.0),
+                      children: cards);
+                } else {
+                  return progressIndicator(context);
+                }
+              },
+            );
+          } else {
+            return progressIndicator(context);
+          }
+        });
   }
 }

@@ -13,8 +13,9 @@
 
 */
 
-import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_state.dart';
+import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -71,11 +72,11 @@ class ProductDisplayForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.app(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<ProductDisplayFormBloc >(
-            create: (context) => ProductDisplayFormBloc(AccessBloc.appId(context),
+            create: (context) => ProductDisplayFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseProductDisplayFormEvent(value: value)),
@@ -84,7 +85,7 @@ class ProductDisplayForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<ProductDisplayFormBloc >(
-            create: (context) => ProductDisplayFormBloc(AccessBloc.appId(context),
+            create: (context) => ProductDisplayFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseProductDisplayFormNoLoadEvent(value: value)),
@@ -95,7 +96,7 @@ class ProductDisplayForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update ProductDisplay' : 'Add ProductDisplay'),
         body: BlocProvider<ProductDisplayFormBloc >(
-            create: (context) => ProductDisplayFormBloc(AccessBloc.appId(context),
+            create: (context) => ProductDisplayFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseProductDisplayFormEvent(value: value) : InitialiseNewProductDisplayFormEvent())),
@@ -143,7 +144,7 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.app(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<ProductDisplayFormBloc, ProductDisplayFormState>(builder: (context, state) {
@@ -192,7 +193,7 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
 
         children.add(
 
-                ActionField(AccessBloc.appId(context), state.value!.buyAction, _onBuyActionChanged)
+                ActionField(AccessBloc.currentAppId(context), state.value!.buyAction, _onBuyActionChanged)
           );
 
         children.add(
@@ -351,7 +352,7 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
   }
 
   bool _readOnly(AccessState accessState, ProductDisplayFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AccessBloc.currentAppId(context)));
   }
   
 

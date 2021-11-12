@@ -13,8 +13,9 @@
 
 */
 
-import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_state.dart';
+import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -71,11 +72,11 @@ class OrderForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.app(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<OrderFormBloc >(
-            create: (context) => OrderFormBloc(AccessBloc.appId(context),
+            create: (context) => OrderFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseOrderFormEvent(value: value)),
@@ -84,7 +85,7 @@ class OrderForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<OrderFormBloc >(
-            create: (context) => OrderFormBloc(AccessBloc.appId(context),
+            create: (context) => OrderFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseOrderFormNoLoadEvent(value: value)),
@@ -95,7 +96,7 @@ class OrderForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Order' : 'Add Order'),
         body: BlocProvider<OrderFormBloc >(
-            create: (context) => OrderFormBloc(AccessBloc.appId(context),
+            create: (context) => OrderFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseOrderFormEvent(value: value) : InitialiseNewOrderFormEvent())),
@@ -186,7 +187,7 @@ class _MyOrderFormState extends State<MyOrderForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.app(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<OrderFormBloc, OrderFormState>(builder: (context, state) {
@@ -572,23 +573,23 @@ class _MyOrderFormState extends State<MyOrderForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _statusSelectedRadioTile, 'Ordered', 'Ordered', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionStatus(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _statusSelectedRadioTile, 'Ordered', 'Ordered', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionStatus(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _statusSelectedRadioTile, 'Paid', 'Paid', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionStatus(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _statusSelectedRadioTile, 'Paid', 'Paid', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionStatus(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _statusSelectedRadioTile, 'PaymentFailed', 'PaymentFailed', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionStatus(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _statusSelectedRadioTile, 'PaymentFailed', 'PaymentFailed', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionStatus(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _statusSelectedRadioTile, 'Shipped', 'Shipped', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionStatus(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _statusSelectedRadioTile, 'Shipped', 'Shipped', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionStatus(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _statusSelectedRadioTile, 'Delivered', 'Delivered', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionStatus(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _statusSelectedRadioTile, 'Delivered', 'Delivered', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionStatus(val))
           );
 
 
@@ -883,7 +884,7 @@ class _MyOrderFormState extends State<MyOrderForm> {
   }
 
   bool _readOnly(AccessState accessState, OrderFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AccessBloc.currentAppId(context)));
   }
   
 
@@ -901,11 +902,11 @@ class OrderPaymentForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.app(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<OrderFormBloc >(
-            create: (context) => OrderFormBloc(AccessBloc.appId(context),
+            create: (context) => OrderFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseOrderFormEvent(value: value)),
@@ -914,7 +915,7 @@ class OrderPaymentForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<OrderFormBloc >(
-            create: (context) => OrderFormBloc(AccessBloc.appId(context),
+            create: (context) => OrderFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseOrderFormNoLoadEvent(value: value)),
@@ -925,7 +926,7 @@ class OrderPaymentForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Payment' : 'Payment'),
         body: BlocProvider<OrderFormBloc >(
-            create: (context) => OrderFormBloc(AccessBloc.appId(context),
+            create: (context) => OrderFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseOrderFormEvent(value: value) : InitialiseNewOrderFormEvent())),
@@ -993,7 +994,7 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.app(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<OrderFormBloc, OrderFormState>(builder: (context, state) {
@@ -1394,7 +1395,7 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
   }
 
   bool _readOnly(AccessState accessState, OrderFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AccessBloc.currentAppId(context)));
   }
   
 
@@ -1412,11 +1413,11 @@ class OrderShipmentForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.app(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<OrderFormBloc >(
-            create: (context) => OrderFormBloc(AccessBloc.appId(context),
+            create: (context) => OrderFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseOrderFormEvent(value: value)),
@@ -1425,7 +1426,7 @@ class OrderShipmentForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<OrderFormBloc >(
-            create: (context) => OrderFormBloc(AccessBloc.appId(context),
+            create: (context) => OrderFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseOrderFormNoLoadEvent(value: value)),
@@ -1436,7 +1437,7 @@ class OrderShipmentForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Shipment' : 'Shipment'),
         body: BlocProvider<OrderFormBloc >(
-            create: (context) => OrderFormBloc(AccessBloc.appId(context),
+            create: (context) => OrderFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseOrderFormEvent(value: value) : InitialiseNewOrderFormEvent())),
@@ -1478,7 +1479,7 @@ class _MyOrderShipmentFormState extends State<MyOrderShipmentForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.app(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<OrderFormBloc, OrderFormState>(builder: (context, state) {
@@ -1592,7 +1593,7 @@ class _MyOrderShipmentFormState extends State<MyOrderShipmentForm> {
   }
 
   bool _readOnly(AccessState accessState, OrderFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AccessBloc.currentAppId(context)));
   }
   
 

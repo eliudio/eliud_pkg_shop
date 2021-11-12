@@ -1,12 +1,11 @@
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
-import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/component/component_constructor.dart';
 import 'package:eliud_pkg_pay/platform/payment_platform.dart';
 import 'package:eliud_pkg_pay/tasks/bloc/pay_bloc.dart';
@@ -73,7 +72,7 @@ class PayProfileComponent extends AbstractPayComponent {
 
   Widget _paymentWidget(BuildContext context, PayModel? pay) {
     var appState = AccessBloc.getState(context);
-    if (appState is AppLoaded) {
+    if (appState is AccessDetermined) {
       return BlocBuilder<PaymentBloc, PaymentState>(builder: (context, state) {
         if (state is NotLoggedOn) {
           return text(context, 'Not logged on');
@@ -93,7 +92,7 @@ class PayProfileComponent extends AbstractPayComponent {
                             pay_context, pay!.payAction!,
                             finaliseWorkflow: something));
                   }
-                  return _overviewAndPay(context, appState.app, state.order!,
+                  return _overviewAndPay(context, appState.currentApp, state.order!,
                       message: 'Please review your order.',
                       subMessage: "If you're happy with it, then press Pay",
                       trailing: Icon(
@@ -107,7 +106,7 @@ class PayProfileComponent extends AbstractPayComponent {
           } else if (state is NoItemsInCart) {
             return text(context, 'No items in cart');
           } else if (state is ConfirmOrder) {
-            return _overviewAndPay(context, appState.app, state.order,
+            return _overviewAndPay(context, appState.currentApp, state.order,
                 message: 'Please review your order.',
                 subMessage: "If you're happy with it, then press Pay",
                 trailing: Icon(
@@ -117,7 +116,7 @@ class PayProfileComponent extends AbstractPayComponent {
                   semanticLabel: 'Contact',
                 ));
           } else if (state is LackOfStock) {
-            return _overviewAndPay(context, appState.app, state.order!,
+            return _overviewAndPay(context, appState.currentApp, state.order!,
                 message:
                     'Unfortunatly during checkout some items in your bag seem to have been sold to another customer.',
                 subMessage:
@@ -135,7 +134,7 @@ class PayProfileComponent extends AbstractPayComponent {
             eliudrouter.Router.navigateTo(context, pay!.succeeded!,
                 parameters: parameters as Map<String, dynamic>);
           } else if (state is PaymentFailed) {
-            return _overviewAndPay(context, appState.app, state.order!,
+            return _overviewAndPay(context, appState.currentApp, state.order!,
                 trailing: Icon(
                   Icons.warning,
                   color: Colors.red,
@@ -163,7 +162,7 @@ class PayProfileComponent extends AbstractPayComponent {
   @override
   PayRepository getPayRepository(BuildContext context) {
     return AbstractRepositorySingleton.singleton
-        .payRepository(AccessBloc.appId(context))!;
+        .payRepository(AccessBloc.currentAppId(context))!;
   }
 
   OrderModel? order;

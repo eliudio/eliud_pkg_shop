@@ -1,5 +1,8 @@
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
+import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/tools/component/component_constructor.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/order_list.dart';
@@ -26,29 +29,35 @@ class OrderOverviewComponent extends AbstractOrderOverviewComponent {
 
   @override
   Widget yourWidget(BuildContext context, OrderOverviewModel? orderOverview) {
-    var accessState = AccessBloc.getState(context);
-    if (accessState.memberIsOwner()) {
-      // allow owner of the app to see ALL orders and update shipment details
-      return BlocProvider<OrderListBloc>(
-        create: (context) =>
-        OrderListBloc(
-          orderRepository: AbstractRepositorySingleton.singleton.orderRepository(AccessBloc.appId(context))!,
-        )
-          ..add(LoadOrderList()),
-        child: OrderListWidget(readOnly: false, form: 'OrderShipmentForm'),
-      );
-    } else {
-      // allow member to view his own orders
-      return BlocProvider<OrderListBloc>(
-        create: (context) =>
-        OrderListBloc(
-          orderRepository: AbstractRepositorySingleton.singleton
-              .orderRepository(AccessBloc.appId(context))!,
-        )
-          ..add(LoadOrderList()),
-        child: OrderListWidget(readOnly: true),
-      );
-    }
+    return BlocBuilder<AccessBloc, AccessState>(
+        builder: (context, accessState) {
+          if (accessState is AccessDetermined) {
+            if (accessState.memberIsOwner(accessState.currentAppId())) {
+              // allow owner of the app to see ALL orders and update shipment details
+              return BlocProvider<OrderListBloc>(
+                create: (context) =>
+                OrderListBloc(
+                  orderRepository: AbstractRepositorySingleton.singleton.orderRepository(AccessBloc.currentAppId(context))!,
+                )
+                  ..add(LoadOrderList()),
+                child: OrderListWidget(readOnly: false, form: 'OrderShipmentForm'),
+              );
+            } else {
+              // allow member to view his own orders
+              return BlocProvider<OrderListBloc>(
+                create: (context) =>
+                OrderListBloc(
+                  orderRepository: AbstractRepositorySingleton.singleton
+                      .orderRepository(AccessBloc.currentAppId(context))!,
+                )
+                  ..add(LoadOrderList()),
+                child: OrderListWidget(readOnly: true),
+              );
+            }
+          } else {
+            return progressIndicator(context);
+          }
+        });
   }
 
   @override
@@ -58,6 +67,6 @@ class OrderOverviewComponent extends AbstractOrderOverviewComponent {
 
   @override
   OrderOverviewRepository getOrderOverviewRepository(BuildContext context) {
-    return AbstractRepositorySingleton.singleton.orderOverviewRepository(AccessBloc.appId(context))!;
+    return AbstractRepositorySingleton.singleton.orderOverviewRepository(AccessBloc.currentAppId(context))!;
   }
 }

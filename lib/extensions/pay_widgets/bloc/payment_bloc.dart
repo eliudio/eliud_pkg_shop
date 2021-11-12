@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_bloc.dart';
@@ -37,9 +37,9 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   Stream<PaymentState> mapEventToState(PaymentEvent event) async* {
     if (event is CollectOrder) {
       // The payment screen is opened. We create an OrderModel instance in memory
-      AccessState accessState = accessBloc.state;
+      var accessState = accessBloc.state;
       if (accessState is LoggedIn) {
-        var items = await (getItems(accessState.app.documentID!, accessState.member));
+        var items = await (getItems(accessState.currentApp.documentID!, accessState.member));
         if ((items == null) || (items.isEmpty)) {
           yield NoItemsInCart();
           return;
@@ -96,12 +96,12 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   }
 
   Future<OrderModel> _getNewOrder(LoggedIn loggedInState, ShopModel shop, List<CartItemModel> items) async {
-    var items = await (getItems(loggedInState.app.documentID!, loggedInState.member) );
+    var items = await (getItems(loggedInState.currentApp.documentID!, loggedInState.member) );
     double totalValue = items == null ? 0 : CartHelper.totalValue(items);
     return OrderModel(
         documentID: newRandomKey(),
         appId: loggedInState
-            .app
+            .currentApp
             .documentID,
         customer: loggedInState.member,
         timeStamp: dateFormat.format(DateTime.now()),

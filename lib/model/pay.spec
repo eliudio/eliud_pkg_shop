@@ -46,13 +46,13 @@
     {
       "fieldName": "succeeded",
       "fieldType": "Action",
-      "bespokeFormField": "ActionField(AccessBloc.appId(context), state.value!.succeeded, _onSucceededChanged)",
+      "bespokeFormField": "ActionField(AccessBloc.currentAppId(context), state.value!.succeeded, _onSucceededChanged)",
       "group": "succeeded"
     },
     {
       "fieldName": "payAction",
       "fieldType": "WorkflowAction",
-      "bespokeFormField": "ActionField(AccessBloc.appId(context), state.value!.payAction, _onPayActionChanged)",
+      "bespokeFormField": "ActionField(AccessBloc.currentAppId(context), state.value!.payAction, _onPayActionChanged)",
       "group": "payAction",
       "remark": "requires a new implementation of a BespokeFormField WorkflowActionField",
       "hidden": true

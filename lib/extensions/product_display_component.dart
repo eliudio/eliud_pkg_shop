@@ -1,4 +1,4 @@
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/style_registry.dart';
@@ -64,10 +64,10 @@ class ProductDisplayComponent extends AbstractProductDisplayComponent {
 
   @override
   ProductDisplayRepository getProductDisplayRepository(BuildContext context) {
-    return AbstractRepositorySingleton.singleton.productDisplayRepository(AccessBloc.appId(context))!;
+    return AbstractRepositorySingleton.singleton.productDisplayRepository(AccessBloc.currentAppId(context))!;
   }
 
   ProductRepository? getProductRepository(BuildContext context) {
-    return AbstractRepositorySingleton.singleton.productRepository(AccessBloc.appId(context));
+    return AbstractRepositorySingleton.singleton.productRepository(AccessBloc.currentAppId(context));
   }
 }

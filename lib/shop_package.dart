@@ -1,24 +1,21 @@
 import 'dart:async';
 import 'package:eliud_core/model/access_model.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
-import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/package/package.dart';
-import 'package:eliud_core/package/package_with_subscription.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:flutter_bloc/src/bloc_provider.dart';
-import 'package:eliud_pkg_shop/bloc/cart/cart_bloc.dart';
 import 'package:eliud_pkg_shop/model/component_registry.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/repository_singleton.dart';
 
-abstract class ShopPackage extends PackageWithSubscription {
+import 'model/member_cart_model.dart';
+
+abstract class ShopPackage extends Package {
   ShopPackage() : super('eliud_pkg_shop');
 
   static final String CONDITION_CARTS_HAS_ITEMS = 'MustHaveStuffInBasket';
   bool? stateCONDITION_CARTS_HAS_ITEMS = null;
+  late StreamSubscription<List<MemberCartModel?>> subscription;
 
   void _setState(bool newState, {MemberModel? currentMember}) {
     if (newState != stateCONDITION_CARTS_HAS_ITEMS) {
@@ -51,12 +48,6 @@ abstract class ShopPackage extends PackageWithSubscription {
         )]
     );
   }
-
-  void unsubscribe() {
-    super.unsubscribe();
-    _setState(false);
-  }
-
 
   @override
   Future<bool?> isConditionOk(

@@ -13,8 +13,9 @@
 
 */
 
-import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_state.dart';
+import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -71,11 +72,11 @@ class ShopFrontForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.app(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<ShopFrontFormBloc >(
-            create: (context) => ShopFrontFormBloc(AccessBloc.appId(context),
+            create: (context) => ShopFrontFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseShopFrontFormEvent(value: value)),
@@ -84,7 +85,7 @@ class ShopFrontForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<ShopFrontFormBloc >(
-            create: (context) => ShopFrontFormBloc(AccessBloc.appId(context),
+            create: (context) => ShopFrontFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseShopFrontFormNoLoadEvent(value: value)),
@@ -95,7 +96,7 @@ class ShopFrontForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update ShopFront' : 'Add ShopFront'),
         body: BlocProvider<ShopFrontFormBloc >(
-            create: (context) => ShopFrontFormBloc(AccessBloc.appId(context),
+            create: (context) => ShopFrontFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseShopFrontFormEvent(value: value) : InitialiseNewShopFrontFormEvent())),
@@ -153,7 +154,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.app(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<ShopFrontFormBloc, ShopFrontFormState>(builder: (context, state) {
@@ -258,7 +259,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
 
         children.add(
 
-                ActionField(AccessBloc.appId(context), state.value!.buyAction, _onBuyActionChanged)
+                ActionField(AccessBloc.currentAppId(context), state.value!.buyAction, _onBuyActionChanged)
           );
 
 
@@ -274,7 +275,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
 
         children.add(
 
-                ActionField(AccessBloc.appId(context), state.value!.openProductAction, _onOpenProductActionChanged)
+                ActionField(AccessBloc.currentAppId(context), state.value!.openProductAction, _onOpenProductActionChanged)
           );
 
 
@@ -306,11 +307,11 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _viewSelectedRadioTile, 'Slider', 'Slider', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionView(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _viewSelectedRadioTile, 'Slider', 'Slider', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionView(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _viewSelectedRadioTile, 'Grid', 'Grid', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionView(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _viewSelectedRadioTile, 'Grid', 'Grid', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionView(val))
           );
 
 
@@ -369,11 +370,11 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _scrollDirectionSelectedRadioTile, 'Horizontal', 'Horizontal', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionScrollDirection(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _scrollDirectionSelectedRadioTile, 'Horizontal', 'Horizontal', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionScrollDirection(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _scrollDirectionSelectedRadioTile, 'Vertical', 'Vertical', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionScrollDirection(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _scrollDirectionSelectedRadioTile, 'Vertical', 'Vertical', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionScrollDirection(val))
           );
 
 
@@ -561,7 +562,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
   }
 
   bool _readOnly(AccessState accessState, ShopFrontFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AccessBloc.currentAppId(context)));
   }
   
 

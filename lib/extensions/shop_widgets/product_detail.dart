@@ -1,6 +1,8 @@
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
+import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/style/frontend/has_button.dart';
+import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/etc.dart';
@@ -9,6 +11,7 @@ import 'package:eliud_pkg_shop/bloc/cart/cart_tools.dart';
 import 'package:eliud_pkg_shop/model/product_display_model.dart';
 import 'package:eliud_pkg_shop/model/product_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductDetail extends StatefulWidget {
   final ProductDisplayModel? productDisplayModel;
@@ -24,9 +27,15 @@ class ProductDetail extends StatefulWidget {
 class _ProductDetailState extends State<ProductDetail> {
   @override
   Widget build(BuildContext context) {
-    var accessState = AccessBloc.getState(context);
-    return ProductDetailWithAccess(
-        accessState, widget.productDisplayModel, widget.productModel);
+    return BlocBuilder<AccessBloc, AccessState>(
+        builder: (context, accessState) {
+          if (accessState is AccessDetermined) {
+            return ProductDetailWithAccess(
+                accessState, widget.productDisplayModel, widget.productModel);
+          } else {
+            return progressIndicator(context);
+          }
+        });
   }
 }
 
@@ -53,7 +62,7 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
     var title = widget.productModel!.title;
     var orientation = MediaQuery.of(context).orientation;
     var accessState = widget.accessState;
-    if (accessState is AppLoaded) {
+    if (accessState is AccessDetermined) {
       return Container(
           decoration: BoxDecorationHelper.boxDecoration(
               accessState, widget.productDisplayModel!.itemDetailBackground),

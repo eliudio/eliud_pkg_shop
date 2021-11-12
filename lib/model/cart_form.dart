@@ -13,8 +13,9 @@
 
 */
 
-import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_state.dart';
+import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -71,11 +72,11 @@ class CartForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.app(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<CartFormBloc >(
-            create: (context) => CartFormBloc(AccessBloc.appId(context),
+            create: (context) => CartFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseCartFormEvent(value: value)),
@@ -84,7 +85,7 @@ class CartForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<CartFormBloc >(
-            create: (context) => CartFormBloc(AccessBloc.appId(context),
+            create: (context) => CartFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseCartFormNoLoadEvent(value: value)),
@@ -95,7 +96,7 @@ class CartForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Cart' : 'Add Cart'),
         body: BlocProvider<CartFormBloc >(
-            create: (context) => CartFormBloc(AccessBloc.appId(context),
+            create: (context) => CartFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseCartFormEvent(value: value) : InitialiseNewCartFormEvent())),
@@ -146,7 +147,7 @@ class _MyCartFormState extends State<MyCartForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.app(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<CartFormBloc, CartFormState>(builder: (context, state) {
@@ -198,7 +199,7 @@ class _MyCartFormState extends State<MyCartForm> {
 
         children.add(
 
-                ActionField(AccessBloc.appId(context), state.value!.openProductAction, _onOpenProductActionChanged)
+                ActionField(AccessBloc.currentAppId(context), state.value!.openProductAction, _onOpenProductActionChanged)
           );
 
 
@@ -245,7 +246,7 @@ class _MyCartFormState extends State<MyCartForm> {
 
         children.add(
 
-                ActionField(AccessBloc.appId(context), state.value!.checkoutAction, _onCheckoutActionChanged)
+                ActionField(AccessBloc.currentAppId(context), state.value!.checkoutAction, _onCheckoutActionChanged)
           );
 
 
@@ -261,7 +262,7 @@ class _MyCartFormState extends State<MyCartForm> {
 
         children.add(
 
-                ActionField(AccessBloc.appId(context), state.value!.backToShopAction, _onBackToShopActionChanged)
+                ActionField(AccessBloc.currentAppId(context), state.value!.backToShopAction, _onBackToShopActionChanged)
           );
 
 
@@ -325,7 +326,7 @@ class _MyCartFormState extends State<MyCartForm> {
 
         children.add(
 
-                ActionField(AccessBloc.appId(context), state.value!.checkoutAction, _onCheckoutActionChanged)
+                ActionField(AccessBloc.currentAppId(context), state.value!.checkoutAction, _onCheckoutActionChanged)
           );
 
 
@@ -487,7 +488,7 @@ class _MyCartFormState extends State<MyCartForm> {
   }
 
   bool _readOnly(AccessState accessState, CartFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AccessBloc.currentAppId(context)));
   }
   
 

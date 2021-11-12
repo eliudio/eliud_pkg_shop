@@ -113,13 +113,13 @@
     {
       "fieldName": "buyAction",
       "fieldType": "Action",
-      "bespokeFormField": "ActionField(AccessBloc.appId(context), state.value!.buyAction, _onBuyActionChanged)",
+      "bespokeFormField": "ActionField(AccessBloc.currentAppId(context), state.value!.buyAction, _onBuyActionChanged)",
       "group": "action"
     },
     {
       "fieldName": "openProductAction",
       "fieldType": "Action",
-      "bespokeFormField": "ActionField(AccessBloc.appId(context), state.value!.openProductAction, _onOpenProductActionChanged)",
+      "bespokeFormField": "ActionField(AccessBloc.currentAppId(context), state.value!.openProductAction, _onOpenProductActionChanged)",
       "group": "openProductAction"
     },
     {
