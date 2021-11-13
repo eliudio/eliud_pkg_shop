@@ -109,7 +109,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           var action = event.continueShoppingAction!;
           if (action is GotoPage) {
             accessBloc.add(
-                GotoPageEvent(action.appID, action.pageID, null));
+                GotoPageEvent(action.appID, action.pageID, ));
           } else {
             print('The continueShoppingAction is not a GotoPage action');
           }
