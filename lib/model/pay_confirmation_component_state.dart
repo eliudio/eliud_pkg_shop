@@ -35,9 +35,9 @@ class PayConfirmationComponentPermissionDenied extends PayConfirmationComponentS
 }
 
 class PayConfirmationComponentLoaded extends PayConfirmationComponentState {
-  final PayConfirmationModel? value;
+  final PayConfirmationModel value;
 
-  const PayConfirmationComponentLoaded({ this.value });
+  const PayConfirmationComponentLoaded({ required this.value });
 
   PayConfirmationComponentLoaded copyWith({ PayConfirmationModel? copyThis }) {
     return PayConfirmationComponentLoaded(value: copyThis ?? this.value);

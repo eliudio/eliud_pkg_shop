@@ -74,6 +74,7 @@ class PayConfirmationForm extends StatelessWidget {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
+    var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<PayConfirmationFormBloc >(
             create: (context) => PayConfirmationFormBloc(AccessBloc.currentAppId(context),
@@ -143,6 +144,7 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
   Widget build(BuildContext context) {
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
+    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<PayConfirmationFormBloc, PayConfirmationFormState>(builder: (context, state) {
       if (state is PayConfirmationFormUninitialized) return Center(
@@ -214,7 +216,7 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "shops", value: _shop, trigger: _onShopSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "shops", value: _shop, trigger: _onShopSelected, optional: false),
           );
 
 

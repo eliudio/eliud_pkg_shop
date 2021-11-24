@@ -20,8 +20,9 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   static DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
   final CartBloc cartBloc;
   final AccessBloc accessBloc;
+  final String appId;
 
-  PaymentBloc(this.cartBloc, this.accessBloc): super(PayUninitialised());
+  PaymentBloc(this.appId, this.cartBloc, this.accessBloc): super(PayUninitialised());
 
   bool _allInStock() {
     // TODO: verify if all products are in stock. If not, inform the customer that one of those items has been sold.
@@ -39,7 +40,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       // The payment screen is opened. We create an OrderModel instance in memory
       var accessState = accessBloc.state;
       if (accessState is LoggedIn) {
-        var items = await (getItems(accessState.currentApp.documentID!, accessState.member));
+        var items = await (getItems(appId, accessState.member));
         if ((items == null) || (items.isEmpty)) {
           yield NoItemsInCart();
           return;
@@ -96,13 +97,11 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   }
 
   Future<OrderModel> _getNewOrder(LoggedIn loggedInState, ShopModel shop, List<CartItemModel> items) async {
-    var items = await (getItems(loggedInState.currentApp.documentID!, loggedInState.member) );
+    var items = await (getItems(appId, loggedInState.member) );
     double totalValue = items == null ? 0 : CartHelper.totalValue(items);
     return OrderModel(
         documentID: newRandomKey(),
-        appId: loggedInState
-            .currentApp
-            .documentID,
+        appId: appId,
         customer: loggedInState.member,
         timeStamp: dateFormat.format(DateTime.now()),
         name: loggedInState.member

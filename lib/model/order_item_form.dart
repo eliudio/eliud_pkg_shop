@@ -69,6 +69,7 @@ class OrderItemForm extends StatelessWidget {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
+    var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<OrderItemFormBloc >(
             create: (context) => OrderItemFormBloc(AccessBloc.currentAppId(context),
@@ -137,6 +138,7 @@ class _MyOrderItemFormState extends State<MyOrderItemForm> {
   Widget build(BuildContext context) {
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
+    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<OrderItemFormBloc, OrderItemFormState>(builder: (context, state) {
       if (state is OrderItemFormUninitialized) return Center(
@@ -212,7 +214,7 @@ class _MyOrderItemFormState extends State<MyOrderItemForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "products", value: _product, trigger: _onProductSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "products", value: _product, trigger: _onProductSelected, optional: false),
           );
 
 

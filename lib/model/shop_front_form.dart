@@ -74,6 +74,7 @@ class ShopFrontForm extends StatelessWidget {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
+    var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<ShopFrontFormBloc >(
             create: (context) => ShopFrontFormBloc(AccessBloc.currentAppId(context),
@@ -156,6 +157,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
   Widget build(BuildContext context) {
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
+    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<ShopFrontFormBloc, ShopFrontFormState>(builder: (context, state) {
       if (state is ShopFrontFormUninitialized) return Center(
@@ -291,7 +293,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "shops", value: _shop, trigger: _onShopSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "shops", value: _shop, trigger: _onShopSelected, optional: false),
           );
 
 
@@ -327,7 +329,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _itemCardBackground, trigger: _onItemCardBackgroundSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "backgrounds", value: _itemCardBackground, trigger: _onItemCardBackgroundSelected, optional: true),
           );
 
 

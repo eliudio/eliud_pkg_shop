@@ -13,9 +13,6 @@
 
 */
 
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eliud_core/style/style_registry.dart';
 
 import 'package:eliud_pkg_shop/model/order_overview_component_bloc.dart';
 import 'package:eliud_pkg_shop/model/order_overview_component_event.dart';
@@ -23,18 +20,26 @@ import 'package:eliud_pkg_shop/model/order_overview_model.dart';
 import 'package:eliud_pkg_shop/model/order_overview_repository.dart';
 import 'package:eliud_pkg_shop/model/order_overview_component_state.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/style/style_registry.dart';
+import 'abstract_repository_singleton.dart';
+import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+
 abstract class AbstractOrderOverviewComponent extends StatelessWidget {
   static String componentName = "orderOverviews";
-  final String? orderOverviewID;
+  final String theAppId;
+  final String orderOverviewId;
 
-  AbstractOrderOverviewComponent({Key? key, this.orderOverviewID}): super(key: key);
+  AbstractOrderOverviewComponent({Key? key, required this.theAppId, required this.orderOverviewId}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<OrderOverviewComponentBloc> (
           create: (context) => OrderOverviewComponentBloc(
-            orderOverviewRepository: getOrderOverviewRepository(context))
-        ..add(FetchOrderOverviewComponent(id: orderOverviewID)),
+            orderOverviewRepository: orderOverviewRepository(appId: theAppId)!)
+        ..add(FetchOrderOverviewComponent(id: orderOverviewId)),
       child: _orderOverviewBlockBuilder(context),
     );
   }
@@ -43,7 +48,7 @@ abstract class AbstractOrderOverviewComponent extends StatelessWidget {
     return BlocBuilder<OrderOverviewComponentBloc, OrderOverviewComponentState>(builder: (context, state) {
       if (state is OrderOverviewComponentLoaded) {
         if (state.value == null) {
-          return alertWidget(title: 'Error', content: 'No OrderOverview defined');
+          return AlertWidget(title: "Error", content: 'No OrderOverview defined');
         } else {
           return yourWidget(context, state.value);
         }
@@ -54,7 +59,7 @@ abstract class AbstractOrderOverviewComponent extends StatelessWidget {
           size: 30.0,
         );
       } else if (state is OrderOverviewComponentError) {
-        return alertWidget(title: 'Error', content: state.message);
+        return AlertWidget(title: 'Error', content: state.message);
       } else {
         return Center(
           child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context),
@@ -63,8 +68,6 @@ abstract class AbstractOrderOverviewComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, OrderOverviewModel? value);
-  Widget alertWidget({ title: String, content: String});
-  OrderOverviewRepository getOrderOverviewRepository(BuildContext context);
+  Widget yourWidget(BuildContext context, OrderOverviewModel value);
 }
 

@@ -35,9 +35,9 @@ class ProductDisplayComponentPermissionDenied extends ProductDisplayComponentSta
 }
 
 class ProductDisplayComponentLoaded extends ProductDisplayComponentState {
-  final ProductDisplayModel? value;
+  final ProductDisplayModel value;
 
-  const ProductDisplayComponentLoaded({ this.value });
+  const ProductDisplayComponentLoaded({ required this.value });
 
   ProductDisplayComponentLoaded copyWith({ ProductDisplayModel? copyThis }) {
     return ProductDisplayComponentLoaded(value: copyThis ?? this.value);

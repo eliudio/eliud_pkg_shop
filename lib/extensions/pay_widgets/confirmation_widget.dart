@@ -26,7 +26,7 @@ class ConfirmationWidget extends StatefulWidget {
 }
 
 class ConfirmationState extends State<ConfirmationWidget> {
-  Widget _getButton(AppModel app) {
+  Widget _getButton() {
     return button(
       context,
       label: 'Back to the shop',
@@ -45,7 +45,7 @@ class ConfirmationState extends State<ConfirmationWidget> {
             return BlocBuilder<OrderComponentBloc, OrderComponentState>(
                 builder: (context, state) {
                   if (state is OrderComponentLoaded) {
-                    var order = state.value!;
+                    var order = state.value;
                     debugPrint('state is OrderPaid');
                     var widgets = <Widget>[];
                     widgets.add(ListTile(
@@ -60,8 +60,8 @@ class ConfirmationState extends State<ConfirmationWidget> {
                           "We'll be working hard to get it to you asap. Thank you very much"),
                     ));
                     OrderHelper.addOrderOverviewAfterPayment(
-                        accessState.currentApp, widgets, order, context);
-                    widgets.add(_getButton(accessState.currentApp));
+                        widgets, order, context);
+                    widgets.add(_getButton());
                     return ListView(
                       shrinkWrap: true,
                       physics: ScrollPhysics(),

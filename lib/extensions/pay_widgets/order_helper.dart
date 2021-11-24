@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 
 class OrderHelper {
   static Widget _getRow(
-          BuildContext context, AppModel app, String title, String? value,
+          BuildContext context, String title, String? value,
           {Widget? trailing}) =>
       ListTile(
         trailing: trailing,
@@ -72,15 +72,14 @@ class OrderHelper {
         order.currency!;
   }
 
-  static List<Widget> addOrderOverviewBasics(BuildContext context, AppModel app,
+  static List<Widget> addOrderOverviewBasics(BuildContext context,
       List<Widget> widgets, OrderModel order) {
     widgets.add(_getRow(
-        context, app, 'Contact:', order.name! + ', ' + order.email!,
+        context, 'Contact:', order.name! + ', ' + order.email!,
         trailing: h1Icon2(context,
             iconData: Icons.contact_phone, semanticLabel: 'Contact')));
     widgets.add(_getRow(
         context,
-        app,
         (order.invoiceSame != null) && (!order.invoiceSame!)
             ? 'Shipment address:'
             : 'Shipment & invoice address',
@@ -89,38 +88,38 @@ class OrderHelper {
             iconData: Icons.local_shipping, semanticLabel: 'Contact')));
     if ((order.invoiceSame != null) && (!order.invoiceSame!)) {
       widgets.add(_getRow(
-          context, app, 'Invoice address:', _getInvoiceAddress(order),
+          context, 'Invoice address:', _getInvoiceAddress(order),
           trailing: h1Icon2(context,
               iconData: Icons.note, semanticLabel: 'Contact')));
     }
     return widgets;
   }
 
-  static List<Widget> addOrderOverviewBeforePayment(AppModel app,
+  static List<Widget> addOrderOverviewBeforePayment(
       List<Widget> widgets, OrderModel order, BuildContext context) {
-    addOrderOverviewBasics(context, app, widgets, order);
-    _addProducts(app, widgets, order, context);
+    addOrderOverviewBasics(context, widgets, order);
+    _addProducts(widgets, order, context);
     return widgets;
   }
 
-  static List<Widget> addOrderOverviewAfterPayment(AppModel app,
+  static List<Widget> addOrderOverviewAfterPayment(
       List<Widget> widgets, OrderModel order, BuildContext context) {
-    addOrderOverviewBasics(context, app, widgets, order);
+    addOrderOverviewBasics(context, widgets, order);
     widgets.add(_getRow(
-        context, app, 'Payment reference:', order.paymentReference,
+        context, 'Payment reference:', order.paymentReference,
         trailing: h1Icon2(
               context,
               iconData: Icons.payment,
               semanticLabel: 'Success',
             )));
-    _addProducts(app, widgets, order, context);
+    _addProducts(widgets, order, context);
     return widgets;
   }
 
-  static List<Widget> _addProducts(AppModel app, List<Widget> widgets,
+  static List<Widget> _addProducts(List<Widget> widgets,
       OrderModel order, BuildContext context) {
     widgets.add(_getRow(
-        context, app, 'Products:', "These are the produts you're ordering",
+        context, 'Products:', "These are the produts you're ordering",
         trailing: h1Icon2(context, iconData: Icons.list, semanticLabel: 'Contact')));
 
     final theme = Theme.of(context);
@@ -153,7 +152,7 @@ class OrderHelper {
       ]));
     });
 
-    widgets.add(_getRow(context, app, 'Total price:',
+    widgets.add(_getRow(context, 'Total price:',
         order.totalPrice.toString() + ' ' + order.currency!,
         trailing: h1Icon2(
               context,

@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 
 class ProductComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({Key? key, required String id, Map<String, dynamic>? parameters}) {
-    return ProductBase(id, key: key);
+  Widget createNew({Key? key, required String appId, required String id, Map<String, dynamic>? parameters}) {
+    return ProductBase(key: key, appId: appId, id: id);
   }
 
   @override
@@ -18,19 +18,9 @@ class ProductComponentConstructorDefault implements ComponentConstructor {
 }
 
 class ProductBase extends AbstractProductComponent {
-  final String? id;
+  final String id;
 
-  ProductBase(this.id, {Key? key}) : super(key: key, productID: id);
-
-  @override
-  Widget alertWidget({title = String, content = String}) {
-    return AlertWidget(title: title, content: content);
-  }
-
-  @override
-  ProductRepository getProductRepository(BuildContext context) {
-    return AbstractRepositorySingleton.singleton.productRepository(AccessBloc.currentAppId(context))!;
-  }
+  ProductBase({Key? key, required String appId, required this.id}) : super(key: key, theAppId: appId, productId: id);
 
   @override
   Widget yourWidget(BuildContext context, ProductModel? value) {

@@ -13,9 +13,6 @@
 
 */
 
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eliud_core/style/style_registry.dart';
 
 import 'package:eliud_pkg_shop/model/shop_front_component_bloc.dart';
 import 'package:eliud_pkg_shop/model/shop_front_component_event.dart';
@@ -23,18 +20,26 @@ import 'package:eliud_pkg_shop/model/shop_front_model.dart';
 import 'package:eliud_pkg_shop/model/shop_front_repository.dart';
 import 'package:eliud_pkg_shop/model/shop_front_component_state.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/style/style_registry.dart';
+import 'abstract_repository_singleton.dart';
+import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+
 abstract class AbstractShopFrontComponent extends StatelessWidget {
   static String componentName = "shopFronts";
-  final String? shopFrontID;
+  final String theAppId;
+  final String shopFrontId;
 
-  AbstractShopFrontComponent({Key? key, this.shopFrontID}): super(key: key);
+  AbstractShopFrontComponent({Key? key, required this.theAppId, required this.shopFrontId}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ShopFrontComponentBloc> (
           create: (context) => ShopFrontComponentBloc(
-            shopFrontRepository: getShopFrontRepository(context))
-        ..add(FetchShopFrontComponent(id: shopFrontID)),
+            shopFrontRepository: shopFrontRepository(appId: theAppId)!)
+        ..add(FetchShopFrontComponent(id: shopFrontId)),
       child: _shopFrontBlockBuilder(context),
     );
   }
@@ -43,7 +48,7 @@ abstract class AbstractShopFrontComponent extends StatelessWidget {
     return BlocBuilder<ShopFrontComponentBloc, ShopFrontComponentState>(builder: (context, state) {
       if (state is ShopFrontComponentLoaded) {
         if (state.value == null) {
-          return alertWidget(title: 'Error', content: 'No ShopFront defined');
+          return AlertWidget(title: "Error", content: 'No ShopFront defined');
         } else {
           return yourWidget(context, state.value);
         }
@@ -54,7 +59,7 @@ abstract class AbstractShopFrontComponent extends StatelessWidget {
           size: 30.0,
         );
       } else if (state is ShopFrontComponentError) {
-        return alertWidget(title: 'Error', content: state.message);
+        return AlertWidget(title: 'Error', content: state.message);
       } else {
         return Center(
           child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context),
@@ -63,8 +68,6 @@ abstract class AbstractShopFrontComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, ShopFrontModel? value);
-  Widget alertWidget({ title: String, content: String});
-  ShopFrontRepository getShopFrontRepository(BuildContext context);
+  Widget yourWidget(BuildContext context, ShopFrontModel value);
 }
 

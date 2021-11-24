@@ -74,6 +74,7 @@ class CartForm extends StatelessWidget {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
+    var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<CartFormBloc >(
             create: (context) => CartFormBloc(AccessBloc.currentAppId(context),
@@ -149,6 +150,7 @@ class _MyCartFormState extends State<MyCartForm> {
   Widget build(BuildContext context) {
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
+    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<CartFormBloc, CartFormState>(builder: (context, state) {
       if (state is CartFormUninitialized) return Center(
@@ -278,7 +280,7 @@ class _MyCartFormState extends State<MyCartForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "shops", value: _shop, trigger: _onShopSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "shops", value: _shop, trigger: _onShopSelected, optional: false),
           );
 
 
@@ -294,7 +296,7 @@ class _MyCartFormState extends State<MyCartForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _itemImageBackground, trigger: _onItemImageBackgroundSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "backgrounds", value: _itemImageBackground, trigger: _onItemImageBackgroundSelected, optional: true),
           );
 
 
@@ -310,7 +312,7 @@ class _MyCartFormState extends State<MyCartForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _itemDetailBackground, trigger: _onItemDetailBackgroundSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "backgrounds", value: _itemDetailBackground, trigger: _onItemDetailBackgroundSelected, optional: true),
           );
 
 

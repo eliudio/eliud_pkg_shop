@@ -35,9 +35,9 @@ class OrderOverviewComponentPermissionDenied extends OrderOverviewComponentState
 }
 
 class OrderOverviewComponentLoaded extends OrderOverviewComponentState {
-  final OrderOverviewModel? value;
+  final OrderOverviewModel value;
 
-  const OrderOverviewComponentLoaded({ this.value });
+  const OrderOverviewComponentLoaded({ required this.value });
 
   OrderOverviewComponentLoaded copyWith({ OrderOverviewModel? copyThis }) {
     return OrderOverviewComponentLoaded(value: copyThis ?? this.value);

@@ -35,9 +35,9 @@ class CartComponentPermissionDenied extends CartComponentState {
 }
 
 class CartComponentLoaded extends CartComponentState {
-  final CartModel? value;
+  final CartModel value;
 
-  const CartComponentLoaded({ this.value });
+  const CartComponentLoaded({ required this.value });
 
   CartComponentLoaded copyWith({ CartModel? copyThis }) {
     return CartComponentLoaded(value: copyThis ?? this.value);

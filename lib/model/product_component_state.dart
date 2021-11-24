@@ -35,9 +35,9 @@ class ProductComponentPermissionDenied extends ProductComponentState {
 }
 
 class ProductComponentLoaded extends ProductComponentState {
-  final ProductModel? value;
+  final ProductModel value;
 
-  const ProductComponentLoaded({ this.value });
+  const ProductComponentLoaded({ required this.value });
 
   ProductComponentLoaded copyWith({ ProductModel? copyThis }) {
     return ProductComponentLoaded(value: copyThis ?? this.value);

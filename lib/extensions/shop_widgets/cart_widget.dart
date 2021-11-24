@@ -47,11 +47,11 @@ class _CartWidgetState extends State<CartWidget> {
                       physics: ScrollPhysics(),
                       children: <Widget>[
                         //createHeader(),
-                        _buttonRowTop(context, accessState.currentApp),
-                        _createSubTitle(accessState.currentApp, state.amountOfProducts()),
-                        _createCartList(context, accessState.currentApp, accessState, state.items!),
-                        _footer(context, accessState.currentApp, state.totalValue()),
-                        _buttonRowBottom(context, accessState.currentApp)
+                        _buttonRowTop(context, ),
+                        _createSubTitle(state.amountOfProducts()),
+                        _createCartList(context, accessState, state.items!),
+                        _footer(context, state.totalValue()),
+                        _buttonRowBottom(context, )
                       ],
                     );
                   } else {
@@ -67,21 +67,21 @@ class _CartWidgetState extends State<CartWidget> {
 
   }
 
-  Widget _buttonRowTop(BuildContext context, AppModel app) {
+  Widget _buttonRowTop(BuildContext context,) {
     return button(context, label: 'Continue shopping',
           onPressed: () {
             eliudrouter.Router.navigateTo(context, widget.cart!.backToShopAction!);
           });
   }
 
-  Widget _buttonRowBottom(BuildContext context, AppModel app) {
+  Widget _buttonRowBottom(BuildContext context, ) {
     return button(context, label: 'Checkout',
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => CheckOutPage(checkoutAction: widget.cart!.checkoutAction)));
         });
   }
 
-  Widget _footer(BuildContext context, AppModel app, double totalValue) {
+  Widget _footer(BuildContext context, double totalValue) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -117,7 +117,7 @@ class _CartWidgetState extends State<CartWidget> {
     );
   }
 
-  Widget _createSubTitle(AppModel app, int? amount) {
+  Widget _createSubTitle(int? amount) {
     String text;
     if (amount == 1) {
       text = 'Total (1) item';
@@ -131,11 +131,11 @@ class _CartWidgetState extends State<CartWidget> {
     );
   }
 
-  Widget _createCartList(BuildContext context, AppModel app, AccessState accessState, List<CartItemModel> cartItems) {
+  Widget _createCartList(BuildContext context, AccessState accessState, List<CartItemModel> cartItems) {
     var items = <Widget>[];
     cartItems.forEach((element) {
       if (element.product != null) {
-        items.add(createCartItem(app, accessState, element));
+        items.add(createCartItem(accessState, element));
       }
     });
     return ListView(
@@ -145,7 +145,7 @@ class _CartWidgetState extends State<CartWidget> {
     );
   }
 
-  Widget createCartItem(AppModel app, AccessState accessState, CartItemModel item) {
+  Widget createCartItem(AccessState accessState, CartItemModel item) {
     return Stack(
       children: <Widget>[
         Container(
@@ -159,7 +159,7 @@ class _CartWidgetState extends State<CartWidget> {
                 if (index == 0) {
                   return createCartItemImage(accessState, item);
                 } else {
-                  return createCartItemPrice(app, item);
+                  return createCartItemPrice(item);
                 }
               },
               itemCount: 2,
@@ -218,7 +218,7 @@ class _CartWidgetState extends State<CartWidget> {
         });
   }
 
-  Widget createCartItemPrice(AppModel app, CartItemModel item) {
+  Widget createCartItemPrice(CartItemModel item) {
     return Container(
       padding: const EdgeInsets.all(8.0),
       child: Column(

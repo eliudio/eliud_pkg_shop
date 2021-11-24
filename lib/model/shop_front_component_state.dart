@@ -35,9 +35,9 @@ class ShopFrontComponentPermissionDenied extends ShopFrontComponentState {
 }
 
 class ShopFrontComponentLoaded extends ShopFrontComponentState {
-  final ShopFrontModel? value;
+  final ShopFrontModel value;
 
-  const ShopFrontComponentLoaded({ this.value });
+  const ShopFrontComponentLoaded({ required this.value });
 
   ShopFrontComponentLoaded copyWith({ ShopFrontModel? copyThis }) {
     return ShopFrontComponentLoaded(value: copyThis ?? this.value);

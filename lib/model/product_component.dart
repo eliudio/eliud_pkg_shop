@@ -13,9 +13,6 @@
 
 */
 
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eliud_core/style/style_registry.dart';
 
 import 'package:eliud_pkg_shop/model/product_component_bloc.dart';
 import 'package:eliud_pkg_shop/model/product_component_event.dart';
@@ -23,18 +20,26 @@ import 'package:eliud_pkg_shop/model/product_model.dart';
 import 'package:eliud_pkg_shop/model/product_repository.dart';
 import 'package:eliud_pkg_shop/model/product_component_state.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/style/style_registry.dart';
+import 'abstract_repository_singleton.dart';
+import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+
 abstract class AbstractProductComponent extends StatelessWidget {
   static String componentName = "products";
-  final String? productID;
+  final String theAppId;
+  final String productId;
 
-  AbstractProductComponent({Key? key, this.productID}): super(key: key);
+  AbstractProductComponent({Key? key, required this.theAppId, required this.productId}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ProductComponentBloc> (
           create: (context) => ProductComponentBloc(
-            productRepository: getProductRepository(context))
-        ..add(FetchProductComponent(id: productID)),
+            productRepository: productRepository(appId: theAppId)!)
+        ..add(FetchProductComponent(id: productId)),
       child: _productBlockBuilder(context),
     );
   }
@@ -43,7 +48,7 @@ abstract class AbstractProductComponent extends StatelessWidget {
     return BlocBuilder<ProductComponentBloc, ProductComponentState>(builder: (context, state) {
       if (state is ProductComponentLoaded) {
         if (state.value == null) {
-          return alertWidget(title: 'Error', content: 'No Product defined');
+          return AlertWidget(title: "Error", content: 'No Product defined');
         } else {
           return yourWidget(context, state.value);
         }
@@ -54,7 +59,7 @@ abstract class AbstractProductComponent extends StatelessWidget {
           size: 30.0,
         );
       } else if (state is ProductComponentError) {
-        return alertWidget(title: 'Error', content: state.message);
+        return AlertWidget(title: 'Error', content: state.message);
       } else {
         return Center(
           child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context),
@@ -63,8 +68,6 @@ abstract class AbstractProductComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, ProductModel? value);
-  Widget alertWidget({ title: String, content: String});
-  ProductRepository getProductRepository(BuildContext context);
+  Widget yourWidget(BuildContext context, ProductModel value);
 }
 

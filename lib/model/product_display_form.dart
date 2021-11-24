@@ -74,6 +74,7 @@ class ProductDisplayForm extends StatelessWidget {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
+    var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<ProductDisplayFormBloc >(
             create: (context) => ProductDisplayFormBloc(AccessBloc.currentAppId(context),
@@ -146,6 +147,7 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
   Widget build(BuildContext context) {
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
+    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<ProductDisplayFormBloc, ProductDisplayFormState>(builder: (context, state) {
       if (state is ProductDisplayFormUninitialized) return Center(
@@ -188,7 +190,7 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _itemDetailBackground, trigger: _onItemDetailBackgroundSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "backgrounds", value: _itemDetailBackground, trigger: _onItemDetailBackgroundSelected, optional: true),
           );
 
         children.add(
@@ -198,7 +200,7 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "shops", value: _shop, trigger: _onShopSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "shops", value: _shop, trigger: _onShopSelected, optional: false),
           );
 
 

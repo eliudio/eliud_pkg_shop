@@ -10,16 +10,22 @@ import 'package:flutter/material.dart';
 
 class CartComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({Key? key, required String id, Map<String, dynamic>? parameters}) {
-      return CartProfileComponent(key: key, id: id);
+  Widget createNew(
+      {Key? key,
+      required String appId,
+      required String id,
+      Map<String, dynamic>? parameters}) {
+    return CartProfileComponent(key: key, appId: appId, id: id);
   }
 
   @override
-  Future<dynamic> getModel({required String appId, required String id}) async => await cartRepository(appId: appId)!.get(id);
+  Future<dynamic> getModel({required String appId, required String id}) async =>
+      await cartRepository(appId: appId)!.get(id);
 }
 
 class CartProfileComponent extends AbstractCartComponent {
-  CartProfileComponent({Key? key, required String id}) : super(key: key, cartID: id);
+  CartProfileComponent({Key? key, required String appId, required String id})
+      : super(key: key, theAppId: appId, cartId: id);
 
   @override
   Widget alertWidget({title = String, content = String}) {
@@ -28,12 +34,14 @@ class CartProfileComponent extends AbstractCartComponent {
 
   @override
   CartRepository getCartRepository(BuildContext context) {
-    return AbstractRepositorySingleton.singleton.cartRepository(AccessBloc.currentAppId(context))!;
+    return AbstractRepositorySingleton.singleton
+        .cartRepository(AccessBloc.currentAppId(context))!;
   }
 
   @override
   Widget yourWidget(BuildContext context, CartModel? cart) {
-    return CartWidget(cart: cart,);
+    return CartWidget(
+      cart: cart,
+    );
   }
 }
-

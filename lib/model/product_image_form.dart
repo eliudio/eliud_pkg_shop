@@ -74,6 +74,7 @@ class ProductImageForm extends StatelessWidget {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
+    var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<ProductImageFormBloc >(
             create: (context) => ProductImageFormBloc(AccessBloc.currentAppId(context),
@@ -136,6 +137,7 @@ class _MyProductImageFormState extends State<MyProductImageForm> {
   Widget build(BuildContext context) {
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
+    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<ProductImageFormBloc, ProductImageFormState>(builder: (context, state) {
       if (state is ProductImageFormUninitialized) return Center(
@@ -156,7 +158,7 @@ class _MyProductImageFormState extends State<MyProductImageForm> {
         List<Widget> children = [];
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "platformMediums", value: _image, trigger: _onImageSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "platformMediums", value: _image, trigger: _onImageSelected, optional: false),
           );
 
 

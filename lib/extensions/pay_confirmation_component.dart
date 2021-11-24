@@ -14,8 +14,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PayConfirmationComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({Key? key, required String id, Map<String, dynamic>? parameters}) {
-    return PayConfirmationComponent(key: key, id: id, parameters: parameters,);
+  Widget createNew({Key? key, required String appId, required String id, Map<String, dynamic>? parameters}) {
+    return PayConfirmationComponent(key: key, appId: appId, id: id, parameters: parameters,);
   }
 
   @override
@@ -25,7 +25,7 @@ class PayConfirmationComponentConstructorDefault implements ComponentConstructor
 class PayConfirmationComponent extends AbstractPayConfirmationComponent {
   final Map<String, dynamic>? parameters;
 
-  PayConfirmationComponent({Key? key, required String id, this.parameters}) : super(key: key, payConfirmationID: id);
+  PayConfirmationComponent({Key? key, required String appId, required String id, this.parameters}) : super(key: key, theAppId: appId, payConfirmationId: id);
 
   @override
   Widget yourWidget(BuildContext context, PayConfirmationModel? payConfirmationModel) {
@@ -33,7 +33,7 @@ class PayConfirmationComponent extends AbstractPayConfirmationComponent {
     if (orderNumber != null) {
       return BlocProvider<OrderComponentBloc>(
         create: (context) =>
-        OrderComponentBloc(orderRepository: getOrderRepository(context))
+        OrderComponentBloc(orderRepository: orderRepository(appId: theAppId))
           ..add(FetchOrderComponent(id: orderNumber as String?)),
         child: ConfirmationWidget(payConfirmationModel),
       );
@@ -45,14 +45,5 @@ class PayConfirmationComponent extends AbstractPayConfirmationComponent {
   @override
   Widget alertWidget({title = String, content = String}) {
     return AlertWidget(title: title, content: content);
-  }
-
-  @override
-  PayConfirmationRepository getPayConfirmationRepository(BuildContext context) {
-    return AbstractRepositorySingleton.singleton.payConfirmationRepository(AccessBloc.currentAppId(context))!;
-  }
-
-  OrderRepository? getOrderRepository(BuildContext context) {
-    return AbstractRepositorySingleton.singleton.orderRepository(AccessBloc.currentAppId(context));
   }
 }

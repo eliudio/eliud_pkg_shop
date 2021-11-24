@@ -15,28 +15,37 @@ import 'package:eliud_pkg_shop/model/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ProductDisplayComponentConstructorDefault implements ComponentConstructor {
+class ProductDisplayComponentConstructorDefault
+    implements ComponentConstructor {
   @override
-  Widget createNew({Key? key, required String id, Map<String, dynamic>? parameters}) {
-    return ProductDisplayComponent(key: key, id: id, parameters: parameters);
+  Widget createNew(
+      {Key? key,
+      required String appId,
+      required String id,
+      Map<String, dynamic>? parameters}) {
+    return ProductDisplayComponent(
+        key: key, appId: appId, id: id, parameters: parameters);
   }
 
   @override
-  Future<dynamic> getModel({required String appId, required String id}) async => await productDisplayRepository(appId: appId)!.get(id);
+  Future<dynamic> getModel({required String appId, required String id}) async =>
+      await productDisplayRepository(appId: appId)!.get(id);
 }
 
 class ProductDisplayComponent extends AbstractProductDisplayComponent {
   final Map<String, dynamic>? parameters;
 
-  ProductDisplayComponent({Key? key, required String id, this.parameters}) : super(key: key, productDisplayID: id);
+  ProductDisplayComponent(
+      {Key? key, required String appId, required String id, this.parameters})
+      : super(key: key, theAppId: appId, productDisplayId: id);
 
   @override
   Widget yourWidget(BuildContext context, ProductDisplayModel? value) {
     var productId = parameters!['productId'];
     if (productId != null) {
       return BlocProvider<ProductComponentBloc>(
-        create: (context) =>
-        ProductComponentBloc(productRepository: getProductRepository(context))
+        create: (context) => ProductComponentBloc(
+            productRepository: getProductRepository(context))
           ..add(FetchProductComponent(id: productId as String?)),
         child: _widget(context, value, productId as String),
       );
@@ -45,9 +54,10 @@ class ProductDisplayComponent extends AbstractProductDisplayComponent {
     }
   }
 
-  Widget _widget(BuildContext context, ProductDisplayModel? value, String productId) {
-    return BlocBuilder<ProductComponentBloc, ProductComponentState> (
-      builder: (context, state) {
+  Widget _widget(
+      BuildContext context, ProductDisplayModel? value, String productId) {
+    return BlocBuilder<ProductComponentBloc, ProductComponentState>(
+        builder: (context, state) {
       if (state is ProductComponentLoaded) {
         return ProductDetail(
             productDisplayModel: value, productModel: state.value);
@@ -64,10 +74,12 @@ class ProductDisplayComponent extends AbstractProductDisplayComponent {
 
   @override
   ProductDisplayRepository getProductDisplayRepository(BuildContext context) {
-    return AbstractRepositorySingleton.singleton.productDisplayRepository(AccessBloc.currentAppId(context))!;
+    return AbstractRepositorySingleton.singleton
+        .productDisplayRepository(AccessBloc.currentAppId(context))!;
   }
 
   ProductRepository? getProductRepository(BuildContext context) {
-    return AbstractRepositorySingleton.singleton.productRepository(AccessBloc.currentAppId(context));
+    return AbstractRepositorySingleton.singleton
+        .productRepository(AccessBloc.currentAppId(context));
   }
 }

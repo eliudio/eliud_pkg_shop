@@ -74,6 +74,7 @@ class ProductForm extends StatelessWidget {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
+    var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<ProductFormBloc >(
             create: (context) => ProductFormBloc(AccessBloc.currentAppId(context),
@@ -150,6 +151,7 @@ class _MyProductFormState extends State<MyProductForm> {
   Widget build(BuildContext context) {
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
+    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<ProductFormBloc, ProductFormState>(builder: (context, state) {
       if (state is ProductFormUninitialized) return Center(
@@ -236,7 +238,7 @@ class _MyProductFormState extends State<MyProductForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "shops", value: _shop, trigger: _onShopSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "shops", value: _shop, trigger: _onShopSelected, optional: false),
           );
 
 
@@ -271,7 +273,7 @@ class _MyProductFormState extends State<MyProductForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "posSizes", value: _posSize, trigger: _onPosSizeSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "posSizes", value: _posSize, trigger: _onPosSizeSelected, optional: false),
           );
 
 

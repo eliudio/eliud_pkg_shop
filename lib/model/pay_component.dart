@@ -13,9 +13,6 @@
 
 */
 
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eliud_core/style/style_registry.dart';
 
 import 'package:eliud_pkg_shop/model/pay_component_bloc.dart';
 import 'package:eliud_pkg_shop/model/pay_component_event.dart';
@@ -23,18 +20,26 @@ import 'package:eliud_pkg_shop/model/pay_model.dart';
 import 'package:eliud_pkg_shop/model/pay_repository.dart';
 import 'package:eliud_pkg_shop/model/pay_component_state.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/style/style_registry.dart';
+import 'abstract_repository_singleton.dart';
+import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+
 abstract class AbstractPayComponent extends StatelessWidget {
   static String componentName = "pays";
-  final String? payID;
+  final String theAppId;
+  final String payId;
 
-  AbstractPayComponent({Key? key, this.payID}): super(key: key);
+  AbstractPayComponent({Key? key, required this.theAppId, required this.payId}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<PayComponentBloc> (
           create: (context) => PayComponentBloc(
-            payRepository: getPayRepository(context))
-        ..add(FetchPayComponent(id: payID)),
+            payRepository: payRepository(appId: theAppId)!)
+        ..add(FetchPayComponent(id: payId)),
       child: _payBlockBuilder(context),
     );
   }
@@ -43,7 +48,7 @@ abstract class AbstractPayComponent extends StatelessWidget {
     return BlocBuilder<PayComponentBloc, PayComponentState>(builder: (context, state) {
       if (state is PayComponentLoaded) {
         if (state.value == null) {
-          return alertWidget(title: 'Error', content: 'No Pay defined');
+          return AlertWidget(title: "Error", content: 'No Pay defined');
         } else {
           return yourWidget(context, state.value);
         }
@@ -54,7 +59,7 @@ abstract class AbstractPayComponent extends StatelessWidget {
           size: 30.0,
         );
       } else if (state is PayComponentError) {
-        return alertWidget(title: 'Error', content: state.message);
+        return AlertWidget(title: 'Error', content: state.message);
       } else {
         return Center(
           child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context),
@@ -63,8 +68,6 @@ abstract class AbstractPayComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, PayModel? value);
-  Widget alertWidget({ title: String, content: String});
-  PayRepository getPayRepository(BuildContext context);
+  Widget yourWidget(BuildContext context, PayModel value);
 }
 

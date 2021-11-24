@@ -35,9 +35,9 @@ class PayComponentPermissionDenied extends PayComponentState {
 }
 
 class PayComponentLoaded extends PayComponentState {
-  final PayModel? value;
+  final PayModel value;
 
-  const PayComponentLoaded({ this.value });
+  const PayComponentLoaded({ required this.value });
 
   PayComponentLoaded copyWith({ PayModel? copyThis }) {
     return PayComponentLoaded(value: copyThis ?? this.value);

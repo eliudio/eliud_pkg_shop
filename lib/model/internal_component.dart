@@ -172,8 +172,8 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class ListComponentFactory implements ComponentConstructor {
-  Widget? createNew({Key? key, required String id, Map<String, dynamic>? parameters}) {
-    return ListComponent(componentId: id);
+  Widget? createNew({Key? key, required String appId,  required String id, Map<String, dynamic>? parameters}) {
+    return ListComponent(appId: appId, componentId: id);
   }
 
   @override
@@ -206,34 +206,34 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     return false;
   }
 
-  Widget createNew({Key? key, required String id, Map<String, dynamic>? parameters, String? value, DropdownButtonChanged? trigger, bool? optional}) {
+  Widget createNew({Key? key, required String appId, required String id, Map<String, dynamic>? parameters, String? value, DropdownButtonChanged? trigger, bool? optional}) {
 
     if (id == "carts")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "orders")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "orderOverviews")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "pays")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "payConfirmations")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "products")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "productDisplays")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "shops")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "shopFronts")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     return Text("Id $id not found");
   }
@@ -241,6 +241,7 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
 
 
 class ListComponent extends StatelessWidget with HasFab {
+  final String appId;
   final String? componentId;
   Widget? widget;
 
@@ -253,7 +254,7 @@ class ListComponent extends StatelessWidget with HasFab {
     return null;
   }
 
-  ListComponent({this.componentId}) {
+  ListComponent({required this.appId, this.componentId}) {
     initWidget();
   }
 
@@ -289,7 +290,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<CartListBloc>(
           create: (context) => CartListBloc(
-            cartRepository: cartRepository(appId: AccessBloc.currentAppId(context))!,
+            cartRepository: cartRepository(appId: appId)!,
           )..add(LoadCartList()),
         )
       ],
@@ -302,7 +303,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<OrderListBloc>(
           create: (context) => OrderListBloc(
-            orderRepository: orderRepository(appId: AccessBloc.currentAppId(context))!,
+            orderRepository: orderRepository(appId: appId)!,
           )..add(LoadOrderList()),
         )
       ],
@@ -315,7 +316,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<OrderOverviewListBloc>(
           create: (context) => OrderOverviewListBloc(
-            orderOverviewRepository: orderOverviewRepository(appId: AccessBloc.currentAppId(context))!,
+            orderOverviewRepository: orderOverviewRepository(appId: appId)!,
           )..add(LoadOrderOverviewList()),
         )
       ],
@@ -328,7 +329,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<PayListBloc>(
           create: (context) => PayListBloc(
-            payRepository: payRepository(appId: AccessBloc.currentAppId(context))!,
+            payRepository: payRepository(appId: appId)!,
           )..add(LoadPayList()),
         )
       ],
@@ -341,7 +342,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<PayConfirmationListBloc>(
           create: (context) => PayConfirmationListBloc(
-            payConfirmationRepository: payConfirmationRepository(appId: AccessBloc.currentAppId(context))!,
+            payConfirmationRepository: payConfirmationRepository(appId: appId)!,
           )..add(LoadPayConfirmationList()),
         )
       ],
@@ -354,7 +355,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<ProductListBloc>(
           create: (context) => ProductListBloc(
-            productRepository: productRepository(appId: AccessBloc.currentAppId(context))!,
+            productRepository: productRepository(appId: appId)!,
           )..add(LoadProductList()),
         )
       ],
@@ -367,7 +368,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<ProductDisplayListBloc>(
           create: (context) => ProductDisplayListBloc(
-            productDisplayRepository: productDisplayRepository(appId: AccessBloc.currentAppId(context))!,
+            productDisplayRepository: productDisplayRepository(appId: appId)!,
           )..add(LoadProductDisplayList()),
         )
       ],
@@ -380,7 +381,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<ShopListBloc>(
           create: (context) => ShopListBloc(
-            shopRepository: shopRepository(appId: AccessBloc.currentAppId(context))!,
+            shopRepository: shopRepository(appId: appId)!,
           )..add(LoadShopList()),
         )
       ],
@@ -393,7 +394,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<ShopFrontListBloc>(
           create: (context) => ShopFrontListBloc(
-            shopFrontRepository: shopFrontRepository(appId: AccessBloc.currentAppId(context))!,
+            shopFrontRepository: shopFrontRepository(appId: appId)!,
           )..add(LoadShopFrontList()),
         )
       ],
@@ -407,12 +408,13 @@ class ListComponent extends StatelessWidget with HasFab {
 typedef Changed(String? value);
 
 class DropdownButtonComponent extends StatelessWidget {
+  final String appId;
   final String? componentId;
   final String? value;
   final Changed? trigger;
   final bool? optional;
 
-  DropdownButtonComponent({this.componentId, this.value, this.trigger, this.optional});
+  DropdownButtonComponent({required this.appId, this.componentId, this.value, this.trigger, this.optional});
 
   @override
   Widget build(BuildContext context) {
@@ -435,7 +437,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<CartListBloc>(
           create: (context) => CartListBloc(
-            cartRepository: cartRepository(appId: AccessBloc.currentAppId(context))!,
+            cartRepository: cartRepository(appId: appId)!,
           )..add(LoadCartList()),
         )
       ],
@@ -448,7 +450,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<OrderListBloc>(
           create: (context) => OrderListBloc(
-            orderRepository: orderRepository(appId: AccessBloc.currentAppId(context))!,
+            orderRepository: orderRepository(appId: appId)!,
           )..add(LoadOrderList()),
         )
       ],
@@ -461,7 +463,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<OrderOverviewListBloc>(
           create: (context) => OrderOverviewListBloc(
-            orderOverviewRepository: orderOverviewRepository(appId: AccessBloc.currentAppId(context))!,
+            orderOverviewRepository: orderOverviewRepository(appId: appId)!,
           )..add(LoadOrderOverviewList()),
         )
       ],
@@ -474,7 +476,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<PayListBloc>(
           create: (context) => PayListBloc(
-            payRepository: payRepository(appId: AccessBloc.currentAppId(context))!,
+            payRepository: payRepository(appId: appId)!,
           )..add(LoadPayList()),
         )
       ],
@@ -487,7 +489,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<PayConfirmationListBloc>(
           create: (context) => PayConfirmationListBloc(
-            payConfirmationRepository: payConfirmationRepository(appId: AccessBloc.currentAppId(context))!,
+            payConfirmationRepository: payConfirmationRepository(appId: appId)!,
           )..add(LoadPayConfirmationList()),
         )
       ],
@@ -500,7 +502,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<ProductListBloc>(
           create: (context) => ProductListBloc(
-            productRepository: productRepository(appId: AccessBloc.currentAppId(context))!,
+            productRepository: productRepository(appId: appId)!,
           )..add(LoadProductList()),
         )
       ],
@@ -513,7 +515,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<ProductDisplayListBloc>(
           create: (context) => ProductDisplayListBloc(
-            productDisplayRepository: productDisplayRepository(appId: AccessBloc.currentAppId(context))!,
+            productDisplayRepository: productDisplayRepository(appId: appId)!,
           )..add(LoadProductDisplayList()),
         )
       ],
@@ -526,7 +528,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<ShopListBloc>(
           create: (context) => ShopListBloc(
-            shopRepository: shopRepository(appId: AccessBloc.currentAppId(context))!,
+            shopRepository: shopRepository(appId: appId)!,
           )..add(LoadShopList()),
         )
       ],
@@ -539,7 +541,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<ShopFrontListBloc>(
           create: (context) => ShopFrontListBloc(
-            shopFrontRepository: shopFrontRepository(appId: AccessBloc.currentAppId(context))!,
+            shopFrontRepository: shopFrontRepository(appId: appId)!,
           )..add(LoadShopFrontList()),
         )
       ],

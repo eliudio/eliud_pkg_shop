@@ -16,8 +16,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OrderOverviewComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({Key? key, required String id, Map<String, dynamic>? parameters}) {
-    return OrderOverviewComponent(key: key, id: id);
+  Widget createNew({Key? key, required String appId, required String id, Map<String, dynamic>? parameters}) {
+    return OrderOverviewComponent(key: key, appId: appId, id: id);
   }
 
   @override
@@ -25,14 +25,14 @@ class OrderOverviewComponentConstructorDefault implements ComponentConstructor {
 }
 
 class OrderOverviewComponent extends AbstractOrderOverviewComponent {
-  OrderOverviewComponent({Key? key, required String id}) : super(key: key, orderOverviewID: id);
+  OrderOverviewComponent({Key? key, required String appId, required String id}) : super(key: key, theAppId: appId, orderOverviewId: id);
 
   @override
   Widget yourWidget(BuildContext context, OrderOverviewModel? orderOverview) {
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (context, accessState) {
           if (accessState is AccessDetermined) {
-            if (accessState.memberIsOwner(accessState.currentAppId())) {
+            if (accessState.memberIsOwner(accessState.currentAppId(context))) {
               // allow owner of the app to see ALL orders and update shipment details
               return BlocProvider<OrderListBloc>(
                 create: (context) =>
@@ -58,15 +58,5 @@ class OrderOverviewComponent extends AbstractOrderOverviewComponent {
             return progressIndicator(context);
           }
         });
-  }
-
-  @override
-  Widget alertWidget({title = String, content = String}) {
-    return AlertWidget(title: title, content: content);
-  }
-
-  @override
-  OrderOverviewRepository getOrderOverviewRepository(BuildContext context) {
-    return AbstractRepositorySingleton.singleton.orderOverviewRepository(AccessBloc.currentAppId(context))!;
   }
 }

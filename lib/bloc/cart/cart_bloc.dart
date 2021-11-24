@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/access_event.dart';
-import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/core/navigate/router.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
@@ -17,8 +16,9 @@ import 'cart_state.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
   final AccessBloc accessBloc;
+  final String appId;
 
-  CartBloc(this.accessBloc) : super(CartUninitialised());
+  CartBloc(this.appId, this.accessBloc, ) : super(CartUninitialised());
 
   List<CartItemModel>? _copyListAndChangeAmount(
       List<CartItemModel> original, ProductModel? product, int changeBy) {
@@ -57,19 +57,19 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       LoggedIn accessState, ProductModel? product, int amount) async {
     var member = accessState.member;
     if (member != null) {
-      var cart = await memberCartRepository(appId: accessState.currentApp.documentID)!
+      var cart = await memberCartRepository(appId: appId)!
           .get(member.documentID);
       List<CartItemModel>? items;
       if (cart != null) {
         items = cart.cartItems;
         var newItems = _copyListAndChangeAmount(items!, product, amount);
-        await memberCartRepository(appId: accessState.currentApp.documentID)!
+        await memberCartRepository(appId: appId)!
             .update(cart.copyWith(cartItems: newItems));
       } else {
-        await memberCartRepository(appId: accessState.currentApp.documentID)!.add(
+        await memberCartRepository(appId: appId)!.add(
             MemberCartModel(
                 documentID: member.documentID,
-                appId: accessState.currentApp.documentID,
+                appId: appId,
                 cartItems: _copyListAndChangeAmount([], product, amount)));
       }
     }
@@ -80,10 +80,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   ) async {
     var member = accessState.member;
     if (member != null) {
-      var cart = await memberCartRepository(appId: accessState.currentApp.documentID)!
+      var cart = await memberCartRepository(appId: appId)!
           .get(member.documentID);
       if (cart != null) {
-        await memberCartRepository(appId: accessState.currentApp.documentID)!
+        await memberCartRepository(appId: appId)!
             .update(cart.copyWith(cartItems: []));
       }
     }
@@ -91,7 +91,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   Future<CartInitialised> toYield(LoggedIn accessState) async {
     var member = accessState.member;
-    var cart = await memberCartRepository(appId: accessState.currentApp.documentID)!
+    var cart = await memberCartRepository(appId: appId)!
         .get(member.documentID);
     return CartInitialised(cart != null ? cart.cartItems : null);
   }

@@ -35,9 +35,9 @@ class OrderComponentPermissionDenied extends OrderComponentState {
 }
 
 class OrderComponentLoaded extends OrderComponentState {
-  final OrderModel? value;
+  final OrderModel value;
 
-  const OrderComponentLoaded({ this.value });
+  const OrderComponentLoaded({ required this.value });
 
   OrderComponentLoaded copyWith({ OrderModel? copyThis }) {
     return OrderComponentLoaded(value: copyThis ?? this.value);

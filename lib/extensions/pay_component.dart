@@ -31,8 +31,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class PayComponentConstructorDefault implements ComponentConstructor {
   @override
   Widget createNew(
-      {Key? key, required String id, Map<String, dynamic>? parameters}) {
-    return PayProfileComponent(key: key, id: id);
+      {Key? key, required String appId, required String id, Map<String, dynamic>? parameters}) {
+    return PayProfileComponent(key: key, appId: appId, id: id);
   }
 
   @override
@@ -41,16 +41,17 @@ class PayComponentConstructorDefault implements ComponentConstructor {
 
 class PayProfileComponent extends AbstractPayComponent {
   late PaymentBloc paymentBloc;
-  PayProfileComponent({Key? key, required String id})
-      : super(key: key, payID: id);
+  PayProfileComponent({Key? key, required String appId, required String id})
+      : super(key: key, theAppId: appId, payId: id);
 
   @override
   Widget yourWidget(BuildContext context, PayModel? pay) {
     var cartBloc = BlocProvider.of<CartBloc>(context);
     var accessBloc = AccessBloc.getBloc(context);
+    var appId = AccessBloc.currentAppId(context);
     return BlocProvider<PaymentBloc>(
         create: (context) =>
-            PaymentBloc(cartBloc, accessBloc)..add(CollectOrder(pay!.shop)),
+            PaymentBloc(appId, cartBloc, accessBloc)..add(CollectOrder(pay!.shop)),
         child:
             BlocBuilder<PaymentBloc, PaymentState>(builder: (context, state) {
           return _paymentWidget(context, pay);
@@ -92,7 +93,7 @@ class PayProfileComponent extends AbstractPayComponent {
                             pay_context, pay!.payAction!,
                             finaliseWorkflow: something));
                   }
-                  return _overviewAndPay(context, appState.currentApp, state.order!,
+                  return _overviewAndPay(context, state.order!,
                       message: 'Please review your order.',
                       subMessage: "If you're happy with it, then press Pay",
                       trailing: Icon(
@@ -106,7 +107,7 @@ class PayProfileComponent extends AbstractPayComponent {
           } else if (state is NoItemsInCart) {
             return text(context, 'No items in cart');
           } else if (state is ConfirmOrder) {
-            return _overviewAndPay(context, appState.currentApp, state.order,
+            return _overviewAndPay(context, state.order,
                 message: 'Please review your order.',
                 subMessage: "If you're happy with it, then press Pay",
                 trailing: Icon(
@@ -116,7 +117,7 @@ class PayProfileComponent extends AbstractPayComponent {
                   semanticLabel: 'Contact',
                 ));
           } else if (state is LackOfStock) {
-            return _overviewAndPay(context, appState.currentApp, state.order!,
+            return _overviewAndPay(context, state.order!,
                 message:
                     'Unfortunatly during checkout some items in your bag seem to have been sold to another customer.',
                 subMessage:
@@ -134,7 +135,7 @@ class PayProfileComponent extends AbstractPayComponent {
             eliudrouter.Router.navigateTo(context, pay!.succeeded!,
                 parameters: parameters as Map<String, dynamic>);
           } else if (state is PaymentFailed) {
-            return _overviewAndPay(context, appState.currentApp, state.order!,
+            return _overviewAndPay(context, state.order!,
                 trailing: Icon(
                   Icons.warning,
                   color: Colors.red,
@@ -154,17 +155,6 @@ class PayProfileComponent extends AbstractPayComponent {
     }
   }
 
-  @override
-  Widget alertWidget({title = String, content = String}) {
-    return AlertWidget(title: title, content: content);
-  }
-
-  @override
-  PayRepository getPayRepository(BuildContext context) {
-    return AbstractRepositorySingleton.singleton
-        .payRepository(AccessBloc.currentAppId(context))!;
-  }
-
   OrderModel? order;
 
   void handle(PaymentStatus status) {
@@ -175,7 +165,7 @@ class PayProfileComponent extends AbstractPayComponent {
     }
   }
 
-  Widget _getButton(BuildContext context, AppModel app, OrderModel order) {
+  Widget _getButton(BuildContext context, OrderModel order) {
     var paymentBloc = BlocProvider.of<PaymentBloc>(context);
     return Row(
 //      alignment: WrapAlignment.spaceAround, // set your alignment
@@ -201,7 +191,7 @@ class PayProfileComponent extends AbstractPayComponent {
     );
   }
 
-  Widget _overviewAndPay(BuildContext context, AppModel app, OrderModel order,
+  Widget _overviewAndPay(BuildContext context, OrderModel order,
       {String? message, String? subMessage, Widget? trailing}) {
     var widgets = <Widget>[];
     if (message != null) {
@@ -211,9 +201,9 @@ class PayProfileComponent extends AbstractPayComponent {
         subtitle: subMessage != null ? h4(context, subMessage) : null,
       ));
     }
-    OrderHelper.addOrderOverviewBeforePayment(app, widgets, order, context);
+    OrderHelper.addOrderOverviewBeforePayment(widgets, order, context);
     widgets.add(Divider());
-    widgets.add(_getButton(context, app, order));
+    widgets.add(_getButton(context, order));
     return ListView(
       shrinkWrap: true,
       physics: ScrollPhysics(),
