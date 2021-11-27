@@ -9,6 +9,7 @@ import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/tools/custom_utils.dart';
 import 'package:eliud_core/tools/etc.dart';
+import 'package:eliud_core/tools/router_builders.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_bloc.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_event.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_state.dart';
@@ -77,9 +78,11 @@ class _CartWidgetState extends State<CartWidget> {
 
   Widget _buttonRowBottom(BuildContext context, ) {
     return button(context, label: 'Checkout',
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => CheckOutPage(checkoutAction: widget.cart!.checkoutAction)));
-        });
+        onPressed: ()
+    {
+      Navigator.push(context, pageRouteBuilder(AccessBloc.currentApp(context),
+          page: CheckOutPage(checkoutAction: widget.cart!.checkoutAction)));
+    });
   }
 
   Widget _footer(BuildContext context, double totalValue) {
