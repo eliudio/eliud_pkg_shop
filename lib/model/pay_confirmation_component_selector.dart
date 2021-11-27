@@ -35,10 +35,11 @@ class PayConfirmationComponentSelector extends ComponentSelector {
   @override
   Widget createSelectWidget(BuildContext context, double height,
       SelectComponent selected, editorConstructor) {
+    var appId = AccessBloc.currentAppId(context);
     return BlocProvider<PayConfirmationListBloc>(
           create: (context) => PayConfirmationListBloc(
             payConfirmationRepository:
-                payConfirmationRepository(appId: AccessBloc.currentAppId(context))!,
+                payConfirmationRepository(appId: appId)!,
           )..add(LoadPayConfirmationList()),
       child: SelectPayConfirmationWidget(
           height: height,

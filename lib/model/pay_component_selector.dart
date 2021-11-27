@@ -35,10 +35,11 @@ class PayComponentSelector extends ComponentSelector {
   @override
   Widget createSelectWidget(BuildContext context, double height,
       SelectComponent selected, editorConstructor) {
+    var appId = AccessBloc.currentAppId(context);
     return BlocProvider<PayListBloc>(
           create: (context) => PayListBloc(
             payRepository:
-                payRepository(appId: AccessBloc.currentAppId(context))!,
+                payRepository(appId: appId)!,
           )..add(LoadPayList()),
       child: SelectPayWidget(
           height: height,

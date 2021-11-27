@@ -77,7 +77,7 @@ class PayForm extends StatelessWidget {
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<PayFormBloc >(
-            create: (context) => PayFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => PayFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialisePayFormEvent(value: value)),
@@ -86,7 +86,7 @@ class PayForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<PayFormBloc >(
-            create: (context) => PayFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => PayFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialisePayFormNoLoadEvent(value: value)),
@@ -97,7 +97,7 @@ class PayForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Pay' : 'Add Pay'),
         body: BlocProvider<PayFormBloc >(
-            create: (context) => PayFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => PayFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialisePayFormEvent(value: value) : InitialiseNewPayFormEvent())),

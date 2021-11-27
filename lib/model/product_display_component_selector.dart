@@ -35,10 +35,11 @@ class ProductDisplayComponentSelector extends ComponentSelector {
   @override
   Widget createSelectWidget(BuildContext context, double height,
       SelectComponent selected, editorConstructor) {
+    var appId = AccessBloc.currentAppId(context);
     return BlocProvider<ProductDisplayListBloc>(
           create: (context) => ProductDisplayListBloc(
             productDisplayRepository:
-                productDisplayRepository(appId: AccessBloc.currentAppId(context))!,
+                productDisplayRepository(appId: appId)!,
           )..add(LoadProductDisplayList()),
       child: SelectProductDisplayWidget(
           height: height,

@@ -35,10 +35,11 @@ class ShopFrontComponentSelector extends ComponentSelector {
   @override
   Widget createSelectWidget(BuildContext context, double height,
       SelectComponent selected, editorConstructor) {
+    var appId = AccessBloc.currentAppId(context);
     return BlocProvider<ShopFrontListBloc>(
           create: (context) => ShopFrontListBloc(
             shopFrontRepository:
-                shopFrontRepository(appId: AccessBloc.currentAppId(context))!,
+                shopFrontRepository(appId: appId)!,
           )..add(LoadShopFrontList()),
       child: SelectShopFrontWidget(
           height: height,

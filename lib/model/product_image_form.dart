@@ -77,7 +77,7 @@ class ProductImageForm extends StatelessWidget {
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<ProductImageFormBloc >(
-            create: (context) => ProductImageFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => ProductImageFormBloc(appId,
                                        
                                                 )..add(InitialiseProductImageFormEvent(value: value)),
   
@@ -85,7 +85,7 @@ class ProductImageForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<ProductImageFormBloc >(
-            create: (context) => ProductImageFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => ProductImageFormBloc(appId,
                                        
                                                 )..add(InitialiseProductImageFormNoLoadEvent(value: value)),
   
@@ -95,7 +95,7 @@ class ProductImageForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update ProductImage' : 'Add ProductImage'),
         body: BlocProvider<ProductImageFormBloc >(
-            create: (context) => ProductImageFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => ProductImageFormBloc(appId,
                                        
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseProductImageFormEvent(value: value) : InitialiseNewProductImageFormEvent())),
   

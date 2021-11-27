@@ -72,7 +72,7 @@ class ShopForm extends StatelessWidget {
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<ShopFormBloc >(
-            create: (context) => ShopFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => ShopFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseShopFormEvent(value: value)),
@@ -81,7 +81,7 @@ class ShopForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<ShopFormBloc >(
-            create: (context) => ShopFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => ShopFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseShopFormNoLoadEvent(value: value)),
@@ -92,7 +92,7 @@ class ShopForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Shop' : 'Add Shop'),
         body: BlocProvider<ShopFormBloc >(
-            create: (context) => ShopFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => ShopFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseShopFormEvent(value: value) : InitialiseNewShopFormEvent())),

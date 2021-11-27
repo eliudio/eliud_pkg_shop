@@ -77,7 +77,7 @@ class ProductDisplayForm extends StatelessWidget {
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<ProductDisplayFormBloc >(
-            create: (context) => ProductDisplayFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => ProductDisplayFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseProductDisplayFormEvent(value: value)),
@@ -86,7 +86,7 @@ class ProductDisplayForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<ProductDisplayFormBloc >(
-            create: (context) => ProductDisplayFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => ProductDisplayFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseProductDisplayFormNoLoadEvent(value: value)),
@@ -97,7 +97,7 @@ class ProductDisplayForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update ProductDisplay' : 'Add ProductDisplay'),
         body: BlocProvider<ProductDisplayFormBloc >(
-            create: (context) => ProductDisplayFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => ProductDisplayFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseProductDisplayFormEvent(value: value) : InitialiseNewProductDisplayFormEvent())),

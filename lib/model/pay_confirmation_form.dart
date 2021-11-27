@@ -77,7 +77,7 @@ class PayConfirmationForm extends StatelessWidget {
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<PayConfirmationFormBloc >(
-            create: (context) => PayConfirmationFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => PayConfirmationFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialisePayConfirmationFormEvent(value: value)),
@@ -86,7 +86,7 @@ class PayConfirmationForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<PayConfirmationFormBloc >(
-            create: (context) => PayConfirmationFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => PayConfirmationFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialisePayConfirmationFormNoLoadEvent(value: value)),
@@ -97,7 +97,7 @@ class PayConfirmationForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update PayConfirmation' : 'Add PayConfirmation'),
         body: BlocProvider<PayConfirmationFormBloc >(
-            create: (context) => PayConfirmationFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => PayConfirmationFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialisePayConfirmationFormEvent(value: value) : InitialiseNewPayConfirmationFormEvent())),

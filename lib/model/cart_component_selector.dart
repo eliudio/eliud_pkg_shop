@@ -35,10 +35,11 @@ class CartComponentSelector extends ComponentSelector {
   @override
   Widget createSelectWidget(BuildContext context, double height,
       SelectComponent selected, editorConstructor) {
+    var appId = AccessBloc.currentAppId(context);
     return BlocProvider<CartListBloc>(
           create: (context) => CartListBloc(
             cartRepository:
-                cartRepository(appId: AccessBloc.currentAppId(context))!,
+                cartRepository(appId: appId)!,
           )..add(LoadCartList()),
       child: SelectCartWidget(
           height: height,

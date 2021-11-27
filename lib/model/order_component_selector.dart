@@ -35,10 +35,11 @@ class OrderComponentSelector extends ComponentSelector {
   @override
   Widget createSelectWidget(BuildContext context, double height,
       SelectComponent selected, editorConstructor) {
+    var appId = AccessBloc.currentAppId(context);
     return BlocProvider<OrderListBloc>(
           create: (context) => OrderListBloc(
             orderRepository:
-                orderRepository(appId: AccessBloc.currentAppId(context))!,
+                orderRepository(appId: appId)!,
           )..add(LoadOrderList()),
       child: SelectOrderWidget(
           height: height,
