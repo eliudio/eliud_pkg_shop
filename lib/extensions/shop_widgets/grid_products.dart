@@ -77,7 +77,7 @@ class _GridProductsState extends State<GridProducts> {
                           platformMediumModel: item.images![0].image!);
                     }
                     return Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState,
+                        decoration: BoxDecorationHelper.boxDecoration(accessState.getMember(),
                             widget.shopFrontModel!.itemCardBackground!),
                         child: Card(
                           margin: EdgeInsets.all(0.0),

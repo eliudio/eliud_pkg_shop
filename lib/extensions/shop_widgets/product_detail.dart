@@ -65,7 +65,7 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
     if (accessState is AccessDetermined) {
       return Container(
           decoration: BoxDecorationHelper.boxDecoration(
-              accessState, widget.productDisplayModel!.itemDetailBackground),
+              accessState.getMember(), widget.productDisplayModel!.itemDetailBackground),
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Column(

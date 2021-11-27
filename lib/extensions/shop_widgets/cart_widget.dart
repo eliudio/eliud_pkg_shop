@@ -3,6 +3,7 @@ import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
@@ -49,7 +50,7 @@ class _CartWidgetState extends State<CartWidget> {
                         //createHeader(),
                         _buttonRowTop(context, ),
                         _createSubTitle(state.amountOfProducts()),
-                        _createCartList(context, accessState, state.items!),
+                        _createCartList(context, accessState.getMember(), state.items!),
                         _footer(context, state.totalValue()),
                         _buttonRowBottom(context, )
                       ],
@@ -131,11 +132,11 @@ class _CartWidgetState extends State<CartWidget> {
     );
   }
 
-  Widget _createCartList(BuildContext context, AccessState accessState, List<CartItemModel> cartItems) {
+  Widget _createCartList(BuildContext context, MemberModel? member, List<CartItemModel> cartItems) {
     var items = <Widget>[];
     cartItems.forEach((element) {
       if (element.product != null) {
-        items.add(createCartItem(accessState, element));
+        items.add(createCartItem(member, element));
       }
     });
     return ListView(
@@ -145,19 +146,19 @@ class _CartWidgetState extends State<CartWidget> {
     );
   }
 
-  Widget createCartItem(AccessState accessState, CartItemModel item) {
+  Widget createCartItem(MemberModel? member, CartItemModel item) {
     return Stack(
       children: <Widget>[
         Container(
             margin: EdgeInsets.only(left: 16, right: 16, top: 16),
-            decoration: BoxDecorationHelper.boxDecoration(accessState,
+            decoration: BoxDecorationHelper.boxDecoration(member,
                 widget.cart!.itemDetailBackground!),
             child: ListView.builder(
               shrinkWrap: true,
               primary: false,
               itemBuilder: (context, index) {
                 if (index == 0) {
-                  return createCartItemImage(accessState, item);
+                  return createCartItemImage(item);
                 } else {
                   return createCartItemPrice(item);
                 }
@@ -190,7 +191,7 @@ class _CartWidgetState extends State<CartWidget> {
     );
   }
 
-  Widget createCartItemImage(AccessState accessState, CartItemModel item) {
+  Widget createCartItemImage(CartItemModel item) {
     var image = item.product!.images != null && item.product!.images!.isNotEmpty ? NetworkImage(item.product!.images![0].image!.url!) : null;
     Widget w;
     if (image == null) {
