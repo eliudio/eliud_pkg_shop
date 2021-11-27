@@ -23,7 +23,6 @@ class PostLoginAddProduct extends PostLoginAction {
 class CartTools {
   static void addToCart(BuildContext context,
       ActionModel? continueShoppingAction, ProductModel? product, int amount) {
-    print("addToCart 1");
     _runEvent(context, AddProduct(amount, product, continueShoppingAction));
   }
 
@@ -33,12 +32,12 @@ class CartTools {
   }
 
   static void _runEvent(BuildContext context, CartEvent event) {
-    print("runEvent ");
     var state = AccessBloc.getState(context);
     if (state is LoggedIn) {
       BlocProvider.of<CartBloc>(context).add(event);
     } else {
-      BlocProvider.of<AccessBloc>(context).add(LoginEvent(
+      var appId = AccessBloc.currentAppId(context);
+      BlocProvider.of<AccessBloc>(context).add(LoginEvent(appId: appId,
           actions:
               PostLoginAddProduct(BlocProvider.of<CartBloc>(context), event)));
     }
