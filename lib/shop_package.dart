@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
@@ -50,14 +51,8 @@ abstract class ShopPackage extends Package {
   }
 
   @override
-  Future<bool?> isConditionOk(
-      String? packageCondition,
-      AppModel? app,
-      MemberModel? member,
-      bool? isOwner,
-      bool? isBlocked,
-      PrivilegeLevel? privilegeLevel) async {
-    if (packageCondition == CONDITION_CARTS_HAS_ITEMS) {
+  Future<bool?> isConditionOk(AccessBloc accessBloc, String pluginCondition, AppModel app, MemberModel? member, bool isOwner, bool? isBlocked, PrivilegeLevel? privilegeLevel) async {
+    if (pluginCondition == CONDITION_CARTS_HAS_ITEMS) {
       if (stateCONDITION_CARTS_HAS_ITEMS == null) return false;
       return stateCONDITION_CARTS_HAS_ITEMS;
     }
