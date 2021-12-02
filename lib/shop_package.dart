@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/access_event.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
@@ -15,29 +16,48 @@ abstract class ShopPackage extends Package {
   ShopPackage() : super('eliud_pkg_shop');
 
   static final String CONDITION_CARTS_HAS_ITEMS = 'MustHaveStuffInBasket';
-  bool? stateCONDITION_CARTS_HAS_ITEMS = null;
-  late StreamSubscription<List<MemberCartModel?>> subscription;
-
-  void _setState(bool newState, {MemberModel? currentMember}) {
-    if (newState != stateCONDITION_CARTS_HAS_ITEMS) {
-      stateCONDITION_CARTS_HAS_ITEMS = newState;
-    }
-  }
+  Map<String, bool?>  stateCONDITION_CARTS_HAS_ITEMS = {};
+  Map<String, StreamSubscription<List<MemberCartModel?>>> subscription = {};
 
   @override
-  void resubscribe(AppModel? app, MemberModel? currentMember) {
-    var appId = app!.documentID;
-    if (currentMember != null) {
-      subscription = memberCartRepository(appId: appId)!.listen((list) {
-        if (list.isNotEmpty) {
-          _setState(((list.first!.cartItems != null) && (list.first!.cartItems!.isNotEmpty)), currentMember: currentMember);
+  Future<List<PackageConditionDetails>>? getAndSubscribe(
+      AccessBloc accessBloc,
+      AppModel app,
+      MemberModel? member,
+      bool isOwner,
+      bool? isBlocked,
+      PrivilegeLevel? privilegeLevel) {
+    var appId = app.documentID!;
+    subscription[appId]?.cancel();
+    if (member != null) {
+      final c = Completer<List<PackageConditionDetails>>();
+      subscription[appId] = memberCartRepository(appId: appId)!.listen((list) {
+        var cartHasItems = (list.isNotEmpty) && (list.first!.cartItems != null) && (list.first!.cartItems!.isNotEmpty);
+        if (!c.isCompleted) {
+          // the first time we get this trigger, it's upon entry of the getAndSubscribe. Now we simply return the value
+          c.complete([
+            PackageConditionDetails(
+                packageName: packageName,
+                conditionName: CONDITION_CARTS_HAS_ITEMS,
+                value: cartHasItems)
+          ]);
         } else {
-          _setState(false, currentMember: currentMember);
+          // subsequent calls we get this trigger, it's when the date has changed. Now add the event to the bloc
+          if (cartHasItems != stateCONDITION_CARTS_HAS_ITEMS[appId]) {
+            stateCONDITION_CARTS_HAS_ITEMS[appId] = cartHasItems;
+            accessBloc.add(UpdatePackageConditionEvent(
+                app, this, CONDITION_CARTS_HAS_ITEMS, cartHasItems));
+          }
         }
-      }, eliudQuery: getCartQuery(
-          appId, currentMember.documentID));
+      }, eliudQuery: getCartQuery(appId, member.documentID!));
+      return c.future;
     } else {
-      _setState(false);
+      return Future.value([
+        PackageConditionDetails(
+            packageName: packageName,
+            conditionName: CONDITION_CARTS_HAS_ITEMS,
+            value: false)
+      ]);
     }
   }
 
@@ -48,15 +68,6 @@ abstract class ShopPackage extends Package {
             isEqualTo: memberId
         )]
     );
-  }
-
-  @override
-  Future<bool?> isConditionOk(AccessBloc accessBloc, String pluginCondition, AppModel app, MemberModel? member, bool isOwner, bool? isBlocked, PrivilegeLevel? privilegeLevel) async {
-    if (pluginCondition == CONDITION_CARTS_HAS_ITEMS) {
-      if (stateCONDITION_CARTS_HAS_ITEMS == null) return false;
-      return stateCONDITION_CARTS_HAS_ITEMS;
-    }
-    return null;
   }
 
   @override
