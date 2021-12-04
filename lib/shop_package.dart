@@ -52,6 +52,7 @@ abstract class ShopPackage extends Package {
       }, eliudQuery: getCartQuery(appId, member.documentID!));
       return c.future;
     } else {
+      stateCONDITION_CARTS_HAS_ITEMS[appId] = false;
       return Future.value([
         PackageConditionDetails(
             packageName: packageName,
