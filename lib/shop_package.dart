@@ -34,6 +34,7 @@ abstract class ShopPackage extends Package {
       subscription[appId] = memberCartRepository(appId: appId)!.listen((list) {
         var cartHasItems = (list.isNotEmpty) && (list.first!.cartItems != null) && (list.first!.cartItems!.isNotEmpty);
         if (!c.isCompleted) {
+          stateCONDITION_CARTS_HAS_ITEMS[appId] = cartHasItems;
           // the first time we get this trigger, it's upon entry of the getAndSubscribe. Now we simply return the value
           c.complete([
             PackageConditionDetails(
