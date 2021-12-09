@@ -28,7 +28,7 @@ class PayEntity {
   final ActionEntity? succeeded;
   final WorkflowActionEntity? payAction;
   final String? shopId;
-  final ConditionsSimpleEntity? conditions;
+  final StorageConditionsEntity? conditions;
 
   PayEntity({this.appId, this.title, this.succeeded, this.payAction, this.shopId, this.conditions, });
 
@@ -55,7 +55,7 @@ class PayEntity {
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
-      conditionsFromMap = ConditionsSimpleEntity.fromMap(conditionsFromMap);
+      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap);
 
     return PayEntity(
       appId: map['appId'], 

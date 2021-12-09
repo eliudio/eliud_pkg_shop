@@ -120,7 +120,7 @@ class ChangedPayConfirmationBackToShopAction extends PayConfirmationFormEvent {
 }
 
 class ChangedPayConfirmationConditions extends PayConfirmationFormEvent {
-  final ConditionsSimpleModel? value;
+  final StorageConditionsModel? value;
 
   ChangedPayConfirmationConditions({this.value});
 

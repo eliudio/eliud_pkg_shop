@@ -47,13 +47,13 @@ class CartModel {
   ActionModel? checkoutAction;
   ActionModel? backToShopAction;
   ActionModel? openProductAction;
-  ConditionsSimpleModel? conditions;
+  StorageConditionsModel? conditions;
 
   CartModel({this.documentID, this.appId, this.title, this.description, this.checkoutText, this.shop, this.itemImageBackground, this.itemDetailBackground, this.checkoutAction, this.backToShopAction, this.openProductAction, this.conditions, })  {
     assert(documentID != null);
   }
 
-  CartModel copyWith({String? documentID, String? appId, String? title, String? description, String? checkoutText, ShopModel? shop, BackgroundModel? itemImageBackground, BackgroundModel? itemDetailBackground, ActionModel? checkoutAction, ActionModel? backToShopAction, ActionModel? openProductAction, ConditionsSimpleModel? conditions, }) {
+  CartModel copyWith({String? documentID, String? appId, String? title, String? description, String? checkoutText, ShopModel? shop, BackgroundModel? itemImageBackground, BackgroundModel? itemDetailBackground, ActionModel? checkoutAction, ActionModel? backToShopAction, ActionModel? openProductAction, StorageConditionsModel? conditions, }) {
     return CartModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, description: description ?? this.description, checkoutText: checkoutText ?? this.checkoutText, shop: shop ?? this.shop, itemImageBackground: itemImageBackground ?? this.itemImageBackground, itemDetailBackground: itemDetailBackground ?? this.itemDetailBackground, checkoutAction: checkoutAction ?? this.checkoutAction, backToShopAction: backToShopAction ?? this.backToShopAction, openProductAction: openProductAction ?? this.openProductAction, conditions: conditions ?? this.conditions, );
   }
 
@@ -115,7 +115,7 @@ class CartModel {
           openProductAction: 
             ActionModel.fromEntity(entity.openProductAction), 
           conditions: 
-            ConditionsSimpleModel.fromEntity(entity.conditions), 
+            StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 
@@ -172,7 +172,7 @@ class CartModel {
           openProductAction: 
             await ActionModel.fromEntityPlus(entity.openProductAction, appId: appId), 
           conditions: 
-            await ConditionsSimpleModel.fromEntityPlus(entity.conditions, appId: appId), 
+            await StorageConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
     );
   }
 

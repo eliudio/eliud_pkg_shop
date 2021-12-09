@@ -192,7 +192,7 @@ class ChangedCartOpenProductAction extends CartFormEvent {
 }
 
 class ChangedCartConditions extends CartFormEvent {
-  final ConditionsSimpleModel? value;
+  final StorageConditionsModel? value;
 
   ChangedCartConditions({this.value});
 

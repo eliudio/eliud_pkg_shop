@@ -43,13 +43,13 @@ class ProductDisplayModel {
   String? addToBasketText;
   ActionModel? buyAction;
   ShopModel? shop;
-  ConditionsSimpleModel? conditions;
+  StorageConditionsModel? conditions;
 
   ProductDisplayModel({this.documentID, this.appId, this.title, this.itemDetailBackground, this.addToBasketText, this.buyAction, this.shop, this.conditions, })  {
     assert(documentID != null);
   }
 
-  ProductDisplayModel copyWith({String? documentID, String? appId, String? title, BackgroundModel? itemDetailBackground, String? addToBasketText, ActionModel? buyAction, ShopModel? shop, ConditionsSimpleModel? conditions, }) {
+  ProductDisplayModel copyWith({String? documentID, String? appId, String? title, BackgroundModel? itemDetailBackground, String? addToBasketText, ActionModel? buyAction, ShopModel? shop, StorageConditionsModel? conditions, }) {
     return ProductDisplayModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, itemDetailBackground: itemDetailBackground ?? this.itemDetailBackground, addToBasketText: addToBasketText ?? this.addToBasketText, buyAction: buyAction ?? this.buyAction, shop: shop ?? this.shop, conditions: conditions ?? this.conditions, );
   }
 
@@ -98,7 +98,7 @@ class ProductDisplayModel {
           buyAction: 
             ActionModel.fromEntity(entity.buyAction), 
           conditions: 
-            ConditionsSimpleModel.fromEntity(entity.conditions), 
+            StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 
@@ -138,7 +138,7 @@ class ProductDisplayModel {
             await ActionModel.fromEntityPlus(entity.buyAction, appId: appId), 
           shop: shopHolder, 
           conditions: 
-            await ConditionsSimpleModel.fromEntityPlus(entity.conditions, appId: appId), 
+            await StorageConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
     );
   }
 

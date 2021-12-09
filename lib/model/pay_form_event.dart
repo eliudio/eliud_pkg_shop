@@ -132,7 +132,7 @@ class ChangedPayShop extends PayFormEvent {
 }
 
 class ChangedPayConditions extends PayFormEvent {
-  final ConditionsSimpleModel? value;
+  final StorageConditionsModel? value;
 
   ChangedPayConditions({this.value});
 

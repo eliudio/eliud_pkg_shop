@@ -9,15 +9,21 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_pkg_shop/model/component_registry.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/repository_singleton.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'bloc/cart/cart_bloc.dart';
 import 'model/member_cart_model.dart';
 
 abstract class ShopPackage extends Package {
   ShopPackage() : super('eliud_pkg_shop');
 
   static final String CONDITION_CARTS_HAS_ITEMS = 'MustHaveStuffInBasket';
-  Map<String, bool?>  stateCONDITION_CARTS_HAS_ITEMS = {};
+  Map<String, bool?> stateCONDITION_CARTS_HAS_ITEMS = {};
   Map<String, StreamSubscription<List<MemberCartModel?>>> subscription = {};
+
+  @override
+  BlocProvider createPackageAppBloc(String appId, AccessBloc accessBloc) =>
+      BlocProvider<CartBloc>(create: (context) =>
+          CartBloc(appId, accessBloc));
 
   @override
   Future<List<PackageConditionDetails>>? getAndSubscribe(
@@ -32,7 +38,9 @@ abstract class ShopPackage extends Package {
     if (member != null) {
       final c = Completer<List<PackageConditionDetails>>();
       subscription[appId] = memberCartRepository(appId: appId)!.listen((list) {
-        var cartHasItems = (list.isNotEmpty) && (list.first!.cartItems != null) && (list.first!.cartItems!.isNotEmpty);
+        var cartHasItems = (list.isNotEmpty) &&
+            (list.first!.cartItems != null) &&
+            (list.first!.cartItems!.isNotEmpty);
         if (!c.isCompleted) {
           stateCONDITION_CARTS_HAS_ITEMS[appId] = cartHasItems;
           // the first time we get this trigger, it's upon entry of the getAndSubscribe. Now we simply return the value
@@ -64,12 +72,9 @@ abstract class ShopPackage extends Package {
   }
 
   static EliudQuery getCartQuery(String? appId, String? memberId) {
-    return EliudQuery(
-        theConditions: [EliudQueryCondition(
-            DocumentIdField(),
-            isEqualTo: memberId
-        )]
-    );
+    return EliudQuery(theConditions: [
+      EliudQueryCondition(DocumentIdField(), isEqualTo: memberId)
+    ]);
   }
 
   @override
@@ -85,5 +90,6 @@ abstract class ShopPackage extends Package {
   }
 
   @override
-  List<MemberCollectionInfo> getMemberCollectionInfo() => AbstractRepositorySingleton.collections;
+  List<MemberCollectionInfo> getMemberCollectionInfo() =>
+      AbstractRepositorySingleton.collections;
 }

@@ -132,7 +132,7 @@ class ChangedOrderOverviewItemDetailBackground extends OrderOverviewFormEvent {
 }
 
 class ChangedOrderOverviewConditions extends OrderOverviewFormEvent {
-  final ConditionsSimpleModel? value;
+  final StorageConditionsModel? value;
 
   ChangedOrderOverviewConditions({this.value});
 

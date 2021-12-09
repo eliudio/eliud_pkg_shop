@@ -28,7 +28,7 @@ class OrderOverviewEntity {
   final String? shopId;
   final String? itemImageBackgroundId;
   final String? itemDetailBackgroundId;
-  final ConditionsSimpleEntity? conditions;
+  final StorageConditionsEntity? conditions;
 
   OrderOverviewEntity({this.appId, this.title, this.shopId, this.itemImageBackgroundId, this.itemDetailBackgroundId, this.conditions, });
 
@@ -47,7 +47,7 @@ class OrderOverviewEntity {
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
-      conditionsFromMap = ConditionsSimpleEntity.fromMap(conditionsFromMap);
+      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap);
 
     return OrderOverviewEntity(
       appId: map['appId'], 

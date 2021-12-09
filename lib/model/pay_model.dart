@@ -44,13 +44,13 @@ class PayModel {
   // requires a new implementation of a BespokeFormField WorkflowActionField
   WorkflowActionModel? payAction;
   ShopModel? shop;
-  ConditionsSimpleModel? conditions;
+  StorageConditionsModel? conditions;
 
   PayModel({this.documentID, this.appId, this.title, this.succeeded, this.payAction, this.shop, this.conditions, })  {
     assert(documentID != null);
   }
 
-  PayModel copyWith({String? documentID, String? appId, String? title, ActionModel? succeeded, WorkflowActionModel? payAction, ShopModel? shop, ConditionsSimpleModel? conditions, }) {
+  PayModel copyWith({String? documentID, String? appId, String? title, ActionModel? succeeded, WorkflowActionModel? payAction, ShopModel? shop, StorageConditionsModel? conditions, }) {
     return PayModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, succeeded: succeeded ?? this.succeeded, payAction: payAction ?? this.payAction, shop: shop ?? this.shop, conditions: conditions ?? this.conditions, );
   }
 
@@ -98,7 +98,7 @@ class PayModel {
           payAction: 
             WorkflowActionModel.fromEntity(entity.payAction), 
           conditions: 
-            ConditionsSimpleModel.fromEntity(entity.conditions), 
+            StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 
@@ -127,7 +127,7 @@ class PayModel {
             await WorkflowActionModel.fromEntityPlus(entity.payAction, appId: appId), 
           shop: shopHolder, 
           conditions: 
-            await ConditionsSimpleModel.fromEntityPlus(entity.conditions, appId: appId), 
+            await StorageConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
     );
   }
 

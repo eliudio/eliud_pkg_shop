@@ -31,7 +31,7 @@ class ProductEntity {
   final String? shopId;
   final List<ProductImageEntity>? images;
   final String? posSizeId;
-  final ConditionsSimpleEntity? conditions;
+  final StorageConditionsEntity? conditions;
 
   ProductEntity({this.appId, this.title, this.about, this.price, this.weight, this.shopId, this.images, this.posSizeId, this.conditions, });
 
@@ -60,7 +60,7 @@ class ProductEntity {
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
-      conditionsFromMap = ConditionsSimpleEntity.fromMap(conditionsFromMap);
+      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap);
 
     return ProductEntity(
       appId: map['appId'], 

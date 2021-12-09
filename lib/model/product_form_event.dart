@@ -168,7 +168,7 @@ class ChangedProductPosSize extends ProductFormEvent {
 }
 
 class ChangedProductConditions extends ProductFormEvent {
-  final ConditionsSimpleModel? value;
+  final StorageConditionsModel? value;
 
   ChangedProductConditions({this.value});
 

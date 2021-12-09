@@ -33,7 +33,7 @@ class CartEntity {
   final ActionEntity? checkoutAction;
   final ActionEntity? backToShopAction;
   final ActionEntity? openProductAction;
-  final ConditionsSimpleEntity? conditions;
+  final StorageConditionsEntity? conditions;
 
   CartEntity({this.appId, this.title, this.description, this.checkoutText, this.shopId, this.itemImageBackgroundId, this.itemDetailBackgroundId, this.checkoutAction, this.backToShopAction, this.openProductAction, this.conditions, });
 
@@ -64,7 +64,7 @@ class CartEntity {
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
-      conditionsFromMap = ConditionsSimpleEntity.fromMap(conditionsFromMap);
+      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap);
 
     return CartEntity(
       appId: map['appId'], 

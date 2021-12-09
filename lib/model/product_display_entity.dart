@@ -29,7 +29,7 @@ class ProductDisplayEntity {
   final String? addToBasketText;
   final ActionEntity? buyAction;
   final String? shopId;
-  final ConditionsSimpleEntity? conditions;
+  final StorageConditionsEntity? conditions;
 
   ProductDisplayEntity({this.appId, this.title, this.itemDetailBackgroundId, this.addToBasketText, this.buyAction, this.shopId, this.conditions, });
 
@@ -52,7 +52,7 @@ class ProductDisplayEntity {
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
-      conditionsFromMap = ConditionsSimpleEntity.fromMap(conditionsFromMap);
+      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap);
 
     return ProductDisplayEntity(
       appId: map['appId'], 

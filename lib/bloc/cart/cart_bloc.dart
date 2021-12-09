@@ -18,7 +18,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   final AccessBloc accessBloc;
   final String appId;
 
-  CartBloc(this.appId, this.accessBloc, ) : super(CartUninitialised());
+  CartBloc(this.appId, this.accessBloc, ) :
+        super(CartUninitialised());
 
   List<CartItemModel>? _copyListAndChangeAmount(
       List<CartItemModel> original, ProductModel? product, int changeBy) {

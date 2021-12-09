@@ -42,13 +42,13 @@ class OrderOverviewModel {
   ShopModel? shop;
   BackgroundModel? itemImageBackground;
   BackgroundModel? itemDetailBackground;
-  ConditionsSimpleModel? conditions;
+  StorageConditionsModel? conditions;
 
   OrderOverviewModel({this.documentID, this.appId, this.title, this.shop, this.itemImageBackground, this.itemDetailBackground, this.conditions, })  {
     assert(documentID != null);
   }
 
-  OrderOverviewModel copyWith({String? documentID, String? appId, String? title, ShopModel? shop, BackgroundModel? itemImageBackground, BackgroundModel? itemDetailBackground, ConditionsSimpleModel? conditions, }) {
+  OrderOverviewModel copyWith({String? documentID, String? appId, String? title, ShopModel? shop, BackgroundModel? itemImageBackground, BackgroundModel? itemDetailBackground, StorageConditionsModel? conditions, }) {
     return OrderOverviewModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, shop: shop ?? this.shop, itemImageBackground: itemImageBackground ?? this.itemImageBackground, itemDetailBackground: itemDetailBackground ?? this.itemDetailBackground, conditions: conditions ?? this.conditions, );
   }
 
@@ -92,7 +92,7 @@ class OrderOverviewModel {
           appId: entity.appId, 
           title: entity.title, 
           conditions: 
-            ConditionsSimpleModel.fromEntity(entity.conditions), 
+            StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 
@@ -141,7 +141,7 @@ class OrderOverviewModel {
           itemImageBackground: itemImageBackgroundHolder, 
           itemDetailBackground: itemDetailBackgroundHolder, 
           conditions: 
-            await ConditionsSimpleModel.fromEntityPlus(entity.conditions, appId: appId), 
+            await StorageConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
     );
   }
 

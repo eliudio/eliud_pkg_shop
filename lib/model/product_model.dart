@@ -46,13 +46,13 @@ class ProductModel {
   ShopModel? shop;
   List<ProductImageModel>? images;
   PosSizeModel? posSize;
-  ConditionsSimpleModel? conditions;
+  StorageConditionsModel? conditions;
 
   ProductModel({this.documentID, this.appId, this.title, this.about, this.price, this.weight, this.shop, this.images, this.posSize, this.conditions, })  {
     assert(documentID != null);
   }
 
-  ProductModel copyWith({String? documentID, String? appId, String? title, String? about, double? price, double? weight, ShopModel? shop, List<ProductImageModel>? images, PosSizeModel? posSize, ConditionsSimpleModel? conditions, }) {
+  ProductModel copyWith({String? documentID, String? appId, String? title, String? about, double? price, double? weight, ShopModel? shop, List<ProductImageModel>? images, PosSizeModel? posSize, StorageConditionsModel? conditions, }) {
     return ProductModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, about: about ?? this.about, price: price ?? this.price, weight: weight ?? this.weight, shop: shop ?? this.shop, images: images ?? this.images, posSize: posSize ?? this.posSize, conditions: conditions ?? this.conditions, );
   }
 
@@ -117,7 +117,7 @@ class ProductModel {
             })
             .toList(), 
           conditions: 
-            ConditionsSimpleModel.fromEntity(entity.conditions), 
+            StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 
@@ -163,7 +163,7 @@ class ProductModel {
             .toList())), 
           posSize: posSizeHolder, 
           conditions: 
-            await ConditionsSimpleModel.fromEntityPlus(entity.conditions, appId: appId), 
+            await StorageConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
     );
   }
 

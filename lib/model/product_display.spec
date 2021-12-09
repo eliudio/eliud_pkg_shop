@@ -76,7 +76,7 @@
     {
       "fieldName": "conditions",
       "displayName": "Conditions",
-      "fieldType": "ConditionsSimple",
+      "fieldType": "StorageConditions",
       "group": "conditions"
     }
   ],

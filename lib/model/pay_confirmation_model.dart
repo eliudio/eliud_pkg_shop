@@ -41,13 +41,13 @@ class PayConfirmationModel {
   String? title;
   ShopModel? shop;
   ActionModel? backToShopAction;
-  ConditionsSimpleModel? conditions;
+  StorageConditionsModel? conditions;
 
   PayConfirmationModel({this.documentID, this.appId, this.title, this.shop, this.backToShopAction, this.conditions, })  {
     assert(documentID != null);
   }
 
-  PayConfirmationModel copyWith({String? documentID, String? appId, String? title, ShopModel? shop, ActionModel? backToShopAction, ConditionsSimpleModel? conditions, }) {
+  PayConfirmationModel copyWith({String? documentID, String? appId, String? title, ShopModel? shop, ActionModel? backToShopAction, StorageConditionsModel? conditions, }) {
     return PayConfirmationModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, shop: shop ?? this.shop, backToShopAction: backToShopAction ?? this.backToShopAction, conditions: conditions ?? this.conditions, );
   }
 
@@ -91,7 +91,7 @@ class PayConfirmationModel {
           backToShopAction: 
             ActionModel.fromEntity(entity.backToShopAction), 
           conditions: 
-            ConditionsSimpleModel.fromEntity(entity.conditions), 
+            StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 
@@ -118,7 +118,7 @@ class PayConfirmationModel {
           backToShopAction: 
             await ActionModel.fromEntityPlus(entity.backToShopAction, appId: appId), 
           conditions: 
-            await ConditionsSimpleModel.fromEntityPlus(entity.conditions, appId: appId), 
+            await StorageConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
     );
   }
 

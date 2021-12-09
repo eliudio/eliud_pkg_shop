@@ -228,7 +228,7 @@ class ChangedShopFrontOpenProductAction extends ShopFrontFormEvent {
 }
 
 class ChangedShopFrontConditions extends ShopFrontFormEvent {
-  final ConditionsSimpleModel? value;
+  final StorageConditionsModel? value;
 
   ChangedShopFrontConditions({this.value});
 

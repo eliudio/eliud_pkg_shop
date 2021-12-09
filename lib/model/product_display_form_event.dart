@@ -144,7 +144,7 @@ class ChangedProductDisplayShop extends ProductDisplayFormEvent {
 }
 
 class ChangedProductDisplayConditions extends ProductDisplayFormEvent {
-  final ConditionsSimpleModel? value;
+  final StorageConditionsModel? value;
 
   ChangedProductDisplayConditions({this.value});
 

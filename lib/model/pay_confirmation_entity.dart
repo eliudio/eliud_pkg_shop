@@ -27,7 +27,7 @@ class PayConfirmationEntity {
   final String? title;
   final String? shopId;
   final ActionEntity? backToShopAction;
-  final ConditionsSimpleEntity? conditions;
+  final StorageConditionsEntity? conditions;
 
   PayConfirmationEntity({this.appId, this.title, this.shopId, this.backToShopAction, this.conditions, });
 
@@ -50,7 +50,7 @@ class PayConfirmationEntity {
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
-      conditionsFromMap = ConditionsSimpleEntity.fromMap(conditionsFromMap);
+      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap);
 
     return PayConfirmationEntity(
       appId: map['appId'], 

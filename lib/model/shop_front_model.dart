@@ -74,13 +74,13 @@ class ShopFrontModel {
   ScrollDirection? scrollDirection;
   ActionModel? buyAction;
   ActionModel? openProductAction;
-  ConditionsSimpleModel? conditions;
+  StorageConditionsModel? conditions;
 
   ShopFrontModel({this.documentID, this.appId, this.title, this.description, this.shop, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackground, this.addToCartColor, this.view, this.scrollDirection, this.buyAction, this.openProductAction, this.conditions, })  {
     assert(documentID != null);
   }
 
-  ShopFrontModel copyWith({String? documentID, String? appId, String? title, String? description, ShopModel? shop, double? size, double? cardElevation, double? cardAxisSpacing, BackgroundModel? itemCardBackground, RgbModel? addToCartColor, ShopFrontView? view, ScrollDirection? scrollDirection, ActionModel? buyAction, ActionModel? openProductAction, ConditionsSimpleModel? conditions, }) {
+  ShopFrontModel copyWith({String? documentID, String? appId, String? title, String? description, ShopModel? shop, double? size, double? cardElevation, double? cardAxisSpacing, BackgroundModel? itemCardBackground, RgbModel? addToCartColor, ShopFrontView? view, ScrollDirection? scrollDirection, ActionModel? buyAction, ActionModel? openProductAction, StorageConditionsModel? conditions, }) {
     return ShopFrontModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, description: description ?? this.description, shop: shop ?? this.shop, size: size ?? this.size, cardElevation: cardElevation ?? this.cardElevation, cardAxisSpacing: cardAxisSpacing ?? this.cardAxisSpacing, itemCardBackground: itemCardBackground ?? this.itemCardBackground, addToCartColor: addToCartColor ?? this.addToCartColor, view: view ?? this.view, scrollDirection: scrollDirection ?? this.scrollDirection, buyAction: buyAction ?? this.buyAction, openProductAction: openProductAction ?? this.openProductAction, conditions: conditions ?? this.conditions, );
   }
 
@@ -152,7 +152,7 @@ class ShopFrontModel {
           openProductAction: 
             ActionModel.fromEntity(entity.openProductAction), 
           conditions: 
-            ConditionsSimpleModel.fromEntity(entity.conditions), 
+            StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 
@@ -201,7 +201,7 @@ class ShopFrontModel {
           openProductAction: 
             await ActionModel.fromEntityPlus(entity.openProductAction, appId: appId), 
           conditions: 
-            await ConditionsSimpleModel.fromEntityPlus(entity.conditions, appId: appId), 
+            await StorageConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
     );
   }
 
