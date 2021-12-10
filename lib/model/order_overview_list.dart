@@ -107,7 +107,7 @@ class OrderOverviewListWidgetState extends State<OrderOverviewListWidget> {
                       context, label: 'Add',
                       onPressed: () {
                         Navigator.of(context).push(
-                                  pageRouteBuilder(accessState.currentApp(context), page: BlocProvider.value(
+                                  pageRouteBuilder(accessState.currentApp, page: BlocProvider.value(
                                       value: BlocProvider.of<OrderOverviewListBloc>(context),
                                       child: OrderOverviewForm(
                                           value: null,

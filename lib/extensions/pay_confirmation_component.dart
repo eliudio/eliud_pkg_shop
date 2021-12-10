@@ -29,14 +29,18 @@ class PayConfirmationComponent extends AbstractPayConfirmationComponent {
 
   @override
   Widget yourWidget(BuildContext context, PayConfirmationModel? payConfirmationModel) {
-    var orderNumber = parameters!['orderId'];
-    if (orderNumber != null) {
-      return BlocProvider<OrderComponentBloc>(
-        create: (context) =>
-        OrderComponentBloc(orderRepository: orderRepository(appId: theAppId))
-          ..add(FetchOrderComponent(id: orderNumber as String?)),
-        child: ConfirmationWidget(payConfirmationModel),
-      );
+    if (parameters != null) {
+      var orderNumber = parameters!['orderId'];
+      if (orderNumber != null) {
+        return BlocProvider<OrderComponentBloc>(
+          create: (context) =>
+          OrderComponentBloc(orderRepository: orderRepository(appId: theAppId))
+            ..add(FetchOrderComponent(id: orderNumber as String?)),
+          child: ConfirmationWidget(payConfirmationModel),
+        );
+      } else {
+        return alertWidget(title: 'error', content: 'Ordernumber not provided');
+      }
     } else {
       return alertWidget(title: 'error', content: 'Ordernumber not provided');
     }

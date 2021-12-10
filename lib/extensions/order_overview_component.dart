@@ -32,7 +32,7 @@ class OrderOverviewComponent extends AbstractOrderOverviewComponent {
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (context, accessState) {
           if (accessState is AccessDetermined) {
-            if (accessState.memberIsOwner(accessState.currentAppId(context))) {
+            if (accessState.memberIsOwner(accessState.currentApp.documentID!)) {
               // allow owner of the app to see ALL orders and update shipment details
               return BlocProvider<OrderListBloc>(
                 create: (context) =>

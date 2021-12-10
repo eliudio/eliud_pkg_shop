@@ -46,12 +46,13 @@ class PayProfileComponent extends AbstractPayComponent {
 
   @override
   Widget yourWidget(BuildContext context, PayModel? pay) {
+    if (pay == null) return Text("pay is null");
     var cartBloc = BlocProvider.of<CartBloc>(context);
     var accessBloc = AccessBloc.getBloc(context);
     var appId = AccessBloc.currentAppId(context);
     return BlocProvider<PaymentBloc>(
         create: (context) =>
-            PaymentBloc(appId, cartBloc, accessBloc)..add(CollectOrder(pay!.shop)),
+            PaymentBloc(appId, cartBloc, accessBloc, pay.succeeded)..add(CollectOrder(pay.shop)),
         child:
             BlocBuilder<PaymentBloc, PaymentState>(builder: (context, state) {
           return _paymentWidget(context, pay);
@@ -129,11 +130,6 @@ class PayProfileComponent extends AbstractPayComponent {
                   semanticLabel: 'Contact',
                 ));
           } else if (state is OrderPaid) {
-            var parameters = <String, dynamic>{
-              'orderId': state.order!.documentID
-            };
-            eliudrouter.Router.navigateTo(context, pay!.succeeded!,
-                parameters: parameters as Map<String, dynamic>);
           } else if (state is PaymentFailed) {
             return _overviewAndPay(context, state.order!,
                 trailing: Icon(

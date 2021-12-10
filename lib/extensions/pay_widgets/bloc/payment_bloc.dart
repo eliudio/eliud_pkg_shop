@@ -1,7 +1,10 @@
+import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:bloc/bloc.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/access_event.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/model/member_model.dart';
+import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_bloc.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_event.dart';
@@ -21,8 +24,9 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   final CartBloc cartBloc;
   final AccessBloc accessBloc;
   final String appId;
+  final ActionModel? succeededAction;
 
-  PaymentBloc(this.appId, this.cartBloc, this.accessBloc): super(PayUninitialised());
+  PaymentBloc(this.appId, this.cartBloc, this.accessBloc, this.succeededAction): super(PayUninitialised());
 
   bool _allInStock() {
     // TODO: verify if all products are in stock. If not, inform the customer that one of those items has been sold.
@@ -85,6 +89,17 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
       cartBloc.add(EmptyCart());
       // TODO: update stock
+
+      var parameters = <String, dynamic>{
+        'orderId': newOrder.documentID
+      };
+      if (succeededAction != null) {
+        var action = eliudrouter.Router.translate(succeededAction!, parameters: parameters);
+        if (action != null) {
+          accessBloc.add(action);
+        }
+      }
+
       yield OrderPaid(order: newOrder);
       return;
     } else if (event is PaymentDoneWithFailure) {
