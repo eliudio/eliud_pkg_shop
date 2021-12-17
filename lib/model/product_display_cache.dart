@@ -123,7 +123,12 @@ class ProductDisplayCache implements ProductDisplayRepository {
 
   @override
   StreamSubscription<ProductDisplayModel?> listenTo(String documentId, ProductDisplayChanged changed) {
-    return reference.listenTo(documentId, changed);
+    return reference.listenTo(documentId, ((value) {
+      if (value != null) {
+        fullCache[value.documentID] = value;
+      }
+      changed(value);
+    }));
   }
 
   static Future<ProductDisplayModel> refreshRelations(ProductDisplayModel model) async {

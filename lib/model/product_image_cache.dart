@@ -123,7 +123,12 @@ class ProductImageCache implements ProductImageRepository {
 
   @override
   StreamSubscription<ProductImageModel?> listenTo(String documentId, ProductImageChanged changed) {
-    return reference.listenTo(documentId, changed);
+    return reference.listenTo(documentId, ((value) {
+      if (value != null) {
+        fullCache[value.documentID] = value;
+      }
+      changed(value);
+    }));
   }
 
   static Future<ProductImageModel> refreshRelations(ProductImageModel model) async {

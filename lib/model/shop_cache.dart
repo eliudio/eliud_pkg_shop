@@ -118,7 +118,12 @@ class ShopCache implements ShopRepository {
 
   @override
   StreamSubscription<ShopModel?> listenTo(String documentId, ShopChanged changed) {
-    return reference.listenTo(documentId, changed);
+    return reference.listenTo(documentId, ((value) {
+      if (value != null) {
+        fullCache[value.documentID] = value;
+      }
+      changed(value);
+    }));
   }
 
   static Future<ShopModel> refreshRelations(ShopModel model) async {

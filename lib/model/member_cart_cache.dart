@@ -123,7 +123,12 @@ class MemberCartCache implements MemberCartRepository {
 
   @override
   StreamSubscription<MemberCartModel?> listenTo(String documentId, MemberCartChanged changed) {
-    return reference.listenTo(documentId, changed);
+    return reference.listenTo(documentId, ((value) {
+      if (value != null) {
+        fullCache[value.documentID] = value;
+      }
+      changed(value);
+    }));
   }
 
   static Future<MemberCartModel> refreshRelations(MemberCartModel model) async {

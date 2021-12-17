@@ -155,7 +155,7 @@ class OrderOverviewListWidgetState extends State<OrderOverviewListWidget> {
               BlocProvider.of<OrderOverviewListBloc>(context)
                   .add(DeleteOrderOverviewList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "OrderOverview " + value.documentID,
+                message: "OrderOverview " + value.,
                 onUndo: () => BlocProvider.of<OrderOverviewListBloc>(context)
                     .add(AddOrderOverviewList(value: value)),
               ));
@@ -168,7 +168,7 @@ class OrderOverviewListWidgetState extends State<OrderOverviewListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "OrderOverview " + value.documentID,
+                        message: "OrderOverview " + value.,
                             onUndo: () => BlocProvider.of<OrderOverviewListBloc>(context)
                                 .add(AddOrderOverviewList(value: value)),
                           ),

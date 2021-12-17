@@ -123,7 +123,12 @@ class ShopFrontCache implements ShopFrontRepository {
 
   @override
   StreamSubscription<ShopFrontModel?> listenTo(String documentId, ShopFrontChanged changed) {
-    return reference.listenTo(documentId, changed);
+    return reference.listenTo(documentId, ((value) {
+      if (value != null) {
+        fullCache[value.documentID] = value;
+      }
+      changed(value);
+    }));
   }
 
   static Future<ShopFrontModel> refreshRelations(ShopFrontModel model) async {

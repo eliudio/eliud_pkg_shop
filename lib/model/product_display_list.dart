@@ -155,7 +155,7 @@ class ProductDisplayListWidgetState extends State<ProductDisplayListWidget> {
               BlocProvider.of<ProductDisplayListBloc>(context)
                   .add(DeleteProductDisplayList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "ProductDisplay " + value.documentID,
+                message: "ProductDisplay " + value.,
                 onUndo: () => BlocProvider.of<ProductDisplayListBloc>(context)
                     .add(AddProductDisplayList(value: value)),
               ));
@@ -168,7 +168,7 @@ class ProductDisplayListWidgetState extends State<ProductDisplayListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "ProductDisplay " + value.documentID,
+                        message: "ProductDisplay " + value.,
                             onUndo: () => BlocProvider.of<ProductDisplayListBloc>(context)
                                 .add(AddProductDisplayList(value: value)),
                           ),

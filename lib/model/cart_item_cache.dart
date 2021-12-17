@@ -118,7 +118,12 @@ class CartItemCache implements CartItemRepository {
 
   @override
   StreamSubscription<CartItemModel?> listenTo(String documentId, CartItemChanged changed) {
-    return reference.listenTo(documentId, changed);
+    return reference.listenTo(documentId, ((value) {
+      if (value != null) {
+        fullCache[value.documentID] = value;
+      }
+      changed(value);
+    }));
   }
 
   static Future<CartItemModel> refreshRelations(CartItemModel model) async {
