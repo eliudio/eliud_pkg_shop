@@ -155,7 +155,7 @@ class ProductListWidgetState extends State<ProductListWidget> {
               BlocProvider.of<ProductListBloc>(context)
                   .add(DeleteProductList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "Product " + value.,
+                message: "Product " + value.documentID,
                 onUndo: () => BlocProvider.of<ProductListBloc>(context)
                     .add(AddProductList(value: value)),
               ));
@@ -168,7 +168,7 @@ class ProductListWidgetState extends State<ProductListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "Product " + value.,
+                        message: "Product " + value.documentID,
                             onUndo: () => BlocProvider.of<ProductListBloc>(context)
                                 .add(AddProductList(value: value)),
                           ),

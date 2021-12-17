@@ -155,7 +155,7 @@ class PayListWidgetState extends State<PayListWidget> {
               BlocProvider.of<PayListBloc>(context)
                   .add(DeletePayList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "Pay " + value.,
+                message: "Pay " + value.documentID,
                 onUndo: () => BlocProvider.of<PayListBloc>(context)
                     .add(AddPayList(value: value)),
               ));
@@ -168,7 +168,7 @@ class PayListWidgetState extends State<PayListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "Pay " + value.,
+                        message: "Pay " + value.documentID,
                             onUndo: () => BlocProvider.of<PayListBloc>(context)
                                 .add(AddPayList(value: value)),
                           ),

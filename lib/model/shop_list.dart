@@ -155,7 +155,7 @@ class ShopListWidgetState extends State<ShopListWidget> {
               BlocProvider.of<ShopListBloc>(context)
                   .add(DeleteShopList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "Shop " + value.,
+                message: "Shop " + value.documentID,
                 onUndo: () => BlocProvider.of<ShopListBloc>(context)
                     .add(AddShopList(value: value)),
               ));
@@ -168,7 +168,7 @@ class ShopListWidgetState extends State<ShopListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "Shop " + value.,
+                        message: "Shop " + value.documentID,
                             onUndo: () => BlocProvider.of<ShopListBloc>(context)
                                 .add(AddShopList(value: value)),
                           ),

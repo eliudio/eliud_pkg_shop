@@ -155,7 +155,7 @@ class OrderItemListWidgetState extends State<OrderItemListWidget> {
               BlocProvider.of<OrderItemListBloc>(context)
                   .add(DeleteOrderItemList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "OrderItem " + value.,
+                message: "OrderItem " + value.documentID,
                 onUndo: () => BlocProvider.of<OrderItemListBloc>(context)
                     .add(AddOrderItemList(value: value)),
               ));
@@ -168,7 +168,7 @@ class OrderItemListWidgetState extends State<OrderItemListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "OrderItem " + value.,
+                        message: "OrderItem " + value.documentID,
                             onUndo: () => BlocProvider.of<OrderItemListBloc>(context)
                                 .add(AddOrderItemList(value: value)),
                           ),
@@ -214,7 +214,6 @@ class OrderItemListItem extends StatelessWidget {
       child: ListTile(
         onTap: onTap,
         title: value.amount != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.amount.toString() + ' ' + (value.product == null ? '' : value.product!.title!) + ' ' + (value.soldPrice == null ? '' : value.soldPrice!.toString()))) : Text('0'),
-        subtitle: ,
       ),
     );
   }

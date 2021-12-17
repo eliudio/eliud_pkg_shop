@@ -155,7 +155,7 @@ class PayConfirmationListWidgetState extends State<PayConfirmationListWidget> {
               BlocProvider.of<PayConfirmationListBloc>(context)
                   .add(DeletePayConfirmationList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "PayConfirmation " + value.,
+                message: "PayConfirmation " + value.documentID,
                 onUndo: () => BlocProvider.of<PayConfirmationListBloc>(context)
                     .add(AddPayConfirmationList(value: value)),
               ));
@@ -168,7 +168,7 @@ class PayConfirmationListWidgetState extends State<PayConfirmationListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "PayConfirmation " + value.,
+                        message: "PayConfirmation " + value.documentID,
                             onUndo: () => BlocProvider.of<PayConfirmationListBloc>(context)
                                 .add(AddPayConfirmationList(value: value)),
                           ),

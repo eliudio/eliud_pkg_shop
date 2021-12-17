@@ -155,7 +155,7 @@ class ProductImageListWidgetState extends State<ProductImageListWidget> {
               BlocProvider.of<ProductImageListBloc>(context)
                   .add(DeleteProductImageList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "ProductImage " + value.,
+                message: "ProductImage " + value.documentID,
                 onUndo: () => BlocProvider.of<ProductImageListBloc>(context)
                     .add(AddProductImageList(value: value)),
               ));
@@ -168,7 +168,7 @@ class ProductImageListWidgetState extends State<ProductImageListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "ProductImage " + value.,
+                        message: "ProductImage " + value.documentID,
                             onUndo: () => BlocProvider.of<ProductImageListBloc>(context)
                                 .add(AddProductImageList(value: value)),
                           ),
