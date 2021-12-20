@@ -72,7 +72,7 @@ class OrderOverviewFirestore implements OrderOverviewRepository {
 
   StreamSubscription<List<OrderOverviewModel?>> listen(OrderOverviewModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<OrderOverviewModel?>> stream;
-      stream = getQuery(appRepository()!.getSubCollection(appId, 'orderoverview'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
+      stream = getQuery(getCollection(), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
 //    The above line should eventually become the below line
 //    See https://github.com/felangel/bloc/issues/2073.
 //    stream = getQuery(OrderOverviewCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
@@ -89,7 +89,7 @@ class OrderOverviewFirestore implements OrderOverviewRepository {
 
   StreamSubscription<List<OrderOverviewModel?>> listenWithDetails(OrderOverviewModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<OrderOverviewModel?>> stream;
-    stream = getQuery(appRepository()!.getSubCollection(appId, 'orderoverview'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
+    stream = getQuery(getCollection(), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
 //  see comment listen(...) above
 //  stream = getQuery(OrderOverviewCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
         .asyncMap((data) async {
@@ -187,8 +187,9 @@ class OrderOverviewFirestore implements OrderOverviewRepository {
 
 
   final String appId;
-  OrderOverviewFirestore(this.OrderOverviewCollection, this.appId);
+  OrderOverviewFirestore(this.getCollection, this.appId): OrderOverviewCollection = getCollection();
 
   final CollectionReference OrderOverviewCollection;
+  final GetCollection getCollection;
 }
 
