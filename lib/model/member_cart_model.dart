@@ -77,20 +77,19 @@ class MemberCartModel {
     );
   }
 
-  static MemberCartModel? fromEntity(String documentID, MemberCartEntity? entity) {
+  static Future<MemberCartModel?> fromEntity(String documentID, MemberCartEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return MemberCartModel(
           documentID: documentID, 
           appId: entity.appId, 
           cartItems: 
-            entity.cartItems == null ? null :
-            entity.cartItems
+            entity.cartItems == null ? null : List<CartItemModel>.from(await Future.wait(entity. cartItems
             !.map((item) {
-              counter++; 
-              return CartItemModel.fromEntity(counter.toString(), item)!;
+            counter++;
+              return CartItemModel.fromEntity(counter.toString(), item);
             })
-            .toList(), 
+            .toList())), 
     );
   }
 

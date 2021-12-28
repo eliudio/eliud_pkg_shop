@@ -15,9 +15,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 // ignore: must_be_immutable
 class ConfirmationWidget extends StatefulWidget {
+  final AppModel app;
   final PayConfirmationModel? payConfirmationModel;
 
-  ConfirmationWidget(this.payConfirmationModel);
+  ConfirmationWidget(this.app, this.payConfirmationModel);
 
   @override
   State<StatefulWidget> createState() {
@@ -28,6 +29,7 @@ class ConfirmationWidget extends StatefulWidget {
 class ConfirmationState extends State<ConfirmationWidget> {
   Widget _getButton() {
     return button(
+      widget.app,
       context,
       label: 'Back to the shop',
       onPressed: () {
@@ -55,11 +57,11 @@ class ConfirmationState extends State<ConfirmationWidget> {
                         size: 50.0,
                         semanticLabel: 'Success',
                       ),
-                      title: h4(context, 'Payment successfull.'),
-                      subtitle: text(context,
+                      title: h4(widget.app, context, 'Payment successfull.'),
+                      subtitle: text(widget.app, context,
                           "We'll be working hard to get it to you asap. Thank you very much"),
                     ));
-                    OrderHelper.addOrderOverviewAfterPayment(
+                    OrderHelper.addOrderOverviewAfterPayment(widget.app,
                         widgets, order, context);
                     widgets.add(_getButton());
                     return ListView(
@@ -68,11 +70,11 @@ class ConfirmationState extends State<ConfirmationWidget> {
                       children: widgets,
                     );
                   } else {
-                    return progressIndicator(context);
+                    return progressIndicator(widget.app, context);
                   }
                 });
           } else {
-            return progressIndicator(context);
+            return progressIndicator(widget.app, context);
           }
         });
   }

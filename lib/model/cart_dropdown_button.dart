@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/package/packages.dart';
 
 import 'package:flutter/material.dart';
@@ -32,11 +33,12 @@ import 'package:eliud_pkg_shop/model/cart_model.dart';
 typedef CartChanged(String? value);
 
 class CartDropdownButtonWidget extends StatefulWidget {
+  final AppModel app;
   final String? value;
   final CartChanged? trigger;
   final bool? optional;
 
-  CartDropdownButtonWidget({ this.value, this.trigger, this.optional, Key? key }): super(key: key);
+  CartDropdownButtonWidget({ required this.app, this.value, this.trigger, this.optional, Key? key }): super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -62,9 +64,10 @@ class CartDropdownButtonWidgetState extends State<CartDropdownButtonWidget> {
   }
 
 List<Widget> widgets(CartModel value) {
+var app = widget.app;
 var widgets = <Widget>[];
-widgets.add(value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.documentID!)) : Container());
-widgets.add(value.description != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.description!)) : Container());
+widgets.add(value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID!)) : Container());
+widgets.add(value.description != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.description!)) : Container());
 return widgets;
 }
 
@@ -74,7 +77,7 @@ return widgets;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<CartListBloc, CartListState>(builder: (context, state) {
       if (state is CartListLoading) {
-        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
       } else if (state is CartListLoaded) {
         String? valueChosen;
         if (state.values!.indexWhere((v) => (v!.documentID == widget.value)) >= 0)
@@ -117,7 +120,7 @@ return widgets;
                       items: items,
                       value: valueChosen,
                       hint: Text('Select a cart'),
-                      onChanged: !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : _onChange,
+                      onChanged: !accessState.memberIsOwner(widget.app.documentID!) ? null : _onChange,
                     );
         if (false) {
           return Container(height:48, child: Center(child: button));
@@ -125,7 +128,7 @@ return widgets;
           return Center(child: button);
         }
       } else {
-        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
       }
     });
   }

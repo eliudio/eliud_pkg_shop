@@ -74,7 +74,7 @@ class OrderItemModel {
     );
   }
 
-  static OrderItemModel? fromEntity(String documentID, OrderItemEntity? entity) {
+  static Future<OrderItemModel?> fromEntity(String documentID, OrderItemEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return OrderItemModel(

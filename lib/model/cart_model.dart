@@ -99,7 +99,7 @@ class CartModel {
     );
   }
 
-  static CartModel? fromEntity(String documentID, CartEntity? entity) {
+  static Future<CartModel?> fromEntity(String documentID, CartEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return CartModel(
@@ -109,13 +109,13 @@ class CartModel {
           description: entity.description, 
           checkoutText: entity.checkoutText, 
           checkoutAction: 
-            ActionModel.fromEntity(entity.checkoutAction), 
+            await ActionModel.fromEntity(entity.checkoutAction), 
           backToShopAction: 
-            ActionModel.fromEntity(entity.backToShopAction), 
+            await ActionModel.fromEntity(entity.backToShopAction), 
           openProductAction: 
-            ActionModel.fromEntity(entity.openProductAction), 
+            await ActionModel.fromEntity(entity.openProductAction), 
           conditions: 
-            StorageConditionsModel.fromEntity(entity.conditions), 
+            await StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 

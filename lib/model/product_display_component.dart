@@ -26,19 +26,20 @@ import 'package:eliud_core/style/style_registry.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_core/model/app_model.dart';
 
 abstract class AbstractProductDisplayComponent extends StatelessWidget {
   static String componentName = "productDisplays";
-  final String theAppId;
+  final AppModel app;
   final String productDisplayId;
 
-  AbstractProductDisplayComponent({Key? key, required this.theAppId, required this.productDisplayId}): super(key: key);
+  AbstractProductDisplayComponent({Key? key, required this.app, required this.productDisplayId}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ProductDisplayComponentBloc> (
           create: (context) => ProductDisplayComponentBloc(
-            productDisplayRepository: productDisplayRepository(appId: theAppId)!)
+            productDisplayRepository: productDisplayRepository(appId: app.documentID!)!)
         ..add(FetchProductDisplayComponent(id: productDisplayId)),
       child: _productDisplayBlockBuilder(context),
     );
@@ -48,7 +49,7 @@ abstract class AbstractProductDisplayComponent extends StatelessWidget {
     return BlocBuilder<ProductDisplayComponentBloc, ProductDisplayComponentState>(builder: (context, state) {
       if (state is ProductDisplayComponentLoaded) {
         if (state.value == null) {
-          return AlertWidget(title: "Error", content: 'No ProductDisplay defined');
+          return AlertWidget(app: app, title: "Error", content: 'No ProductDisplay defined');
         } else {
           return yourWidget(context, state.value);
         }
@@ -59,10 +60,10 @@ abstract class AbstractProductDisplayComponent extends StatelessWidget {
           size: 30.0,
         );
       } else if (state is ProductDisplayComponentError) {
-        return AlertWidget(title: 'Error', content: state.message);
+        return AlertWidget(app: app, title: 'Error', content: state.message);
       } else {
         return Center(
-          child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context),
+          child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context),
         );
       }
     });

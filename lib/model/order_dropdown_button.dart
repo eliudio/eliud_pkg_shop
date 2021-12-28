@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/package/packages.dart';
 
 import 'package:flutter/material.dart';
@@ -32,11 +33,12 @@ import 'package:eliud_pkg_shop/model/order_model.dart';
 typedef OrderChanged(String? value);
 
 class OrderDropdownButtonWidget extends StatefulWidget {
+  final AppModel app;
   final String? value;
   final OrderChanged? trigger;
   final bool? optional;
 
-  OrderDropdownButtonWidget({ this.value, this.trigger, this.optional, Key? key }): super(key: key);
+  OrderDropdownButtonWidget({ required this.app, this.value, this.trigger, this.optional, Key? key }): super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -62,9 +64,10 @@ class OrderDropdownButtonWidgetState extends State<OrderDropdownButtonWidget> {
   }
 
 List<Widget> widgets(OrderModel value) {
+var app = widget.app;
 var widgets = <Widget>[];
-widgets.add(value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.documentID!)) : Container());
-widgets.add(value.paymentReference != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.paymentReference!)) : Container());
+widgets.add(value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID!)) : Container());
+widgets.add(value.paymentReference != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.paymentReference!)) : Container());
 return widgets;
 }
 
@@ -74,7 +77,7 @@ return widgets;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<OrderListBloc, OrderListState>(builder: (context, state) {
       if (state is OrderListLoading) {
-        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
       } else if (state is OrderListLoaded) {
         String? valueChosen;
         if (state.values!.indexWhere((v) => (v!.documentID == widget.value)) >= 0)
@@ -117,7 +120,7 @@ return widgets;
                       items: items,
                       value: valueChosen,
                       hint: Text('Select a order'),
-                      onChanged: !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : _onChange,
+                      onChanged: !accessState.memberIsOwner(widget.app.documentID!) ? null : _onChange,
                     );
         if (false) {
           return Container(height:48, child: Center(child: button));
@@ -125,7 +128,7 @@ return widgets;
           return Center(child: button);
         }
       } else {
-        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
       }
     });
   }

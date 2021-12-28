@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
@@ -63,17 +64,16 @@ import 'package:eliud_pkg_shop/model/product_image_form_state.dart';
 
 
 class ProductImageForm extends StatelessWidget {
+  final AppModel app;
   FormAction formAction;
   ProductImageModel? value;
   ActionModel? submitAction;
 
-  ProductImageForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
+  ProductImageForm({Key? key, required this.app, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text("No app available");
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<ProductImageFormBloc >(
@@ -81,7 +81,7 @@ class ProductImageForm extends StatelessWidget {
                                        
                                                 )..add(InitialiseProductImageFormEvent(value: value)),
   
-        child: MyProductImageForm(submitAction: submitAction, formAction: formAction),
+        child: MyProductImageForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<ProductImageFormBloc >(
@@ -89,17 +89,17 @@ class ProductImageForm extends StatelessWidget {
                                        
                                                 )..add(InitialiseProductImageFormNoLoadEvent(value: value)),
   
-        child: MyProductImageForm(submitAction: submitAction, formAction: formAction),
+        child: MyProductImageForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update ProductImage' : 'Add ProductImage'),
+        appBar: StyleRegistry.registry().styleWithApp(app).adminFormStyle().appBarWithString(app, context, title: formAction == FormAction.UpdateAction ? 'Update ProductImage' : 'Add ProductImage'),
         body: BlocProvider<ProductImageFormBloc >(
             create: (context) => ProductImageFormBloc(appId,
                                        
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseProductImageFormEvent(value: value) : InitialiseNewProductImageFormEvent())),
   
-        child: MyProductImageForm(submitAction: submitAction, formAction: formAction),
+        child: MyProductImageForm(app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
@@ -107,10 +107,11 @@ class ProductImageForm extends StatelessWidget {
 
 
 class MyProductImageForm extends StatefulWidget {
+  final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyProductImageForm({this.formAction, this.submitAction});
+  MyProductImageForm({required this.app, this.formAction, this.submitAction});
 
   _MyProductImageFormState createState() => _MyProductImageFormState(this.formAction);
 }
@@ -135,13 +136,10 @@ class _MyProductImageFormState extends State<MyProductImageForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text('No app available');
-    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<ProductImageFormBloc, ProductImageFormState>(builder: (context, state) {
       if (state is ProductImageFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context),
       );
 
       if (state is ProductImageFormLoaded) {
@@ -158,12 +156,12 @@ class _MyProductImageFormState extends State<MyProductImageForm> {
         List<Widget> children = [];
         children.add(
 
-                DropdownButtonComponentFactory().createNew(appId: appId, id: "platformMediums", value: _image, trigger: _onImageSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "platformMediums", value: _image, trigger: _onImageSelected, optional: false),
           );
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
+          children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().button(widget.app, context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is ProductImageFormError) {
                       return null;
@@ -190,7 +188,7 @@ class _MyProductImageFormState extends State<MyProductImageForm> {
                   },
                 ));
 
-        return StyleRegistry.registry().styleWithContext(context).adminFormStyle().container(context, Form(
+        return StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().container(widget.app, context, Form(
             child: ListView(
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
@@ -200,7 +198,7 @@ class _MyProductImageFormState extends State<MyProductImageForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
       }
     });
   }
@@ -226,7 +224,7 @@ class _MyProductImageFormState extends State<MyProductImageForm> {
   }
 
   bool _readOnly(AccessState accessState, ProductImageFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AccessBloc.currentAppId(context)));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
   }
   
 

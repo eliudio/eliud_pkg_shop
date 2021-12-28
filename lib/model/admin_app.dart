@@ -283,7 +283,7 @@ class AdminApp extends AdminAppInstallerBase {
 
 class AdminMenu extends AdminAppMenuInstallerBase {
 
-  Future<MenuDefModel> menu(String appId) async {
+  Future<MenuDefModel> menu(AppModel app) async {
     var menuItems = <MenuItemModel>[];
 
     menuItems.add(
@@ -292,7 +292,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Carts",
         description: "Carts",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_pkg_shop_carts_page"))
+        action: GotoPage(app, pageID: "eliud_pkg_shop_carts_page"))
     );
 
 
@@ -302,7 +302,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Orders",
         description: "Orders",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_pkg_shop_orders_page"))
+        action: GotoPage(app, pageID: "eliud_pkg_shop_orders_page"))
     );
 
 
@@ -312,7 +312,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "OrderOverviews",
         description: "OrderOverviews",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_pkg_shop_orderoverviews_page"))
+        action: GotoPage(app, pageID: "eliud_pkg_shop_orderoverviews_page"))
     );
 
 
@@ -322,7 +322,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Pays",
         description: "Pays",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_pkg_shop_pays_page"))
+        action: GotoPage(app, pageID: "eliud_pkg_shop_pays_page"))
     );
 
 
@@ -332,7 +332,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "PayConfirmations",
         description: "PayConfirmations",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_pkg_shop_payconfirmations_page"))
+        action: GotoPage(app, pageID: "eliud_pkg_shop_payconfirmations_page"))
     );
 
 
@@ -342,7 +342,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Products",
         description: "Products",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_pkg_shop_products_page"))
+        action: GotoPage(app, pageID: "eliud_pkg_shop_products_page"))
     );
 
 
@@ -352,7 +352,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "ProductDisplays",
         description: "ProductDisplays",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_pkg_shop_productdisplays_page"))
+        action: GotoPage(app, pageID: "eliud_pkg_shop_productdisplays_page"))
     );
 
 
@@ -362,7 +362,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Shops",
         description: "Shops",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_pkg_shop_shops_page"))
+        action: GotoPage(app, pageID: "eliud_pkg_shop_shops_page"))
     );
 
 
@@ -372,18 +372,18 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "ShopFronts",
         description: "ShopFronts",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_pkg_shop_shopfronts_page"))
+        action: GotoPage(app, pageID: "eliud_pkg_shop_shopfronts_page"))
     );
 
 
     MenuDefModel menu = MenuDefModel(
       admin: true,
       documentID: "eliud_pkg_shop_admin_menu",
-      appId: appId,
+      appId: app.documentID,
       name: "eliud_pkg_shop",
       menuItems: menuItems
     );
-    await menuDefRepository(appId: appId)!.add(menu);
+    await menuDefRepository(appId: app.documentID!)!.add(menu);
     return menu;
   }
 }

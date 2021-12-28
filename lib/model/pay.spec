@@ -46,13 +46,13 @@
     {
       "fieldName": "succeeded",
       "fieldType": "Action",
-      "bespokeFormField": "ActionField(AccessBloc.currentAppId(context), state.value!.succeeded, _onSucceededChanged)",
+      "bespokeFormField": "ActionField(widget.app, state.value!.succeeded, _onSucceededChanged)",
       "group": "succeeded"
     },
     {
       "fieldName": "payAction",
       "fieldType": "WorkflowAction",
-      "bespokeFormField": "ActionField(AccessBloc.currentAppId(context), state.value!.payAction, _onPayActionChanged)",
+      "bespokeFormField": "ActionField(widget.app, state.value!.payAction, _onPayActionChanged)",
       "group": "payAction",
       "remark": "requires a new implementation of a BespokeFormField WorkflowActionField",
       "hidden": true
@@ -95,8 +95,8 @@
     }
   ],
   "listFields": {
-    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.documentID!)) : Container()",
-    "subTitle": "value.title != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.title!)) : Container()"
+    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID!)) : Container()",
+    "subTitle": "value.title != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.title!)) : Container()"
   },
   "depends": ["eliud_core"]
 }

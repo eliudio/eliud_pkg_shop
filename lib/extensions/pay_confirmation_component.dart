@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/tools/component/component_constructor.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/confirmation_widget.dart';
 import 'package:eliud_pkg_shop/model/order_component_bloc.dart';
@@ -14,18 +15,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PayConfirmationComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({Key? key, required String appId, required String id, Map<String, dynamic>? parameters}) {
-    return PayConfirmationComponent(key: key, appId: appId, id: id, parameters: parameters,);
+  Widget createNew({Key? key, required AppModel app, required String id, Map<String, dynamic>? parameters}) {
+    return PayConfirmationComponent(key: key, app: app, id: id, parameters: parameters,);
   }
 
   @override
-  Future<dynamic> getModel({required String appId, required String id}) async => await payConfirmationRepository(appId: appId)!.get(id);
+  Future<dynamic> getModel({required AppModel app, required String id}) async => await payConfirmationRepository(appId: app.documentID!)!.get(id);
 }
 
 class PayConfirmationComponent extends AbstractPayConfirmationComponent {
   final Map<String, dynamic>? parameters;
 
-  PayConfirmationComponent({Key? key, required String appId, required String id, this.parameters}) : super(key: key, theAppId: appId, payConfirmationId: id);
+  PayConfirmationComponent({Key? key, required AppModel app, required String id, this.parameters}) : super(key: key, app: app, payConfirmationId: id);
 
   @override
   Widget yourWidget(BuildContext context, PayConfirmationModel? payConfirmationModel) {
@@ -34,9 +35,9 @@ class PayConfirmationComponent extends AbstractPayConfirmationComponent {
       if (orderNumber != null) {
         return BlocProvider<OrderComponentBloc>(
           create: (context) =>
-          OrderComponentBloc(orderRepository: orderRepository(appId: theAppId))
+          OrderComponentBloc(orderRepository: orderRepository(appId: app.documentID!))
             ..add(FetchOrderComponent(id: orderNumber as String?)),
-          child: ConfirmationWidget(payConfirmationModel),
+          child: ConfirmationWidget(app, payConfirmationModel),
         );
       } else {
         return alertWidget(title: 'error', content: 'Ordernumber not provided');
@@ -48,6 +49,6 @@ class PayConfirmationComponent extends AbstractPayConfirmationComponent {
 
   @override
   Widget alertWidget({title = String, content = String}) {
-    return AlertWidget(title: title, content: content);
+    return AlertWidget(app: app, title: title, content: content);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/tools/component/component_constructor.dart';
 import 'package:eliud_pkg_shop/extensions/shop_widgets/cart_widget.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
@@ -12,35 +13,35 @@ class CartComponentConstructorDefault implements ComponentConstructor {
   @override
   Widget createNew(
       {Key? key,
-      required String appId,
+      required AppModel app,
       required String id,
       Map<String, dynamic>? parameters}) {
-    return CartProfileComponent(key: key, appId: appId, id: id);
+    return CartProfileComponent(key: key, app: app, id: id);
   }
 
   @override
-  Future<dynamic> getModel({required String appId, required String id}) async =>
-      await cartRepository(appId: appId)!.get(id);
+  Future<dynamic> getModel({required AppModel app, required String id}) async =>
+      await cartRepository(appId: app.documentID!)!.get(id);
 }
 
 class CartProfileComponent extends AbstractCartComponent {
-  CartProfileComponent({Key? key, required String appId, required String id})
-      : super(key: key, theAppId: appId, cartId: id);
+  CartProfileComponent({Key? key, required AppModel app, required String id})
+      : super(key: key, app: app, cartId: id);
 
   @override
   Widget alertWidget({title = String, content = String}) {
-    return AlertWidget(title: title, content: content);
+    return AlertWidget(app: app, title: title, content: content);
   }
 
   @override
   CartRepository getCartRepository(BuildContext context) {
     return AbstractRepositorySingleton.singleton
-        .cartRepository(AccessBloc.currentAppId(context))!;
+        .cartRepository(app.documentID!)!;
   }
 
   @override
-  Widget yourWidget(BuildContext context, CartModel? cart) {
-    return CartWidget(
+  Widget yourWidget(BuildContext context, CartModel cart) {
+    return CartWidget(app: app,
       cart: cart,
     );
   }

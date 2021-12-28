@@ -68,7 +68,7 @@ class OrderReferencesModel {
     );
   }
 
-  static OrderReferencesModel? fromEntity(OrderReferencesEntity? entity) {
+  static Future<OrderReferencesModel?> fromEntity(OrderReferencesEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return OrderReferencesModel(

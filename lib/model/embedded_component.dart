@@ -17,6 +17,7 @@
 import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
+import 'package:eliud_core/model/app_model.dart';
 
 import 'dart:async';
 
@@ -39,12 +40,12 @@ import '../model/product_image_repository.dart';
 typedef OrderItemListChanged(List<OrderItemModel> values);
 typedef ProductImageListChanged(List<ProductImageModel> values);
 
-orderItemsList(context, value, trigger) => EmbeddedComponentFactory.orderItemsList(context, value, trigger);
-productImagesList(context, value, trigger) => EmbeddedComponentFactory.productImagesList(context, value, trigger);
+orderItemsList(app, context, value, trigger) => EmbeddedComponentFactory.orderItemsList(app, context, value, trigger);
+productImagesList(app, context, value, trigger) => EmbeddedComponentFactory.productImagesList(app, context, value, trigger);
 
 class EmbeddedComponentFactory {
 
-static Widget orderItemsList(BuildContext context, List<OrderItemModel> values, OrderItemListChanged trigger) {
+static Widget orderItemsList(BuildContext context, AppModel app, List<OrderItemModel> values, OrderItemListChanged trigger) {
   OrderItemInMemoryRepository inMemoryRepository = OrderItemInMemoryRepository(trigger, values,);
   return MultiBlocProvider(
     providers: [
@@ -54,11 +55,11 @@ static Widget orderItemsList(BuildContext context, List<OrderItemModel> values, 
           )..add(LoadOrderItemList()),
         )
         ],
-    child: OrderItemListWidget(isEmbedded: true),
+    child: OrderItemListWidget(app: app, isEmbedded: true),
   );
 }
 
-static Widget productImagesList(BuildContext context, List<ProductImageModel> values, ProductImageListChanged trigger) {
+static Widget productImagesList(BuildContext context, AppModel app, List<ProductImageModel> values, ProductImageListChanged trigger) {
   ProductImageInMemoryRepository inMemoryRepository = ProductImageInMemoryRepository(trigger, values,);
   return MultiBlocProvider(
     providers: [
@@ -68,7 +69,7 @@ static Widget productImagesList(BuildContext context, List<ProductImageModel> va
           )..add(LoadProductImageList()),
         )
         ],
-    child: ProductImageListWidget(isEmbedded: true),
+    child: ProductImageListWidget(app: app, isEmbedded: true),
   );
 }
 

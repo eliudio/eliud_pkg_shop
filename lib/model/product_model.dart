@@ -98,7 +98,7 @@ class ProductModel {
     );
   }
 
-  static ProductModel? fromEntity(String documentID, ProductEntity? entity) {
+  static Future<ProductModel?> fromEntity(String documentID, ProductEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return ProductModel(
@@ -109,15 +109,14 @@ class ProductModel {
           price: entity.price, 
           weight: entity.weight, 
           images: 
-            entity.images == null ? null :
-            entity.images
+            entity.images == null ? null : List<ProductImageModel>.from(await Future.wait(entity. images
             !.map((item) {
-              counter++; 
-              return ProductImageModel.fromEntity(counter.toString(), item)!;
+            counter++;
+              return ProductImageModel.fromEntity(counter.toString(), item);
             })
-            .toList(), 
+            .toList())), 
           conditions: 
-            StorageConditionsModel.fromEntity(entity.conditions), 
+            await StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 

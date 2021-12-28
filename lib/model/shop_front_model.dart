@@ -132,7 +132,7 @@ class ShopFrontModel {
     );
   }
 
-  static ShopFrontModel? fromEntity(String documentID, ShopFrontEntity? entity) {
+  static Future<ShopFrontModel?> fromEntity(String documentID, ShopFrontEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return ShopFrontModel(
@@ -144,15 +144,15 @@ class ShopFrontModel {
           cardElevation: entity.cardElevation, 
           cardAxisSpacing: entity.cardAxisSpacing, 
           addToCartColor: 
-            RgbModel.fromEntity(entity.addToCartColor), 
+            await RgbModel.fromEntity(entity.addToCartColor), 
           view: toShopFrontView(entity.view), 
           scrollDirection: toScrollDirection(entity.scrollDirection), 
           buyAction: 
-            ActionModel.fromEntity(entity.buyAction), 
+            await ActionModel.fromEntity(entity.buyAction), 
           openProductAction: 
-            ActionModel.fromEntity(entity.openProductAction), 
+            await ActionModel.fromEntity(entity.openProductAction), 
           conditions: 
-            StorageConditionsModel.fromEntity(entity.conditions), 
+            await StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 

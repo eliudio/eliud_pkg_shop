@@ -92,7 +92,7 @@
       "fieldType": "Rgb",
       "group": "addToCartColor",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Add To Cart Color\", state.value!.addToCartColor, _onAddToCartColorChanged)"
+      "bespokeFormField": "RgbField(widget.app, \"Add To Cart Color\", state.value!.addToCartColor, _onAddToCartColorChanged)"
     },
     {
       "fieldName": "view",
@@ -113,13 +113,13 @@
     {
       "fieldName": "buyAction",
       "fieldType": "Action",
-      "bespokeFormField": "ActionField(AccessBloc.currentAppId(context), state.value!.buyAction, _onBuyActionChanged)",
+      "bespokeFormField": "ActionField(widget.app, state.value!.buyAction, _onBuyActionChanged)",
       "group": "action"
     },
     {
       "fieldName": "openProductAction",
       "fieldType": "Action",
-      "bespokeFormField": "ActionField(AccessBloc.currentAppId(context), state.value!.openProductAction, _onOpenProductActionChanged)",
+      "bespokeFormField": "ActionField(widget.app, state.value!.openProductAction, _onOpenProductActionChanged)",
       "group": "openProductAction"
     },
     {
@@ -172,8 +172,8 @@
     }
   ],
   "listFields": {
-    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.documentID!)) : Container()",
-    "subTitle": "value.description != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.description!)) : Container()"
+    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID!)) : Container()",
+    "subTitle": "value.description != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.description!)) : Container()"
   },
   "depends": ["eliud_core"]
 }

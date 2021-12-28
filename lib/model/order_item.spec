@@ -67,6 +67,6 @@
     }
   ],
   "listFields": {
-    "title": "value.amount != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.amount.toString() + ' ' + (value.product == null ? '' : value.product!.title!) + ' ' + (value.soldPrice == null ? '' : value.soldPrice!.toString()))) : Text('0')"
+    "title": "value.amount != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.amount.toString() + ' ' + (value.product == null ? '' : value.product!.title!) + ' ' + (value.soldPrice == null ? '' : value.soldPrice!.toString()))) : Text('0')"
   }
 }

@@ -1,6 +1,7 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/component/component_constructor.dart';
@@ -17,24 +18,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ShopFrontComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({Key? key, required String appId, required String id, Map<String, dynamic>? parameters}) {
-    return ShopFrontBase(appId: appId, id: id, key: key);
+  Widget createNew({Key? key, required AppModel app, required String id, Map<String, dynamic>? parameters}) {
+    return ShopFrontBase(app: app, id: id, key: key);
   }
 
   @override
-  Future<dynamic> getModel({required String appId, required String id}) async => await shopFrontRepository(appId: appId)!.get(id);
+  Future<dynamic> getModel({required AppModel app, required String id}) async => await shopFrontRepository(appId: app.documentID!)!.get(id);
 }
 
 class ShopFrontBase extends AbstractShopFrontComponent {
-  ShopFrontBase({Key? key, required String appId, required String id, }) : super(key: key, theAppId: appId, shopFrontId: id);
+  ShopFrontBase({Key? key, required AppModel app, required String id, }) : super(key: key, app: app, shopFrontId: id);
 
   Widget _grid(BuildContext context, ShopFrontModel value) {
     return BlocProvider<ProductListBloc>(
       create: (context) => ProductListBloc(
         detailed: true,
-        productRepository: productRepository(appId: theAppId)!,
+        productRepository: productRepository(appId: app.documentID!)!,
       )..add(LoadProductList()),
-    child: GridProducts(shopFrontModel: value));
+    child: GridProducts(app: app, shopFrontModel: value));
   }
 
   @override
@@ -43,16 +44,16 @@ class ShopFrontBase extends AbstractShopFrontComponent {
     if (appState is AccessDetermined) {
       var widgets = <Widget>[];
       if (value.title != null) {
-        widgets.add(h4(context, value.title!));
+        widgets.add(h4(app, context, value.title!));
         widgets.add(Utils.getSizedBox(height: 10));
       }
 
       if (value.description != null) {
-        widgets.add(text(context, value.description!));
+        widgets.add(text(app, context, value.description!));
         widgets.add(Utils.getSizedBox(height: 10));
       }
       widgets.add(_grid(context, value));
-      return Utils.getShrinkedListView(context, widgets);
+      return Utils.getShrinkedListView(app, context, widgets);
     } else {
       return Text('App not loaded');
     }

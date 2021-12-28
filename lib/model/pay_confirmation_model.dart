@@ -81,7 +81,7 @@ class PayConfirmationModel {
     );
   }
 
-  static PayConfirmationModel? fromEntity(String documentID, PayConfirmationEntity? entity) {
+  static Future<PayConfirmationModel?> fromEntity(String documentID, PayConfirmationEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return PayConfirmationModel(
@@ -89,9 +89,9 @@ class PayConfirmationModel {
           appId: entity.appId, 
           title: entity.title, 
           backToShopAction: 
-            ActionModel.fromEntity(entity.backToShopAction), 
+            await ActionModel.fromEntity(entity.backToShopAction), 
           conditions: 
-            StorageConditionsModel.fromEntity(entity.conditions), 
+            await StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 

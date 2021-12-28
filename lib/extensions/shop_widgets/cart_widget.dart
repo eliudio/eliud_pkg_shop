@@ -21,9 +21,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class CartWidget extends StatefulWidget {
-  final CartModel? cart;
+  final CartModel cart;
+  final AppModel app;
 
-  const CartWidget({Key? key, this.cart}) : super(key: key);
+  const CartWidget({Key? key, required this.app, required this.cart}) : super(key: key);
 
   @override
   _CartWidgetState createState() => _CartWidgetState();
@@ -57,12 +58,12 @@ class _CartWidgetState extends State<CartWidget> {
                       ],
                     );
                   } else {
-                    return progressIndicator(context);
+                    return progressIndicator(widget.app, context);
                   }
                 }
                 ));
           } else {
-            return progressIndicator(context);
+            return progressIndicator(widget.app, context);
           }
         });
 
@@ -70,18 +71,18 @@ class _CartWidgetState extends State<CartWidget> {
   }
 
   Widget _buttonRowTop(BuildContext context,) {
-    return button(context, label: 'Continue shopping',
+    return button(widget.app, context, label: 'Continue shopping',
           onPressed: () {
-            eliudrouter.Router.navigateTo(context, widget.cart!.backToShopAction!);
+            eliudrouter.Router.navigateTo(context, widget.cart.backToShopAction!);
           });
   }
 
   Widget _buttonRowBottom(BuildContext context, ) {
-    return button(context, label: 'Checkout',
+    return button(widget.app, context, label: 'Checkout',
         onPressed: ()
     {
-      Navigator.push(context, pageRouteBuilder(AccessBloc.currentApp(context),
-          page: CheckOutPage(checkoutAction: widget.cart!.checkoutAction)));
+      Navigator.push(context, pageRouteBuilder(widget.app,
+          page: CheckOutPage(app: widget.app, checkoutAction: widget.cart.checkoutAction)));
     });
   }
 
@@ -96,11 +97,11 @@ class _CartWidgetState extends State<CartWidget> {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(left: 30),
-                child: h3(context, 'Total',),
+                child: h3(widget.app, context, 'Total',),
               ),
               Container(
                 margin: EdgeInsets.only(right: 30),
-                child: h3(context, NumberFormat.simpleCurrency(locale: 'eu')
+                child: h3(widget.app, context, NumberFormat.simpleCurrency(locale: 'eu')
                       .format(totalValue),
                 ),
               ),
@@ -115,7 +116,7 @@ class _CartWidgetState extends State<CartWidget> {
   Widget createHeader(AppModel app) {
     return Container(
       alignment: Alignment.topLeft,
-      child: h1(context, 'SHOPPING CART',
+      child: h1(widget.app, context, 'SHOPPING CART',
       ),
       margin: EdgeInsets.only(left: 12, top: 12),
     );
@@ -130,7 +131,7 @@ class _CartWidgetState extends State<CartWidget> {
     }
     return Container(
       alignment: Alignment.topLeft,
-      child: h2(context, text),
+      child: h2(widget.app, context, text),
       margin: EdgeInsets.only(left: 12, top: 4),
     );
   }
@@ -155,7 +156,7 @@ class _CartWidgetState extends State<CartWidget> {
         Container(
             margin: EdgeInsets.only(left: 16, right: 16, top: 16),
             decoration: BoxDecorationHelper.boxDecoration(member,
-                widget.cart!.itemDetailBackground!),
+                widget.cart.itemDetailBackground!),
             child: ListView.builder(
               shrinkWrap: true,
               primary: false,
@@ -218,7 +219,7 @@ class _CartWidgetState extends State<CartWidget> {
             'productId': item.product!.documentID
           };
           eliudrouter.Router.navigateTo(
-              context, widget.cart!.openProductAction!, parameters: parameters);
+              context, widget.cart.openProductAction!, parameters: parameters);
         });
   }
 
@@ -230,11 +231,11 @@ class _CartWidgetState extends State<CartWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Center(
-            child: h2(context, item.product!.title!, maxLines: 2, softWrap: true),
+            child: h2(widget.app, context, item.product!.title!, maxLines: 2, softWrap: true),
           ),
           Utils.getSizedBox(height: 6),
           Center(
-            child: text(context, item.product!.about!,
+            child: text(widget.app, context, item.product!.about!,
               maxLines: 4,
               softWrap: true,
             ),
@@ -244,7 +245,7 @@ class _CartWidgetState extends State<CartWidget> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                h3(context, NumberFormat.simpleCurrency(locale: 'eu')
+                h3(widget.app, context, NumberFormat.simpleCurrency(locale: 'eu')
                       .format(item.product!.price),
                 ),
                 Padding(
@@ -268,7 +269,7 @@ class _CartWidgetState extends State<CartWidget> {
                         color: Colors.grey.shade200,
                         padding: const EdgeInsets.only(
                             bottom: 2, right: 12, left: 12),
-                        child: h3(context,
+                        child: h3(widget.app, context,
                           item.amount.toString(),
                         ),
                       ),

@@ -26,19 +26,20 @@ import 'package:eliud_core/style/style_registry.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_core/model/app_model.dart';
 
 abstract class AbstractOrderOverviewComponent extends StatelessWidget {
   static String componentName = "orderOverviews";
-  final String theAppId;
+  final AppModel app;
   final String orderOverviewId;
 
-  AbstractOrderOverviewComponent({Key? key, required this.theAppId, required this.orderOverviewId}): super(key: key);
+  AbstractOrderOverviewComponent({Key? key, required this.app, required this.orderOverviewId}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<OrderOverviewComponentBloc> (
           create: (context) => OrderOverviewComponentBloc(
-            orderOverviewRepository: orderOverviewRepository(appId: theAppId)!)
+            orderOverviewRepository: orderOverviewRepository(appId: app.documentID!)!)
         ..add(FetchOrderOverviewComponent(id: orderOverviewId)),
       child: _orderOverviewBlockBuilder(context),
     );
@@ -48,7 +49,7 @@ abstract class AbstractOrderOverviewComponent extends StatelessWidget {
     return BlocBuilder<OrderOverviewComponentBloc, OrderOverviewComponentState>(builder: (context, state) {
       if (state is OrderOverviewComponentLoaded) {
         if (state.value == null) {
-          return AlertWidget(title: "Error", content: 'No OrderOverview defined');
+          return AlertWidget(app: app, title: "Error", content: 'No OrderOverview defined');
         } else {
           return yourWidget(context, state.value);
         }
@@ -59,10 +60,10 @@ abstract class AbstractOrderOverviewComponent extends StatelessWidget {
           size: 30.0,
         );
       } else if (state is OrderOverviewComponentError) {
-        return AlertWidget(title: 'Error', content: state.message);
+        return AlertWidget(app: app, title: 'Error', content: state.message);
       } else {
         return Center(
-          child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context),
+          child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context),
         );
       }
     });

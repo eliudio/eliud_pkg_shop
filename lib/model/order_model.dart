@@ -170,7 +170,7 @@ class OrderModel {
     );
   }
 
-  static OrderModel? fromEntity(String documentID, OrderEntity? entity) {
+  static Future<OrderModel?> fromEntity(String documentID, OrderEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return OrderModel(
@@ -190,13 +190,12 @@ class OrderModel {
           invoiceState: entity.invoiceState, 
           invoicePostcode: entity.invoicePostcode, 
           products: 
-            entity.products == null ? null :
-            entity.products
+            entity.products == null ? null : List<OrderItemModel>.from(await Future.wait(entity. products
             !.map((item) {
-              counter++; 
-              return OrderItemModel.fromEntity(counter.toString(), item)!;
+            counter++;
+              return OrderItemModel.fromEntity(counter.toString(), item);
             })
-            .toList(), 
+            .toList())), 
           totalPrice: entity.totalPrice, 
           currency: entity.currency, 
           paymentReference: entity.paymentReference, 

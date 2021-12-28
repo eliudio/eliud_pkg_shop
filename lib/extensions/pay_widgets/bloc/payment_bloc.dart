@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/access_event.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/random.dart';
@@ -23,10 +24,10 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   static DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
   final CartBloc cartBloc;
   final AccessBloc accessBloc;
-  final String appId;
+  final AppModel app;
   final ActionModel? succeededAction;
 
-  PaymentBloc(this.appId, this.cartBloc, this.accessBloc, this.succeededAction): super(PayUninitialised());
+  PaymentBloc(this.app, this.cartBloc, this.accessBloc, this.succeededAction): super(PayUninitialised());
 
   bool _allInStock() {
     // TODO: verify if all products are in stock. If not, inform the customer that one of those items has been sold.
@@ -44,7 +45,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       // The payment screen is opened. We create an OrderModel instance in memory
       var accessState = accessBloc.state;
       if (accessState is LoggedIn) {
-        var items = await (getItems(appId, accessState.member));
+        var items = await (getItems(app.documentID!, accessState.member));
         if ((items == null) || (items.isEmpty)) {
           yield NoItemsInCart();
           return;
@@ -112,11 +113,11 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   }
 
   Future<OrderModel> _getNewOrder(LoggedIn loggedInState, ShopModel shop, List<CartItemModel> items) async {
-    var items = await (getItems(appId, loggedInState.member) );
+    var items = await (getItems(app.documentID!, loggedInState.member) );
     double totalValue = items == null ? 0 : CartHelper.totalValue(items);
     return OrderModel(
         documentID: newRandomKey(),
-        appId: appId,
+        appId: app.documentID!,
         customer: loggedInState.member,
         timeStamp: dateFormat.format(DateTime.now()),
         name: loggedInState.member

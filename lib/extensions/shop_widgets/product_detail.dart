@@ -1,10 +1,10 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
-import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_pkg_fundamentals/extensions/fader_widgets/fader_widgets.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_tools.dart';
@@ -14,10 +14,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductDetail extends StatefulWidget {
+  final AppModel app;
   final ProductDisplayModel? productDisplayModel;
   final ProductModel? productModel;
 
-  const ProductDetail({Key? key, this.productDisplayModel, this.productModel})
+  const ProductDetail({Key? key, required this.app, this.productDisplayModel, this.productModel})
       : super(key: key);
 
   @override
@@ -30,21 +31,22 @@ class _ProductDetailState extends State<ProductDetail> {
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (context, accessState) {
           if (accessState is AccessDetermined) {
-            return ProductDetailWithAccess(
+            return ProductDetailWithAccess(widget.app,
                 accessState, widget.productDisplayModel, widget.productModel);
           } else {
-            return progressIndicator(context);
+            return progressIndicator(widget.app, context);
           }
         });
   }
 }
 
 class ProductDetailWithAccess extends StatefulWidget {
+  final AppModel app;
   final ProductDisplayModel? productDisplayModel;
   final AccessState accessState;
   final ProductModel? productModel;
 
-  const ProductDetailWithAccess(
+  const ProductDetailWithAccess(this.app,
       this.accessState, this.productDisplayModel, this.productModel);
 
   @override
@@ -81,17 +83,17 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            h3(context, title!),
-                            h3(context,
+                            h3(widget.app, context, title!),
+                            h3(widget.app, context,
                                     widget.productModel!.price.toString()),
                           ],
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0),
-                        child: text(context, widget.productModel!.about!),
+                        child: text(widget.app, context, widget.productModel!.about!),
                       ),
-                      button(
+                      button(widget.app,
                         context,
                         label: widget.productDisplayModel!.addToBasketText !=
                                     null &&
@@ -101,7 +103,7 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
                             : 'Add to basket',
                         onPressed: () {
                           CartTools.addToCart(
-                              context,
+                              context,widget.app,
                               widget.productDisplayModel!.buyAction,
                               widget.productModel,
                               1);

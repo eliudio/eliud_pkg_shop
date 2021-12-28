@@ -2,6 +2,7 @@ import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/tools/component/component_constructor.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
@@ -16,31 +17,31 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OrderOverviewComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({Key? key, required String appId, required String id, Map<String, dynamic>? parameters}) {
-    return OrderOverviewComponent(key: key, appId: appId, id: id);
+  Widget createNew({Key? key, required AppModel app, required String id, Map<String, dynamic>? parameters}) {
+    return OrderOverviewComponent(key: key, app: app, id: id);
   }
 
   @override
-  Future<dynamic> getModel({required String appId, required String id}) async => await orderOverviewRepository(appId: appId)!.get(id);
+  Future<dynamic> getModel({required AppModel app, required String id}) async => await orderOverviewRepository(appId: app.documentID!)!.get(id);
 }
 
 class OrderOverviewComponent extends AbstractOrderOverviewComponent {
-  OrderOverviewComponent({Key? key, required String appId, required String id}) : super(key: key, theAppId: appId, orderOverviewId: id);
+  OrderOverviewComponent({Key? key, required AppModel app, required String id}) : super(key: key, app: app, orderOverviewId: id);
 
   @override
   Widget yourWidget(BuildContext context, OrderOverviewModel? orderOverview) {
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (context, accessState) {
           if (accessState is AccessDetermined) {
-            if (accessState.memberIsOwner(accessState.currentApp.documentID!)) {
+            if (accessState.memberIsOwner(app.documentID!)) {
               // allow owner of the app to see ALL orders and update shipment details
               return BlocProvider<OrderListBloc>(
                 create: (context) =>
                 OrderListBloc(
-                  orderRepository: AbstractRepositorySingleton.singleton.orderRepository(AccessBloc.currentAppId(context))!,
+                  orderRepository: AbstractRepositorySingleton.singleton.orderRepository(app.documentID!)!,
                 )
                   ..add(LoadOrderList()),
-                child: OrderListWidget(readOnly: false, form: 'OrderShipmentForm'),
+                child: OrderListWidget(app: app, readOnly: false, form: 'OrderShipmentForm'),
               );
             } else {
               // allow member to view his own orders
@@ -48,14 +49,14 @@ class OrderOverviewComponent extends AbstractOrderOverviewComponent {
                 create: (context) =>
                 OrderListBloc(
                   orderRepository: AbstractRepositorySingleton.singleton
-                      .orderRepository(AccessBloc.currentAppId(context))!,
+                      .orderRepository(app.documentID!)!,
                 )
                   ..add(LoadOrderList()),
-                child: OrderListWidget(readOnly: true),
+                child: OrderListWidget(app: app, readOnly: true),
               );
             }
           } else {
-            return progressIndicator(context);
+            return progressIndicator(app, context);
           }
         });
   }

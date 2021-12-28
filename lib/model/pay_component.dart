@@ -26,19 +26,20 @@ import 'package:eliud_core/style/style_registry.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_core/model/app_model.dart';
 
 abstract class AbstractPayComponent extends StatelessWidget {
   static String componentName = "pays";
-  final String theAppId;
+  final AppModel app;
   final String payId;
 
-  AbstractPayComponent({Key? key, required this.theAppId, required this.payId}): super(key: key);
+  AbstractPayComponent({Key? key, required this.app, required this.payId}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<PayComponentBloc> (
           create: (context) => PayComponentBloc(
-            payRepository: payRepository(appId: theAppId)!)
+            payRepository: payRepository(appId: app.documentID!)!)
         ..add(FetchPayComponent(id: payId)),
       child: _payBlockBuilder(context),
     );
@@ -48,7 +49,7 @@ abstract class AbstractPayComponent extends StatelessWidget {
     return BlocBuilder<PayComponentBloc, PayComponentState>(builder: (context, state) {
       if (state is PayComponentLoaded) {
         if (state.value == null) {
-          return AlertWidget(title: "Error", content: 'No Pay defined');
+          return AlertWidget(app: app, title: "Error", content: 'No Pay defined');
         } else {
           return yourWidget(context, state.value);
         }
@@ -59,10 +60,10 @@ abstract class AbstractPayComponent extends StatelessWidget {
           size: 30.0,
         );
       } else if (state is PayComponentError) {
-        return AlertWidget(title: 'Error', content: state.message);
+        return AlertWidget(app: app, title: 'Error', content: state.message);
       } else {
         return Center(
-          child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context),
+          child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context),
         );
       }
     });

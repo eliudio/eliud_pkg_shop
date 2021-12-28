@@ -71,7 +71,7 @@ class CartItemModel {
     );
   }
 
-  static CartItemModel? fromEntity(String documentID, CartItemEntity? entity) {
+  static Future<CartItemModel?> fromEntity(String documentID, CartItemEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return CartItemModel(

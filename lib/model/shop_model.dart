@@ -74,7 +74,7 @@ class ShopModel {
     );
   }
 
-  static ShopModel? fromEntity(String documentID, ShopEntity? entity) {
+  static Future<ShopModel?> fromEntity(String documentID, ShopEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return ShopModel(

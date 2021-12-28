@@ -86,7 +86,7 @@ class PayModel {
     );
   }
 
-  static PayModel? fromEntity(String documentID, PayEntity? entity) {
+  static Future<PayModel?> fromEntity(String documentID, PayEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return PayModel(
@@ -94,11 +94,11 @@ class PayModel {
           appId: entity.appId, 
           title: entity.title, 
           succeeded: 
-            ActionModel.fromEntity(entity.succeeded), 
+            await ActionModel.fromEntity(entity.succeeded), 
           payAction: 
-            WorkflowActionModel.fromEntity(entity.payAction), 
+            await WorkflowActionModel.fromEntity(entity.payAction), 
           conditions: 
-            StorageConditionsModel.fromEntity(entity.conditions), 
+            await StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 

@@ -7,14 +7,14 @@ import 'package:eliud_pkg_shop/model/order_model.dart';
 import 'package:flutter/material.dart';
 
 class OrderHelper {
-  static Widget _getRow(
+  static Widget _getRow(AppModel app,
           BuildContext context, String title, String? value,
           {Widget? trailing}) =>
       ListTile(
         trailing: trailing,
-        title: h4(context, title),
+        title: h4(app, context, title),
         subtitle: value != null
-            ? text(context, value)
+            ? text(app, context, value)
             : null,
       );
 
@@ -72,55 +72,55 @@ class OrderHelper {
         order.currency!;
   }
 
-  static List<Widget> addOrderOverviewBasics(BuildContext context,
+  static List<Widget> addOrderOverviewBasics(AppModel app, BuildContext context,
       List<Widget> widgets, OrderModel order) {
-    widgets.add(_getRow(
+    widgets.add(_getRow(app,
         context, 'Contact:', order.name! + ', ' + order.email!,
-        trailing: h1Icon2(context,
+        trailing: h1Icon2(app, context,
             iconData: Icons.contact_phone, semanticLabel: 'Contact')));
-    widgets.add(_getRow(
+    widgets.add(_getRow(app,
         context,
         (order.invoiceSame != null) && (!order.invoiceSame!)
             ? 'Shipment address:'
             : 'Shipment & invoice address',
         _getShipAddress(order),
-        trailing: h1Icon2(context,
+        trailing: h1Icon2(app, context,
             iconData: Icons.local_shipping, semanticLabel: 'Contact')));
     if ((order.invoiceSame != null) && (!order.invoiceSame!)) {
-      widgets.add(_getRow(
+      widgets.add(_getRow(app,
           context, 'Invoice address:', _getInvoiceAddress(order),
-          trailing: h1Icon2(context,
+          trailing: h1Icon2(app, context,
               iconData: Icons.note, semanticLabel: 'Contact')));
     }
     return widgets;
   }
 
-  static List<Widget> addOrderOverviewBeforePayment(
+  static List<Widget> addOrderOverviewBeforePayment(AppModel app,
       List<Widget> widgets, OrderModel order, BuildContext context) {
-    addOrderOverviewBasics(context, widgets, order);
-    _addProducts(widgets, order, context);
+    addOrderOverviewBasics(app, context, widgets, order);
+    _addProducts(app, widgets, order, context);
     return widgets;
   }
 
-  static List<Widget> addOrderOverviewAfterPayment(
+  static List<Widget> addOrderOverviewAfterPayment(AppModel app,
       List<Widget> widgets, OrderModel order, BuildContext context) {
-    addOrderOverviewBasics(context, widgets, order);
-    widgets.add(_getRow(
+    addOrderOverviewBasics(app, context, widgets, order);
+    widgets.add(_getRow(app,
         context, 'Payment reference:', order.paymentReference,
-        trailing: h1Icon2(
+        trailing: h1Icon2(app,
               context,
               iconData: Icons.payment,
               semanticLabel: 'Success',
             )));
-    _addProducts(widgets, order, context);
+    _addProducts(app, widgets, order, context);
     return widgets;
   }
 
-  static List<Widget> _addProducts(List<Widget> widgets,
+  static List<Widget> _addProducts(AppModel app, List<Widget> widgets,
       OrderModel order, BuildContext context) {
-    widgets.add(_getRow(
+    widgets.add(_getRow(app,
         context, 'Products:', "These are the produts you're ordering",
-        trailing: h1Icon2(context, iconData: Icons.list, semanticLabel: 'Contact')));
+        trailing: h1Icon2(app, context, iconData: Icons.list, semanticLabel: 'Contact')));
 
     final theme = Theme.of(context);
     final style = theme.textTheme.bodyText2!
@@ -152,9 +152,9 @@ class OrderHelper {
       ]));
     });
 
-    widgets.add(_getRow(context, 'Total price:',
+    widgets.add(_getRow(app, context, 'Total price:',
         order.totalPrice.toString() + ' ' + order.currency!,
-        trailing: h1Icon2(
+        trailing: h1Icon2(app,
               context,
               iconData: Icons.attach_money,
               semanticLabel: 'Total price',

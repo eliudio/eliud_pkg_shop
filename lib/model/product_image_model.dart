@@ -69,7 +69,7 @@ class ProductImageModel {
     );
   }
 
-  static ProductImageModel? fromEntity(String documentID, ProductImageEntity? entity) {
+  static Future<ProductImageModel?> fromEntity(String documentID, ProductImageEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return ProductImageModel(

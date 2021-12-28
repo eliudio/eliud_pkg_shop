@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/component/component_constructor.dart';
@@ -20,24 +21,24 @@ class ProductDisplayComponentConstructorDefault
   @override
   Widget createNew(
       {Key? key,
-      required String appId,
+      required AppModel app,
       required String id,
       Map<String, dynamic>? parameters}) {
     return ProductDisplayComponent(
-        key: key, appId: appId, id: id, parameters: parameters);
+        key: key, app: app, id: id, parameters: parameters);
   }
 
   @override
-  Future<dynamic> getModel({required String appId, required String id}) async =>
-      await productDisplayRepository(appId: appId)!.get(id);
+  Future<dynamic> getModel({required AppModel app, required String id}) async =>
+      await productDisplayRepository(appId: app.documentID!)!.get(id);
 }
 
 class ProductDisplayComponent extends AbstractProductDisplayComponent {
   final Map<String, dynamic>? parameters;
 
   ProductDisplayComponent(
-      {Key? key, required String appId, required String id, this.parameters})
-      : super(key: key, theAppId: appId, productDisplayId: id);
+      {Key? key, required AppModel app, required String id, this.parameters})
+      : super(key: key, app: app, productDisplayId: id);
 
   @override
   Widget yourWidget(BuildContext context, ProductDisplayModel? value) {
@@ -59,27 +60,27 @@ class ProductDisplayComponent extends AbstractProductDisplayComponent {
     return BlocBuilder<ProductComponentBloc, ProductComponentState>(
         builder: (context, state) {
       if (state is ProductComponentLoaded) {
-        return ProductDetail(
+        return ProductDetail(app: app,
             productDisplayModel: value, productModel: state.value);
       } else {
-        return progressIndicator(context);
+        return progressIndicator(app, context);
       }
     });
   }
 
   @override
   Widget alertWidget({title = String, content = String}) {
-    return AlertWidget(title: title, content: content);
+    return AlertWidget(app: app, title: title, content: content);
   }
 
   @override
   ProductDisplayRepository getProductDisplayRepository(BuildContext context) {
     return AbstractRepositorySingleton.singleton
-        .productDisplayRepository(AccessBloc.currentAppId(context))!;
+        .productDisplayRepository(app.documentID!)!;
   }
 
   ProductRepository? getProductRepository(BuildContext context) {
     return AbstractRepositorySingleton.singleton
-        .productRepository(AccessBloc.currentAppId(context));
+        .productRepository(app.documentID!);
   }
 }

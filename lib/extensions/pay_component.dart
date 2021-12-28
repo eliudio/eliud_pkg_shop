@@ -31,28 +31,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class PayComponentConstructorDefault implements ComponentConstructor {
   @override
   Widget createNew(
-      {Key? key, required String appId, required String id, Map<String, dynamic>? parameters}) {
-    return PayProfileComponent(key: key, appId: appId, id: id);
+      {Key? key, required AppModel app, required String id, Map<String, dynamic>? parameters}) {
+    return PayProfileComponent(key: key, app: app, id: id);
   }
 
   @override
-  Future<dynamic> getModel({required String appId, required String id}) async => await payRepository(appId: appId)!.get(id);
+  Future<dynamic> getModel({required AppModel app, required String id}) async => await payRepository(appId: app.documentID!)!.get(id);
 }
 
 class PayProfileComponent extends AbstractPayComponent {
   late PaymentBloc paymentBloc;
-  PayProfileComponent({Key? key, required String appId, required String id})
-      : super(key: key, theAppId: appId, payId: id);
+  PayProfileComponent({Key? key, required AppModel app, required String id})
+      : super(key: key, app: app, payId: id);
 
   @override
   Widget yourWidget(BuildContext context, PayModel? pay) {
     if (pay == null) return Text("pay is null");
     var cartBloc = BlocProvider.of<CartBloc>(context);
     var accessBloc = AccessBloc.getBloc(context);
-    var appId = AccessBloc.currentAppId(context);
     return BlocProvider<PaymentBloc>(
         create: (context) =>
-            PaymentBloc(appId, cartBloc, accessBloc, pay.succeeded)..add(CollectOrder(pay.shop)),
+            PaymentBloc(app, cartBloc, accessBloc, pay.succeeded)..add(CollectOrder(pay.shop)),
         child:
             BlocBuilder<PaymentBloc, PaymentState>(builder: (context, state) {
           return _paymentWidget(context, pay);
@@ -77,7 +76,7 @@ class PayProfileComponent extends AbstractPayComponent {
     if (appState is AccessDetermined) {
       return BlocBuilder<PaymentBloc, PaymentState>(builder: (context, state) {
         if (state is NotLoggedOn) {
-          return text(context, 'Not logged on');
+          return text(app, context, 'Not logged on');
         } else {
           if (state is PayOrder) {
             return BlocProvider<PayBloc>(
@@ -106,7 +105,7 @@ class PayProfileComponent extends AbstractPayComponent {
                 }));
             // initialise paymentBloc so that 'handle' can access it
           } else if (state is NoItemsInCart) {
-            return text(context, 'No items in cart');
+            return text(app, context, 'No items in cart');
           } else if (state is ConfirmOrder) {
             return _overviewAndPay(context, state.order,
                 message: 'Please review your order.',
@@ -144,7 +143,7 @@ class PayProfileComponent extends AbstractPayComponent {
           }
         }
         // in all other cases:
-        return progressIndicator(context);
+        return progressIndicator(app, context);
       });
     } else {
       return Text('App not loaded');
@@ -167,7 +166,7 @@ class PayProfileComponent extends AbstractPayComponent {
 //      alignment: WrapAlignment.spaceAround, // set your alignment
       children: <Widget>[
         Spacer(),
-        button(
+        button(app,
           context,
           label: 'Cancel',
           onPressed: () {
@@ -175,7 +174,7 @@ class PayProfileComponent extends AbstractPayComponent {
           },
         ),
         Spacer(),
-        button(
+        button(app,
           context,
           label: 'Continue',
           onPressed: () {
@@ -193,11 +192,11 @@ class PayProfileComponent extends AbstractPayComponent {
     if (message != null) {
       widgets.add(ListTile(
         trailing: trailing,
-        title: h4(context, message),
-        subtitle: subMessage != null ? h4(context, subMessage) : null,
+        title: h4(app, context, message),
+        subtitle: subMessage != null ? h4(app, context, subMessage) : null,
       ));
     }
-    OrderHelper.addOrderOverviewBeforePayment(widgets, order, context);
+    OrderHelper.addOrderOverviewBeforePayment(app, widgets, order, context);
     widgets.add(Divider());
     widgets.add(_getButton(context, order));
     return ListView(

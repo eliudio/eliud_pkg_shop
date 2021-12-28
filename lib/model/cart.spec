@@ -86,19 +86,19 @@
     {
       "fieldName": "checkoutAction",
       "fieldType": "Action",
-      "bespokeFormField": "ActionField(AccessBloc.currentAppId(context), state.value!.checkoutAction, _onCheckoutActionChanged)",
+      "bespokeFormField": "ActionField(widget.app, state.value!.checkoutAction, _onCheckoutActionChanged)",
       "group": "checkoutAction"
     },
     {
       "fieldName": "backToShopAction",
       "fieldType": "Action",
-      "bespokeFormField": "ActionField(AccessBloc.currentAppId(context), state.value!.backToShopAction, _onBackToShopActionChanged)",
+      "bespokeFormField": "ActionField(widget.app, state.value!.backToShopAction, _onBackToShopActionChanged)",
       "group": "backToShopAction"
     },
     {
       "fieldName": "openProductAction",
       "fieldType": "Action",
-      "bespokeFormField": "ActionField(AccessBloc.currentAppId(context), state.value!.openProductAction, _onOpenProductActionChanged)",
+      "bespokeFormField": "ActionField(widget.app, state.value!.openProductAction, _onOpenProductActionChanged)",
       "group": "openProductAction"
     },
     {
@@ -143,8 +143,8 @@
     }
   ],
   "listFields": {
-    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.documentID!)) : Container()",
-    "subTitle": "value.description != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.description!)) : Container()"
+    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID!)) : Container()",
+    "subTitle": "value.description != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.description!)) : Container()"
   },
   "depends": ["eliud_core"]
 }

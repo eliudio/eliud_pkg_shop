@@ -87,7 +87,7 @@ class ProductDisplayModel {
     );
   }
 
-  static ProductDisplayModel? fromEntity(String documentID, ProductDisplayEntity? entity) {
+  static Future<ProductDisplayModel?> fromEntity(String documentID, ProductDisplayEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return ProductDisplayModel(
@@ -96,9 +96,9 @@ class ProductDisplayModel {
           title: entity.title, 
           addToBasketText: entity.addToBasketText, 
           buyAction: 
-            ActionModel.fromEntity(entity.buyAction), 
+            await ActionModel.fromEntity(entity.buyAction), 
           conditions: 
-            StorageConditionsModel.fromEntity(entity.conditions), 
+            await StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 

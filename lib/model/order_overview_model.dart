@@ -84,7 +84,7 @@ class OrderOverviewModel {
     );
   }
 
-  static OrderOverviewModel? fromEntity(String documentID, OrderOverviewEntity? entity) {
+  static Future<OrderOverviewModel?> fromEntity(String documentID, OrderOverviewEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return OrderOverviewModel(
@@ -92,7 +92,7 @@ class OrderOverviewModel {
           appId: entity.appId, 
           title: entity.title, 
           conditions: 
-            StorageConditionsModel.fromEntity(entity.conditions), 
+            await StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 
