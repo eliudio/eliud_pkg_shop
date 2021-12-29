@@ -45,7 +45,7 @@ productImagesList(app, context, value, trigger) => EmbeddedComponentFactory.prod
 
 class EmbeddedComponentFactory {
 
-static Widget orderItemsList(BuildContext context, AppModel app, List<OrderItemModel> values, OrderItemListChanged trigger) {
+static Widget orderItemsList(AppModel app, BuildContext context, List<OrderItemModel> values, OrderItemListChanged trigger) {
   OrderItemInMemoryRepository inMemoryRepository = OrderItemInMemoryRepository(trigger, values,);
   return MultiBlocProvider(
     providers: [
@@ -59,7 +59,7 @@ static Widget orderItemsList(BuildContext context, AppModel app, List<OrderItemM
   );
 }
 
-static Widget productImagesList(BuildContext context, AppModel app, List<ProductImageModel> values, ProductImageListChanged trigger) {
+static Widget productImagesList(AppModel app, BuildContext context, List<ProductImageModel> values, ProductImageListChanged trigger) {
   ProductImageInMemoryRepository inMemoryRepository = ProductImageInMemoryRepository(trigger, values,);
   return MultiBlocProvider(
     providers: [
