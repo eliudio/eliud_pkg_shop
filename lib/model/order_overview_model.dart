@@ -78,8 +78,8 @@ class OrderOverviewModel {
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
           shopId: (shop != null) ? shop!.documentID : null, 
-          itemImageBackgroundId: (itemImageBackground != null) ? itemImageBackground!.documentID : null, 
-          itemDetailBackgroundId: (itemDetailBackground != null) ? itemDetailBackground!.documentID : null, 
+          itemImageBackground: (itemImageBackground != null) ? itemImageBackground!.toEntity(appId: appId) : null, 
+          itemDetailBackground: (itemDetailBackground != null) ? itemDetailBackground!.toEntity(appId: appId) : null, 
           conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
@@ -91,6 +91,10 @@ class OrderOverviewModel {
           documentID: documentID, 
           appId: entity.appId, 
           title: entity.title, 
+          itemImageBackground: 
+            await BackgroundModel.fromEntity(entity.itemImageBackground), 
+          itemDetailBackground: 
+            await BackgroundModel.fromEntity(entity.itemDetailBackground), 
           conditions: 
             await StorageConditionsModel.fromEntity(entity.conditions), 
     );
@@ -110,36 +114,16 @@ class OrderOverviewModel {
       }
     }
 
-    BackgroundModel? itemImageBackgroundHolder;
-    if (entity.itemImageBackgroundId != null) {
-      try {
-          itemImageBackgroundHolder = await backgroundRepository(appId: appId)!.get(entity.itemImageBackgroundId);
-      } on Exception catch(e) {
-        print('Error whilst trying to initialise itemImageBackground');
-        print('Error whilst retrieving background with id ${entity.itemImageBackgroundId}');
-        print('Exception: $e');
-      }
-    }
-
-    BackgroundModel? itemDetailBackgroundHolder;
-    if (entity.itemDetailBackgroundId != null) {
-      try {
-          itemDetailBackgroundHolder = await backgroundRepository(appId: appId)!.get(entity.itemDetailBackgroundId);
-      } on Exception catch(e) {
-        print('Error whilst trying to initialise itemDetailBackground');
-        print('Error whilst retrieving background with id ${entity.itemDetailBackgroundId}');
-        print('Exception: $e');
-      }
-    }
-
     var counter = 0;
     return OrderOverviewModel(
           documentID: documentID, 
           appId: entity.appId, 
           title: entity.title, 
           shop: shopHolder, 
-          itemImageBackground: itemImageBackgroundHolder, 
-          itemDetailBackground: itemDetailBackgroundHolder, 
+          itemImageBackground: 
+            await BackgroundModel.fromEntityPlus(entity.itemImageBackground, appId: appId), 
+          itemDetailBackground: 
+            await BackgroundModel.fromEntityPlus(entity.itemDetailBackground, appId: appId), 
           conditions: 
             await StorageConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
     );

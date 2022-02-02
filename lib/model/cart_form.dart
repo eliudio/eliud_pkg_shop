@@ -130,8 +130,6 @@ class _MyCartFormState extends State<MyCartForm> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _checkoutTextController = TextEditingController();
   String? _shop;
-  String? _itemImageBackground;
-  String? _itemDetailBackground;
 
 
   _MyCartFormState(this.formAction);
@@ -180,14 +178,6 @@ class _MyCartFormState extends State<MyCartForm> {
           _shop= state.value!.shop!.documentID;
         else
           _shop= "";
-        if (state.value!.itemImageBackground != null)
-          _itemImageBackground= state.value!.itemImageBackground!.documentID;
-        else
-          _itemImageBackground= "";
-        if (state.value!.itemDetailBackground != null)
-          _itemDetailBackground= state.value!.itemDetailBackground!.documentID;
-        else
-          _itemDetailBackground= "";
       }
       if (state is CartFormInitialized) {
         List<Widget> children = [];
@@ -292,10 +282,6 @@ class _MyCartFormState extends State<MyCartForm> {
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Item Image Background')
                 ));
 
-        children.add(
-
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "backgrounds", value: _itemImageBackground, trigger: _onItemImageBackgroundSelected, optional: true),
-          );
 
 
         children.add(Container(height: 20.0));
@@ -308,10 +294,6 @@ class _MyCartFormState extends State<MyCartForm> {
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Item Detail Background')
                 ));
 
-        children.add(
-
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "backgrounds", value: _itemDetailBackground, trigger: _onItemDetailBackgroundSelected, optional: true),
-          );
 
 
         children.add(Container(height: 20.0));
@@ -439,22 +421,6 @@ class _MyCartFormState extends State<MyCartForm> {
       _shop = val;
     });
     _myFormBloc.add(ChangedCartShop(value: val));
-  }
-
-
-  void _onItemImageBackgroundSelected(String? val) {
-    setState(() {
-      _itemImageBackground = val;
-    });
-    _myFormBloc.add(ChangedCartItemImageBackground(value: val));
-  }
-
-
-  void _onItemDetailBackgroundSelected(String? val) {
-    setState(() {
-      _itemDetailBackground = val;
-    });
-    _myFormBloc.add(ChangedCartItemDetailBackground(value: val));
   }
 
 

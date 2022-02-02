@@ -122,7 +122,7 @@ class ShopFrontModel {
           size: (size != null) ? size : null, 
           cardElevation: (cardElevation != null) ? cardElevation : null, 
           cardAxisSpacing: (cardAxisSpacing != null) ? cardAxisSpacing : null, 
-          itemCardBackgroundId: (itemCardBackground != null) ? itemCardBackground!.documentID : null, 
+          itemCardBackground: (itemCardBackground != null) ? itemCardBackground!.toEntity(appId: appId) : null, 
           addToCartColor: (addToCartColor != null) ? addToCartColor!.toEntity(appId: appId) : null, 
           view: (view != null) ? view!.index : null, 
           scrollDirection: (scrollDirection != null) ? scrollDirection!.index : null, 
@@ -143,6 +143,8 @@ class ShopFrontModel {
           size: entity.size, 
           cardElevation: entity.cardElevation, 
           cardAxisSpacing: entity.cardAxisSpacing, 
+          itemCardBackground: 
+            await BackgroundModel.fromEntity(entity.itemCardBackground), 
           addToCartColor: 
             await RgbModel.fromEntity(entity.addToCartColor), 
           view: toShopFrontView(entity.view), 
@@ -170,17 +172,6 @@ class ShopFrontModel {
       }
     }
 
-    BackgroundModel? itemCardBackgroundHolder;
-    if (entity.itemCardBackgroundId != null) {
-      try {
-          itemCardBackgroundHolder = await backgroundRepository(appId: appId)!.get(entity.itemCardBackgroundId);
-      } on Exception catch(e) {
-        print('Error whilst trying to initialise itemCardBackground');
-        print('Error whilst retrieving background with id ${entity.itemCardBackgroundId}');
-        print('Exception: $e');
-      }
-    }
-
     var counter = 0;
     return ShopFrontModel(
           documentID: documentID, 
@@ -191,7 +182,8 @@ class ShopFrontModel {
           size: entity.size, 
           cardElevation: entity.cardElevation, 
           cardAxisSpacing: entity.cardAxisSpacing, 
-          itemCardBackground: itemCardBackgroundHolder, 
+          itemCardBackground: 
+            await BackgroundModel.fromEntityPlus(entity.itemCardBackground, appId: appId), 
           addToCartColor: 
             await RgbModel.fromEntityPlus(entity.addToCartColor, appId: appId), 
           view: toShopFrontView(entity.view), 

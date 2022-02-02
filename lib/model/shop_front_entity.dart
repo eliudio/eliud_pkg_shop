@@ -30,7 +30,7 @@ class ShopFrontEntity {
   final double? size;
   final double? cardElevation;
   final double? cardAxisSpacing;
-  final String? itemCardBackgroundId;
+  final BackgroundEntity? itemCardBackground;
   final RgbEntity? addToCartColor;
   final int? view;
   final int? scrollDirection;
@@ -38,20 +38,24 @@ class ShopFrontEntity {
   final ActionEntity? openProductAction;
   final StorageConditionsEntity? conditions;
 
-  ShopFrontEntity({this.appId, this.title, this.description, this.shopId, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackgroundId, this.addToCartColor, this.view, this.scrollDirection, this.buyAction, this.openProductAction, this.conditions, });
+  ShopFrontEntity({this.appId, this.title, this.description, this.shopId, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackground, this.addToCartColor, this.view, this.scrollDirection, this.buyAction, this.openProductAction, this.conditions, });
 
 
-  List<Object?> get props => [appId, title, description, shopId, size, cardElevation, cardAxisSpacing, itemCardBackgroundId, addToCartColor, view, scrollDirection, buyAction, openProductAction, conditions, ];
+  List<Object?> get props => [appId, title, description, shopId, size, cardElevation, cardAxisSpacing, itemCardBackground, addToCartColor, view, scrollDirection, buyAction, openProductAction, conditions, ];
 
   @override
   String toString() {
-    return 'ShopFrontEntity{appId: $appId, title: $title, description: $description, shopId: $shopId, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackgroundId: $itemCardBackgroundId, addToCartColor: $addToCartColor, view: $view, scrollDirection: $scrollDirection, buyAction: $buyAction, openProductAction: $openProductAction, conditions: $conditions}';
+    return 'ShopFrontEntity{appId: $appId, title: $title, description: $description, shopId: $shopId, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackground: $itemCardBackground, addToCartColor: $addToCartColor, view: $view, scrollDirection: $scrollDirection, buyAction: $buyAction, openProductAction: $openProductAction, conditions: $conditions}';
   }
 
   static ShopFrontEntity? fromMap(Object? o) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
+    var itemCardBackgroundFromMap;
+    itemCardBackgroundFromMap = map['itemCardBackground'];
+    if (itemCardBackgroundFromMap != null)
+      itemCardBackgroundFromMap = BackgroundEntity.fromMap(itemCardBackgroundFromMap);
     var addToCartColorFromMap;
     addToCartColorFromMap = map['addToCartColor'];
     if (addToCartColorFromMap != null)
@@ -77,7 +81,7 @@ class ShopFrontEntity {
       size: double.tryParse(map['size'].toString()), 
       cardElevation: double.tryParse(map['cardElevation'].toString()), 
       cardAxisSpacing: double.tryParse(map['cardAxisSpacing'].toString()), 
-      itemCardBackgroundId: map['itemCardBackgroundId'], 
+      itemCardBackground: itemCardBackgroundFromMap, 
       addToCartColor: addToCartColorFromMap, 
       view: map['view'], 
       scrollDirection: map['scrollDirection'], 
@@ -88,6 +92,9 @@ class ShopFrontEntity {
   }
 
   Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? itemCardBackgroundMap = itemCardBackground != null 
+        ? itemCardBackground!.toDocument()
+        : null;
     final Map<String, dynamic>? addToCartColorMap = addToCartColor != null 
         ? addToCartColor!.toDocument()
         : null;
@@ -116,8 +123,8 @@ class ShopFrontEntity {
       else theDocument["cardElevation"] = null;
     if (cardAxisSpacing != null) theDocument["cardAxisSpacing"] = cardAxisSpacing;
       else theDocument["cardAxisSpacing"] = null;
-    if (itemCardBackgroundId != null) theDocument["itemCardBackgroundId"] = itemCardBackgroundId;
-      else theDocument["itemCardBackgroundId"] = null;
+    if (itemCardBackground != null) theDocument["itemCardBackground"] = itemCardBackgroundMap;
+      else theDocument["itemCardBackground"] = null;
     if (addToCartColor != null) theDocument["addToCartColor"] = addToCartColorMap;
       else theDocument["addToCartColor"] = null;
     if (view != null) theDocument["view"] = view;

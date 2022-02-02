@@ -108,7 +108,7 @@ class ChangedOrderOverviewShop extends OrderOverviewFormEvent {
 }
 
 class ChangedOrderOverviewItemImageBackground extends OrderOverviewFormEvent {
-  final String? value;
+  final BackgroundModel? value;
 
   ChangedOrderOverviewItemImageBackground({this.value});
 
@@ -120,7 +120,7 @@ class ChangedOrderOverviewItemImageBackground extends OrderOverviewFormEvent {
 }
 
 class ChangedOrderOverviewItemDetailBackground extends OrderOverviewFormEvent {
-  final String? value;
+  final BackgroundModel? value;
 
   ChangedOrderOverviewItemDetailBackground({this.value});
 

@@ -96,7 +96,7 @@ class ChangedProductDisplayTitle extends ProductDisplayFormEvent {
 }
 
 class ChangedProductDisplayItemDetailBackground extends ProductDisplayFormEvent {
-  final String? value;
+  final BackgroundModel? value;
 
   ChangedProductDisplayItemDetailBackground({this.value});
 

@@ -133,15 +133,6 @@ class ProductDisplayCache implements ProductDisplayRepository {
 
   static Future<ProductDisplayModel> refreshRelations(ProductDisplayModel model) async {
 
-    BackgroundModel? itemDetailBackgroundHolder;
-    if (model.itemDetailBackground != null) {
-      try {
-        await backgroundRepository(appId: model.appId)!.get(model.itemDetailBackground!.documentID).then((val) {
-          itemDetailBackgroundHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     ShopModel? shopHolder;
     if (model.shop != null) {
       try {
@@ -152,8 +143,6 @@ class ProductDisplayCache implements ProductDisplayRepository {
     }
 
     return model.copyWith(
-        itemDetailBackground: itemDetailBackgroundHolder,
-
         shop: shopHolder,
 
 

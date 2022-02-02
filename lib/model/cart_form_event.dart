@@ -132,7 +132,7 @@ class ChangedCartShop extends CartFormEvent {
 }
 
 class ChangedCartItemImageBackground extends CartFormEvent {
-  final String? value;
+  final BackgroundModel? value;
 
   ChangedCartItemImageBackground({this.value});
 
@@ -144,7 +144,7 @@ class ChangedCartItemImageBackground extends CartFormEvent {
 }
 
 class ChangedCartItemDetailBackground extends CartFormEvent {
-  final String? value;
+  final BackgroundModel? value;
 
   ChangedCartItemDetailBackground({this.value});
 

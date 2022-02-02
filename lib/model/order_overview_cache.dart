@@ -142,30 +142,8 @@ class OrderOverviewCache implements OrderOverviewRepository {
       } catch (_) {}
     }
 
-    BackgroundModel? itemImageBackgroundHolder;
-    if (model.itemImageBackground != null) {
-      try {
-        await backgroundRepository(appId: model.appId)!.get(model.itemImageBackground!.documentID).then((val) {
-          itemImageBackgroundHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
-    BackgroundModel? itemDetailBackgroundHolder;
-    if (model.itemDetailBackground != null) {
-      try {
-        await backgroundRepository(appId: model.appId)!.get(model.itemDetailBackground!.documentID).then((val) {
-          itemDetailBackgroundHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     return model.copyWith(
         shop: shopHolder,
-
-        itemImageBackground: itemImageBackgroundHolder,
-
-        itemDetailBackground: itemDetailBackgroundHolder,
 
 
     );

@@ -128,8 +128,6 @@ class _MyOrderOverviewFormState extends State<MyOrderOverviewForm> {
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
   String? _shop;
-  String? _itemImageBackground;
-  String? _itemDetailBackground;
 
 
   _MyOrderOverviewFormState(this.formAction);
@@ -168,14 +166,6 @@ class _MyOrderOverviewFormState extends State<MyOrderOverviewForm> {
           _shop= state.value!.shop!.documentID;
         else
           _shop= "";
-        if (state.value!.itemImageBackground != null)
-          _itemImageBackground= state.value!.itemImageBackground!.documentID;
-        else
-          _itemImageBackground= "";
-        if (state.value!.itemDetailBackground != null)
-          _itemDetailBackground= state.value!.itemDetailBackground!.documentID;
-        else
-          _itemDetailBackground= "";
       }
       if (state is OrderOverviewFormInitialized) {
         List<Widget> children = [];
@@ -222,10 +212,6 @@ class _MyOrderOverviewFormState extends State<MyOrderOverviewForm> {
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Item Image Background')
                 ));
 
-        children.add(
-
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "backgrounds", value: _itemImageBackground, trigger: _onItemImageBackgroundSelected, optional: true),
-          );
 
 
         children.add(Container(height: 20.0));
@@ -238,10 +224,6 @@ class _MyOrderOverviewFormState extends State<MyOrderOverviewForm> {
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Item Detail Background')
                 ));
 
-        children.add(
-
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "backgrounds", value: _itemDetailBackground, trigger: _onItemDetailBackgroundSelected, optional: true),
-          );
 
 
         children.add(Container(height: 20.0));
@@ -333,22 +315,6 @@ class _MyOrderOverviewFormState extends State<MyOrderOverviewForm> {
       _shop = val;
     });
     _myFormBloc.add(ChangedOrderOverviewShop(value: val));
-  }
-
-
-  void _onItemImageBackgroundSelected(String? val) {
-    setState(() {
-      _itemImageBackground = val;
-    });
-    _myFormBloc.add(ChangedOrderOverviewItemImageBackground(value: val));
-  }
-
-
-  void _onItemDetailBackgroundSelected(String? val) {
-    setState(() {
-      _itemDetailBackground = val;
-    });
-    _myFormBloc.add(ChangedOrderOverviewItemDetailBackground(value: val));
   }
 
 

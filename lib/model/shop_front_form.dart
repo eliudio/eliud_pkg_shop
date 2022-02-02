@@ -132,7 +132,6 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
   final TextEditingController _sizeController = TextEditingController();
   final TextEditingController _cardElevationController = TextEditingController();
   final TextEditingController _cardAxisSpacingController = TextEditingController();
-  String? _itemCardBackground;
   int? _viewSelectedRadioTile;
   int? _scrollDirectionSelectedRadioTile;
 
@@ -195,10 +194,6 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
           _cardAxisSpacingController.text = state.value!.cardAxisSpacing.toString();
         else
           _cardAxisSpacingController.text = "";
-        if (state.value!.itemCardBackground != null)
-          _itemCardBackground= state.value!.itemCardBackground!.documentID;
-        else
-          _itemCardBackground= "";
         if (state.value!.view != null)
           _viewSelectedRadioTile = state.value!.view!.index;
         else
@@ -325,10 +320,6 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Item Card Background')
                 ));
 
-        children.add(
-
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "backgrounds", value: _itemCardBackground, trigger: _onItemCardBackgroundSelected, optional: true),
-          );
 
 
         children.add(Container(height: 20.0));
@@ -503,14 +494,6 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
 
   void _onCardAxisSpacingChanged() {
     _myFormBloc.add(ChangedShopFrontCardAxisSpacing(value: _cardAxisSpacingController.text));
-  }
-
-
-  void _onItemCardBackgroundSelected(String? val) {
-    setState(() {
-      _itemCardBackground = val;
-    });
-    _myFormBloc.add(ChangedShopFrontItemCardBackground(value: val));
   }
 
 

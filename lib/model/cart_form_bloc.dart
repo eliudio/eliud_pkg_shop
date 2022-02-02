@@ -129,45 +129,13 @@ class CartFormBloc extends Bloc<CartFormEvent, CartFormState> {
         return;
       }
       if (event is ChangedCartItemImageBackground) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(itemImageBackground: await backgroundRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new CartModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
-                                 description: currentState.value!.description,
-                                 checkoutText: currentState.value!.checkoutText,
-                                 shop: currentState.value!.shop,
-                                 itemImageBackground: null,
-                                 itemDetailBackground: currentState.value!.itemDetailBackground,
-                                 checkoutAction: currentState.value!.checkoutAction,
-                                 backToShopAction: currentState.value!.backToShopAction,
-                                 openProductAction: currentState.value!.openProductAction,
-                                 conditions: currentState.value!.conditions,
-          );
+        newValue = currentState.value!.copyWith(itemImageBackground: event.value);
         yield SubmittableCartForm(value: newValue);
 
         return;
       }
       if (event is ChangedCartItemDetailBackground) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(itemDetailBackground: await backgroundRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new CartModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
-                                 description: currentState.value!.description,
-                                 checkoutText: currentState.value!.checkoutText,
-                                 shop: currentState.value!.shop,
-                                 itemImageBackground: currentState.value!.itemImageBackground,
-                                 itemDetailBackground: null,
-                                 checkoutAction: currentState.value!.checkoutAction,
-                                 backToShopAction: currentState.value!.backToShopAction,
-                                 openProductAction: currentState.value!.openProductAction,
-                                 conditions: currentState.value!.conditions,
-          );
+        newValue = currentState.value!.copyWith(itemDetailBackground: event.value);
         yield SubmittableCartForm(value: newValue);
 
         return;

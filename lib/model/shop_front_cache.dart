@@ -142,19 +142,8 @@ class ShopFrontCache implements ShopFrontRepository {
       } catch (_) {}
     }
 
-    BackgroundModel? itemCardBackgroundHolder;
-    if (model.itemCardBackground != null) {
-      try {
-        await backgroundRepository(appId: model.appId)!.get(model.itemCardBackground!.documentID).then((val) {
-          itemCardBackgroundHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     return model.copyWith(
         shop: shopHolder,
-
-        itemCardBackground: itemCardBackgroundHolder,
 
 
     );

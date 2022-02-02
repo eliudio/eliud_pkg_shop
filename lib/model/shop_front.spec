@@ -81,7 +81,6 @@
       "fieldName": "itemCardBackground",
       "displayName": "Item Card Background",
       "fieldType": "Background",
-      "association": true,
       "optional": true,
       "group": "itemCardBackground"
     },

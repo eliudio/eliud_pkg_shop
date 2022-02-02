@@ -28,27 +28,35 @@ class CartEntity {
   final String? description;
   final String? checkoutText;
   final String? shopId;
-  final String? itemImageBackgroundId;
-  final String? itemDetailBackgroundId;
+  final BackgroundEntity? itemImageBackground;
+  final BackgroundEntity? itemDetailBackground;
   final ActionEntity? checkoutAction;
   final ActionEntity? backToShopAction;
   final ActionEntity? openProductAction;
   final StorageConditionsEntity? conditions;
 
-  CartEntity({this.appId, this.title, this.description, this.checkoutText, this.shopId, this.itemImageBackgroundId, this.itemDetailBackgroundId, this.checkoutAction, this.backToShopAction, this.openProductAction, this.conditions, });
+  CartEntity({this.appId, this.title, this.description, this.checkoutText, this.shopId, this.itemImageBackground, this.itemDetailBackground, this.checkoutAction, this.backToShopAction, this.openProductAction, this.conditions, });
 
 
-  List<Object?> get props => [appId, title, description, checkoutText, shopId, itemImageBackgroundId, itemDetailBackgroundId, checkoutAction, backToShopAction, openProductAction, conditions, ];
+  List<Object?> get props => [appId, title, description, checkoutText, shopId, itemImageBackground, itemDetailBackground, checkoutAction, backToShopAction, openProductAction, conditions, ];
 
   @override
   String toString() {
-    return 'CartEntity{appId: $appId, title: $title, description: $description, checkoutText: $checkoutText, shopId: $shopId, itemImageBackgroundId: $itemImageBackgroundId, itemDetailBackgroundId: $itemDetailBackgroundId, checkoutAction: $checkoutAction, backToShopAction: $backToShopAction, openProductAction: $openProductAction, conditions: $conditions}';
+    return 'CartEntity{appId: $appId, title: $title, description: $description, checkoutText: $checkoutText, shopId: $shopId, itemImageBackground: $itemImageBackground, itemDetailBackground: $itemDetailBackground, checkoutAction: $checkoutAction, backToShopAction: $backToShopAction, openProductAction: $openProductAction, conditions: $conditions}';
   }
 
   static CartEntity? fromMap(Object? o) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
+    var itemImageBackgroundFromMap;
+    itemImageBackgroundFromMap = map['itemImageBackground'];
+    if (itemImageBackgroundFromMap != null)
+      itemImageBackgroundFromMap = BackgroundEntity.fromMap(itemImageBackgroundFromMap);
+    var itemDetailBackgroundFromMap;
+    itemDetailBackgroundFromMap = map['itemDetailBackground'];
+    if (itemDetailBackgroundFromMap != null)
+      itemDetailBackgroundFromMap = BackgroundEntity.fromMap(itemDetailBackgroundFromMap);
     var checkoutActionFromMap;
     checkoutActionFromMap = map['checkoutAction'];
     if (checkoutActionFromMap != null)
@@ -72,8 +80,8 @@ class CartEntity {
       description: map['description'], 
       checkoutText: map['checkoutText'], 
       shopId: map['shopId'], 
-      itemImageBackgroundId: map['itemImageBackgroundId'], 
-      itemDetailBackgroundId: map['itemDetailBackgroundId'], 
+      itemImageBackground: itemImageBackgroundFromMap, 
+      itemDetailBackground: itemDetailBackgroundFromMap, 
       checkoutAction: checkoutActionFromMap, 
       backToShopAction: backToShopActionFromMap, 
       openProductAction: openProductActionFromMap, 
@@ -82,6 +90,12 @@ class CartEntity {
   }
 
   Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? itemImageBackgroundMap = itemImageBackground != null 
+        ? itemImageBackground!.toDocument()
+        : null;
+    final Map<String, dynamic>? itemDetailBackgroundMap = itemDetailBackground != null 
+        ? itemDetailBackground!.toDocument()
+        : null;
     final Map<String, dynamic>? checkoutActionMap = checkoutAction != null 
         ? checkoutAction!.toDocument()
         : null;
@@ -106,10 +120,10 @@ class CartEntity {
       else theDocument["checkoutText"] = null;
     if (shopId != null) theDocument["shopId"] = shopId;
       else theDocument["shopId"] = null;
-    if (itemImageBackgroundId != null) theDocument["itemImageBackgroundId"] = itemImageBackgroundId;
-      else theDocument["itemImageBackgroundId"] = null;
-    if (itemDetailBackgroundId != null) theDocument["itemDetailBackgroundId"] = itemDetailBackgroundId;
-      else theDocument["itemDetailBackgroundId"] = null;
+    if (itemImageBackground != null) theDocument["itemImageBackground"] = itemImageBackgroundMap;
+      else theDocument["itemImageBackground"] = null;
+    if (itemDetailBackground != null) theDocument["itemDetailBackground"] = itemDetailBackgroundMap;
+      else theDocument["itemDetailBackground"] = null;
     if (checkoutAction != null) theDocument["checkoutAction"] = checkoutActionMap;
       else theDocument["checkoutAction"] = null;
     if (backToShopAction != null) theDocument["backToShopAction"] = backToShopActionMap;

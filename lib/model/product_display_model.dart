@@ -79,7 +79,7 @@ class ProductDisplayModel {
     return ProductDisplayEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
-          itemDetailBackgroundId: (itemDetailBackground != null) ? itemDetailBackground!.documentID : null, 
+          itemDetailBackground: (itemDetailBackground != null) ? itemDetailBackground!.toEntity(appId: appId) : null, 
           addToBasketText: (addToBasketText != null) ? addToBasketText : null, 
           buyAction: (buyAction != null) ? buyAction!.toEntity(appId: appId) : null, 
           shopId: (shop != null) ? shop!.documentID : null, 
@@ -94,6 +94,8 @@ class ProductDisplayModel {
           documentID: documentID, 
           appId: entity.appId, 
           title: entity.title, 
+          itemDetailBackground: 
+            await BackgroundModel.fromEntity(entity.itemDetailBackground), 
           addToBasketText: entity.addToBasketText, 
           buyAction: 
             await ActionModel.fromEntity(entity.buyAction), 
@@ -104,17 +106,6 @@ class ProductDisplayModel {
 
   static Future<ProductDisplayModel?> fromEntityPlus(String documentID, ProductDisplayEntity? entity, { String? appId}) async {
     if (entity == null) return null;
-
-    BackgroundModel? itemDetailBackgroundHolder;
-    if (entity.itemDetailBackgroundId != null) {
-      try {
-          itemDetailBackgroundHolder = await backgroundRepository(appId: appId)!.get(entity.itemDetailBackgroundId);
-      } on Exception catch(e) {
-        print('Error whilst trying to initialise itemDetailBackground');
-        print('Error whilst retrieving background with id ${entity.itemDetailBackgroundId}');
-        print('Exception: $e');
-      }
-    }
 
     ShopModel? shopHolder;
     if (entity.shopId != null) {
@@ -132,7 +123,8 @@ class ProductDisplayModel {
           documentID: documentID, 
           appId: entity.appId, 
           title: entity.title, 
-          itemDetailBackground: itemDetailBackgroundHolder, 
+          itemDetailBackground: 
+            await BackgroundModel.fromEntityPlus(entity.itemDetailBackground, appId: appId), 
           addToBasketText: entity.addToBasketText, 
           buyAction: 
             await ActionModel.fromEntityPlus(entity.buyAction, appId: appId), 

@@ -90,8 +90,8 @@ class CartModel {
           description: (description != null) ? description : null, 
           checkoutText: (checkoutText != null) ? checkoutText : null, 
           shopId: (shop != null) ? shop!.documentID : null, 
-          itemImageBackgroundId: (itemImageBackground != null) ? itemImageBackground!.documentID : null, 
-          itemDetailBackgroundId: (itemDetailBackground != null) ? itemDetailBackground!.documentID : null, 
+          itemImageBackground: (itemImageBackground != null) ? itemImageBackground!.toEntity(appId: appId) : null, 
+          itemDetailBackground: (itemDetailBackground != null) ? itemDetailBackground!.toEntity(appId: appId) : null, 
           checkoutAction: (checkoutAction != null) ? checkoutAction!.toEntity(appId: appId) : null, 
           backToShopAction: (backToShopAction != null) ? backToShopAction!.toEntity(appId: appId) : null, 
           openProductAction: (openProductAction != null) ? openProductAction!.toEntity(appId: appId) : null, 
@@ -108,6 +108,10 @@ class CartModel {
           title: entity.title, 
           description: entity.description, 
           checkoutText: entity.checkoutText, 
+          itemImageBackground: 
+            await BackgroundModel.fromEntity(entity.itemImageBackground), 
+          itemDetailBackground: 
+            await BackgroundModel.fromEntity(entity.itemDetailBackground), 
           checkoutAction: 
             await ActionModel.fromEntity(entity.checkoutAction), 
           backToShopAction: 
@@ -133,28 +137,6 @@ class CartModel {
       }
     }
 
-    BackgroundModel? itemImageBackgroundHolder;
-    if (entity.itemImageBackgroundId != null) {
-      try {
-          itemImageBackgroundHolder = await backgroundRepository(appId: appId)!.get(entity.itemImageBackgroundId);
-      } on Exception catch(e) {
-        print('Error whilst trying to initialise itemImageBackground');
-        print('Error whilst retrieving background with id ${entity.itemImageBackgroundId}');
-        print('Exception: $e');
-      }
-    }
-
-    BackgroundModel? itemDetailBackgroundHolder;
-    if (entity.itemDetailBackgroundId != null) {
-      try {
-          itemDetailBackgroundHolder = await backgroundRepository(appId: appId)!.get(entity.itemDetailBackgroundId);
-      } on Exception catch(e) {
-        print('Error whilst trying to initialise itemDetailBackground');
-        print('Error whilst retrieving background with id ${entity.itemDetailBackgroundId}');
-        print('Exception: $e');
-      }
-    }
-
     var counter = 0;
     return CartModel(
           documentID: documentID, 
@@ -163,8 +145,10 @@ class CartModel {
           description: entity.description, 
           checkoutText: entity.checkoutText, 
           shop: shopHolder, 
-          itemImageBackground: itemImageBackgroundHolder, 
-          itemDetailBackground: itemDetailBackgroundHolder, 
+          itemImageBackground: 
+            await BackgroundModel.fromEntityPlus(entity.itemImageBackground, appId: appId), 
+          itemDetailBackground: 
+            await BackgroundModel.fromEntityPlus(entity.itemDetailBackground, appId: appId), 
           checkoutAction: 
             await ActionModel.fromEntityPlus(entity.checkoutAction, appId: appId), 
           backToShopAction: 

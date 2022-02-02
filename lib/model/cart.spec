@@ -71,7 +71,6 @@
       "fieldName": "itemImageBackground",
       "displayName": "Item Image Background",
       "fieldType": "Background",
-      "association": true,
       "optional": true,
       "group": "itemImageBackground"
     },
@@ -79,7 +78,6 @@
       "fieldName": "itemDetailBackground",
       "displayName": "Item Detail Background",
       "fieldType": "Background",
-      "association": true,
       "optional": true,
       "group": "itemDetailBackground"
     },

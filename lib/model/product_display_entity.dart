@@ -25,26 +25,30 @@ import 'package:eliud_core/tools/common_tools.dart';
 class ProductDisplayEntity {
   final String? appId;
   final String? title;
-  final String? itemDetailBackgroundId;
+  final BackgroundEntity? itemDetailBackground;
   final String? addToBasketText;
   final ActionEntity? buyAction;
   final String? shopId;
   final StorageConditionsEntity? conditions;
 
-  ProductDisplayEntity({this.appId, this.title, this.itemDetailBackgroundId, this.addToBasketText, this.buyAction, this.shopId, this.conditions, });
+  ProductDisplayEntity({this.appId, this.title, this.itemDetailBackground, this.addToBasketText, this.buyAction, this.shopId, this.conditions, });
 
 
-  List<Object?> get props => [appId, title, itemDetailBackgroundId, addToBasketText, buyAction, shopId, conditions, ];
+  List<Object?> get props => [appId, title, itemDetailBackground, addToBasketText, buyAction, shopId, conditions, ];
 
   @override
   String toString() {
-    return 'ProductDisplayEntity{appId: $appId, title: $title, itemDetailBackgroundId: $itemDetailBackgroundId, addToBasketText: $addToBasketText, buyAction: $buyAction, shopId: $shopId, conditions: $conditions}';
+    return 'ProductDisplayEntity{appId: $appId, title: $title, itemDetailBackground: $itemDetailBackground, addToBasketText: $addToBasketText, buyAction: $buyAction, shopId: $shopId, conditions: $conditions}';
   }
 
   static ProductDisplayEntity? fromMap(Object? o) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
+    var itemDetailBackgroundFromMap;
+    itemDetailBackgroundFromMap = map['itemDetailBackground'];
+    if (itemDetailBackgroundFromMap != null)
+      itemDetailBackgroundFromMap = BackgroundEntity.fromMap(itemDetailBackgroundFromMap);
     var buyActionFromMap;
     buyActionFromMap = map['buyAction'];
     if (buyActionFromMap != null)
@@ -57,7 +61,7 @@ class ProductDisplayEntity {
     return ProductDisplayEntity(
       appId: map['appId'], 
       title: map['title'], 
-      itemDetailBackgroundId: map['itemDetailBackgroundId'], 
+      itemDetailBackground: itemDetailBackgroundFromMap, 
       addToBasketText: map['addToBasketText'], 
       buyAction: buyActionFromMap, 
       shopId: map['shopId'], 
@@ -66,6 +70,9 @@ class ProductDisplayEntity {
   }
 
   Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? itemDetailBackgroundMap = itemDetailBackground != null 
+        ? itemDetailBackground!.toDocument()
+        : null;
     final Map<String, dynamic>? buyActionMap = buyAction != null 
         ? buyAction!.toDocument()
         : null;
@@ -78,8 +85,8 @@ class ProductDisplayEntity {
       else theDocument["appId"] = null;
     if (title != null) theDocument["title"] = title;
       else theDocument["title"] = null;
-    if (itemDetailBackgroundId != null) theDocument["itemDetailBackgroundId"] = itemDetailBackgroundId;
-      else theDocument["itemDetailBackgroundId"] = null;
+    if (itemDetailBackground != null) theDocument["itemDetailBackground"] = itemDetailBackgroundMap;
+      else theDocument["itemDetailBackground"] = null;
     if (addToBasketText != null) theDocument["addToBasketText"] = addToBasketText;
       else theDocument["addToBasketText"] = null;
     if (buyAction != null) theDocument["buyAction"] = buyActionMap;

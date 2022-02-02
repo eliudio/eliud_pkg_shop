@@ -110,35 +110,13 @@ class OrderOverviewFormBloc extends Bloc<OrderOverviewFormEvent, OrderOverviewFo
         return;
       }
       if (event is ChangedOrderOverviewItemImageBackground) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(itemImageBackground: await backgroundRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new OrderOverviewModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
-                                 shop: currentState.value!.shop,
-                                 itemImageBackground: null,
-                                 itemDetailBackground: currentState.value!.itemDetailBackground,
-                                 conditions: currentState.value!.conditions,
-          );
+        newValue = currentState.value!.copyWith(itemImageBackground: event.value);
         yield SubmittableOrderOverviewForm(value: newValue);
 
         return;
       }
       if (event is ChangedOrderOverviewItemDetailBackground) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(itemDetailBackground: await backgroundRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new OrderOverviewModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
-                                 shop: currentState.value!.shop,
-                                 itemImageBackground: currentState.value!.itemImageBackground,
-                                 itemDetailBackground: null,
-                                 conditions: currentState.value!.conditions,
-          );
+        newValue = currentState.value!.copyWith(itemDetailBackground: event.value);
         yield SubmittableOrderOverviewForm(value: newValue);
 
         return;

@@ -156,7 +156,7 @@ class ChangedShopFrontCardAxisSpacing extends ShopFrontFormEvent {
 }
 
 class ChangedShopFrontItemCardBackground extends ShopFrontFormEvent {
-  final String? value;
+  final BackgroundModel? value;
 
   ChangedShopFrontItemCardBackground({this.value});
 

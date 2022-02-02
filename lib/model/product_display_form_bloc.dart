@@ -94,19 +94,7 @@ class ProductDisplayFormBloc extends Bloc<ProductDisplayFormEvent, ProductDispla
         return;
       }
       if (event is ChangedProductDisplayItemDetailBackground) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(itemDetailBackground: await backgroundRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new ProductDisplayModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
-                                 itemDetailBackground: null,
-                                 addToBasketText: currentState.value!.addToBasketText,
-                                 buyAction: currentState.value!.buyAction,
-                                 shop: currentState.value!.shop,
-                                 conditions: currentState.value!.conditions,
-          );
+        newValue = currentState.value!.copyWith(itemDetailBackground: event.value);
         yield SubmittableProductDisplayForm(value: newValue);
 
         return;

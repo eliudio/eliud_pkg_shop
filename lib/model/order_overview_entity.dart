@@ -26,24 +26,32 @@ class OrderOverviewEntity {
   final String? appId;
   final String? title;
   final String? shopId;
-  final String? itemImageBackgroundId;
-  final String? itemDetailBackgroundId;
+  final BackgroundEntity? itemImageBackground;
+  final BackgroundEntity? itemDetailBackground;
   final StorageConditionsEntity? conditions;
 
-  OrderOverviewEntity({this.appId, this.title, this.shopId, this.itemImageBackgroundId, this.itemDetailBackgroundId, this.conditions, });
+  OrderOverviewEntity({this.appId, this.title, this.shopId, this.itemImageBackground, this.itemDetailBackground, this.conditions, });
 
 
-  List<Object?> get props => [appId, title, shopId, itemImageBackgroundId, itemDetailBackgroundId, conditions, ];
+  List<Object?> get props => [appId, title, shopId, itemImageBackground, itemDetailBackground, conditions, ];
 
   @override
   String toString() {
-    return 'OrderOverviewEntity{appId: $appId, title: $title, shopId: $shopId, itemImageBackgroundId: $itemImageBackgroundId, itemDetailBackgroundId: $itemDetailBackgroundId, conditions: $conditions}';
+    return 'OrderOverviewEntity{appId: $appId, title: $title, shopId: $shopId, itemImageBackground: $itemImageBackground, itemDetailBackground: $itemDetailBackground, conditions: $conditions}';
   }
 
   static OrderOverviewEntity? fromMap(Object? o) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
+    var itemImageBackgroundFromMap;
+    itemImageBackgroundFromMap = map['itemImageBackground'];
+    if (itemImageBackgroundFromMap != null)
+      itemImageBackgroundFromMap = BackgroundEntity.fromMap(itemImageBackgroundFromMap);
+    var itemDetailBackgroundFromMap;
+    itemDetailBackgroundFromMap = map['itemDetailBackground'];
+    if (itemDetailBackgroundFromMap != null)
+      itemDetailBackgroundFromMap = BackgroundEntity.fromMap(itemDetailBackgroundFromMap);
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
@@ -53,13 +61,19 @@ class OrderOverviewEntity {
       appId: map['appId'], 
       title: map['title'], 
       shopId: map['shopId'], 
-      itemImageBackgroundId: map['itemImageBackgroundId'], 
-      itemDetailBackgroundId: map['itemDetailBackgroundId'], 
+      itemImageBackground: itemImageBackgroundFromMap, 
+      itemDetailBackground: itemDetailBackgroundFromMap, 
       conditions: conditionsFromMap, 
     );
   }
 
   Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? itemImageBackgroundMap = itemImageBackground != null 
+        ? itemImageBackground!.toDocument()
+        : null;
+    final Map<String, dynamic>? itemDetailBackgroundMap = itemDetailBackground != null 
+        ? itemDetailBackground!.toDocument()
+        : null;
     final Map<String, dynamic>? conditionsMap = conditions != null 
         ? conditions!.toDocument()
         : null;
@@ -71,10 +85,10 @@ class OrderOverviewEntity {
       else theDocument["title"] = null;
     if (shopId != null) theDocument["shopId"] = shopId;
       else theDocument["shopId"] = null;
-    if (itemImageBackgroundId != null) theDocument["itemImageBackgroundId"] = itemImageBackgroundId;
-      else theDocument["itemImageBackgroundId"] = null;
-    if (itemDetailBackgroundId != null) theDocument["itemDetailBackgroundId"] = itemDetailBackgroundId;
-      else theDocument["itemDetailBackgroundId"] = null;
+    if (itemImageBackground != null) theDocument["itemImageBackground"] = itemImageBackgroundMap;
+      else theDocument["itemImageBackground"] = null;
+    if (itemDetailBackground != null) theDocument["itemDetailBackground"] = itemDetailBackgroundMap;
+      else theDocument["itemDetailBackground"] = null;
     if (conditions != null) theDocument["conditions"] = conditionsMap;
       else theDocument["conditions"] = null;
     return theDocument;

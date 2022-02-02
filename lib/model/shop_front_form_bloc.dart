@@ -162,26 +162,7 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
         return;
       }
       if (event is ChangedShopFrontItemCardBackground) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(itemCardBackground: await backgroundRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new ShopFrontModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
-                                 description: currentState.value!.description,
-                                 shop: currentState.value!.shop,
-                                 size: currentState.value!.size,
-                                 cardElevation: currentState.value!.cardElevation,
-                                 cardAxisSpacing: currentState.value!.cardAxisSpacing,
-                                 itemCardBackground: null,
-                                 addToCartColor: currentState.value!.addToCartColor,
-                                 view: currentState.value!.view,
-                                 scrollDirection: currentState.value!.scrollDirection,
-                                 buyAction: currentState.value!.buyAction,
-                                 openProductAction: currentState.value!.openProductAction,
-                                 conditions: currentState.value!.conditions,
-          );
+        newValue = currentState.value!.copyWith(itemCardBackground: event.value);
         yield SubmittableShopFrontForm(value: newValue);
 
         return;

@@ -127,7 +127,6 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
-  String? _itemDetailBackground;
   final TextEditingController _addToBasketTextController = TextEditingController();
   String? _shop;
 
@@ -165,10 +164,6 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
           _titleController.text = state.value!.title.toString();
         else
           _titleController.text = "";
-        if (state.value!.itemDetailBackground != null)
-          _itemDetailBackground= state.value!.itemDetailBackground!.documentID;
-        else
-          _itemDetailBackground= "";
         if (state.value!.addToBasketText != null)
           _addToBasketTextController.text = state.value!.addToBasketText.toString();
         else
@@ -186,10 +181,6 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
                 ));
 
-        children.add(
-
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "backgrounds", value: _itemDetailBackground, trigger: _onItemDetailBackgroundSelected, optional: true),
-          );
 
         children.add(
 
@@ -311,14 +302,6 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
 
   void _onTitleChanged() {
     _myFormBloc.add(ChangedProductDisplayTitle(value: _titleController.text));
-  }
-
-
-  void _onItemDetailBackgroundSelected(String? val) {
-    setState(() {
-      _itemDetailBackground = val;
-    });
-    _myFormBloc.add(ChangedProductDisplayItemDetailBackground(value: val));
   }
 
 
