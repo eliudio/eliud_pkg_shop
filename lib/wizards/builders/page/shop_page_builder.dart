@@ -17,14 +17,14 @@ import 'package:eliud_pkg_fundamentals/model/booklet_model.dart';
 import 'package:eliud_pkg_fundamentals/model/link_model.dart';
 import 'package:eliud_pkg_fundamentals/model/section_model.dart';
 
-class AboutPageBuilder extends PageBuilder {
+class ShopPageBuilder extends PageBuilder {
   final String componentId;
   final String? aboutAssetLocation;
   final double imageWidth = 0.3;
   final RelativeImagePosition imagePosition = RelativeImagePosition.Aside;
   final SectionImageAlignment alignment = SectionImageAlignment.Left;
 
-  AboutPageBuilder(
+  ShopPageBuilder(
       this.componentId,
     this.aboutAssetLocation,
     String pageId,

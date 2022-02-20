@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/access_event.dart';
+import 'package:eliud_core/core/wizards/registry/registry.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
@@ -9,6 +10,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_pkg_shop/model/component_registry.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/repository_singleton.dart';
+import 'package:eliud_pkg_shop/wizards/about_page_wizard.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/cart/cart_bloc.dart';
 import 'model/member_cart_model.dart';
@@ -85,6 +87,9 @@ abstract class ShopPackage extends Package {
   @override
   void init() {
     ComponentRegistry().init();
+
+    // Wizard
+    NewAppWizardRegistry.registry().register(ShopPageWizard());
 
     AbstractRepositorySingleton.singleton = RepositorySingleton();
   }

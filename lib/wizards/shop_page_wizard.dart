@@ -7,10 +7,17 @@ import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:flutter/material.dart';
 
-class AboutPageWizard extends NewAppWizardInfoWithActionSpecification {
-  static String ABOUT_PAGE_ID = 'about';
+import 'builders/page/shop_page_builder.dart';
 
-  AboutPageWizard() : super('about', 'About',  'Generate About Page');
+class ShopPageWizard extends NewAppWizardInfoWithActionSpecification {
+  static String SHOP_COMPONENT_IDENTIFIER = "shop";
+  static String SHOP_EXAMPLE1_PHOTO_ASSET_PATH =
+      'packages/eliud_pkg_shop/assets/example_product_1.jpg';
+  static String SHOP_EXAMPLE2_PHOTO_ASSET_PATH =
+      'packages/eliud_pkg_shop/assets/example_product_2.jpg';
+  static String SHOP_PAGE_ID = 'shop';
+
+  ShopPageWizard() : super('shop', 'Shop',  'Generate Shop Page');
 
   @override
   NewAppWizardParameters newAppWizardParameters() => ActionSpecificationParametersBase(
@@ -23,7 +30,7 @@ class AboutPageWizard extends NewAppWizardInfoWithActionSpecification {
   );
 
   @override
-  List<MenuItemModel>? getThoseMenuItems(AppModel app) => [ menuItemAbout(app, ABOUT_PAGE_ID, 'About') ];
+  List<MenuItemModel>? getThoseMenuItems(AppModel app) => [ menuItemAbout(app, SHOP_PAGE_ID, 'Shop') ];
 
   menuItemAbout(AppModel app, pageID, text) => MenuItemModel(
       documentID: pageID,
@@ -44,10 +51,26 @@ class AboutPageWizard extends NewAppWizardInfoWithActionSpecification {
       DrawerProvider rightDrawerProvider,
       ) {
     if (parameters is ActionSpecificationParametersBase) {
-      var aboutPageSpecifications = parameters.actionSpecifications;
-      if (aboutPageSpecifications.shouldCreatePageDialogOrWorkflow()) {
+      var ShopPageSpecifications = parameters.actionSpecifications;
+      if (ShopPageSpecifications.shouldCreatePageDialogOrWorkflow()) {
         var memberId = member.documentID!;
         List<NewAppTask> tasks = [];
+
+        tasks.add(() async {
+          await ShopPageBuilder(
+              SHOP_COMPONENT_IDENTIFIER,
+              SHOP_EXAMPLE1_PHOTO_ASSET_PATH,
+              SHOP_EXAMPLE2_PHOTO_ASSET_PATH,
+              SHOP_PAGE_ID,
+              app,
+              memberId,
+              homeMenuProvider(),
+              appBarProvider(),
+              leftDrawerProvider(),
+              rightDrawerProvider())
+              .create();
+        });
+
         return tasks;
       }
     } else {
