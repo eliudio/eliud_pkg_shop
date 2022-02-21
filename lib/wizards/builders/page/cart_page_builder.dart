@@ -12,18 +12,18 @@ import 'package:eliud_pkg_shop/model/cart_component.dart';
 import 'package:eliud_pkg_shop/model/cart_model.dart';
 import 'package:eliud_pkg_shop/model/shop_model.dart';
 import 'package:eliud_pkg_shop/shop_package.dart';
-import 'package:eliud_pkg_shop/wizards/builders/shop/process/pay.dart';
-import 'package:eliud_pkg_shop/wizards/builders/shop/shop.dart';
 
-import '../product_page.dart';
+import 'pay_page_builder.dart';
+import 'product_page_builder.dart';
+import 'shop_page_builder.dart';
 
-class MyCart extends PageBuilder {
+class CartPageBuilder extends PageBuilder {
   final BackgroundModel? background;
   final ShopModel? shop;
 
-  static const String identifier = 'juuwlecart';
+  static const String identifier = 'cart';
 
-  MyCart(
+  CartPageBuilder(
       String pageId,
       AppModel app,
       String memberId,
@@ -36,7 +36,7 @@ class MyCart extends PageBuilder {
       ) : super(pageId, app, memberId, theHomeMenu, theAppBar, leftDrawer,
       rightDrawer);
 
-  static GotoPage openCartPage(AppModel app) => GotoPage(app, pageID: MyCart.identifier, conditions:
+  static GotoPage openCartPage(AppModel app) => GotoPage(app, pageID: identifier, conditions:
       DisplayConditionsModel(
         privilegeLevelRequired: PrivilegeLevelRequired.NoPrivilegeRequired,
         packageCondition: ShopPackage.CONDITION_CARTS_HAS_ITEMS,
@@ -53,25 +53,21 @@ class MyCart extends PageBuilder {
         shop: shop,
         itemImageBackground: null,
         itemDetailBackground: background,
-        checkoutAction: MyPay.action(app),
-        backToShopAction: Shop.action(app),
-        openProductAction: ProductPage.action(app),
+        checkoutAction: PayPageBuilder.action(app),
+        backToShopAction: ShopPageBuilder.action(app),
+        openProductAction: ProductPageBuilder.action(app),
         conditions: StorageConditionsModel(
           privilegeLevelRequired: PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple
         ),
     );
   }
 
-  @override
   String pageTitle() => 'Your Bag';
 
-  @override
   String pageImageID() => 'cartImage';
 
-  @override
   String componentName() => AbstractCartComponent.componentName;
 
-  @override
   String? componentID() {
     return _cart().documentID;
   }

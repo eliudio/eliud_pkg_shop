@@ -1,7 +1,8 @@
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
-import 'package:eliud_pkg_shop/wizards/builders/shop/product.dart';
+
+import 'product.dart';
 
 class Products {
   final ShopModel shop;

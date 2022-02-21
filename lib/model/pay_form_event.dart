@@ -108,7 +108,7 @@ class ChangedPaySucceeded extends PayFormEvent {
 }
 
 class ChangedPayPayAction extends PayFormEvent {
-  final WorkflowActionModel? value;
+  final ActionModel? value;
 
   ChangedPayPayAction({this.value});
 

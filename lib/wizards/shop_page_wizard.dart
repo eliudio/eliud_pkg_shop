@@ -10,12 +10,6 @@ import 'package:flutter/material.dart';
 import 'builders/page/shop_page_builder.dart';
 
 class ShopPageWizard extends NewAppWizardInfoWithActionSpecification {
-  static String SHOP_COMPONENT_IDENTIFIER = "shop";
-  static String SHOP_EXAMPLE1_PHOTO_ASSET_PATH =
-      'packages/eliud_pkg_shop/assets/example_product_1.jpg';
-  static String SHOP_EXAMPLE2_PHOTO_ASSET_PATH =
-      'packages/eliud_pkg_shop/assets/example_product_2.jpg';
-  static String SHOP_PAGE_ID = 'shop';
 
   ShopPageWizard() : super('shop', 'Shop',  'Generate Shop Page');
 
@@ -30,7 +24,7 @@ class ShopPageWizard extends NewAppWizardInfoWithActionSpecification {
   );
 
   @override
-  List<MenuItemModel>? getThoseMenuItems(AppModel app) => [ menuItemAbout(app, SHOP_PAGE_ID, 'Shop') ];
+  List<MenuItemModel>? getThoseMenuItems(AppModel app) => [ /*menuItemAbout(app, SHOP_PAGE_ID, 'Shop')*/ ];
 
   menuItemAbout(AppModel app, pageID, text) => MenuItemModel(
       documentID: pageID,
@@ -54,14 +48,10 @@ class ShopPageWizard extends NewAppWizardInfoWithActionSpecification {
       var ShopPageSpecifications = parameters.actionSpecifications;
       if (ShopPageSpecifications.shouldCreatePageDialogOrWorkflow()) {
         var memberId = member.documentID!;
-        List<NewAppTask> tasks = [];
+        var tasks = <NewAppTask>[];
 
         tasks.add(() async {
           await ShopPageBuilder(
-              SHOP_COMPONENT_IDENTIFIER,
-              SHOP_EXAMPLE1_PHOTO_ASSET_PATH,
-              SHOP_EXAMPLE2_PHOTO_ASSET_PATH,
-              SHOP_PAGE_ID,
               app,
               memberId,
               homeMenuProvider(),
@@ -83,4 +73,7 @@ class ShopPageWizard extends NewAppWizardInfoWithActionSpecification {
 
   @override
   String? getPageID(String pageType) => null;
+
+  @override
+  ActionModel? getAction(AppModel app, String actionType) => null;
 }

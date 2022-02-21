@@ -42,7 +42,7 @@ class PayModel {
   ActionModel? succeeded;
 
   // requires a new implementation of a BespokeFormField WorkflowActionField
-  WorkflowActionModel? payAction;
+  ActionModel? payAction;
   ShopModel? shop;
   StorageConditionsModel? conditions;
 
@@ -50,7 +50,7 @@ class PayModel {
     assert(documentID != null);
   }
 
-  PayModel copyWith({String? documentID, String? appId, String? title, ActionModel? succeeded, WorkflowActionModel? payAction, ShopModel? shop, StorageConditionsModel? conditions, }) {
+  PayModel copyWith({String? documentID, String? appId, String? title, ActionModel? succeeded, ActionModel? payAction, ShopModel? shop, StorageConditionsModel? conditions, }) {
     return PayModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, succeeded: succeeded ?? this.succeeded, payAction: payAction ?? this.payAction, shop: shop ?? this.shop, conditions: conditions ?? this.conditions, );
   }
 
@@ -96,7 +96,7 @@ class PayModel {
           succeeded: 
             await ActionModel.fromEntity(entity.succeeded), 
           payAction: 
-            await WorkflowActionModel.fromEntity(entity.payAction), 
+            await ActionModel.fromEntity(entity.payAction), 
           conditions: 
             await StorageConditionsModel.fromEntity(entity.conditions), 
     );
@@ -124,7 +124,7 @@ class PayModel {
           succeeded: 
             await ActionModel.fromEntityPlus(entity.succeeded, appId: appId), 
           payAction: 
-            await WorkflowActionModel.fromEntityPlus(entity.payAction, appId: appId), 
+            await ActionModel.fromEntityPlus(entity.payAction, appId: appId), 
           shop: shopHolder, 
           conditions: 
             await StorageConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 

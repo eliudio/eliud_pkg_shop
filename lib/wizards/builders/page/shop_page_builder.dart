@@ -2,122 +2,266 @@ import 'package:eliud_core/core/wizards/builders/page_builder.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart'
     as corerepo;
 import 'package:eliud_core/model/app_bar_model.dart';
-import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/body_component_model.dart';
 import 'package:eliud_core/model/drawer_model.dart';
 import 'package:eliud_core/model/home_menu_model.dart';
+import 'package:eliud_core/model/menu_def_model.dart';
+import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/model/page_model.dart';
-import 'package:eliud_core/model/platform_medium_model.dart';
-import 'package:eliud_core/model/storage_conditions_model.dart';
+import 'package:eliud_core/style/_default/tools/colors.dart';
+import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_core/tools/storage/platform_medium_helper.dart';
 import 'package:eliud_pkg_fundamentals/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_fundamentals/model/booklet_component.dart';
-import 'package:eliud_pkg_fundamentals/model/booklet_model.dart';
-import 'package:eliud_pkg_fundamentals/model/link_model.dart';
-import 'package:eliud_pkg_fundamentals/model/section_model.dart';
+import 'package:eliud_pkg_fundamentals/model/divider_component.dart';
+import 'package:eliud_pkg_fundamentals/model/fader_component.dart';
+import 'package:eliud_pkg_fundamentals/model/fader_model.dart';
+import 'package:eliud_pkg_fundamentals/model/listed_item_model.dart';
+import 'package:eliud_pkg_fundamentals/model/presentation_component.dart';
+import 'package:eliud_pkg_fundamentals/model/presentation_model.dart';
+import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart'
+    as shoprepo;
+import 'package:eliud_pkg_shop/model/model_export.dart';
+import 'package:eliud_pkg_shop/model/shop_front_component.dart';
+import 'package:eliud_pkg_shop/wizards/builders/util/pos_sizes.dart';
+import 'package:eliud_pkg_shop/wizards/builders/util/products.dart';
+import 'cart_page_builder.dart';
+import 'product_page_builder.dart';
 
 class ShopPageBuilder extends PageBuilder {
-  final String componentId;
-  final String? aboutAssetLocation;
-  final double imageWidth = 0.3;
-  final RelativeImagePosition imagePosition = RelativeImagePosition.Aside;
-  final SectionImageAlignment alignment = SectionImageAlignment.Left;
+  static String SHOP_COMPONENT_IDENTIFIER = "shop";
+  static String SHOP_PAGE_ID = 'shop';
 
-  ShopPageBuilder(
-      this.componentId,
-    this.aboutAssetLocation,
-    String pageId,
-    AppModel app,
-    String memberId,
-    HomeMenuModel theHomeMenu,
-    AppBarModel theAppBar,
-    DrawerModel leftDrawer,
-    DrawerModel rightDrawer,
-  ) : super(pageId, app, memberId, theHomeMenu, theAppBar, leftDrawer,
-            rightDrawer);
+    ShopPageBuilder(
+      AppModel app,
+      String memberId,
+      HomeMenuModel theHomeMenu,
+      AppBarModel theAppBar,
+      DrawerModel leftDrawer,
+      DrawerModel rightDrawer,
+      ) : super(SHOP_PAGE_ID, app, memberId, theHomeMenu, theAppBar, leftDrawer,
+      rightDrawer);
 
-  Future<PageModel> _setupPage() async {
+  static String identifier = 'juuwleshop';
+
+  static ActionModel action(AppModel app) => GotoPage(
+    app,
+    pageID: identifier,
+  );
+
+  Future<PageModel> _setupPage(String? presentationDocumentId) async {
     return await corerepo.AbstractRepositorySingleton.singleton
         .pageRepository(app.documentID!)!
-        .add(_page());
+        .add(_page(presentationDocumentId));
   }
 
-  PageModel _page() {
-    List<BodyComponentModel> components = [];
+  PageModel _page(String? presentationDocumentId) {
+    var components = <BodyComponentModel>[];
     components.add(BodyComponentModel(
-      documentID: "1",
-      componentName: AbstractBookletComponent.componentName,
-      componentId: componentId,
-    ));
+        documentID: '1',
+        componentName: AbstractFaderComponent.componentName,
+        componentId: faderIdentifier));
+    components.add(BodyComponentModel(
+        documentID: '2',
+        componentName: AbstractDividerComponent.componentName,
+        componentId: 'divider_1'));
+    components.add(BodyComponentModel(
+        documentID: '2',
+        componentName: AbstractPresentationComponent.componentName,
+        componentId: presentationDocumentId));
 
     return PageModel(
-        documentID: pageId,
+        documentID: SHOP_PAGE_ID,
         appId: app.documentID!,
-        title: "About",
+        title: 'Shop',
         drawer: leftDrawer,
         endDrawer: rightDrawer,
         appBar: theAppBar,
         homeMenu: theHomeMenu,
         layout: PageLayout.ListView,
         conditions: StorageConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple,
+          privilegeLevelRequired:
+              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple,
         ),
         bodyComponents: components);
   }
 
-  Future<String?> _store(PlatformMediumModel platformMediumModel) async {
-    return (await AbstractRepositorySingleton.singleton
-            .bookletRepository(app.documentID!)!
-            .add(_header(platformMediumModel)))
-        .documentID;
+  Future<FaderModel> _setupFader() async {
+    return await AbstractRepositorySingleton.singleton
+        .faderRepository(app.documentID!)!
+        .add(_fader());
   }
 
-  Future<PlatformMediumModel> installAboutImage() async {
-    return await PlatformMediumHelper(app, memberId,
-            PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple)
-        .createThumbnailUploadPhotoAsset(
-      newRandomKey(),
-      aboutAssetLocation!
-    );
-  }
-
-  static String title = 'About me';
-  static String description = "Welcome to my new app. .\n\nMy name is X. .\n\nI am the founder of Y. I enjoy making nice things and people love my litte pieces of art. So, one day I decided to share my products with the wider world. That's how Y was created. I hope you enjoy my shop.\n\nX";
-
-  BookletModel _header(PlatformMediumModel memberMediumModel) {
-    List<SectionModel> entries = [];
-    {
-      List<LinkModel> links = [];
-      entries.add(SectionModel(
-          documentID: "1",
-          title: "About me",
-          description: description,
-          image: memberMediumModel,
-          imagePositionRelative: imagePosition,
-          imageAlignment: alignment,
-          imageWidth: imageWidth,
-          links: links));
-    }
-
-    return BookletModel(
-      documentID: componentId,
-      name: "About",
-      sections: entries,
+  static String faderIdentifier = 'juuwlefader';
+  FaderModel _fader() {
+    var items = <ListedItemModel>[];
+    items.add(ListedItemModel(
+        documentID: 'juuwle',
+        description: 'Juuwle',
+        posSize: halfScreen(app.documentID!),
+//        image: thePlatformLogo
+    ));
+    var model = FaderModel(
+      documentID: faderIdentifier,
+      name: 'Juuwle Fader',
+      animationMilliseconds: 1000,
+      imageSeconds: 5,
+      items: items,
       appId: app.documentID!,
+      conditions: StorageConditionsModel(
+          privilegeLevelRequired:
+              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+    );
+    return model;
+  }
+
+  Future<ShopModel> _setupShop() async {
+    return await shoprepo.AbstractRepositorySingleton.singleton
+        .shopRepository(app.documentID!)!
+        .add(_shop());
+  }
+
+  ShopModel _shop() {
+    var document = ShopModel(
+        documentID: identifier,
+        description: 'Main shop',
+        shortDescription: 'Main shop',
+        currency: 'eur',
+        appId: app.documentID!);
+    return document;
+  }
+
+  static String shopFrontIdentifier1 = 'front1';
+
+  ShopFrontModel _shopFront1() {
+    return ShopFrontModel(
+      documentID: shopFrontIdentifier1,
+      appId: app.documentID!,
+      title: 'Featured',
+      description: 'These are my featured products',
+      shop: _shop(),
+      addToCartColor: EliudColors.red,
+      itemCardBackground: cardBG(),
+      buyAction: CartPageBuilder.openCartPage(app),
+      view: ShopFrontView.Slider,
+      openProductAction:
+          GotoPage(app, pageID: ProductPageBuilder.identifier),
+      size: 250,
+      cardElevation: 10,
+      cardAxisSpacing: 20,
+      scrollDirection: ScrollDirection.Vertical,
       conditions: StorageConditionsModel(
           privilegeLevelRequired:
               PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
     );
   }
 
-  Future<PageModel> create() async {
-    if (aboutAssetLocation != null) {
-      var image = await installAboutImage();
-      await _store(image);
-      return await _setupPage();
-    } else {
-      return Future.value(null);
-    }
+  static String shopFrontIdentifier2 = 'front2';
+
+  ShopFrontModel _shopFront2() {
+    return ShopFrontModel(
+      documentID: shopFrontIdentifier2,
+      appId: app.documentID!,
+      title: 'My products',
+      description: 'These are my lovely products',
+      shop: _shop(),
+      addToCartColor: EliudColors.red,
+      itemCardBackground: cardBG(),
+      buyAction: CartPageBuilder.openCartPage(app),
+      view: ShopFrontView.Grid,
+      openProductAction:
+          GotoPage(app, pageID: ProductPageBuilder.identifier),
+      size: 250,
+      cardElevation: 10,
+      cardAxisSpacing: 20,
+      scrollDirection: ScrollDirection.Vertical,
+      conditions: StorageConditionsModel(
+          privilegeLevelRequired:
+              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+    );
+  }
+
+  Future<void> _setupShopFronts() async {
+    await shoprepo.AbstractRepositorySingleton.singleton
+        .shopFrontRepository(app.documentID!)!
+        .add(_shopFront1());
+    await shoprepo.AbstractRepositorySingleton.singleton
+        .shopFrontRepository(app.documentID!)!
+        .add(_shopFront2());
+  }
+
+  static BackgroundModel cardBG() {
+    var decorationColorModels = <DecorationColorModel>[];
+    var decorationColorModel1 = DecorationColorModel(
+      documentID: '1',
+      color: EliudColors.white,
+    );
+    decorationColorModels.add(decorationColorModel1);
+    var decorationColorModel2 = DecorationColorModel(
+      documentID: '2',
+      color: EliudColors.whiteTransparent,
+    );
+
+    decorationColorModels.add(decorationColorModel2);
+    var backgroundModel = BackgroundModel(
+      border: true,
+      beginGradientPosition: StartGradientPosition.CenterLeft,
+      endGradientPosition: EndGradientPosition.CenterRight,
+      decorationColors: decorationColorModels,
+    );
+    return backgroundModel;
+  }
+
+  static String itemBackground = 'card_bg';
+
+  PresentationModel _presentation(PlatformMediumModel memberMediumModel) {
+    return PresentationModel(
+      documentID: 'shop',
+      appId: app.documentID!,
+      bodyComponents: [
+        BodyComponentModel(
+            documentID: '1',
+            componentName: AbstractShopFrontComponent.componentName,
+            componentId: _shopFront2().documentID)
+      ],
+      image: memberMediumModel,
+      imagePositionRelative: PresentationRelativeImagePosition.Aside,
+      imageAlignment: PresentationImageAlignment.Left,
+      imageWidth: .33,
+      conditions: StorageConditionsModel(
+          privilegeLevelRequired:
+              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+    );
+  }
+
+  Future<PresentationModel> _setupPresentation(
+      PlatformMediumModel memberMediumModel) async {
+    var presentationModel = _presentation(memberMediumModel);
+    await AbstractRepositorySingleton.singleton
+        .presentationRepository(app.documentID!)!
+        .add(presentationModel);
+    return presentationModel;
+  }
+
+  Future<PlatformMediumModel> uploadImage() async {
+    return await PlatformMediumHelper(app, memberId,
+        PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple)
+        .createThumbnailUploadPhotoAsset(
+        newRandomKey(),
+        'packages/eliud_pkg_shop/assets/juuwle_app/decorating/charlotte_presenting.png'
+    );
+  }
+
+  static String appBarIdentifier = 'store';
+
+  Future<ShopModel> create() async {
+    var image = await uploadImage();
+    var presentationDocumentId = (await _setupPresentation(image)).documentID;
+    await _setupShopFronts();
+    var shop = await _setupShop();
+    await Products(shop: shop, app: app, memberId: memberId, ).run();
+    await _setupFader();
+    await _setupPage(presentationDocumentId);
+    return shop;
   }
 }

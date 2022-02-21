@@ -58,7 +58,7 @@ class PayProfileComponent extends AbstractPayComponent {
         }));
   }
 
-  void something(bool success, AssignmentModel assignmentModel) {
+    void something(bool success, AssignmentModel assignmentModel) {
     if (success) {
       handle(PaymentSucceeded(AssignmentHelper.getResultFor(
           assignmentModel, PayTaskModel.PAY_TASK_FIELD_PAYMENT_REFERENCE)));
@@ -80,30 +80,35 @@ class PayProfileComponent extends AbstractPayComponent {
         } else {
           if (state is PayOrder) {
             return BlocProvider<PayBloc>(
-                create: (context) => PayBloc()
+                create: (context) =>
+                PayBloc()
                   ..add(InitPayEvent(state.order!.currency!,
                       state.order!.totalPrice!, state.order!.documentID!)),
-                child: BlocBuilder<PayBloc, PayState>(
-                    builder: (pay_context, pay_state) {
-                  if (pay_state is InitializedPayState) {
-                    paymentBloc = BlocProvider.of<PaymentBloc>(context);
-                    order = state.order;
-                    WidgetsBinding.instance!.addPostFrameCallback((_) =>
-                        WorkflowActionHandler.executeWorkflow(
-                            pay_context, pay!.payAction!,
-                            finaliseWorkflow: something));
-                  }
-                  return _overviewAndPay(context, state.order!,
-                      message: 'Please review your order.',
-                      subMessage: "If you're happy with it, then press Pay",
-                      trailing: Icon(
-                        Icons.remove_red_eye,
-                        color: Colors.black,
-                        size: 50.0,
-                        semanticLabel: 'Contact',
-                      ));
-                }));
-            // initialise paymentBloc so that 'handle' can access it
+                child: BlocListener<PayBloc, PayState>(
+                    listener: (pay_context, pay_state) {
+                      if (pay_state is InitializedPayState) {
+                        paymentBloc = BlocProvider.of<PaymentBloc>(context);
+                        order = state.order;
+                        WidgetsBinding.instance!.addPostFrameCallback((_) {
+                          eliudrouter.Router.navigateTo(
+                              pay_context,
+                              pay!.payAction!,
+                              parameters: {
+                                WorkflowActionHandler
+                                    .FINALISE_WORKFLOW: something
+                              });
+                        });
+                      }
+                    },
+                    child: _overviewAndPay(context, state.order!,
+                        message: 'Please review your order.',
+                        subMessage: "If you're happy with it, then press Pay",
+                        trailing: Icon(
+                          Icons.remove_red_eye,
+                          color: Colors.black,
+                          size: 50.0,
+                          semanticLabel: 'Contact',
+                        ))));
           } else if (state is NoItemsInCart) {
             return text(app, context, 'No items in cart');
           } else if (state is ConfirmOrder) {

@@ -51,7 +51,7 @@
     },
     {
       "fieldName": "payAction",
-      "fieldType": "WorkflowAction",
+      "fieldType": "Action",
       "bespokeFormField": "ActionField(widget.app, state.value!.payAction, _onPayActionChanged)",
       "group": "payAction",
       "remark": "requires a new implementation of a BespokeFormField WorkflowActionField",

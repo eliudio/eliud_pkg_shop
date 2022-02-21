@@ -7,7 +7,7 @@ import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
 import 'package:eliud_pkg_shop/model/order_overview_component.dart';
 
-class OrderOverview  extends PageBuilder {
+class OrderOverviewPageBuilder  extends PageBuilder {
   final BackgroundModel? background;
   final ShopModel? shop;
 
@@ -27,13 +27,11 @@ class OrderOverview  extends PageBuilder {
     );
   }
 
-  @override
   String pageTitle() => 'Your Orders';
 
-  @override
   String componentName() => AbstractOrderOverviewComponent.componentName;
 
-  OrderOverview(
+  OrderOverviewPageBuilder(
       String pageId,
       AppModel app,
       String memberId,
@@ -46,16 +44,13 @@ class OrderOverview  extends PageBuilder {
       ) : super(pageId, app, memberId, theHomeMenu, theAppBar, leftDrawer,
       rightDrawer);
 
-  @override
   String? componentID() {
     return _orderOverview().documentID;
   }
 
-  @override
   Future<void> setupComponent() async {
     await AbstractRepositorySingleton.singleton.orderOverviewRepository(app.documentID)!.add(_orderOverview());
   }
 
-  @override
-  String assetLocation() => 'packages/eliud_pkg_apps/assets/juuwle_app/decorating/charlotte_with_bags.png';
+  String assetLocation() => 'packages/eliud_pkg_shop/assets/juuwle_app/decorating/charlotte_with_bags.png';
 }

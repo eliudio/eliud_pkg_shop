@@ -10,10 +10,10 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_pkg_shop/model/component_registry.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/repository_singleton.dart';
-import 'package:eliud_pkg_shop/wizards/about_page_wizard.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/cart/cart_bloc.dart';
 import 'model/member_cart_model.dart';
+import 'wizards/shop_page_wizard.dart';
 
 abstract class ShopPackage extends Package {
   ShopPackage() : super('eliud_pkg_shop');
