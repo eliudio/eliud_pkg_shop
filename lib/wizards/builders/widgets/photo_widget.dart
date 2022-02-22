@@ -1,11 +1,12 @@
-import 'dart:math';
-
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/model/platform_medium_model.dart';
 import 'package:eliud_core/model/public_medium_model.dart';
+import 'package:eliud_core/model/storage_conditions_model.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/style/frontend/has_list_tile.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
+import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_pkg_medium/platform/access_rights.dart';
 import 'package:eliud_pkg_medium/platform/medium_platform.dart';
 import 'package:flutter/material.dart';
@@ -14,9 +15,17 @@ import 'package:flutter/widgets.dart';
 class PhotoWidget extends StatefulWidget {
   final String title;
   final AppModel app;
-  final bool collapsed;
+  final MediumAvailable feedbackFunction;
+  final String? defaultImage;
+  final PlatformMediumModel? initialImage;
 
-  const PhotoWidget({Key? key, required this.title, required this.app, required this.collapsed})
+  const PhotoWidget(
+      {Key? key,
+      required this.title,
+      required this.app,
+      required this.defaultImage,
+      required this.feedbackFunction,
+      required this.initialImage})
       : super(key: key);
 
   @override
@@ -29,11 +38,11 @@ class _PhotoWidgetState extends State<PhotoWidget> {
   @override
   Widget build(BuildContext context) {
     return topicContainer(widget.app, context,
-        title: 'Photo',
+        title: widget.title,
         collapsible: true,
-        collapsed: widget.collapsed,
+        collapsed: true,
         children: [
-          getListTile(context,widget.app,
+          getListTile(context, widget.app,
               trailing: PopupMenuButton<int>(
                   child: Icon(Icons.more_vert),
                   elevation: 10,
@@ -47,8 +56,13 @@ class _PhotoWidgetState extends State<PhotoWidget> {
                           value: 1,
                           child: text(widget.app, context, 'Upload photo'),
                         ),
+                        if (widget.defaultImage != null)
+                          PopupMenuItem(
+                            value: 2,
+                            child: text(widget.app, context, 'Default photo'),
+                          ),
                         PopupMenuItem(
-                          value: 2,
+                          value: 3,
                           child: text(widget.app, context, 'Clear photo'),
                         ),
                       ],
@@ -58,9 +72,8 @@ class _PhotoWidgetState extends State<PhotoWidget> {
                           context,
                           widget.app,
                           widget.app.ownerID!,
-                          () => PublicMediumAccessRights(),
-                          (photo) =>
-                              _photoFeedbackFunction(widget.app, photo),
+                          () => PlatformMediumAccessRights(PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+                          (photo) => _photoFeedbackFunction(widget.app, photo),
                           _photoUploading,
                           allowCrop: false);
                     } else if (value == 1) {
@@ -69,31 +82,39 @@ class _PhotoWidgetState extends State<PhotoWidget> {
                           widget.app,
                           widget.app.ownerID!,
                           () => PublicMediumAccessRights(),
-                          (photo) =>
-                              _photoFeedbackFunction(widget.app, photo),
+                          (photo) => _photoFeedbackFunction(widget.app, photo),
                           _photoUploading,
                           allowCrop: false);
                     } else if (value == 2) {
+                      var photo = await PlatformMediumAccessRights(PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple)
+                          .getMediumHelper(
+                        widget.app,
+                          widget.app.ownerID!,
+                      )
+                          .createThumbnailUploadPhotoAsset(newRandomKey(), widget.defaultImage!,
+                          feedbackProgress: _photoUploading);
+                      _photoFeedbackFunction(widget.app, photo);
+                    } else if (value == 3) {
                       _photoFeedbackFunction(widget.app, null);
                     }
                   }),
               title: _progress != null
-                  ? progressIndicatorWithValue(widget.app, context, value: _progress!)
-                  : widget.app.logo == null ||
-                          widget.app.logo!.url == null
+                  ? progressIndicatorWithValue(widget.app, context,
+                      value: _progress!)
+                  : widget.initialImage == null || widget.initialImage!.url == null
                       ? Center(child: text(widget.app, context, 'No image set'))
                       : Image.network(
-                          widget.app.logo!.url!,
+                          widget.initialImage!.url!,
                           height: 100,
                         ))
         ]);
   }
 
   void _photoFeedbackFunction(
-      AppModel appModel, PublicMediumModel? platformMediumModel) {
+      AppModel appModel, PlatformMediumModel? platformMediumModel) {
     setState(() {
       _progress = null;
-      appModel.logo = platformMediumModel;
+      widget.feedbackFunction(platformMediumModel);
     });
   }
 

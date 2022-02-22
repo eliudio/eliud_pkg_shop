@@ -37,9 +37,9 @@ class Products {
         about:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.',
         assetLocation1:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/gouldianfinch1.png',
+            'packages/eliud_pkg_shop/assets/shop/products/gouldianfinch1.png',
         assetLocation2:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/gouldianfinch2.png',
+            'packages/eliud_pkg_shop/assets/shop/products/gouldianfinch2.png',
         price: 11,
       ),
       // 2
@@ -49,9 +49,9 @@ class Products {
         about:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.',
         assetLocation1:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/redbreastedblackbird1.png',
+            'packages/eliud_pkg_shop/assets/shop/products/redbreastedblackbird1.png',
         assetLocation2:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/redbreastedblackbird2.png',
+            'packages/eliud_pkg_shop/assets/shop/products/redbreastedblackbird2.png',
         price: 11,
       ),
       // 3
@@ -61,9 +61,9 @@ class Products {
         about:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.',
         assetLocation1:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/queenofthenight1.png',
+            'packages/eliud_pkg_shop/assets/shop/products/queenofthenight1.png',
         assetLocation2:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/queenofthenight2.png',
+            'packages/eliud_pkg_shop/assets/shop/products/queenofthenight2.png',
         price: 11,
       ),
       // 4
@@ -73,9 +73,9 @@ class Products {
         about:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.',
         assetLocation1:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/goldenoriole1.png',
+            'packages/eliud_pkg_shop/assets/shop/products/goldenoriole1.png',
         assetLocation2:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/goldenoriole2.png',
+            'packages/eliud_pkg_shop/assets/shop/products/goldenoriole2.png',
         price: 11,
       ),
       // 5
@@ -85,9 +85,9 @@ class Products {
         about:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.',
         assetLocation1:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/turquoisekakariki1.png',
+            'packages/eliud_pkg_shop/assets/shop/products/turquoisekakariki1.png',
         assetLocation2:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/turquoisekakariki2.png',
+            'packages/eliud_pkg_shop/assets/shop/products/turquoisekakariki2.png',
         price: 11,
       ),
       // 6
@@ -97,9 +97,9 @@ class Products {
         about:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.',
         assetLocation1:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/amaryllis1.png',
+            'packages/eliud_pkg_shop/assets/shop/products/amaryllis1.png',
         assetLocation2:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/amaryllis2.png',
+            'packages/eliud_pkg_shop/assets/shop/products/amaryllis2.png',
         price: 11,
       ),
       // 7
@@ -109,9 +109,9 @@ class Products {
         about:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.',
         assetLocation1:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/daisy1.png',
+            'packages/eliud_pkg_shop/assets/shop/products/daisy1.png',
         assetLocation2:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/daisy2.png',
+            'packages/eliud_pkg_shop/assets/shop/products/daisy2.png',
         price: 11,
       ),
       // 8
@@ -121,9 +121,9 @@ class Products {
         about:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.',
         assetLocation1:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/anemone1.png',
+            'packages/eliud_pkg_shop/assets/shop/products/anemone1.png',
         assetLocation2:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/anemone2.png',
+            'packages/eliud_pkg_shop/assets/shop/products/anemone2.png',
         price: 11,
       ),
       // 9
@@ -133,9 +133,9 @@ class Products {
         about:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.',
         assetLocation1:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/lilyofthenile1.png',
+            'packages/eliud_pkg_shop/assets/shop/products/lilyofthenile1.png',
         assetLocation2:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/lilyofthenile2.png',
+            'packages/eliud_pkg_shop/assets/shop/products/lilyofthenile2.png',
         price: 11,
       ),
       // 10
@@ -145,9 +145,9 @@ class Products {
         about:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.',
         assetLocation1:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/bluebackedmanakin1.png',
+            'packages/eliud_pkg_shop/assets/shop/products/bluebackedmanakin1.png',
         assetLocation2:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/bluebackedmanakin2.png',
+            'packages/eliud_pkg_shop/assets/shop/products/bluebackedmanakin2.png',
         price: 11,
       ),
       // 11
@@ -157,9 +157,9 @@ class Products {
         about:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.',
         assetLocation1:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/northerncardinal1.png',
+            'packages/eliud_pkg_shop/assets/shop/products/northerncardinal1.png',
         assetLocation2:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/northerncardinal2.png',
+            'packages/eliud_pkg_shop/assets/shop/products/northerncardinal2.png',
         price: 11,
       ),
       // 12
@@ -169,9 +169,9 @@ class Products {
         about:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.',
         assetLocation1:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/eurasianmagpie1.png',
+            'packages/eliud_pkg_shop/assets/shop/products/eurasianmagpie1.png',
         assetLocation2:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/eurasianmagpie2.png',
+            'packages/eliud_pkg_shop/assets/shop/products/eurasianmagpie2.png',
         price: 11,
       ),
       // 13
@@ -181,9 +181,9 @@ class Products {
         about:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.',
         assetLocation1:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/myna1.png',
+            'packages/eliud_pkg_shop/assets/shop/products/myna1.png',
         assetLocation2:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/myna2.png',
+            'packages/eliud_pkg_shop/assets/shop/products/myna2.png',
         price: 11,
       ),
       // 14
@@ -193,9 +193,9 @@ class Products {
         about:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.',
         assetLocation1:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/parakeet1.png',
+            'packages/eliud_pkg_shop/assets/shop/products/parakeet1.png',
         assetLocation2:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/parakeet2.png',
+            'packages/eliud_pkg_shop/assets/shop/products/parakeet2.png',
         price: 11,
       ),
       // 15
@@ -205,9 +205,9 @@ class Products {
         about:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.',
         assetLocation1:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/kingbird1.png',
+            'packages/eliud_pkg_shop/assets/shop/products/kingbird1.png',
         assetLocation2:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/kingbird2.png',
+            'packages/eliud_pkg_shop/assets/shop/products/kingbird2.png',
         price: 11,
       ),
       // 16
@@ -217,9 +217,9 @@ class Products {
         about:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.',
         assetLocation1:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/grosbeak1.png',
+            'packages/eliud_pkg_shop/assets/shop/products/grosbeak1.png',
         assetLocation2:
-            'packages/eliud_pkg_shop/assets/juuwle_app/products/grosbeak2.png',
+            'packages/eliud_pkg_shop/assets/shop/products/grosbeak2.png',
         price: 11,
       )
     ];
@@ -233,4 +233,3 @@ class Products {
     }
   }
 }
-

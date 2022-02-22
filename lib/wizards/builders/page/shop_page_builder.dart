@@ -1,11 +1,11 @@
 import 'package:eliud_core/core/wizards/builders/page_builder.dart';
+import 'package:eliud_core/core/wizards/registry/registry.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart'
     as corerepo;
 import 'package:eliud_core/model/app_bar_model.dart';
 import 'package:eliud_core/model/body_component_model.dart';
 import 'package:eliud_core/model/drawer_model.dart';
 import 'package:eliud_core/model/home_menu_model.dart';
-import 'package:eliud_core/model/menu_def_model.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/style/_default/tools/colors.dart';
@@ -25,6 +25,7 @@ import 'package:eliud_pkg_shop/model/model_export.dart';
 import 'package:eliud_pkg_shop/model/shop_front_component.dart';
 import 'package:eliud_pkg_shop/wizards/builders/util/pos_sizes.dart';
 import 'package:eliud_pkg_shop/wizards/builders/util/products.dart';
+import 'package:flutter/material.dart';
 import 'cart_page_builder.dart';
 import 'product_page_builder.dart';
 
@@ -32,22 +33,34 @@ class ShopPageBuilder extends PageBuilder {
   static String SHOP_COMPONENT_IDENTIFIER = "shop";
   static String SHOP_PAGE_ID = 'shop';
 
-    ShopPageBuilder(
-      AppModel app,
-      String memberId,
-      HomeMenuModel theHomeMenu,
-      AppBarModel theAppBar,
-      DrawerModel leftDrawer,
-      DrawerModel rightDrawer,
-      ) : super(SHOP_PAGE_ID, app, memberId, theHomeMenu, theAppBar, leftDrawer,
-      rightDrawer);
+  ShopPageBuilder(
+    AppModel app,
+    String memberId,
+    HomeMenuModel theHomeMenu,
+    AppBarModel theAppBar,
+    DrawerModel leftDrawer,
+    DrawerModel rightDrawer,
+    PageProvider pageProvider,
+    ActionProvider actionProvider,
+  ) : super(SHOP_PAGE_ID, app, memberId, theHomeMenu, theAppBar, leftDrawer,
+            rightDrawer, pageProvider, actionProvider);
 
-  static String identifier = 'juuwleshop';
+  static String PAGE_ID = 'shop-front';
 
   static ActionModel action(AppModel app) => GotoPage(
-    app,
-    pageID: identifier,
-  );
+        app,
+        pageID: PAGE_ID,
+      );
+
+  static MenuItemModel menuItem(AppModel app) => MenuItemModel(
+      documentID: newRandomKey(),
+      text: 'Shop',
+      description: 'Shop',
+      icon: IconModel(
+          codePoint: Icons.shopping_basket.codePoint,
+          fontFamily: Icons.settings.fontFamily),
+      action: GotoPage(app, pageID: PAGE_ID));
+
 
   Future<PageModel> _setupPage(String? presentationDocumentId) async {
     return await corerepo.AbstractRepositorySingleton.singleton
@@ -65,10 +78,12 @@ class ShopPageBuilder extends PageBuilder {
         documentID: '2',
         componentName: AbstractDividerComponent.componentName,
         componentId: 'divider_1'));
-    components.add(BodyComponentModel(
-        documentID: '2',
-        componentName: AbstractPresentationComponent.componentName,
-        componentId: presentationDocumentId));
+    if (presentationDocumentId != null) {
+      components.add(BodyComponentModel(
+          documentID: '2',
+          componentName: AbstractPresentationComponent.componentName,
+          componentId: presentationDocumentId));
+    }
 
     return PageModel(
         documentID: SHOP_PAGE_ID,
@@ -96,9 +111,9 @@ class ShopPageBuilder extends PageBuilder {
   FaderModel _fader() {
     var items = <ListedItemModel>[];
     items.add(ListedItemModel(
-        documentID: 'juuwle',
-        description: 'Juuwle',
-        posSize: halfScreen(app.documentID!),
+      documentID: 'juuwle',
+      description: 'Juuwle',
+      posSize: halfScreen(app.documentID!),
 //        image: thePlatformLogo
     ));
     var model = FaderModel(
@@ -123,7 +138,7 @@ class ShopPageBuilder extends PageBuilder {
 
   ShopModel _shop() {
     var document = ShopModel(
-        documentID: identifier,
+        documentID: 'mainshop',
         description: 'Main shop',
         shortDescription: 'Main shop',
         currency: 'eur',
@@ -144,8 +159,7 @@ class ShopPageBuilder extends PageBuilder {
       itemCardBackground: cardBG(),
       buyAction: CartPageBuilder.openCartPage(app),
       view: ShopFrontView.Slider,
-      openProductAction:
-          GotoPage(app, pageID: ProductPageBuilder.identifier),
+      openProductAction: GotoPage(app, pageID: ProductPageBuilder.PAGE_ID),
       size: 250,
       cardElevation: 10,
       cardAxisSpacing: 20,
@@ -169,8 +183,7 @@ class ShopPageBuilder extends PageBuilder {
       itemCardBackground: cardBG(),
       buyAction: CartPageBuilder.openCartPage(app),
       view: ShopFrontView.Grid,
-      openProductAction:
-          GotoPage(app, pageID: ProductPageBuilder.identifier),
+      openProductAction: GotoPage(app, pageID: ProductPageBuilder.PAGE_ID),
       size: 250,
       cardElevation: 10,
       cardAxisSpacing: 20,
@@ -243,23 +256,18 @@ class ShopPageBuilder extends PageBuilder {
     return presentationModel;
   }
 
-  Future<PlatformMediumModel> uploadImage() async {
-    return await PlatformMediumHelper(app, memberId,
-        PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple)
-        .createThumbnailUploadPhotoAsset(
-        newRandomKey(),
-        'packages/eliud_pkg_shop/assets/juuwle_app/decorating/charlotte_presenting.png'
-    );
-  }
-
-  static String appBarIdentifier = 'store';
-
-  Future<ShopModel> create() async {
-    var image = await uploadImage();
-    var presentationDocumentId = (await _setupPresentation(image)).documentID;
+  Future<ShopModel> create(PlatformMediumModel? image) async {
+    var presentationDocumentId;
+    if (image != null) {
+      presentationDocumentId = (await _setupPresentation(image)).documentID;
+    }
     await _setupShopFronts();
     var shop = await _setupShop();
-    await Products(shop: shop, app: app, memberId: memberId, ).run();
+    await Products(
+      shop: shop,
+      app: app,
+      memberId: memberId,
+    ).run();
     await _setupFader();
     await _setupPage(presentationDocumentId);
     return shop;

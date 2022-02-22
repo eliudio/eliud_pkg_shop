@@ -1,4 +1,5 @@
 import 'package:eliud_core/core/wizards/builders/page_builder.dart';
+import 'package:eliud_core/core/wizards/registry/registry.dart';
 import 'package:eliud_core/model/drawer_model.dart';
 import 'package:eliud_core/model/home_menu_model.dart';
 import 'package:eliud_core/model/model_export.dart';
@@ -7,28 +8,40 @@ import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
 import 'package:eliud_pkg_shop/model/product_display_component.dart';
 import 'package:eliud_pkg_shop/shop_package.dart';
-
+import 'absract_basic_page_template.dart';
 import 'cart_page_builder.dart';
 
-class ProductPageBuilder extends PageBuilder {
+class ProductPageBuilder extends AbstractBasicPageTemplate {
   final ShopModel? shop;
 
-  static const String identifier = 'productpage';
+  static String PAGE_ID = 'shop-product';
 
   ProductPageBuilder(
-      String pageId,
-      AppModel app,
-      String memberId,
-      HomeMenuModel theHomeMenu,
-      AppBarModel theAppBar,
-      DrawerModel leftDrawer,
-      DrawerModel rightDrawer,
-      this.shop,
-      ) : super(pageId, app, memberId, theHomeMenu, theAppBar, leftDrawer,
-      rightDrawer);
+    AppModel app,
+    String memberId,
+    HomeMenuModel theHomeMenu,
+    AppBarModel theAppBar,
+    DrawerModel leftDrawer,
+    DrawerModel rightDrawer,
+    PageProvider pageProvider,
+    ActionProvider actionProvider,
+    this.shop,
+  ) : super(
+          PAGE_ID,
+          app,
+          memberId,
+          theHomeMenu,
+          theAppBar,
+          leftDrawer,
+          rightDrawer,
+          pageProvider,
+          actionProvider,
+          privilegeLevelRequired:
+              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple,
+        );
 
   static ActionModel action(AppModel app) => GotoPage(app,
-      pageID: identifier,
+      pageID: PAGE_ID,
       conditions: DisplayConditionsModel(
         privilegeLevelRequired: PrivilegeLevelRequired.NoPrivilegeRequired,
         packageCondition: ShopPackage.CONDITION_CARTS_HAS_ITEMS,
@@ -52,10 +65,8 @@ class ProductPageBuilder extends PageBuilder {
   @override
   String pageTitle() => 'Product';
 
-  @override
   String componentName() => AbstractProductDisplayComponent.componentName;
 
-  @override
   String? componentID() {
     return _productDisplayOverview().documentID;
   }
