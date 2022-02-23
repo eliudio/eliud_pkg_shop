@@ -11,9 +11,9 @@ import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/style/_default/tools/colors.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/random.dart';
-import 'package:eliud_core/tools/storage/platform_medium_helper.dart';
 import 'package:eliud_pkg_fundamentals/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_fundamentals/model/divider_component.dart';
+import 'package:eliud_pkg_fundamentals/model/divider_model.dart';
 import 'package:eliud_pkg_fundamentals/model/fader_component.dart';
 import 'package:eliud_pkg_fundamentals/model/fader_model.dart';
 import 'package:eliud_pkg_fundamentals/model/listed_item_model.dart';
@@ -30,8 +30,7 @@ import 'cart_page_builder.dart';
 import 'product_page_builder.dart';
 
 class ShopPageBuilder extends PageBuilder {
-  static String SHOP_COMPONENT_IDENTIFIER = "shop";
-  static String SHOP_PAGE_ID = 'shop';
+  static String PAGE_ID = 'shop-front';
 
   ShopPageBuilder(
     AppModel app,
@@ -42,10 +41,8 @@ class ShopPageBuilder extends PageBuilder {
     DrawerModel rightDrawer,
     PageProvider pageProvider,
     ActionProvider actionProvider,
-  ) : super(SHOP_PAGE_ID, app, memberId, theHomeMenu, theAppBar, leftDrawer,
+  ) : super(PAGE_ID, app, memberId, theHomeMenu, theAppBar, leftDrawer,
             rightDrawer, pageProvider, actionProvider);
-
-  static String PAGE_ID = 'shop-front';
 
   static ActionModel action(AppModel app) => GotoPage(
         app,
@@ -61,32 +58,36 @@ class ShopPageBuilder extends PageBuilder {
           fontFamily: Icons.settings.fontFamily),
       action: GotoPage(app, pageID: PAGE_ID));
 
-
-  Future<PageModel> _setupPage(String? presentationDocumentId) async {
+  Future<PageModel> _setupPage(
+      String? presentationDocumentId, String? faderIdentifier) async {
     return await corerepo.AbstractRepositorySingleton.singleton
         .pageRepository(app.documentID!)!
-        .add(_page(presentationDocumentId));
+        .add(_page(presentationDocumentId, faderIdentifier));
   }
 
-  PageModel _page(String? presentationDocumentId) {
+  PageModel _page(String? presentationDocumentId, String? faderIdentifier) {
     var components = <BodyComponentModel>[];
-    components.add(BodyComponentModel(
-        documentID: '1',
-        componentName: AbstractFaderComponent.componentName,
-        componentId: faderIdentifier));
-    components.add(BodyComponentModel(
-        documentID: '2',
-        componentName: AbstractDividerComponent.componentName,
-        componentId: 'divider_1'));
+    if (faderIdentifier != null) {
+      components.add(BodyComponentModel(
+          documentID: newRandomKey(),
+          componentName: AbstractFaderComponent.componentName,
+          componentId: faderIdentifier));
+      components.add(BodyComponentModel(
+          documentID: newRandomKey(),
+          componentName: AbstractDividerComponent.componentName,
+          componentId: dividerId));
+    }
     if (presentationDocumentId != null) {
       components.add(BodyComponentModel(
-          documentID: '2',
+          documentID: newRandomKey(),
           componentName: AbstractPresentationComponent.componentName,
           componentId: presentationDocumentId));
+    } else {
+      components.add(_shopFront());
     }
 
     return PageModel(
-        documentID: SHOP_PAGE_ID,
+        documentID: PAGE_ID,
         appId: app.documentID!,
         title: 'Shop',
         drawer: leftDrawer,
@@ -101,24 +102,22 @@ class ShopPageBuilder extends PageBuilder {
         bodyComponents: components);
   }
 
-  Future<FaderModel> _setupFader() async {
+  Future<FaderModel> _setupFader(PlatformMediumModel faderImage) async {
     return await AbstractRepositorySingleton.singleton
         .faderRepository(app.documentID!)!
-        .add(_fader());
+        .add(_fader(faderImage));
   }
 
-  static String faderIdentifier = 'juuwlefader';
-  FaderModel _fader() {
+  FaderModel _fader(PlatformMediumModel faderImage) {
     var items = <ListedItemModel>[];
     items.add(ListedItemModel(
-      documentID: 'juuwle',
-      description: 'Juuwle',
-      posSize: halfScreen(app.documentID!),
-//        image: thePlatformLogo
-    ));
+        documentID: newRandomKey(),
+        description: '',
+        posSize: halfScreen(app.documentID!),
+        image: faderImage));
     var model = FaderModel(
-      documentID: faderIdentifier,
-      name: 'Juuwle Fader',
+      documentID: 'shop-fader',
+      name: 'Fader',
       animationMilliseconds: 1000,
       imageSeconds: 5,
       items: items,
@@ -231,12 +230,7 @@ class ShopPageBuilder extends PageBuilder {
     return PresentationModel(
       documentID: 'shop',
       appId: app.documentID!,
-      bodyComponents: [
-        BodyComponentModel(
-            documentID: '1',
-            componentName: AbstractShopFrontComponent.componentName,
-            componentId: _shopFront2().documentID)
-      ],
+      bodyComponents: [_shopFront()],
       image: memberMediumModel,
       imagePositionRelative: PresentationRelativeImagePosition.Aside,
       imageAlignment: PresentationImageAlignment.Left,
@@ -245,6 +239,13 @@ class ShopPageBuilder extends PageBuilder {
           privilegeLevelRequired:
               PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
     );
+  }
+
+  BodyComponentModel _shopFront() {
+    return BodyComponentModel(
+        documentID: '1',
+        componentName: AbstractShopFrontComponent.componentName,
+        componentId: _shopFront2().documentID);
   }
 
   Future<PresentationModel> _setupPresentation(
@@ -256,11 +257,35 @@ class ShopPageBuilder extends PageBuilder {
     return presentationModel;
   }
 
-  Future<ShopModel> create(PlatformMediumModel? image) async {
+  static String dividerId = 'shop-divider';
+  DividerModel _divider() {
+    var dividerModel = DividerModel(
+      documentID: dividerId,
+      name: 'shop divider',
+      color: EliudColors.black,
+      endIndent: 0,
+      height: 10,
+      indent: 0,
+      thickness: .5,
+      appId: app.documentID!,
+      conditions: StorageConditionsModel(
+          privilegeLevelRequired:
+              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+    );
+    return dividerModel;
+  }
+
+  Future<void> setupDivider() async {
+    await dividerRepository(appId: app.documentID!)!.add(_divider());
+  }
+
+  Future<ShopModel> create(
+      PlatformMediumModel? image, PlatformMediumModel? faderImage) async {
     var presentationDocumentId;
     if (image != null) {
       presentationDocumentId = (await _setupPresentation(image)).documentID;
     }
+    await setupDivider();
     await _setupShopFronts();
     var shop = await _setupShop();
     await Products(
@@ -268,8 +293,11 @@ class ShopPageBuilder extends PageBuilder {
       app: app,
       memberId: memberId,
     ).run();
-    await _setupFader();
-    await _setupPage(presentationDocumentId);
+    String? faderId;
+    if (faderImage != null) {
+      faderId = (await _setupFader(faderImage)).documentID;
+    }
+    await _setupPage(presentationDocumentId, faderId);
     return shop;
   }
 }

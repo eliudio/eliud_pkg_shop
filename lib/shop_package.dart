@@ -89,7 +89,7 @@ abstract class ShopPackage extends Package {
     ComponentRegistry().init();
 
     // Wizard
-   // NewAppWizardRegistry.registry().register(ShopPageWizard());
+    NewAppWizardRegistry.registry().register(ShopPageWizard());
 
     AbstractRepositorySingleton.singleton = RepositorySingleton();
   }

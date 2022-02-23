@@ -71,8 +71,4 @@ class OrderOverviewPageBuilder extends AbstractPageTemplate {
         .orderOverviewRepository(app.documentID)!
         .add(_orderOverview());
   }
-
-  @override
-  String assetLocation() =>
-      'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_bags.png';
 }

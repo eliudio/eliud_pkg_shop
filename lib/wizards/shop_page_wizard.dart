@@ -20,27 +20,32 @@ import 'builders/page/shop_page_builder.dart';
 import 'builders/widgets/shop_widget.dart';
 
 class ShopPageWizard extends NewAppWizardInfo {
-  ShopPageWizard() : super('shop', 'Shop', );
+  ShopPageWizard()
+      : super(
+          'shop',
+          'Shop',
+        );
 
   @override
-  NewAppWizardParameters newAppWizardParameters() =>
-      ShopParameters(shopSpecifications:
-      ActionSpecification(
+  NewAppWizardParameters newAppWizardParameters() => ShopParameters(
+      shopSpecifications: ActionSpecification(
         requiresAccessToLocalFileSystem: false,
         availableInLeftDrawer: true,
         availableInRightDrawer: false,
         availableInAppBar: false,
         availableInHomeMenu: true,
         available: false,
-      ), cartSpecifications:
-      ActionSpecification(
+      ),
+      cartSpecifications: ActionSpecification(
         requiresAccessToLocalFileSystem: false,
         availableInLeftDrawer: false,
         availableInRightDrawer: false,
         availableInAppBar: true,
         availableInHomeMenu: false,
         available: false,
-      ), shouldCreateShop: true);
+      ),
+      shopAsCart: true,
+      shouldCreateShop: true);
 
   @override
   List<NewAppTask>? getCreateTasks(
@@ -69,7 +74,7 @@ class ShopPageWizard extends NewAppWizardInfo {
                   rightDrawerProvider(),
                   pageProvider,
                   actionProvider)
-              .create(parameters.shopImage);
+              .create(parameters.shopImage, parameters.faderImage);
           await CartPageBuilder(
                   app,
                   memberId,
@@ -81,7 +86,7 @@ class ShopPageWizard extends NewAppWizardInfo {
                   actionProvider,
                   shop,
                   cardBG())
-              .create();
+              .create(parameters.cartImage);
           await PayPageBuilder(
                   app,
                   memberId,
@@ -93,7 +98,7 @@ class ShopPageWizard extends NewAppWizardInfo {
                   actionProvider,
                   shop,
                   cardBG())
-              .create();
+              .create(parameters.payImage);
           await OrderOverviewPageBuilder(
                   app,
                   memberId,
@@ -105,7 +110,7 @@ class ShopPageWizard extends NewAppWizardInfo {
                   actionProvider,
                   shop,
                   cardBG())
-              .create();
+              .create(parameters.orderImage);
           await PayConfirmationPageBuilder(
                   app,
                   memberId,
@@ -117,7 +122,7 @@ class ShopPageWizard extends NewAppWizardInfo {
                   actionProvider,
                   shop,
                   cardBG())
-              .create();
+              .create(parameters.payConfirmationImage);
           await ProductPageBuilder(
                   app,
                   memberId,
@@ -180,13 +185,18 @@ class ShopPageWizard extends NewAppWizardInfo {
       null;
 
   @override
-  List<MenuItemModel>? getMenuItemsFor(AppModel app, NewAppWizardParameters parameters, MenuType type) {
+  List<MenuItemModel>? getMenuItemsFor(
+      AppModel app, NewAppWizardParameters parameters, MenuType type) {
     if (parameters is ShopParameters) {
-        return [
-          if (parameters.shopSpecifications.should(type)) ShopPageBuilder.menuItem(app),
-          if (parameters.cartSpecifications.should(type) && parameters.shopAsCart) CartPageBuilder.menuItemCart(app),
-          if (parameters.cartSpecifications.should(type) && !parameters.shopAsCart) CartPageBuilder.menuItemBag(app),
-        ];
+      return [
+        if (parameters.shopSpecifications.should(type))
+          ShopPageBuilder.menuItem(app),
+        if (parameters.cartSpecifications.should(type) && parameters.shopAsCart)
+          CartPageBuilder.menuItemCart(app),
+        if (parameters.cartSpecifications.should(type) &&
+            !parameters.shopAsCart)
+          CartPageBuilder.menuItemBag(app),
+      ];
     } else {
       throw Exception(
           'Unexpected class for parameters: ' + parameters.toString());
@@ -194,7 +204,8 @@ class ShopPageWizard extends NewAppWizardInfo {
   }
 
   @override
-  Widget wizardParametersWidget(AppModel app, BuildContext context, NewAppWizardParameters parameters) {
+  Widget wizardParametersWidget(
+      AppModel app, BuildContext context, NewAppWizardParameters parameters) {
     if (parameters is ShopParameters) {
       return ShopParametersWidget(
         app: app,
@@ -207,17 +218,22 @@ class ShopPageWizard extends NewAppWizardInfo {
   }
 }
 
-
 class ShopParameters extends NewAppWizardParameters {
   bool shouldCreateShop;
   final ActionSpecification shopSpecifications;
-  late bool shopAsCart; // or as bag
+  bool shopAsCart; // or as bag
   final ActionSpecification cartSpecifications;
   PlatformMediumModel? shopImage;
+  PlatformMediumModel? faderImage;
+  PlatformMediumModel? cartImage;
+  PlatformMediumModel? payImage;
+  PlatformMediumModel? orderImage;
+  PlatformMediumModel? payConfirmationImage;
 
   ShopParameters({
     required this.shouldCreateShop,
     required this.shopSpecifications,
     required this.cartSpecifications,
+    required this.shopAsCart,
   }) {}
 }

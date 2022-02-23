@@ -8,15 +8,12 @@ import 'package:eliud_core/model/body_component_model.dart';
 import 'package:eliud_core/model/display_conditions_model.dart';
 import 'package:eliud_core/model/drawer_model.dart';
 import 'package:eliud_core/model/home_menu_model.dart';
-import 'package:eliud_core/model/member_medium_model.dart';
-import 'package:eliud_core/model/menu_def_model.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/model/platform_medium_model.dart';
 import 'package:eliud_core/model/storage_conditions_model.dart';
 import 'package:eliud_pkg_fundamentals/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_fundamentals/model/presentation_component.dart';
 import 'package:eliud_pkg_fundamentals/model/presentation_model.dart';
-import 'package:eliud_pkg_shop/wizards/builders/util/image_tools.dart';
 
 abstract class AbstractPageTemplate extends PageBuilder {
   final PrivilegeLevelRequiredSimple? privilegeLevelRequired;
@@ -27,8 +24,10 @@ abstract class AbstractPageTemplate extends PageBuilder {
 
   String pageTitle();
 
+/*
   String assetLocation();
 
+*/
   String? componentID();
   String componentName();
   Future<void> setupComponent();
@@ -57,7 +56,7 @@ abstract class AbstractPageTemplate extends PageBuilder {
   }
 
   PageModel _page(AppBarModel appBar, String? presentationId) {
-    List<BodyComponentModel> components = [];
+    var components = <BodyComponentModel>[];
     components.add(BodyComponentModel(
         documentID: pageId,
         componentId: presentationId,
@@ -78,7 +77,7 @@ abstract class AbstractPageTemplate extends PageBuilder {
         bodyComponents: components);
   }
 
-  PresentationModel _presentation(PlatformMediumModel image) {
+  PresentationModel _presentation(PlatformMediumModel? image) {
     return PresentationModel(
       documentID: pageId,
       appId: app.documentID!,
@@ -90,9 +89,7 @@ abstract class AbstractPageTemplate extends PageBuilder {
       ],
       image: image,
       imagePositionRelative: PresentationRelativeImagePosition.Aside,
-      imageAlignment: presentationImageAlignment == null
-          ? PresentationImageAlignment.Right
-          : presentationImageAlignment,
+      imageAlignment: presentationImageAlignment ?? PresentationImageAlignment.Right,
       imageWidth: .40,
       conditions: StorageConditionsModel(
           privilegeLevelRequired:
@@ -101,7 +98,7 @@ abstract class AbstractPageTemplate extends PageBuilder {
   }
 
   Future<PresentationModel> _setupPresentation(
-      PlatformMediumModel image) async {
+      PlatformMediumModel? image) async {
     var presentation = _presentation(image);
     await AbstractRepositorySingleton.singleton
         .presentationRepository(app.documentID!)!
@@ -109,15 +106,17 @@ abstract class AbstractPageTemplate extends PageBuilder {
     return presentation;
   }
 
+/*
   Future<PlatformMediumModel> uploadImage() async {
     return await ImageTools.uploadPlatformPhoto(app, memberId, assetLocation(),
         PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple);
   }
 
-  Future<PageModel> create() async {
-    var image = await uploadImage();
-    PresentationModel presentationModel = await _setupPresentation(image);
+*/
+  Future<PageModel> create(PlatformMediumModel? image) async {
+    var presentationModelId;
+    presentationModelId = (await _setupPresentation(image)).documentID;
     await setupComponent();
-    return await _setupPage(theAppBar, presentationModel.documentID);
+    return await _setupPage(theAppBar, presentationModelId);
   }
 }

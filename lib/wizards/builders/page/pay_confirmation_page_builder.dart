@@ -83,7 +83,4 @@ class PayConfirmationPageBuilder extends AbstractPageTemplate {
         .add(_payConfirmationModel());
   }
 
-  @override
-  String assetLocation() =>
-      'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_credit_card.png';
 }

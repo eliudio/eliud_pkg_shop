@@ -123,8 +123,4 @@ class CartPageBuilder extends AbstractPageTemplate {
         .cartRepository(app.documentID!)!
         .add(_cart());
   }
-
-  @override
-  String assetLocation() =>
-      'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_bags.png';
 }

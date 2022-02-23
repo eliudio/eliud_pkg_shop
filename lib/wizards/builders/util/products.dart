@@ -42,6 +42,7 @@ class Products {
             'packages/eliud_pkg_shop/assets/shop/products/gouldianfinch2.png',
         price: 11,
       ),
+/*
       // 2
       Product(
         id: productId2,
@@ -222,6 +223,7 @@ class Products {
             'packages/eliud_pkg_shop/assets/shop/products/grosbeak2.png',
         price: 11,
       )
+*/
     ];
 
     // for now, during tests, only support 2 products

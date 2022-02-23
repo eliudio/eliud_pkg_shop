@@ -52,15 +52,78 @@ class _ShopParametersWidgetState extends State<ShopParametersWidget> {
                 label: 'Generate Cart Page'),
           if (widget.parameters.shouldCreateShop)
             PhotoWidget(
-              title: 'Shop image',
+              title: 'Shop Page Image',
               defaultImage:
-                  'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_presenting.png',
+              'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_presenting.png',
               feedbackFunction: (mediumModel) {
-                widget.parameters.shopImage = mediumModel;
+                setState(() {
+                  widget.parameters.shopImage = mediumModel;
+                });
               },
               app: widget.app,
               initialImage: widget.parameters.shopImage,
-            )
+            ),
+          if (widget.parameters.shouldCreateShop)
+            PhotoWidget(
+              title: 'Shop Fader Image',
+              defaultImage:
+              'packages/eliud_pkg_shop/assets/shop/logo/day30-cafe.png',
+              feedbackFunction: (mediumModel) {
+                setState(() {
+                  widget.parameters.faderImage = mediumModel;
+                });
+              },
+              app: widget.app,
+              initialImage: widget.parameters.faderImage,
+            ),
+          if (widget.parameters.shouldCreateShop)
+            PhotoWidget(
+              title: 'Cart Page Image',
+              defaultImage:
+              'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_bags.png',
+              feedbackFunction: (mediumModel) {
+                setState(() {
+                  widget.parameters.cartImage = mediumModel;
+                });
+              },
+              app: widget.app,
+              initialImage: widget.parameters.cartImage,
+            ),
+          if (widget.parameters.shouldCreateShop)
+            PhotoWidget(
+              title: 'Order Overview Image',
+              defaultImage:
+              'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_bags.png',
+              feedbackFunction: (mediumModel) {
+                setState(() {
+                  widget.parameters.orderImage = mediumModel;
+                });
+              },
+              app: widget.app,
+              initialImage: widget.parameters.orderImage,
+            ),
+          if (widget.parameters.shouldCreateShop)
+            PhotoWidget(
+              title: 'Pay Confirmation Image',
+              defaultImage: 'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_credit_card.png',
+              feedbackFunction: (mediumModel) {
+                setState(() {
+                  widget.parameters.payConfirmationImage = mediumModel;
+                });
+              },
+              app: widget.app,
+              initialImage: widget.parameters.payConfirmationImage,
+            ),
+          if (widget.parameters.shouldCreateShop)
+            PhotoWidget(
+              title: 'Page image',
+              defaultImage: 'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_credit_card.png',
+              feedbackFunction: (mediumModel) {
+                widget.parameters.payImage = mediumModel;
+              },
+              app: widget.app,
+              initialImage: widget.parameters.payImage,
+            ),
         ]);
   }
 }

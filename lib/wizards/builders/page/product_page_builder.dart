@@ -1,4 +1,3 @@
-import 'package:eliud_core/core/wizards/builders/page_builder.dart';
 import 'package:eliud_core/core/wizards/registry/registry.dart';
 import 'package:eliud_core/model/drawer_model.dart';
 import 'package:eliud_core/model/home_menu_model.dart';
@@ -65,8 +64,10 @@ class ProductPageBuilder extends AbstractBasicPageTemplate {
   @override
   String pageTitle() => 'Product';
 
+  @override
   String componentName() => AbstractProductDisplayComponent.componentName;
 
+  @override
   String? componentID() {
     return _productDisplayOverview().documentID;
   }

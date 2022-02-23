@@ -80,8 +80,4 @@ class PayPageBuilder extends AbstractPageTemplate {
         .payRepository(app.documentID!)!
         .add(_payModel());
   }
-
-  @override
-  String assetLocation() =>
-      'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_credit_card.png';
 }
