@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/wizards/builders/page_builder.dart';
 import 'package:eliud_core/core/wizards/registry/registry.dart';
+import 'package:eliud_core/core/wizards/tools/documentIdentifier.dart';
 import 'package:eliud_core/model/drawer_model.dart';
 import 'package:eliud_core/model/home_menu_model.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
@@ -20,6 +21,7 @@ class PayConfirmationPageBuilder extends AbstractPageTemplate {
   static const String PAGE_ID = 'shop-payconfirmation';
 
   PayConfirmationPageBuilder(
+    String uniqueId,
     AppModel app,
     String memberId,
     HomeMenuModel theHomeMenu,
@@ -31,6 +33,7 @@ class PayConfirmationPageBuilder extends AbstractPageTemplate {
     this.shop,
     this.background,
   ) : super(
+          uniqueId,
           PAGE_ID,
           app,
           memberId,
@@ -45,8 +48,8 @@ class PayConfirmationPageBuilder extends AbstractPageTemplate {
           packageCondition: ShopPackage.CONDITION_CARTS_HAS_ITEMS,
         );
 
-  static ActionModel action(AppModel app) => GotoPage(app,
-      pageID: PAGE_ID,
+  static ActionModel action(AppModel app, String uniqueId) => GotoPage(app,
+      pageID: constructDocumentId(uniqueId: uniqueId, documentId: PAGE_ID),
       conditions: DisplayConditionsModel(
         privilegeLevelRequired: PrivilegeLevelRequired.NoPrivilegeRequired,
         packageCondition: ShopPackage.CONDITION_CARTS_HAS_ITEMS,
@@ -54,11 +57,11 @@ class PayConfirmationPageBuilder extends AbstractPageTemplate {
 
   PayConfirmationModel _payConfirmationModel() {
     return PayConfirmationModel(
-      documentID: 'payconfirmation',
+      documentID: constructDocumentId(uniqueId: uniqueId, documentId: 'payconfirmation'),
       appId: app.documentID!,
       title: pageTitle(),
       shop: shop,
-      backToShopAction: GotoPage(app, pageID: ShopPageBuilder.PAGE_ID),
+      backToShopAction: GotoPage(app, pageID: constructDocumentId(uniqueId: uniqueId, documentId: ShopPageBuilder.PAGE_ID)),
       conditions: StorageConditionsModel(
           privilegeLevelRequired:
               PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),

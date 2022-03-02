@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/wizards/builders/page_builder.dart';
 import 'package:eliud_core/core/wizards/registry/registry.dart';
+import 'package:eliud_core/core/wizards/tools/documentIdentifier.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart'
     as corerepo;
 import 'package:eliud_core/model/app_bar_model.dart';
@@ -11,6 +12,7 @@ import 'package:eliud_core/model/home_menu_model.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/model/platform_medium_model.dart';
 import 'package:eliud_core/model/storage_conditions_model.dart';
+import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_pkg_fundamentals/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_fundamentals/model/presentation_component.dart';
 import 'package:eliud_pkg_fundamentals/model/presentation_model.dart';
@@ -33,6 +35,7 @@ abstract class AbstractPageTemplate extends PageBuilder {
   Future<void> setupComponent();
 
   AbstractPageTemplate(
+    String uniqueId,
     String pageId,
     AppModel app,
     String memberId,
@@ -45,7 +48,7 @@ abstract class AbstractPageTemplate extends PageBuilder {
     this.privilegeLevelRequired,
     this.packageCondition,
     this.conditionOverride,
-  }) : super(pageId, app, memberId, theHomeMenu, theAppBar, leftDrawer,
+  }) : super(uniqueId, pageId, app, memberId, theHomeMenu, theAppBar, leftDrawer,
             rightDrawer, pageProvider, actionProvider);
 
   Future<PageModel> _setupPage(
@@ -58,12 +61,12 @@ abstract class AbstractPageTemplate extends PageBuilder {
   PageModel _page(AppBarModel appBar, String? presentationId) {
     var components = <BodyComponentModel>[];
     components.add(BodyComponentModel(
-        documentID: pageId,
+        documentID: constructDocumentId(uniqueId: uniqueId, documentId: pageId),
         componentId: presentationId,
         componentName: AbstractPresentationComponent.componentName));
 
     return PageModel(
-        documentID: pageId,
+        documentID: constructDocumentId(uniqueId: uniqueId, documentId: pageId),
         appId: app.documentID!,
         title: pageTitle(),
         drawer: leftDrawer,
@@ -79,11 +82,11 @@ abstract class AbstractPageTemplate extends PageBuilder {
 
   PresentationModel _presentation(PlatformMediumModel? image) {
     return PresentationModel(
-      documentID: pageId,
+      documentID: constructDocumentId(uniqueId: uniqueId, documentId: pageId),
       appId: app.documentID!,
       bodyComponents: [
         BodyComponentModel(
-            documentID: pageId,
+            documentID: newRandomKey(),
             componentId: componentID(),
             componentName: componentName())
       ],

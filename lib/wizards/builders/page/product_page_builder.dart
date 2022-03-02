@@ -1,4 +1,5 @@
 import 'package:eliud_core/core/wizards/registry/registry.dart';
+import 'package:eliud_core/core/wizards/tools/documentIdentifier.dart';
 import 'package:eliud_core/model/drawer_model.dart';
 import 'package:eliud_core/model/home_menu_model.dart';
 import 'package:eliud_core/model/model_export.dart';
@@ -16,6 +17,7 @@ class ProductPageBuilder extends AbstractBasicPageTemplate {
   static String PAGE_ID = 'shop-product';
 
   ProductPageBuilder(
+      String uniqueId,
     AppModel app,
     String memberId,
     HomeMenuModel theHomeMenu,
@@ -26,6 +28,7 @@ class ProductPageBuilder extends AbstractBasicPageTemplate {
     ActionProvider actionProvider,
     this.shop,
   ) : super(
+          uniqueId,
           PAGE_ID,
           app,
           memberId,
@@ -39,8 +42,8 @@ class ProductPageBuilder extends AbstractBasicPageTemplate {
               PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple,
         );
 
-  static ActionModel action(AppModel app) => GotoPage(app,
-      pageID: PAGE_ID,
+  static ActionModel action(AppModel app, String uniqueId) => GotoPage(app,
+      pageID: PAGE_ID + uniqueId,
       conditions: DisplayConditionsModel(
         privilegeLevelRequired: PrivilegeLevelRequired.NoPrivilegeRequired,
         packageCondition: ShopPackage.CONDITION_CARTS_HAS_ITEMS,
@@ -48,11 +51,11 @@ class ProductPageBuilder extends AbstractBasicPageTemplate {
 
   ProductDisplayModel _productDisplayOverview() {
     return ProductDisplayModel(
-      documentID: 'product',
+      documentID: constructDocumentId(uniqueId: uniqueId, documentId: 'product'),
       appId: app.documentID!,
       title: pageTitle(),
       shop: shop,
-      buyAction: CartPageBuilder.openCartPage(app),
+      buyAction: CartPageBuilder.openCartPage(app, uniqueId),
       itemDetailBackground: null,
       addToBasketText: 'Add to basket',
       conditions: StorageConditionsModel(

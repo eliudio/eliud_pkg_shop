@@ -5,11 +5,12 @@ import 'package:eliud_pkg_shop/model/model_export.dart';
 import 'product.dart';
 
 class Products {
+  final String uniqueId;
   final ShopModel shop;
   final AppModel app;
   final String memberId;
 
-  Products({required this.shop, required this.app, required this.memberId});
+  Products({required this.uniqueId, required this.shop, required this.app, required this.memberId});
 
   static String productId1 = 'gouldian_finch';
   static String productId2 = 'red_breasted_blackbird';
@@ -231,7 +232,7 @@ class Products {
       var p = theProducts[i];
       await AbstractRepositorySingleton.singleton
           .productRepository(app.documentID!)!
-          .add(await productToProductModel(shop, app, memberId, p));
+          .add(await productToProductModel(uniqueId, shop, app, memberId, p));
     }
   }
 }

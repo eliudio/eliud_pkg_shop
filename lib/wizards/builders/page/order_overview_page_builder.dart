@@ -1,9 +1,11 @@
 import 'package:eliud_core/core/wizards/builders/page_builder.dart';
 import 'package:eliud_core/core/wizards/registry/registry.dart';
+import 'package:eliud_core/core/wizards/tools/documentIdentifier.dart';
 import 'package:eliud_core/model/drawer_model.dart';
 import 'package:eliud_core/model/home_menu_model.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
 import 'package:eliud_core/model/model_export.dart';
+import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
 import 'package:eliud_pkg_shop/model/order_overview_component.dart';
@@ -13,11 +15,11 @@ class OrderOverviewPageBuilder extends AbstractPageTemplate {
   final BackgroundModel? background;
   final ShopModel? shop;
 
-  static const String PAGE_ID = 'shop-orders';
+  static String PAGE_ID = 'shop-orders-' + newRandomKey();
 
   OrderOverviewModel _orderOverview() {
     return OrderOverviewModel(
-      documentID: 'orders',
+      documentID: constructDocumentId(uniqueId: uniqueId, documentId: 'orders'),
       appId: app.documentID!,
       title: pageTitle(),
       shop: shop,
@@ -36,6 +38,7 @@ class OrderOverviewPageBuilder extends AbstractPageTemplate {
   String componentName() => AbstractOrderOverviewComponent.componentName;
 
   OrderOverviewPageBuilder(
+    String uniqueId,
     AppModel app,
     String memberId,
     HomeMenuModel theHomeMenu,
@@ -47,6 +50,7 @@ class OrderOverviewPageBuilder extends AbstractPageTemplate {
     this.shop,
     this.background,
   ) : super(
+          uniqueId,
           PAGE_ID,
           app,
           memberId,

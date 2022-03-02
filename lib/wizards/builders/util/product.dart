@@ -1,3 +1,4 @@
+import 'package:eliud_core/core/wizards/tools/documentIdentifier.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/platform_medium_model.dart';
 import 'package:eliud_core/model/storage_conditions_model.dart';
@@ -40,35 +41,35 @@ Future<PlatformMediumModel> uploadPlatformPhoto(
       .createThumbnailUploadPhotoAsset(newRandomKey(), photoLocation);
 }
 
-Future<ProductModel> productToProductModel(
+Future<ProductModel> productToProductModel(String uniqueId,
     ShopModel shop, AppModel app, String memberId, Product product) async {
-  List<ProductImageModel> productImages = [];
+  var productImages = <ProductImageModel>[];
   if (product.assetLocation1 != null) {
     productImages.add(ProductImageModel(
-        documentID: product.imageId1(),
+        documentID: constructDocumentId(uniqueId: uniqueId, documentId: product.imageId1()),
         image:
             await uploadPlatformPhoto(app, memberId, product.assetLocation1!)));
   }
   if (product.assetLocation2 != null) {
     productImages.add(ProductImageModel(
-        documentID: product.imageId1(),
+        documentID: constructDocumentId(uniqueId: uniqueId, documentId: product.imageId1()),
         image:
             await uploadPlatformPhoto(app, memberId, product.assetLocation2!)));
   }
   if (product.assetLocation3 != null) {
     productImages.add(ProductImageModel(
-        documentID: product.imageId1(),
+        documentID: constructDocumentId(uniqueId: uniqueId, documentId: product.imageId1()),
         image:
             await uploadPlatformPhoto(app, memberId, product.assetLocation3!)));
   }
   if (product.assetLocation4 != null) {
     productImages.add(ProductImageModel(
-        documentID: product.imageId1(),
+        documentID: constructDocumentId(uniqueId: uniqueId, documentId: product.imageId1()),
         image:
             await uploadPlatformPhoto(app, memberId, product.assetLocation4!)));
   }
-  return new ProductModel(
-    documentID: product.id,
+  return ProductModel(
+    documentID: constructDocumentId(uniqueId: uniqueId, documentId: product.id!),
     appId: app.documentID!,
     title: product.title,
     about: product.about,

@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/wizards/builders/page_builder.dart';
 import 'package:eliud_core/core/wizards/registry/registry.dart';
+import 'package:eliud_core/core/wizards/tools/documentIdentifier.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart'
     as corerepo;
 import 'package:eliud_core/model/app_bar_model.dart';
@@ -33,6 +34,7 @@ class ShopPageBuilder extends PageBuilder {
   static String PAGE_ID = 'shop-front';
 
   ShopPageBuilder(
+    String uniqueId,
     AppModel app,
     String memberId,
     HomeMenuModel theHomeMenu,
@@ -41,22 +43,22 @@ class ShopPageBuilder extends PageBuilder {
     DrawerModel rightDrawer,
     PageProvider pageProvider,
     ActionProvider actionProvider,
-  ) : super(PAGE_ID, app, memberId, theHomeMenu, theAppBar, leftDrawer,
+  ) : super(uniqueId, PAGE_ID, app, memberId, theHomeMenu, theAppBar, leftDrawer,
             rightDrawer, pageProvider, actionProvider);
 
-  static ActionModel action(AppModel app) => GotoPage(
+  static ActionModel action(AppModel app, String uniqueId) => GotoPage(
         app,
-        pageID: PAGE_ID,
+        pageID: constructDocumentId(uniqueId: uniqueId, documentId: PAGE_ID),
       );
 
-  static MenuItemModel menuItem(AppModel app) => MenuItemModel(
+  static MenuItemModel menuItem(AppModel app, String uniqueId) => MenuItemModel(
       documentID: newRandomKey(),
       text: 'Shop',
       description: 'Shop',
       icon: IconModel(
           codePoint: Icons.shopping_basket.codePoint,
           fontFamily: Icons.settings.fontFamily),
-      action: GotoPage(app, pageID: PAGE_ID));
+      action: GotoPage(app, pageID: constructDocumentId(uniqueId: uniqueId, documentId: PAGE_ID)));
 
   Future<PageModel> _setupPage(
       String? presentationDocumentId, String? faderIdentifier) async {
@@ -87,7 +89,7 @@ class ShopPageBuilder extends PageBuilder {
     }
 
     return PageModel(
-        documentID: PAGE_ID,
+        documentID: constructDocumentId(uniqueId: uniqueId, documentId: PAGE_ID),
         appId: app.documentID!,
         title: 'Shop',
         drawer: leftDrawer,
@@ -137,7 +139,7 @@ class ShopPageBuilder extends PageBuilder {
 
   ShopModel _shop() {
     var document = ShopModel(
-        documentID: 'mainshop',
+        documentID: constructDocumentId(uniqueId: uniqueId, documentId: 'mainshop'),
         description: 'Main shop',
         shortDescription: 'Main shop',
         currency: 'eur',
@@ -149,16 +151,16 @@ class ShopPageBuilder extends PageBuilder {
 
   ShopFrontModel _shopFront1() {
     return ShopFrontModel(
-      documentID: shopFrontIdentifier1,
+      documentID: constructDocumentId(uniqueId: uniqueId, documentId: shopFrontIdentifier1),
       appId: app.documentID!,
       title: 'Featured',
       description: 'These are my featured products',
       shop: _shop(),
       addToCartColor: EliudColors.red,
       itemCardBackground: cardBG(),
-      buyAction: CartPageBuilder.openCartPage(app),
+      buyAction: CartPageBuilder.openCartPage(app, uniqueId),
       view: ShopFrontView.Slider,
-      openProductAction: GotoPage(app, pageID: ProductPageBuilder.PAGE_ID),
+      openProductAction: GotoPage(app, pageID: constructDocumentId(uniqueId: uniqueId, documentId: ProductPageBuilder.PAGE_ID)),
       size: 250,
       cardElevation: 10,
       cardAxisSpacing: 20,
@@ -173,16 +175,16 @@ class ShopPageBuilder extends PageBuilder {
 
   ShopFrontModel _shopFront2() {
     return ShopFrontModel(
-      documentID: shopFrontIdentifier2,
+      documentID: constructDocumentId(uniqueId: uniqueId, documentId: shopFrontIdentifier2),
       appId: app.documentID!,
       title: 'My products',
       description: 'These are my lovely products',
       shop: _shop(),
       addToCartColor: EliudColors.red,
       itemCardBackground: cardBG(),
-      buyAction: CartPageBuilder.openCartPage(app),
+      buyAction: CartPageBuilder.openCartPage(app, uniqueId),
       view: ShopFrontView.Grid,
-      openProductAction: GotoPage(app, pageID: ProductPageBuilder.PAGE_ID),
+      openProductAction: GotoPage(app, pageID: constructDocumentId(uniqueId: uniqueId, documentId: ProductPageBuilder.PAGE_ID)),
       size: 250,
       cardElevation: 10,
       cardAxisSpacing: 20,
@@ -228,7 +230,7 @@ class ShopPageBuilder extends PageBuilder {
 
   PresentationModel _presentation(PlatformMediumModel memberMediumModel) {
     return PresentationModel(
-      documentID: 'shop',
+      documentID: constructDocumentId(uniqueId: uniqueId, documentId: 'shop'),
       appId: app.documentID!,
       bodyComponents: [_shopFront()],
       image: memberMediumModel,
@@ -260,7 +262,7 @@ class ShopPageBuilder extends PageBuilder {
   static String dividerId = 'shop-divider';
   DividerModel _divider() {
     var dividerModel = DividerModel(
-      documentID: dividerId,
+      documentID: constructDocumentId(uniqueId: uniqueId, documentId: dividerId),
       name: 'shop divider',
       color: EliudColors.black,
       endIndent: 0,
@@ -289,6 +291,7 @@ class ShopPageBuilder extends PageBuilder {
     await _setupShopFronts();
     var shop = await _setupShop();
     await Products(
+      uniqueId: uniqueId,
       shop: shop,
       app: app,
       memberId: memberId,

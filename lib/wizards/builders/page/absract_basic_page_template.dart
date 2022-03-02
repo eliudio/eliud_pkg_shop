@@ -1,14 +1,9 @@
 import 'package:eliud_core/core/wizards/builders/page_builder.dart';
 import 'package:eliud_core/core/wizards/registry/registry.dart';
+import 'package:eliud_core/core/wizards/tools/documentIdentifier.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart'
     as corerepo;
-import 'package:eliud_core/model/app_bar_model.dart';
-import 'package:eliud_core/model/body_component_model.dart';
-import 'package:eliud_core/model/drawer_model.dart';
-import 'package:eliud_core/model/home_menu_model.dart';
-import 'package:eliud_core/model/menu_def_model.dart';
 import 'package:eliud_core/model/model_export.dart';
-import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_pkg_fundamentals/model/presentation_model.dart';
 
 abstract class AbstractBasicPageTemplate extends PageBuilder {
@@ -23,6 +18,7 @@ abstract class AbstractBasicPageTemplate extends PageBuilder {
   Future<void> setupComponent();
 
   AbstractBasicPageTemplate(
+      String uniqueId,
       String pageId,
       AppModel app,
       String memberId,
@@ -34,7 +30,7 @@ abstract class AbstractBasicPageTemplate extends PageBuilder {
       ActionProvider actionProvider,
       {this.privilegeLevelRequired,
       this.presentationImageAlignment})
-      : super(pageId, app, memberId, theHomeMenu, theAppBar, leftDrawer,
+      : super(uniqueId, pageId, app, memberId, theHomeMenu, theAppBar, leftDrawer,
             rightDrawer, pageProvider, actionProvider);
 
   Future<PageModel> _setupPage(AppBarModel appBar) async {
@@ -44,14 +40,14 @@ abstract class AbstractBasicPageTemplate extends PageBuilder {
   }
 
   PageModel _page(AppBarModel appBar) {
-    List<BodyComponentModel> components = [];
+    var components = <BodyComponentModel>[];
     components.add(BodyComponentModel(
-        documentID: pageId,
+        documentID: constructDocumentId(uniqueId: uniqueId, documentId: pageId),
         componentId: componentID(),
         componentName: componentName()));
 
     return PageModel(
-        documentID: pageId,
+        documentID: constructDocumentId(uniqueId: uniqueId, documentId: pageId),
         appId: app.documentID!,
         title: pageTitle(),
         drawer: leftDrawer,

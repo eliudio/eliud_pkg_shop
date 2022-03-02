@@ -3,10 +3,10 @@ import 'package:eliud_core/core/wizards/registry/registry.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/decoration_color_model.dart';
-import 'package:eliud_core/model/icon_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/model/platform_medium_model.dart';
+import 'package:eliud_core/model/public_medium_model.dart';
 import 'package:eliud_core/style/_default/tools/colors.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
@@ -49,6 +49,7 @@ class ShopPageWizard extends NewAppWizardInfo {
 
   @override
   List<NewAppTask>? getCreateTasks(
+    String uniqueId,
     AppModel app,
     NewAppWizardParameters parameters,
     MemberModel member,
@@ -66,6 +67,7 @@ class ShopPageWizard extends NewAppWizardInfo {
 
         tasks.add(() async {
           var shop = await ShopPageBuilder(
+                  uniqueId,
                   app,
                   memberId,
                   homeMenuProvider(),
@@ -76,6 +78,7 @@ class ShopPageWizard extends NewAppWizardInfo {
                   actionProvider)
               .create(parameters.shopImage, parameters.faderImage);
           await CartPageBuilder(
+                  uniqueId,
                   app,
                   memberId,
                   homeMenuProvider(),
@@ -88,6 +91,7 @@ class ShopPageWizard extends NewAppWizardInfo {
                   cardBG())
               .create(parameters.cartImage);
           await PayPageBuilder(
+                  uniqueId,
                   app,
                   memberId,
                   homeMenuProvider(),
@@ -100,6 +104,7 @@ class ShopPageWizard extends NewAppWizardInfo {
                   cardBG())
               .create(parameters.payImage);
           await OrderOverviewPageBuilder(
+                  uniqueId,
                   app,
                   memberId,
                   homeMenuProvider(),
@@ -112,6 +117,7 @@ class ShopPageWizard extends NewAppWizardInfo {
                   cardBG())
               .create(parameters.orderImage);
           await PayConfirmationPageBuilder(
+                  uniqueId,
                   app,
                   memberId,
                   homeMenuProvider(),
@@ -124,6 +130,7 @@ class ShopPageWizard extends NewAppWizardInfo {
                   cardBG())
               .create(parameters.payConfirmationImage);
           await ProductPageBuilder(
+                  uniqueId,
                   app,
                   memberId,
                   homeMenuProvider(),
@@ -168,16 +175,20 @@ class ShopPageWizard extends NewAppWizardInfo {
 
   @override
   AppModel updateApp(
+    String uniqueId,
     NewAppWizardParameters parameters,
     AppModel adjustMe,
   ) =>
       adjustMe;
 
   @override
-  String? getPageID(NewAppWizardParameters parameters, String pageType) => null;
+  String? getPageID(String uniqueId, NewAppWizardParameters parameters,
+          String pageType) =>
+      null;
 
   @override
   ActionModel? getAction(
+    String uniqueId,
     NewAppWizardParameters parameters,
     AppModel app,
     String actionType,
@@ -185,17 +196,17 @@ class ShopPageWizard extends NewAppWizardInfo {
       null;
 
   @override
-  List<MenuItemModel>? getMenuItemsFor(
-      AppModel app, NewAppWizardParameters parameters, MenuType type) {
+  List<MenuItemModel>? getMenuItemsFor(String uniqueId, AppModel app,
+      NewAppWizardParameters parameters, MenuType type) {
     if (parameters is ShopParameters) {
       return [
         if (parameters.shopSpecifications.should(type))
-          ShopPageBuilder.menuItem(app),
+          ShopPageBuilder.menuItem(app, uniqueId),
         if (parameters.cartSpecifications.should(type) && parameters.shopAsCart)
-          CartPageBuilder.menuItemCart(app),
+          CartPageBuilder.menuItemCart(app, uniqueId),
         if (parameters.cartSpecifications.should(type) &&
             !parameters.shopAsCart)
-          CartPageBuilder.menuItemBag(app),
+          CartPageBuilder.menuItemBag(app, uniqueId),
       ];
     } else {
       throw Exception(
@@ -204,8 +215,8 @@ class ShopPageWizard extends NewAppWizardInfo {
   }
 
   @override
-  Widget wizardParametersWidget(
-      AppModel app, BuildContext context, NewAppWizardParameters parameters) {
+  Widget wizardParametersWidget(AppModel app,
+      BuildContext context, NewAppWizardParameters parameters) {
     if (parameters is ShopParameters) {
       return ShopParametersWidget(
         app: app,
@@ -216,6 +227,9 @@ class ShopPageWizard extends NewAppWizardInfo {
           'Unexpected class for parameters: ' + parameters.toString());
     }
   }
+
+  @override
+  PublicMediumModel? getPublicMediumModel(String uniqueId, NewAppWizardParameters parameters, String pageType) => null;
 }
 
 class ShopParameters extends NewAppWizardParameters {

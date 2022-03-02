@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/wizards/builders/page_builder.dart';
 import 'package:eliud_core/core/wizards/registry/registry.dart';
+import 'package:eliud_core/core/wizards/tools/documentIdentifier.dart';
 import 'package:eliud_core/model/app_bar_model.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/background_model.dart';
@@ -29,6 +30,7 @@ class CartPageBuilder extends AbstractPageTemplate {
   static const String PAGE_ID = 'shop-cart';
 
   CartPageBuilder(
+    String uniqueId,
     AppModel app,
     String memberId,
     HomeMenuModel theHomeMenu,
@@ -40,6 +42,7 @@ class CartPageBuilder extends AbstractPageTemplate {
     this.shop,
     this.background,
   ) : super(
+          uniqueId,
           PAGE_ID,
           app,
           memberId,
@@ -53,14 +56,14 @@ class CartPageBuilder extends AbstractPageTemplate {
               PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple,
         );
 
-  static GotoPage openCartPage(AppModel app) => GotoPage(app,
-      pageID: PAGE_ID,
+  static GotoPage openCartPage(AppModel app, String uniqueId) => GotoPage(app,
+      pageID: constructDocumentId(uniqueId: uniqueId, documentId: PAGE_ID),
       conditions: DisplayConditionsModel(
         privilegeLevelRequired: PrivilegeLevelRequired.NoPrivilegeRequired,
         packageCondition: ShopPackage.CONDITION_CARTS_HAS_ITEMS,
       ));
 
-  static MenuItemModel menuItemBag(AppModel app) {
+  static MenuItemModel menuItemBag(AppModel app, String uniqueId) {
     return MenuItemModel(
         documentID: newRandomKey(),
         text: 'Your bag',
@@ -69,10 +72,10 @@ class CartPageBuilder extends AbstractPageTemplate {
             codePoint: Icons.shopping_basket.codePoint,
             fontFamily: Icons.shopping_basket.fontFamily),
         action:
-        openCartPage(app));
+        openCartPage(app, uniqueId));
   }
 
-  static MenuItemModel menuItemCart(AppModel app) {
+  static MenuItemModel menuItemCart(AppModel app, String uniqueId) {
     return MenuItemModel(
         documentID: newRandomKey(),
         text: 'Your cart',
@@ -81,12 +84,12 @@ class CartPageBuilder extends AbstractPageTemplate {
             codePoint: Icons.shopping_cart.codePoint,
             fontFamily: Icons.shopping_cart.fontFamily),
         action:
-        openCartPage(app));
+        openCartPage(app, uniqueId));
   }
 
   CartModel _cart() {
     return CartModel(
-      documentID: 'cart',
+      documentID: constructDocumentId(uniqueId: uniqueId, documentId: 'cart'),
       appId: app.documentID!,
       title: pageTitle(),
       description: 'Shopping bag',
@@ -94,9 +97,9 @@ class CartPageBuilder extends AbstractPageTemplate {
       shop: shop,
       itemImageBackground: null,
       itemDetailBackground: background,
-      checkoutAction: PayPageBuilder.action(app),
-      backToShopAction: ShopPageBuilder.action(app),
-      openProductAction: ProductPageBuilder.action(app),
+      checkoutAction: PayPageBuilder.action(app, uniqueId),
+      backToShopAction: ShopPageBuilder.action(app, uniqueId),
+      openProductAction: ProductPageBuilder.action(app, uniqueId),
       conditions: StorageConditionsModel(
           privilegeLevelRequired:
               PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
