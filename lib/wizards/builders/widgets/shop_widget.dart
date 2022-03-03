@@ -32,25 +32,16 @@ class _ShopParametersWidgetState extends State<ShopParametersWidget> {
         collapsible: true,
         collapsed: true,
         children: [
-          checkboxListTile(widget.app, context, 'Generate shop',
-              widget.parameters.shouldCreateShop, (value) {
-            setState(() {
-              widget.parameters.shouldCreateShop = value ?? false;
-            });
-          }),
-          if (widget.parameters.shouldCreateShop)
             ActionSpecificationWidget(
                 app: widget.app,
                 enabled: true,
                 actionSpecification: widget.parameters.shopSpecifications,
                 label: 'Generate Shop Page'),
-          if (widget.parameters.shouldCreateShop)
             ActionSpecificationWidget(
                 app: widget.app,
                 enabled: true,
                 actionSpecification: widget.parameters.cartSpecifications,
                 label: 'Generate Cart Page'),
-          if (widget.parameters.shouldCreateShop)
             PlatformPhotoWidget(
               title: 'Shop Page Image',
               defaultImage:
@@ -63,7 +54,6 @@ class _ShopParametersWidgetState extends State<ShopParametersWidget> {
               app: widget.app,
               initialImage: widget.parameters.shopImage,
             ),
-          if (widget.parameters.shouldCreateShop)
             PlatformPhotoWidget(
               title: 'Shop Fader Image',
               defaultImage:
@@ -76,7 +66,6 @@ class _ShopParametersWidgetState extends State<ShopParametersWidget> {
               app: widget.app,
               initialImage: widget.parameters.faderImage,
             ),
-          if (widget.parameters.shouldCreateShop)
             PlatformPhotoWidget(
               title: 'Cart Page Image',
               defaultImage:
@@ -89,7 +78,6 @@ class _ShopParametersWidgetState extends State<ShopParametersWidget> {
               app: widget.app,
               initialImage: widget.parameters.cartImage,
             ),
-          if (widget.parameters.shouldCreateShop)
             PlatformPhotoWidget(
               title: 'Order Overview Image',
               defaultImage:
@@ -102,7 +90,6 @@ class _ShopParametersWidgetState extends State<ShopParametersWidget> {
               app: widget.app,
               initialImage: widget.parameters.orderImage,
             ),
-          if (widget.parameters.shouldCreateShop)
             PlatformPhotoWidget(
               title: 'Pay Confirmation Image',
               defaultImage: 'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_credit_card.png',
@@ -114,7 +101,6 @@ class _ShopParametersWidgetState extends State<ShopParametersWidget> {
               app: widget.app,
               initialImage: widget.parameters.payConfirmationImage,
             ),
-          if (widget.parameters.shouldCreateShop)
             PlatformPhotoWidget(
               title: 'Page image',
               defaultImage: 'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_credit_card.png',

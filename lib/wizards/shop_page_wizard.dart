@@ -45,7 +45,7 @@ class ShopPageWizard extends NewAppWizardInfo {
         available: false,
       ),
       shopAsCart: true,
-      shouldCreateShop: true);
+      );
 
   @override
   List<NewAppTask>? getCreateTasks(
@@ -61,7 +61,6 @@ class ShopPageWizard extends NewAppWizardInfo {
     ActionProvider actionProvider,
   ) {
     if (parameters is ShopParameters) {
-      if (parameters.shouldCreateShop) {
         var memberId = member.documentID!;
         var tasks = <NewAppTask>[];
 
@@ -144,7 +143,6 @@ class ShopPageWizard extends NewAppWizardInfo {
         });
 
         return tasks;
-      }
     } else {
       throw Exception(
           'Unexpected class for parameters: ' + parameters.toString());
@@ -233,7 +231,6 @@ class ShopPageWizard extends NewAppWizardInfo {
 }
 
 class ShopParameters extends NewAppWizardParameters {
-  bool shouldCreateShop;
   final ActionSpecification shopSpecifications;
   bool shopAsCart; // or as bag
   final ActionSpecification cartSpecifications;
@@ -245,7 +242,6 @@ class ShopParameters extends NewAppWizardParameters {
   PlatformMediumModel? payConfirmationImage;
 
   ShopParameters({
-    required this.shouldCreateShop,
     required this.shopSpecifications,
     required this.cartSpecifications,
     required this.shopAsCart,
