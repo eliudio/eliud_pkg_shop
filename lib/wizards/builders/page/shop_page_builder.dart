@@ -110,6 +110,7 @@ class ShopPageBuilder extends PageBuilder {
         .add(_fader(faderImage));
   }
 
+  static String faderId = 'shop-fader';
   FaderModel _fader(PlatformMediumModel faderImage) {
     var items = <ListedItemModel>[];
     items.add(ListedItemModel(
@@ -118,7 +119,7 @@ class ShopPageBuilder extends PageBuilder {
         posSize: halfScreen(app.documentID!),
         image: faderImage));
     var model = FaderModel(
-      documentID: 'shop-fader',
+      documentID: constructDocumentId(uniqueId: uniqueId, documentId: faderId),
       name: 'Fader',
       animationMilliseconds: 1000,
       imageSeconds: 5,

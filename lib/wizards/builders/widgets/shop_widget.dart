@@ -102,10 +102,12 @@ class _ShopParametersWidgetState extends State<ShopParametersWidget> {
               initialImage: widget.parameters.payConfirmationImage,
             ),
             PlatformPhotoWidget(
-              title: 'Page image',
+              title: 'Pay image',
               defaultImage: 'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_credit_card.png',
               feedbackFunction: (mediumModel) {
-                widget.parameters.payImage = mediumModel;
+                setState(() {
+                  widget.parameters.payImage = mediumModel;
+                });
               },
               app: widget.app,
               initialImage: widget.parameters.payImage,
