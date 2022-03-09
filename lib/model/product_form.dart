@@ -131,7 +131,6 @@ class _MyProductFormState extends State<MyProductForm> {
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   String? _shop;
-  String? _posSize;
 
 
   _MyProductFormState(this.formAction);
@@ -185,10 +184,6 @@ class _MyProductFormState extends State<MyProductForm> {
           _shop= state.value!.shop!.documentID;
         else
           _shop= "";
-        if (state.value!.posSize != null)
-          _posSize= state.value!.posSize!.documentID;
-        else
-          _posSize= "";
       }
       if (state is ProductFormInitialized) {
         List<Widget> children = [];
@@ -269,10 +264,6 @@ class _MyProductFormState extends State<MyProductForm> {
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Position and Size of images')
                 ));
 
-        children.add(
-
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "posSizes", value: _posSize, trigger: _onPosSizeSelected, optional: false),
-          );
 
 
         children.add(Container(height: 20.0));
@@ -391,14 +382,6 @@ class _MyProductFormState extends State<MyProductForm> {
   void _onImagesChanged(value) {
     _myFormBloc.add(ChangedProductImages(value: value));
     setState(() {});
-  }
-
-
-  void _onPosSizeSelected(String? val) {
-    setState(() {
-      _posSize = val;
-    });
-    _myFormBloc.add(ChangedProductPosSize(value: val));
   }
 
 

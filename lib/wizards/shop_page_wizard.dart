@@ -11,6 +11,8 @@ import 'package:eliud_core/style/_default/tools/colors.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_pkg_shop/wizards/builders/page/pay_confirmation_page_builder.dart';
+import 'package:eliud_pkg_shop/wizards/payment_workflow_wizard.dart';
+import 'package:eliud_pkg_shop/wizards/workflows/payment_workflow_builder.dart';
 import 'package:flutter/material.dart';
 import 'builders/page/cart_page_builder.dart';
 import 'builders/page/order_overview_page_builder.dart';
@@ -45,6 +47,7 @@ class ShopPageWizard extends NewAppWizardInfo {
         available: false,
       ),
       shopAsCart: true,
+      paymentParameters: PaymentWorkflowWizard.defaultParameters()
       );
 
   @override
@@ -65,6 +68,11 @@ class ShopPageWizard extends NewAppWizardInfo {
         var tasks = <NewAppTask>[];
 
         tasks.add(() async {
+          var cartPaymentWorkflows = await PaymentWorkflowBuilder(uniqueId,
+            app.documentID!,
+            parameters: parameters.paymentParameters,
+          ).create();
+          parameters.paymentParameters.registerCartPaymentWorkflows(cartPaymentWorkflows);
           var shop = await ShopPageBuilder(
                   uniqueId,
                   app,
@@ -100,7 +108,8 @@ class ShopPageWizard extends NewAppWizardInfo {
                   pageProvider,
                   actionProvider,
                   shop,
-                  cardBG())
+                  cardBG(),
+                  cartPaymentWorkflows)
               .create(parameters.payImage);
           await OrderOverviewPageBuilder(
                   uniqueId,
@@ -240,10 +249,12 @@ class ShopParameters extends NewAppWizardParameters {
   PlatformMediumModel? payImage;
   PlatformMediumModel? orderImage;
   PlatformMediumModel? payConfirmationImage;
+  PaymentParameters paymentParameters;
 
   ShopParameters({
     required this.shopSpecifications,
     required this.cartSpecifications,
     required this.shopAsCart,
+    required this.paymentParameters,
   }) {}
 }

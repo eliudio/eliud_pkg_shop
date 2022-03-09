@@ -30,19 +30,19 @@ class ProductEntity {
   final double? weight;
   final String? shopId;
   final List<ProductImageEntity>? images;
-  final String? posSizeId;
+  final PosSizeEntity? posSize;
   final StorageConditionsEntity? conditions;
 
-  ProductEntity({this.appId, this.title, this.about, this.price, this.weight, this.shopId, this.images, this.posSizeId, this.conditions, });
+  ProductEntity({this.appId, this.title, this.about, this.price, this.weight, this.shopId, this.images, this.posSize, this.conditions, });
 
 
-  List<Object?> get props => [appId, title, about, price, weight, shopId, images, posSizeId, conditions, ];
+  List<Object?> get props => [appId, title, about, price, weight, shopId, images, posSize, conditions, ];
 
   @override
   String toString() {
     String imagesCsv = (images == null) ? '' : images!.join(', ');
 
-    return 'ProductEntity{appId: $appId, title: $title, about: $about, price: $price, weight: $weight, shopId: $shopId, images: ProductImage[] { $imagesCsv }, posSizeId: $posSizeId, conditions: $conditions}';
+    return 'ProductEntity{appId: $appId, title: $title, about: $about, price: $price, weight: $weight, shopId: $shopId, images: ProductImage[] { $imagesCsv }, posSize: $posSize, conditions: $conditions}';
   }
 
   static ProductEntity? fromMap(Object? o) {
@@ -57,6 +57,10 @@ class ProductEntity {
         .map((dynamic item) =>
         ProductImageEntity.fromMap(item as Map)!)
         .toList();
+    var posSizeFromMap;
+    posSizeFromMap = map['posSize'];
+    if (posSizeFromMap != null)
+      posSizeFromMap = PosSizeEntity.fromMap(posSizeFromMap);
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
@@ -70,7 +74,7 @@ class ProductEntity {
       weight: double.tryParse(map['weight'].toString()), 
       shopId: map['shopId'], 
       images: imagesList, 
-      posSizeId: map['posSizeId'], 
+      posSize: posSizeFromMap, 
       conditions: conditionsFromMap, 
     );
   }
@@ -78,6 +82,9 @@ class ProductEntity {
   Map<String, Object?> toDocument() {
     final List<Map<String?, dynamic>>? imagesListMap = images != null 
         ? images!.map((item) => item.toDocument()).toList()
+        : null;
+    final Map<String, dynamic>? posSizeMap = posSize != null 
+        ? posSize!.toDocument()
         : null;
     final Map<String, dynamic>? conditionsMap = conditions != null 
         ? conditions!.toDocument()
@@ -98,8 +105,8 @@ class ProductEntity {
       else theDocument["shopId"] = null;
     if (images != null) theDocument["images"] = imagesListMap;
       else theDocument["images"] = null;
-    if (posSizeId != null) theDocument["posSizeId"] = posSizeId;
-      else theDocument["posSizeId"] = null;
+    if (posSize != null) theDocument["posSize"] = posSizeMap;
+      else theDocument["posSize"] = null;
     if (conditions != null) theDocument["conditions"] = conditionsMap;
       else theDocument["conditions"] = null;
     return theDocument;

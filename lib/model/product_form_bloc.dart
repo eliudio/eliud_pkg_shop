@@ -151,21 +151,7 @@ class ProductFormBloc extends Bloc<ProductFormEvent, ProductFormState> {
         return;
       }
       if (event is ChangedProductPosSize) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(posSize: await posSizeRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new ProductModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
-                                 about: currentState.value!.about,
-                                 price: currentState.value!.price,
-                                 weight: currentState.value!.weight,
-                                 shop: currentState.value!.shop,
-                                 images: currentState.value!.images,
-                                 posSize: null,
-                                 conditions: currentState.value!.conditions,
-          );
+        newValue = currentState.value!.copyWith(posSize: event.value);
         yield SubmittableProductForm(value: newValue);
 
         return;

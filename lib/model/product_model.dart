@@ -93,7 +93,7 @@ class ProductModel {
           images: (images != null) ? images
             !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
-          posSizeId: (posSize != null) ? posSize!.documentID : null, 
+          posSize: (posSize != null) ? posSize!.toEntity(appId: appId) : null, 
           conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
@@ -115,6 +115,8 @@ class ProductModel {
               return ProductImageModel.fromEntity(counter.toString(), item);
             })
             .toList())), 
+          posSize: 
+            await PosSizeModel.fromEntity(entity.posSize), 
           conditions: 
             await StorageConditionsModel.fromEntity(entity.conditions), 
     );
@@ -134,17 +136,6 @@ class ProductModel {
       }
     }
 
-    PosSizeModel? posSizeHolder;
-    if (entity.posSizeId != null) {
-      try {
-          posSizeHolder = await posSizeRepository(appId: appId)!.get(entity.posSizeId);
-      } on Exception catch(e) {
-        print('Error whilst trying to initialise posSize');
-        print('Error whilst retrieving posSize with id ${entity.posSizeId}');
-        print('Exception: $e');
-      }
-    }
-
     var counter = 0;
     return ProductModel(
           documentID: documentID, 
@@ -160,7 +151,8 @@ class ProductModel {
             counter++;
             return ProductImageModel.fromEntityPlus(counter.toString(), item, appId: appId);})
             .toList())), 
-          posSize: posSizeHolder, 
+          posSize: 
+            await PosSizeModel.fromEntityPlus(entity.posSize, appId: appId), 
           conditions: 
             await StorageConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
     );

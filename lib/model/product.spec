@@ -80,8 +80,7 @@
       "fieldName": "posSize",
       "fieldType": "PosSize",
       "group": "posSize",
-      "optional": false,
-      "association": true
+      "optional": false
     },
     {
       "fieldName": "conditions",

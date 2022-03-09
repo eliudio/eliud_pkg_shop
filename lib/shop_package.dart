@@ -10,6 +10,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_pkg_shop/model/component_registry.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/repository_singleton.dart';
+import 'package:eliud_pkg_shop/wizards/payment_workflow_wizard.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/cart/cart_bloc.dart';
 import 'model/member_cart_model.dart';
@@ -88,8 +89,9 @@ abstract class ShopPackage extends Package {
   void init() {
     ComponentRegistry().init();
 
-    // Wizard
+    // Wizards
     NewAppWizardRegistry.registry().register(ShopPageWizard());
+    NewAppWizardRegistry.registry().register(PaymentWorkflowWizard());
 
     AbstractRepositorySingleton.singleton = RepositorySingleton();
   }

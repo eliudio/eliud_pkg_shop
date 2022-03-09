@@ -3,6 +3,7 @@ import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/style/frontend/has_list_tile.dart';
 import 'package:eliud_pkg_medium/wizards/widgets/photo_widget.dart';
+import 'package:eliud_pkg_shop/wizards/builders/widgets/payment_parameters_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -42,6 +43,7 @@ class _ShopParametersWidgetState extends State<ShopParametersWidget> {
                 enabled: true,
                 actionSpecification: widget.parameters.cartSpecifications,
                 label: 'Generate Cart Page'),
+            PaymentParametersWidget(app: widget.app, parameters: widget.parameters.paymentParameters, ),
             PlatformPhotoWidget(
               title: 'Shop Page Image',
               defaultImage:

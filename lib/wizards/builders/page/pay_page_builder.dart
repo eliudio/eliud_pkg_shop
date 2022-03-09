@@ -8,12 +8,14 @@ import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
 import 'package:eliud_pkg_shop/model/pay_component.dart';
 import 'package:eliud_pkg_shop/shop_package.dart';
+import 'package:eliud_pkg_shop/wizards/workflows/payment_workflow_builder.dart';
 import 'abstract_page_template.dart';
 import 'pay_confirmation_page_builder.dart';
 
 class PayPageBuilder extends AbstractPageTemplate {
   final BackgroundModel? background;
   final ShopModel? shop;
+  final CartPaymentWorkflows? cartPaymentWorkflows;
 
   static const String PAGE_ID = 'shop-pay';
 
@@ -29,6 +31,7 @@ class PayPageBuilder extends AbstractPageTemplate {
     ActionProvider actionProvider,
     this.shop,
     this.background,
+    this.cartPaymentWorkflows,
   ) : super(
           uniqueId,
           PAGE_ID,
@@ -58,7 +61,7 @@ class PayPageBuilder extends AbstractPageTemplate {
       appId: app.documentID!,
       title: pageTitle(),
       shop: shop,
-      payAction: actionProvider(app, 'payCart'),
+      payAction: cartPaymentWorkflows != null ? getParameterAction(app, cartPaymentWorkflows!) : null,
       succeeded: GotoPage(app, pageID: constructDocumentId(uniqueId: uniqueId, documentId: PayConfirmationPageBuilder.PAGE_ID)),
       conditions: StorageConditionsModel(
           privilegeLevelRequired:

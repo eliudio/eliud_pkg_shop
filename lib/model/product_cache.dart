@@ -142,15 +142,6 @@ class ProductCache implements ProductRepository {
       } catch (_) {}
     }
 
-    PosSizeModel? posSizeHolder;
-    if (model.posSize != null) {
-      try {
-        await posSizeRepository(appId: model.appId)!.get(model.posSize!.documentID).then((val) {
-          posSizeHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     List<ProductImageModel>? imagesHolder;
     if (model.images != null) {
       imagesHolder = List<ProductImageModel>.from(await Future.wait(await model.images!.map((element) async {
@@ -160,8 +151,6 @@ class ProductCache implements ProductRepository {
 
     return model.copyWith(
         shop: shopHolder,
-
-        posSize: posSizeHolder,
 
         images: imagesHolder,
 

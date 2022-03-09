@@ -156,7 +156,7 @@ class ChangedProductImages extends ProductFormEvent {
 }
 
 class ChangedProductPosSize extends ProductFormEvent {
-  final String? value;
+  final PosSizeModel? value;
 
   ChangedProductPosSize({this.value});
 
