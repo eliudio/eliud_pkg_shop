@@ -46,7 +46,6 @@ class OrderOverviewPageBuilder extends AbstractPageTemplate {
     DrawerModel leftDrawer,
     DrawerModel rightDrawer,
     PageProvider pageProvider,
-    ActionProvider actionProvider,
     this.shop,
     this.background,
   ) : super(
@@ -59,7 +58,6 @@ class OrderOverviewPageBuilder extends AbstractPageTemplate {
           leftDrawer,
           rightDrawer,
           pageProvider,
-          actionProvider,
           privilegeLevelRequired:
               PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple,
         );

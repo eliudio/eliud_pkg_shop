@@ -44,12 +44,12 @@ abstract class AbstractPageTemplate extends PageBuilder {
     DrawerModel leftDrawer,
     DrawerModel rightDrawer,
     PageProvider pageProvider,
-    ActionProvider actionProvider, {
+     {
     this.privilegeLevelRequired,
     this.packageCondition,
     this.conditionOverride,
   }) : super(uniqueId, pageId, app, memberId, theHomeMenu, theAppBar, leftDrawer,
-            rightDrawer, pageProvider, actionProvider);
+            rightDrawer, pageProvider, );
 
   Future<PageModel> _setupPage(
       AppBarModel appBar, String? presentationId) async {

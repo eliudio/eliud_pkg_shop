@@ -43,7 +43,6 @@ class PaymentWorkflowWizard extends NewAppWizardInfo {
     DrawerProvider leftDrawerProvider,
     DrawerProvider rightDrawerProvider,
     PageProvider pageProvider,
-    ActionProvider actionProvider,
   ) {
     if (parameters is PaymentParameters) {
       if ((parameters.creditCardPaymentCart) ||
