@@ -117,11 +117,11 @@ class PaymentWorkflowWizard extends NewAppWizardInfo {
 class PaymentParameters extends NewAppWizardParameters {
   bool manualPaymentCart;
   bool creditCardPaymentCart;
-  String payTo;
-  String country;
-  String bankIdentifierCode;
-  String payeeIBAN;
-  String bankName;
+  String? payTo;
+  String? country;
+  String? bankIdentifierCode;
+  String? payeeIBAN;
+  String? bankName;
 
   CartPaymentWorkflows? cartPaymentWorkflows;
 

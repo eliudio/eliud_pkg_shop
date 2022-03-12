@@ -30,7 +30,7 @@ ActionModel getParameterAction(AppModel app, CartPaymentWorkflows cartPaymentWor
         privilegeLevelRequired: PrivilegeLevelRequired.NoPrivilegeRequired,
         packageCondition: ShopPackage.CONDITION_CARTS_HAS_ITEMS,
       ),
-      workflow: cartPaymentWorkflows.workflowForCreditCardPaymentCart ?? cartPaymentWorkflows!.workflowForManualPaymentCart);
+      workflow: cartPaymentWorkflows.workflowForCreditCardPaymentCart ?? cartPaymentWorkflows.workflowForManualPaymentCart);
 
 class PaymentWorkflowBuilder {
   final String uniqueId;
@@ -57,11 +57,11 @@ class PaymentWorkflowBuilder {
 
   WorkflowModel _workflowForManualPaymentCart() {
     return workflowForManualPaymentCart(
-        payTo: parameters.payTo,
-        country: parameters.country,
-        bankIdentifierCode: parameters.bankIdentifierCode,
-        payeeIBAN: parameters.payeeIBAN,
-        bankName: parameters.bankName);
+        payTo: parameters.payTo ?? '?',
+        country: parameters.country ?? '?',
+        bankIdentifierCode: parameters.bankIdentifierCode ?? '?',
+        payeeIBAN: parameters.payeeIBAN ?? '?',
+        bankName: parameters.bankName ?? '?');
   }
 
   WorkflowActionModel payCart(AppModel app) => WorkflowActionModel(app,
