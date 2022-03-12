@@ -19,6 +19,9 @@ class PaymentWorkflowWizard extends NewAppWizardInfo {
           'Payment Workflow',
         );
 
+  @override
+  String getPackageName() => "eliud_pkg_shop";
+
   static PaymentParameters defaultParameters()  => PaymentParameters(
     payTo: 'Mr Minkey',
     country: 'United Kingdom',

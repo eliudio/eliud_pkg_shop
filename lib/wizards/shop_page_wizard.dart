@@ -29,6 +29,9 @@ class ShopPageWizard extends NewAppWizardInfo {
         );
 
   @override
+  String getPackageName() => "eliud_pkg_shop";
+
+  @override
   NewAppWizardParameters newAppWizardParameters() => ShopParameters(
       shopSpecifications: ActionSpecification(
         requiresAccessToLocalFileSystem: false,
