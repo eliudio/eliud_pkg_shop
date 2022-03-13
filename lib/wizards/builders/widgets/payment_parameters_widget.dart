@@ -2,6 +2,7 @@ import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/style/frontend/has_dialog_field.dart';
 import 'package:eliud_core/style/frontend/has_list_tile.dart';
+import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -31,11 +32,11 @@ class _PaymentParametersWidgetState
   }
   @override
   Widget build(BuildContext context) {
-    return topicContainer(widget.app, context,
-        title: 'Generate a default Payment Workflow',
-        collapsible: true,
-        collapsed: true,
+    return ListView(
+        shrinkWrap: true,
+        physics: ScrollPhysics(),
         children: [
+          h4(widget.app, context, 'Generate a default Payment Workflow'),
           checkboxListTile(widget.app, context, 'Manually paid Payment',
               widget.parameters.manualPaymentCart, (value) {
             setState(() {

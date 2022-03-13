@@ -2,6 +2,7 @@ import 'package:eliud_core/core/wizards/widgets/action_specification_widget.dart
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/style/frontend/has_list_tile.dart';
+import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_pkg_medium/wizards/widgets/photo_widget.dart';
 import 'package:eliud_pkg_shop/wizards/builders/widgets/payment_parameters_widget.dart';
 import 'package:flutter/foundation.dart';
@@ -28,10 +29,9 @@ class ShopParametersWidget extends StatefulWidget {
 class _ShopParametersWidgetState extends State<ShopParametersWidget> {
   @override
   Widget build(BuildContext context) {
-    return topicContainer(widget.app, context,
-        title: 'Generate a default Shop',
-        collapsible: true,
-        collapsed: true,
+    return ListView(
+        shrinkWrap: true,
+        physics: ScrollPhysics(),
         children: [
             ActionSpecificationWidget(
                 app: widget.app,
