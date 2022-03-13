@@ -35,12 +35,10 @@ class _ShopParametersWidgetState extends State<ShopParametersWidget> {
         children: [
             ActionSpecificationWidget(
                 app: widget.app,
-                enabled: true,
                 actionSpecification: widget.parameters.shopSpecifications,
                 label: 'Generate Shop Page'),
             ActionSpecificationWidget(
                 app: widget.app,
-                enabled: true,
                 actionSpecification: widget.parameters.cartSpecifications,
                 label: 'Generate Cart Page'),
             PaymentParametersWidget(app: widget.app, parameters: widget.parameters.paymentParameters, ),
