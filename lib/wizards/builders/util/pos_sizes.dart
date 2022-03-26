@@ -3,11 +3,6 @@ import 'package:eliud_core/model/pos_size_model.dart';
 
 PosSizeModel halfScreen(String appId) {
   return PosSizeModel(
-/*
-      documentID: 'halfScreen',
-      appId: appId,
-*/
-      name: 'HalfScreen both orientations',
       widthPortrait: 1,
       widthTypePortrait: WidthTypePortrait.PercentageWidth,
       heightPortrait: .5,
@@ -25,11 +20,6 @@ PosSizeModel halfScreen(String appId) {
 
 PosSizeModel screen75(String appId) {
   return PosSizeModel(
-/*
-      documentID: 'screen75',
-      appId: appId,
-*/
-      name: '75 % both orientations',
       widthPortrait: .75,
       widthTypePortrait: WidthTypePortrait.PercentageWidth,
       heightPortrait: .75,
@@ -47,11 +37,6 @@ PosSizeModel screen75(String appId) {
 
 PosSizeModel fullScreen(String appId) {
   return PosSizeModel(
-/*
-      documentID: 'fullScreen',
-      appId: appId,
-*/
-      name: 'Fullscreen both orientations',
       fitLandscape: LandscapeFitType.LandscapeCover,
       widthLandscape: 1,
       heightLandscape: 1,
@@ -64,17 +49,3 @@ PosSizeModel fullScreen(String appId) {
       widthTypePortrait: WidthTypePortrait.PercentageWidth,
       clip: ClipType.NoClip);
 }
-
-/*
-Future<void> setupPosSizes(String appId) async {
-  await AbstractRepositorySingleton.singleton
-      .posSizeRepository(appId)!
-      .add(halfScreen(appId));
-  await AbstractRepositorySingleton.singleton
-      .posSizeRepository(appId)!
-      .add(fullScreen(appId));
-  await AbstractRepositorySingleton.singleton
-      .posSizeRepository(appId)!
-      .add(screen75(appId));
-}
-*/

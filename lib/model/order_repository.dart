@@ -32,11 +32,12 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/tools/repository_base.dart';
 
 typedef OrderModelTrigger(List<OrderModel?> list);
 typedef OrderChanged(OrderModel? value);
 
-abstract class OrderRepository {
+abstract class OrderRepository extends RepositoryBase<OrderModel> {
   Future<OrderModel> add(OrderModel value);
   Future<void> delete(OrderModel value);
   Future<OrderModel?> get(String? id, { Function(Exception)? onError });

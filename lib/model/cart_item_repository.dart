@@ -28,11 +28,12 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/tools/repository_base.dart';
 
 typedef CartItemModelTrigger(List<CartItemModel?> list);
 typedef CartItemChanged(CartItemModel? value);
 
-abstract class CartItemRepository {
+abstract class CartItemRepository extends RepositoryBase<CartItemModel> {
   Future<CartItemModel> add(CartItemModel value);
   Future<void> delete(CartItemModel value);
   Future<CartItemModel?> get(String? id, { Function(Exception)? onError });

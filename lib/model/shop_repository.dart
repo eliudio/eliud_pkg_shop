@@ -28,11 +28,12 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/tools/repository_base.dart';
 
 typedef ShopModelTrigger(List<ShopModel?> list);
 typedef ShopChanged(ShopModel? value);
 
-abstract class ShopRepository {
+abstract class ShopRepository extends RepositoryBase<ShopModel> {
   Future<ShopModel> add(ShopModel value);
   Future<void> delete(ShopModel value);
   Future<ShopModel?> get(String? id, { Function(Exception)? onError });

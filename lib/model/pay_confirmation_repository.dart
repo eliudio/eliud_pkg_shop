@@ -32,11 +32,12 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/tools/repository_base.dart';
 
 typedef PayConfirmationModelTrigger(List<PayConfirmationModel?> list);
 typedef PayConfirmationChanged(PayConfirmationModel? value);
 
-abstract class PayConfirmationRepository {
+abstract class PayConfirmationRepository extends RepositoryBase<PayConfirmationModel> {
   Future<PayConfirmationModel> add(PayConfirmationModel value);
   Future<void> delete(PayConfirmationModel value);
   Future<PayConfirmationModel?> get(String? id, { Function(Exception)? onError });
