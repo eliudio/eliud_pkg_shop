@@ -27,7 +27,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {
   final ShopFrontRepository _shopFrontRepository;
   StreamSubscription? _shopFrontsListSubscription;
-  final EliudQuery? eliudQuery;
+  EliudQuery? eliudQuery;
   int pages = 1;
   final bool? paged;
   final String? orderBy;
@@ -99,6 +99,13 @@ class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {
     if (event is NewPage) {
       pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadShopFrontListWithDetailsToState();
+    } else if (event is ShopFrontChangeQuery) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        yield* _mapLoadShopFrontListToState();
+      } else {
+        yield* _mapLoadShopFrontListWithDetailsToState();
+      }
     } else if (event is AddShopFrontList) {
       yield* _mapAddShopFrontListToState(event);
     } else if (event is UpdateShopFrontList) {

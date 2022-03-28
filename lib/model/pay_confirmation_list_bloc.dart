@@ -27,7 +27,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 class PayConfirmationListBloc extends Bloc<PayConfirmationListEvent, PayConfirmationListState> {
   final PayConfirmationRepository _payConfirmationRepository;
   StreamSubscription? _payConfirmationsListSubscription;
-  final EliudQuery? eliudQuery;
+  EliudQuery? eliudQuery;
   int pages = 1;
   final bool? paged;
   final String? orderBy;
@@ -99,6 +99,13 @@ class PayConfirmationListBloc extends Bloc<PayConfirmationListEvent, PayConfirma
     if (event is NewPage) {
       pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadPayConfirmationListWithDetailsToState();
+    } else if (event is PayConfirmationChangeQuery) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        yield* _mapLoadPayConfirmationListToState();
+      } else {
+        yield* _mapLoadPayConfirmationListWithDetailsToState();
+      }
     } else if (event is AddPayConfirmationList) {
       yield* _mapAddPayConfirmationListToState(event);
     } else if (event is UpdatePayConfirmationList) {

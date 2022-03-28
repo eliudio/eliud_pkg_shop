@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_pkg_shop/model/product_image_model.dart';
 
@@ -73,5 +74,17 @@ class ProductImageListUpdated extends ProductImageListEvent {
 
   @override
   String toString() => 'ProductImageListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+}
+
+class ProductImageChangeQuery extends ProductImageListEvent {
+  final EliudQuery newQuery;
+
+  const ProductImageChangeQuery({ required this.newQuery });
+
+  @override
+  List<Object?> get props => [ newQuery ];
+
+  @override
+  String toString() => 'ProductImageChangeQuery{ value: $newQuery }';
 }
 

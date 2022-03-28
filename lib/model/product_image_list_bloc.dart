@@ -27,7 +27,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 class ProductImageListBloc extends Bloc<ProductImageListEvent, ProductImageListState> {
   final ProductImageRepository _productImageRepository;
   StreamSubscription? _productImagesListSubscription;
-  final EliudQuery? eliudQuery;
+  EliudQuery? eliudQuery;
   int pages = 1;
   final bool? paged;
   final String? orderBy;
@@ -99,6 +99,13 @@ class ProductImageListBloc extends Bloc<ProductImageListEvent, ProductImageListS
     if (event is NewPage) {
       pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadProductImageListWithDetailsToState();
+    } else if (event is ProductImageChangeQuery) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        yield* _mapLoadProductImageListToState();
+      } else {
+        yield* _mapLoadProductImageListWithDetailsToState();
+      }
     } else if (event is AddProductImageList) {
       yield* _mapAddProductImageListToState(event);
     } else if (event is UpdateProductImageList) {

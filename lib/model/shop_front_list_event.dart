@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_pkg_shop/model/shop_front_model.dart';
 
@@ -73,5 +74,17 @@ class ShopFrontListUpdated extends ShopFrontListEvent {
 
   @override
   String toString() => 'ShopFrontListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+}
+
+class ShopFrontChangeQuery extends ShopFrontListEvent {
+  final EliudQuery newQuery;
+
+  const ShopFrontChangeQuery({ required this.newQuery });
+
+  @override
+  List<Object?> get props => [ newQuery ];
+
+  @override
+  String toString() => 'ShopFrontChangeQuery{ value: $newQuery }';
 }
 

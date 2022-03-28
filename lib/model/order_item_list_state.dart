@@ -13,6 +13,7 @@
 
 */
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_pkg_shop/model/order_item_model.dart';
 
@@ -36,6 +37,13 @@ class OrderItemListLoaded extends OrderItemListState {
 
   @override
   String toString() => 'OrderItemListLoaded { values: $values }';
+
+  @override
+  bool operator ==(Object other) => 
+          other is OrderItemListLoaded &&
+              runtimeType == other.runtimeType &&
+              ListEquality().equals(values, other.values) &&
+              mightHaveMore == other.mightHaveMore;
 }
 
 class OrderItemNotLoaded extends OrderItemListState {}

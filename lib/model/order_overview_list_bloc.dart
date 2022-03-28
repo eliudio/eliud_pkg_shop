@@ -27,7 +27,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 class OrderOverviewListBloc extends Bloc<OrderOverviewListEvent, OrderOverviewListState> {
   final OrderOverviewRepository _orderOverviewRepository;
   StreamSubscription? _orderOverviewsListSubscription;
-  final EliudQuery? eliudQuery;
+  EliudQuery? eliudQuery;
   int pages = 1;
   final bool? paged;
   final String? orderBy;
@@ -99,6 +99,13 @@ class OrderOverviewListBloc extends Bloc<OrderOverviewListEvent, OrderOverviewLi
     if (event is NewPage) {
       pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadOrderOverviewListWithDetailsToState();
+    } else if (event is OrderOverviewChangeQuery) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        yield* _mapLoadOrderOverviewListToState();
+      } else {
+        yield* _mapLoadOrderOverviewListWithDetailsToState();
+      }
     } else if (event is AddOrderOverviewList) {
       yield* _mapAddOrderOverviewListToState(event);
     } else if (event is UpdateOrderOverviewList) {

@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_pkg_shop/model/order_model.dart';
 
@@ -73,5 +74,17 @@ class OrderListUpdated extends OrderListEvent {
 
   @override
   String toString() => 'OrderListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+}
+
+class OrderChangeQuery extends OrderListEvent {
+  final EliudQuery newQuery;
+
+  const OrderChangeQuery({ required this.newQuery });
+
+  @override
+  List<Object?> get props => [ newQuery ];
+
+  @override
+  String toString() => 'OrderChangeQuery{ value: $newQuery }';
 }
 

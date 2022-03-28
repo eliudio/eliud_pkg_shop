@@ -27,7 +27,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
   final ShopRepository _shopRepository;
   StreamSubscription? _shopsListSubscription;
-  final EliudQuery? eliudQuery;
+  EliudQuery? eliudQuery;
   int pages = 1;
   final bool? paged;
   final String? orderBy;
@@ -99,6 +99,13 @@ class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
     if (event is NewPage) {
       pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadShopListWithDetailsToState();
+    } else if (event is ShopChangeQuery) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        yield* _mapLoadShopListToState();
+      } else {
+        yield* _mapLoadShopListWithDetailsToState();
+      }
     } else if (event is AddShopList) {
       yield* _mapAddShopListToState(event);
     } else if (event is UpdateShopList) {

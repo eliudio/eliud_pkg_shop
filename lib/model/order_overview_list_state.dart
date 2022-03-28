@@ -13,6 +13,7 @@
 
 */
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_pkg_shop/model/order_overview_model.dart';
 
@@ -36,6 +37,13 @@ class OrderOverviewListLoaded extends OrderOverviewListState {
 
   @override
   String toString() => 'OrderOverviewListLoaded { values: $values }';
+
+  @override
+  bool operator ==(Object other) => 
+          other is OrderOverviewListLoaded &&
+              runtimeType == other.runtimeType &&
+              ListEquality().equals(values, other.values) &&
+              mightHaveMore == other.mightHaveMore;
 }
 
 class OrderOverviewNotLoaded extends OrderOverviewListState {}

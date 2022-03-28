@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_pkg_shop/model/cart_model.dart';
 
@@ -73,5 +74,17 @@ class CartListUpdated extends CartListEvent {
 
   @override
   String toString() => 'CartListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+}
+
+class CartChangeQuery extends CartListEvent {
+  final EliudQuery newQuery;
+
+  const CartChangeQuery({ required this.newQuery });
+
+  @override
+  List<Object?> get props => [ newQuery ];
+
+  @override
+  String toString() => 'CartChangeQuery{ value: $newQuery }';
 }
 

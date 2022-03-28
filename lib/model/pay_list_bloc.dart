@@ -27,7 +27,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 class PayListBloc extends Bloc<PayListEvent, PayListState> {
   final PayRepository _payRepository;
   StreamSubscription? _paysListSubscription;
-  final EliudQuery? eliudQuery;
+  EliudQuery? eliudQuery;
   int pages = 1;
   final bool? paged;
   final String? orderBy;
@@ -99,6 +99,13 @@ class PayListBloc extends Bloc<PayListEvent, PayListState> {
     if (event is NewPage) {
       pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadPayListWithDetailsToState();
+    } else if (event is PayChangeQuery) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        yield* _mapLoadPayListToState();
+      } else {
+        yield* _mapLoadPayListWithDetailsToState();
+      }
     } else if (event is AddPayList) {
       yield* _mapAddPayListToState(event);
     } else if (event is UpdatePayList) {

@@ -13,6 +13,7 @@
 
 */
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_pkg_shop/model/shop_model.dart';
 
@@ -36,6 +37,13 @@ class ShopListLoaded extends ShopListState {
 
   @override
   String toString() => 'ShopListLoaded { values: $values }';
+
+  @override
+  bool operator ==(Object other) => 
+          other is ShopListLoaded &&
+              runtimeType == other.runtimeType &&
+              ListEquality().equals(values, other.values) &&
+              mightHaveMore == other.mightHaveMore;
 }
 
 class ShopNotLoaded extends ShopListState {}

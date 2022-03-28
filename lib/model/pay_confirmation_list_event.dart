@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_model.dart';
 
@@ -73,5 +74,17 @@ class PayConfirmationListUpdated extends PayConfirmationListEvent {
 
   @override
   String toString() => 'PayConfirmationListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+}
+
+class PayConfirmationChangeQuery extends PayConfirmationListEvent {
+  final EliudQuery newQuery;
+
+  const PayConfirmationChangeQuery({ required this.newQuery });
+
+  @override
+  List<Object?> get props => [ newQuery ];
+
+  @override
+  String toString() => 'PayConfirmationChangeQuery{ value: $newQuery }';
 }
 

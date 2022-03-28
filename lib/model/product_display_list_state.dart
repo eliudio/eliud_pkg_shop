@@ -13,6 +13,7 @@
 
 */
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_pkg_shop/model/product_display_model.dart';
 
@@ -36,6 +37,13 @@ class ProductDisplayListLoaded extends ProductDisplayListState {
 
   @override
   String toString() => 'ProductDisplayListLoaded { values: $values }';
+
+  @override
+  bool operator ==(Object other) => 
+          other is ProductDisplayListLoaded &&
+              runtimeType == other.runtimeType &&
+              ListEquality().equals(values, other.values) &&
+              mightHaveMore == other.mightHaveMore;
 }
 
 class ProductDisplayNotLoaded extends ProductDisplayListState {}
