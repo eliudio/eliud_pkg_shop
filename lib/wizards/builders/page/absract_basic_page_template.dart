@@ -26,11 +26,10 @@ abstract class AbstractBasicPageTemplate extends PageBuilder {
       AppBarModel theAppBar,
       DrawerModel leftDrawer,
       DrawerModel rightDrawer,
-      PageProvider pageProvider,
       {this.privilegeLevelRequired,
       this.presentationImageAlignment})
       : super(uniqueId, pageId, app, memberId, theHomeMenu, theAppBar, leftDrawer,
-            rightDrawer, pageProvider, );
+            rightDrawer, );
 
   Future<PageModel> _setupPage(AppBarModel appBar) async {
     return await corerepo.AbstractRepositorySingleton.singleton

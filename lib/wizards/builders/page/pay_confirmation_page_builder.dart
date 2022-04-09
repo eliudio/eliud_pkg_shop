@@ -28,7 +28,6 @@ class PayConfirmationPageBuilder extends AbstractPageTemplate {
     AppBarModel theAppBar,
     DrawerModel leftDrawer,
     DrawerModel rightDrawer,
-    PageProvider pageProvider,
     this.shop,
     this.background,
   ) : super(
@@ -40,7 +39,6 @@ class PayConfirmationPageBuilder extends AbstractPageTemplate {
           theAppBar,
           leftDrawer,
           rightDrawer,
-          pageProvider,
           privilegeLevelRequired:
               PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple,
           packageCondition: ShopPackage.CONDITION_CARTS_HAS_ITEMS,

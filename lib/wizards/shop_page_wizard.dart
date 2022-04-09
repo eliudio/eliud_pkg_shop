@@ -63,7 +63,6 @@ class ShopPageWizard extends NewAppWizardInfo {
     AppBarProvider appBarProvider,
     DrawerProvider leftDrawerProvider,
     DrawerProvider rightDrawerProvider,
-    PageProvider pageProvider,
   ) {
     if (parameters is ShopParameters) {
         var memberId = member.documentID!;
@@ -83,7 +82,6 @@ class ShopPageWizard extends NewAppWizardInfo {
                   appBarProvider(),
                   leftDrawerProvider(),
                   rightDrawerProvider(),
-                  pageProvider,
                   )
               .create(parameters.shopImage, parameters.faderImage);
           await CartPageBuilder(
@@ -94,7 +92,6 @@ class ShopPageWizard extends NewAppWizardInfo {
                   appBarProvider(),
                   leftDrawerProvider(),
                   rightDrawerProvider(),
-                  pageProvider,
                   shop,
                   cardBG())
               .create(parameters.cartImage);
@@ -106,7 +103,6 @@ class ShopPageWizard extends NewAppWizardInfo {
                   appBarProvider(),
                   leftDrawerProvider(),
                   rightDrawerProvider(),
-                  pageProvider,
                   shop,
                   cardBG(),
                   cartPaymentWorkflows)
@@ -119,7 +115,6 @@ class ShopPageWizard extends NewAppWizardInfo {
                   appBarProvider(),
                   leftDrawerProvider(),
                   rightDrawerProvider(),
-                  pageProvider,
                   shop,
                   cardBG())
               .create(parameters.orderImage);
@@ -131,7 +126,6 @@ class ShopPageWizard extends NewAppWizardInfo {
                   appBarProvider(),
                   leftDrawerProvider(),
                   rightDrawerProvider(),
-                  pageProvider,
                   shop,
                   cardBG())
               .create(parameters.payConfirmationImage);
@@ -143,7 +137,6 @@ class ShopPageWizard extends NewAppWizardInfo {
                   appBarProvider(),
                   leftDrawerProvider(),
                   rightDrawerProvider(),
-                  pageProvider,
                   shop)
               .create();
         });

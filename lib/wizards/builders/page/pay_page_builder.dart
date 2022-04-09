@@ -27,7 +27,6 @@ class PayPageBuilder extends AbstractPageTemplate {
     AppBarModel theAppBar,
     DrawerModel leftDrawer,
     DrawerModel rightDrawer,
-    PageProvider pageProvider,
     this.shop,
     this.background,
     this.cartPaymentWorkflows,
@@ -40,7 +39,6 @@ class PayPageBuilder extends AbstractPageTemplate {
           theAppBar,
           leftDrawer,
           rightDrawer,
-          pageProvider,
           privilegeLevelRequired:
               PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple,
           packageCondition: ShopPackage.CONDITION_CARTS_HAS_ITEMS,

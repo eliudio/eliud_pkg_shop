@@ -24,7 +24,6 @@ class ProductPageBuilder extends AbstractBasicPageTemplate {
     AppBarModel theAppBar,
     DrawerModel leftDrawer,
     DrawerModel rightDrawer,
-    PageProvider pageProvider,
     this.shop,
   ) : super(
           uniqueId,
@@ -35,7 +34,6 @@ class ProductPageBuilder extends AbstractBasicPageTemplate {
           theAppBar,
           leftDrawer,
           rightDrawer,
-          pageProvider,
           privilegeLevelRequired:
               PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple,
         );

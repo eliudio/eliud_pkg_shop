@@ -41,9 +41,8 @@ class ShopPageBuilder extends PageBuilder {
     AppBarModel theAppBar,
     DrawerModel leftDrawer,
     DrawerModel rightDrawer,
-    PageProvider pageProvider,
   ) : super(uniqueId, PAGE_ID, app, memberId, theHomeMenu, theAppBar, leftDrawer,
-            rightDrawer, pageProvider, );
+            rightDrawer, );
 
   static ActionModel action(AppModel app, String uniqueId) => GotoPage(
         app,

@@ -37,7 +37,6 @@ class CartPageBuilder extends AbstractPageTemplate {
     AppBarModel theAppBar,
     DrawerModel leftDrawer,
     DrawerModel rightDrawer,
-    PageProvider pageProvider,
     this.shop,
     this.background,
   ) : super(
@@ -49,7 +48,6 @@ class CartPageBuilder extends AbstractPageTemplate {
           theAppBar,
           leftDrawer,
           rightDrawer,
-          pageProvider,
           privilegeLevelRequired:
               PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple,
         );
