@@ -39,7 +39,7 @@ class ProductPageBuilder extends AbstractBasicPageTemplate {
         );
 
   static ActionModel action(AppModel app, String uniqueId) => GotoPage(app,
-      pageID: PAGE_ID + uniqueId,
+      pageID: constructDocumentId(uniqueId: uniqueId, documentId: PAGE_ID),
       conditions: DisplayConditionsModel(
         privilegeLevelRequired: PrivilegeLevelRequired.NoPrivilegeRequired,
         packageCondition: ShopPackage.CONDITION_CARTS_HAS_ITEMS,

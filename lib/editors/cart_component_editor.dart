@@ -15,6 +15,7 @@ import 'package:eliud_core/tools/widgets/editor/select_action_widget.dart';
 import 'package:eliud_core/tools/widgets/header_widget.dart';
 import 'package:eliud_pkg_medium/editors/widgets/background_widget.dart';
 import 'package:eliud_pkg_notifications/model/notification_dashboard_model.dart';
+import 'package:eliud_pkg_shop/editors/widgets/select_shop_widget.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/cart_model.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_bloc.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_event.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_state.dart';
+
+import 'bloc/cart_bloc.dart';
 
 class CartComponentEditorConstructor
     extends ComponentEditorConstructor {
@@ -86,31 +89,6 @@ class CartComponentEditorConstructor
             app: app,
           )),
     );
-  }
-}
-
-class CartBloc
-    extends EditorBaseBloc<CartModel> {
-
-  CartBloc(String appId, EditorFeedback feedback)
-      : super(appId, cartRepository(appId: appId)!, feedback);
-
-  @override
-  CartModel newInstance(StorageConditionsModel conditions) {
-    return CartModel(
-        appId: appId,
-        documentID: newRandomKey(), 
-        conditions: conditions);
-  }
-
-  @override
-  CartModel setDefaultConditions(
-      CartModel t, StorageConditionsModel conditions) {
-    return t.copyWith(
-        conditions: t.conditions ??
-            StorageConditionsModel(
-                privilegeLevelRequired:
-                PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple));
   }
 }
 
@@ -296,6 +274,14 @@ class _CartComponentEditorState
                                   }),
                             ]),
 
+                        SelectShopWidget(
+                            app: widget.app,
+                            shop: cartState.model.shop,
+                            shopSelected: (shop) {
+                              setState(() {
+                                cartState.model.shop = shop;
+                              });
+                            }),
                         topicContainer(widget.app, context,
                             title: 'Conditions',
                             collapsible: true,
