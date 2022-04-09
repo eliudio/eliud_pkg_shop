@@ -213,31 +213,6 @@ class _CartComponentEditorState
                                   label: 'Item Image Background'),
                             ]),
                         topicContainer(widget.app, context,
-                            title: 'General',
-                            collapsible: true,
-                            collapsed: true,
-                            children: [
-                              getListTile(context, widget.app,
-                                  leading: Icon(Icons.vpn_key),
-                                  title: text(widget.app, context,
-                                      cartState.model.documentID!)),
-                              getListTile(context, widget.app,
-                                  leading: Icon(Icons.description),
-                                  title: dialogField(
-                                    widget.app,
-                                    context,
-                                    initialValue: cartState.model.description,
-                                    valueChanged: (value) {
-                                      cartState.model.description = value;
-                                    },
-                                    maxLines: 1,
-                                    decoration: const InputDecoration(
-                                      hintText: 'Description',
-                                      labelText: 'Description',
-                                    ),
-                                  )),
-                            ]),
-                        topicContainer(widget.app, context,
                             title: 'Actions',
                             collapsible: true,
                             collapsed: true,
