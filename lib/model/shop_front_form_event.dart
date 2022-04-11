@@ -179,18 +179,6 @@ class ChangedShopFrontAddToCartColor extends ShopFrontFormEvent {
   String toString() => 'ChangedShopFrontAddToCartColor{ value: $value }';
 }
 
-class ChangedShopFrontView extends ShopFrontFormEvent {
-  final ShopFrontView? value;
-
-  ChangedShopFrontView({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedShopFrontView{ value: $value }';
-}
-
 class ChangedShopFrontScrollDirection extends ShopFrontFormEvent {
   final ScrollDirection? value;
 

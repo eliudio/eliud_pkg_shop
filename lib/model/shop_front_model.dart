@@ -33,22 +33,10 @@ import 'package:eliud_pkg_shop/model/shop_front_entity.dart';
 
 import 'package:eliud_core/tools/random.dart';
 
-enum ShopFrontView {
-  Slider, Grid, Unknown
-}
-
 enum ScrollDirection {
   Horizontal, Vertical, Unknown
 }
 
-
-ShopFrontView toShopFrontView(int? index) {
-  switch (index) {
-    case 0: return ShopFrontView.Slider;
-    case 1: return ShopFrontView.Grid;
-  }
-  return ShopFrontView.Unknown;
-}
 
 ScrollDirection toScrollDirection(int? index) {
   switch (index) {
@@ -70,22 +58,21 @@ class ShopFrontModel {
   double? cardAxisSpacing;
   BackgroundModel? itemCardBackground;
   RgbModel? addToCartColor;
-  ShopFrontView? view;
   ScrollDirection? scrollDirection;
   ActionModel? buyAction;
   ActionModel? openProductAction;
   StorageConditionsModel? conditions;
 
-  ShopFrontModel({this.documentID, this.appId, this.title, this.description, this.shop, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackground, this.addToCartColor, this.view, this.scrollDirection, this.buyAction, this.openProductAction, this.conditions, })  {
+  ShopFrontModel({this.documentID, this.appId, this.title, this.description, this.shop, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackground, this.addToCartColor, this.scrollDirection, this.buyAction, this.openProductAction, this.conditions, })  {
     assert(documentID != null);
   }
 
-  ShopFrontModel copyWith({String? documentID, String? appId, String? title, String? description, ShopModel? shop, double? size, double? cardElevation, double? cardAxisSpacing, BackgroundModel? itemCardBackground, RgbModel? addToCartColor, ShopFrontView? view, ScrollDirection? scrollDirection, ActionModel? buyAction, ActionModel? openProductAction, StorageConditionsModel? conditions, }) {
-    return ShopFrontModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, description: description ?? this.description, shop: shop ?? this.shop, size: size ?? this.size, cardElevation: cardElevation ?? this.cardElevation, cardAxisSpacing: cardAxisSpacing ?? this.cardAxisSpacing, itemCardBackground: itemCardBackground ?? this.itemCardBackground, addToCartColor: addToCartColor ?? this.addToCartColor, view: view ?? this.view, scrollDirection: scrollDirection ?? this.scrollDirection, buyAction: buyAction ?? this.buyAction, openProductAction: openProductAction ?? this.openProductAction, conditions: conditions ?? this.conditions, );
+  ShopFrontModel copyWith({String? documentID, String? appId, String? title, String? description, ShopModel? shop, double? size, double? cardElevation, double? cardAxisSpacing, BackgroundModel? itemCardBackground, RgbModel? addToCartColor, ScrollDirection? scrollDirection, ActionModel? buyAction, ActionModel? openProductAction, StorageConditionsModel? conditions, }) {
+    return ShopFrontModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, description: description ?? this.description, shop: shop ?? this.shop, size: size ?? this.size, cardElevation: cardElevation ?? this.cardElevation, cardAxisSpacing: cardAxisSpacing ?? this.cardAxisSpacing, itemCardBackground: itemCardBackground ?? this.itemCardBackground, addToCartColor: addToCartColor ?? this.addToCartColor, scrollDirection: scrollDirection ?? this.scrollDirection, buyAction: buyAction ?? this.buyAction, openProductAction: openProductAction ?? this.openProductAction, conditions: conditions ?? this.conditions, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ description.hashCode ^ shop.hashCode ^ size.hashCode ^ cardElevation.hashCode ^ cardAxisSpacing.hashCode ^ itemCardBackground.hashCode ^ addToCartColor.hashCode ^ view.hashCode ^ scrollDirection.hashCode ^ buyAction.hashCode ^ openProductAction.hashCode ^ conditions.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ description.hashCode ^ shop.hashCode ^ size.hashCode ^ cardElevation.hashCode ^ cardAxisSpacing.hashCode ^ itemCardBackground.hashCode ^ addToCartColor.hashCode ^ scrollDirection.hashCode ^ buyAction.hashCode ^ openProductAction.hashCode ^ conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -102,7 +89,6 @@ class ShopFrontModel {
           cardAxisSpacing == other.cardAxisSpacing &&
           itemCardBackground == other.itemCardBackground &&
           addToCartColor == other.addToCartColor &&
-          view == other.view &&
           scrollDirection == other.scrollDirection &&
           buyAction == other.buyAction &&
           openProductAction == other.openProductAction &&
@@ -110,7 +96,7 @@ class ShopFrontModel {
 
   @override
   String toString() {
-    return 'ShopFrontModel{documentID: $documentID, appId: $appId, title: $title, description: $description, shop: $shop, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackground: $itemCardBackground, addToCartColor: $addToCartColor, view: $view, scrollDirection: $scrollDirection, buyAction: $buyAction, openProductAction: $openProductAction, conditions: $conditions}';
+    return 'ShopFrontModel{documentID: $documentID, appId: $appId, title: $title, description: $description, shop: $shop, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackground: $itemCardBackground, addToCartColor: $addToCartColor, scrollDirection: $scrollDirection, buyAction: $buyAction, openProductAction: $openProductAction, conditions: $conditions}';
   }
 
   ShopFrontEntity toEntity({String? appId}) {
@@ -124,7 +110,6 @@ class ShopFrontModel {
           cardAxisSpacing: (cardAxisSpacing != null) ? cardAxisSpacing : null, 
           itemCardBackground: (itemCardBackground != null) ? itemCardBackground!.toEntity(appId: appId) : null, 
           addToCartColor: (addToCartColor != null) ? addToCartColor!.toEntity(appId: appId) : null, 
-          view: (view != null) ? view!.index : null, 
           scrollDirection: (scrollDirection != null) ? scrollDirection!.index : null, 
           buyAction: (buyAction != null) ? buyAction!.toEntity(appId: appId) : null, 
           openProductAction: (openProductAction != null) ? openProductAction!.toEntity(appId: appId) : null, 
@@ -147,7 +132,6 @@ class ShopFrontModel {
             await BackgroundModel.fromEntity(entity.itemCardBackground), 
           addToCartColor: 
             await RgbModel.fromEntity(entity.addToCartColor), 
-          view: toShopFrontView(entity.view), 
           scrollDirection: toScrollDirection(entity.scrollDirection), 
           buyAction: 
             await ActionModel.fromEntity(entity.buyAction), 
@@ -186,7 +170,6 @@ class ShopFrontModel {
             await BackgroundModel.fromEntityPlus(entity.itemCardBackground, appId: appId), 
           addToCartColor: 
             await RgbModel.fromEntityPlus(entity.addToCartColor, appId: appId), 
-          view: toShopFrontView(entity.view), 
           scrollDirection: toScrollDirection(entity.scrollDirection), 
           buyAction: 
             await ActionModel.fromEntityPlus(entity.buyAction, appId: appId), 

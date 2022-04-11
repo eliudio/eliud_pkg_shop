@@ -11,18 +11,15 @@ import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/tools/component/component_spec.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_core/tools/widgets/condition_simple_widget.dart';
-import 'package:eliud_core/tools/widgets/editor/select_action_widget.dart';
 import 'package:eliud_core/tools/widgets/header_widget.dart';
 import 'package:eliud_pkg_medium/editors/widgets/background_widget.dart';
-import 'package:eliud_pkg_notifications/model/notification_dashboard_model.dart';
+import 'package:eliud_pkg_shop/editors/widgets/select_shop_front_widget.dart';
 import 'package:eliud_pkg_shop/editors/widgets/select_shop_widget.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/order_overview_model.dart';
 import 'package:flutter/material.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_bloc.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_event.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_state.dart';
 
@@ -48,7 +45,7 @@ class OrderOverviewComponentEditorConstructor
           documentID: newRandomKey(),
           conditions: StorageConditionsModel(
               privilegeLevelRequired:
-              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+                  PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
         ),
         feedback);
   }
@@ -57,7 +54,7 @@ class OrderOverviewComponentEditorConstructor
   void updateComponentWithID(AppModel app, BuildContext context, String id,
       EditorFeedback feedback) async {
     var orderOverview =
-    await orderOverviewRepository(appId: app.documentID!)!.get(id);
+        await orderOverviewRepository(appId: app.documentID!)!.get(id);
     if (orderOverview != null) {
       _openIt(app, context, false, orderOverview, feedback);
     } else {
@@ -80,11 +77,11 @@ class OrderOverviewComponentEditorConstructor
       widthFraction: .9,
       child: BlocProvider<OrderOverviewBloc>(
           create: (context) => OrderOverviewBloc(
-            app.documentID!,
-            /*create,
+                app.documentID!,
+                /*create,
             */
-            feedback,
-          )..add(EditorBaseInitialise<OrderOverviewModel>(model)),
+                feedback,
+              )..add(EditorBaseInitialise<OrderOverviewModel>(model)),
           child: OrderOverviewComponentEditor(
             app: app,
           )),
@@ -101,8 +98,7 @@ class OrderOverviewComponentEditor extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() =>
-      _OrderOverviewComponentEditorState();
+  State<StatefulWidget> createState() => _OrderOverviewComponentEditorState();
 }
 
 class _OrderOverviewComponentEditorState
@@ -111,103 +107,105 @@ class _OrderOverviewComponentEditorState
   Widget build(BuildContext context) {
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (aContext, accessState) {
-          if (accessState is AccessDetermined) {
-            var member = accessState.getMember();
-            if (member != null) {
-              var memberId = member.documentID!;
-              return BlocBuilder<OrderOverviewBloc, EditorBaseState<OrderOverviewModel>>(
-                  builder: (ppContext, orderOverviewState) {
-                    if (orderOverviewState is EditorBaseInitialised<OrderOverviewModel>) {
-                      return ListView(
-                          shrinkWrap: true,
-                          physics: ScrollPhysics(),
-                          children: [
-                            HeaderWidget(
+      if (accessState is AccessDetermined) {
+        var member = accessState.getMember();
+        if (member != null) {
+          var memberId = member.documentID!;
+          return BlocBuilder<OrderOverviewBloc,
+                  EditorBaseState<OrderOverviewModel>>(
+              builder: (ppContext, orderOverviewState) {
+            if (orderOverviewState
+                is EditorBaseInitialised<OrderOverviewModel>) {
+              return ListView(
+                  shrinkWrap: true,
+                  physics: ScrollPhysics(),
+                  children: [
+                    HeaderWidget(
+                      app: widget.app,
+                      title: 'OrderOverview',
+                      okAction: () async {
+                        await BlocProvider.of<OrderOverviewBloc>(context).save(
+                            EditorBaseApplyChanges<OrderOverviewModel>(
+                                model: orderOverviewState.model));
+                        return true;
+                      },
+                      cancelAction: () async {
+                        return true;
+                      },
+                    ),
+                    topicContainer(widget.app, context,
+                        title: 'General',
+                        collapsible: true,
+                        collapsed: true,
+                        children: [
+                          getListTile(context, widget.app,
+                              leading: Icon(Icons.vpn_key),
+                              title: text(widget.app, context,
+                                  orderOverviewState.model.documentID!)),
+                          getListTile(context, widget.app,
+                              leading: Icon(Icons.title),
+                              title: dialogField(
+                                widget.app,
+                                context,
+                                initialValue: orderOverviewState.model.title,
+                                valueChanged: (value) {
+                                  orderOverviewState.model.title = value;
+                                },
+                                maxLines: 1,
+                                decoration: const InputDecoration(
+                                  hintText: 'Title',
+                                  labelText: 'Title',
+                                ),
+                              )),
+                        ]),
+                    topicContainer(widget.app, context,
+                        title: 'Background',
+                        collapsible: true,
+                        collapsed: true,
+                        children: [
+                          BackgroundWidget(
                               app: widget.app,
-                              title: 'OrderOverview',
-                              okAction: () async {
-                                await BlocProvider.of<OrderOverviewBloc>(context)
-                                    .save(EditorBaseApplyChanges<OrderOverviewModel>(
-                                    model: orderOverviewState.model));
-                                return true;
-                              },
-                              cancelAction: () async {
-                                return true;
-                              },
-                            ),
-                            topicContainer(widget.app, context,
-                                title: 'General',
-                                collapsible: true,
-                                collapsed: true,
-                                children: [
-                                  getListTile(context, widget.app,
-                                      leading: Icon(Icons.vpn_key),
-                                      title: text(widget.app, context,
-                                          orderOverviewState.model.documentID!)),
-                                  getListTile(context, widget.app,
-                                      leading: Icon(Icons.title),
-                                      title: dialogField(
-                                        widget.app,
-                                        context,
-                                        initialValue: orderOverviewState.model.title,
-                                        valueChanged: (value) {
-                                          orderOverviewState.model.title = value;
-                                        },
-                                        maxLines: 1,
-                                        decoration: const InputDecoration(
-                                          hintText: 'Title',
-                                          labelText: 'Title',
-                                        ),
-                                      )),
-                                ]),
-                            topicContainer(widget.app, context,
-                                title: 'Background',
-                                collapsible: true,
-                                collapsed: true,
-                                children: [
-                                  BackgroundWidget(
-                                      app: widget.app,
-                                      memberId: memberId,
-                                      value: orderOverviewState.model.itemDetailBackground!,
-                                      label: 'Item Detail Background'),
-                                  BackgroundWidget(
-                                      app: widget.app,
-                                      memberId: memberId,
-                                      value: orderOverviewState.model.itemImageBackground!,
-                                      label: 'Item Image Background'),
-                                ]),
-                            SelectShopWidget(
+                              memberId: memberId,
+                              value: orderOverviewState
+                                  .model.itemDetailBackground!,
+                              label: 'Item Detail Background'),
+                          BackgroundWidget(
+                              app: widget.app,
+                              memberId: memberId,
+                              value:
+                                  orderOverviewState.model.itemImageBackground!,
+                              label: 'Item Image Background'),
+                        ]),
+                    selectShopWidget(
+                        context,
+                        widget.app,
+                        orderOverviewState.model.shop,
+                            (shop) => setState(() {
+                          orderOverviewState.model.shop = shop;
+                        })),
+                    topicContainer(widget.app, context,
+                        title: 'Conditions',
+                        collapsible: true,
+                        collapsed: true,
+                        children: [
+                          getListTile(context, widget.app,
+                              leading: Icon(Icons.security),
+                              title: ConditionsSimpleWidget(
                                 app: widget.app,
-                                shop: orderOverviewState.model.shop,
-                                shopSelected: (shop) {
-                                  setState(() {
-                                    orderOverviewState.model.shop = shop;
-                                  });
-                                }),
-                            topicContainer(widget.app, context,
-                                title: 'Conditions',
-                                collapsible: true,
-                                collapsed: true,
-                                children: [
-                                  getListTile(context, widget.app,
-                                      leading: Icon(Icons.security),
-                                      title: ConditionsSimpleWidget(
-                                        app: widget.app,
-                                        value: orderOverviewState.model.conditions!,
-                                      )),
-                                ]),
-                          ]);
-                    } else {
-                      return progressIndicator(widget.app, context);
-                    }
-                  });
+                                value: orderOverviewState.model.conditions!,
+                              )),
+                        ]),
+                  ]);
             } else {
-              return text(widget.app, context, 'Member should be logged');
+              return progressIndicator(widget.app, context);
             }
-          } else {
-            return progressIndicator(widget.app, context);
-          }
-        });
+          });
+        } else {
+          return text(widget.app, context, 'Member should be logged');
+        }
+      } else {
+        return progressIndicator(widget.app, context);
+      }
+    });
   }
-
 }

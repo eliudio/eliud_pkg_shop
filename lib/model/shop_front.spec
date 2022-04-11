@@ -94,14 +94,6 @@
       "bespokeFormField": "RgbField(widget.app, \"Add To Cart Color\", state.value!.addToCartColor, _onAddToCartColorChanged)"
     },
     {
-      "fieldName": "view",
-      "displayName": "View Type",
-      "fieldType": "enum",
-      "enumName": "ShopFrontView",
-      "enumValues" : [ "Slider", "Grid" ],
-      "group": "view"
-    },
-    {
       "fieldName": "scrollDirection",
       "displayName": "Scroll Direction",
       "fieldType": "enum",

@@ -132,7 +132,6 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
   final TextEditingController _sizeController = TextEditingController();
   final TextEditingController _cardElevationController = TextEditingController();
   final TextEditingController _cardAxisSpacingController = TextEditingController();
-  int? _viewSelectedRadioTile;
   int? _scrollDirectionSelectedRadioTile;
 
 
@@ -149,7 +148,6 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
     _sizeController.addListener(_onSizeChanged);
     _cardElevationController.addListener(_onCardElevationChanged);
     _cardAxisSpacingController.addListener(_onCardAxisSpacingChanged);
-    _viewSelectedRadioTile = 0;
     _scrollDirectionSelectedRadioTile = 0;
   }
 
@@ -194,10 +192,6 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
           _cardAxisSpacingController.text = state.value!.cardAxisSpacing.toString();
         else
           _cardAxisSpacingController.text = "";
-        if (state.value!.view != null)
-          _viewSelectedRadioTile = state.value!.view!.index;
-        else
-          _viewSelectedRadioTile = 0;
         if (state.value!.scrollDirection != null)
           _scrollDirectionSelectedRadioTile = state.value!.scrollDirection!.index;
         else
@@ -300,15 +294,6 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'View')
                 ));
 
-        children.add(
-
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _viewSelectedRadioTile, 'Slider', 'Slider', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionView(val))
-          );
-        children.add(
-
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _viewSelectedRadioTile, 'Grid', 'Grid', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionView(val))
-          );
-
 
         children.add(Container(height: 20.0));
         children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
@@ -404,7 +389,6 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
                               cardAxisSpacing: state.value!.cardAxisSpacing, 
                               itemCardBackground: state.value!.itemCardBackground, 
                               addToCartColor: state.value!.addToCartColor, 
-                              view: state.value!.view, 
                               scrollDirection: state.value!.scrollDirection, 
                               buyAction: state.value!.buyAction, 
                               openProductAction: state.value!.openProductAction, 
@@ -423,7 +407,6 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
                               cardAxisSpacing: state.value!.cardAxisSpacing, 
                               itemCardBackground: state.value!.itemCardBackground, 
                               addToCartColor: state.value!.addToCartColor, 
-                              view: state.value!.view, 
                               scrollDirection: state.value!.scrollDirection, 
                               buyAction: state.value!.buyAction, 
                               openProductAction: state.value!.openProductAction, 
@@ -500,14 +483,6 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
   void _onAddToCartColorChanged(value) {
     _myFormBloc.add(ChangedShopFrontAddToCartColor(value: value));
     
-  }
-
-
-  void setSelectionView(int? val) {
-    setState(() {
-      _viewSelectedRadioTile = val;
-    });
-    _myFormBloc.add(ChangedShopFrontView(value: toShopFrontView(val)));
   }
 
 

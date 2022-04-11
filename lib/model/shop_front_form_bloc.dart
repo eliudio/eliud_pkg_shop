@@ -118,7 +118,6 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
                                  cardAxisSpacing: currentState.value!.cardAxisSpacing,
                                  itemCardBackground: currentState.value!.itemCardBackground,
                                  addToCartColor: currentState.value!.addToCartColor,
-                                 view: currentState.value!.view,
                                  scrollDirection: currentState.value!.scrollDirection,
                                  buyAction: currentState.value!.buyAction,
                                  openProductAction: currentState.value!.openProductAction,
@@ -169,12 +168,6 @@ class ShopFrontFormBloc extends Bloc<ShopFrontFormEvent, ShopFrontFormState> {
       }
       if (event is ChangedShopFrontAddToCartColor) {
         newValue = currentState.value!.copyWith(addToCartColor: event.value);
-        yield SubmittableShopFrontForm(value: newValue);
-
-        return;
-      }
-      if (event is ChangedShopFrontView) {
-        newValue = currentState.value!.copyWith(view: event.value);
         yield SubmittableShopFrontForm(value: newValue);
 
         return;

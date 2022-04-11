@@ -1,3 +1,4 @@
+import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/model/storage_conditions_model.dart';
 import 'package:eliud_core/tools/component/component_spec.dart';
 import 'package:eliud_core/tools/random.dart';
@@ -23,6 +24,7 @@ class ShopFrontBloc
   ShopFrontModel setDefaultValues(
       ShopFrontModel t, StorageConditionsModel conditions) {
     return t.copyWith(
+      addToCartColor: t.addToCartColor ?? RgbModel(r: 0, g: 0, b: 0),
         conditions: t.conditions ??
             StorageConditionsModel(
                 privilegeLevelRequired:

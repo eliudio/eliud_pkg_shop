@@ -32,20 +32,19 @@ class ShopFrontEntity {
   final double? cardAxisSpacing;
   final BackgroundEntity? itemCardBackground;
   final RgbEntity? addToCartColor;
-  final int? view;
   final int? scrollDirection;
   final ActionEntity? buyAction;
   final ActionEntity? openProductAction;
   final StorageConditionsEntity? conditions;
 
-  ShopFrontEntity({this.appId, this.title, this.description, this.shopId, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackground, this.addToCartColor, this.view, this.scrollDirection, this.buyAction, this.openProductAction, this.conditions, });
+  ShopFrontEntity({this.appId, this.title, this.description, this.shopId, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackground, this.addToCartColor, this.scrollDirection, this.buyAction, this.openProductAction, this.conditions, });
 
 
-  List<Object?> get props => [appId, title, description, shopId, size, cardElevation, cardAxisSpacing, itemCardBackground, addToCartColor, view, scrollDirection, buyAction, openProductAction, conditions, ];
+  List<Object?> get props => [appId, title, description, shopId, size, cardElevation, cardAxisSpacing, itemCardBackground, addToCartColor, scrollDirection, buyAction, openProductAction, conditions, ];
 
   @override
   String toString() {
-    return 'ShopFrontEntity{appId: $appId, title: $title, description: $description, shopId: $shopId, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackground: $itemCardBackground, addToCartColor: $addToCartColor, view: $view, scrollDirection: $scrollDirection, buyAction: $buyAction, openProductAction: $openProductAction, conditions: $conditions}';
+    return 'ShopFrontEntity{appId: $appId, title: $title, description: $description, shopId: $shopId, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackground: $itemCardBackground, addToCartColor: $addToCartColor, scrollDirection: $scrollDirection, buyAction: $buyAction, openProductAction: $openProductAction, conditions: $conditions}';
   }
 
   static ShopFrontEntity? fromMap(Object? o) {
@@ -83,7 +82,6 @@ class ShopFrontEntity {
       cardAxisSpacing: double.tryParse(map['cardAxisSpacing'].toString()), 
       itemCardBackground: itemCardBackgroundFromMap, 
       addToCartColor: addToCartColorFromMap, 
-      view: map['view'], 
       scrollDirection: map['scrollDirection'], 
       buyAction: buyActionFromMap, 
       openProductAction: openProductActionFromMap, 
@@ -127,8 +125,6 @@ class ShopFrontEntity {
       else theDocument["itemCardBackground"] = null;
     if (addToCartColor != null) theDocument["addToCartColor"] = addToCartColorMap;
       else theDocument["addToCartColor"] = null;
-    if (view != null) theDocument["view"] = view;
-      else theDocument["view"] = null;
     if (scrollDirection != null) theDocument["scrollDirection"] = scrollDirection;
       else theDocument["scrollDirection"] = null;
     if (buyAction != null) theDocument["buyAction"] = buyActionMap;

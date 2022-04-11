@@ -223,22 +223,6 @@ class AddToCartColorShopFrontFormError extends ShopFrontFormError {
 }
 
 
-class ViewShopFrontFormError extends ShopFrontFormError { 
-  const ViewShopFrontFormError({ String? message, ShopFrontModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''ViewShopFrontFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
 class ScrollDirectionShopFrontFormError extends ShopFrontFormError { 
   const ScrollDirectionShopFrontFormError({ String? message, ShopFrontModel? value }): super(message: message, value: value);
 
