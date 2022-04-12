@@ -91,7 +91,7 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0),
-                        child: text(widget.app, context, widget.productModel!.about!),
+                        child: text(widget.app, context, widget.productModel!.about ?? ''),
                       ),
                       button(widget.app,
                         context,

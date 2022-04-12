@@ -30,9 +30,6 @@ import 'pay_component_selector.dart';
 import '../extensions/pay_confirmation_component.dart';
 import '../editors/pay_confirmation_component_editor.dart';
 import 'pay_confirmation_component_selector.dart';
-import '../extensions/product_component.dart';
-import '../editors/product_component_editor.dart';
-import 'product_component_selector.dart';
 import '../extensions/product_display_component.dart';
 import '../editors/product_display_component_editor.dart';
 import 'product_display_component_selector.dart';
@@ -58,8 +55,6 @@ class ComponentRegistry {
     Registry.registry()!.register(componentName: "pays", componentConstructor: PayComponentConstructorDefault());
     Registry.registry()!.addDropDownSupporter("payConfirmations", DropdownButtonComponentFactory());
     Registry.registry()!.register(componentName: "payConfirmations", componentConstructor: PayConfirmationComponentConstructorDefault());
-    Registry.registry()!.addDropDownSupporter("products", DropdownButtonComponentFactory());
-    Registry.registry()!.register(componentName: "products", componentConstructor: ProductComponentConstructorDefault());
     Registry.registry()!.addDropDownSupporter("productDisplays", DropdownButtonComponentFactory());
     Registry.registry()!.register(componentName: "productDisplays", componentConstructor: ProductDisplayComponentConstructorDefault());
     Registry.registry()!.addDropDownSupporter("shopFronts", DropdownButtonComponentFactory());
@@ -69,7 +64,6 @@ class ComponentRegistry {
       ComponentSpec('orderOverviews', OrderOverviewComponentConstructorDefault(), OrderOverviewComponentSelector(), OrderOverviewComponentEditorConstructor(), ), 
       ComponentSpec('pays', PayComponentConstructorDefault(), PayComponentSelector(), PayComponentEditorConstructor(), ), 
       ComponentSpec('payConfirmations', PayConfirmationComponentConstructorDefault(), PayConfirmationComponentSelector(), PayConfirmationComponentEditorConstructor(), ), 
-      ComponentSpec('products', ProductComponentConstructorDefault(), ProductComponentSelector(), ProductComponentEditorConstructor(), ), 
       ComponentSpec('productDisplays', ProductDisplayComponentConstructorDefault(), ProductDisplayComponentSelector(), ProductDisplayComponentEditorConstructor(), ), 
       ComponentSpec('shopFronts', ShopFrontComponentConstructorDefault(), ShopFrontComponentSelector(), ShopFrontComponentEditorConstructor(), ), 
     ]);

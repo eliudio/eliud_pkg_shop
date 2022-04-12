@@ -1,6 +1,7 @@
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/tools/widgets/editor/select_widget.dart';
+import 'package:eliud_pkg_shop/editors/shop/shop_dashboard.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/shop_list_bloc.dart';
 import 'package:eliud_pkg_shop/model/shop_list_event.dart';
@@ -34,6 +35,10 @@ Widget selectShopWidget(BuildContext context, AppModel app, ShopModel? shop, Fun
               }
             });
       },
-      selectedCallback: selectedCallback
+      selectedCallback: selectedCallback,
+      addCallback: () => ShopDashboard.addShop(app, context),
+      deleteCallback: (item) => ShopDashboard.deleteShop(app, context, item),
+      updateCallback: (item) => ShopDashboard.updateShop(app, context, item),
     );
 }
+

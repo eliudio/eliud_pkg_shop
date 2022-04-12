@@ -16,7 +16,7 @@
     "generateDropDownButton": true,
     "generateInternalComponent": true,
     "generateEmbeddedComponent": false,
-    "isExtension": true,
+    "isExtension": false,
     "documentSubCollectionOf": "app"
   },
   "fields": [
