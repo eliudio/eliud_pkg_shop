@@ -51,7 +51,7 @@ class ProductBloc extends ExtEditorBaseBloc<ProductModel, ProductImageModel> {
       shop: shopModel,
       images: [],
       posSize: defaultPosSize(),
-      conditions: conditions,
+//      conditions: conditions,
     );
   }
 
@@ -75,10 +75,13 @@ class ProductBloc extends ExtEditorBaseBloc<ProductModel, ProductImageModel> {
   ProductModel setDefaultValues(
       ProductModel t, StorageConditionsModel conditions) {
     return t.copyWith(
+/*
         conditions: t.conditions ??
             StorageConditionsModel(
                 privilegeLevelRequired:
-                    PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple));
+                    PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple)
+*/
+    );
   }
 
   @override

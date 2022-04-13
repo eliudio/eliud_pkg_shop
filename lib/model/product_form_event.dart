@@ -167,15 +167,3 @@ class ChangedProductPosSize extends ProductFormEvent {
   String toString() => 'ChangedProductPosSize{ value: $value }';
 }
 
-class ChangedProductConditions extends ProductFormEvent {
-  final StorageConditionsModel? value;
-
-  ChangedProductConditions({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedProductConditions{ value: $value }';
-}
-

@@ -78,8 +78,10 @@ Future<ProductModel> productToProductModel(String uniqueId,
     price: product.price,
     weight: 100,
     posSize: screen75(app.documentID!),
+/*
     conditions: StorageConditionsModel(
         privilegeLevelRequired:
             PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+*/
   );
 }

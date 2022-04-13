@@ -33,13 +33,15 @@ class ShopDashboardBloc extends Bloc<ShopDashboardBaseEvent, ShopDashboardBaseSt
     productRepository(appId: appId)!.update(newItem);
   }
 
-  void _loadProducts() async {
+  void _loadProducts(String shopId) async {
     await _productSubscription?.cancel();
     _productSubscription = productRepository(appId: appId)!.listenWithDetails(
             (list) {
               add(ProductListUpdated(list.map((e) => e!).toList()));
             },
-        eliudQuery: EliudQuery(),
+        eliudQuery: EliudQuery(theConditions: [
+          EliudQueryCondition('shopId', isEqualTo: shopId),
+        ]),
     );
   }
 
@@ -50,9 +52,12 @@ class ShopDashboardBloc extends Bloc<ShopDashboardBaseEvent, ShopDashboardBaseSt
       // retrieve the model, as it was retrieved without links
       var modelWithLinks = await shopRepository(appId: appId)!
           .get(event.model.documentID);
-      modelWithLinks ??=
-          ShopModel(documentID: newRandomKey(), description: 'new shop');
-      _loadProducts();
+      if (modelWithLinks == null) {
+        var shopId = newRandomKey();
+        modelWithLinks =
+            ShopModel(documentID: shopId, description: 'new shop');
+      }
+      _loadProducts(modelWithLinks.documentID!);
       yield ShopDashboardLoaded(
         shop: modelWithLinks,
       );

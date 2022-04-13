@@ -48,9 +48,11 @@ class ProductDashboard extends StatefulWidget {
         appId: app.documentID,
         documentID: newRandomKey(),
         shop: shop,
+/*
         conditions: StorageConditionsModel(
             privilegeLevelRequired:
             PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+*/
       ),
     );
   }
@@ -198,6 +200,7 @@ class _ProductDashboardState extends State<ProductDashboard> {
                             app: widget.app,
                             posSizeModel: productState.model.posSize ?? ProductBloc.defaultPosSize(),
                           ),
+/*
                           topicContainer(widget.app, context,
                               title: 'Condition',
                               collapsible: true,
@@ -211,6 +214,7 @@ class _ProductDashboardState extends State<ProductDashboard> {
                                       readOnly: productState.model.images != null && productState.model.images!.isNotEmpty,
                                     )),
                               ]),
+*/
                           topicContainer(widget.app, context,
                               title: 'Images',
                               collapsible: true,
@@ -372,7 +376,8 @@ class _ProductDashboardState extends State<ProductDashboard> {
                   widget.app,
                   widget.app.ownerID!,
                       () => PlatformMediumAccessRights(
-                      productState.model.conditions!.privilegeLevelRequired!),
+                          PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+//                      productState.model.conditions!.privilegeLevelRequired!),
                       (photo) => _photoFeedbackFunction(photo),
                   _photoUploading,
                   allowCrop: false);
@@ -382,7 +387,8 @@ class _ProductDashboardState extends State<ProductDashboard> {
                   widget.app,
                   widget.app.ownerID!,
                       () => PlatformMediumAccessRights(
-                      productState.model.conditions!.privilegeLevelRequired!),
+                          PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+//                      productState.model.conditions!.privilegeLevelRequired!),
                       (photo) => _photoFeedbackFunction(photo),
                   _photoUploading,
                   allowCrop: false);

@@ -277,7 +277,6 @@ class _MyProductFormState extends State<MyProductForm> {
                 ));
 
 
-
         children.add(Container(height: 20.0));
         children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
@@ -300,7 +299,6 @@ class _MyProductFormState extends State<MyProductForm> {
                               shop: state.value!.shop, 
                               images: state.value!.images, 
                               posSize: state.value!.posSize, 
-                              conditions: state.value!.conditions, 
                         )));
                       } else {
                         BlocProvider.of<ProductListBloc>(context).add(
@@ -314,7 +312,6 @@ class _MyProductFormState extends State<MyProductForm> {
                               shop: state.value!.shop, 
                               images: state.value!.images, 
                               posSize: state.value!.posSize, 
-                              conditions: state.value!.conditions, 
                           )));
                       }
                       if (widget.submitAction != null) {

@@ -138,7 +138,6 @@ class ProductFormBloc extends Bloc<ProductFormEvent, ProductFormState> {
                                  shop: null,
                                  images: currentState.value!.images,
                                  posSize: currentState.value!.posSize,
-                                 conditions: currentState.value!.conditions,
           );
         yield SubmittableProductForm(value: newValue);
 
@@ -152,12 +151,6 @@ class ProductFormBloc extends Bloc<ProductFormEvent, ProductFormState> {
       }
       if (event is ChangedProductPosSize) {
         newValue = currentState.value!.copyWith(posSize: event.value);
-        yield SubmittableProductForm(value: newValue);
-
-        return;
-      }
-      if (event is ChangedProductConditions) {
-        newValue = currentState.value!.copyWith(conditions: event.value);
         yield SubmittableProductForm(value: newValue);
 
         return;

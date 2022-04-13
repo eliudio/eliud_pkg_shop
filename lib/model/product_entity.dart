@@ -31,18 +31,17 @@ class ProductEntity {
   final String? shopId;
   final List<ProductImageEntity>? images;
   final PosSizeEntity? posSize;
-  final StorageConditionsEntity? conditions;
 
-  ProductEntity({this.appId, this.title, this.about, this.price, this.weight, this.shopId, this.images, this.posSize, this.conditions, });
+  ProductEntity({this.appId, this.title, this.about, this.price, this.weight, this.shopId, this.images, this.posSize, });
 
 
-  List<Object?> get props => [appId, title, about, price, weight, shopId, images, posSize, conditions, ];
+  List<Object?> get props => [appId, title, about, price, weight, shopId, images, posSize, ];
 
   @override
   String toString() {
     String imagesCsv = (images == null) ? '' : images!.join(', ');
 
-    return 'ProductEntity{appId: $appId, title: $title, about: $about, price: $price, weight: $weight, shopId: $shopId, images: ProductImage[] { $imagesCsv }, posSize: $posSize, conditions: $conditions}';
+    return 'ProductEntity{appId: $appId, title: $title, about: $about, price: $price, weight: $weight, shopId: $shopId, images: ProductImage[] { $imagesCsv }, posSize: $posSize}';
   }
 
   static ProductEntity? fromMap(Object? o) {
@@ -61,10 +60,6 @@ class ProductEntity {
     posSizeFromMap = map['posSize'];
     if (posSizeFromMap != null)
       posSizeFromMap = PosSizeEntity.fromMap(posSizeFromMap);
-    var conditionsFromMap;
-    conditionsFromMap = map['conditions'];
-    if (conditionsFromMap != null)
-      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap);
 
     return ProductEntity(
       appId: map['appId'], 
@@ -75,7 +70,6 @@ class ProductEntity {
       shopId: map['shopId'], 
       images: imagesList, 
       posSize: posSizeFromMap, 
-      conditions: conditionsFromMap, 
     );
   }
 
@@ -85,9 +79,6 @@ class ProductEntity {
         : null;
     final Map<String, dynamic>? posSizeMap = posSize != null 
         ? posSize!.toDocument()
-        : null;
-    final Map<String, dynamic>? conditionsMap = conditions != null 
-        ? conditions!.toDocument()
         : null;
 
     Map<String, Object?> theDocument = HashMap();
@@ -107,8 +98,6 @@ class ProductEntity {
       else theDocument["images"] = null;
     if (posSize != null) theDocument["posSize"] = posSizeMap;
       else theDocument["posSize"] = null;
-    if (conditions != null) theDocument["conditions"] = conditionsMap;
-      else theDocument["conditions"] = null;
     return theDocument;
   }
 

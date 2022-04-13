@@ -6,12 +6,10 @@ import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/component/component_constructor.dart';
 import 'package:eliud_pkg_shop/extensions/shop_widgets/product_detail.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/product_component_bloc.dart';
-import 'package:eliud_pkg_shop/model/product_component_event.dart';
-import 'package:eliud_pkg_shop/model/product_component_state.dart';
 import 'package:eliud_pkg_shop/model/product_display_component.dart';
 import 'package:eliud_pkg_shop/model/product_display_model.dart';
 import 'package:eliud_pkg_shop/model/product_display_repository.dart';
+import 'package:eliud_pkg_shop/model/product_model.dart';
 import 'package:eliud_pkg_shop/model/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,29 +41,22 @@ class ProductDisplayComponent extends AbstractProductDisplayComponent {
   @override
   Widget yourWidget(BuildContext context, ProductDisplayModel? value) {
     var productId = parameters!['productId'];
+    var appId = value!.appId!;
     if (productId != null) {
-      return BlocProvider<ProductComponentBloc>(
-        create: (context) => ProductComponentBloc(
-            productRepository: getProductRepository(context))
-          ..add(FetchProductComponent(id: productId as String?)),
-        child: _widget(context, value, productId as String),
+      return FutureBuilder<ProductModel?>(
+          future: productRepository(appId: appId)!.get(productId),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ProductDetail(app: app,
+                  productDisplayModel: value, productModel: snapshot.data);
+            } else {
+              return progressIndicator(app, context);
+            }
+          }
       );
     } else {
       return alertWidget(title: 'error', content: 'Ordernumber not provided');
     }
-  }
-
-  Widget _widget(
-      BuildContext context, ProductDisplayModel? value, String productId) {
-    return BlocBuilder<ProductComponentBloc, ProductComponentState>(
-        builder: (context, state) {
-      if (state is ProductComponentLoaded) {
-        return ProductDetail(app: app,
-            productDisplayModel: value, productModel: state.value);
-      } else {
-        return progressIndicator(app, context);
-      }
-    });
   }
 
   @override

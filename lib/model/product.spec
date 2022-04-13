@@ -3,7 +3,7 @@
   "packageName": "eliud_pkg_shop",
   "isAppModel": true,
   "generate": {
-    "generateComponent": true,
+    "generateComponent": false,
     "generateRepository": true,
     "generateCache": true,
 	"hasPersistentRepository": true,
@@ -81,12 +81,6 @@
       "fieldType": "PosSize",
       "group": "posSize",
       "optional": false
-    },
-    {
-      "fieldName": "conditions",
-      "displayName": "Conditions",
-      "fieldType": "StorageConditions",
-      "group": "conditions"
     }
   ],
   "groups": [

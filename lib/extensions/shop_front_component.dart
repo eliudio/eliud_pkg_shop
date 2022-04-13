@@ -6,6 +6,7 @@ import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/component/component_constructor.dart';
 import 'package:eliud_core/tools/custom_utils.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_pkg_shop/extensions/shop_widgets/grid_products.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/product_list_bloc.dart';
@@ -30,9 +31,13 @@ class ShopFrontBase extends AbstractShopFrontComponent {
   ShopFrontBase({Key? key, required AppModel app, required String id, }) : super(key: key, app: app, shopFrontId: id);
 
   Widget _grid(BuildContext context, ShopFrontModel value) {
+    if (value.shop == null) return text(app, context, 'Shopfront has no shop specified');
     return BlocProvider<ProductListBloc>(
       create: (context) => ProductListBloc(
         detailed: true,
+        eliudQuery: EliudQuery(theConditions: [
+          EliudQueryCondition('shopId', isEqualTo: value.shop!.documentID!),
+        ]),
         productRepository: productRepository(appId: app.documentID!)!,
       )..add(LoadProductList()),
     child: GridProducts(app: app, shopFrontModel: value));
