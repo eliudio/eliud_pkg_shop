@@ -16,7 +16,9 @@ class ShopFrontBloc
   @override
   ShopFrontModel newInstance(StorageConditionsModel conditions) {
     return ShopFrontModel(
-        documentID: newRandomKey(), conditions: conditions,
+        appId: appId,
+        documentID: newRandomKey(), 
+        conditions: conditions,
     );
   }
 

@@ -37,7 +37,7 @@ Widget selectShopWidget(BuildContext context, AppModel app, ShopModel? shop, Fun
       },
       selectedCallback: selectedCallback,
       addCallback: () => ShopDashboard.addShop(app, context),
-      deleteCallback: (item) => ShopDashboard.deleteShop(app, context, item),
+      deleteCallback: null,
       updateCallback: (item) => ShopDashboard.updateShop(app, context, item),
     );
 }

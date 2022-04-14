@@ -25,31 +25,29 @@ import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_bloc.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_event.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_state.dart';
 
-class CartBloc
-    extends EditorBaseBloc<CartModel> {
-
+class CartBloc extends EditorBaseBloc<CartModel> {
   CartBloc(String appId, EditorFeedback feedback)
       : super(appId, cartRepository(appId: appId)!, feedback);
 
   @override
   CartModel newInstance(StorageConditionsModel conditions) {
     return CartModel(
-        documentID: newRandomKey(), conditions: conditions,
-        itemImageBackground: BackgroundModel(),
-        itemDetailBackground: BackgroundModel(),
+      appId: appId,
+      documentID: newRandomKey(),
+      conditions: conditions,
+      itemImageBackground: BackgroundModel(),
+      itemDetailBackground: BackgroundModel(),
     );
   }
 
   @override
-  CartModel setDefaultValues(
-      CartModel t, StorageConditionsModel conditions) {
+  CartModel setDefaultValues(CartModel t, StorageConditionsModel conditions) {
     return t.copyWith(
         itemImageBackground: t.itemImageBackground ?? BackgroundModel(),
         itemDetailBackground: t.itemDetailBackground ?? BackgroundModel(),
         conditions: t.conditions ??
             StorageConditionsModel(
                 privilegeLevelRequired:
-                PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple));
+                    PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple));
   }
 }
-
