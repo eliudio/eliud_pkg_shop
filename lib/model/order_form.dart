@@ -356,7 +356,7 @@ class _MyOrderFormState extends State<MyOrderForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "members", value: _customer, trigger: _onCustomerSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "members", value: _customer, trigger: (value, privilegeLevel) => _onCustomerSelected(value), optional: false),
           );
 
 
@@ -500,7 +500,7 @@ class _MyOrderFormState extends State<MyOrderForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _country, trigger: _onCountrySelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _country, trigger: (value, privilegeLevel) => _onCountrySelected(value), optional: false),
           );
 
 
@@ -557,7 +557,7 @@ class _MyOrderFormState extends State<MyOrderForm> {
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _invoiceCountry, trigger: _onInvoiceCountrySelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _invoiceCountry, trigger: (value, privilegeLevel) => _onInvoiceCountrySelected(value), optional: false),
           );
 
 
@@ -1150,7 +1150,7 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _country, trigger: _onCountrySelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _country, trigger: (value, privilegeLevel) => _onCountrySelected(value), optional: false),
           );
 
 
@@ -1207,7 +1207,7 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _invoiceCountry, trigger: _onInvoiceCountrySelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _invoiceCountry, trigger: (value, privilegeLevel) => _onInvoiceCountrySelected(value), optional: false),
           );
 
 

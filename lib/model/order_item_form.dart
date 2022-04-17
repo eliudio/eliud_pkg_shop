@@ -212,7 +212,7 @@ class _MyOrderItemFormState extends State<MyOrderItemForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "products", value: _product, trigger: _onProductSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "products", value: _product, trigger: (value, privilegeLevel) => _onProductSelected(value), optional: false),
           );
 
 
