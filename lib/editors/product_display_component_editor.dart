@@ -1,6 +1,7 @@
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/storage_conditions_model.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/style/frontend/has_dialog.dart';
@@ -101,7 +102,8 @@ class ProductDisplayBloc
   ProductDisplayModel newInstance(StorageConditionsModel conditions) {
     return ProductDisplayModel(
         appId: appId,
-        documentID: newRandomKey(), 
+        itemDetailBackground: BackgroundModel(),
+        documentID: newRandomKey(),
         conditions: conditions);
   }
 
@@ -109,6 +111,7 @@ class ProductDisplayBloc
   ProductDisplayModel setDefaultValues(
       ProductDisplayModel t, StorageConditionsModel conditions) {
     return t.copyWith(
+        itemDetailBackground: t.itemDetailBackground ?? BackgroundModel(),
         conditions: t.conditions ??
             StorageConditionsModel(
                 privilegeLevelRequired:
