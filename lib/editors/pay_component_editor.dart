@@ -192,6 +192,7 @@ class _PayComponentEditorState
                         selectShopWidget(
                             context,
                             widget.app,
+                            payState.model.conditions,
                             payState.model.shop,
                                 (shop) =>
                                 setState(() {

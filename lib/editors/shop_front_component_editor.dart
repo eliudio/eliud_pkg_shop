@@ -215,6 +215,7 @@ class _ShopFrontComponentEditorState extends State<ShopFrontComponentEditor> {
                     selectShopWidget(
                         context,
                         widget.app,
+                        shopFrontState.model.conditions,
                         shopFrontState.model.shop,
                         (shop) => setState(() {
                               shopFrontState.model.shop = shop;

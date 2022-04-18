@@ -191,6 +191,7 @@ class _ProductDisplayComponentEditorState
                         selectShopWidget(
                             context,
                             widget.app,
+                            productDisplayState.model.conditions,
                             productDisplayState.model.shop,
                                 (shop) =>
                                 setState(() {

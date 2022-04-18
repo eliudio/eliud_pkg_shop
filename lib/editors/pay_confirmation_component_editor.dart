@@ -192,6 +192,7 @@ class _PayConfirmationComponentEditorState
                         selectShopWidget(
                             context,
                             widget.app,
+                            payConfirmationState.model.conditions,
                             payConfirmationState.model.shop,
                                 (shop) =>
                                 setState(() {

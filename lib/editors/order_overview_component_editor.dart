@@ -179,6 +179,7 @@ class _OrderOverviewComponentEditorState
                     selectShopWidget(
                         context,
                         widget.app,
+                        orderOverviewState.model.conditions,
                         orderOverviewState.model.shop,
                             (shop) => setState(() {
                           orderOverviewState.model.shop = shop;

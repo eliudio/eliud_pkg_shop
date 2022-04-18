@@ -269,6 +269,7 @@ class _CartComponentEditorState extends State<CartComponentEditor> {
                     selectShopWidget(
                         context,
                         widget.app,
+                        cartState.model.conditions,
                         cartState.model.shop,
                         (shop) => setState(() {
                               cartState.model.shop = shop;
