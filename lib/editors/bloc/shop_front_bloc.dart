@@ -27,10 +27,7 @@ class ShopFrontBloc
       ShopFrontModel t, StorageConditionsModel conditions) {
     return t.copyWith(
       addToCartColor: t.addToCartColor ?? RgbModel(r: 0, g: 0, b: 0),
-        conditions: t.conditions ??
-            StorageConditionsModel(
-                privilegeLevelRequired:
-                PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple));
+        conditions: t.conditions ?? conditions);
   }
 }
 

@@ -24,14 +24,7 @@ Widget selectShopWidget(BuildContext context, AppModel app, StorageConditionsMod
           item.documentID! + ' ' + (item.description ?? '?')),
       blocProviderProvider: () => BlocProvider<ShopListBloc>(
         create: (context) => ShopListBloc(
-          eliudQuery: getComponentSelectorQuery(
-              containerStorageConditions == null ||
-                  containerStorageConditions.privilegeLevelRequired ==
-                      null
-                  ? 0
-                  : containerStorageConditions
-                  .privilegeLevelRequired!.index,
-              app.documentID!),
+          eliudQuery: getComponentSelectorQuery(0, app.documentID!),
           shopRepository: shopRepository(appId: app.documentID!)!,
         )..add(LoadShopList()),
       ),

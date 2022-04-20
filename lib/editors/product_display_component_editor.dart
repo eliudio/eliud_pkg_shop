@@ -112,10 +112,7 @@ class ProductDisplayBloc
       ProductDisplayModel t, StorageConditionsModel conditions) {
     return t.copyWith(
         itemDetailBackground: t.itemDetailBackground ?? BackgroundModel(),
-        conditions: t.conditions ??
-            StorageConditionsModel(
-                privilegeLevelRequired:
-                PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple));
+        conditions: t.conditions ?? conditions);
   }
 }
 

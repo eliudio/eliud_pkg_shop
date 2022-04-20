@@ -22,14 +22,7 @@ Widget selectShopFrontWidget(BuildContext context, AppModel app, StorageConditio
           item.documentID! + ' ' + (item.description ?? '?')),
       blocProviderProvider: () => BlocProvider<ShopFrontListBloc>(
        create: (context) => ShopFrontListBloc(
-         eliudQuery: getComponentSelectorQuery(
-             containerStorageConditions == null ||
-                 containerStorageConditions.privilegeLevelRequired ==
-                     null
-                 ? 0
-                 : containerStorageConditions
-                 .privilegeLevelRequired!.index,
-             app.documentID!),
+         eliudQuery: getComponentSelectorQuery(0, app.documentID!),
           shopFrontRepository: shopFrontRepository(appId: app.documentID!)!,
         )..add(LoadShopFrontList()),
       ),

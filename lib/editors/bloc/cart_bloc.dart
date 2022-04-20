@@ -45,9 +45,6 @@ class CartBloc extends EditorBaseBloc<CartModel> {
     return t.copyWith(
         itemImageBackground: t.itemImageBackground ?? BackgroundModel(),
         itemDetailBackground: t.itemDetailBackground ?? BackgroundModel(),
-        conditions: t.conditions ??
-            StorageConditionsModel(
-                privilegeLevelRequired:
-                    PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple));
+        conditions: t.conditions ?? conditions);
   }
 }
