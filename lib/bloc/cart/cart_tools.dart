@@ -8,6 +8,7 @@ import 'package:eliud_pkg_shop/bloc/cart/cart_event.dart';
 import 'package:eliud_pkg_shop/model/product_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/core/widgets/login_widget.dart';
 
 class PostLoginAddProduct extends PostLoginAction {
   final CartBloc cartBloc;
@@ -37,9 +38,9 @@ class CartTools {
     if (state is LoggedIn) {
       BlocProvider.of<CartBloc>(context).add(event);
     } else {
-      BlocProvider.of<AccessBloc>(context).add(LoginEvent(app: app,
+      openLoginWidget(context, app,
           actions:
-              PostLoginAddProduct(app, BlocProvider.of<CartBloc>(context), event)));
+              PostLoginAddProduct(app, BlocProvider.of<CartBloc>(context), event));
     }
   }
 }
