@@ -1,9 +1,9 @@
+import 'package:eliud_core/core/registry.dart';
 import 'package:eliud_core/core/wizards/widgets/action_specification_widget.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/style/frontend/has_list_tile.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
-import 'package:eliud_pkg_medium/wizards/widgets/photo_widget.dart';
 import 'package:eliud_pkg_shop/wizards/builders/widgets/payment_parameters_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +42,8 @@ class _ShopParametersWidgetState extends State<ShopParametersWidget> {
                 actionSpecification: widget.parameters.cartSpecifications,
                 label: 'Generate Cart Page'),
             PaymentParametersWidget(app: widget.app, parameters: widget.parameters.paymentParameters, ),
-            PlatformPhotoWidget(
+            Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
+              context: context,
               title: 'Shop Page Image',
               defaultImage:
               'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_presenting.png',
@@ -54,7 +55,8 @@ class _ShopParametersWidgetState extends State<ShopParametersWidget> {
               app: widget.app,
               initialImage: widget.parameters.shopImage,
             ),
-            PlatformPhotoWidget(
+          Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
+            context: context,
               title: 'Shop Fader Image',
               defaultImage:
               'packages/eliud_pkg_shop/assets/shop/logo/day30-cafe.png',
@@ -66,7 +68,8 @@ class _ShopParametersWidgetState extends State<ShopParametersWidget> {
               app: widget.app,
               initialImage: widget.parameters.faderImage,
             ),
-            PlatformPhotoWidget(
+          Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
+            context: context,
               title: 'Cart Page Image',
               defaultImage:
               'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_bags.png',
@@ -78,7 +81,8 @@ class _ShopParametersWidgetState extends State<ShopParametersWidget> {
               app: widget.app,
               initialImage: widget.parameters.cartImage,
             ),
-            PlatformPhotoWidget(
+          Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
+            context: context,
               title: 'Order Overview Image',
               defaultImage:
               'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_bags.png',
@@ -90,7 +94,8 @@ class _ShopParametersWidgetState extends State<ShopParametersWidget> {
               app: widget.app,
               initialImage: widget.parameters.orderImage,
             ),
-            PlatformPhotoWidget(
+          Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
+            context: context,
               title: 'Pay Confirmation Image',
               defaultImage: 'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_credit_card.png',
               feedbackFunction: (mediumModel) {
@@ -101,7 +106,8 @@ class _ShopParametersWidgetState extends State<ShopParametersWidget> {
               app: widget.app,
               initialImage: widget.parameters.payConfirmationImage,
             ),
-            PlatformPhotoWidget(
+          Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
+            context: context,
               title: 'Pay image',
               defaultImage: 'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_credit_card.png',
               feedbackFunction: (mediumModel) {
