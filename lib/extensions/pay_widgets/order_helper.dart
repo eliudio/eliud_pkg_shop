@@ -27,12 +27,7 @@ class OrderHelper {
     if (order.postcode != null) address = address + order.postcode! + ', ';
     if (order.shipCity != null) address = address + order.shipCity! + ', ';
     if (order.shipState != null) address = address + order.shipState! + ', ';
-    if ((order.country != null) && (order.country!.countryName != null)) {
-      if (order.country!.countryName == null)
-        address = address + ', ';
-      else
-        address = address + order.country!.countryName! + ', ';
-    }
+    if (order.country != null) address = address + order.country! + ', ';
     return address;
   }
 
@@ -52,13 +47,9 @@ class OrderHelper {
     if (order.invoiceState != null)
       // ignore: curly_braces_in_flow_control_structures
       address = address + order.invoiceState! + ', ';
-    if ((order.invoiceCountry != null) &&
-        (order.invoiceCountry!.countryName != null)) {
-      if (order.invoiceCountry!.countryName == null)
-        address = address + ', ';
-      else
-        address = address + order.invoiceCountry!.countryName! + ', ';
-    }
+    if (order.invoiceCountry != null)
+      address = address + order.invoiceCountry! + ', ';
+
     return address;
   }
 

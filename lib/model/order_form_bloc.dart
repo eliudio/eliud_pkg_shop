@@ -62,12 +62,14 @@ class OrderFormBloc extends Bloc<OrderFormEvent, OrderFormState> {
                                  shipCity: "",
                                  shipState: "",
                                  postcode: "",
+                                 country: "",
                                  invoiceSame: true, 
                                  invoiceStreet1: "",
                                  invoiceStreet2: "",
                                  invoiceCity: "",
                                  invoiceState: "",
                                  invoicePostcode: "",
+                                 invoiceCountry: "",
                                  products: [],
                                  totalPrice: 0.0,
                                  currency: "",
@@ -190,40 +192,7 @@ class OrderFormBloc extends Bloc<OrderFormEvent, OrderFormState> {
         return;
       }
       if (event is ChangedOrderCountry) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(country: await countryRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new OrderModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 customer: currentState.value!.customer,
-                                 name: currentState.value!.name,
-                                 email: currentState.value!.email,
-                                 shipStreet1: currentState.value!.shipStreet1,
-                                 shipStreet2: currentState.value!.shipStreet2,
-                                 shipCity: currentState.value!.shipCity,
-                                 shipState: currentState.value!.shipState,
-                                 postcode: currentState.value!.postcode,
-                                 country: null,
-                                 invoiceSame: currentState.value!.invoiceSame,
-                                 invoiceStreet1: currentState.value!.invoiceStreet1,
-                                 invoiceStreet2: currentState.value!.invoiceStreet2,
-                                 invoiceCity: currentState.value!.invoiceCity,
-                                 invoiceState: currentState.value!.invoiceState,
-                                 invoicePostcode: currentState.value!.invoicePostcode,
-                                 invoiceCountry: currentState.value!.invoiceCountry,
-                                 products: currentState.value!.products,
-                                 totalPrice: currentState.value!.totalPrice,
-                                 currency: currentState.value!.currency,
-                                 paymentReference: currentState.value!.paymentReference,
-                                 shipmentReference: currentState.value!.shipmentReference,
-                                 deliveryReference: currentState.value!.deliveryReference,
-                                 paymentNote: currentState.value!.paymentNote,
-                                 shipmentNote: currentState.value!.shipmentNote,
-                                 deliveryNote: currentState.value!.deliveryNote,
-                                 status: currentState.value!.status,
-                                 timeStamp: currentState.value!.timeStamp,
-          );
+        newValue = currentState.value!.copyWith(country: event.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;
@@ -265,40 +234,7 @@ class OrderFormBloc extends Bloc<OrderFormEvent, OrderFormState> {
         return;
       }
       if (event is ChangedOrderInvoiceCountry) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(invoiceCountry: await countryRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new OrderModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 customer: currentState.value!.customer,
-                                 name: currentState.value!.name,
-                                 email: currentState.value!.email,
-                                 shipStreet1: currentState.value!.shipStreet1,
-                                 shipStreet2: currentState.value!.shipStreet2,
-                                 shipCity: currentState.value!.shipCity,
-                                 shipState: currentState.value!.shipState,
-                                 postcode: currentState.value!.postcode,
-                                 country: currentState.value!.country,
-                                 invoiceSame: currentState.value!.invoiceSame,
-                                 invoiceStreet1: currentState.value!.invoiceStreet1,
-                                 invoiceStreet2: currentState.value!.invoiceStreet2,
-                                 invoiceCity: currentState.value!.invoiceCity,
-                                 invoiceState: currentState.value!.invoiceState,
-                                 invoicePostcode: currentState.value!.invoicePostcode,
-                                 invoiceCountry: null,
-                                 products: currentState.value!.products,
-                                 totalPrice: currentState.value!.totalPrice,
-                                 currency: currentState.value!.currency,
-                                 paymentReference: currentState.value!.paymentReference,
-                                 shipmentReference: currentState.value!.shipmentReference,
-                                 deliveryReference: currentState.value!.deliveryReference,
-                                 paymentNote: currentState.value!.paymentNote,
-                                 shipmentNote: currentState.value!.shipmentNote,
-                                 deliveryNote: currentState.value!.deliveryNote,
-                                 status: currentState.value!.status,
-                                 timeStamp: currentState.value!.timeStamp,
-          );
+        newValue = currentState.value!.copyWith(invoiceCountry: event.value);
         yield SubmittableOrderForm(value: newValue);
 
         return;

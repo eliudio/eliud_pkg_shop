@@ -62,14 +62,14 @@ class OrderModel {
   String? shipCity;
   String? shipState;
   String? postcode;
-  CountryModel? country;
+  String? country;
   bool? invoiceSame;
   String? invoiceStreet1;
   String? invoiceStreet2;
   String? invoiceCity;
   String? invoiceState;
   String? invoicePostcode;
-  CountryModel? invoiceCountry;
+  String? invoiceCountry;
   List<OrderItemModel>? products;
   double? totalPrice;
   String? currency;
@@ -86,7 +86,7 @@ class OrderModel {
     assert(documentID != null);
   }
 
-  OrderModel copyWith({String? documentID, String? appId, MemberModel? customer, String? name, String? email, String? shipStreet1, String? shipStreet2, String? shipCity, String? shipState, String? postcode, CountryModel? country, bool? invoiceSame, String? invoiceStreet1, String? invoiceStreet2, String? invoiceCity, String? invoiceState, String? invoicePostcode, CountryModel? invoiceCountry, List<OrderItemModel>? products, double? totalPrice, String? currency, String? paymentReference, String? shipmentReference, String? deliveryReference, String? paymentNote, String? shipmentNote, String? deliveryNote, OrderStatus? status, String? timeStamp, }) {
+  OrderModel copyWith({String? documentID, String? appId, MemberModel? customer, String? name, String? email, String? shipStreet1, String? shipStreet2, String? shipCity, String? shipState, String? postcode, String? country, bool? invoiceSame, String? invoiceStreet1, String? invoiceStreet2, String? invoiceCity, String? invoiceState, String? invoicePostcode, String? invoiceCountry, List<OrderItemModel>? products, double? totalPrice, String? currency, String? paymentReference, String? shipmentReference, String? deliveryReference, String? paymentNote, String? shipmentNote, String? deliveryNote, OrderStatus? status, String? timeStamp, }) {
     return OrderModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, customer: customer ?? this.customer, name: name ?? this.name, email: email ?? this.email, shipStreet1: shipStreet1 ?? this.shipStreet1, shipStreet2: shipStreet2 ?? this.shipStreet2, shipCity: shipCity ?? this.shipCity, shipState: shipState ?? this.shipState, postcode: postcode ?? this.postcode, country: country ?? this.country, invoiceSame: invoiceSame ?? this.invoiceSame, invoiceStreet1: invoiceStreet1 ?? this.invoiceStreet1, invoiceStreet2: invoiceStreet2 ?? this.invoiceStreet2, invoiceCity: invoiceCity ?? this.invoiceCity, invoiceState: invoiceState ?? this.invoiceState, invoicePostcode: invoicePostcode ?? this.invoicePostcode, invoiceCountry: invoiceCountry ?? this.invoiceCountry, products: products ?? this.products, totalPrice: totalPrice ?? this.totalPrice, currency: currency ?? this.currency, paymentReference: paymentReference ?? this.paymentReference, shipmentReference: shipmentReference ?? this.shipmentReference, deliveryReference: deliveryReference ?? this.deliveryReference, paymentNote: paymentNote ?? this.paymentNote, shipmentNote: shipmentNote ?? this.shipmentNote, deliveryNote: deliveryNote ?? this.deliveryNote, status: status ?? this.status, timeStamp: timeStamp ?? this.timeStamp, );
   }
 
@@ -146,14 +146,14 @@ class OrderModel {
           shipCity: (shipCity != null) ? shipCity : null, 
           shipState: (shipState != null) ? shipState : null, 
           postcode: (postcode != null) ? postcode : null, 
-          countryId: (country != null) ? country!.documentID : null, 
+          country: (country != null) ? country : null, 
           invoiceSame: (invoiceSame != null) ? invoiceSame : null, 
           invoiceStreet1: (invoiceStreet1 != null) ? invoiceStreet1 : null, 
           invoiceStreet2: (invoiceStreet2 != null) ? invoiceStreet2 : null, 
           invoiceCity: (invoiceCity != null) ? invoiceCity : null, 
           invoiceState: (invoiceState != null) ? invoiceState : null, 
           invoicePostcode: (invoicePostcode != null) ? invoicePostcode : null, 
-          invoiceCountryId: (invoiceCountry != null) ? invoiceCountry!.documentID : null, 
+          invoiceCountry: (invoiceCountry != null) ? invoiceCountry : null, 
           products: (products != null) ? products
             !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
@@ -183,12 +183,14 @@ class OrderModel {
           shipCity: entity.shipCity, 
           shipState: entity.shipState, 
           postcode: entity.postcode, 
+          country: entity.country, 
           invoiceSame: entity.invoiceSame, 
           invoiceStreet1: entity.invoiceStreet1, 
           invoiceStreet2: entity.invoiceStreet2, 
           invoiceCity: entity.invoiceCity, 
           invoiceState: entity.invoiceState, 
           invoicePostcode: entity.invoicePostcode, 
+          invoiceCountry: entity.invoiceCountry, 
           products: 
             entity.products == null ? null : List<OrderItemModel>.from(await Future.wait(entity. products
             !.map((item) {
@@ -223,28 +225,6 @@ class OrderModel {
       }
     }
 
-    CountryModel? countryHolder;
-    if (entity.countryId != null) {
-      try {
-          countryHolder = await countryRepository(appId: appId)!.get(entity.countryId);
-      } on Exception catch(e) {
-        print('Error whilst trying to initialise country');
-        print('Error whilst retrieving country with id ${entity.countryId}');
-        print('Exception: $e');
-      }
-    }
-
-    CountryModel? invoiceCountryHolder;
-    if (entity.invoiceCountryId != null) {
-      try {
-          invoiceCountryHolder = await countryRepository(appId: appId)!.get(entity.invoiceCountryId);
-      } on Exception catch(e) {
-        print('Error whilst trying to initialise invoiceCountry');
-        print('Error whilst retrieving country with id ${entity.invoiceCountryId}');
-        print('Exception: $e');
-      }
-    }
-
     var counter = 0;
     return OrderModel(
           documentID: documentID, 
@@ -257,14 +237,14 @@ class OrderModel {
           shipCity: entity.shipCity, 
           shipState: entity.shipState, 
           postcode: entity.postcode, 
-          country: countryHolder, 
+          country: entity.country, 
           invoiceSame: entity.invoiceSame, 
           invoiceStreet1: entity.invoiceStreet1, 
           invoiceStreet2: entity.invoiceStreet2, 
           invoiceCity: entity.invoiceCity, 
           invoiceState: entity.invoiceState, 
           invoicePostcode: entity.invoicePostcode, 
-          invoiceCountry: invoiceCountryHolder, 
+          invoiceCountry: entity.invoiceCountry, 
           products: 
             entity. products == null ? null : List<OrderItemModel>.from(await Future.wait(entity. products
             !.map((item) {

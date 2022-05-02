@@ -134,14 +134,14 @@ class _MyOrderFormState extends State<MyOrderForm> {
   final TextEditingController _shipCityController = TextEditingController();
   final TextEditingController _shipStateController = TextEditingController();
   final TextEditingController _postcodeController = TextEditingController();
-  String? _country;
+  final TextEditingController _countryController = TextEditingController();
   bool? _invoiceSameSelection;
   final TextEditingController _invoiceStreet1Controller = TextEditingController();
   final TextEditingController _invoiceStreet2Controller = TextEditingController();
   final TextEditingController _invoiceCityController = TextEditingController();
   final TextEditingController _invoiceStateController = TextEditingController();
   final TextEditingController _invoicePostcodeController = TextEditingController();
-  String? _invoiceCountry;
+  final TextEditingController _invoiceCountryController = TextEditingController();
   final TextEditingController _totalPriceController = TextEditingController();
   final TextEditingController _currencyController = TextEditingController();
   final TextEditingController _paymentReferenceController = TextEditingController();
@@ -169,12 +169,14 @@ class _MyOrderFormState extends State<MyOrderForm> {
     _shipCityController.addListener(_onShipCityChanged);
     _shipStateController.addListener(_onShipStateChanged);
     _postcodeController.addListener(_onPostcodeChanged);
+    _countryController.addListener(_onCountryChanged);
     _invoiceSameSelection = false;
     _invoiceStreet1Controller.addListener(_onInvoiceStreet1Changed);
     _invoiceStreet2Controller.addListener(_onInvoiceStreet2Changed);
     _invoiceCityController.addListener(_onInvoiceCityChanged);
     _invoiceStateController.addListener(_onInvoiceStateChanged);
     _invoicePostcodeController.addListener(_onInvoicePostcodeChanged);
+    _invoiceCountryController.addListener(_onInvoiceCountryChanged);
     _totalPriceController.addListener(_onTotalPriceChanged);
     _currencyController.addListener(_onCurrencyChanged);
     _paymentReferenceController.addListener(_onPaymentReferenceChanged);
@@ -237,9 +239,9 @@ class _MyOrderFormState extends State<MyOrderForm> {
         else
           _postcodeController.text = "";
         if (state.value!.country != null)
-          _country= state.value!.country!.documentID;
+          _countryController.text = state.value!.country.toString();
         else
-          _country= "";
+          _countryController.text = "";
         if (state.value!.invoiceSame != null)
         _invoiceSameSelection = state.value!.invoiceSame;
         else
@@ -265,9 +267,9 @@ class _MyOrderFormState extends State<MyOrderForm> {
         else
           _invoicePostcodeController.text = "";
         if (state.value!.invoiceCountry != null)
-          _invoiceCountry= state.value!.invoiceCountry!.documentID;
+          _invoiceCountryController.text = state.value!.invoiceCountry.toString();
         else
-          _invoiceCountry= "";
+          _invoiceCountryController.text = "";
         if (state.value!.totalPrice != null)
           _totalPriceController.text = state.value!.totalPrice.toString();
         else
@@ -500,7 +502,7 @@ class _MyOrderFormState extends State<MyOrderForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _country, trigger: (value, privilegeLevel) => _onCountrySelected(value), optional: false),
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Country', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _countryController, keyboardType: TextInputType.text, validator: (_) => state is CountryOrderFormError ? state.message : null, hintText: null)
           );
 
 
@@ -544,6 +546,11 @@ class _MyOrderFormState extends State<MyOrderForm> {
                   StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Postal / Zip Code', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoicePostcodeController, keyboardType: TextInputType.text, validator: (_) => state is InvoicePostcodeOrderFormError ? state.message : null, hintText: null)
           );
 
+        if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Country', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceCountryController, keyboardType: TextInputType.text, validator: (_) => state is InvoiceCountryOrderFormError ? state.message : null, hintText: null)
+          );
+
 
         children.add(Container(height: 20.0));
         children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
@@ -554,11 +561,6 @@ class _MyOrderFormState extends State<MyOrderForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Invoice Country')
                 ));
-
-        if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
-
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _invoiceCountry, trigger: (value, privilegeLevel) => _onInvoiceCountrySelected(value), optional: false),
-          );
 
 
         children.add(Container(height: 20.0));
@@ -747,11 +749,8 @@ class _MyOrderFormState extends State<MyOrderForm> {
   }
 
 
-  void _onCountrySelected(String? val) {
-    setState(() {
-      _country = val;
-    });
-    _myFormBloc.add(ChangedOrderCountry(value: val));
+  void _onCountryChanged() {
+    _myFormBloc.add(ChangedOrderCountry(value: _countryController.text));
   }
 
 
@@ -787,11 +786,8 @@ class _MyOrderFormState extends State<MyOrderForm> {
   }
 
 
-  void _onInvoiceCountrySelected(String? val) {
-    setState(() {
-      _invoiceCountry = val;
-    });
-    _myFormBloc.add(ChangedOrderInvoiceCountry(value: val));
+  void _onInvoiceCountryChanged() {
+    _myFormBloc.add(ChangedOrderInvoiceCountry(value: _invoiceCountryController.text));
   }
 
 
@@ -866,11 +862,13 @@ class _MyOrderFormState extends State<MyOrderForm> {
     _shipCityController.dispose();
     _shipStateController.dispose();
     _postcodeController.dispose();
+    _countryController.dispose();
     _invoiceStreet1Controller.dispose();
     _invoiceStreet2Controller.dispose();
     _invoiceCityController.dispose();
     _invoiceStateController.dispose();
     _invoicePostcodeController.dispose();
+    _invoiceCountryController.dispose();
     _totalPriceController.dispose();
     _currencyController.dispose();
     _paymentReferenceController.dispose();
@@ -959,14 +957,14 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
   final TextEditingController _shipCityController = TextEditingController();
   final TextEditingController _shipStateController = TextEditingController();
   final TextEditingController _postcodeController = TextEditingController();
-  String? _country;
+  final TextEditingController _countryController = TextEditingController();
   bool? _invoiceSameSelection;
   final TextEditingController _invoiceStreet1Controller = TextEditingController();
   final TextEditingController _invoiceStreet2Controller = TextEditingController();
   final TextEditingController _invoiceCityController = TextEditingController();
   final TextEditingController _invoiceStateController = TextEditingController();
   final TextEditingController _invoicePostcodeController = TextEditingController();
-  String? _invoiceCountry;
+  final TextEditingController _invoiceCountryController = TextEditingController();
   final TextEditingController _totalPriceController = TextEditingController();
   final TextEditingController _currencyController = TextEditingController();
 
@@ -983,12 +981,14 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
     _shipCityController.addListener(_onShipCityChanged);
     _shipStateController.addListener(_onShipStateChanged);
     _postcodeController.addListener(_onPostcodeChanged);
+    _countryController.addListener(_onCountryChanged);
     _invoiceSameSelection = false;
     _invoiceStreet1Controller.addListener(_onInvoiceStreet1Changed);
     _invoiceStreet2Controller.addListener(_onInvoiceStreet2Changed);
     _invoiceCityController.addListener(_onInvoiceCityChanged);
     _invoiceStateController.addListener(_onInvoiceStateChanged);
     _invoicePostcodeController.addListener(_onInvoicePostcodeChanged);
+    _invoiceCountryController.addListener(_onInvoiceCountryChanged);
     _totalPriceController.addListener(_onTotalPriceChanged);
     _currencyController.addListener(_onCurrencyChanged);
   }
@@ -1027,9 +1027,9 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
         else
           _postcodeController.text = "";
         if (state.value!.country != null)
-          _country= state.value!.country!.documentID;
+          _countryController.text = state.value!.country.toString();
         else
-          _country= "";
+          _countryController.text = "";
         if (state.value!.invoiceSame != null)
         _invoiceSameSelection = state.value!.invoiceSame;
         else
@@ -1055,9 +1055,9 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
         else
           _invoicePostcodeController.text = "";
         if (state.value!.invoiceCountry != null)
-          _invoiceCountry= state.value!.invoiceCountry!.documentID;
+          _invoiceCountryController.text = state.value!.invoiceCountry.toString();
         else
-          _invoiceCountry= "";
+          _invoiceCountryController.text = "";
         if (state.value!.totalPrice != null)
           _totalPriceController.text = state.value!.totalPrice.toString();
         else
@@ -1150,7 +1150,7 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _country, trigger: (value, privilegeLevel) => _onCountrySelected(value), optional: false),
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Country', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _countryController, keyboardType: TextInputType.text, validator: (_) => state is CountryOrderFormError ? state.message : null, hintText: null)
           );
 
 
@@ -1194,6 +1194,11 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
                   StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Postal / Zip Code', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoicePostcodeController, keyboardType: TextInputType.text, validator: (_) => state is InvoicePostcodeOrderFormError ? state.message : null, hintText: null)
           );
 
+        if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Country', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceCountryController, keyboardType: TextInputType.text, validator: (_) => state is InvoiceCountryOrderFormError ? state.message : null, hintText: null)
+          );
+
 
         children.add(Container(height: 20.0));
         children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
@@ -1204,11 +1209,6 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Invoice Country')
                 ));
-
-        if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
-
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _invoiceCountry, trigger: (value, privilegeLevel) => _onInvoiceCountrySelected(value), optional: false),
-          );
 
 
         children.add(Container(height: 20.0));
@@ -1316,11 +1316,8 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
   }
 
 
-  void _onCountrySelected(String? val) {
-    setState(() {
-      _country = val;
-    });
-    _myFormBloc.add(ChangedOrderCountry(value: val));
+  void _onCountryChanged() {
+    _myFormBloc.add(ChangedOrderCountry(value: _countryController.text));
   }
 
 
@@ -1356,11 +1353,8 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
   }
 
 
-  void _onInvoiceCountrySelected(String? val) {
-    setState(() {
-      _invoiceCountry = val;
-    });
-    _myFormBloc.add(ChangedOrderInvoiceCountry(value: val));
+  void _onInvoiceCountryChanged() {
+    _myFormBloc.add(ChangedOrderInvoiceCountry(value: _invoiceCountryController.text));
   }
 
 
@@ -1383,11 +1377,13 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
     _shipCityController.dispose();
     _shipStateController.dispose();
     _postcodeController.dispose();
+    _countryController.dispose();
     _invoiceStreet1Controller.dispose();
     _invoiceStreet2Controller.dispose();
     _invoiceCityController.dispose();
     _invoiceStateController.dispose();
     _invoicePostcodeController.dispose();
+    _invoiceCountryController.dispose();
     _totalPriceController.dispose();
     _currencyController.dispose();
     super.dispose();

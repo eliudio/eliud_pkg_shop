@@ -29,95 +29,127 @@ class ShopParametersWidget extends StatefulWidget {
 class _ShopParametersWidgetState extends State<ShopParametersWidget> {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-        shrinkWrap: true,
-        physics: ScrollPhysics(),
-        children: [
-            ActionSpecificationWidget(
-                app: widget.app,
-                actionSpecification: widget.parameters.shopSpecifications,
-                label: 'Generate Shop Page'),
-            ActionSpecificationWidget(
-                app: widget.app,
-                actionSpecification: widget.parameters.cartSpecifications,
-                label: 'Generate Cart Page'),
-            PaymentParametersWidget(app: widget.app, parameters: widget.parameters.paymentParameters, ),
+    return ListView(shrinkWrap: true, physics: ScrollPhysics(), children: [
+      ActionSpecificationWidget(
+          app: widget.app,
+          actionSpecification: widget.parameters.shopSpecifications,
+          label: 'Generate Shop Page'),
+      ActionSpecificationWidget(
+          app: widget.app,
+          actionSpecification: widget.parameters.cartSpecifications,
+          label: 'Generate Cart Page'),
+      PaymentParametersWidget(
+        app: widget.app,
+        parameters: widget.parameters.paymentParameters,
+      ),
+      topicContainer(widget.app, context,
+          title: 'Shop Page Image',
+          collapsible: true,
+          collapsed: true,
+          children: [
             Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
-              context: context,
-              title: 'Shop Page Image',
-              defaultImage:
-              'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_presenting.png',
-              feedbackFunction: (mediumModel) {
-                setState(() {
-                  widget.parameters.shopImage = mediumModel;
-                });
-              },
-              app: widget.app,
-              initialImage: widget.parameters.shopImage,
-            ),
-          Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
-            context: context,
-              title: 'Shop Fader Image',
-              defaultImage:
-              'packages/eliud_pkg_shop/assets/shop/logo/day30-cafe.png',
-              feedbackFunction: (mediumModel) {
-                setState(() {
-                  widget.parameters.faderImage = mediumModel;
-                });
-              },
-              app: widget.app,
-              initialImage: widget.parameters.faderImage,
-            ),
-          Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
-            context: context,
-              title: 'Cart Page Image',
-              defaultImage:
-              'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_bags.png',
-              feedbackFunction: (mediumModel) {
-                setState(() {
-                  widget.parameters.cartImage = mediumModel;
-                });
-              },
-              app: widget.app,
-              initialImage: widget.parameters.cartImage,
-            ),
-          Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
-            context: context,
-              title: 'Order Overview Image',
-              defaultImage:
-              'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_bags.png',
-              feedbackFunction: (mediumModel) {
-                setState(() {
-                  widget.parameters.orderImage = mediumModel;
-                });
-              },
-              app: widget.app,
-              initialImage: widget.parameters.orderImage,
-            ),
-          Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
-            context: context,
-              title: 'Pay Confirmation Image',
-              defaultImage: 'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_credit_card.png',
-              feedbackFunction: (mediumModel) {
-                setState(() {
-                  widget.parameters.payConfirmationImage = mediumModel;
-                });
-              },
-              app: widget.app,
-              initialImage: widget.parameters.payConfirmationImage,
-            ),
-          Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
-            context: context,
-              title: 'Pay image',
-              defaultImage: 'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_credit_card.png',
-              feedbackFunction: (mediumModel) {
-                setState(() {
-                  widget.parameters.payImage = mediumModel;
-                });
-              },
-              app: widget.app,
-              initialImage: widget.parameters.payImage,
-            ),
-        ]);
+                  context: context,
+                  defaultImage:
+                      'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_presenting.png',
+                  feedbackFunction: (mediumModel) {
+                    setState(() {
+                      widget.parameters.shopImage = mediumModel;
+                    });
+                  },
+                  app: widget.app,
+                  initialImage: widget.parameters.shopImage,
+                ),
+          ]),
+      topicContainer(widget.app, context,
+          title: 'Shop Fader Image',
+          collapsible: true,
+          collapsed: true,
+          children: [
+            Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
+                  context: context,
+                  defaultImage:
+                      'packages/eliud_pkg_shop/assets/shop/logo/day30-cafe.png',
+                  feedbackFunction: (mediumModel) {
+                    setState(() {
+                      widget.parameters.faderImage = mediumModel;
+                    });
+                  },
+                  app: widget.app,
+                  initialImage: widget.parameters.faderImage,
+                ),
+          ]),
+      topicContainer(widget.app, context,
+          title: 'Cart Page Image',
+          collapsible: true,
+          collapsed: true,
+          children: [
+            Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
+                  context: context,
+                  defaultImage:
+                      'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_bags.png',
+                  feedbackFunction: (mediumModel) {
+                    setState(() {
+                      widget.parameters.cartImage = mediumModel;
+                    });
+                  },
+                  app: widget.app,
+                  initialImage: widget.parameters.cartImage,
+                ),
+          ]),
+      topicContainer(widget.app, context,
+          title: 'Order Overview Image',
+          collapsible: true,
+          collapsed: true,
+          children: [
+            Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
+                  context: context,
+                  defaultImage:
+                      'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_bags.png',
+                  feedbackFunction: (mediumModel) {
+                    setState(() {
+                      widget.parameters.orderImage = mediumModel;
+                    });
+                  },
+                  app: widget.app,
+                  initialImage: widget.parameters.orderImage,
+                ),
+          ]),
+      topicContainer(widget.app, context,
+          title: 'Pay Confirmation Image',
+          collapsible: true,
+          collapsed: true,
+          children: [
+            Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
+                  context: context,
+                  defaultImage:
+                      'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_credit_card.png',
+                  feedbackFunction: (mediumModel) {
+                    setState(() {
+                      widget.parameters.payConfirmationImage = mediumModel;
+                    });
+                  },
+                  app: widget.app,
+                  initialImage: widget.parameters.payConfirmationImage,
+                ),
+          ]),
+      topicContainer(widget.app, context,
+          title: 'Pay image',
+          collapsible: true,
+          collapsed: true,
+          children: [
+            Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
+                  context: context,
+                  defaultImage:
+                      'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_credit_card.png',
+                  feedbackFunction: (mediumModel) {
+                    setState(() {
+                      widget.parameters.payImage = mediumModel;
+                    });
+                  },
+                  app: widget.app,
+                  initialImage: widget.parameters.payImage,
+                ),
+          ]),
+    ]);
   }
 }

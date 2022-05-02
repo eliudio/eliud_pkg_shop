@@ -95,9 +95,7 @@
     {
       "fieldName": "country",
       "displayName": "Country",
-      "fieldType": "Country",
-      "association": true,
-      "optional": false,
+      "fieldType": "String",
       "group": "shipCountry"
     },
     {
@@ -150,11 +148,9 @@
     {
       "fieldName": "invoiceCountry",
       "displayName": "Country",
-      "fieldType": "Country",
-      "association": true,
-      "optional": false,
+      "fieldType": "String",
       "conditional": "((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))",
-      "group": "invoiceCountry"
+      "group": "invoice"
     },
     {
       "fieldName": "products",

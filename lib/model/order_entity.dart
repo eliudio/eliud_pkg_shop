@@ -32,14 +32,14 @@ class OrderEntity {
   final String? shipCity;
   final String? shipState;
   final String? postcode;
-  final String? countryId;
+  final String? country;
   final bool? invoiceSame;
   final String? invoiceStreet1;
   final String? invoiceStreet2;
   final String? invoiceCity;
   final String? invoiceState;
   final String? invoicePostcode;
-  final String? invoiceCountryId;
+  final String? invoiceCountry;
   final List<OrderItemEntity>? products;
   final double? totalPrice;
   final String? currency;
@@ -52,16 +52,16 @@ class OrderEntity {
   final int? status;
   final String? timeStamp;
 
-  OrderEntity({this.appId, this.customerId, this.name, this.email, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.countryId, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountryId, this.products, this.totalPrice, this.currency, this.paymentReference, this.shipmentReference, this.deliveryReference, this.paymentNote, this.shipmentNote, this.deliveryNote, this.status, this.timeStamp, });
+  OrderEntity({this.appId, this.customerId, this.name, this.email, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.country, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountry, this.products, this.totalPrice, this.currency, this.paymentReference, this.shipmentReference, this.deliveryReference, this.paymentNote, this.shipmentNote, this.deliveryNote, this.status, this.timeStamp, });
 
 
-  List<Object?> get props => [appId, customerId, name, email, shipStreet1, shipStreet2, shipCity, shipState, postcode, countryId, invoiceSame, invoiceStreet1, invoiceStreet2, invoiceCity, invoiceState, invoicePostcode, invoiceCountryId, products, totalPrice, currency, paymentReference, shipmentReference, deliveryReference, paymentNote, shipmentNote, deliveryNote, status, timeStamp, ];
+  List<Object?> get props => [appId, customerId, name, email, shipStreet1, shipStreet2, shipCity, shipState, postcode, country, invoiceSame, invoiceStreet1, invoiceStreet2, invoiceCity, invoiceState, invoicePostcode, invoiceCountry, products, totalPrice, currency, paymentReference, shipmentReference, deliveryReference, paymentNote, shipmentNote, deliveryNote, status, timeStamp, ];
 
   @override
   String toString() {
     String productsCsv = (products == null) ? '' : products!.join(', ');
 
-    return 'OrderEntity{appId: $appId, customerId: $customerId, name: $name, email: $email, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, countryId: $countryId, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountryId: $invoiceCountryId, products: OrderItem[] { $productsCsv }, totalPrice: $totalPrice, currency: $currency, paymentReference: $paymentReference, shipmentReference: $shipmentReference, deliveryReference: $deliveryReference, paymentNote: $paymentNote, shipmentNote: $shipmentNote, deliveryNote: $deliveryNote, status: $status, timeStamp: $timeStamp}';
+    return 'OrderEntity{appId: $appId, customerId: $customerId, name: $name, email: $email, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, country: $country, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountry: $invoiceCountry, products: OrderItem[] { $productsCsv }, totalPrice: $totalPrice, currency: $currency, paymentReference: $paymentReference, shipmentReference: $shipmentReference, deliveryReference: $deliveryReference, paymentNote: $paymentNote, shipmentNote: $shipmentNote, deliveryNote: $deliveryNote, status: $status, timeStamp: $timeStamp}';
   }
 
   static OrderEntity? fromMap(Object? o) {
@@ -87,14 +87,14 @@ class OrderEntity {
       shipCity: map['shipCity'], 
       shipState: map['shipState'], 
       postcode: map['postcode'], 
-      countryId: map['countryId'], 
+      country: map['country'], 
       invoiceSame: map['invoiceSame'], 
       invoiceStreet1: map['invoiceStreet1'], 
       invoiceStreet2: map['invoiceStreet2'], 
       invoiceCity: map['invoiceCity'], 
       invoiceState: map['invoiceState'], 
       invoicePostcode: map['invoicePostcode'], 
-      invoiceCountryId: map['invoiceCountryId'], 
+      invoiceCountry: map['invoiceCountry'], 
       products: productsList, 
       totalPrice: double.tryParse(map['totalPrice'].toString()), 
       currency: map['currency'], 
@@ -133,8 +133,8 @@ class OrderEntity {
       else theDocument["shipState"] = null;
     if (postcode != null) theDocument["postcode"] = postcode;
       else theDocument["postcode"] = null;
-    if (countryId != null) theDocument["countryId"] = countryId;
-      else theDocument["countryId"] = null;
+    if (country != null) theDocument["country"] = country;
+      else theDocument["country"] = null;
     if (invoiceSame != null) theDocument["invoiceSame"] = invoiceSame;
       else theDocument["invoiceSame"] = null;
     if (invoiceStreet1 != null) theDocument["invoiceStreet1"] = invoiceStreet1;
@@ -147,8 +147,8 @@ class OrderEntity {
       else theDocument["invoiceState"] = null;
     if (invoicePostcode != null) theDocument["invoicePostcode"] = invoicePostcode;
       else theDocument["invoicePostcode"] = null;
-    if (invoiceCountryId != null) theDocument["invoiceCountryId"] = invoiceCountryId;
-      else theDocument["invoiceCountryId"] = null;
+    if (invoiceCountry != null) theDocument["invoiceCountry"] = invoiceCountry;
+      else theDocument["invoiceCountry"] = null;
     if (products != null) theDocument["products"] = productsListMap;
       else theDocument["products"] = null;
     if (totalPrice != null) theDocument["totalPrice"] = totalPrice;

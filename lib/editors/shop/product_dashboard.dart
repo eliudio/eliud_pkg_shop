@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
+import 'package:eliud_core/core/registry.dart';
 import 'package:eliud_core/style/frontend/has_dialog_field.dart';
 import 'package:eliud_core/tools/screen_size.dart';
 import 'package:eliud_core/tools/widgets/pos_size_widget.dart';
@@ -22,7 +23,6 @@ import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_core/tools/widgets/condition_simple_widget.dart';
 import 'package:eliud_core/tools/widgets/header_widget.dart';
 import 'package:eliud_core/package/access_rights.dart';
-import 'package:eliud_pkg_medium/platform/medium_platform.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/core/editor/ext_editor_base_bloc/ext_editor_base_event.dart';
@@ -359,7 +359,7 @@ class _ProductDashboardState extends State<ProductDashboard> {
           child: Icon(Icons.add),
           elevation: 10,
           itemBuilder: (context) => [
-            if (AbstractMediumPlatform.platform!.hasCamera())
+            if (Registry.registry()!.getMediumApi().hasCamera())
               PopupMenuItem(
                 value: 0,
                 child: text(widget.app, context, 'Take photo'),
@@ -371,7 +371,7 @@ class _ProductDashboardState extends State<ProductDashboard> {
           ],
           onSelected: (value) async {
             if (value == 0) {
-              AbstractMediumPlatform.platform!.takePhoto(
+              Registry.registry()!.getMediumApi().takePhoto(
                   context,
                   widget.app,
                   widget.app.ownerID!,
@@ -382,7 +382,7 @@ class _ProductDashboardState extends State<ProductDashboard> {
                   _photoUploading,
                   allowCrop: false);
             } else if (value == 1) {
-              AbstractMediumPlatform.platform!.uploadPhoto(
+              Registry.registry()!.getMediumApi().uploadPhoto(
                   context,
                   widget.app,
                   widget.app.ownerID!,

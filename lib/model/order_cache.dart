@@ -142,24 +142,6 @@ class OrderCache implements OrderRepository {
       } catch (_) {}
     }
 
-    CountryModel? countryHolder;
-    if (model.country != null) {
-      try {
-        await countryRepository(appId: model.appId)!.get(model.country!.documentID).then((val) {
-          countryHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
-    CountryModel? invoiceCountryHolder;
-    if (model.invoiceCountry != null) {
-      try {
-        await countryRepository(appId: model.appId)!.get(model.invoiceCountry!.documentID).then((val) {
-          invoiceCountryHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     List<OrderItemModel>? productsHolder;
     if (model.products != null) {
       productsHolder = List<OrderItemModel>.from(await Future.wait(await model.products!.map((element) async {
@@ -169,10 +151,6 @@ class OrderCache implements OrderRepository {
 
     return model.copyWith(
         customer: customerHolder,
-
-        country: countryHolder,
-
-        invoiceCountry: invoiceCountryHolder,
 
         products: productsHolder,
 
