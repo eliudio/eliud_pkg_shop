@@ -9,6 +9,7 @@ import 'package:eliud_core/style/frontend/has_list_tile.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/tools/component/component_spec.dart';
+import 'package:eliud_core/tools/helpers/parse_helper.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_core/tools/widgets/background_widget.dart';
 import 'package:eliud_core/tools/widgets/background_widgets/style_color_widget.dart';
@@ -234,7 +235,7 @@ class _ShopFrontComponentEditorState extends State<ShopFrontComponentEditor> {
                                 shopFrontState.model.size.toString(),
                                 valueChanged: (value) {
                                   shopFrontState.model.size =
-                                      double.parse(value);
+                                      double_parse(value);
                                 },
                                 maxLines: 1,
                                 decoration: const InputDecoration(
@@ -251,7 +252,7 @@ class _ShopFrontComponentEditorState extends State<ShopFrontComponentEditor> {
                                 shopFrontState.model.cardElevation.toString(),
                                 valueChanged: (value) {
                                   shopFrontState.model.cardElevation =
-                                      double.parse(value);
+                                      double_parse(value);
                                 },
                                 maxLines: 1,
                                 decoration: const InputDecoration(
@@ -268,7 +269,7 @@ class _ShopFrontComponentEditorState extends State<ShopFrontComponentEditor> {
                                 shopFrontState.model.cardAxisSpacing.toString(),
                                 valueChanged: (value) {
                                   shopFrontState.model.cardAxisSpacing =
-                                      double.parse(value);
+                                      double_parse(value);
                                 },
                                 maxLines: 1,
                                 decoration: const InputDecoration(

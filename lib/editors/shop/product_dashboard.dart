@@ -2,6 +2,7 @@ import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/registry.dart';
 import 'package:eliud_core/style/frontend/has_dialog_field.dart';
+import 'package:eliud_core/tools/helpers/parse_helper.dart';
 import 'package:eliud_core/tools/screen_size.dart';
 import 'package:eliud_core/tools/widgets/pos_size_widget.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
@@ -169,7 +170,7 @@ class _ProductDashboardState extends State<ProductDashboard> {
                                         signed: false,
                                       ),
                                       valueChanged: (value) {
-                                        productState.model.price = double.parse(value);
+                                        productState.model.price = double_parse(value);
                                       },
                                       decoration: const InputDecoration(
                                         hintText: 'Price',
@@ -188,7 +189,7 @@ class _ProductDashboardState extends State<ProductDashboard> {
                                         signed: false,
                                       ),
                                       valueChanged: (value) {
-                                        productState.model.weight = double.parse(value);
+                                        productState.model.weight = double_parse(value);
                                       },
                                       decoration: const InputDecoration(
                                         hintText: 'Weight',
