@@ -154,9 +154,10 @@ class _CartWidgetState extends State<CartWidget> {
     return Stack(
       children: <Widget>[
         Container(
+            clipBehavior: (widget.cart.itemDetailBackground == null) ? Clip.none : Clip.hardEdge,
             margin: EdgeInsets.only(left: 16, right: 16, top: 16),
-            decoration: BoxDecorationHelper.boxDecoration(member,
-                widget.cart.itemDetailBackground!),
+            decoration: BoxDecorationHelper.boxDecoration(widget.app, member,
+                widget.cart.itemDetailBackground),
             child: ListView.builder(
               shrinkWrap: true,
               primary: false,

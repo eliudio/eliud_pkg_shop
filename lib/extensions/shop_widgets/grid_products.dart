@@ -79,8 +79,9 @@ class _GridProductsState extends State<GridProducts> {
                           platformMediumModel: item.images![0].image!);
                     }
                     return Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState.getMember(),
-                            widget.shopFrontModel.itemCardBackground!),
+                        clipBehavior: (widget.shopFrontModel.itemCardBackground == null) ? Clip.none : Clip.hardEdge,
+                        decoration: BoxDecorationHelper.boxDecoration(widget.app, accessState.getMember(),
+                            widget.shopFrontModel.itemCardBackground),
                         child: Card(
                           margin: EdgeInsets.all(0.0),
                           elevation: widget.shopFrontModel.cardElevation,

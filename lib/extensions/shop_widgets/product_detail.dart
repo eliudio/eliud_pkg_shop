@@ -66,7 +66,8 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
     var accessState = widget.accessState;
     if (accessState is AccessDetermined) {
       return Container(
-          decoration: BoxDecorationHelper.boxDecoration(
+          clipBehavior: (widget.productDisplayModel!.itemDetailBackground == null) ? Clip.none : Clip.hardEdge,
+          decoration: BoxDecorationHelper.boxDecoration(widget.app,
               accessState.getMember(), widget.productDisplayModel!.itemDetailBackground),
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
