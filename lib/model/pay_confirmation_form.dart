@@ -126,7 +126,7 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
-  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
   String? _shop;
 
 
@@ -138,7 +138,7 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
     _myFormBloc = BlocProvider.of<PayConfirmationFormBloc>(context);
     _documentIDController.addListener(_onDocumentIDChanged);
     _appIdController.addListener(_onAppIdChanged);
-    _titleController.addListener(_onTitleChanged);
+    _descriptionController.addListener(_onDescriptionChanged);
   }
 
   @override
@@ -158,10 +158,10 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
           _appIdController.text = state.value!.appId.toString();
         else
           _appIdController.text = "";
-        if (state.value!.title != null)
-          _titleController.text = state.value!.title.toString();
+        if (state.value!.description != null)
+          _descriptionController.text = state.value!.description.toString();
         else
-          _titleController.text = "";
+          _descriptionController.text = "";
         if (state.value!.shop != null)
           _shop= state.value!.shop!.documentID;
         else
@@ -198,7 +198,7 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'description', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _titleController, keyboardType: TextInputType.text, validator: (_) => state is TitlePayConfirmationFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Description', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _descriptionController, keyboardType: TextInputType.text, validator: (_) => state is DescriptionPayConfirmationFormError ? state.message : null, hintText: null)
           );
 
 
@@ -245,7 +245,7 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
                           UpdatePayConfirmationList(value: state.value!.copyWith(
                               documentID: state.value!.documentID, 
                               appId: state.value!.appId, 
-                              title: state.value!.title, 
+                              description: state.value!.description, 
                               shop: state.value!.shop, 
                               backToShopAction: state.value!.backToShopAction, 
                               conditions: state.value!.conditions, 
@@ -255,7 +255,7 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
                           AddPayConfirmationList(value: PayConfirmationModel(
                               documentID: state.value!.documentID, 
                               appId: state.value!.appId, 
-                              title: state.value!.title, 
+                              description: state.value!.description, 
                               shop: state.value!.shop, 
                               backToShopAction: state.value!.backToShopAction, 
                               conditions: state.value!.conditions, 
@@ -295,8 +295,8 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
   }
 
 
-  void _onTitleChanged() {
-    _myFormBloc.add(ChangedPayConfirmationTitle(value: _titleController.text));
+  void _onDescriptionChanged() {
+    _myFormBloc.add(ChangedPayConfirmationDescription(value: _descriptionController.text));
   }
 
 
@@ -319,7 +319,7 @@ class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
   void dispose() {
     _documentIDController.dispose();
     _appIdController.dispose();
-    _titleController.dispose();
+    _descriptionController.dispose();
     super.dispose();
   }
 

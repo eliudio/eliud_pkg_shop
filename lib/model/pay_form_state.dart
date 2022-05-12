@@ -95,15 +95,15 @@ class AppIdPayFormError extends PayFormError {
 }
 
 
-class TitlePayFormError extends PayFormError { 
-  const TitlePayFormError({ String? message, PayModel? value }): super(message: message, value: value);
+class DescriptionPayFormError extends PayFormError { 
+  const DescriptionPayFormError({ String? message, PayModel? value }): super(message: message, value: value);
 
   @override
   List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''TitlePayFormError {
+    return '''DescriptionPayFormError {
       value: $value,
       message: $message,
     }''';

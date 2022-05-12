@@ -1,12 +1,13 @@
 {
   "id": "PayConfirmation",
   "packageName": "eliud_pkg_shop",
+  "packageFriendlyName": "shop",
   "isAppModel": true,
   "generate": {
     "generateComponent": true,
     "generateRepository": true,
     "generateCache": true,
-	"hasPersistentRepository": true,
+    "hasPersistentRepository": true,
     "generateFirestoreRepository": true,
     "generateRepositorySingleton": true,
     "generateModel": true,
@@ -36,11 +37,9 @@
       "group": "general"
     },
     {
-      "fieldName": "title",
-      "displayName": "description",
-      "group": "general",
+      "fieldName": "description",
+      "displayName": "Description",
       "fieldType": "String",
-      "iconName": "text_format",
       "group": "general"
     },
     {
@@ -79,8 +78,7 @@
     }
   ],
   "listFields": {
-    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID!)) : Container()",
-    "subTitle": "value.title != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.title!)) : Container()"
+    "title": "value.description != null ? Center(child: text(app, context, value.description!)) : value.documentID != null ? Center(child: text(app, context, value.documentID!)) : Container()"
   },
   "depends": ["eliud_core"]
 }

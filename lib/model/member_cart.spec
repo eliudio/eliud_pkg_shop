@@ -1,12 +1,13 @@
 {
   "id": "MemberCart",
   "packageName": "eliud_pkg_shop",
+  "packageFriendlyName": "shop",
   "isAppModel": true,
   "generate": {
     "generateComponent": false,
     "generateRepository": true,
     "generateCache": true,
-	"hasPersistentRepository": true,
+    "hasPersistentRepository": true,
     "generateFirestoreRepository": true,
     "generateRepositorySingleton": true,
     "generateModel": true,

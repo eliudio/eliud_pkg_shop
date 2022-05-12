@@ -118,7 +118,7 @@ class ShopPageBuilder extends PageBuilder {
         image: faderImage));
     var model = FaderModel(
       documentID: constructDocumentId(uniqueId: uniqueId, documentId: faderId),
-      name: 'Fader',
+      description: 'Fader',
       animationMilliseconds: 1000,
       imageSeconds: 5,
       items: items,
@@ -260,7 +260,7 @@ class ShopPageBuilder extends PageBuilder {
   DividerModel _divider() {
     var dividerModel = DividerModel(
       documentID: constructDocumentId(uniqueId: uniqueId, documentId: dividerId),
-      name: 'shop divider',
+      description: 'shop divider',
       color: EliudColors.black,
       endIndent: 0,
       height: 10,

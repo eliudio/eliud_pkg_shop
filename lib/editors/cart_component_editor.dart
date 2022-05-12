@@ -46,6 +46,7 @@ class CartComponentEditorConstructor extends ComponentEditorConstructor {
         CartModel(
           appId: app.documentID,
           documentID: newRandomKey(),
+          description: 'New cart',
           conditions: StorageConditionsModel(
               privilegeLevelRequired:
                   PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),

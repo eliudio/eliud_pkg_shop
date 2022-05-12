@@ -42,6 +42,7 @@ class PayConfirmationComponentEditorConstructor
         PayConfirmationModel(
           appId: app.documentID,
           documentID: newRandomKey(),
+          description: 'New Pay Confirmation',
           conditions: StorageConditionsModel(
               privilegeLevelRequired:
                   PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
@@ -98,7 +99,8 @@ class PayConfirmationBloc
   PayConfirmationModel newInstance(StorageConditionsModel conditions) {
     return PayConfirmationModel(
         appId: appId,
-        documentID: newRandomKey(), 
+        description: 'New Pay Confirmation',
+        documentID: newRandomKey(),
         conditions: conditions);
   }
 
@@ -171,14 +173,14 @@ class _PayConfirmationComponentEditorState
                                     widget.app,
                                     context,
                                     initialValue: payConfirmationState.model
-                                        .title,
+                                        .description,
                                     valueChanged: (value) {
-                                      payConfirmationState.model.title = value;
+                                      payConfirmationState.model.description = value;
                                     },
                                     maxLines: 1,
                                     decoration: const InputDecoration(
-                                      hintText: 'Title',
-                                      labelText: 'Title',
+                                      hintText: 'Description',
+                                      labelText: 'Description',
                                     ),
                                   )),
                             ]),

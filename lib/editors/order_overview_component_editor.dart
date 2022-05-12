@@ -43,6 +43,7 @@ class OrderOverviewComponentEditorConstructor
         OrderOverviewModel(
           appId: app.documentID,
           documentID: newRandomKey(),
+          description: 'New Order Overview',
           conditions: StorageConditionsModel(
               privilegeLevelRequired:
                   PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
@@ -147,14 +148,14 @@ class _OrderOverviewComponentEditorState
                               title: dialogField(
                                 widget.app,
                                 context,
-                                initialValue: orderOverviewState.model.title,
+                                initialValue: orderOverviewState.model.description,
                                 valueChanged: (value) {
-                                  orderOverviewState.model.title = value;
+                                  orderOverviewState.model.description = value;
                                 },
                                 maxLines: 1,
                                 decoration: const InputDecoration(
-                                  hintText: 'Title',
-                                  labelText: 'Title',
+                                  hintText: 'Description',
+                                  labelText: 'Description',
                                 ),
                               )),
                         ]),

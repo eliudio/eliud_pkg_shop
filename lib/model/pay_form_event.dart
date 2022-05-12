@@ -83,16 +83,16 @@ class ChangedPayAppId extends PayFormEvent {
   String toString() => 'ChangedPayAppId{ value: $value }';
 }
 
-class ChangedPayTitle extends PayFormEvent {
+class ChangedPayDescription extends PayFormEvent {
   final String? value;
 
-  ChangedPayTitle({this.value});
+  ChangedPayDescription({this.value});
 
   @override
   List<Object?> get props => [ value ];
 
   @override
-  String toString() => 'ChangedPayTitle{ value: $value }';
+  String toString() => 'ChangedPayDescription{ value: $value }';
 }
 
 class ChangedPaySucceeded extends PayFormEvent {

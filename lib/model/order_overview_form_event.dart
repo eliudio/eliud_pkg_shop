@@ -83,16 +83,16 @@ class ChangedOrderOverviewAppId extends OrderOverviewFormEvent {
   String toString() => 'ChangedOrderOverviewAppId{ value: $value }';
 }
 
-class ChangedOrderOverviewTitle extends OrderOverviewFormEvent {
+class ChangedOrderOverviewDescription extends OrderOverviewFormEvent {
   final String? value;
 
-  ChangedOrderOverviewTitle({this.value});
+  ChangedOrderOverviewDescription({this.value});
 
   @override
   List<Object?> get props => [ value ];
 
   @override
-  String toString() => 'ChangedOrderOverviewTitle{ value: $value }';
+  String toString() => 'ChangedOrderOverviewDescription{ value: $value }';
 }
 
 class ChangedOrderOverviewShop extends OrderOverviewFormEvent {

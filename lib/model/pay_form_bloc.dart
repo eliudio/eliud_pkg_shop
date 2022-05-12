@@ -55,7 +55,7 @@ class PayFormBloc extends Bloc<PayFormEvent, PayFormState> {
         PayFormLoaded loaded = PayFormLoaded(value: PayModel(
                                                documentID: "",
                                  appId: "",
-                                 title: "",
+                                 description: "",
 
         ));
         yield loaded;
@@ -86,8 +86,8 @@ class PayFormBloc extends Bloc<PayFormEvent, PayFormState> {
 
         return;
       }
-      if (event is ChangedPayTitle) {
-        newValue = currentState.value!.copyWith(title: event.value);
+      if (event is ChangedPayDescription) {
+        newValue = currentState.value!.copyWith(description: event.value);
         yield SubmittablePayForm(value: newValue);
 
         return;
@@ -105,7 +105,7 @@ class PayFormBloc extends Bloc<PayFormEvent, PayFormState> {
           newValue = new PayModel(
                                  documentID: currentState.value!.documentID,
                                  appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
+                                 description: currentState.value!.description,
                                  succeeded: currentState.value!.succeeded,
                                  payAction: currentState.value!.payAction,
                                  shop: null,

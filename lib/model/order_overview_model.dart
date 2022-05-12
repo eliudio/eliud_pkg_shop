@@ -38,22 +38,22 @@ import 'package:eliud_core/tools/random.dart';
 class OrderOverviewModel {
   String? documentID;
   String? appId;
-  String? title;
+  String? description;
   ShopModel? shop;
   BackgroundModel? itemImageBackground;
   BackgroundModel? itemDetailBackground;
   StorageConditionsModel? conditions;
 
-  OrderOverviewModel({this.documentID, this.appId, this.title, this.shop, this.itemImageBackground, this.itemDetailBackground, this.conditions, })  {
+  OrderOverviewModel({this.documentID, this.appId, this.description, this.shop, this.itemImageBackground, this.itemDetailBackground, this.conditions, })  {
     assert(documentID != null);
   }
 
-  OrderOverviewModel copyWith({String? documentID, String? appId, String? title, ShopModel? shop, BackgroundModel? itemImageBackground, BackgroundModel? itemDetailBackground, StorageConditionsModel? conditions, }) {
-    return OrderOverviewModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, shop: shop ?? this.shop, itemImageBackground: itemImageBackground ?? this.itemImageBackground, itemDetailBackground: itemDetailBackground ?? this.itemDetailBackground, conditions: conditions ?? this.conditions, );
+  OrderOverviewModel copyWith({String? documentID, String? appId, String? description, ShopModel? shop, BackgroundModel? itemImageBackground, BackgroundModel? itemDetailBackground, StorageConditionsModel? conditions, }) {
+    return OrderOverviewModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, description: description ?? this.description, shop: shop ?? this.shop, itemImageBackground: itemImageBackground ?? this.itemImageBackground, itemDetailBackground: itemDetailBackground ?? this.itemDetailBackground, conditions: conditions ?? this.conditions, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ shop.hashCode ^ itemImageBackground.hashCode ^ itemDetailBackground.hashCode ^ conditions.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ description.hashCode ^ shop.hashCode ^ itemImageBackground.hashCode ^ itemDetailBackground.hashCode ^ conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -62,7 +62,7 @@ class OrderOverviewModel {
           runtimeType == other.runtimeType && 
           documentID == other.documentID &&
           appId == other.appId &&
-          title == other.title &&
+          description == other.description &&
           shop == other.shop &&
           itemImageBackground == other.itemImageBackground &&
           itemDetailBackground == other.itemDetailBackground &&
@@ -70,13 +70,13 @@ class OrderOverviewModel {
 
   @override
   String toString() {
-    return 'OrderOverviewModel{documentID: $documentID, appId: $appId, title: $title, shop: $shop, itemImageBackground: $itemImageBackground, itemDetailBackground: $itemDetailBackground, conditions: $conditions}';
+    return 'OrderOverviewModel{documentID: $documentID, appId: $appId, description: $description, shop: $shop, itemImageBackground: $itemImageBackground, itemDetailBackground: $itemDetailBackground, conditions: $conditions}';
   }
 
   OrderOverviewEntity toEntity({String? appId}) {
     return OrderOverviewEntity(
           appId: (appId != null) ? appId : null, 
-          title: (title != null) ? title : null, 
+          description: (description != null) ? description : null, 
           shopId: (shop != null) ? shop!.documentID : null, 
           itemImageBackground: (itemImageBackground != null) ? itemImageBackground!.toEntity(appId: appId) : null, 
           itemDetailBackground: (itemDetailBackground != null) ? itemDetailBackground!.toEntity(appId: appId) : null, 
@@ -90,7 +90,7 @@ class OrderOverviewModel {
     return OrderOverviewModel(
           documentID: documentID, 
           appId: entity.appId, 
-          title: entity.title, 
+          description: entity.description, 
           itemImageBackground: 
             await BackgroundModel.fromEntity(entity.itemImageBackground), 
           itemDetailBackground: 
@@ -118,7 +118,7 @@ class OrderOverviewModel {
     return OrderOverviewModel(
           documentID: documentID, 
           appId: entity.appId, 
-          title: entity.title, 
+          description: entity.description, 
           shop: shopHolder, 
           itemImageBackground: 
             await BackgroundModel.fromEntityPlus(entity.itemImageBackground, appId: appId), 

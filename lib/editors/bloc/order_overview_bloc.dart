@@ -17,7 +17,8 @@ class OrderOverviewBloc
   OrderOverviewModel newInstance(StorageConditionsModel conditions) {
     return OrderOverviewModel(
         appId: appId,
-        documentID: newRandomKey(), 
+        documentID: newRandomKey(),
+        description: 'New Order Overview',
         conditions: conditions,
         itemImageBackground: BackgroundModel(),
         itemDetailBackground: BackgroundModel(),

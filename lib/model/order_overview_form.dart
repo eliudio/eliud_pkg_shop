@@ -126,7 +126,7 @@ class _MyOrderOverviewFormState extends State<MyOrderOverviewForm> {
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
-  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
   String? _shop;
 
 
@@ -138,7 +138,7 @@ class _MyOrderOverviewFormState extends State<MyOrderOverviewForm> {
     _myFormBloc = BlocProvider.of<OrderOverviewFormBloc>(context);
     _documentIDController.addListener(_onDocumentIDChanged);
     _appIdController.addListener(_onAppIdChanged);
-    _titleController.addListener(_onTitleChanged);
+    _descriptionController.addListener(_onDescriptionChanged);
   }
 
   @override
@@ -158,10 +158,10 @@ class _MyOrderOverviewFormState extends State<MyOrderOverviewForm> {
           _appIdController.text = state.value!.appId.toString();
         else
           _appIdController.text = "";
-        if (state.value!.title != null)
-          _titleController.text = state.value!.title.toString();
+        if (state.value!.description != null)
+          _descriptionController.text = state.value!.description.toString();
         else
-          _titleController.text = "";
+          _descriptionController.text = "";
         if (state.value!.shop != null)
           _shop= state.value!.shop!.documentID;
         else
@@ -182,7 +182,7 @@ class _MyOrderOverviewFormState extends State<MyOrderOverviewForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'description', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _titleController, keyboardType: TextInputType.text, validator: (_) => state is TitleOrderOverviewFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Description', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _descriptionController, keyboardType: TextInputType.text, validator: (_) => state is DescriptionOrderOverviewFormError ? state.message : null, hintText: null)
           );
 
 
@@ -253,7 +253,7 @@ class _MyOrderOverviewFormState extends State<MyOrderOverviewForm> {
                           UpdateOrderOverviewList(value: state.value!.copyWith(
                               documentID: state.value!.documentID, 
                               appId: state.value!.appId, 
-                              title: state.value!.title, 
+                              description: state.value!.description, 
                               shop: state.value!.shop, 
                               itemImageBackground: state.value!.itemImageBackground, 
                               itemDetailBackground: state.value!.itemDetailBackground, 
@@ -264,7 +264,7 @@ class _MyOrderOverviewFormState extends State<MyOrderOverviewForm> {
                           AddOrderOverviewList(value: OrderOverviewModel(
                               documentID: state.value!.documentID, 
                               appId: state.value!.appId, 
-                              title: state.value!.title, 
+                              description: state.value!.description, 
                               shop: state.value!.shop, 
                               itemImageBackground: state.value!.itemImageBackground, 
                               itemDetailBackground: state.value!.itemDetailBackground, 
@@ -305,8 +305,8 @@ class _MyOrderOverviewFormState extends State<MyOrderOverviewForm> {
   }
 
 
-  void _onTitleChanged() {
-    _myFormBloc.add(ChangedOrderOverviewTitle(value: _titleController.text));
+  void _onDescriptionChanged() {
+    _myFormBloc.add(ChangedOrderOverviewDescription(value: _descriptionController.text));
   }
 
 
@@ -323,7 +323,7 @@ class _MyOrderOverviewFormState extends State<MyOrderOverviewForm> {
   void dispose() {
     _documentIDController.dispose();
     _appIdController.dispose();
-    _titleController.dispose();
+    _descriptionController.dispose();
     super.dispose();
   }
 

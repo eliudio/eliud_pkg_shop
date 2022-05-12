@@ -1,6 +1,7 @@
 {
   "id": "Order",
   "packageName": "eliud_pkg_shop",
+  "packageFriendlyName": "shop",
   "isAppModel": true,
   "generate": {
     "generateComponent": true,

@@ -49,7 +49,7 @@ class ProductPageBuilder extends AbstractBasicPageTemplate {
     return ProductDisplayModel(
       documentID: constructDocumentId(uniqueId: uniqueId, documentId: 'product'),
       appId: app.documentID!,
-      title: pageTitle(),
+      description: pageTitle(),
       shop: shop,
       buyAction: CartPageBuilder.openCartPage(app, uniqueId),
       itemDetailBackground: null,

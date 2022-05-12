@@ -95,15 +95,15 @@ class AppIdPayConfirmationFormError extends PayConfirmationFormError {
 }
 
 
-class TitlePayConfirmationFormError extends PayConfirmationFormError { 
-  const TitlePayConfirmationFormError({ String? message, PayConfirmationModel? value }): super(message: message, value: value);
+class DescriptionPayConfirmationFormError extends PayConfirmationFormError { 
+  const DescriptionPayConfirmationFormError({ String? message, PayConfirmationModel? value }): super(message: message, value: value);
 
   @override
   List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''TitlePayConfirmationFormError {
+    return '''DescriptionPayConfirmationFormError {
       value: $value,
       message: $message,
     }''';

@@ -55,7 +55,7 @@ class OrderOverviewFormBloc extends Bloc<OrderOverviewFormEvent, OrderOverviewFo
         OrderOverviewFormLoaded loaded = OrderOverviewFormLoaded(value: OrderOverviewModel(
                                                documentID: "",
                                  appId: "",
-                                 title: "",
+                                 description: "",
 
         ));
         yield loaded;
@@ -86,8 +86,8 @@ class OrderOverviewFormBloc extends Bloc<OrderOverviewFormEvent, OrderOverviewFo
 
         return;
       }
-      if (event is ChangedOrderOverviewTitle) {
-        newValue = currentState.value!.copyWith(title: event.value);
+      if (event is ChangedOrderOverviewDescription) {
+        newValue = currentState.value!.copyWith(description: event.value);
         yield SubmittableOrderOverviewForm(value: newValue);
 
         return;
@@ -99,7 +99,7 @@ class OrderOverviewFormBloc extends Bloc<OrderOverviewFormEvent, OrderOverviewFo
           newValue = new OrderOverviewModel(
                                  documentID: currentState.value!.documentID,
                                  appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
+                                 description: currentState.value!.description,
                                  shop: null,
                                  itemImageBackground: currentState.value!.itemImageBackground,
                                  itemDetailBackground: currentState.value!.itemDetailBackground,

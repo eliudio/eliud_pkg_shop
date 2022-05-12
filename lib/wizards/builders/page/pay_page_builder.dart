@@ -55,7 +55,7 @@ class PayPageBuilder extends AbstractPageTemplate {
     return PayModel(
       documentID: constructDocumentId(uniqueId: uniqueId, documentId: 'pay'),
       appId: app.documentID!,
-      title: pageTitle(),
+      description: pageTitle(),
       shop: shop,
       payAction: cartPaymentWorkflows != null ? getParameterAction(app, cartPaymentWorkflows!) : null,
       succeeded: GotoPage(app, pageID: constructDocumentId(uniqueId: uniqueId, documentId: PayConfirmationPageBuilder.PAGE_ID)),

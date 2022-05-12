@@ -24,20 +24,20 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 class PayEntity {
   final String? appId;
-  final String? title;
+  final String? description;
   final ActionEntity? succeeded;
   final ActionEntity? payAction;
   final String? shopId;
   final StorageConditionsEntity? conditions;
 
-  PayEntity({this.appId, this.title, this.succeeded, this.payAction, this.shopId, this.conditions, });
+  PayEntity({this.appId, this.description, this.succeeded, this.payAction, this.shopId, this.conditions, });
 
 
-  List<Object?> get props => [appId, title, succeeded, payAction, shopId, conditions, ];
+  List<Object?> get props => [appId, description, succeeded, payAction, shopId, conditions, ];
 
   @override
   String toString() {
-    return 'PayEntity{appId: $appId, title: $title, succeeded: $succeeded, payAction: $payAction, shopId: $shopId, conditions: $conditions}';
+    return 'PayEntity{appId: $appId, description: $description, succeeded: $succeeded, payAction: $payAction, shopId: $shopId, conditions: $conditions}';
   }
 
   static PayEntity? fromMap(Object? o) {
@@ -59,7 +59,7 @@ class PayEntity {
 
     return PayEntity(
       appId: map['appId'], 
-      title: map['title'], 
+      description: map['description'], 
       succeeded: succeededFromMap, 
       payAction: payActionFromMap, 
       shopId: map['shopId'], 
@@ -81,8 +81,8 @@ class PayEntity {
     Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
-    if (title != null) theDocument["title"] = title;
-      else theDocument["title"] = null;
+    if (description != null) theDocument["description"] = description;
+      else theDocument["description"] = null;
     if (succeeded != null) theDocument["succeeded"] = succeededMap;
       else theDocument["succeeded"] = null;
     if (payAction != null) theDocument["payAction"] = payActionMap;

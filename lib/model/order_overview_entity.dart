@@ -24,20 +24,20 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 class OrderOverviewEntity {
   final String? appId;
-  final String? title;
+  final String? description;
   final String? shopId;
   final BackgroundEntity? itemImageBackground;
   final BackgroundEntity? itemDetailBackground;
   final StorageConditionsEntity? conditions;
 
-  OrderOverviewEntity({this.appId, this.title, this.shopId, this.itemImageBackground, this.itemDetailBackground, this.conditions, });
+  OrderOverviewEntity({this.appId, this.description, this.shopId, this.itemImageBackground, this.itemDetailBackground, this.conditions, });
 
 
-  List<Object?> get props => [appId, title, shopId, itemImageBackground, itemDetailBackground, conditions, ];
+  List<Object?> get props => [appId, description, shopId, itemImageBackground, itemDetailBackground, conditions, ];
 
   @override
   String toString() {
-    return 'OrderOverviewEntity{appId: $appId, title: $title, shopId: $shopId, itemImageBackground: $itemImageBackground, itemDetailBackground: $itemDetailBackground, conditions: $conditions}';
+    return 'OrderOverviewEntity{appId: $appId, description: $description, shopId: $shopId, itemImageBackground: $itemImageBackground, itemDetailBackground: $itemDetailBackground, conditions: $conditions}';
   }
 
   static OrderOverviewEntity? fromMap(Object? o) {
@@ -59,7 +59,7 @@ class OrderOverviewEntity {
 
     return OrderOverviewEntity(
       appId: map['appId'], 
-      title: map['title'], 
+      description: map['description'], 
       shopId: map['shopId'], 
       itemImageBackground: itemImageBackgroundFromMap, 
       itemDetailBackground: itemDetailBackgroundFromMap, 
@@ -81,8 +81,8 @@ class OrderOverviewEntity {
     Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
-    if (title != null) theDocument["title"] = title;
-      else theDocument["title"] = null;
+    if (description != null) theDocument["description"] = description;
+      else theDocument["description"] = null;
     if (shopId != null) theDocument["shopId"] = shopId;
       else theDocument["shopId"] = null;
     if (itemImageBackground != null) theDocument["itemImageBackground"] = itemImageBackgroundMap;

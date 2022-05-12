@@ -17,7 +17,8 @@ class ShopFrontBloc
   ShopFrontModel newInstance(StorageConditionsModel conditions) {
     return ShopFrontModel(
         appId: appId,
-        documentID: newRandomKey(), 
+        documentID: newRandomKey(),
+        description: 'New Shop Front',
         conditions: conditions,
     );
   }

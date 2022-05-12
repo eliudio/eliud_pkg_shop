@@ -95,15 +95,15 @@ class AppIdOrderOverviewFormError extends OrderOverviewFormError {
 }
 
 
-class TitleOrderOverviewFormError extends OrderOverviewFormError { 
-  const TitleOrderOverviewFormError({ String? message, OrderOverviewModel? value }): super(message: message, value: value);
+class DescriptionOrderOverviewFormError extends OrderOverviewFormError { 
+  const DescriptionOrderOverviewFormError({ String? message, OrderOverviewModel? value }): super(message: message, value: value);
 
   @override
   List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''TitleOrderOverviewFormError {
+    return '''DescriptionOrderOverviewFormError {
       value: $value,
       message: $message,
     }''';

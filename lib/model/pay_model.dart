@@ -38,7 +38,7 @@ import 'package:eliud_core/tools/random.dart';
 class PayModel {
   String? documentID;
   String? appId;
-  String? title;
+  String? description;
   ActionModel? succeeded;
 
   // requires a new implementation of a BespokeFormField WorkflowActionField
@@ -46,16 +46,16 @@ class PayModel {
   ShopModel? shop;
   StorageConditionsModel? conditions;
 
-  PayModel({this.documentID, this.appId, this.title, this.succeeded, this.payAction, this.shop, this.conditions, })  {
+  PayModel({this.documentID, this.appId, this.description, this.succeeded, this.payAction, this.shop, this.conditions, })  {
     assert(documentID != null);
   }
 
-  PayModel copyWith({String? documentID, String? appId, String? title, ActionModel? succeeded, ActionModel? payAction, ShopModel? shop, StorageConditionsModel? conditions, }) {
-    return PayModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, succeeded: succeeded ?? this.succeeded, payAction: payAction ?? this.payAction, shop: shop ?? this.shop, conditions: conditions ?? this.conditions, );
+  PayModel copyWith({String? documentID, String? appId, String? description, ActionModel? succeeded, ActionModel? payAction, ShopModel? shop, StorageConditionsModel? conditions, }) {
+    return PayModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, description: description ?? this.description, succeeded: succeeded ?? this.succeeded, payAction: payAction ?? this.payAction, shop: shop ?? this.shop, conditions: conditions ?? this.conditions, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ succeeded.hashCode ^ payAction.hashCode ^ shop.hashCode ^ conditions.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ description.hashCode ^ succeeded.hashCode ^ payAction.hashCode ^ shop.hashCode ^ conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -64,7 +64,7 @@ class PayModel {
           runtimeType == other.runtimeType && 
           documentID == other.documentID &&
           appId == other.appId &&
-          title == other.title &&
+          description == other.description &&
           succeeded == other.succeeded &&
           payAction == other.payAction &&
           shop == other.shop &&
@@ -72,13 +72,13 @@ class PayModel {
 
   @override
   String toString() {
-    return 'PayModel{documentID: $documentID, appId: $appId, title: $title, succeeded: $succeeded, payAction: $payAction, shop: $shop, conditions: $conditions}';
+    return 'PayModel{documentID: $documentID, appId: $appId, description: $description, succeeded: $succeeded, payAction: $payAction, shop: $shop, conditions: $conditions}';
   }
 
   PayEntity toEntity({String? appId}) {
     return PayEntity(
           appId: (appId != null) ? appId : null, 
-          title: (title != null) ? title : null, 
+          description: (description != null) ? description : null, 
           succeeded: (succeeded != null) ? succeeded!.toEntity(appId: appId) : null, 
           payAction: (payAction != null) ? payAction!.toEntity(appId: appId) : null, 
           shopId: (shop != null) ? shop!.documentID : null, 
@@ -92,7 +92,7 @@ class PayModel {
     return PayModel(
           documentID: documentID, 
           appId: entity.appId, 
-          title: entity.title, 
+          description: entity.description, 
           succeeded: 
             await ActionModel.fromEntity(entity.succeeded), 
           payAction: 
@@ -120,7 +120,7 @@ class PayModel {
     return PayModel(
           documentID: documentID, 
           appId: entity.appId, 
-          title: entity.title, 
+          description: entity.description, 
           succeeded: 
             await ActionModel.fromEntityPlus(entity.succeeded, appId: appId), 
           payAction: 

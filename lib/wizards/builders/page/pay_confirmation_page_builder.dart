@@ -55,7 +55,7 @@ class PayConfirmationPageBuilder extends AbstractPageTemplate {
     return PayConfirmationModel(
       documentID: constructDocumentId(uniqueId: uniqueId, documentId: 'payconfirmation'),
       appId: app.documentID!,
-      title: pageTitle(),
+      description: pageTitle(),
       shop: shop,
       backToShopAction: GotoPage(app, pageID: constructDocumentId(uniqueId: uniqueId, documentId: ShopPageBuilder.PAGE_ID)),
       conditions: StorageConditionsModel(

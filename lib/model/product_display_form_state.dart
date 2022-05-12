@@ -95,15 +95,15 @@ class AppIdProductDisplayFormError extends ProductDisplayFormError {
 }
 
 
-class TitleProductDisplayFormError extends ProductDisplayFormError { 
-  const TitleProductDisplayFormError({ String? message, ProductDisplayModel? value }): super(message: message, value: value);
+class DescriptionProductDisplayFormError extends ProductDisplayFormError { 
+  const DescriptionProductDisplayFormError({ String? message, ProductDisplayModel? value }): super(message: message, value: value);
 
   @override
   List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''TitleProductDisplayFormError {
+    return '''DescriptionProductDisplayFormError {
       value: $value,
       message: $message,
     }''';

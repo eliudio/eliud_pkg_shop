@@ -126,7 +126,7 @@ class _MyPayFormState extends State<MyPayForm> {
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
-  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
   String? _shop;
 
 
@@ -138,7 +138,7 @@ class _MyPayFormState extends State<MyPayForm> {
     _myFormBloc = BlocProvider.of<PayFormBloc>(context);
     _documentIDController.addListener(_onDocumentIDChanged);
     _appIdController.addListener(_onAppIdChanged);
-    _titleController.addListener(_onTitleChanged);
+    _descriptionController.addListener(_onDescriptionChanged);
   }
 
   @override
@@ -158,10 +158,10 @@ class _MyPayFormState extends State<MyPayForm> {
           _appIdController.text = state.value!.appId.toString();
         else
           _appIdController.text = "";
-        if (state.value!.title != null)
-          _titleController.text = state.value!.title.toString();
+        if (state.value!.description != null)
+          _descriptionController.text = state.value!.description.toString();
         else
-          _titleController.text = "";
+          _descriptionController.text = "";
         if (state.value!.shop != null)
           _shop= state.value!.shop!.documentID;
         else
@@ -182,7 +182,7 @@ class _MyPayFormState extends State<MyPayForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'description', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _titleController, keyboardType: TextInputType.text, validator: (_) => state is TitlePayFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Description', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _descriptionController, keyboardType: TextInputType.text, validator: (_) => state is DescriptionPayFormError ? state.message : null, hintText: null)
           );
 
 
@@ -256,7 +256,7 @@ class _MyPayFormState extends State<MyPayForm> {
                           UpdatePayList(value: state.value!.copyWith(
                               documentID: state.value!.documentID, 
                               appId: state.value!.appId, 
-                              title: state.value!.title, 
+                              description: state.value!.description, 
                               succeeded: state.value!.succeeded, 
                               payAction: state.value!.payAction, 
                               shop: state.value!.shop, 
@@ -267,7 +267,7 @@ class _MyPayFormState extends State<MyPayForm> {
                           AddPayList(value: PayModel(
                               documentID: state.value!.documentID, 
                               appId: state.value!.appId, 
-                              title: state.value!.title, 
+                              description: state.value!.description, 
                               succeeded: state.value!.succeeded, 
                               payAction: state.value!.payAction, 
                               shop: state.value!.shop, 
@@ -308,8 +308,8 @@ class _MyPayFormState extends State<MyPayForm> {
   }
 
 
-  void _onTitleChanged() {
-    _myFormBloc.add(ChangedPayTitle(value: _titleController.text));
+  void _onDescriptionChanged() {
+    _myFormBloc.add(ChangedPayDescription(value: _descriptionController.text));
   }
 
 
@@ -338,7 +338,7 @@ class _MyPayFormState extends State<MyPayForm> {
   void dispose() {
     _documentIDController.dispose();
     _appIdController.dispose();
-    _titleController.dispose();
+    _descriptionController.dispose();
     super.dispose();
   }
 

@@ -55,7 +55,7 @@ class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirma
         PayConfirmationFormLoaded loaded = PayConfirmationFormLoaded(value: PayConfirmationModel(
                                                documentID: "",
                                  appId: "",
-                                 title: "",
+                                 description: "",
 
         ));
         yield loaded;
@@ -86,8 +86,8 @@ class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirma
 
         return;
       }
-      if (event is ChangedPayConfirmationTitle) {
-        newValue = currentState.value!.copyWith(title: event.value);
+      if (event is ChangedPayConfirmationDescription) {
+        newValue = currentState.value!.copyWith(description: event.value);
         yield SubmittablePayConfirmationForm(value: newValue);
 
         return;
@@ -99,7 +99,7 @@ class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirma
           newValue = new PayConfirmationModel(
                                  documentID: currentState.value!.documentID,
                                  appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
+                                 description: currentState.value!.description,
                                  shop: null,
                                  backToShopAction: currentState.value!.backToShopAction,
                                  conditions: currentState.value!.conditions,

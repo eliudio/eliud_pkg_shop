@@ -34,6 +34,7 @@ class CartBloc extends EditorBaseBloc<CartModel> {
     return CartModel(
       appId: appId,
       documentID: newRandomKey(),
+      description: 'New cart',
       conditions: conditions,
       itemImageBackground: BackgroundModel(),
       itemDetailBackground: BackgroundModel(),

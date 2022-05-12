@@ -59,7 +59,7 @@ class ComponentRegistry {
     Registry.registry()!.register(componentName: "productDisplays", componentConstructor: ProductDisplayComponentConstructorDefault());
     Registry.registry()!.addDropDownSupporter("shopFronts", DropdownButtonComponentFactory());
     Registry.registry()!.register(componentName: "shopFronts", componentConstructor: ShopFrontComponentConstructorDefault());
-    Registry.registry()!.addComponentSpec('eliud_pkg_shop', [
+    Registry.registry()!.addComponentSpec('eliud_pkg_shop', 'shop', [
       ComponentSpec('carts', CartComponentConstructorDefault(), CartComponentSelector(), CartComponentEditorConstructor(), ), 
       ComponentSpec('orderOverviews', OrderOverviewComponentConstructorDefault(), OrderOverviewComponentSelector(), OrderOverviewComponentEditorConstructor(), ), 
       ComponentSpec('pays', PayComponentConstructorDefault(), PayComponentSelector(), PayComponentEditorConstructor(), ), 

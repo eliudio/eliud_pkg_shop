@@ -83,16 +83,16 @@ class ChangedProductDisplayAppId extends ProductDisplayFormEvent {
   String toString() => 'ChangedProductDisplayAppId{ value: $value }';
 }
 
-class ChangedProductDisplayTitle extends ProductDisplayFormEvent {
+class ChangedProductDisplayDescription extends ProductDisplayFormEvent {
   final String? value;
 
-  ChangedProductDisplayTitle({this.value});
+  ChangedProductDisplayDescription({this.value});
 
   @override
   List<Object?> get props => [ value ];
 
   @override
-  String toString() => 'ChangedProductDisplayTitle{ value: $value }';
+  String toString() => 'ChangedProductDisplayDescription{ value: $value }';
 }
 
 class ChangedProductDisplayItemDetailBackground extends ProductDisplayFormEvent {

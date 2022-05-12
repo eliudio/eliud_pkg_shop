@@ -38,23 +38,23 @@ import 'package:eliud_core/tools/random.dart';
 class ProductDisplayModel {
   String? documentID;
   String? appId;
-  String? title;
+  String? description;
   BackgroundModel? itemDetailBackground;
   String? addToBasketText;
   ActionModel? buyAction;
   ShopModel? shop;
   StorageConditionsModel? conditions;
 
-  ProductDisplayModel({this.documentID, this.appId, this.title, this.itemDetailBackground, this.addToBasketText, this.buyAction, this.shop, this.conditions, })  {
+  ProductDisplayModel({this.documentID, this.appId, this.description, this.itemDetailBackground, this.addToBasketText, this.buyAction, this.shop, this.conditions, })  {
     assert(documentID != null);
   }
 
-  ProductDisplayModel copyWith({String? documentID, String? appId, String? title, BackgroundModel? itemDetailBackground, String? addToBasketText, ActionModel? buyAction, ShopModel? shop, StorageConditionsModel? conditions, }) {
-    return ProductDisplayModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, itemDetailBackground: itemDetailBackground ?? this.itemDetailBackground, addToBasketText: addToBasketText ?? this.addToBasketText, buyAction: buyAction ?? this.buyAction, shop: shop ?? this.shop, conditions: conditions ?? this.conditions, );
+  ProductDisplayModel copyWith({String? documentID, String? appId, String? description, BackgroundModel? itemDetailBackground, String? addToBasketText, ActionModel? buyAction, ShopModel? shop, StorageConditionsModel? conditions, }) {
+    return ProductDisplayModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, description: description ?? this.description, itemDetailBackground: itemDetailBackground ?? this.itemDetailBackground, addToBasketText: addToBasketText ?? this.addToBasketText, buyAction: buyAction ?? this.buyAction, shop: shop ?? this.shop, conditions: conditions ?? this.conditions, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ itemDetailBackground.hashCode ^ addToBasketText.hashCode ^ buyAction.hashCode ^ shop.hashCode ^ conditions.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ description.hashCode ^ itemDetailBackground.hashCode ^ addToBasketText.hashCode ^ buyAction.hashCode ^ shop.hashCode ^ conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -63,7 +63,7 @@ class ProductDisplayModel {
           runtimeType == other.runtimeType && 
           documentID == other.documentID &&
           appId == other.appId &&
-          title == other.title &&
+          description == other.description &&
           itemDetailBackground == other.itemDetailBackground &&
           addToBasketText == other.addToBasketText &&
           buyAction == other.buyAction &&
@@ -72,13 +72,13 @@ class ProductDisplayModel {
 
   @override
   String toString() {
-    return 'ProductDisplayModel{documentID: $documentID, appId: $appId, title: $title, itemDetailBackground: $itemDetailBackground, addToBasketText: $addToBasketText, buyAction: $buyAction, shop: $shop, conditions: $conditions}';
+    return 'ProductDisplayModel{documentID: $documentID, appId: $appId, description: $description, itemDetailBackground: $itemDetailBackground, addToBasketText: $addToBasketText, buyAction: $buyAction, shop: $shop, conditions: $conditions}';
   }
 
   ProductDisplayEntity toEntity({String? appId}) {
     return ProductDisplayEntity(
           appId: (appId != null) ? appId : null, 
-          title: (title != null) ? title : null, 
+          description: (description != null) ? description : null, 
           itemDetailBackground: (itemDetailBackground != null) ? itemDetailBackground!.toEntity(appId: appId) : null, 
           addToBasketText: (addToBasketText != null) ? addToBasketText : null, 
           buyAction: (buyAction != null) ? buyAction!.toEntity(appId: appId) : null, 
@@ -93,7 +93,7 @@ class ProductDisplayModel {
     return ProductDisplayModel(
           documentID: documentID, 
           appId: entity.appId, 
-          title: entity.title, 
+          description: entity.description, 
           itemDetailBackground: 
             await BackgroundModel.fromEntity(entity.itemDetailBackground), 
           addToBasketText: entity.addToBasketText, 
@@ -122,7 +122,7 @@ class ProductDisplayModel {
     return ProductDisplayModel(
           documentID: documentID, 
           appId: entity.appId, 
-          title: entity.title, 
+          description: entity.description, 
           itemDetailBackground: 
             await BackgroundModel.fromEntityPlus(entity.itemDetailBackground, appId: appId), 
           addToBasketText: entity.addToBasketText, 

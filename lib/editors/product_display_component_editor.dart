@@ -46,6 +46,7 @@ class ProductDisplayComponentEditorConstructor
         ProductDisplayModel(
           appId: app.documentID,
           documentID: newRandomKey(),
+          description: 'New Product Display',
           conditions: StorageConditionsModel(
               privilegeLevelRequired:
                   PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
@@ -103,6 +104,7 @@ class ProductDisplayBloc
     return ProductDisplayModel(
         appId: appId,
         itemDetailBackground: BackgroundModel(),
+        description: 'New Product Display',
         documentID: newRandomKey(),
         conditions: conditions);
   }
@@ -177,14 +179,14 @@ class _ProductDisplayComponentEditorState
                                     widget.app,
                                     context,
                                     initialValue: productDisplayState.model
-                                        .title,
+                                        .description,
                                     valueChanged: (value) {
-                                      productDisplayState.model.title = value;
+                                      productDisplayState.model.description = value;
                                     },
                                     maxLines: 1,
                                     decoration: const InputDecoration(
-                                      hintText: 'Title',
-                                      labelText: 'Title',
+                                      hintText: 'Description',
+                                      labelText: 'Description',
                                     ),
                                   )),
                             ]),

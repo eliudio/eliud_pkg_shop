@@ -55,7 +55,7 @@ class ProductDisplayFormBloc extends Bloc<ProductDisplayFormEvent, ProductDispla
         ProductDisplayFormLoaded loaded = ProductDisplayFormLoaded(value: ProductDisplayModel(
                                                documentID: "",
                                  appId: "",
-                                 title: "",
+                                 description: "",
                                  addToBasketText: "",
 
         ));
@@ -87,8 +87,8 @@ class ProductDisplayFormBloc extends Bloc<ProductDisplayFormEvent, ProductDispla
 
         return;
       }
-      if (event is ChangedProductDisplayTitle) {
-        newValue = currentState.value!.copyWith(title: event.value);
+      if (event is ChangedProductDisplayDescription) {
+        newValue = currentState.value!.copyWith(description: event.value);
         yield SubmittableProductDisplayForm(value: newValue);
 
         return;
@@ -118,7 +118,7 @@ class ProductDisplayFormBloc extends Bloc<ProductDisplayFormEvent, ProductDispla
           newValue = new ProductDisplayModel(
                                  documentID: currentState.value!.documentID,
                                  appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
+                                 description: currentState.value!.description,
                                  itemDetailBackground: currentState.value!.itemDetailBackground,
                                  addToBasketText: currentState.value!.addToBasketText,
                                  buyAction: currentState.value!.buyAction,

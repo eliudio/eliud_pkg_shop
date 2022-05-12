@@ -45,6 +45,7 @@ class ShopFrontComponentEditorConstructor extends ComponentEditorConstructor {
         ShopFrontModel(
           appId: app.documentID,
           documentID: newRandomKey(),
+          description: 'New Shop Front',
           conditions: StorageConditionsModel(
               privilegeLevelRequired:
                   PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),

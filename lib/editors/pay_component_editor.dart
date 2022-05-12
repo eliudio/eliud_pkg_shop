@@ -43,6 +43,7 @@ class PayComponentEditorConstructor
         PayModel(
           appId: app.documentID,
           documentID: newRandomKey(),
+          description: 'New payment',
           conditions: StorageConditionsModel(
               privilegeLevelRequired:
                   PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
@@ -99,7 +100,8 @@ class PayBloc
   PayModel newInstance(StorageConditionsModel conditions) {
     return PayModel(
         appId: appId,
-        documentID: newRandomKey(), 
+        documentID: newRandomKey(),
+        description: 'New payment',
         conditions: conditions);
   }
 
@@ -172,14 +174,14 @@ class _PayComponentEditorState
                                     widget.app,
                                     context,
                                     initialValue: payState.model
-                                        .title,
+                                        .description,
                                     valueChanged: (value) {
-                                      payState.model.title = value;
+                                      payState.model.description = value;
                                     },
                                     maxLines: 1,
                                     decoration: const InputDecoration(
-                                      hintText: 'Title',
-                                      labelText: 'Title',
+                                      hintText: 'Description',
+                                      labelText: 'Description',
                                     ),
                                   )),
                             ]),

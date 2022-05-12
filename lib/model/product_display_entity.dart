@@ -24,21 +24,21 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 class ProductDisplayEntity {
   final String? appId;
-  final String? title;
+  final String? description;
   final BackgroundEntity? itemDetailBackground;
   final String? addToBasketText;
   final ActionEntity? buyAction;
   final String? shopId;
   final StorageConditionsEntity? conditions;
 
-  ProductDisplayEntity({this.appId, this.title, this.itemDetailBackground, this.addToBasketText, this.buyAction, this.shopId, this.conditions, });
+  ProductDisplayEntity({this.appId, this.description, this.itemDetailBackground, this.addToBasketText, this.buyAction, this.shopId, this.conditions, });
 
 
-  List<Object?> get props => [appId, title, itemDetailBackground, addToBasketText, buyAction, shopId, conditions, ];
+  List<Object?> get props => [appId, description, itemDetailBackground, addToBasketText, buyAction, shopId, conditions, ];
 
   @override
   String toString() {
-    return 'ProductDisplayEntity{appId: $appId, title: $title, itemDetailBackground: $itemDetailBackground, addToBasketText: $addToBasketText, buyAction: $buyAction, shopId: $shopId, conditions: $conditions}';
+    return 'ProductDisplayEntity{appId: $appId, description: $description, itemDetailBackground: $itemDetailBackground, addToBasketText: $addToBasketText, buyAction: $buyAction, shopId: $shopId, conditions: $conditions}';
   }
 
   static ProductDisplayEntity? fromMap(Object? o) {
@@ -60,7 +60,7 @@ class ProductDisplayEntity {
 
     return ProductDisplayEntity(
       appId: map['appId'], 
-      title: map['title'], 
+      description: map['description'], 
       itemDetailBackground: itemDetailBackgroundFromMap, 
       addToBasketText: map['addToBasketText'], 
       buyAction: buyActionFromMap, 
@@ -83,8 +83,8 @@ class ProductDisplayEntity {
     Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
-    if (title != null) theDocument["title"] = title;
-      else theDocument["title"] = null;
+    if (description != null) theDocument["description"] = description;
+      else theDocument["description"] = null;
     if (itemDetailBackground != null) theDocument["itemDetailBackground"] = itemDetailBackgroundMap;
       else theDocument["itemDetailBackground"] = null;
     if (addToBasketText != null) theDocument["addToBasketText"] = addToBasketText;

@@ -126,7 +126,7 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
-  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _addToBasketTextController = TextEditingController();
   String? _shop;
 
@@ -139,7 +139,7 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
     _myFormBloc = BlocProvider.of<ProductDisplayFormBloc>(context);
     _documentIDController.addListener(_onDocumentIDChanged);
     _appIdController.addListener(_onAppIdChanged);
-    _titleController.addListener(_onTitleChanged);
+    _descriptionController.addListener(_onDescriptionChanged);
     _addToBasketTextController.addListener(_onAddToBasketTextChanged);
   }
 
@@ -160,10 +160,10 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
           _appIdController.text = state.value!.appId.toString();
         else
           _appIdController.text = "";
-        if (state.value!.title != null)
-          _titleController.text = state.value!.title.toString();
+        if (state.value!.description != null)
+          _descriptionController.text = state.value!.description.toString();
         else
-          _titleController.text = "";
+          _descriptionController.text = "";
         if (state.value!.addToBasketText != null)
           _addToBasketTextController.text = state.value!.addToBasketText.toString();
         else
@@ -210,7 +210,7 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'description', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _titleController, keyboardType: TextInputType.text, validator: (_) => state is TitleProductDisplayFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Description', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _descriptionController, keyboardType: TextInputType.text, validator: (_) => state is DescriptionProductDisplayFormError ? state.message : null, hintText: null)
           );
 
         children.add(
@@ -246,7 +246,7 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
                           UpdateProductDisplayList(value: state.value!.copyWith(
                               documentID: state.value!.documentID, 
                               appId: state.value!.appId, 
-                              title: state.value!.title, 
+                              description: state.value!.description, 
                               itemDetailBackground: state.value!.itemDetailBackground, 
                               addToBasketText: state.value!.addToBasketText, 
                               buyAction: state.value!.buyAction, 
@@ -258,7 +258,7 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
                           AddProductDisplayList(value: ProductDisplayModel(
                               documentID: state.value!.documentID, 
                               appId: state.value!.appId, 
-                              title: state.value!.title, 
+                              description: state.value!.description, 
                               itemDetailBackground: state.value!.itemDetailBackground, 
                               addToBasketText: state.value!.addToBasketText, 
                               buyAction: state.value!.buyAction, 
@@ -300,8 +300,8 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
   }
 
 
-  void _onTitleChanged() {
-    _myFormBloc.add(ChangedProductDisplayTitle(value: _titleController.text));
+  void _onDescriptionChanged() {
+    _myFormBloc.add(ChangedProductDisplayDescription(value: _descriptionController.text));
   }
 
 
@@ -329,7 +329,7 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
   void dispose() {
     _documentIDController.dispose();
     _appIdController.dispose();
-    _titleController.dispose();
+    _descriptionController.dispose();
     _addToBasketTextController.dispose();
     super.dispose();
   }

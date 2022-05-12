@@ -38,21 +38,21 @@ import 'package:eliud_core/tools/random.dart';
 class PayConfirmationModel {
   String? documentID;
   String? appId;
-  String? title;
+  String? description;
   ShopModel? shop;
   ActionModel? backToShopAction;
   StorageConditionsModel? conditions;
 
-  PayConfirmationModel({this.documentID, this.appId, this.title, this.shop, this.backToShopAction, this.conditions, })  {
+  PayConfirmationModel({this.documentID, this.appId, this.description, this.shop, this.backToShopAction, this.conditions, })  {
     assert(documentID != null);
   }
 
-  PayConfirmationModel copyWith({String? documentID, String? appId, String? title, ShopModel? shop, ActionModel? backToShopAction, StorageConditionsModel? conditions, }) {
-    return PayConfirmationModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, shop: shop ?? this.shop, backToShopAction: backToShopAction ?? this.backToShopAction, conditions: conditions ?? this.conditions, );
+  PayConfirmationModel copyWith({String? documentID, String? appId, String? description, ShopModel? shop, ActionModel? backToShopAction, StorageConditionsModel? conditions, }) {
+    return PayConfirmationModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, description: description ?? this.description, shop: shop ?? this.shop, backToShopAction: backToShopAction ?? this.backToShopAction, conditions: conditions ?? this.conditions, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ shop.hashCode ^ backToShopAction.hashCode ^ conditions.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ description.hashCode ^ shop.hashCode ^ backToShopAction.hashCode ^ conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -61,20 +61,20 @@ class PayConfirmationModel {
           runtimeType == other.runtimeType && 
           documentID == other.documentID &&
           appId == other.appId &&
-          title == other.title &&
+          description == other.description &&
           shop == other.shop &&
           backToShopAction == other.backToShopAction &&
           conditions == other.conditions;
 
   @override
   String toString() {
-    return 'PayConfirmationModel{documentID: $documentID, appId: $appId, title: $title, shop: $shop, backToShopAction: $backToShopAction, conditions: $conditions}';
+    return 'PayConfirmationModel{documentID: $documentID, appId: $appId, description: $description, shop: $shop, backToShopAction: $backToShopAction, conditions: $conditions}';
   }
 
   PayConfirmationEntity toEntity({String? appId}) {
     return PayConfirmationEntity(
           appId: (appId != null) ? appId : null, 
-          title: (title != null) ? title : null, 
+          description: (description != null) ? description : null, 
           shopId: (shop != null) ? shop!.documentID : null, 
           backToShopAction: (backToShopAction != null) ? backToShopAction!.toEntity(appId: appId) : null, 
           conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
@@ -87,7 +87,7 @@ class PayConfirmationModel {
     return PayConfirmationModel(
           documentID: documentID, 
           appId: entity.appId, 
-          title: entity.title, 
+          description: entity.description, 
           backToShopAction: 
             await ActionModel.fromEntity(entity.backToShopAction), 
           conditions: 
@@ -113,7 +113,7 @@ class PayConfirmationModel {
     return PayConfirmationModel(
           documentID: documentID, 
           appId: entity.appId, 
-          title: entity.title, 
+          description: entity.description, 
           shop: shopHolder, 
           backToShopAction: 
             await ActionModel.fromEntityPlus(entity.backToShopAction, appId: appId), 

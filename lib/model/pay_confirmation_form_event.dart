@@ -83,16 +83,16 @@ class ChangedPayConfirmationAppId extends PayConfirmationFormEvent {
   String toString() => 'ChangedPayConfirmationAppId{ value: $value }';
 }
 
-class ChangedPayConfirmationTitle extends PayConfirmationFormEvent {
+class ChangedPayConfirmationDescription extends PayConfirmationFormEvent {
   final String? value;
 
-  ChangedPayConfirmationTitle({this.value});
+  ChangedPayConfirmationDescription({this.value});
 
   @override
   List<Object?> get props => [ value ];
 
   @override
-  String toString() => 'ChangedPayConfirmationTitle{ value: $value }';
+  String toString() => 'ChangedPayConfirmationDescription{ value: $value }';
 }
 
 class ChangedPayConfirmationShop extends PayConfirmationFormEvent {

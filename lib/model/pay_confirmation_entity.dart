@@ -24,19 +24,19 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 class PayConfirmationEntity {
   final String? appId;
-  final String? title;
+  final String? description;
   final String? shopId;
   final ActionEntity? backToShopAction;
   final StorageConditionsEntity? conditions;
 
-  PayConfirmationEntity({this.appId, this.title, this.shopId, this.backToShopAction, this.conditions, });
+  PayConfirmationEntity({this.appId, this.description, this.shopId, this.backToShopAction, this.conditions, });
 
 
-  List<Object?> get props => [appId, title, shopId, backToShopAction, conditions, ];
+  List<Object?> get props => [appId, description, shopId, backToShopAction, conditions, ];
 
   @override
   String toString() {
-    return 'PayConfirmationEntity{appId: $appId, title: $title, shopId: $shopId, backToShopAction: $backToShopAction, conditions: $conditions}';
+    return 'PayConfirmationEntity{appId: $appId, description: $description, shopId: $shopId, backToShopAction: $backToShopAction, conditions: $conditions}';
   }
 
   static PayConfirmationEntity? fromMap(Object? o) {
@@ -54,7 +54,7 @@ class PayConfirmationEntity {
 
     return PayConfirmationEntity(
       appId: map['appId'], 
-      title: map['title'], 
+      description: map['description'], 
       shopId: map['shopId'], 
       backToShopAction: backToShopActionFromMap, 
       conditions: conditionsFromMap, 
@@ -72,8 +72,8 @@ class PayConfirmationEntity {
     Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
-    if (title != null) theDocument["title"] = title;
-      else theDocument["title"] = null;
+    if (description != null) theDocument["description"] = description;
+      else theDocument["description"] = null;
     if (shopId != null) theDocument["shopId"] = shopId;
       else theDocument["shopId"] = null;
     if (backToShopAction != null) theDocument["backToShopAction"] = backToShopActionMap;
