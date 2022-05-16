@@ -77,7 +77,7 @@ class CartListUpdated extends CartListEvent {
 }
 
 class CartChangeQuery extends CartListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const CartChangeQuery({ required this.newQuery });
 

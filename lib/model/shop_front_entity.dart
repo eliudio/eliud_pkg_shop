@@ -35,16 +35,17 @@ class ShopFrontEntity {
   final int? scrollDirection;
   final ActionEntity? buyAction;
   final ActionEntity? openProductAction;
+  final EdgeInsetsGeometryEntity? padding;
   final StorageConditionsEntity? conditions;
 
-  ShopFrontEntity({this.appId, this.title, this.description, this.shopId, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackground, this.addToCartColor, this.scrollDirection, this.buyAction, this.openProductAction, this.conditions, });
+  ShopFrontEntity({this.appId, this.title, this.description, this.shopId, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackground, this.addToCartColor, this.scrollDirection, this.buyAction, this.openProductAction, this.padding, this.conditions, });
 
 
-  List<Object?> get props => [appId, title, description, shopId, size, cardElevation, cardAxisSpacing, itemCardBackground, addToCartColor, scrollDirection, buyAction, openProductAction, conditions, ];
+  List<Object?> get props => [appId, title, description, shopId, size, cardElevation, cardAxisSpacing, itemCardBackground, addToCartColor, scrollDirection, buyAction, openProductAction, padding, conditions, ];
 
   @override
   String toString() {
-    return 'ShopFrontEntity{appId: $appId, title: $title, description: $description, shopId: $shopId, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackground: $itemCardBackground, addToCartColor: $addToCartColor, scrollDirection: $scrollDirection, buyAction: $buyAction, openProductAction: $openProductAction, conditions: $conditions}';
+    return 'ShopFrontEntity{appId: $appId, title: $title, description: $description, shopId: $shopId, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackground: $itemCardBackground, addToCartColor: $addToCartColor, scrollDirection: $scrollDirection, buyAction: $buyAction, openProductAction: $openProductAction, padding: $padding, conditions: $conditions}';
   }
 
   static ShopFrontEntity? fromMap(Object? o) {
@@ -67,6 +68,10 @@ class ShopFrontEntity {
     openProductActionFromMap = map['openProductAction'];
     if (openProductActionFromMap != null)
       openProductActionFromMap = ActionEntity.fromMap(openProductActionFromMap);
+    var paddingFromMap;
+    paddingFromMap = map['padding'];
+    if (paddingFromMap != null)
+      paddingFromMap = EdgeInsetsGeometryEntity.fromMap(paddingFromMap);
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
@@ -85,6 +90,7 @@ class ShopFrontEntity {
       scrollDirection: map['scrollDirection'], 
       buyAction: buyActionFromMap, 
       openProductAction: openProductActionFromMap, 
+      padding: paddingFromMap, 
       conditions: conditionsFromMap, 
     );
   }
@@ -101,6 +107,9 @@ class ShopFrontEntity {
         : null;
     final Map<String, dynamic>? openProductActionMap = openProductAction != null 
         ? openProductAction!.toDocument()
+        : null;
+    final Map<String, dynamic>? paddingMap = padding != null 
+        ? padding!.toDocument()
         : null;
     final Map<String, dynamic>? conditionsMap = conditions != null 
         ? conditions!.toDocument()
@@ -131,6 +140,8 @@ class ShopFrontEntity {
       else theDocument["buyAction"] = null;
     if (openProductAction != null) theDocument["openProductAction"] = openProductActionMap;
       else theDocument["openProductAction"] = null;
+    if (padding != null) theDocument["padding"] = paddingMap;
+      else theDocument["padding"] = null;
     if (conditions != null) theDocument["conditions"] = conditionsMap;
       else theDocument["conditions"] = null;
     return theDocument;

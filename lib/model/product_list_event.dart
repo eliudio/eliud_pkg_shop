@@ -77,7 +77,7 @@ class ProductListUpdated extends ProductListEvent {
 }
 
 class ProductChangeQuery extends ProductListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const ProductChangeQuery({ required this.newQuery });
 

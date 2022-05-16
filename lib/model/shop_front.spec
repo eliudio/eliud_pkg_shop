@@ -115,6 +115,11 @@
       "group": "openProductAction"
     },
     {
+      "fieldName": "padding",
+      "fieldType": "EdgeInsetsGeometry",
+      "group": "general"
+    },
+    {
       "fieldName": "conditions",
       "displayName": "Conditions",
       "fieldType": "StorageConditions",

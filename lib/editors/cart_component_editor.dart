@@ -1,6 +1,7 @@
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/storage_conditions_model.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/style/frontend/has_dialog.dart';
@@ -17,16 +18,11 @@ import 'package:eliud_core/tools/widgets/header_widget.dart';
 import 'package:eliud_pkg_shop/editors/widgets/select_shop_widget.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/cart_model.dart';
-import 'package:eliud_pkg_shop/model/shop_list_bloc.dart';
-import 'package:eliud_pkg_shop/model/shop_list_event.dart';
-import 'package:eliud_pkg_shop/model/shop_list_state.dart';
-import 'package:eliud_pkg_shop/model/shop_model.dart';
 import 'package:flutter/material.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_event.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_state.dart';
-
 import 'bloc/cart_bloc.dart';
 
 class CartComponentEditorConstructor extends ComponentEditorConstructor {
@@ -199,16 +195,64 @@ class _CartComponentEditorState extends State<CartComponentEditor> {
                         collapsible: true,
                         collapsed: true,
                         children: [
-                          BackgroundWidget(
-                              app: widget.app,
-                              memberId: memberId,
-                              value: cartState.model.itemDetailBackground!,
-                              label: 'Item Detail Background'),
-                          BackgroundWidget(
-                              app: widget.app,
-                              memberId: memberId,
-                              value: cartState.model.itemImageBackground!,
-                              label: 'Item Image Background'),
+
+                          topicContainer(widget.app, context,
+                              title: 'Item Detail Background',
+                              collapsible: true,
+                              collapsed: true,
+                              children: [
+                                checkboxListTile(
+                                    widget.app,
+                                    context,
+                                    'Item Detail Background?',
+                                    cartState.model.itemDetailBackground !=
+                                        null, (value) {
+                                  setState(() {
+                                    if (value!) {
+                                      cartState.model.itemDetailBackground =
+                                          BackgroundModel();
+                                    } else {
+                                      cartState.model.itemDetailBackground = null;
+                                    }
+                                  });
+                                }),
+                                if (cartState.model.itemDetailBackground !=
+                                    null)
+                                  BackgroundWidget(
+                                      app: widget.app,
+                                      memberId: memberId,
+                                      value: cartState.model.itemDetailBackground!,
+                                      label: 'Item Detail Background'),
+                              ]),
+
+                          topicContainer(widget.app, context,
+                              title: 'Item Image Background',
+                              collapsible: true,
+                              collapsed: true,
+                              children: [
+                                checkboxListTile(
+                                    widget.app,
+                                    context,
+                                    'Item Image Background?',
+                                    cartState.model.itemImageBackground !=
+                                        null, (value) {
+                                  setState(() {
+                                    if (value!) {
+                                      cartState.model.itemImageBackground =
+                                          BackgroundModel();
+                                    } else {
+                                      cartState.model.itemImageBackground = null;
+                                    }
+                                  });
+                                }),
+                                if (cartState.model.itemImageBackground !=
+                                    null)
+                                  BackgroundWidget(
+                                      app: widget.app,
+                                      memberId: memberId,
+                                      value: cartState.model.itemImageBackground!,
+                                      label: 'Item Image Background'),
+                              ]),
                         ]),
                     topicContainer(widget.app, context,
                         title: 'Actions',

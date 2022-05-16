@@ -77,7 +77,7 @@ class OrderOverviewListUpdated extends OrderOverviewListEvent {
 }
 
 class OrderOverviewChangeQuery extends OrderOverviewListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const OrderOverviewChangeQuery({ required this.newQuery });
 

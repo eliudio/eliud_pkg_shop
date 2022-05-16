@@ -77,7 +77,7 @@ class ProductDisplayListUpdated extends ProductDisplayListEvent {
 }
 
 class ProductDisplayChangeQuery extends ProductDisplayListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const ProductDisplayChangeQuery({ required this.newQuery });
 

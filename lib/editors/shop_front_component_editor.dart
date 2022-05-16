@@ -1,6 +1,8 @@
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/model/background_model.dart';
+import 'package:eliud_core/model/edge_insets_geometry_model.dart';
 import 'package:eliud_core/model/storage_conditions_model.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/style/frontend/has_dialog.dart';
@@ -12,6 +14,7 @@ import 'package:eliud_core/tools/component/component_spec.dart';
 import 'package:eliud_core/tools/helpers/parse_helper.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_core/tools/widgets/background_widget.dart';
+import 'package:eliud_core/tools/widgets/background_widgets/edge_insets_geometry_widget.dart';
 import 'package:eliud_core/tools/widgets/background_widgets/style_color_widget.dart';
 import 'package:eliud_core/tools/widgets/condition_simple_widget.dart';
 import 'package:eliud_core/tools/widgets/editor/select_action_widget.dart';
@@ -227,83 +230,133 @@ class _ShopFrontComponentEditorState extends State<ShopFrontComponentEditor> {
                         collapsible: true,
                         collapsed: true,
                         children: [
-                          getListTile(context, widget.app,
-                              leading: Icon(Icons.description),
-                              title: dialogField(
-                                widget.app,
-                                context,
-                                initialValue:
-                                shopFrontState.model.size.toString(),
-                                valueChanged: (value) {
-                                  shopFrontState.model.size =
-                                      double_parse(value);
-                                },
-                                maxLines: 1,
-                                decoration: const InputDecoration(
-                                  hintText: 'Card size',
-                                  labelText: 'Card size',
-                                ),
-                              )),
-                          getListTile(context, widget.app,
-                              leading: Icon(Icons.description),
-                              title: dialogField(
-                                widget.app,
-                                context,
-                                initialValue:
-                                shopFrontState.model.cardElevation.toString(),
-                                valueChanged: (value) {
-                                  shopFrontState.model.cardElevation =
-                                      double_parse(value);
-                                },
-                                maxLines: 1,
-                                decoration: const InputDecoration(
-                                  hintText: 'Card Elevation',
-                                  labelText: 'Card Elevation',
-                                ),
-                              )),
-                          getListTile(context, widget.app,
-                              leading: Icon(Icons.description),
-                              title: dialogField(
-                                widget.app,
-                                context,
-                                initialValue:
-                                shopFrontState.model.cardAxisSpacing.toString(),
-                                valueChanged: (value) {
-                                  shopFrontState.model.cardAxisSpacing =
-                                      double_parse(value);
-                                },
-                                maxLines: 1,
-                                decoration: const InputDecoration(
-                                  hintText: 'Card Axis Spacing',
-                                  labelText: 'Card Axis Spacing',
-                                ),
-                              )),
+                          topicContainer(widget.app, context,
+                              title: 'Card parameters',
+                              collapsible: true,
+                              collapsed: true,
+                              children: [
+                                getListTile(context, widget.app,
+                                    leading: Icon(Icons.description),
+                                    title: dialogField(
+                                      widget.app,
+                                      context,
+                                      initialValue:
+                                          shopFrontState.model.size.toString(),
+                                      valueChanged: (value) {
+                                        shopFrontState.model.size =
+                                            double_parse(value);
+                                      },
+                                      maxLines: 1,
+                                      decoration: const InputDecoration(
+                                        hintText: 'Card size',
+                                        labelText: 'Card size',
+                                      ),
+                                    )),
+                                getListTile(context, widget.app,
+                                    leading: Icon(Icons.description),
+                                    title: dialogField(
+                                      widget.app,
+                                      context,
+                                      initialValue: shopFrontState
+                                          .model.cardElevation
+                                          .toString(),
+                                      valueChanged: (value) {
+                                        shopFrontState.model.cardElevation =
+                                            double_parse(value);
+                                      },
+                                      maxLines: 1,
+                                      decoration: const InputDecoration(
+                                        hintText: 'Card Elevation',
+                                        labelText: 'Card Elevation',
+                                      ),
+                                    )),
+                                getListTile(context, widget.app,
+                                    leading: Icon(Icons.description),
+                                    title: dialogField(
+                                      widget.app,
+                                      context,
+                                      initialValue: shopFrontState
+                                          .model.cardAxisSpacing
+                                          .toString(),
+                                      valueChanged: (value) {
+                                        shopFrontState.model.cardAxisSpacing =
+                                            double_parse(value);
+                                      },
+                                      maxLines: 1,
+                                      decoration: const InputDecoration(
+                                        hintText: 'Card Axis Spacing',
+                                        labelText: 'Card Axis Spacing',
+                                      ),
+                                    )),
+                              ]),
+                          topicContainer(widget.app, context,
+                              title: 'Card Padding',
+                              collapsible: true,
+                              collapsed: true,
+                              children: [
+                                checkboxListTile(widget.app, context, 'With padding',
+                                    shopFrontState.model.padding != null, (value) {
+                                      setState(() {
+                                        if (value!) {
+                                          shopFrontState.model.padding = EdgeInsetsGeometryModel(left: 0, right: 0, top: 0, bottom: 0);
+                                        } else {
+                                          shopFrontState.model.padding = null;
+                                        }
+                                      });
+                                    }),
+                                if (shopFrontState.model.padding != null) EdgeInsetsGeometryWidget(app: widget.app, edgeInsetsGeometryModel: shopFrontState.model.padding!, )
+                              ]),
                           StyleColorWidget(
-                              withContainer: false,
                               app: widget.app,
                               value: shopFrontState.model.addToCartColor!,
                               label: 'Add-to-cart colour'),
+                          topicContainer(widget.app, context,
+                              title: 'Item Card Background',
+                              collapsible: true,
+                              collapsed: true,
+                              children: [
+                                checkboxListTile(
+                                    widget.app,
+                                    context,
+                                    'Item Card Background?',
+                                    shopFrontState.model.itemCardBackground !=
+                                        null, (value) {
+                                  setState(() {
+                                    if (value!) {
+                                      shopFrontState.model.itemCardBackground =
+                                          BackgroundModel();
+                                    } else {
+                                      shopFrontState.model.itemCardBackground =
+                                          null;
+                                    }
+                                  });
+                                }),
+                                if (shopFrontState.model.itemCardBackground !=
+                                    null)
+                                  BackgroundWidget(
+                                      app: widget.app,
+                                      memberId: memberId,
+                                      value: shopFrontState
+                                          .model.itemCardBackground!,
+                                      label: 'Item Card Background'),
+                              ]),
+                          topicContainer(widget.app, context,
+                              title: 'Scroll direction',
+                              collapsible: true,
+                              collapsed: true,
+                              children: [
+                                ScrollDirectionWidget(
+                                    app: widget.app,
+                                    scrollDirectionCallback:
+                                        (ScrollDirection scrollDirection) {
+                                      shopFrontState.model.scrollDirection =
+                                          scrollDirection;
+                                    },
+                                    scrollDirection:
+                                        shopFrontState.model.scrollDirection ??
+                                            ScrollDirection.Horizontal),
+                              ]),
                         ]),
-                    topicContainer(widget.app, context,
-                        title: 'Scroll direction',
-                        collapsible: true,
-                        collapsed: true,
-                        children: [
-                          ScrollDirectionWidget(
-                              app: widget.app,
-                              scrollDirectionCallback:
-                                  (ScrollDirection scrollDirection) {
-                                shopFrontState.model.scrollDirection = scrollDirection;
-                              },
-                              scrollDirection: shopFrontState.model.scrollDirection ??
-                                  ScrollDirection.Horizontal
-                          ),
-                        ]),
-                    BackgroundWidget(
-                        app: widget.app,
-                        memberId: memberId,
-                        value: shopFrontState.model.itemCardBackground!,
-                        label: 'Card Background'),
                     topicContainer(widget.app, context,
                         title: 'Conditions',
                         collapsible: true,

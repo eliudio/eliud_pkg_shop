@@ -77,7 +77,7 @@ class ShopFrontListUpdated extends ShopFrontListEvent {
 }
 
 class ShopFrontChangeQuery extends ShopFrontListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const ShopFrontChangeQuery({ required this.newQuery });
 

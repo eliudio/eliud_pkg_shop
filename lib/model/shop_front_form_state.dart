@@ -271,6 +271,22 @@ class OpenProductActionShopFrontFormError extends ShopFrontFormError {
 }
 
 
+class PaddingShopFrontFormError extends ShopFrontFormError { 
+  const PaddingShopFrontFormError({ String? message, ShopFrontModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''PaddingShopFrontFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class ConditionsShopFrontFormError extends ShopFrontFormError { 
   const ConditionsShopFrontFormError({ String? message, ShopFrontModel? value }): super(message: message, value: value);
 

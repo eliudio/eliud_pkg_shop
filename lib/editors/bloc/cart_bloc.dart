@@ -36,16 +36,12 @@ class CartBloc extends EditorBaseBloc<CartModel> {
       documentID: newRandomKey(),
       description: 'New cart',
       conditions: conditions,
-      itemImageBackground: BackgroundModel(),
-      itemDetailBackground: BackgroundModel(),
     );
   }
 
   @override
   CartModel setDefaultValues(CartModel t, StorageConditionsModel conditions) {
     return t.copyWith(
-        itemImageBackground: t.itemImageBackground ?? BackgroundModel(),
-        itemDetailBackground: t.itemDetailBackground ?? BackgroundModel(),
         conditions: t.conditions ?? conditions);
   }
 }

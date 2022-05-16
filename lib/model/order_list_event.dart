@@ -77,7 +77,7 @@ class OrderListUpdated extends OrderListEvent {
 }
 
 class OrderChangeQuery extends OrderListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const OrderChangeQuery({ required this.newQuery });
 

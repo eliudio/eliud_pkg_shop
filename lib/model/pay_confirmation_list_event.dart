@@ -77,7 +77,7 @@ class PayConfirmationListUpdated extends PayConfirmationListEvent {
 }
 
 class PayConfirmationChangeQuery extends PayConfirmationListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const PayConfirmationChangeQuery({ required this.newQuery });
 

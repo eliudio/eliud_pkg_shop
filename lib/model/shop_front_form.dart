@@ -236,6 +236,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
           );
 
 
+
         children.add(Container(height: 20.0));
         children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
@@ -392,6 +393,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
                               scrollDirection: state.value!.scrollDirection, 
                               buyAction: state.value!.buyAction, 
                               openProductAction: state.value!.openProductAction, 
+                              padding: state.value!.padding, 
                               conditions: state.value!.conditions, 
                         )));
                       } else {
@@ -410,6 +412,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
                               scrollDirection: state.value!.scrollDirection, 
                               buyAction: state.value!.buyAction, 
                               openProductAction: state.value!.openProductAction, 
+                              padding: state.value!.padding, 
                               conditions: state.value!.conditions, 
                           )));
                       }

@@ -215,6 +215,18 @@ class ChangedShopFrontOpenProductAction extends ShopFrontFormEvent {
   String toString() => 'ChangedShopFrontOpenProductAction{ value: $value }';
 }
 
+class ChangedShopFrontPadding extends ShopFrontFormEvent {
+  final EdgeInsetsGeometryModel? value;
+
+  ChangedShopFrontPadding({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedShopFrontPadding{ value: $value }';
+}
+
 class ChangedShopFrontConditions extends ShopFrontFormEvent {
   final StorageConditionsModel? value;
 

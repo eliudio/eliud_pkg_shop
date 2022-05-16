@@ -77,7 +77,7 @@ class ShopListUpdated extends ShopListEvent {
 }
 
 class ShopChangeQuery extends ShopListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const ShopChangeQuery({ required this.newQuery });
 

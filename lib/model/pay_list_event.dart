@@ -77,7 +77,7 @@ class PayListUpdated extends PayListEvent {
 }
 
 class PayChangeQuery extends PayListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const PayChangeQuery({ required this.newQuery });
 
