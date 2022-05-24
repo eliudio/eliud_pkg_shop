@@ -38,9 +38,47 @@ class PayListBloc extends Bloc<PayListEvent, PayListState> {
   PayListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PayRepository payRepository, this.payLimit = 5})
       : assert(payRepository != null),
         _payRepository = payRepository,
-        super(PayListLoading());
+        super(PayListLoading()) {
+    on <LoadPayList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadPayListToState();
+      } else {
+        _mapLoadPayListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadPayListWithDetailsToState();
+    });
+    
+    on <PayChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadPayListToState();
+      } else {
+        _mapLoadPayListWithDetailsToState();
+      }
+    });
+      
+    on <AddPayList> ((event, emit) async {
+      await _mapAddPayListToState(event);
+    });
+    
+    on <UpdatePayList> ((event, emit) async {
+      await _mapUpdatePayListToState(event);
+    });
+    
+    on <DeletePayList> ((event, emit) async {
+      await _mapDeletePayListToState(event);
+    });
+    
+    on <PayListUpdated> ((event, emit) {
+      emit(_mapPayListUpdatedToState(event));
+    });
+  }
 
-  Stream<PayListState> _mapLoadPayListToState() async* {
+  Future<void> _mapLoadPayListToState() async {
     int amountNow =  (state is PayListLoaded) ? (state as PayListLoaded).values!.length : 0;
     _paysListSubscription?.cancel();
     _paysListSubscription = _payRepository.listen(
@@ -52,7 +90,7 @@ class PayListBloc extends Bloc<PayListEvent, PayListState> {
     );
   }
 
-  Stream<PayListState> _mapLoadPayListWithDetailsToState() async* {
+  Future<void> _mapLoadPayListWithDetailsToState() async {
     int amountNow =  (state is PayListLoaded) ? (state as PayListLoaded).values!.length : 0;
     _paysListSubscription?.cancel();
     _paysListSubscription = _payRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class PayListBloc extends Bloc<PayListEvent, PayListState> {
     );
   }
 
-  Stream<PayListState> _mapAddPayListToState(AddPayList event) async* {
+  Future<void> _mapAddPayListToState(AddPayList event) async {
     var value = event.value;
-    if (value != null) 
-      _payRepository.add(value);
-  }
-
-  Stream<PayListState> _mapUpdatePayListToState(UpdatePayList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _payRepository.update(value);
-  }
-
-  Stream<PayListState> _mapDeletePayListToState(DeletePayList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _payRepository.delete(value);
-  }
-
-  Stream<PayListState> _mapPayListUpdatedToState(
-      PayListUpdated event) async* {
-    yield PayListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<PayListState> mapEventToState(PayListEvent event) async* {
-    if (event is LoadPayList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadPayListToState();
-      } else {
-        yield* _mapLoadPayListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadPayListWithDetailsToState();
-    } else if (event is PayChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadPayListToState();
-      } else {
-        yield* _mapLoadPayListWithDetailsToState();
-      }
-    } else if (event is AddPayList) {
-      yield* _mapAddPayListToState(event);
-    } else if (event is UpdatePayList) {
-      yield* _mapUpdatePayListToState(event);
-    } else if (event is DeletePayList) {
-      yield* _mapDeletePayListToState(event);
-    } else if (event is PayListUpdated) {
-      yield* _mapPayListUpdatedToState(event);
+    if (value != null) {
+      await _payRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdatePayListToState(UpdatePayList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _payRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeletePayListToState(DeletePayList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _payRepository.delete(value);
+    }
+  }
+
+  PayListLoaded _mapPayListUpdatedToState(
+      PayListUpdated event) => PayListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

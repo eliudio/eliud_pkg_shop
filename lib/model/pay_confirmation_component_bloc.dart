@@ -27,23 +27,22 @@ class PayConfirmationComponentBloc extends Bloc<PayConfirmationComponentEvent, P
   final PayConfirmationRepository? payConfirmationRepository;
   StreamSubscription? _payConfirmationSubscription;
 
-  Stream<PayConfirmationComponentState> _mapLoadPayConfirmationComponentUpdateToState(String documentId) async* {
+  void _mapLoadPayConfirmationComponentUpdateToState(String documentId) {
     _payConfirmationSubscription?.cancel();
     _payConfirmationSubscription = payConfirmationRepository!.listenTo(documentId, (value) {
-      if (value != null) add(PayConfirmationComponentUpdated(value: value));
+      if (value != null) {
+        add(PayConfirmationComponentUpdated(value: value));
+      }
     });
   }
 
-  PayConfirmationComponentBloc({ this.payConfirmationRepository }): super(PayConfirmationComponentUninitialized());
-
-  @override
-  Stream<PayConfirmationComponentState> mapEventToState(PayConfirmationComponentEvent event) async* {
-    final currentState = state;
-    if (event is FetchPayConfirmationComponent) {
-      yield* _mapLoadPayConfirmationComponentUpdateToState(event.id!);
-    } else if (event is PayConfirmationComponentUpdated) {
-      yield PayConfirmationComponentLoaded(value: event.value);
-    }
+  PayConfirmationComponentBloc({ this.payConfirmationRepository }): super(PayConfirmationComponentUninitialized()) {
+    on <FetchPayConfirmationComponent> ((event, emit) {
+      _mapLoadPayConfirmationComponentUpdateToState(event.id!);
+    });
+    on <PayConfirmationComponentUpdated> ((event, emit) {
+      emit(PayConfirmationComponentLoaded(value: event.value));
+    });
   }
 
   @override

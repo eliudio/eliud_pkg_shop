@@ -51,76 +51,57 @@ class PayFormBloc extends Bloc<PayFormEvent, PayFormState> {
   Stream<PayFormState> mapEventToState(PayFormEvent event) async* {
     final currentState = state;
     if (currentState is PayFormUninitialized) {
-      if (event is InitialiseNewPayFormEvent) {
+      on <InitialiseNewPayFormEvent> ((event, emit) {
         PayFormLoaded loaded = PayFormLoaded(value: PayModel(
                                                documentID: "",
                                  appId: "",
                                  description: "",
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialisePayFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
         PayFormLoaded loaded = PayFormLoaded(value: await payRepository(appId: appId)!.get(event.value!.documentID));
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialisePayFormNoLoadEvent) {
         PayFormLoaded loaded = PayFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is PayFormInitialized) {
       PayModel? newValue = null;
-      if (event is ChangedPayDocumentID) {
+      on <ChangedPayDocumentID> ((event, emit) async {
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          emit(await _isDocumentIDValid(event.value, newValue!));
         } else {
-          yield SubmittablePayForm(value: newValue);
+          emit(SubmittablePayForm(value: newValue));
         }
 
-        return;
-      }
-      if (event is ChangedPayDescription) {
+      });
+      on <ChangedPayDescription> ((event, emit) async {
         newValue = currentState.value!.copyWith(description: event.value);
-        yield SubmittablePayForm(value: newValue);
+        emit(SubmittablePayForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPaySucceeded) {
+      });
+      on <ChangedPaySucceeded> ((event, emit) async {
         newValue = currentState.value!.copyWith(succeeded: event.value);
-        yield SubmittablePayForm(value: newValue);
+        emit(SubmittablePayForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPayShop) {
+      });
+      on <ChangedPayShop> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new PayModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 description: currentState.value!.description,
-                                 succeeded: currentState.value!.succeeded,
-                                 payAction: currentState.value!.payAction,
-                                 shop: null,
-                                 conditions: currentState.value!.conditions,
-          );
-        yield SubmittablePayForm(value: newValue);
+        emit(SubmittablePayForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPayConditions) {
+      });
+      on <ChangedPayConditions> ((event, emit) async {
         newValue = currentState.value!.copyWith(conditions: event.value);
-        yield SubmittablePayForm(value: newValue);
+        emit(SubmittablePayForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

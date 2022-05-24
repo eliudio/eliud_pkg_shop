@@ -69,7 +69,7 @@ class ShopForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<ShopFormBloc >(
             create: (context) => ShopFormBloc(appId,
@@ -288,7 +288,7 @@ class _MyShopFormState extends State<MyShopForm> {
   }
 
   bool _readOnly(AccessState accessState, ShopFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID));
   }
   
 

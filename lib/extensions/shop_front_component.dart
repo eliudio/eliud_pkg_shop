@@ -24,7 +24,7 @@ class ShopFrontComponentConstructorDefault implements ComponentConstructor {
   }
 
   @override
-  Future<dynamic> getModel({required AppModel app, required String id}) async => await shopFrontRepository(appId: app.documentID!)!.get(id);
+  Future<dynamic> getModel({required AppModel app, required String id}) async => await shopFrontRepository(appId: app.documentID)!.get(id);
 }
 
 class ShopFrontBase extends AbstractShopFrontComponent {
@@ -36,9 +36,9 @@ class ShopFrontBase extends AbstractShopFrontComponent {
       create: (context) => ProductListBloc(
         detailed: true,
         eliudQuery: EliudQuery(theConditions: [
-          EliudQueryCondition('shopId', isEqualTo: value.shop!.documentID!),
+          EliudQueryCondition('shopId', isEqualTo: value.shop!.documentID),
         ]),
-        productRepository: productRepository(appId: app.documentID!)!,
+        productRepository: productRepository(appId: app.documentID)!,
       )..add(LoadProductList()),
     child: GridProducts(app: app, shopFrontModel: value));
   }

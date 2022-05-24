@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -35,9 +36,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 
-class ProductDisplayModel {
-  String? documentID;
-  String? appId;
+class ProductDisplayModel implements ModelBase, WithAppId {
+  String documentID;
+  String appId;
   String? description;
   BackgroundModel? itemDetailBackground;
   String? addToBasketText;
@@ -45,7 +46,7 @@ class ProductDisplayModel {
   ShopModel? shop;
   StorageConditionsModel? conditions;
 
-  ProductDisplayModel({this.documentID, this.appId, this.description, this.itemDetailBackground, this.addToBasketText, this.buyAction, this.shop, this.conditions, })  {
+  ProductDisplayModel({required this.documentID, required this.appId, this.description, this.itemDetailBackground, this.addToBasketText, this.buyAction, this.shop, this.conditions, })  {
     assert(documentID != null);
   }
 
@@ -92,7 +93,7 @@ class ProductDisplayModel {
     var counter = 0;
     return ProductDisplayModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           description: entity.description, 
           itemDetailBackground: 
             await BackgroundModel.fromEntity(entity.itemDetailBackground), 
@@ -121,7 +122,7 @@ class ProductDisplayModel {
     var counter = 0;
     return ProductDisplayModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           description: entity.description, 
           itemDetailBackground: 
             await BackgroundModel.fromEntityPlus(entity.itemDetailBackground, appId: appId), 

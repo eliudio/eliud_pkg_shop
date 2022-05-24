@@ -38,9 +38,47 @@ class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
   ShopListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ShopRepository shopRepository, this.shopLimit = 5})
       : assert(shopRepository != null),
         _shopRepository = shopRepository,
-        super(ShopListLoading());
+        super(ShopListLoading()) {
+    on <LoadShopList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadShopListToState();
+      } else {
+        _mapLoadShopListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadShopListWithDetailsToState();
+    });
+    
+    on <ShopChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadShopListToState();
+      } else {
+        _mapLoadShopListWithDetailsToState();
+      }
+    });
+      
+    on <AddShopList> ((event, emit) async {
+      await _mapAddShopListToState(event);
+    });
+    
+    on <UpdateShopList> ((event, emit) async {
+      await _mapUpdateShopListToState(event);
+    });
+    
+    on <DeleteShopList> ((event, emit) async {
+      await _mapDeleteShopListToState(event);
+    });
+    
+    on <ShopListUpdated> ((event, emit) {
+      emit(_mapShopListUpdatedToState(event));
+    });
+  }
 
-  Stream<ShopListState> _mapLoadShopListToState() async* {
+  Future<void> _mapLoadShopListToState() async {
     int amountNow =  (state is ShopListLoaded) ? (state as ShopListLoaded).values!.length : 0;
     _shopsListSubscription?.cancel();
     _shopsListSubscription = _shopRepository.listen(
@@ -52,7 +90,7 @@ class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
     );
   }
 
-  Stream<ShopListState> _mapLoadShopListWithDetailsToState() async* {
+  Future<void> _mapLoadShopListWithDetailsToState() async {
     int amountNow =  (state is ShopListLoaded) ? (state as ShopListLoaded).values!.length : 0;
     _shopsListSubscription?.cancel();
     _shopsListSubscription = _shopRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
     );
   }
 
-  Stream<ShopListState> _mapAddShopListToState(AddShopList event) async* {
+  Future<void> _mapAddShopListToState(AddShopList event) async {
     var value = event.value;
-    if (value != null) 
-      _shopRepository.add(value);
-  }
-
-  Stream<ShopListState> _mapUpdateShopListToState(UpdateShopList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _shopRepository.update(value);
-  }
-
-  Stream<ShopListState> _mapDeleteShopListToState(DeleteShopList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _shopRepository.delete(value);
-  }
-
-  Stream<ShopListState> _mapShopListUpdatedToState(
-      ShopListUpdated event) async* {
-    yield ShopListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<ShopListState> mapEventToState(ShopListEvent event) async* {
-    if (event is LoadShopList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadShopListToState();
-      } else {
-        yield* _mapLoadShopListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadShopListWithDetailsToState();
-    } else if (event is ShopChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadShopListToState();
-      } else {
-        yield* _mapLoadShopListWithDetailsToState();
-      }
-    } else if (event is AddShopList) {
-      yield* _mapAddShopListToState(event);
-    } else if (event is UpdateShopList) {
-      yield* _mapUpdateShopListToState(event);
-    } else if (event is DeleteShopList) {
-      yield* _mapDeleteShopListToState(event);
-    } else if (event is ShopListUpdated) {
-      yield* _mapShopListUpdatedToState(event);
+    if (value != null) {
+      await _shopRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdateShopListToState(UpdateShopList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _shopRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeleteShopListToState(DeleteShopList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _shopRepository.delete(value);
+    }
+  }
+
+  ShopListLoaded _mapShopListUpdatedToState(
+      ShopListUpdated event) => ShopListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

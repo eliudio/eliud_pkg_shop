@@ -22,7 +22,7 @@ class OrderOverviewComponentConstructorDefault implements ComponentConstructor {
   }
 
   @override
-  Future<dynamic> getModel({required AppModel app, required String id}) async => await orderOverviewRepository(appId: app.documentID!)!.get(id);
+  Future<dynamic> getModel({required AppModel app, required String id}) async => await orderOverviewRepository(appId: app.documentID)!.get(id);
 }
 
 class OrderOverviewComponent extends AbstractOrderOverviewComponent {
@@ -33,12 +33,12 @@ class OrderOverviewComponent extends AbstractOrderOverviewComponent {
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (context, accessState) {
           if (accessState is AccessDetermined) {
-            if (accessState.memberIsOwner(app.documentID!)) {
+            if (accessState.memberIsOwner(app.documentID)) {
               // allow owner of the app to see ALL orders and update shipment details
               return BlocProvider<OrderListBloc>(
                 create: (context) =>
                 OrderListBloc(
-                  orderRepository: AbstractRepositorySingleton.singleton.orderRepository(app.documentID!)!,
+                  orderRepository: AbstractRepositorySingleton.singleton.orderRepository(app.documentID)!,
                 )
                   ..add(LoadOrderList()),
                 child: OrderListWidget(app: app, readOnly: false, form: 'OrderShipmentForm'),
@@ -49,7 +49,7 @@ class OrderOverviewComponent extends AbstractOrderOverviewComponent {
                 create: (context) =>
                 OrderListBloc(
                   orderRepository: AbstractRepositorySingleton.singleton
-                      .orderRepository(app.documentID!)!,
+                      .orderRepository(app.documentID)!,
                 )
                   ..add(LoadOrderList()),
                 child: OrderListWidget(app: app, readOnly: true),

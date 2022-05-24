@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -35,9 +36,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 
-class PayModel {
-  String? documentID;
-  String? appId;
+class PayModel implements ModelBase, WithAppId {
+  String documentID;
+  String appId;
   String? description;
   ActionModel? succeeded;
 
@@ -46,7 +47,7 @@ class PayModel {
   ShopModel? shop;
   StorageConditionsModel? conditions;
 
-  PayModel({this.documentID, this.appId, this.description, this.succeeded, this.payAction, this.shop, this.conditions, })  {
+  PayModel({required this.documentID, required this.appId, this.description, this.succeeded, this.payAction, this.shop, this.conditions, })  {
     assert(documentID != null);
   }
 
@@ -91,7 +92,7 @@ class PayModel {
     var counter = 0;
     return PayModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           description: entity.description, 
           succeeded: 
             await ActionModel.fromEntity(entity.succeeded), 
@@ -119,7 +120,7 @@ class PayModel {
     var counter = 0;
     return PayModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           description: entity.description, 
           succeeded: 
             await ActionModel.fromEntityPlus(entity.succeeded, appId: appId), 

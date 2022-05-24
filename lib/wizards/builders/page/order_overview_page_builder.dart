@@ -20,7 +20,7 @@ class OrderOverviewPageBuilder extends AbstractPageTemplate {
   OrderOverviewModel _orderOverview() {
     return OrderOverviewModel(
       documentID: constructDocumentId(uniqueId: uniqueId, documentId: 'orders'),
-      appId: app.documentID!,
+      appId: app.documentID,
       description: pageTitle(),
       shop: shop,
       itemImageBackground: null,

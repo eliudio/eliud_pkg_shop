@@ -27,23 +27,22 @@ class OrderOverviewComponentBloc extends Bloc<OrderOverviewComponentEvent, Order
   final OrderOverviewRepository? orderOverviewRepository;
   StreamSubscription? _orderOverviewSubscription;
 
-  Stream<OrderOverviewComponentState> _mapLoadOrderOverviewComponentUpdateToState(String documentId) async* {
+  void _mapLoadOrderOverviewComponentUpdateToState(String documentId) {
     _orderOverviewSubscription?.cancel();
     _orderOverviewSubscription = orderOverviewRepository!.listenTo(documentId, (value) {
-      if (value != null) add(OrderOverviewComponentUpdated(value: value));
+      if (value != null) {
+        add(OrderOverviewComponentUpdated(value: value));
+      }
     });
   }
 
-  OrderOverviewComponentBloc({ this.orderOverviewRepository }): super(OrderOverviewComponentUninitialized());
-
-  @override
-  Stream<OrderOverviewComponentState> mapEventToState(OrderOverviewComponentEvent event) async* {
-    final currentState = state;
-    if (event is FetchOrderOverviewComponent) {
-      yield* _mapLoadOrderOverviewComponentUpdateToState(event.id!);
-    } else if (event is OrderOverviewComponentUpdated) {
-      yield OrderOverviewComponentLoaded(value: event.value);
-    }
+  OrderOverviewComponentBloc({ this.orderOverviewRepository }): super(OrderOverviewComponentUninitialized()) {
+    on <FetchOrderOverviewComponent> ((event, emit) {
+      _mapLoadOrderOverviewComponentUpdateToState(event.id!);
+    });
+    on <OrderOverviewComponentUpdated> ((event, emit) {
+      emit(OrderOverviewComponentLoaded(value: event.value));
+    });
   }
 
   @override

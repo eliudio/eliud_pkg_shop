@@ -16,6 +16,7 @@
 import 'package:collection/collection.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -36,9 +37,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 
-class ProductModel {
-  String? documentID;
-  String? appId;
+class ProductModel implements ModelBase, WithAppId {
+  String documentID;
+  String appId;
   String? title;
   String? about;
   double? price;
@@ -47,7 +48,7 @@ class ProductModel {
   List<ProductImageModel>? images;
   PosSizeModel? posSize;
 
-  ProductModel({this.documentID, this.appId, this.title, this.about, this.price, this.weight, this.shop, this.images, this.posSize, })  {
+  ProductModel({required this.documentID, required this.appId, this.title, this.about, this.price, this.weight, this.shop, this.images, this.posSize, })  {
     assert(documentID != null);
   }
 
@@ -100,7 +101,7 @@ class ProductModel {
     var counter = 0;
     return ProductModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           title: entity.title, 
           about: entity.about, 
           price: entity.price, 
@@ -134,7 +135,7 @@ class ProductModel {
     var counter = 0;
     return ProductModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           title: entity.title, 
           about: entity.about, 
           price: entity.price, 

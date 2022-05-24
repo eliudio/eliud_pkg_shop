@@ -95,7 +95,7 @@ class _ProductImageModelWidgetState extends State<ProductImageModelWidget> {
             getListTile(context, widget.app,
                 leading: Icon(Icons.vpn_key),
                 title: text(
-                    widget.app, context, widget.tutorialEntryModel.documentID!)),
+                    widget.app, context, widget.tutorialEntryModel.documentID)),
           ]),
       if (widget.tutorialEntryModel.image != null) PlatformMediumWidget(app: widget.app, platformMediumModel: widget.tutorialEntryModel.image!)
     ]);

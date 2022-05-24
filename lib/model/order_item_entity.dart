@@ -27,7 +27,7 @@ class OrderItemEntity {
   final double? soldPrice;
   final String? productId;
 
-  OrderItemEntity({this.amount, this.appId, this.soldPrice, this.productId, });
+  OrderItemEntity({this.amount, required this.appId, this.soldPrice, this.productId, });
 
 
   List<Object?> get props => [amount, appId, soldPrice, productId, ];

@@ -51,7 +51,7 @@ class ShopDashboard {
     openComplexDialog(
       app,
       context,
-      app.documentID! + '/shop',
+      app.documentID + '/shop',
       title: create
           ? 'Create Shop'
           : 'Update Shop',
@@ -59,7 +59,7 @@ class ShopDashboard {
       widthFraction: .9,
       child: BlocProvider<ShopDashboardBloc>(
           create: (context) => ShopDashboardBloc(
-                app.documentID!,
+                app.documentID,
                 (_) {},
               )..add(ShopDashboardInitialise(model)),
           child: ShopDashboardWidget(
@@ -119,7 +119,7 @@ class _ShopDashboardWidgetState
                         getListTile(context, widget.app,
                             leading: Icon(Icons.vpn_key),
                             title: text(widget.app, context,
-                                shopState.shop.documentID!)),
+                                shopState.shop.documentID)),
                         getListTile(context, widget.app,
                             leading: Icon(Icons.description),
                             title: dialogField(
@@ -230,7 +230,7 @@ class _ShopDashboardWidgetState
                           if (selectedValue == 1) {
                             ProductDashboard.updateProduct(widget.app, context, state.shop, value);
                           } else if (selectedValue == 2) {
-                            productRepository(appId: widget.app.documentID!)!.delete(value);
+                            productRepository(appId: widget.app.documentID)!.delete(value);
                           }
                         }),
                   );

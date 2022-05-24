@@ -58,11 +58,11 @@ class ProductDisplayComponentEditorConstructor
   void updateComponentWithID(AppModel app, BuildContext context, String id,
       EditorFeedback feedback) async {
     var productDisplay =
-        await productDisplayRepository(appId: app.documentID!)!.get(id);
+        await productDisplayRepository(appId: app.documentID)!.get(id);
     if (productDisplay != null) {
       _openIt(app, context, false, productDisplay, feedback);
     } else {
-      openErrorDialog(app, context, app.documentID! + '/_error',
+      openErrorDialog(app, context, app.documentID + '/_error',
           title: 'Error',
           errorMessage: 'Cannot find notification dashboard with id $id');
     }
@@ -73,7 +73,7 @@ class ProductDisplayComponentEditorConstructor
     openComplexDialog(
       app,
       context,
-      app.documentID! + '/notificationdashboard',
+      app.documentID + '/notificationdashboard',
       title: create
           ? 'Create Notification Dashboard'
           : 'Update Notification Dashboard',
@@ -81,7 +81,7 @@ class ProductDisplayComponentEditorConstructor
       widthFraction: .9,
       child: BlocProvider<ProductDisplayBloc>(
           create: (context) => ProductDisplayBloc(
-                app.documentID!,
+                app.documentID,
                 /*create,
             */
                 feedback,
@@ -140,7 +140,7 @@ class _ProductDisplayComponentEditorState
       if (accessState is AccessDetermined) {
         var member = accessState.getMember();
         if (member != null) {
-          var memberId = member.documentID!;
+          var memberId = member.documentID;
           return BlocBuilder<ProductDisplayBloc,
               EditorBaseState<ProductDisplayModel>>(
               builder: (ppContext, productDisplayState) {
@@ -172,7 +172,7 @@ class _ProductDisplayComponentEditorState
                               getListTile(context, widget.app,
                                   leading: Icon(Icons.vpn_key),
                                   title: text(widget.app, context,
-                                      productDisplayState.model.documentID!)),
+                                      productDisplayState.model.documentID)),
                               getListTile(context, widget.app,
                                   leading: Icon(Icons.description),
                                   title: dialogField(

@@ -55,11 +55,11 @@ class PayComponentEditorConstructor
   void updateComponentWithID(AppModel app, BuildContext context, String id,
       EditorFeedback feedback) async {
     var pay =
-        await payRepository(appId: app.documentID!)!.get(id);
+        await payRepository(appId: app.documentID)!.get(id);
     if (pay != null) {
       _openIt(app, context, false, pay, feedback);
     } else {
-      openErrorDialog(app, context, app.documentID! + '/_error',
+      openErrorDialog(app, context, app.documentID + '/_error',
           title: 'Error',
           errorMessage: 'Cannot find notification dashboard with id $id');
     }
@@ -70,7 +70,7 @@ class PayComponentEditorConstructor
     openComplexDialog(
       app,
       context,
-      app.documentID! + '/notificationdashboard',
+      app.documentID + '/notificationdashboard',
       title: create
           ? 'Create Notification Dashboard'
           : 'Update Notification Dashboard',
@@ -78,7 +78,7 @@ class PayComponentEditorConstructor
       widthFraction: .9,
       child: BlocProvider<PayBloc>(
           create: (context) => PayBloc(
-                app.documentID!,
+                app.documentID,
                 /*create,
             */
                 feedback,
@@ -135,7 +135,7 @@ class _PayComponentEditorState
       if (accessState is AccessDetermined) {
         var member = accessState.getMember();
         if (member != null) {
-          var memberId = member.documentID!;
+          var memberId = member.documentID;
           return BlocBuilder<PayBloc,
               EditorBaseState<PayModel>>(
               builder: (ppContext, payState) {
@@ -167,7 +167,7 @@ class _PayComponentEditorState
                               getListTile(context, widget.app,
                                   leading: Icon(Icons.vpn_key),
                                   title: text(widget.app, context,
-                                      payState.model.documentID!)),
+                                      payState.model.documentID)),
                               getListTile(context, widget.app,
                                   leading: Icon(Icons.description),
                                   title: dialogField(

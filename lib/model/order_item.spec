@@ -20,6 +20,7 @@
   "fields": [
     {
       "fieldName": "documentID",
+      "required": true,
       "displayName": "Document ID",
       "fieldType": "String",
       "group": "general",
@@ -35,6 +36,7 @@
     },
     {
       "fieldName": "appId",
+      "required": true,
       "displayName": "App ID",
       "fieldType": "String",
       "group": "app"

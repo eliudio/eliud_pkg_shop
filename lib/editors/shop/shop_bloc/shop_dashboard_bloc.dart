@@ -11,13 +11,11 @@ import 'package:eliud_pkg_shop/model/shop_model.dart';
 import 'shop_dashboard_event.dart';
 import 'shop_dashboard_state.dart';
 
-class ShopDashboardBloc extends Bloc<ShopDashboardBaseEvent, ShopDashboardBaseState> {
+class ShopDashboardBloc
+    extends Bloc<ShopDashboardBaseEvent, ShopDashboardBaseState> {
   final String appId;
   final EditorFeedback feedback;
   StreamSubscription? _productSubscription;
-
-  ShopDashboardBloc(this.appId, this.feedback)
-      : super(ShopDashboardUninitialised());
 
   ShopModel addItem(ShopModel model, ProductModel newItem) {
     productRepository(appId: appId)!.add(newItem);
@@ -36,54 +34,55 @@ class ShopDashboardBloc extends Bloc<ShopDashboardBaseEvent, ShopDashboardBaseSt
   void _loadProducts(String shopId) async {
     await _productSubscription?.cancel();
     _productSubscription = productRepository(appId: appId)!.listenWithDetails(
-            (list) {
-              add(ProductListUpdated(list.map((e) => e!).toList()));
-            },
-        eliudQuery: EliudQuery(theConditions: [
-          EliudQueryCondition('shopId', isEqualTo: shopId),
-        ]),
+      (list) {
+        add(ProductListUpdated(list.map((e) => e!).toList()));
+      },
+      eliudQuery: EliudQuery(theConditions: [
+        EliudQueryCondition('shopId', isEqualTo: shopId),
+      ]),
     );
   }
 
-  @override
-  Stream<ShopDashboardBaseState> mapEventToState(
-      ShopDashboardBaseEvent event) async* {
-    if (event is ShopDashboardInitialise) {
+  ShopDashboardBloc(this.appId, this.feedback)
+      : super(ShopDashboardUninitialised()) {
+    on<ShopDashboardInitialise>((event, emit) async {
       // retrieve the model, as it was retrieved without links
-      var modelWithLinks = await shopRepository(appId: appId)!
-          .get(event.model.documentID);
+      var modelWithLinks =
+          await shopRepository(appId: appId)!.get(event.model.documentID);
       if (modelWithLinks == null) {
         var shopId = newRandomKey();
-        modelWithLinks =
-            ShopModel(documentID: shopId, description: 'new shop');
+        modelWithLinks = ShopModel(
+            appId: appId, documentID: shopId, description: 'new shop');
       }
-      _loadProducts(modelWithLinks.documentID!);
-      yield ShopDashboardLoaded(
+      _loadProducts(modelWithLinks.documentID);
+      emit(ShopDashboardLoaded(
         shop: modelWithLinks,
-      );
-    }
-    if (state is ShopDashboardInitialised) {
-      var theState = state as ShopDashboardInitialised;
-      if (event is ProductListUpdated) {
-        yield ShopDashboardLoaded(
-            shop: theState.shop,
-            values: event.values
-        );
-      } else if (event is SelectForEditEvent) {
-        yield ShopDashboardLoaded(
-            shop: theState.shop,
-            values: theState.values,
-        );
+      ));
+    });
+
+    on<ProductListUpdated>((event, emit) {
+      if (state is ShopDashboardInitialised) {
+        var theState = state as ShopDashboardInitialised;
+        emit(ShopDashboardLoaded(shop: theState.shop, values: event.values));
       }
-    }
+    });
+
+    on<SelectForEditEvent>((event, emit) {
+      if (state is ShopDashboardInitialised) {
+        var theState = state as ShopDashboardInitialised;
+        emit(ShopDashboardLoaded(
+          shop: theState.shop,
+          values: theState.values,
+        ));
+      }
+    });
   }
 
   Future<void> save(ShopDashboardApplyChanges event) async {
     if (state is ShopDashboardInitialised) {
       var theState = state as ShopDashboardInitialised;
       var newModel = theState.shop;
-      if (await shopRepository(appId: appId)!
-          .get(newModel.documentID!) ==
+      if (await shopRepository(appId: appId)!.get(newModel.documentID) ==
           null) {
         await shopRepository(appId: appId)!.add(newModel);
       } else {
@@ -92,5 +91,4 @@ class ShopDashboardBloc extends Bloc<ShopDashboardBaseEvent, ShopDashboardBaseSt
       feedback(true);
     }
   }
-
 }

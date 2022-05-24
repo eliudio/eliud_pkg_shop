@@ -51,7 +51,7 @@ class OrderFormBloc extends Bloc<OrderFormEvent, OrderFormState> {
   Stream<OrderFormState> mapEventToState(OrderFormEvent event) async* {
     final currentState = state;
     if (currentState is OrderFormUninitialized) {
-      if (event is InitialiseNewOrderFormEvent) {
+      on <InitialiseNewOrderFormEvent> ((event, emit) {
         OrderFormLoaded loaded = OrderFormLoaded(value: OrderModel(
                                                documentID: "IDENTIFIER", 
                                  appId: "",
@@ -82,228 +82,165 @@ class OrderFormBloc extends Bloc<OrderFormEvent, OrderFormState> {
                                  timeStamp: "",
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialiseOrderFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
         OrderFormLoaded loaded = OrderFormLoaded(value: await orderRepository(appId: appId)!.get(event.value!.documentID));
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialiseOrderFormNoLoadEvent) {
         OrderFormLoaded loaded = OrderFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is OrderFormInitialized) {
       OrderModel? newValue = null;
-      if (event is ChangedOrderDocumentID) {
+      on <ChangedOrderDocumentID> ((event, emit) async {
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          emit(await _isDocumentIDValid(event.value, newValue!));
         } else {
-          yield SubmittableOrderForm(value: newValue);
+          emit(SubmittableOrderForm(value: newValue));
         }
 
-        return;
-      }
-      if (event is ChangedOrderCustomer) {
+      });
+      on <ChangedOrderCustomer> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(customer: await memberRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new OrderModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 customer: null,
-                                 name: currentState.value!.name,
-                                 email: currentState.value!.email,
-                                 shipStreet1: currentState.value!.shipStreet1,
-                                 shipStreet2: currentState.value!.shipStreet2,
-                                 shipCity: currentState.value!.shipCity,
-                                 shipState: currentState.value!.shipState,
-                                 postcode: currentState.value!.postcode,
-                                 country: currentState.value!.country,
-                                 invoiceSame: currentState.value!.invoiceSame,
-                                 invoiceStreet1: currentState.value!.invoiceStreet1,
-                                 invoiceStreet2: currentState.value!.invoiceStreet2,
-                                 invoiceCity: currentState.value!.invoiceCity,
-                                 invoiceState: currentState.value!.invoiceState,
-                                 invoicePostcode: currentState.value!.invoicePostcode,
-                                 invoiceCountry: currentState.value!.invoiceCountry,
-                                 products: currentState.value!.products,
-                                 totalPrice: currentState.value!.totalPrice,
-                                 currency: currentState.value!.currency,
-                                 paymentReference: currentState.value!.paymentReference,
-                                 shipmentReference: currentState.value!.shipmentReference,
-                                 deliveryReference: currentState.value!.deliveryReference,
-                                 paymentNote: currentState.value!.paymentNote,
-                                 shipmentNote: currentState.value!.shipmentNote,
-                                 deliveryNote: currentState.value!.deliveryNote,
-                                 status: currentState.value!.status,
-                                 timeStamp: currentState.value!.timeStamp,
-          );
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderName) {
+      });
+      on <ChangedOrderName> ((event, emit) async {
         newValue = currentState.value!.copyWith(name: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderEmail) {
+      });
+      on <ChangedOrderEmail> ((event, emit) async {
         newValue = currentState.value!.copyWith(email: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderShipStreet1) {
+      });
+      on <ChangedOrderShipStreet1> ((event, emit) async {
         newValue = currentState.value!.copyWith(shipStreet1: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderShipStreet2) {
+      });
+      on <ChangedOrderShipStreet2> ((event, emit) async {
         newValue = currentState.value!.copyWith(shipStreet2: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderShipCity) {
+      });
+      on <ChangedOrderShipCity> ((event, emit) async {
         newValue = currentState.value!.copyWith(shipCity: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderShipState) {
+      });
+      on <ChangedOrderShipState> ((event, emit) async {
         newValue = currentState.value!.copyWith(shipState: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderPostcode) {
+      });
+      on <ChangedOrderPostcode> ((event, emit) async {
         newValue = currentState.value!.copyWith(postcode: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderCountry) {
+      });
+      on <ChangedOrderCountry> ((event, emit) async {
         newValue = currentState.value!.copyWith(country: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderInvoiceSame) {
+      });
+      on <ChangedOrderInvoiceSame> ((event, emit) async {
         newValue = currentState.value!.copyWith(invoiceSame: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderInvoiceStreet1) {
+      });
+      on <ChangedOrderInvoiceStreet1> ((event, emit) async {
         newValue = currentState.value!.copyWith(invoiceStreet1: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderInvoiceStreet2) {
+      });
+      on <ChangedOrderInvoiceStreet2> ((event, emit) async {
         newValue = currentState.value!.copyWith(invoiceStreet2: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderInvoiceCity) {
+      });
+      on <ChangedOrderInvoiceCity> ((event, emit) async {
         newValue = currentState.value!.copyWith(invoiceCity: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderInvoiceState) {
+      });
+      on <ChangedOrderInvoiceState> ((event, emit) async {
         newValue = currentState.value!.copyWith(invoiceState: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderInvoicePostcode) {
+      });
+      on <ChangedOrderInvoicePostcode> ((event, emit) async {
         newValue = currentState.value!.copyWith(invoicePostcode: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderInvoiceCountry) {
+      });
+      on <ChangedOrderInvoiceCountry> ((event, emit) async {
         newValue = currentState.value!.copyWith(invoiceCountry: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderProducts) {
+      });
+      on <ChangedOrderProducts> ((event, emit) async {
         newValue = currentState.value!.copyWith(products: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderTotalPrice) {
+      });
+      on <ChangedOrderTotalPrice> ((event, emit) async {
         if (isDouble(event.value!)) {
           newValue = currentState.value!.copyWith(totalPrice: double.parse(event.value!));
-          yield SubmittableOrderForm(value: newValue);
+          emit(SubmittableOrderForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(totalPrice: 0.0);
-          yield TotalPriceOrderFormError(message: "Value should be a number or decimal number", value: newValue);
+          emit(TotalPriceOrderFormError(message: "Value should be a number or decimal number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedOrderCurrency) {
+      });
+      on <ChangedOrderCurrency> ((event, emit) async {
         newValue = currentState.value!.copyWith(currency: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderPaymentReference) {
+      });
+      on <ChangedOrderPaymentReference> ((event, emit) async {
         newValue = currentState.value!.copyWith(paymentReference: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderShipmentReference) {
+      });
+      on <ChangedOrderShipmentReference> ((event, emit) async {
         newValue = currentState.value!.copyWith(shipmentReference: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderDeliveryReference) {
+      });
+      on <ChangedOrderDeliveryReference> ((event, emit) async {
         newValue = currentState.value!.copyWith(deliveryReference: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderPaymentNote) {
+      });
+      on <ChangedOrderPaymentNote> ((event, emit) async {
         newValue = currentState.value!.copyWith(paymentNote: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderShipmentNote) {
+      });
+      on <ChangedOrderShipmentNote> ((event, emit) async {
         newValue = currentState.value!.copyWith(shipmentNote: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderDeliveryNote) {
+      });
+      on <ChangedOrderDeliveryNote> ((event, emit) async {
         newValue = currentState.value!.copyWith(deliveryNote: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderStatus) {
+      });
+      on <ChangedOrderStatus> ((event, emit) async {
         newValue = currentState.value!.copyWith(status: event.value);
-        yield SubmittableOrderForm(value: newValue);
+        emit(SubmittableOrderForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

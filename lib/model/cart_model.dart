@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -35,9 +36,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 
-class CartModel {
-  String? documentID;
-  String? appId;
+class CartModel implements ModelBase, WithAppId {
+  String documentID;
+  String appId;
   String? title;
   String? description;
   String? checkoutText;
@@ -49,7 +50,7 @@ class CartModel {
   ActionModel? openProductAction;
   StorageConditionsModel? conditions;
 
-  CartModel({this.documentID, this.appId, this.title, this.description, this.checkoutText, this.shop, this.itemImageBackground, this.itemDetailBackground, this.checkoutAction, this.backToShopAction, this.openProductAction, this.conditions, })  {
+  CartModel({required this.documentID, required this.appId, this.title, this.description, this.checkoutText, this.shop, this.itemImageBackground, this.itemDetailBackground, this.checkoutAction, this.backToShopAction, this.openProductAction, this.conditions, })  {
     assert(documentID != null);
   }
 
@@ -104,7 +105,7 @@ class CartModel {
     var counter = 0;
     return CartModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           title: entity.title, 
           description: entity.description, 
           checkoutText: entity.checkoutText, 
@@ -140,7 +141,7 @@ class CartModel {
     var counter = 0;
     return CartModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           title: entity.title, 
           description: entity.description, 
           checkoutText: entity.checkoutText, 

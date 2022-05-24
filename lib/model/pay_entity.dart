@@ -30,7 +30,7 @@ class PayEntity {
   final String? shopId;
   final StorageConditionsEntity? conditions;
 
-  PayEntity({this.appId, this.description, this.succeeded, this.payAction, this.shopId, this.conditions, });
+  PayEntity({required this.appId, this.description, this.succeeded, this.payAction, this.shopId, this.conditions, });
 
 
   List<Object?> get props => [appId, description, succeeded, payAction, shopId, conditions, ];

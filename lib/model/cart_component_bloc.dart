@@ -27,23 +27,22 @@ class CartComponentBloc extends Bloc<CartComponentEvent, CartComponentState> {
   final CartRepository? cartRepository;
   StreamSubscription? _cartSubscription;
 
-  Stream<CartComponentState> _mapLoadCartComponentUpdateToState(String documentId) async* {
+  void _mapLoadCartComponentUpdateToState(String documentId) {
     _cartSubscription?.cancel();
     _cartSubscription = cartRepository!.listenTo(documentId, (value) {
-      if (value != null) add(CartComponentUpdated(value: value));
+      if (value != null) {
+        add(CartComponentUpdated(value: value));
+      }
     });
   }
 
-  CartComponentBloc({ this.cartRepository }): super(CartComponentUninitialized());
-
-  @override
-  Stream<CartComponentState> mapEventToState(CartComponentEvent event) async* {
-    final currentState = state;
-    if (event is FetchCartComponent) {
-      yield* _mapLoadCartComponentUpdateToState(event.id!);
-    } else if (event is CartComponentUpdated) {
-      yield CartComponentLoaded(value: event.value);
-    }
+  CartComponentBloc({ this.cartRepository }): super(CartComponentUninitialized()) {
+    on <FetchCartComponent> ((event, emit) {
+      _mapLoadCartComponentUpdateToState(event.id!);
+    });
+    on <CartComponentUpdated> ((event, emit) {
+      emit(CartComponentLoaded(value: event.value));
+    });
   }
 
   @override

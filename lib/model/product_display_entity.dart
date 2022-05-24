@@ -31,7 +31,7 @@ class ProductDisplayEntity {
   final String? shopId;
   final StorageConditionsEntity? conditions;
 
-  ProductDisplayEntity({this.appId, this.description, this.itemDetailBackground, this.addToBasketText, this.buyAction, this.shopId, this.conditions, });
+  ProductDisplayEntity({required this.appId, this.description, this.itemDetailBackground, this.addToBasketText, this.buyAction, this.shopId, this.conditions, });
 
 
   List<Object?> get props => [appId, description, itemDetailBackground, addToBasketText, buyAction, shopId, conditions, ];

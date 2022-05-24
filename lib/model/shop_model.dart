@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
@@ -31,14 +32,14 @@ import 'package:eliud_core/tools/random.dart';
 
 
 
-class ShopModel {
-  String? documentID;
-  String? appId;
+class ShopModel implements ModelBase, WithAppId {
+  String documentID;
+  String appId;
   String? description;
   String? shortDescription;
   String? currency;
 
-  ShopModel({this.documentID, this.appId, this.description, this.shortDescription, this.currency, })  {
+  ShopModel({required this.documentID, required this.appId, this.description, this.shortDescription, this.currency, })  {
     assert(documentID != null);
   }
 
@@ -79,7 +80,7 @@ class ShopModel {
     var counter = 0;
     return ShopModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           description: entity.description, 
           shortDescription: entity.shortDescription, 
           currency: entity.currency, 
@@ -92,7 +93,7 @@ class ShopModel {
     var counter = 0;
     return ShopModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           description: entity.description, 
           shortDescription: entity.shortDescription, 
           currency: entity.currency, 

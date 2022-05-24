@@ -23,6 +23,7 @@
   "fields": [
     {
       "fieldName": "documentID",
+      "required": true,
       "displayName": "Document ID",
       "fieldType": "String",
       "group": "general",
@@ -31,6 +32,7 @@
     },
     {
       "fieldName": "appId",
+      "required": true,
       "displayName": "App ID",
       "fieldType": "String",
       "iconName": "vpn_key",
@@ -272,7 +274,7 @@
     }
   ],
   "listFields": {
-    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID!)) : Container()",
+    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID)) : Container()",
     "subTitle": "value.paymentReference != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.paymentReference!)) : Container()"
   },
   "alternativeViews": [
@@ -280,7 +282,7 @@
         "name": "Payment",
         "title": "Payment",
         "buttonLabel": "Confirm",
-        "fields": [
+        "fields": [ "documentID", "appId",
                     "name", "shipStreet1", "shipStreet2", "shipCity", "shipState", "postcode", "country",
                     "invoiceSame", "invoiceStreet1", "invoiceStreet2", "invoiceCity", "invoiceState", "invoicePostcode", "invoiceCountry",
                     "totalPrice", "currency"
@@ -291,7 +293,7 @@
         "name": "Shipment",
         "title": "Shipment",
         "buttonLabel": "Update shipment",
-        "fields": [
+        "fields": [ "documentID", "appId",
                     "shipmentReference", "shipmentNote"
                   ],
         "groups": [ "references", "notes" ]

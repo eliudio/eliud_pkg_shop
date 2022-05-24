@@ -39,7 +39,7 @@ abstract class AbstractProductDisplayComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<ProductDisplayComponentBloc> (
           create: (context) => ProductDisplayComponentBloc(
-            productDisplayRepository: productDisplayRepository(appId: app.documentID!)!)
+            productDisplayRepository: productDisplayRepository(appId: app.documentID)!)
         ..add(FetchProductDisplayComponent(id: productDisplayId)),
       child: _productDisplayBlockBuilder(context),
     );

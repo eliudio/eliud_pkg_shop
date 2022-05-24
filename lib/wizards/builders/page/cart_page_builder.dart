@@ -86,7 +86,7 @@ class CartPageBuilder extends AbstractPageTemplate {
   CartModel _cart() {
     return CartModel(
       documentID: constructDocumentId(uniqueId: uniqueId, documentId: 'cart'),
-      appId: app.documentID!,
+      appId: app.documentID,
       title: pageTitle(),
       description: 'Shopping bag',
       checkoutText: 'Checkout',
@@ -119,7 +119,7 @@ class CartPageBuilder extends AbstractPageTemplate {
   @override
   Future<void> setupComponent() async {
     await AbstractRepositorySingleton.singleton
-        .cartRepository(app.documentID!)!
+        .cartRepository(app.documentID)!
         .add(_cart());
   }
 }

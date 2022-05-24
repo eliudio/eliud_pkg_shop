@@ -38,9 +38,47 @@ class ProductDisplayListBloc extends Bloc<ProductDisplayListEvent, ProductDispla
   ProductDisplayListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ProductDisplayRepository productDisplayRepository, this.productDisplayLimit = 5})
       : assert(productDisplayRepository != null),
         _productDisplayRepository = productDisplayRepository,
-        super(ProductDisplayListLoading());
+        super(ProductDisplayListLoading()) {
+    on <LoadProductDisplayList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadProductDisplayListToState();
+      } else {
+        _mapLoadProductDisplayListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadProductDisplayListWithDetailsToState();
+    });
+    
+    on <ProductDisplayChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadProductDisplayListToState();
+      } else {
+        _mapLoadProductDisplayListWithDetailsToState();
+      }
+    });
+      
+    on <AddProductDisplayList> ((event, emit) async {
+      await _mapAddProductDisplayListToState(event);
+    });
+    
+    on <UpdateProductDisplayList> ((event, emit) async {
+      await _mapUpdateProductDisplayListToState(event);
+    });
+    
+    on <DeleteProductDisplayList> ((event, emit) async {
+      await _mapDeleteProductDisplayListToState(event);
+    });
+    
+    on <ProductDisplayListUpdated> ((event, emit) {
+      emit(_mapProductDisplayListUpdatedToState(event));
+    });
+  }
 
-  Stream<ProductDisplayListState> _mapLoadProductDisplayListToState() async* {
+  Future<void> _mapLoadProductDisplayListToState() async {
     int amountNow =  (state is ProductDisplayListLoaded) ? (state as ProductDisplayListLoaded).values!.length : 0;
     _productDisplaysListSubscription?.cancel();
     _productDisplaysListSubscription = _productDisplayRepository.listen(
@@ -52,7 +90,7 @@ class ProductDisplayListBloc extends Bloc<ProductDisplayListEvent, ProductDispla
     );
   }
 
-  Stream<ProductDisplayListState> _mapLoadProductDisplayListWithDetailsToState() async* {
+  Future<void> _mapLoadProductDisplayListWithDetailsToState() async {
     int amountNow =  (state is ProductDisplayListLoaded) ? (state as ProductDisplayListLoaded).values!.length : 0;
     _productDisplaysListSubscription?.cancel();
     _productDisplaysListSubscription = _productDisplayRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class ProductDisplayListBloc extends Bloc<ProductDisplayListEvent, ProductDispla
     );
   }
 
-  Stream<ProductDisplayListState> _mapAddProductDisplayListToState(AddProductDisplayList event) async* {
+  Future<void> _mapAddProductDisplayListToState(AddProductDisplayList event) async {
     var value = event.value;
-    if (value != null) 
-      _productDisplayRepository.add(value);
-  }
-
-  Stream<ProductDisplayListState> _mapUpdateProductDisplayListToState(UpdateProductDisplayList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _productDisplayRepository.update(value);
-  }
-
-  Stream<ProductDisplayListState> _mapDeleteProductDisplayListToState(DeleteProductDisplayList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _productDisplayRepository.delete(value);
-  }
-
-  Stream<ProductDisplayListState> _mapProductDisplayListUpdatedToState(
-      ProductDisplayListUpdated event) async* {
-    yield ProductDisplayListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<ProductDisplayListState> mapEventToState(ProductDisplayListEvent event) async* {
-    if (event is LoadProductDisplayList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadProductDisplayListToState();
-      } else {
-        yield* _mapLoadProductDisplayListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadProductDisplayListWithDetailsToState();
-    } else if (event is ProductDisplayChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadProductDisplayListToState();
-      } else {
-        yield* _mapLoadProductDisplayListWithDetailsToState();
-      }
-    } else if (event is AddProductDisplayList) {
-      yield* _mapAddProductDisplayListToState(event);
-    } else if (event is UpdateProductDisplayList) {
-      yield* _mapUpdateProductDisplayListToState(event);
-    } else if (event is DeleteProductDisplayList) {
-      yield* _mapDeleteProductDisplayListToState(event);
-    } else if (event is ProductDisplayListUpdated) {
-      yield* _mapProductDisplayListUpdatedToState(event);
+    if (value != null) {
+      await _productDisplayRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdateProductDisplayListToState(UpdateProductDisplayList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _productDisplayRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeleteProductDisplayListToState(DeleteProductDisplayList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _productDisplayRepository.delete(value);
+    }
+  }
+
+  ProductDisplayListLoaded _mapProductDisplayListUpdatedToState(
+      ProductDisplayListUpdated event) => ProductDisplayListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

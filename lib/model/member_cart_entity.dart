@@ -26,7 +26,7 @@ class MemberCartEntity {
   final String? appId;
   final List<CartItemEntity>? cartItems;
 
-  MemberCartEntity({this.appId, this.cartItems, });
+  MemberCartEntity({required this.appId, this.cartItems, });
 
 
   List<Object?> get props => [appId, cartItems, ];

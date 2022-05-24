@@ -74,7 +74,7 @@ class ShopFrontForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<ShopFrontFormBloc >(
             create: (context) => ShopFrontFormBloc(appId,
@@ -347,11 +347,11 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _scrollDirectionSelectedRadioTile, 'Horizontal', 'Horizontal', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionScrollDirection(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _scrollDirectionSelectedRadioTile, 'Horizontal', 'Horizontal', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionScrollDirection(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _scrollDirectionSelectedRadioTile, 'Vertical', 'Vertical', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionScrollDirection(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _scrollDirectionSelectedRadioTile, 'Vertical', 'Vertical', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionScrollDirection(val))
           );
 
 
@@ -523,7 +523,7 @@ class _MyShopFrontFormState extends State<MyShopFrontForm> {
   }
 
   bool _readOnly(AccessState accessState, ShopFrontFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID));
   }
   
 

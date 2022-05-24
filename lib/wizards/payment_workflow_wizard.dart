@@ -53,7 +53,7 @@ class PaymentWorkflowWizard extends NewAppWizardInfo {
         tasks.add(() async {
           print('Payment workflow');
           var cartPaymentWorkflows = await PaymentWorkflowBuilder(uniqueId,
-            app.documentID!,
+            app.documentID,
             parameters: parameters,
           ).create();
           parameters.registerCartPaymentWorkflows(cartPaymentWorkflows);

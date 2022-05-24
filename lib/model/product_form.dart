@@ -74,7 +74,7 @@ class ProductForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<ProductFormBloc >(
             create: (context) => ProductFormBloc(appId,
@@ -395,7 +395,7 @@ class _MyProductFormState extends State<MyProductForm> {
   }
 
   bool _readOnly(AccessState accessState, ProductFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID));
   }
   
 

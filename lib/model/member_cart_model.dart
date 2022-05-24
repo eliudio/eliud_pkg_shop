@@ -16,6 +16,7 @@
 import 'package:collection/collection.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -36,12 +37,12 @@ import 'package:eliud_core/tools/random.dart';
 
 
 
-class MemberCartModel {
-  String? documentID;
-  String? appId;
+class MemberCartModel implements ModelBase, WithAppId {
+  String documentID;
+  String appId;
   List<CartItemModel>? cartItems;
 
-  MemberCartModel({this.documentID, this.appId, this.cartItems, })  {
+  MemberCartModel({required this.documentID, required this.appId, this.cartItems, })  {
     assert(documentID != null);
   }
 
@@ -82,7 +83,7 @@ class MemberCartModel {
     var counter = 0;
     return MemberCartModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           cartItems: 
             entity.cartItems == null ? null : List<CartItemModel>.from(await Future.wait(entity. cartItems
             !.map((item) {
@@ -99,7 +100,7 @@ class MemberCartModel {
     var counter = 0;
     return MemberCartModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           cartItems: 
             entity. cartItems == null ? null : List<CartItemModel>.from(await Future.wait(entity. cartItems
             !.map((item) {

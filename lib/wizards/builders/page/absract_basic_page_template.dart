@@ -33,7 +33,7 @@ abstract class AbstractBasicPageTemplate extends PageBuilder {
 
   Future<PageModel> _setupPage(AppBarModel appBar) async {
     return await corerepo.AbstractRepositorySingleton.singleton
-        .pageRepository(app.documentID!)!
+        .pageRepository(app.documentID)!
         .add(_page(appBar));
   }
 
@@ -46,7 +46,7 @@ abstract class AbstractBasicPageTemplate extends PageBuilder {
 
     return PageModel(
         documentID: constructDocumentId(uniqueId: uniqueId, documentId: pageId),
-        appId: app.documentID!,
+        appId: app.documentID,
         title: pageTitle(),
         drawer: leftDrawer,
         endDrawer: rightDrawer,

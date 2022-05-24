@@ -20,7 +20,7 @@ class PayConfirmationComponentConstructorDefault implements ComponentConstructor
   }
 
   @override
-  Future<dynamic> getModel({required AppModel app, required String id}) async => await payConfirmationRepository(appId: app.documentID!)!.get(id);
+  Future<dynamic> getModel({required AppModel app, required String id}) async => await payConfirmationRepository(appId: app.documentID)!.get(id);
 }
 
 class PayConfirmationComponent extends AbstractPayConfirmationComponent {
@@ -35,7 +35,7 @@ class PayConfirmationComponent extends AbstractPayConfirmationComponent {
       if (orderNumber != null) {
         return BlocProvider<OrderComponentBloc>(
           create: (context) =>
-          OrderComponentBloc(orderRepository: orderRepository(appId: app.documentID!))
+          OrderComponentBloc(orderRepository: orderRepository(appId: app.documentID))
             ..add(FetchOrderComponent(id: orderNumber as String?)),
           child: ConfirmationWidget(app, payConfirmationModel),
         );

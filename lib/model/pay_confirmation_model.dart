@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -35,15 +36,15 @@ import 'package:eliud_core/tools/random.dart';
 
 
 
-class PayConfirmationModel {
-  String? documentID;
-  String? appId;
+class PayConfirmationModel implements ModelBase, WithAppId {
+  String documentID;
+  String appId;
   String? description;
   ShopModel? shop;
   ActionModel? backToShopAction;
   StorageConditionsModel? conditions;
 
-  PayConfirmationModel({this.documentID, this.appId, this.description, this.shop, this.backToShopAction, this.conditions, })  {
+  PayConfirmationModel({required this.documentID, required this.appId, this.description, this.shop, this.backToShopAction, this.conditions, })  {
     assert(documentID != null);
   }
 
@@ -86,7 +87,7 @@ class PayConfirmationModel {
     var counter = 0;
     return PayConfirmationModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           description: entity.description, 
           backToShopAction: 
             await ActionModel.fromEntity(entity.backToShopAction), 
@@ -112,7 +113,7 @@ class PayConfirmationModel {
     var counter = 0;
     return PayConfirmationModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           description: entity.description, 
           shop: shopHolder, 
           backToShopAction: 

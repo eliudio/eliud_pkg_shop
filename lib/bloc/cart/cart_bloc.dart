@@ -18,9 +18,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   final AccessBloc accessBloc;
   final String appId;
 
-  CartBloc(this.appId, this.accessBloc, ) :
-        super(CartUninitialised());
-
   List<CartItemModel>? _copyListAndChangeAmount(
       List<CartItemModel> original, ProductModel? product, int changeBy) {
     var copy = ListTool.copyAllExcept(
@@ -58,8 +55,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       LoggedIn accessState, ProductModel? product, int amount) async {
     var member = accessState.member;
     if (member != null) {
-      var cart = await memberCartRepository(appId: appId)!
-          .get(member.documentID);
+      var cart =
+          await memberCartRepository(appId: appId)!.get(member.documentID);
       List<CartItemModel>? items;
       if (cart != null) {
         items = cart.cartItems;
@@ -67,11 +64,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         await memberCartRepository(appId: appId)!
             .update(cart.copyWith(cartItems: newItems));
       } else {
-        await memberCartRepository(appId: appId)!.add(
-            MemberCartModel(
-                documentID: member.documentID,
-                appId: appId,
-                cartItems: _copyListAndChangeAmount([], product, amount)));
+        await memberCartRepository(appId: appId)!.add(MemberCartModel(
+            documentID: member.documentID,
+            appId: appId,
+            cartItems: _copyListAndChangeAmount([], product, amount)));
       }
     }
   }
@@ -81,8 +77,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   ) async {
     var member = accessState.member;
     if (member != null) {
-      var cart = await memberCartRepository(appId: appId)!
-          .get(member.documentID);
+      var cart =
+          await memberCartRepository(appId: appId)!.get(member.documentID);
       if (cart != null) {
         await memberCartRepository(appId: appId)!
             .update(cart.copyWith(cartItems: []));
@@ -90,44 +86,59 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     }
   }
 
-  Future<CartInitialised> toYield(LoggedIn accessState) async {
+  Future<CartInitialised> toEmit(LoggedIn accessState) async {
     var member = accessState.member;
-    var cart = await memberCartRepository(appId: appId)!
-        .get(member.documentID);
+    var cart = await memberCartRepository(appId: appId)!.get(member.documentID);
     return CartInitialised(cart != null ? cart.cartItems : null);
   }
 
-  @override
-  Stream<CartState> mapEventToState(CartEvent event) async* {
+  CartBloc(
+    this.appId,
+    this.accessBloc,
+  ) : super(CartUninitialised()) {
     var accessState = accessBloc.state;
-    if (accessState is LoggedIn) {
-      if (event is LoadCart) {
-        yield await toYield(accessState);
-      } else {
-        if (event is AddProduct) {
-          await _updateCartChangeAmount(
-              accessState, event.product, event.amount);
-          var action = event.continueShoppingAction!;
-          if (action is GotoPage) {
-            accessBloc.add(
-                GotoPageEvent(action.app, action.pageID, ));
-          } else {
-            print('The continueShoppingAction is not a GotoPage action');
-          }
-          yield await toYield(accessState);
-        } else if (event is SimpleAddProduct) {
-          await _updateCartChangeAmount(
-              accessState, event.product, event.amount);
-          yield await toYield(accessState);
-        } else if (event is RemoveProduct) {
-          await _updateCartChangeAmount(
-              accessState, event.product, -event.amount);
-          yield await toYield(accessState);
-        } else if (event is EmptyCart) {
-          await _emptyCart(accessState);
-          yield await toYield(accessState);
-        }
+    on<LoadCart>((event, emit) async {
+      if (accessState is LoggedIn) {
+        emit(await toEmit(accessState));
       }
-    }
+    });
+
+    on<AddProduct>((event, emit) async {
+      if (accessState is LoggedIn) {
+        await _updateCartChangeAmount(accessState, event.product, event.amount);
+        var action = event.continueShoppingAction!;
+        if (action is GotoPage) {
+          accessBloc.add(GotoPageEvent(
+            action.app,
+            action.pageID,
+          ));
+        } else {
+          print('The continueShoppingAction is not a GotoPage action');
+        }
+        emit(await toEmit(accessState));
+      }
+    });
+
+    on<SimpleAddProduct>((event, emit) async {
+      if (accessState is LoggedIn) {
+        await _updateCartChangeAmount(accessState, event.product, event.amount);
+        emit(await toEmit(accessState));
+      }
+    });
+
+    on<RemoveProduct>((event, emit) async {
+      if (accessState is LoggedIn) {
+        await _updateCartChangeAmount(
+            accessState, event.product, -event.amount);
+        emit(await toEmit(accessState));
+      }
+    });
+
+    on<EmptyCart>((event, emit) async {
+      if (accessState is LoggedIn) {
+        await _emptyCart(accessState);
+        emit(await toEmit(accessState));
+      }
+    });
   }
 }

@@ -51,7 +51,7 @@ class ProductDisplayFormBloc extends Bloc<ProductDisplayFormEvent, ProductDispla
   Stream<ProductDisplayFormState> mapEventToState(ProductDisplayFormEvent event) async* {
     final currentState = state;
     if (currentState is ProductDisplayFormUninitialized) {
-      if (event is InitialiseNewProductDisplayFormEvent) {
+      on <InitialiseNewProductDisplayFormEvent> ((event, emit) {
         ProductDisplayFormLoaded loaded = ProductDisplayFormLoaded(value: ProductDisplayModel(
                                                documentID: "",
                                  appId: "",
@@ -59,82 +59,60 @@ class ProductDisplayFormBloc extends Bloc<ProductDisplayFormEvent, ProductDispla
                                  addToBasketText: "",
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialiseProductDisplayFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
         ProductDisplayFormLoaded loaded = ProductDisplayFormLoaded(value: await productDisplayRepository(appId: appId)!.get(event.value!.documentID));
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialiseProductDisplayFormNoLoadEvent) {
         ProductDisplayFormLoaded loaded = ProductDisplayFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is ProductDisplayFormInitialized) {
       ProductDisplayModel? newValue = null;
-      if (event is ChangedProductDisplayDocumentID) {
+      on <ChangedProductDisplayDocumentID> ((event, emit) async {
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          emit(await _isDocumentIDValid(event.value, newValue!));
         } else {
-          yield SubmittableProductDisplayForm(value: newValue);
+          emit(SubmittableProductDisplayForm(value: newValue));
         }
 
-        return;
-      }
-      if (event is ChangedProductDisplayDescription) {
+      });
+      on <ChangedProductDisplayDescription> ((event, emit) async {
         newValue = currentState.value!.copyWith(description: event.value);
-        yield SubmittableProductDisplayForm(value: newValue);
+        emit(SubmittableProductDisplayForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedProductDisplayItemDetailBackground) {
+      });
+      on <ChangedProductDisplayItemDetailBackground> ((event, emit) async {
         newValue = currentState.value!.copyWith(itemDetailBackground: event.value);
-        yield SubmittableProductDisplayForm(value: newValue);
+        emit(SubmittableProductDisplayForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedProductDisplayAddToBasketText) {
+      });
+      on <ChangedProductDisplayAddToBasketText> ((event, emit) async {
         newValue = currentState.value!.copyWith(addToBasketText: event.value);
-        yield SubmittableProductDisplayForm(value: newValue);
+        emit(SubmittableProductDisplayForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedProductDisplayBuyAction) {
+      });
+      on <ChangedProductDisplayBuyAction> ((event, emit) async {
         newValue = currentState.value!.copyWith(buyAction: event.value);
-        yield SubmittableProductDisplayForm(value: newValue);
+        emit(SubmittableProductDisplayForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedProductDisplayShop) {
+      });
+      on <ChangedProductDisplayShop> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new ProductDisplayModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 description: currentState.value!.description,
-                                 itemDetailBackground: currentState.value!.itemDetailBackground,
-                                 addToBasketText: currentState.value!.addToBasketText,
-                                 buyAction: currentState.value!.buyAction,
-                                 shop: null,
-                                 conditions: currentState.value!.conditions,
-          );
-        yield SubmittableProductDisplayForm(value: newValue);
+        emit(SubmittableProductDisplayForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedProductDisplayConditions) {
+      });
+      on <ChangedProductDisplayConditions> ((event, emit) async {
         newValue = currentState.value!.copyWith(conditions: event.value);
-        yield SubmittableProductDisplayForm(value: newValue);
+        emit(SubmittableProductDisplayForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

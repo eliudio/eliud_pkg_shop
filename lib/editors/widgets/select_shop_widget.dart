@@ -21,11 +21,11 @@ Widget selectShopWidget(BuildContext context, AppModel app, StorageConditionsMod
       title: 'Shop',
       selectTitle: 'Select shop',
       displayItemFunction: (item) => text(app, context,
-          item.documentID! + ' ' + (item.description ?? '?')),
+          item.documentID + ' ' + (item.description ?? '?')),
       blocProviderProvider: () => BlocProvider<ShopListBloc>(
         create: (context) => ShopListBloc(
-          eliudQuery: getComponentSelectorQuery(0, app.documentID!),
-          shopRepository: shopRepository(appId: app.documentID!)!,
+          eliudQuery: getComponentSelectorQuery(0, app.documentID),
+          shopRepository: shopRepository(appId: app.documentID)!,
         )..add(LoadShopList()),
       ),
       blocBuilder: (contentsLoaded, contentsNotLoaded) {
@@ -45,7 +45,7 @@ Widget selectShopWidget(BuildContext context, AppModel app, StorageConditionsMod
       changePrivilegeEventCallback: (BuildContext context, int privilegeLevel) {
         BlocProvider.of<ShopListBloc>(context).add(
             ShopChangeQuery(newQuery: getComponentSelectorQuery(privilegeLevel,
-                app.documentID!)));
+                app.documentID)));
       },
       containerPrivilege: containerStorageConditions == null || containerStorageConditions.privilegeLevelRequired == null ? 0 : containerStorageConditions.privilegeLevelRequired!.index
     );

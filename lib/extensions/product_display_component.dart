@@ -28,7 +28,7 @@ class ProductDisplayComponentConstructorDefault
 
   @override
   Future<dynamic> getModel({required AppModel app, required String id}) async =>
-      await productDisplayRepository(appId: app.documentID!)!.get(id);
+      await productDisplayRepository(appId: app.documentID)!.get(id);
 }
 
 class ProductDisplayComponent extends AbstractProductDisplayComponent {
@@ -41,7 +41,7 @@ class ProductDisplayComponent extends AbstractProductDisplayComponent {
   @override
   Widget yourWidget(BuildContext context, ProductDisplayModel? value) {
     var productId = parameters!['productId'];
-    var appId = value!.appId!;
+    var appId = value!.appId;
     if (productId != null) {
       return FutureBuilder<ProductModel?>(
           future: productRepository(appId: appId)!.get(productId),
@@ -67,11 +67,11 @@ class ProductDisplayComponent extends AbstractProductDisplayComponent {
   @override
   ProductDisplayRepository getProductDisplayRepository(BuildContext context) {
     return AbstractRepositorySingleton.singleton
-        .productDisplayRepository(app.documentID!)!;
+        .productDisplayRepository(app.documentID)!;
   }
 
   ProductRepository? getProductRepository(BuildContext context) {
     return AbstractRepositorySingleton.singleton
-        .productRepository(app.documentID!);
+        .productRepository(app.documentID);
   }
 }

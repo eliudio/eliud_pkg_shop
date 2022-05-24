@@ -55,11 +55,11 @@ class OrderOverviewComponentEditorConstructor
   void updateComponentWithID(AppModel app, BuildContext context, String id,
       EditorFeedback feedback) async {
     var orderOverview =
-        await orderOverviewRepository(appId: app.documentID!)!.get(id);
+        await orderOverviewRepository(appId: app.documentID)!.get(id);
     if (orderOverview != null) {
       _openIt(app, context, false, orderOverview, feedback);
     } else {
-      openErrorDialog(app, context, app.documentID! + '/_error',
+      openErrorDialog(app, context, app.documentID + '/_error',
           title: 'Error',
           errorMessage: 'Cannot find notification dashboard with id $id');
     }
@@ -70,7 +70,7 @@ class OrderOverviewComponentEditorConstructor
     openComplexDialog(
       app,
       context,
-      app.documentID! + '/notificationdashboard',
+      app.documentID + '/notificationdashboard',
       title: create
           ? 'Create Notification Dashboard'
           : 'Update Notification Dashboard',
@@ -78,7 +78,7 @@ class OrderOverviewComponentEditorConstructor
       widthFraction: .9,
       child: BlocProvider<OrderOverviewBloc>(
           create: (context) => OrderOverviewBloc(
-                app.documentID!,
+                app.documentID,
                 /*create,
             */
                 feedback,
@@ -111,7 +111,7 @@ class _OrderOverviewComponentEditorState
       if (accessState is AccessDetermined) {
         var member = accessState.getMember();
         if (member != null) {
-          var memberId = member.documentID!;
+          var memberId = member.documentID;
           return BlocBuilder<OrderOverviewBloc,
                   EditorBaseState<OrderOverviewModel>>(
               builder: (ppContext, orderOverviewState) {
@@ -142,7 +142,7 @@ class _OrderOverviewComponentEditorState
                           getListTile(context, widget.app,
                               leading: Icon(Icons.vpn_key),
                               title: text(widget.app, context,
-                                  orderOverviewState.model.documentID!)),
+                                  orderOverviewState.model.documentID)),
                           getListTile(context, widget.app,
                               leading: Icon(Icons.title),
                               title: dialogField(

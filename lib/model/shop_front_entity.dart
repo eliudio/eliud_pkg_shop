@@ -38,7 +38,7 @@ class ShopFrontEntity {
   final EdgeInsetsGeometryEntity? padding;
   final StorageConditionsEntity? conditions;
 
-  ShopFrontEntity({this.appId, this.title, this.description, this.shopId, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackground, this.addToCartColor, this.scrollDirection, this.buyAction, this.openProductAction, this.padding, this.conditions, });
+  ShopFrontEntity({required this.appId, this.title, this.description, this.shopId, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackground, this.addToCartColor, this.scrollDirection, this.buyAction, this.openProductAction, this.padding, this.conditions, });
 
 
   List<Object?> get props => [appId, title, description, shopId, size, cardElevation, cardAxisSpacing, itemCardBackground, addToCartColor, scrollDirection, buyAction, openProductAction, padding, conditions, ];

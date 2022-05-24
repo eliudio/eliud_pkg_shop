@@ -36,7 +36,7 @@ abstract class ShopPackage extends Package {
       bool isOwner,
       bool? isBlocked,
       PrivilegeLevel? privilegeLevel) {
-    var appId = app.documentID!;
+    var appId = app.documentID;
     subscription[appId]?.cancel();
     if (member != null) {
       final c = Completer<List<PackageConditionDetails>>();
@@ -61,7 +61,7 @@ abstract class ShopPackage extends Package {
                 app, this, CONDITION_CARTS_HAS_ITEMS, cartHasItems));
           }
         }
-      }, eliudQuery: getCartQuery(appId, member.documentID!));
+      }, eliudQuery: getCartQuery(appId, member.documentID));
       return c.future;
     } else {
       stateCONDITION_CARTS_HAS_ITEMS[appId] = false;

@@ -70,14 +70,14 @@ Future<ProductModel> productToProductModel(String uniqueId,
   }
   return ProductModel(
     documentID: constructDocumentId(uniqueId: uniqueId, documentId: product.id!),
-    appId: app.documentID!,
+    appId: app.documentID,
     title: product.title,
     about: product.about,
     shop: shop,
     images: productImages,
     price: product.price,
     weight: 100,
-    posSize: screen75(app.documentID!),
+    posSize: screen75(app.documentID),
 /*
     conditions: StorageConditionsModel(
         privilegeLevelRequired:

@@ -51,7 +51,7 @@ class CartFormBloc extends Bloc<CartFormEvent, CartFormState> {
   Stream<CartFormState> mapEventToState(CartFormEvent event) async* {
     final currentState = state;
     if (currentState is CartFormUninitialized) {
-      if (event is InitialiseNewCartFormEvent) {
+      on <InitialiseNewCartFormEvent> ((event, emit) {
         CartFormLoaded loaded = CartFormLoaded(value: CartModel(
                                                documentID: "",
                                  appId: "",
@@ -60,110 +60,80 @@ class CartFormBloc extends Bloc<CartFormEvent, CartFormState> {
                                  checkoutText: "",
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialiseCartFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
         CartFormLoaded loaded = CartFormLoaded(value: await cartRepository(appId: appId)!.get(event.value!.documentID));
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialiseCartFormNoLoadEvent) {
         CartFormLoaded loaded = CartFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is CartFormInitialized) {
       CartModel? newValue = null;
-      if (event is ChangedCartDocumentID) {
+      on <ChangedCartDocumentID> ((event, emit) async {
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          emit(await _isDocumentIDValid(event.value, newValue!));
         } else {
-          yield SubmittableCartForm(value: newValue);
+          emit(SubmittableCartForm(value: newValue));
         }
 
-        return;
-      }
-      if (event is ChangedCartTitle) {
+      });
+      on <ChangedCartTitle> ((event, emit) async {
         newValue = currentState.value!.copyWith(title: event.value);
-        yield SubmittableCartForm(value: newValue);
+        emit(SubmittableCartForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedCartDescription) {
+      });
+      on <ChangedCartDescription> ((event, emit) async {
         newValue = currentState.value!.copyWith(description: event.value);
-        yield SubmittableCartForm(value: newValue);
+        emit(SubmittableCartForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedCartCheckoutText) {
+      });
+      on <ChangedCartCheckoutText> ((event, emit) async {
         newValue = currentState.value!.copyWith(checkoutText: event.value);
-        yield SubmittableCartForm(value: newValue);
+        emit(SubmittableCartForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedCartShop) {
+      });
+      on <ChangedCartShop> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new CartModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
-                                 description: currentState.value!.description,
-                                 checkoutText: currentState.value!.checkoutText,
-                                 shop: null,
-                                 itemImageBackground: currentState.value!.itemImageBackground,
-                                 itemDetailBackground: currentState.value!.itemDetailBackground,
-                                 checkoutAction: currentState.value!.checkoutAction,
-                                 backToShopAction: currentState.value!.backToShopAction,
-                                 openProductAction: currentState.value!.openProductAction,
-                                 conditions: currentState.value!.conditions,
-          );
-        yield SubmittableCartForm(value: newValue);
+        emit(SubmittableCartForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedCartItemImageBackground) {
+      });
+      on <ChangedCartItemImageBackground> ((event, emit) async {
         newValue = currentState.value!.copyWith(itemImageBackground: event.value);
-        yield SubmittableCartForm(value: newValue);
+        emit(SubmittableCartForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedCartItemDetailBackground) {
+      });
+      on <ChangedCartItemDetailBackground> ((event, emit) async {
         newValue = currentState.value!.copyWith(itemDetailBackground: event.value);
-        yield SubmittableCartForm(value: newValue);
+        emit(SubmittableCartForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedCartCheckoutAction) {
+      });
+      on <ChangedCartCheckoutAction> ((event, emit) async {
         newValue = currentState.value!.copyWith(checkoutAction: event.value);
-        yield SubmittableCartForm(value: newValue);
+        emit(SubmittableCartForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedCartBackToShopAction) {
+      });
+      on <ChangedCartBackToShopAction> ((event, emit) async {
         newValue = currentState.value!.copyWith(backToShopAction: event.value);
-        yield SubmittableCartForm(value: newValue);
+        emit(SubmittableCartForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedCartOpenProductAction) {
+      });
+      on <ChangedCartOpenProductAction> ((event, emit) async {
         newValue = currentState.value!.copyWith(openProductAction: event.value);
-        yield SubmittableCartForm(value: newValue);
+        emit(SubmittableCartForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedCartConditions) {
+      });
+      on <ChangedCartConditions> ((event, emit) async {
         newValue = currentState.value!.copyWith(conditions: event.value);
-        yield SubmittableCartForm(value: newValue);
+        emit(SubmittableCartForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

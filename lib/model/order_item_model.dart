@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
@@ -31,14 +32,14 @@ import 'package:eliud_core/tools/random.dart';
 
 
 
-class OrderItemModel {
-  String? documentID;
+class OrderItemModel implements ModelBase, WithAppId {
+  String documentID;
   int? amount;
-  String? appId;
+  String appId;
   double? soldPrice;
   ProductModel? product;
 
-  OrderItemModel({this.documentID, this.amount, this.appId, this.soldPrice, this.product, })  {
+  OrderItemModel({required this.documentID, this.amount, required this.appId, this.soldPrice, this.product, })  {
     assert(documentID != null);
   }
 
@@ -80,7 +81,7 @@ class OrderItemModel {
     return OrderItemModel(
           documentID: documentID, 
           amount: entity.amount, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           soldPrice: entity.soldPrice, 
     );
   }
@@ -103,7 +104,7 @@ class OrderItemModel {
     return OrderItemModel(
           documentID: documentID, 
           amount: entity.amount, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           soldPrice: entity.soldPrice, 
           product: productHolder, 
     );

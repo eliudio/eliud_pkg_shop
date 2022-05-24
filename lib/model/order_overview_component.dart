@@ -39,7 +39,7 @@ abstract class AbstractOrderOverviewComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<OrderOverviewComponentBloc> (
           create: (context) => OrderOverviewComponentBloc(
-            orderOverviewRepository: orderOverviewRepository(appId: app.documentID!)!)
+            orderOverviewRepository: orderOverviewRepository(appId: app.documentID)!)
         ..add(FetchOrderOverviewComponent(id: orderOverviewId)),
       child: _orderOverviewBlockBuilder(context),
     );

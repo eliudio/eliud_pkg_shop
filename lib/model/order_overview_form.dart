@@ -74,7 +74,7 @@ class OrderOverviewForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<OrderOverviewFormBloc >(
             create: (context) => OrderOverviewFormBloc(appId,
@@ -328,7 +328,7 @@ class _MyOrderOverviewFormState extends State<MyOrderOverviewForm> {
   }
 
   bool _readOnly(AccessState accessState, OrderOverviewFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID));
   }
   
 

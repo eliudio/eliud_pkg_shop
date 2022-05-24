@@ -32,7 +32,7 @@ class ProductEntity {
   final List<ProductImageEntity>? images;
   final PosSizeEntity? posSize;
 
-  ProductEntity({this.appId, this.title, this.about, this.price, this.weight, this.shopId, this.images, this.posSize, });
+  ProductEntity({required this.appId, this.title, this.about, this.price, this.weight, this.shopId, this.images, this.posSize, });
 
 
   List<Object?> get props => [appId, title, about, price, weight, shopId, images, posSize, ];

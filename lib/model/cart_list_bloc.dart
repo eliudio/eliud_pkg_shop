@@ -38,9 +38,47 @@ class CartListBloc extends Bloc<CartListEvent, CartListState> {
   CartListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required CartRepository cartRepository, this.cartLimit = 5})
       : assert(cartRepository != null),
         _cartRepository = cartRepository,
-        super(CartListLoading());
+        super(CartListLoading()) {
+    on <LoadCartList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadCartListToState();
+      } else {
+        _mapLoadCartListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadCartListWithDetailsToState();
+    });
+    
+    on <CartChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadCartListToState();
+      } else {
+        _mapLoadCartListWithDetailsToState();
+      }
+    });
+      
+    on <AddCartList> ((event, emit) async {
+      await _mapAddCartListToState(event);
+    });
+    
+    on <UpdateCartList> ((event, emit) async {
+      await _mapUpdateCartListToState(event);
+    });
+    
+    on <DeleteCartList> ((event, emit) async {
+      await _mapDeleteCartListToState(event);
+    });
+    
+    on <CartListUpdated> ((event, emit) {
+      emit(_mapCartListUpdatedToState(event));
+    });
+  }
 
-  Stream<CartListState> _mapLoadCartListToState() async* {
+  Future<void> _mapLoadCartListToState() async {
     int amountNow =  (state is CartListLoaded) ? (state as CartListLoaded).values!.length : 0;
     _cartsListSubscription?.cancel();
     _cartsListSubscription = _cartRepository.listen(
@@ -52,7 +90,7 @@ class CartListBloc extends Bloc<CartListEvent, CartListState> {
     );
   }
 
-  Stream<CartListState> _mapLoadCartListWithDetailsToState() async* {
+  Future<void> _mapLoadCartListWithDetailsToState() async {
     int amountNow =  (state is CartListLoaded) ? (state as CartListLoaded).values!.length : 0;
     _cartsListSubscription?.cancel();
     _cartsListSubscription = _cartRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class CartListBloc extends Bloc<CartListEvent, CartListState> {
     );
   }
 
-  Stream<CartListState> _mapAddCartListToState(AddCartList event) async* {
+  Future<void> _mapAddCartListToState(AddCartList event) async {
     var value = event.value;
-    if (value != null) 
-      _cartRepository.add(value);
-  }
-
-  Stream<CartListState> _mapUpdateCartListToState(UpdateCartList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _cartRepository.update(value);
-  }
-
-  Stream<CartListState> _mapDeleteCartListToState(DeleteCartList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _cartRepository.delete(value);
-  }
-
-  Stream<CartListState> _mapCartListUpdatedToState(
-      CartListUpdated event) async* {
-    yield CartListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<CartListState> mapEventToState(CartListEvent event) async* {
-    if (event is LoadCartList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadCartListToState();
-      } else {
-        yield* _mapLoadCartListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadCartListWithDetailsToState();
-    } else if (event is CartChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadCartListToState();
-      } else {
-        yield* _mapLoadCartListWithDetailsToState();
-      }
-    } else if (event is AddCartList) {
-      yield* _mapAddCartListToState(event);
-    } else if (event is UpdateCartList) {
-      yield* _mapUpdateCartListToState(event);
-    } else if (event is DeleteCartList) {
-      yield* _mapDeleteCartListToState(event);
-    } else if (event is CartListUpdated) {
-      yield* _mapCartListUpdatedToState(event);
+    if (value != null) {
+      await _cartRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdateCartListToState(UpdateCartList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _cartRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeleteCartListToState(DeleteCartList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _cartRepository.delete(value);
+    }
+  }
+
+  CartListLoaded _mapCartListUpdatedToState(
+      CartListUpdated event) => CartListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

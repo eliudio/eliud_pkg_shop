@@ -59,11 +59,11 @@ class ShopFrontComponentEditorConstructor extends ComponentEditorConstructor {
   @override
   void updateComponentWithID(AppModel app, BuildContext context, String id,
       EditorFeedback feedback) async {
-    var shopFront = await shopFrontRepository(appId: app.documentID!)!.get(id);
+    var shopFront = await shopFrontRepository(appId: app.documentID)!.get(id);
     if (shopFront != null) {
       _openIt(app, context, false, shopFront, feedback);
     } else {
-      openErrorDialog(app, context, app.documentID! + '/_error',
+      openErrorDialog(app, context, app.documentID + '/_error',
           title: 'Error',
           errorMessage: 'Cannot find notification dashboard with id $id');
     }
@@ -74,7 +74,7 @@ class ShopFrontComponentEditorConstructor extends ComponentEditorConstructor {
     openComplexDialog(
       app,
       context,
-      app.documentID! + '/notificationdashboard',
+      app.documentID + '/notificationdashboard',
       title: create
           ? 'Create Notification Dashboard'
           : 'Update Notification Dashboard',
@@ -82,7 +82,7 @@ class ShopFrontComponentEditorConstructor extends ComponentEditorConstructor {
       widthFraction: .9,
       child: BlocProvider<ShopFrontBloc>(
           create: (context) => ShopFrontBloc(
-                app.documentID!,
+                app.documentID,
                 /*create,
             */
                 feedback,
@@ -114,7 +114,7 @@ class _ShopFrontComponentEditorState extends State<ShopFrontComponentEditor> {
       if (accessState is AccessDetermined) {
         var member = accessState.getMember();
         if (member != null) {
-          var memberId = member.documentID!;
+          var memberId = member.documentID;
           return BlocBuilder<ShopFrontBloc, EditorBaseState<ShopFrontModel>>(
               builder: (ppContext, shopFrontState) {
             if (shopFrontState is EditorBaseInitialised<ShopFrontModel>) {
@@ -143,7 +143,7 @@ class _ShopFrontComponentEditorState extends State<ShopFrontComponentEditor> {
                           getListTile(context, widget.app,
                               leading: Icon(Icons.vpn_key),
                               title: text(widget.app, context,
-                                  shopFrontState.model.documentID!)),
+                                  shopFrontState.model.documentID)),
                           getListTile(context, widget.app,
                               leading: Icon(Icons.description),
                               title: dialogField(

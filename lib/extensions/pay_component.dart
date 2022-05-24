@@ -36,7 +36,7 @@ class PayComponentConstructorDefault implements ComponentConstructor {
   }
 
   @override
-  Future<dynamic> getModel({required AppModel app, required String id}) async => await payRepository(appId: app.documentID!)!.get(id);
+  Future<dynamic> getModel({required AppModel app, required String id}) async => await payRepository(appId: app.documentID)!.get(id);
 }
 
 class PayProfileComponent extends AbstractPayComponent {
@@ -83,13 +83,13 @@ class PayProfileComponent extends AbstractPayComponent {
                 create: (context) =>
                 PayBloc()
                   ..add(InitPayEvent(state.order!.currency!,
-                      state.order!.totalPrice!, state.order!.documentID!)),
+                      state.order!.totalPrice!, state.order!.documentID)),
                 child: BlocListener<PayBloc, PayState>(
                     listener: (pay_context, pay_state) {
                       if (pay_state is InitializedPayState) {
                         paymentBloc = BlocProvider.of<PaymentBloc>(context);
                         order = state.order;
-                        WidgetsBinding.instance!.addPostFrameCallback((_) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
                           eliudrouter.Router.navigateTo(
                               pay_context,
                               pay!.payAction!,

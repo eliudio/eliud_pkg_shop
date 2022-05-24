@@ -65,12 +65,12 @@ class ShopPageWizard extends NewAppWizardInfo {
     DrawerProvider rightDrawerProvider,
   ) {
     if (parameters is ShopParameters) {
-        var memberId = member.documentID!;
+        var memberId = member.documentID;
         var tasks = <NewAppTask>[];
 
         tasks.add(() async {
           var cartPaymentWorkflows = await PaymentWorkflowBuilder(uniqueId,
-            app.documentID!,
+            app.documentID,
             parameters: parameters.paymentParameters,
           ).create();
           parameters.paymentParameters.registerCartPaymentWorkflows(cartPaymentWorkflows);

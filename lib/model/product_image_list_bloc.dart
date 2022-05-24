@@ -38,9 +38,47 @@ class ProductImageListBloc extends Bloc<ProductImageListEvent, ProductImageListS
   ProductImageListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ProductImageRepository productImageRepository, this.productImageLimit = 5})
       : assert(productImageRepository != null),
         _productImageRepository = productImageRepository,
-        super(ProductImageListLoading());
+        super(ProductImageListLoading()) {
+    on <LoadProductImageList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadProductImageListToState();
+      } else {
+        _mapLoadProductImageListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadProductImageListWithDetailsToState();
+    });
+    
+    on <ProductImageChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadProductImageListToState();
+      } else {
+        _mapLoadProductImageListWithDetailsToState();
+      }
+    });
+      
+    on <AddProductImageList> ((event, emit) async {
+      await _mapAddProductImageListToState(event);
+    });
+    
+    on <UpdateProductImageList> ((event, emit) async {
+      await _mapUpdateProductImageListToState(event);
+    });
+    
+    on <DeleteProductImageList> ((event, emit) async {
+      await _mapDeleteProductImageListToState(event);
+    });
+    
+    on <ProductImageListUpdated> ((event, emit) {
+      emit(_mapProductImageListUpdatedToState(event));
+    });
+  }
 
-  Stream<ProductImageListState> _mapLoadProductImageListToState() async* {
+  Future<void> _mapLoadProductImageListToState() async {
     int amountNow =  (state is ProductImageListLoaded) ? (state as ProductImageListLoaded).values!.length : 0;
     _productImagesListSubscription?.cancel();
     _productImagesListSubscription = _productImageRepository.listen(
@@ -52,7 +90,7 @@ class ProductImageListBloc extends Bloc<ProductImageListEvent, ProductImageListS
     );
   }
 
-  Stream<ProductImageListState> _mapLoadProductImageListWithDetailsToState() async* {
+  Future<void> _mapLoadProductImageListWithDetailsToState() async {
     int amountNow =  (state is ProductImageListLoaded) ? (state as ProductImageListLoaded).values!.length : 0;
     _productImagesListSubscription?.cancel();
     _productImagesListSubscription = _productImageRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class ProductImageListBloc extends Bloc<ProductImageListEvent, ProductImageListS
     );
   }
 
-  Stream<ProductImageListState> _mapAddProductImageListToState(AddProductImageList event) async* {
+  Future<void> _mapAddProductImageListToState(AddProductImageList event) async {
     var value = event.value;
-    if (value != null) 
-      _productImageRepository.add(value);
-  }
-
-  Stream<ProductImageListState> _mapUpdateProductImageListToState(UpdateProductImageList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _productImageRepository.update(value);
-  }
-
-  Stream<ProductImageListState> _mapDeleteProductImageListToState(DeleteProductImageList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _productImageRepository.delete(value);
-  }
-
-  Stream<ProductImageListState> _mapProductImageListUpdatedToState(
-      ProductImageListUpdated event) async* {
-    yield ProductImageListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<ProductImageListState> mapEventToState(ProductImageListEvent event) async* {
-    if (event is LoadProductImageList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadProductImageListToState();
-      } else {
-        yield* _mapLoadProductImageListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadProductImageListWithDetailsToState();
-    } else if (event is ProductImageChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadProductImageListToState();
-      } else {
-        yield* _mapLoadProductImageListWithDetailsToState();
-      }
-    } else if (event is AddProductImageList) {
-      yield* _mapAddProductImageListToState(event);
-    } else if (event is UpdateProductImageList) {
-      yield* _mapUpdateProductImageListToState(event);
-    } else if (event is DeleteProductImageList) {
-      yield* _mapDeleteProductImageListToState(event);
-    } else if (event is ProductImageListUpdated) {
-      yield* _mapProductImageListUpdatedToState(event);
+    if (value != null) {
+      await _productImageRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdateProductImageListToState(UpdateProductImageList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _productImageRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeleteProductImageListToState(DeleteProductImageList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _productImageRepository.delete(value);
+    }
+  }
+
+  ProductImageListLoaded _mapProductImageListUpdatedToState(
+      ProductImageListUpdated event) => ProductImageListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

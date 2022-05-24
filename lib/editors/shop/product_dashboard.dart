@@ -60,13 +60,13 @@ class ProductDashboard extends StatefulWidget {
 
   static void _openIt(AppModel app, BuildContext context, ShopModel shop, bool create,
       ProductModel model) {
-    openComplexDialog(app, context, app.documentID! + '/Product',
+    openComplexDialog(app, context, app.documentID + '/Product',
         title: create ? 'Create product' : 'Update product',
         includeHeading: false,
         widthFraction: .9,
         child: BlocProvider<ProductBloc>(
           create: (context) => ProductBloc(
-            app.documentID!,
+            app.documentID,
                 (_) {},
             shop,
           )..add(ExtEditorBaseInitialise<ProductModel>(model)),
@@ -121,7 +121,7 @@ class _ProductDashboardState extends State<ProductDashboard> {
                                 getListTile(context, widget.app,
                                     leading: Icon(Icons.vpn_key),
                                     title: text(widget.app, context,
-                                        productState.model.documentID!)),
+                                        productState.model.documentID)),
                                 getListTile(context, widget.app,
                                     leading: Icon(Icons.description),
                                     title: dialogField(
@@ -306,7 +306,7 @@ class _ProductDashboardState extends State<ProductDashboard> {
                 openFlexibleDialog(
                   widget.app,
                   context,
-                  widget.app.documentID! + '/_listeditem',
+                  widget.app.documentID + '/_listeditem',
                   includeHeading: false,
                   widthFraction: .8,
                   child: ProductImageModelWidget.getIt(
@@ -377,7 +377,7 @@ class _ProductDashboardState extends State<ProductDashboard> {
               Registry.registry()!.getMediumApi().takePhoto(
                   context,
                   widget.app,
-                  widget.app.ownerID!,
+                  widget.app.ownerID,
                       () => PlatformMediumAccessRights(
                           PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
 //                      productState.model.conditions!.privilegeLevelRequired!),
@@ -388,7 +388,7 @@ class _ProductDashboardState extends State<ProductDashboard> {
               Registry.registry()!.getMediumApi().uploadPhoto(
                   context,
                   widget.app,
-                  widget.app.ownerID!,
+                  widget.app.ownerID,
                       () => PlatformMediumAccessRights(
                           PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
 //                      productState.model.conditions!.privilegeLevelRequired!),

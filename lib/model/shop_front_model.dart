@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -47,9 +48,9 @@ ScrollDirection toScrollDirection(int? index) {
 }
 
 
-class ShopFrontModel {
-  String? documentID;
-  String? appId;
+class ShopFrontModel implements ModelBase, WithAppId {
+  String documentID;
+  String appId;
   String? title;
   String? description;
   ShopModel? shop;
@@ -64,7 +65,7 @@ class ShopFrontModel {
   EdgeInsetsGeometryModel? padding;
   StorageConditionsModel? conditions;
 
-  ShopFrontModel({this.documentID, this.appId, this.title, this.description, this.shop, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackground, this.addToCartColor, this.scrollDirection, this.buyAction, this.openProductAction, this.padding, this.conditions, })  {
+  ShopFrontModel({required this.documentID, required this.appId, this.title, this.description, this.shop, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackground, this.addToCartColor, this.scrollDirection, this.buyAction, this.openProductAction, this.padding, this.conditions, })  {
     assert(documentID != null);
   }
 
@@ -125,7 +126,7 @@ class ShopFrontModel {
     var counter = 0;
     return ShopFrontModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           title: entity.title, 
           description: entity.description, 
           size: entity.size, 
@@ -164,7 +165,7 @@ class ShopFrontModel {
     var counter = 0;
     return ShopFrontModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           title: entity.title, 
           description: entity.description, 
           shop: shopHolder, 

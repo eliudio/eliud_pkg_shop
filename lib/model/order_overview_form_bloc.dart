@@ -51,82 +51,62 @@ class OrderOverviewFormBloc extends Bloc<OrderOverviewFormEvent, OrderOverviewFo
   Stream<OrderOverviewFormState> mapEventToState(OrderOverviewFormEvent event) async* {
     final currentState = state;
     if (currentState is OrderOverviewFormUninitialized) {
-      if (event is InitialiseNewOrderOverviewFormEvent) {
+      on <InitialiseNewOrderOverviewFormEvent> ((event, emit) {
         OrderOverviewFormLoaded loaded = OrderOverviewFormLoaded(value: OrderOverviewModel(
                                                documentID: "",
                                  appId: "",
                                  description: "",
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialiseOrderOverviewFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
         OrderOverviewFormLoaded loaded = OrderOverviewFormLoaded(value: await orderOverviewRepository(appId: appId)!.get(event.value!.documentID));
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialiseOrderOverviewFormNoLoadEvent) {
         OrderOverviewFormLoaded loaded = OrderOverviewFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is OrderOverviewFormInitialized) {
       OrderOverviewModel? newValue = null;
-      if (event is ChangedOrderOverviewDocumentID) {
+      on <ChangedOrderOverviewDocumentID> ((event, emit) async {
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          emit(await _isDocumentIDValid(event.value, newValue!));
         } else {
-          yield SubmittableOrderOverviewForm(value: newValue);
+          emit(SubmittableOrderOverviewForm(value: newValue));
         }
 
-        return;
-      }
-      if (event is ChangedOrderOverviewDescription) {
+      });
+      on <ChangedOrderOverviewDescription> ((event, emit) async {
         newValue = currentState.value!.copyWith(description: event.value);
-        yield SubmittableOrderOverviewForm(value: newValue);
+        emit(SubmittableOrderOverviewForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderOverviewShop) {
+      });
+      on <ChangedOrderOverviewShop> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new OrderOverviewModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 description: currentState.value!.description,
-                                 shop: null,
-                                 itemImageBackground: currentState.value!.itemImageBackground,
-                                 itemDetailBackground: currentState.value!.itemDetailBackground,
-                                 conditions: currentState.value!.conditions,
-          );
-        yield SubmittableOrderOverviewForm(value: newValue);
+        emit(SubmittableOrderOverviewForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderOverviewItemImageBackground) {
+      });
+      on <ChangedOrderOverviewItemImageBackground> ((event, emit) async {
         newValue = currentState.value!.copyWith(itemImageBackground: event.value);
-        yield SubmittableOrderOverviewForm(value: newValue);
+        emit(SubmittableOrderOverviewForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderOverviewItemDetailBackground) {
+      });
+      on <ChangedOrderOverviewItemDetailBackground> ((event, emit) async {
         newValue = currentState.value!.copyWith(itemDetailBackground: event.value);
-        yield SubmittableOrderOverviewForm(value: newValue);
+        emit(SubmittableOrderOverviewForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedOrderOverviewConditions) {
+      });
+      on <ChangedOrderOverviewConditions> ((event, emit) async {
         newValue = currentState.value!.copyWith(conditions: event.value);
-        yield SubmittableOrderOverviewForm(value: newValue);
+        emit(SubmittableOrderOverviewForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

@@ -48,7 +48,7 @@ class ProductPageBuilder extends AbstractBasicPageTemplate {
   ProductDisplayModel _productDisplayOverview() {
     return ProductDisplayModel(
       documentID: constructDocumentId(uniqueId: uniqueId, documentId: 'product'),
-      appId: app.documentID!,
+      appId: app.documentID,
       description: pageTitle(),
       shop: shop,
       buyAction: CartPageBuilder.openCartPage(app, uniqueId),
@@ -74,7 +74,7 @@ class ProductPageBuilder extends AbstractBasicPageTemplate {
   @override
   Future<void> setupComponent() async {
     await AbstractRepositorySingleton.singleton
-        .productDisplayRepository(app.documentID!)!
+        .productDisplayRepository(app.documentID)!
         .add(_productDisplayOverview());
   }
 }

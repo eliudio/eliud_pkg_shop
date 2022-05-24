@@ -27,23 +27,22 @@ class PayComponentBloc extends Bloc<PayComponentEvent, PayComponentState> {
   final PayRepository? payRepository;
   StreamSubscription? _paySubscription;
 
-  Stream<PayComponentState> _mapLoadPayComponentUpdateToState(String documentId) async* {
+  void _mapLoadPayComponentUpdateToState(String documentId) {
     _paySubscription?.cancel();
     _paySubscription = payRepository!.listenTo(documentId, (value) {
-      if (value != null) add(PayComponentUpdated(value: value));
+      if (value != null) {
+        add(PayComponentUpdated(value: value));
+      }
     });
   }
 
-  PayComponentBloc({ this.payRepository }): super(PayComponentUninitialized());
-
-  @override
-  Stream<PayComponentState> mapEventToState(PayComponentEvent event) async* {
-    final currentState = state;
-    if (event is FetchPayComponent) {
-      yield* _mapLoadPayComponentUpdateToState(event.id!);
-    } else if (event is PayComponentUpdated) {
-      yield PayComponentLoaded(value: event.value);
-    }
+  PayComponentBloc({ this.payRepository }): super(PayComponentUninitialized()) {
+    on <FetchPayComponent> ((event, emit) {
+      _mapLoadPayComponentUpdateToState(event.id!);
+    });
+    on <PayComponentUpdated> ((event, emit) {
+      emit(PayComponentLoaded(value: event.value));
+    });
   }
 
   @override

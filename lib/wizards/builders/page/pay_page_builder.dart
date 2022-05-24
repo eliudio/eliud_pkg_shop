@@ -54,7 +54,7 @@ class PayPageBuilder extends AbstractPageTemplate {
   PayModel _payModel() {
     return PayModel(
       documentID: constructDocumentId(uniqueId: uniqueId, documentId: 'pay'),
-      appId: app.documentID!,
+      appId: app.documentID,
       description: pageTitle(),
       shop: shop,
       payAction: cartPaymentWorkflows != null ? getParameterAction(app, cartPaymentWorkflows!) : null,
@@ -79,7 +79,7 @@ class PayPageBuilder extends AbstractPageTemplate {
   @override
   Future<void> setupComponent() async {
     await AbstractRepositorySingleton.singleton
-        .payRepository(app.documentID!)!
+        .payRepository(app.documentID)!
         .add(_payModel());
   }
 }

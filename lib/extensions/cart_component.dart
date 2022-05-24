@@ -21,7 +21,7 @@ class CartComponentConstructorDefault implements ComponentConstructor {
 
   @override
   Future<dynamic> getModel({required AppModel app, required String id}) async =>
-      await cartRepository(appId: app.documentID!)!.get(id);
+      await cartRepository(appId: app.documentID)!.get(id);
 }
 
 class CartProfileComponent extends AbstractCartComponent {
@@ -36,7 +36,7 @@ class CartProfileComponent extends AbstractCartComponent {
   @override
   CartRepository getCartRepository(BuildContext context) {
     return AbstractRepositorySingleton.singleton
-        .cartRepository(app.documentID!)!;
+        .cartRepository(app.documentID)!;
   }
 
   @override

@@ -39,7 +39,7 @@ abstract class AbstractPayConfirmationComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<PayConfirmationComponentBloc> (
           create: (context) => PayConfirmationComponentBloc(
-            payConfirmationRepository: payConfirmationRepository(appId: app.documentID!)!)
+            payConfirmationRepository: payConfirmationRepository(appId: app.documentID)!)
         ..add(FetchPayConfirmationComponent(id: payConfirmationId)),
       child: _payConfirmationBlockBuilder(context),
     );

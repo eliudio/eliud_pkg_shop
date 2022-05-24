@@ -74,7 +74,7 @@ class OrderForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<OrderFormBloc >(
             create: (context) => OrderFormBloc(appId,
@@ -575,23 +575,23 @@ class _MyOrderFormState extends State<MyOrderForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _statusSelectedRadioTile, 'Ordered', 'Ordered', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionStatus(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _statusSelectedRadioTile, 'Ordered', 'Ordered', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionStatus(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _statusSelectedRadioTile, 'Paid', 'Paid', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionStatus(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _statusSelectedRadioTile, 'Paid', 'Paid', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionStatus(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _statusSelectedRadioTile, 'PaymentFailed', 'PaymentFailed', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionStatus(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _statusSelectedRadioTile, 'PaymentFailed', 'PaymentFailed', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionStatus(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _statusSelectedRadioTile, 'Shipped', 'Shipped', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionStatus(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _statusSelectedRadioTile, 'Shipped', 'Shipped', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionStatus(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _statusSelectedRadioTile, 'Delivered', 'Delivered', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionStatus(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _statusSelectedRadioTile, 'Delivered', 'Delivered', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionStatus(val))
           );
 
 
@@ -882,7 +882,7 @@ class _MyOrderFormState extends State<MyOrderForm> {
   }
 
   bool _readOnly(AccessState accessState, OrderFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID));
   }
   
 
@@ -901,7 +901,7 @@ class OrderPaymentForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<OrderFormBloc >(
             create: (context) => OrderFormBloc(appId,
@@ -951,6 +951,8 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
   final FormAction? formAction;
   late OrderFormBloc _myFormBloc;
 
+  final TextEditingController _documentIDController = TextEditingController();
+  final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _shipStreet1Controller = TextEditingController();
   final TextEditingController _shipStreet2Controller = TextEditingController();
@@ -975,6 +977,8 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
   void initState() {
     super.initState();
     _myFormBloc = BlocProvider.of<OrderFormBloc>(context);
+    _documentIDController.addListener(_onDocumentIDChanged);
+    _appIdController.addListener(_onAppIdChanged);
     _nameController.addListener(_onNameChanged);
     _shipStreet1Controller.addListener(_onShipStreet1Changed);
     _shipStreet2Controller.addListener(_onShipStreet2Changed);
@@ -1002,6 +1006,14 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
       );
 
       if (state is OrderFormLoaded) {
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
+        else
+          _documentIDController.text = "";
+        if (state.value!.appId != null)
+          _appIdController.text = state.value!.appId.toString();
+        else
+          _appIdController.text = "";
         if (state.value!.name != null)
           _nameController.text = state.value!.name.toString();
         else
@@ -1074,6 +1086,11 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
                 ));
+
+        children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDOrderFormError ? state.message : null, hintText: null)
+          );
 
         children.add(
 
@@ -1224,6 +1241,8 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<OrderListBloc>(context).add(
                           UpdateOrderList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
                               name: state.value!.name, 
                               shipStreet1: state.value!.shipStreet1, 
                               shipStreet2: state.value!.shipStreet2, 
@@ -1244,6 +1263,8 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
                       } else {
                         BlocProvider.of<OrderListBloc>(context).add(
                           AddOrderList(value: OrderModel(
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
                               name: state.value!.name, 
                               shipStreet1: state.value!.shipStreet1, 
                               shipStreet2: state.value!.shipStreet2, 
@@ -1285,6 +1306,16 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
       }
     });
   }
+
+  void _onDocumentIDChanged() {
+    _myFormBloc.add(ChangedOrderDocumentID(value: _documentIDController.text));
+  }
+
+
+  void _onAppIdChanged() {
+    _myFormBloc.add(ChangedOrderAppId(value: _appIdController.text));
+  }
+
 
   void _onNameChanged() {
     _myFormBloc.add(ChangedOrderName(value: _nameController.text));
@@ -1371,6 +1402,8 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
 
   @override
   void dispose() {
+    _documentIDController.dispose();
+    _appIdController.dispose();
     _nameController.dispose();
     _shipStreet1Controller.dispose();
     _shipStreet2Controller.dispose();
@@ -1390,7 +1423,7 @@ class _MyOrderPaymentFormState extends State<MyOrderPaymentForm> {
   }
 
   bool _readOnly(AccessState accessState, OrderFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID));
   }
   
 
@@ -1409,7 +1442,7 @@ class OrderShipmentForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<OrderFormBloc >(
             create: (context) => OrderFormBloc(appId,
@@ -1459,6 +1492,8 @@ class _MyOrderShipmentFormState extends State<MyOrderShipmentForm> {
   final FormAction? formAction;
   late OrderFormBloc _myFormBloc;
 
+  final TextEditingController _documentIDController = TextEditingController();
+  final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _shipmentReferenceController = TextEditingController();
   final TextEditingController _shipmentNoteController = TextEditingController();
 
@@ -1469,6 +1504,8 @@ class _MyOrderShipmentFormState extends State<MyOrderShipmentForm> {
   void initState() {
     super.initState();
     _myFormBloc = BlocProvider.of<OrderFormBloc>(context);
+    _documentIDController.addListener(_onDocumentIDChanged);
+    _appIdController.addListener(_onAppIdChanged);
     _shipmentReferenceController.addListener(_onShipmentReferenceChanged);
     _shipmentNoteController.addListener(_onShipmentNoteChanged);
   }
@@ -1482,6 +1519,14 @@ class _MyOrderShipmentFormState extends State<MyOrderShipmentForm> {
       );
 
       if (state is OrderFormLoaded) {
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
+        else
+          _documentIDController.text = "";
+        if (state.value!.appId != null)
+          _appIdController.text = state.value!.appId.toString();
+        else
+          _appIdController.text = "";
         if (state.value!.shipmentReference != null)
           _shipmentReferenceController.text = state.value!.shipmentReference.toString();
         else
@@ -1493,6 +1538,22 @@ class _MyOrderShipmentFormState extends State<MyOrderShipmentForm> {
       }
       if (state is OrderFormInitialized) {
         List<Widget> children = [];
+         children.add(Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
+                ));
+
+        children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDOrderFormError ? state.message : null, hintText: null)
+          );
+
+
+        children.add(Container(height: 20.0));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
+
+
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
@@ -1534,12 +1595,16 @@ class _MyOrderShipmentFormState extends State<MyOrderShipmentForm> {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<OrderListBloc>(context).add(
                           UpdateOrderList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
                               shipmentReference: state.value!.shipmentReference, 
                               shipmentNote: state.value!.shipmentNote, 
                         )));
                       } else {
                         BlocProvider.of<OrderListBloc>(context).add(
                           AddOrderList(value: OrderModel(
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
                               shipmentReference: state.value!.shipmentReference, 
                               shipmentNote: state.value!.shipmentNote, 
                           )));
@@ -1568,6 +1633,16 @@ class _MyOrderShipmentFormState extends State<MyOrderShipmentForm> {
     });
   }
 
+  void _onDocumentIDChanged() {
+    _myFormBloc.add(ChangedOrderDocumentID(value: _documentIDController.text));
+  }
+
+
+  void _onAppIdChanged() {
+    _myFormBloc.add(ChangedOrderAppId(value: _appIdController.text));
+  }
+
+
   void _onShipmentReferenceChanged() {
     _myFormBloc.add(ChangedOrderShipmentReference(value: _shipmentReferenceController.text));
   }
@@ -1581,13 +1656,15 @@ class _MyOrderShipmentFormState extends State<MyOrderShipmentForm> {
 
   @override
   void dispose() {
+    _documentIDController.dispose();
+    _appIdController.dispose();
     _shipmentReferenceController.dispose();
     _shipmentNoteController.dispose();
     super.dispose();
   }
 
   bool _readOnly(AccessState accessState, OrderFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID));
   }
   
 

@@ -29,7 +29,7 @@ class PayConfirmationEntity {
   final ActionEntity? backToShopAction;
   final StorageConditionsEntity? conditions;
 
-  PayConfirmationEntity({this.appId, this.description, this.shopId, this.backToShopAction, this.conditions, });
+  PayConfirmationEntity({required this.appId, this.description, this.shopId, this.backToShopAction, this.conditions, });
 
 
   List<Object?> get props => [appId, description, shopId, backToShopAction, conditions, ];

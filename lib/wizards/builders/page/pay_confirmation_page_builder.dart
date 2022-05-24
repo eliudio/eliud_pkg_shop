@@ -54,7 +54,7 @@ class PayConfirmationPageBuilder extends AbstractPageTemplate {
   PayConfirmationModel _payConfirmationModel() {
     return PayConfirmationModel(
       documentID: constructDocumentId(uniqueId: uniqueId, documentId: 'payconfirmation'),
-      appId: app.documentID!,
+      appId: app.documentID,
       description: pageTitle(),
       shop: shop,
       backToShopAction: GotoPage(app, pageID: constructDocumentId(uniqueId: uniqueId, documentId: ShopPageBuilder.PAGE_ID)),
@@ -78,7 +78,7 @@ class PayConfirmationPageBuilder extends AbstractPageTemplate {
   @override
   Future<void> setupComponent() async {
     await AbstractRepositorySingleton.singleton
-        .payConfirmationRepository(app.documentID!)!
+        .payConfirmationRepository(app.documentID)!
         .add(_payConfirmationModel());
   }
 

@@ -35,7 +35,7 @@ class CartEntity {
   final ActionEntity? openProductAction;
   final StorageConditionsEntity? conditions;
 
-  CartEntity({this.appId, this.title, this.description, this.checkoutText, this.shopId, this.itemImageBackground, this.itemDetailBackground, this.checkoutAction, this.backToShopAction, this.openProductAction, this.conditions, });
+  CartEntity({required this.appId, this.title, this.description, this.checkoutText, this.shopId, this.itemImageBackground, this.itemDetailBackground, this.checkoutAction, this.backToShopAction, this.openProductAction, this.conditions, });
 
 
   List<Object?> get props => [appId, title, description, checkoutText, shopId, itemImageBackground, itemDetailBackground, checkoutAction, backToShopAction, openProductAction, conditions, ];

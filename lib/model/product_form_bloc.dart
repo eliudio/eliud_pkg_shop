@@ -51,7 +51,7 @@ class ProductFormBloc extends Bloc<ProductFormEvent, ProductFormState> {
   Stream<ProductFormState> mapEventToState(ProductFormEvent event) async* {
     final currentState = state;
     if (currentState is ProductFormUninitialized) {
-      if (event is InitialiseNewProductFormEvent) {
+      on <InitialiseNewProductFormEvent> ((event, emit) {
         ProductFormLoaded loaded = ProductFormLoaded(value: ProductModel(
                                                documentID: "",
                                  appId: "",
@@ -62,99 +62,75 @@ class ProductFormBloc extends Bloc<ProductFormEvent, ProductFormState> {
                                  images: [],
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialiseProductFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
         ProductFormLoaded loaded = ProductFormLoaded(value: await productRepository(appId: appId)!.get(event.value!.documentID));
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialiseProductFormNoLoadEvent) {
         ProductFormLoaded loaded = ProductFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is ProductFormInitialized) {
       ProductModel? newValue = null;
-      if (event is ChangedProductDocumentID) {
+      on <ChangedProductDocumentID> ((event, emit) async {
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          emit(await _isDocumentIDValid(event.value, newValue!));
         } else {
-          yield SubmittableProductForm(value: newValue);
+          emit(SubmittableProductForm(value: newValue));
         }
 
-        return;
-      }
-      if (event is ChangedProductTitle) {
+      });
+      on <ChangedProductTitle> ((event, emit) async {
         newValue = currentState.value!.copyWith(title: event.value);
-        yield SubmittableProductForm(value: newValue);
+        emit(SubmittableProductForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedProductAbout) {
+      });
+      on <ChangedProductAbout> ((event, emit) async {
         newValue = currentState.value!.copyWith(about: event.value);
-        yield SubmittableProductForm(value: newValue);
+        emit(SubmittableProductForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedProductPrice) {
+      });
+      on <ChangedProductPrice> ((event, emit) async {
         if (isDouble(event.value!)) {
           newValue = currentState.value!.copyWith(price: double.parse(event.value!));
-          yield SubmittableProductForm(value: newValue);
+          emit(SubmittableProductForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(price: 0.0);
-          yield PriceProductFormError(message: "Value should be a number or decimal number", value: newValue);
+          emit(PriceProductFormError(message: "Value should be a number or decimal number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedProductWeight) {
+      });
+      on <ChangedProductWeight> ((event, emit) async {
         if (isDouble(event.value!)) {
           newValue = currentState.value!.copyWith(weight: double.parse(event.value!));
-          yield SubmittableProductForm(value: newValue);
+          emit(SubmittableProductForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(weight: 0.0);
-          yield WeightProductFormError(message: "Value should be a number or decimal number", value: newValue);
+          emit(WeightProductFormError(message: "Value should be a number or decimal number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedProductShop) {
+      });
+      on <ChangedProductShop> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new ProductModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
-                                 about: currentState.value!.about,
-                                 price: currentState.value!.price,
-                                 weight: currentState.value!.weight,
-                                 shop: null,
-                                 images: currentState.value!.images,
-                                 posSize: currentState.value!.posSize,
-          );
-        yield SubmittableProductForm(value: newValue);
+        emit(SubmittableProductForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedProductImages) {
+      });
+      on <ChangedProductImages> ((event, emit) async {
         newValue = currentState.value!.copyWith(images: event.value);
-        yield SubmittableProductForm(value: newValue);
+        emit(SubmittableProductForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedProductPosSize) {
+      });
+      on <ChangedProductPosSize> ((event, emit) async {
         newValue = currentState.value!.copyWith(posSize: event.value);
-        yield SubmittableProductForm(value: newValue);
+        emit(SubmittableProductForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

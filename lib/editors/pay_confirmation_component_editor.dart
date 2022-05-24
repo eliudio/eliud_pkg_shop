@@ -54,11 +54,11 @@ class PayConfirmationComponentEditorConstructor
   void updateComponentWithID(AppModel app, BuildContext context, String id,
       EditorFeedback feedback) async {
     var payConfirmation =
-        await payConfirmationRepository(appId: app.documentID!)!.get(id);
+        await payConfirmationRepository(appId: app.documentID)!.get(id);
     if (payConfirmation != null) {
       _openIt(app, context, false, payConfirmation, feedback);
     } else {
-      openErrorDialog(app, context, app.documentID! + '/_error',
+      openErrorDialog(app, context, app.documentID + '/_error',
           title: 'Error',
           errorMessage: 'Cannot find notification dashboard with id $id');
     }
@@ -69,7 +69,7 @@ class PayConfirmationComponentEditorConstructor
     openComplexDialog(
       app,
       context,
-      app.documentID! + '/notificationdashboard',
+      app.documentID + '/notificationdashboard',
       title: create
           ? 'Create Notification Dashboard'
           : 'Update Notification Dashboard',
@@ -77,7 +77,7 @@ class PayConfirmationComponentEditorConstructor
       widthFraction: .9,
       child: BlocProvider<PayConfirmationBloc>(
           create: (context) => PayConfirmationBloc(
-                app.documentID!,
+                app.documentID,
                 /*create,
             */
                 feedback,
@@ -134,7 +134,7 @@ class _PayConfirmationComponentEditorState
       if (accessState is AccessDetermined) {
         var member = accessState.getMember();
         if (member != null) {
-          var memberId = member.documentID!;
+          var memberId = member.documentID;
           return BlocBuilder<PayConfirmationBloc,
               EditorBaseState<PayConfirmationModel>>(
               builder: (ppContext, payConfirmationState) {
@@ -166,7 +166,7 @@ class _PayConfirmationComponentEditorState
                               getListTile(context, widget.app,
                                   leading: Icon(Icons.vpn_key),
                                   title: text(widget.app, context,
-                                      payConfirmationState.model.documentID!)),
+                                      payConfirmationState.model.documentID)),
                               getListTile(context, widget.app,
                                   leading: Icon(Icons.description),
                                   title: dialogField(

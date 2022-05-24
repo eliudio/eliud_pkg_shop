@@ -50,40 +50,30 @@ class ProductImageFormBloc extends Bloc<ProductImageFormEvent, ProductImageFormS
   Stream<ProductImageFormState> mapEventToState(ProductImageFormEvent event) async* {
     final currentState = state;
     if (currentState is ProductImageFormUninitialized) {
-      if (event is InitialiseNewProductImageFormEvent) {
+      on <InitialiseNewProductImageFormEvent> ((event, emit) {
         ProductImageFormLoaded loaded = ProductImageFormLoaded(value: ProductImageModel(
                                                documentID: "IDENTIFIER", 
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialiseProductImageFormEvent) {
         ProductImageFormLoaded loaded = ProductImageFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialiseProductImageFormNoLoadEvent) {
         ProductImageFormLoaded loaded = ProductImageFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is ProductImageFormInitialized) {
       ProductImageModel? newValue = null;
-      if (event is ChangedProductImageImage) {
+      on <ChangedProductImageImage> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(image: await platformMediumRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new ProductImageModel(
-                                 documentID: currentState.value!.documentID,
-                                 image: null,
-          );
-        yield SubmittableProductImageForm(value: newValue);
+        emit(SubmittableProductImageForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

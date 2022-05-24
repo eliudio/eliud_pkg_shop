@@ -38,9 +38,47 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
   OrderListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required OrderRepository orderRepository, this.orderLimit = 5})
       : assert(orderRepository != null),
         _orderRepository = orderRepository,
-        super(OrderListLoading());
+        super(OrderListLoading()) {
+    on <LoadOrderList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadOrderListToState();
+      } else {
+        _mapLoadOrderListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadOrderListWithDetailsToState();
+    });
+    
+    on <OrderChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadOrderListToState();
+      } else {
+        _mapLoadOrderListWithDetailsToState();
+      }
+    });
+      
+    on <AddOrderList> ((event, emit) async {
+      await _mapAddOrderListToState(event);
+    });
+    
+    on <UpdateOrderList> ((event, emit) async {
+      await _mapUpdateOrderListToState(event);
+    });
+    
+    on <DeleteOrderList> ((event, emit) async {
+      await _mapDeleteOrderListToState(event);
+    });
+    
+    on <OrderListUpdated> ((event, emit) {
+      emit(_mapOrderListUpdatedToState(event));
+    });
+  }
 
-  Stream<OrderListState> _mapLoadOrderListToState() async* {
+  Future<void> _mapLoadOrderListToState() async {
     int amountNow =  (state is OrderListLoaded) ? (state as OrderListLoaded).values!.length : 0;
     _ordersListSubscription?.cancel();
     _ordersListSubscription = _orderRepository.listen(
@@ -52,7 +90,7 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
     );
   }
 
-  Stream<OrderListState> _mapLoadOrderListWithDetailsToState() async* {
+  Future<void> _mapLoadOrderListWithDetailsToState() async {
     int amountNow =  (state is OrderListLoaded) ? (state as OrderListLoaded).values!.length : 0;
     _ordersListSubscription?.cancel();
     _ordersListSubscription = _orderRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
     );
   }
 
-  Stream<OrderListState> _mapAddOrderListToState(AddOrderList event) async* {
+  Future<void> _mapAddOrderListToState(AddOrderList event) async {
     var value = event.value;
-    if (value != null) 
-      _orderRepository.add(value);
-  }
-
-  Stream<OrderListState> _mapUpdateOrderListToState(UpdateOrderList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _orderRepository.update(value);
-  }
-
-  Stream<OrderListState> _mapDeleteOrderListToState(DeleteOrderList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _orderRepository.delete(value);
-  }
-
-  Stream<OrderListState> _mapOrderListUpdatedToState(
-      OrderListUpdated event) async* {
-    yield OrderListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<OrderListState> mapEventToState(OrderListEvent event) async* {
-    if (event is LoadOrderList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadOrderListToState();
-      } else {
-        yield* _mapLoadOrderListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadOrderListWithDetailsToState();
-    } else if (event is OrderChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadOrderListToState();
-      } else {
-        yield* _mapLoadOrderListWithDetailsToState();
-      }
-    } else if (event is AddOrderList) {
-      yield* _mapAddOrderListToState(event);
-    } else if (event is UpdateOrderList) {
-      yield* _mapUpdateOrderListToState(event);
-    } else if (event is DeleteOrderList) {
-      yield* _mapDeleteOrderListToState(event);
-    } else if (event is OrderListUpdated) {
-      yield* _mapOrderListUpdatedToState(event);
+    if (value != null) {
+      await _orderRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdateOrderListToState(UpdateOrderList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _orderRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeleteOrderListToState(DeleteOrderList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _orderRepository.delete(value);
+    }
+  }
+
+  OrderListLoaded _mapOrderListUpdatedToState(
+      OrderListUpdated event) => OrderListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

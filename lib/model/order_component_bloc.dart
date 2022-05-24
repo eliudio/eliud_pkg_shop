@@ -27,23 +27,22 @@ class OrderComponentBloc extends Bloc<OrderComponentEvent, OrderComponentState> 
   final OrderRepository? orderRepository;
   StreamSubscription? _orderSubscription;
 
-  Stream<OrderComponentState> _mapLoadOrderComponentUpdateToState(String documentId) async* {
+  void _mapLoadOrderComponentUpdateToState(String documentId) {
     _orderSubscription?.cancel();
     _orderSubscription = orderRepository!.listenTo(documentId, (value) {
-      if (value != null) add(OrderComponentUpdated(value: value));
+      if (value != null) {
+        add(OrderComponentUpdated(value: value));
+      }
     });
   }
 
-  OrderComponentBloc({ this.orderRepository }): super(OrderComponentUninitialized());
-
-  @override
-  Stream<OrderComponentState> mapEventToState(OrderComponentEvent event) async* {
-    final currentState = state;
-    if (event is FetchOrderComponent) {
-      yield* _mapLoadOrderComponentUpdateToState(event.id!);
-    } else if (event is OrderComponentUpdated) {
-      yield OrderComponentLoaded(value: event.value);
-    }
+  OrderComponentBloc({ this.orderRepository }): super(OrderComponentUninitialized()) {
+    on <FetchOrderComponent> ((event, emit) {
+      _mapLoadOrderComponentUpdateToState(event.id!);
+    });
+    on <OrderComponentUpdated> ((event, emit) {
+      emit(OrderComponentLoaded(value: event.value));
+    });
   }
 
   @override

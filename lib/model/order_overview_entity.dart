@@ -30,7 +30,7 @@ class OrderOverviewEntity {
   final BackgroundEntity? itemDetailBackground;
   final StorageConditionsEntity? conditions;
 
-  OrderOverviewEntity({this.appId, this.description, this.shopId, this.itemImageBackground, this.itemDetailBackground, this.conditions, });
+  OrderOverviewEntity({required this.appId, this.description, this.shopId, this.itemImageBackground, this.itemDetailBackground, this.conditions, });
 
 
   List<Object?> get props => [appId, description, shopId, itemImageBackground, itemDetailBackground, conditions, ];

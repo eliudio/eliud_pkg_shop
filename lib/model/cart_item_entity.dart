@@ -26,7 +26,7 @@ class CartItemEntity {
   final String? appId;
   final String? productId;
 
-  CartItemEntity({this.amount, this.appId, this.productId, });
+  CartItemEntity({this.amount, required this.appId, this.productId, });
 
 
   List<Object?> get props => [amount, appId, productId, ];

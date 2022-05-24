@@ -39,7 +39,7 @@ abstract class AbstractShopFrontComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<ShopFrontComponentBloc> (
           create: (context) => ShopFrontComponentBloc(
-            shopFrontRepository: shopFrontRepository(appId: app.documentID!)!)
+            shopFrontRepository: shopFrontRepository(appId: app.documentID)!)
         ..add(FetchShopFrontComponent(id: shopFrontId)),
       child: _shopFrontBlockBuilder(context),
     );

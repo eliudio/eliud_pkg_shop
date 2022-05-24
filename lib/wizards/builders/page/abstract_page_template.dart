@@ -53,7 +53,7 @@ abstract class AbstractPageTemplate extends PageBuilder {
   Future<PageModel> _setupPage(
       AppBarModel appBar, String? presentationId) async {
     return await corerepo.AbstractRepositorySingleton.singleton
-        .pageRepository(app.documentID!)!
+        .pageRepository(app.documentID)!
         .add(_page(appBar, presentationId));
   }
 
@@ -66,7 +66,7 @@ abstract class AbstractPageTemplate extends PageBuilder {
 
     return PageModel(
         documentID: constructDocumentId(uniqueId: uniqueId, documentId: pageId),
-        appId: app.documentID!,
+        appId: app.documentID,
         title: pageTitle(),
         drawer: leftDrawer,
         endDrawer: rightDrawer,
@@ -82,7 +82,7 @@ abstract class AbstractPageTemplate extends PageBuilder {
   PresentationModel _presentation(PlatformMediumModel? image) {
     return PresentationModel(
       documentID: constructDocumentId(uniqueId: uniqueId, documentId: pageId),
-      appId: app.documentID!,
+      appId: app.documentID,
       bodyComponents: [
         BodyComponentModel(
             documentID: newRandomKey(),
@@ -103,7 +103,7 @@ abstract class AbstractPageTemplate extends PageBuilder {
       PlatformMediumModel? image) async {
     var presentation = _presentation(image);
     await AbstractRepositorySingleton.singleton
-        .presentationRepository(app.documentID!)!
+        .presentationRepository(app.documentID)!
         .add(presentation);
     return presentation;
   }

@@ -74,7 +74,7 @@ class PayForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<PayFormBloc >(
             create: (context) => PayFormBloc(appId,
@@ -343,7 +343,7 @@ class _MyPayFormState extends State<MyPayForm> {
   }
 
   bool _readOnly(AccessState accessState, PayFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID));
   }
   
 

@@ -51,75 +51,57 @@ class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirma
   Stream<PayConfirmationFormState> mapEventToState(PayConfirmationFormEvent event) async* {
     final currentState = state;
     if (currentState is PayConfirmationFormUninitialized) {
-      if (event is InitialiseNewPayConfirmationFormEvent) {
+      on <InitialiseNewPayConfirmationFormEvent> ((event, emit) {
         PayConfirmationFormLoaded loaded = PayConfirmationFormLoaded(value: PayConfirmationModel(
                                                documentID: "",
                                  appId: "",
                                  description: "",
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialisePayConfirmationFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
         PayConfirmationFormLoaded loaded = PayConfirmationFormLoaded(value: await payConfirmationRepository(appId: appId)!.get(event.value!.documentID));
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialisePayConfirmationFormNoLoadEvent) {
         PayConfirmationFormLoaded loaded = PayConfirmationFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is PayConfirmationFormInitialized) {
       PayConfirmationModel? newValue = null;
-      if (event is ChangedPayConfirmationDocumentID) {
+      on <ChangedPayConfirmationDocumentID> ((event, emit) async {
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          emit(await _isDocumentIDValid(event.value, newValue!));
         } else {
-          yield SubmittablePayConfirmationForm(value: newValue);
+          emit(SubmittablePayConfirmationForm(value: newValue));
         }
 
-        return;
-      }
-      if (event is ChangedPayConfirmationDescription) {
+      });
+      on <ChangedPayConfirmationDescription> ((event, emit) async {
         newValue = currentState.value!.copyWith(description: event.value);
-        yield SubmittablePayConfirmationForm(value: newValue);
+        emit(SubmittablePayConfirmationForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPayConfirmationShop) {
+      });
+      on <ChangedPayConfirmationShop> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new PayConfirmationModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 description: currentState.value!.description,
-                                 shop: null,
-                                 backToShopAction: currentState.value!.backToShopAction,
-                                 conditions: currentState.value!.conditions,
-          );
-        yield SubmittablePayConfirmationForm(value: newValue);
+        emit(SubmittablePayConfirmationForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPayConfirmationBackToShopAction) {
+      });
+      on <ChangedPayConfirmationBackToShopAction> ((event, emit) async {
         newValue = currentState.value!.copyWith(backToShopAction: event.value);
-        yield SubmittablePayConfirmationForm(value: newValue);
+        emit(SubmittablePayConfirmationForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPayConfirmationConditions) {
+      });
+      on <ChangedPayConfirmationConditions> ((event, emit) async {
         newValue = currentState.value!.copyWith(conditions: event.value);
-        yield SubmittablePayConfirmationForm(value: newValue);
+        emit(SubmittablePayConfirmationForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

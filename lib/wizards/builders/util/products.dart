@@ -231,7 +231,7 @@ class Products {
     for (var i = 0; i < theProducts.length; i++) {
       var p = theProducts[i];
       await AbstractRepositorySingleton.singleton
-          .productRepository(app.documentID!)!
+          .productRepository(app.documentID)!
           .add(await productToProductModel(uniqueId, shop, app, memberId, p));
     }
   }

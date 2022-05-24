@@ -27,23 +27,22 @@ class ShopFrontComponentBloc extends Bloc<ShopFrontComponentEvent, ShopFrontComp
   final ShopFrontRepository? shopFrontRepository;
   StreamSubscription? _shopFrontSubscription;
 
-  Stream<ShopFrontComponentState> _mapLoadShopFrontComponentUpdateToState(String documentId) async* {
+  void _mapLoadShopFrontComponentUpdateToState(String documentId) {
     _shopFrontSubscription?.cancel();
     _shopFrontSubscription = shopFrontRepository!.listenTo(documentId, (value) {
-      if (value != null) add(ShopFrontComponentUpdated(value: value));
+      if (value != null) {
+        add(ShopFrontComponentUpdated(value: value));
+      }
     });
   }
 
-  ShopFrontComponentBloc({ this.shopFrontRepository }): super(ShopFrontComponentUninitialized());
-
-  @override
-  Stream<ShopFrontComponentState> mapEventToState(ShopFrontComponentEvent event) async* {
-    final currentState = state;
-    if (event is FetchShopFrontComponent) {
-      yield* _mapLoadShopFrontComponentUpdateToState(event.id!);
-    } else if (event is ShopFrontComponentUpdated) {
-      yield ShopFrontComponentLoaded(value: event.value);
-    }
+  ShopFrontComponentBloc({ this.shopFrontRepository }): super(ShopFrontComponentUninitialized()) {
+    on <FetchShopFrontComponent> ((event, emit) {
+      _mapLoadShopFrontComponentUpdateToState(event.id!);
+    });
+    on <ShopFrontComponentUpdated> ((event, emit) {
+      emit(ShopFrontComponentLoaded(value: event.value));
+    });
   }
 
   @override

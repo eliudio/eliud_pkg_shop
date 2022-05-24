@@ -39,7 +39,7 @@ abstract class AbstractPayComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<PayComponentBloc> (
           create: (context) => PayComponentBloc(
-            payRepository: payRepository(appId: app.documentID!)!)
+            payRepository: payRepository(appId: app.documentID)!)
         ..add(FetchPayComponent(id: payId)),
       child: _payBlockBuilder(context),
     );

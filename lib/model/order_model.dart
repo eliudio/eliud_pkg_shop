@@ -16,6 +16,7 @@
 import 'package:collection/collection.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -51,9 +52,9 @@ OrderStatus toOrderStatus(int? index) {
 }
 
 
-class OrderModel {
-  String? documentID;
-  String? appId;
+class OrderModel implements ModelBase, WithAppId {
+  String documentID;
+  String appId;
   MemberModel? customer;
   String? name;
   String? email;
@@ -82,7 +83,7 @@ class OrderModel {
   OrderStatus? status;
   String? timeStamp;
 
-  OrderModel({this.documentID, this.appId, this.customer, this.name, this.email, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.country, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountry, this.products, this.totalPrice, this.currency, this.paymentReference, this.shipmentReference, this.deliveryReference, this.paymentNote, this.shipmentNote, this.deliveryNote, this.status, this.timeStamp, })  {
+  OrderModel({required this.documentID, required this.appId, this.customer, this.name, this.email, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.country, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountry, this.products, this.totalPrice, this.currency, this.paymentReference, this.shipmentReference, this.deliveryReference, this.paymentNote, this.shipmentNote, this.deliveryNote, this.status, this.timeStamp, })  {
     assert(documentID != null);
   }
 
@@ -175,7 +176,7 @@ class OrderModel {
     var counter = 0;
     return OrderModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           name: entity.name, 
           email: entity.email, 
           shipStreet1: entity.shipStreet1, 
@@ -228,7 +229,7 @@ class OrderModel {
     var counter = 0;
     return OrderModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           customer: customerHolder, 
           name: entity.name, 
           email: entity.email, 

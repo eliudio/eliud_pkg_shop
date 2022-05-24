@@ -53,11 +53,11 @@ class CartComponentEditorConstructor extends ComponentEditorConstructor {
   @override
   void updateComponentWithID(AppModel app, BuildContext context, String id,
       EditorFeedback feedback) async {
-    var cart = await cartRepository(appId: app.documentID!)!.get(id);
+    var cart = await cartRepository(appId: app.documentID)!.get(id);
     if (cart != null) {
       _openIt(app, context, false, cart, feedback);
     } else {
-      openErrorDialog(app, context, app.documentID! + '/_error',
+      openErrorDialog(app, context, app.documentID + '/_error',
           title: 'Error',
           errorMessage: 'Cannot find notification dashboard with id $id');
     }
@@ -68,7 +68,7 @@ class CartComponentEditorConstructor extends ComponentEditorConstructor {
     openComplexDialog(
       app,
       context,
-      app.documentID! + '/notificationdashboard',
+      app.documentID + '/notificationdashboard',
       title: create
           ? 'Create Notification Dashboard'
           : 'Update Notification Dashboard',
@@ -76,7 +76,7 @@ class CartComponentEditorConstructor extends ComponentEditorConstructor {
       widthFraction: .9,
       child: BlocProvider<CartBloc>(
           create: (context) => CartBloc(
-                app.documentID!,
+                app.documentID,
                 /*create,
             */
                 feedback,
@@ -108,7 +108,7 @@ class _CartComponentEditorState extends State<CartComponentEditor> {
       if (accessState is AccessDetermined) {
         var member = accessState.getMember();
         if (member != null) {
-          var memberId = member.documentID!;
+          var memberId = member.documentID;
           return BlocBuilder<CartBloc, EditorBaseState<CartModel>>(
               builder: (ppContext, cartState) {
             if (cartState is EditorBaseInitialised<CartModel>) {
@@ -137,7 +137,7 @@ class _CartComponentEditorState extends State<CartComponentEditor> {
                           getListTile(context, widget.app,
                               leading: Icon(Icons.vpn_key),
                               title: text(widget.app, context,
-                                  cartState.model.documentID!)),
+                                  cartState.model.documentID)),
                           getListTile(context, widget.app,
                               leading: Icon(Icons.description),
                               title: dialogField(

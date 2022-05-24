@@ -61,7 +61,7 @@ class ShopPageBuilder extends PageBuilder {
   Future<PageModel> _setupPage(
       String? presentationDocumentId, String? faderIdentifier) async {
     return await corerepo.AbstractRepositorySingleton.singleton
-        .pageRepository(app.documentID!)!
+        .pageRepository(app.documentID)!
         .add(_page(presentationDocumentId, faderIdentifier));
   }
 
@@ -88,7 +88,7 @@ class ShopPageBuilder extends PageBuilder {
 
     return PageModel(
         documentID: constructDocumentId(uniqueId: uniqueId, documentId: PAGE_ID),
-        appId: app.documentID!,
+        appId: app.documentID,
         title: 'Shop',
         drawer: leftDrawer,
         endDrawer: rightDrawer,
@@ -104,7 +104,7 @@ class ShopPageBuilder extends PageBuilder {
 
   Future<FaderModel> _setupFader(PlatformMediumModel faderImage) async {
     return await AbstractRepositorySingleton.singleton
-        .faderRepository(app.documentID!)!
+        .faderRepository(app.documentID)!
         .add(_fader(faderImage));
   }
 
@@ -114,7 +114,7 @@ class ShopPageBuilder extends PageBuilder {
     items.add(ListedItemModel(
         documentID: newRandomKey(),
         description: '',
-        posSize: halfScreen(app.documentID!),
+        posSize: halfScreen(app.documentID),
         image: faderImage));
     var model = FaderModel(
       documentID: constructDocumentId(uniqueId: uniqueId, documentId: faderId),
@@ -122,7 +122,7 @@ class ShopPageBuilder extends PageBuilder {
       animationMilliseconds: 1000,
       imageSeconds: 5,
       items: items,
-      appId: app.documentID!,
+      appId: app.documentID,
       conditions: StorageConditionsModel(
           privilegeLevelRequired:
               PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
@@ -132,7 +132,7 @@ class ShopPageBuilder extends PageBuilder {
 
   Future<ShopModel> _setupShop() async {
     return await shoprepo.AbstractRepositorySingleton.singleton
-        .shopRepository(app.documentID!)!
+        .shopRepository(app.documentID)!
         .add(_shop());
   }
 
@@ -142,7 +142,7 @@ class ShopPageBuilder extends PageBuilder {
         description: 'Main shop',
         shortDescription: 'Main shop',
         currency: 'eur',
-        appId: app.documentID!);
+        appId: app.documentID);
     return document;
   }
 
@@ -151,7 +151,7 @@ class ShopPageBuilder extends PageBuilder {
   ShopFrontModel _shopFront1() {
     return ShopFrontModel(
       documentID: constructDocumentId(uniqueId: uniqueId, documentId: shopFrontIdentifier1),
-      appId: app.documentID!,
+      appId: app.documentID,
       title: 'Featured',
       description: 'These are my featured products',
       shop: _shop(),
@@ -174,7 +174,7 @@ class ShopPageBuilder extends PageBuilder {
   ShopFrontModel _shopFront2() {
     return ShopFrontModel(
       documentID: constructDocumentId(uniqueId: uniqueId, documentId: shopFrontIdentifier2),
-      appId: app.documentID!,
+      appId: app.documentID,
       title: 'My products',
       description: 'These are my lovely products',
       shop: _shop(),
@@ -194,10 +194,10 @@ class ShopPageBuilder extends PageBuilder {
 
   Future<void> _setupShopFronts() async {
     await shoprepo.AbstractRepositorySingleton.singleton
-        .shopFrontRepository(app.documentID!)!
+        .shopFrontRepository(app.documentID)!
         .add(_shopFront1());
     await shoprepo.AbstractRepositorySingleton.singleton
-        .shopFrontRepository(app.documentID!)!
+        .shopFrontRepository(app.documentID)!
         .add(_shopFront2());
   }
 
@@ -228,7 +228,7 @@ class ShopPageBuilder extends PageBuilder {
   PresentationModel _presentation(PlatformMediumModel memberMediumModel) {
     return PresentationModel(
       documentID: constructDocumentId(uniqueId: uniqueId, documentId: 'shop'),
-      appId: app.documentID!,
+      appId: app.documentID,
       bodyComponents: [_shopFront()],
       image: memberMediumModel,
       imagePositionRelative: PresentationRelativeImagePosition.Aside,
@@ -251,7 +251,7 @@ class ShopPageBuilder extends PageBuilder {
       PlatformMediumModel memberMediumModel) async {
     var presentationModel = _presentation(memberMediumModel);
     await AbstractRepositorySingleton.singleton
-        .presentationRepository(app.documentID!)!
+        .presentationRepository(app.documentID)!
         .add(presentationModel);
     return presentationModel;
   }
@@ -266,7 +266,7 @@ class ShopPageBuilder extends PageBuilder {
       height: 10,
       indent: 0,
       thickness: .5,
-      appId: app.documentID!,
+      appId: app.documentID,
       conditions: StorageConditionsModel(
           privilegeLevelRequired:
               PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
@@ -275,7 +275,7 @@ class ShopPageBuilder extends PageBuilder {
   }
 
   Future<void> setupDivider() async {
-    await dividerRepository(appId: app.documentID!)!.add(_divider());
+    await dividerRepository(appId: app.documentID)!.add(_divider());
   }
 
   Future<ShopModel> create(

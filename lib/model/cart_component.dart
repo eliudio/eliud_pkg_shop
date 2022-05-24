@@ -39,7 +39,7 @@ abstract class AbstractCartComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<CartComponentBloc> (
           create: (context) => CartComponentBloc(
-            cartRepository: cartRepository(appId: app.documentID!)!)
+            cartRepository: cartRepository(appId: app.documentID)!)
         ..add(FetchCartComponent(id: cartId)),
       child: _cartBlockBuilder(context),
     );

@@ -27,7 +27,7 @@ class ShopEntity {
   final String? shortDescription;
   final String? currency;
 
-  ShopEntity({this.appId, this.description, this.shortDescription, this.currency, });
+  ShopEntity({required this.appId, this.description, this.shortDescription, this.currency, });
 
 
   List<Object?> get props => [appId, description, shortDescription, currency, ];

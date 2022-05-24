@@ -75,7 +75,7 @@ class ProductImageListWidget extends StatefulWidget with HasFab {
 class ProductImageListWidgetState extends State<ProductImageListWidget> {
   @override
   Widget? fab(BuildContext aContext, AccessState accessState) {
-    return !accessState.memberIsOwner(widget.app.documentID!) 
+    return !accessState.memberIsOwner(widget.app.documentID) 
       ? null
       : StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().floatingActionButton(widget.app, context, 'PageFloatBtnTag', Icon(Icons.add),
       onPressed: () {
@@ -218,7 +218,7 @@ class ProductImageListItem extends StatelessWidget {
       child: ListTile(
         onTap: onTap,
         title: ImageHelper.getImageFromPlatformModel(platformMediumModel: value.image!, width: fullScreenWidth(context)),
-        subtitle: value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID!)) : Container(),
+        subtitle: value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID)) : Container(),
       ),
     );
   }

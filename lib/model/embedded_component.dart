@@ -105,14 +105,14 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
     }
 
     Future<void> delete(OrderItemModel value) {
-      int index = _index(value.documentID!);
+      int index = _index(value.documentID);
       if (index >= 0) items.removeAt(index);
       trigger(items);
       return Future.value(value);
     }
 
     Future<OrderItemModel> update(OrderItemModel value) {
-      int index = _index(value.documentID!);
+      int index = _index(value.documentID);
       if (index >= 0) {
         items.replaceRange(index, index+1, [value]);
         trigger(items);
@@ -208,14 +208,14 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
     }
 
     Future<void> delete(ProductImageModel value) {
-      int index = _index(value.documentID!);
+      int index = _index(value.documentID);
       if (index >= 0) items.removeAt(index);
       trigger(items);
       return Future.value(value);
     }
 
     Future<ProductImageModel> update(ProductImageModel value) {
-      int index = _index(value.documentID!);
+      int index = _index(value.documentID);
       if (index >= 0) {
         items.replaceRange(index, index+1, [value]);
         trigger(items);

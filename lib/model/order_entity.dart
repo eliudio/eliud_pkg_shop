@@ -52,7 +52,7 @@ class OrderEntity {
   final int? status;
   final String? timeStamp;
 
-  OrderEntity({this.appId, this.customerId, this.name, this.email, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.country, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountry, this.products, this.totalPrice, this.currency, this.paymentReference, this.shipmentReference, this.deliveryReference, this.paymentNote, this.shipmentNote, this.deliveryNote, this.status, this.timeStamp, });
+  OrderEntity({required this.appId, this.customerId, this.name, this.email, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.country, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountry, this.products, this.totalPrice, this.currency, this.paymentReference, this.shipmentReference, this.deliveryReference, this.paymentNote, this.shipmentNote, this.deliveryNote, this.status, this.timeStamp, });
 
 
   List<Object?> get props => [appId, customerId, name, email, shipStreet1, shipStreet2, shipCity, shipState, postcode, country, invoiceSame, invoiceStreet1, invoiceStreet2, invoiceCity, invoiceState, invoicePostcode, invoiceCountry, products, totalPrice, currency, paymentReference, shipmentReference, deliveryReference, paymentNote, shipmentNote, deliveryNote, status, timeStamp, ];

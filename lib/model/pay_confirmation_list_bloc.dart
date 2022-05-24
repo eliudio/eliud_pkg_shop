@@ -38,9 +38,47 @@ class PayConfirmationListBloc extends Bloc<PayConfirmationListEvent, PayConfirma
   PayConfirmationListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PayConfirmationRepository payConfirmationRepository, this.payConfirmationLimit = 5})
       : assert(payConfirmationRepository != null),
         _payConfirmationRepository = payConfirmationRepository,
-        super(PayConfirmationListLoading());
+        super(PayConfirmationListLoading()) {
+    on <LoadPayConfirmationList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadPayConfirmationListToState();
+      } else {
+        _mapLoadPayConfirmationListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadPayConfirmationListWithDetailsToState();
+    });
+    
+    on <PayConfirmationChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadPayConfirmationListToState();
+      } else {
+        _mapLoadPayConfirmationListWithDetailsToState();
+      }
+    });
+      
+    on <AddPayConfirmationList> ((event, emit) async {
+      await _mapAddPayConfirmationListToState(event);
+    });
+    
+    on <UpdatePayConfirmationList> ((event, emit) async {
+      await _mapUpdatePayConfirmationListToState(event);
+    });
+    
+    on <DeletePayConfirmationList> ((event, emit) async {
+      await _mapDeletePayConfirmationListToState(event);
+    });
+    
+    on <PayConfirmationListUpdated> ((event, emit) {
+      emit(_mapPayConfirmationListUpdatedToState(event));
+    });
+  }
 
-  Stream<PayConfirmationListState> _mapLoadPayConfirmationListToState() async* {
+  Future<void> _mapLoadPayConfirmationListToState() async {
     int amountNow =  (state is PayConfirmationListLoaded) ? (state as PayConfirmationListLoaded).values!.length : 0;
     _payConfirmationsListSubscription?.cancel();
     _payConfirmationsListSubscription = _payConfirmationRepository.listen(
@@ -52,7 +90,7 @@ class PayConfirmationListBloc extends Bloc<PayConfirmationListEvent, PayConfirma
     );
   }
 
-  Stream<PayConfirmationListState> _mapLoadPayConfirmationListWithDetailsToState() async* {
+  Future<void> _mapLoadPayConfirmationListWithDetailsToState() async {
     int amountNow =  (state is PayConfirmationListLoaded) ? (state as PayConfirmationListLoaded).values!.length : 0;
     _payConfirmationsListSubscription?.cancel();
     _payConfirmationsListSubscription = _payConfirmationRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class PayConfirmationListBloc extends Bloc<PayConfirmationListEvent, PayConfirma
     );
   }
 
-  Stream<PayConfirmationListState> _mapAddPayConfirmationListToState(AddPayConfirmationList event) async* {
+  Future<void> _mapAddPayConfirmationListToState(AddPayConfirmationList event) async {
     var value = event.value;
-    if (value != null) 
-      _payConfirmationRepository.add(value);
-  }
-
-  Stream<PayConfirmationListState> _mapUpdatePayConfirmationListToState(UpdatePayConfirmationList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _payConfirmationRepository.update(value);
-  }
-
-  Stream<PayConfirmationListState> _mapDeletePayConfirmationListToState(DeletePayConfirmationList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _payConfirmationRepository.delete(value);
-  }
-
-  Stream<PayConfirmationListState> _mapPayConfirmationListUpdatedToState(
-      PayConfirmationListUpdated event) async* {
-    yield PayConfirmationListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<PayConfirmationListState> mapEventToState(PayConfirmationListEvent event) async* {
-    if (event is LoadPayConfirmationList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadPayConfirmationListToState();
-      } else {
-        yield* _mapLoadPayConfirmationListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadPayConfirmationListWithDetailsToState();
-    } else if (event is PayConfirmationChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadPayConfirmationListToState();
-      } else {
-        yield* _mapLoadPayConfirmationListWithDetailsToState();
-      }
-    } else if (event is AddPayConfirmationList) {
-      yield* _mapAddPayConfirmationListToState(event);
-    } else if (event is UpdatePayConfirmationList) {
-      yield* _mapUpdatePayConfirmationListToState(event);
-    } else if (event is DeletePayConfirmationList) {
-      yield* _mapDeletePayConfirmationListToState(event);
-    } else if (event is PayConfirmationListUpdated) {
-      yield* _mapPayConfirmationListUpdatedToState(event);
+    if (value != null) {
+      await _payConfirmationRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdatePayConfirmationListToState(UpdatePayConfirmationList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _payConfirmationRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeletePayConfirmationListToState(DeletePayConfirmationList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _payConfirmationRepository.delete(value);
+    }
+  }
+
+  PayConfirmationListLoaded _mapPayConfirmationListUpdatedToState(
+      PayConfirmationListUpdated event) => PayConfirmationListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

@@ -38,9 +38,47 @@ class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {
   ShopFrontListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ShopFrontRepository shopFrontRepository, this.shopFrontLimit = 5})
       : assert(shopFrontRepository != null),
         _shopFrontRepository = shopFrontRepository,
-        super(ShopFrontListLoading());
+        super(ShopFrontListLoading()) {
+    on <LoadShopFrontList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadShopFrontListToState();
+      } else {
+        _mapLoadShopFrontListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadShopFrontListWithDetailsToState();
+    });
+    
+    on <ShopFrontChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadShopFrontListToState();
+      } else {
+        _mapLoadShopFrontListWithDetailsToState();
+      }
+    });
+      
+    on <AddShopFrontList> ((event, emit) async {
+      await _mapAddShopFrontListToState(event);
+    });
+    
+    on <UpdateShopFrontList> ((event, emit) async {
+      await _mapUpdateShopFrontListToState(event);
+    });
+    
+    on <DeleteShopFrontList> ((event, emit) async {
+      await _mapDeleteShopFrontListToState(event);
+    });
+    
+    on <ShopFrontListUpdated> ((event, emit) {
+      emit(_mapShopFrontListUpdatedToState(event));
+    });
+  }
 
-  Stream<ShopFrontListState> _mapLoadShopFrontListToState() async* {
+  Future<void> _mapLoadShopFrontListToState() async {
     int amountNow =  (state is ShopFrontListLoaded) ? (state as ShopFrontListLoaded).values!.length : 0;
     _shopFrontsListSubscription?.cancel();
     _shopFrontsListSubscription = _shopFrontRepository.listen(
@@ -52,7 +90,7 @@ class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {
     );
   }
 
-  Stream<ShopFrontListState> _mapLoadShopFrontListWithDetailsToState() async* {
+  Future<void> _mapLoadShopFrontListWithDetailsToState() async {
     int amountNow =  (state is ShopFrontListLoaded) ? (state as ShopFrontListLoaded).values!.length : 0;
     _shopFrontsListSubscription?.cancel();
     _shopFrontsListSubscription = _shopFrontRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {
     );
   }
 
-  Stream<ShopFrontListState> _mapAddShopFrontListToState(AddShopFrontList event) async* {
+  Future<void> _mapAddShopFrontListToState(AddShopFrontList event) async {
     var value = event.value;
-    if (value != null) 
-      _shopFrontRepository.add(value);
-  }
-
-  Stream<ShopFrontListState> _mapUpdateShopFrontListToState(UpdateShopFrontList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _shopFrontRepository.update(value);
-  }
-
-  Stream<ShopFrontListState> _mapDeleteShopFrontListToState(DeleteShopFrontList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _shopFrontRepository.delete(value);
-  }
-
-  Stream<ShopFrontListState> _mapShopFrontListUpdatedToState(
-      ShopFrontListUpdated event) async* {
-    yield ShopFrontListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<ShopFrontListState> mapEventToState(ShopFrontListEvent event) async* {
-    if (event is LoadShopFrontList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadShopFrontListToState();
-      } else {
-        yield* _mapLoadShopFrontListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadShopFrontListWithDetailsToState();
-    } else if (event is ShopFrontChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadShopFrontListToState();
-      } else {
-        yield* _mapLoadShopFrontListWithDetailsToState();
-      }
-    } else if (event is AddShopFrontList) {
-      yield* _mapAddShopFrontListToState(event);
-    } else if (event is UpdateShopFrontList) {
-      yield* _mapUpdateShopFrontListToState(event);
-    } else if (event is DeleteShopFrontList) {
-      yield* _mapDeleteShopFrontListToState(event);
-    } else if (event is ShopFrontListUpdated) {
-      yield* _mapShopFrontListUpdatedToState(event);
+    if (value != null) {
+      await _shopFrontRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdateShopFrontListToState(UpdateShopFrontList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _shopFrontRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeleteShopFrontListToState(DeleteShopFrontList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _shopFrontRepository.delete(value);
+    }
+  }
+
+  ShopFrontListLoaded _mapShopFrontListUpdatedToState(
+      ShopFrontListUpdated event) => ShopFrontListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

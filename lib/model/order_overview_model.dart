@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -35,16 +36,16 @@ import 'package:eliud_core/tools/random.dart';
 
 
 
-class OrderOverviewModel {
-  String? documentID;
-  String? appId;
+class OrderOverviewModel implements ModelBase, WithAppId {
+  String documentID;
+  String appId;
   String? description;
   ShopModel? shop;
   BackgroundModel? itemImageBackground;
   BackgroundModel? itemDetailBackground;
   StorageConditionsModel? conditions;
 
-  OrderOverviewModel({this.documentID, this.appId, this.description, this.shop, this.itemImageBackground, this.itemDetailBackground, this.conditions, })  {
+  OrderOverviewModel({required this.documentID, required this.appId, this.description, this.shop, this.itemImageBackground, this.itemDetailBackground, this.conditions, })  {
     assert(documentID != null);
   }
 
@@ -89,7 +90,7 @@ class OrderOverviewModel {
     var counter = 0;
     return OrderOverviewModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           description: entity.description, 
           itemImageBackground: 
             await BackgroundModel.fromEntity(entity.itemImageBackground), 
@@ -117,7 +118,7 @@ class OrderOverviewModel {
     var counter = 0;
     return OrderOverviewModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           description: entity.description, 
           shop: shopHolder, 
           itemImageBackground: 
