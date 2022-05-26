@@ -106,6 +106,9 @@ class CartPageBuilder extends AbstractPageTemplate {
   String pageTitle() => 'Your Bag';
 
   @override
+  String pageDescription() => 'Your Bag Page';
+
+  @override
   String pageImageID() => 'cartImage';
 
   @override

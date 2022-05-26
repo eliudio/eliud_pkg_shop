@@ -68,6 +68,9 @@ class PayConfirmationPageBuilder extends AbstractPageTemplate {
   String pageTitle() => 'Success';
 
   @override
+  String pageDescription() => 'Success page';
+
+  @override
   String componentName() => AbstractPayConfirmationComponent.componentName;
 
   @override

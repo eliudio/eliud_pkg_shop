@@ -69,6 +69,9 @@ class PayPageBuilder extends AbstractPageTemplate {
   String pageTitle() => 'Payment';
 
   @override
+  String pageDescription() => 'Payment page';
+
+  @override
   String componentName() => AbstractPayComponent.componentName;
 
   @override

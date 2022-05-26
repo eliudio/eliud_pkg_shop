@@ -35,6 +35,9 @@ class OrderOverviewPageBuilder extends AbstractPageTemplate {
   String pageTitle() => 'Your Orders';
 
   @override
+  String pageDescription() => 'Your Orders Page';
+
+  @override
   String componentName() => AbstractOrderOverviewComponent.componentName;
 
   OrderOverviewPageBuilder(

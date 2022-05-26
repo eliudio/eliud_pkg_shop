@@ -12,6 +12,7 @@ abstract class AbstractBasicPageTemplate extends PageBuilder {
   PresentationImageAlignment? presentationImageAlignment;
 
   String pageTitle();
+  String pageDescription();
 
   String? componentID();
   String componentName();
@@ -48,6 +49,7 @@ abstract class AbstractBasicPageTemplate extends PageBuilder {
         documentID: constructDocumentId(uniqueId: uniqueId, documentId: pageId),
         appId: app.documentID,
         title: pageTitle(),
+        description: pageDescription(),
         drawer: leftDrawer,
         endDrawer: rightDrawer,
         appBar: appBar,

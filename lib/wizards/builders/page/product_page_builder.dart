@@ -64,6 +64,9 @@ class ProductPageBuilder extends AbstractBasicPageTemplate {
   String pageTitle() => 'Product';
 
   @override
+  String pageDescription() => 'Product page';
+
+  @override
   String componentName() => AbstractProductDisplayComponent.componentName;
 
   @override

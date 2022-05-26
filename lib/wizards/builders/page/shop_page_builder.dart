@@ -90,6 +90,7 @@ class ShopPageBuilder extends PageBuilder {
         documentID: constructDocumentId(uniqueId: uniqueId, documentId: PAGE_ID),
         appId: app.documentID,
         title: 'Shop',
+        description: 'Shop',
         drawer: leftDrawer,
         endDrawer: rightDrawer,
         appBar: theAppBar,
