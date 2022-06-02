@@ -377,7 +377,6 @@ class _ProductDashboardState extends State<ProductDashboard> {
               Registry.registry()!.getMediumApi().takePhoto(
                   context,
                   widget.app,
-                  widget.app.ownerID,
                       () => PlatformMediumAccessRights(
                           PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
 //                      productState.model.conditions!.privilegeLevelRequired!),
@@ -388,7 +387,6 @@ class _ProductDashboardState extends State<ProductDashboard> {
               Registry.registry()!.getMediumApi().uploadPhoto(
                   context,
                   widget.app,
-                  widget.app.ownerID,
                       () => PlatformMediumAccessRights(
                           PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
 //                      productState.model.conditions!.privilegeLevelRequired!),
