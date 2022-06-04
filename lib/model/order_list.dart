@@ -156,7 +156,7 @@ class OrderListWidgetState extends State<OrderListWidget> {
             onDismissed: (direction) {
               BlocProvider.of<OrderListBloc>(context)
                   .add(DeleteOrderList(value: value));
-              Scaffold.of(context).showSnackBar(DeleteSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
                 message: "Order " + value.documentID,
                 onUndo: () => BlocProvider.of<OrderListBloc>(context)
                     .add(AddOrderList(value: value)),
@@ -168,7 +168,7 @@ class OrderListWidgetState extends State<OrderListWidget> {
                               value: BlocProvider.of<OrderListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           DeleteSnackBar(
                         message: "Order " + value.documentID,
                             onUndo: () => BlocProvider.of<OrderListBloc>(context)

@@ -156,7 +156,7 @@ class ShopFrontListWidgetState extends State<ShopFrontListWidget> {
             onDismissed: (direction) {
               BlocProvider.of<ShopFrontListBloc>(context)
                   .add(DeleteShopFrontList(value: value));
-              Scaffold.of(context).showSnackBar(DeleteSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
                 message: "ShopFront " + value.documentID,
                 onUndo: () => BlocProvider.of<ShopFrontListBloc>(context)
                     .add(AddShopFrontList(value: value)),
@@ -168,7 +168,7 @@ class ShopFrontListWidgetState extends State<ShopFrontListWidget> {
                               value: BlocProvider.of<ShopFrontListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           DeleteSnackBar(
                         message: "ShopFront " + value.documentID,
                             onUndo: () => BlocProvider.of<ShopFrontListBloc>(context)

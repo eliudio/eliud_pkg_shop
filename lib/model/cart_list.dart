@@ -156,7 +156,7 @@ class CartListWidgetState extends State<CartListWidget> {
             onDismissed: (direction) {
               BlocProvider.of<CartListBloc>(context)
                   .add(DeleteCartList(value: value));
-              Scaffold.of(context).showSnackBar(DeleteSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
                 message: "Cart " + value.documentID,
                 onUndo: () => BlocProvider.of<CartListBloc>(context)
                     .add(AddCartList(value: value)),
@@ -168,7 +168,7 @@ class CartListWidgetState extends State<CartListWidget> {
                               value: BlocProvider.of<CartListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           DeleteSnackBar(
                         message: "Cart " + value.documentID,
                             onUndo: () => BlocProvider.of<CartListBloc>(context)

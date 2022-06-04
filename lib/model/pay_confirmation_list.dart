@@ -156,7 +156,7 @@ class PayConfirmationListWidgetState extends State<PayConfirmationListWidget> {
             onDismissed: (direction) {
               BlocProvider.of<PayConfirmationListBloc>(context)
                   .add(DeletePayConfirmationList(value: value));
-              Scaffold.of(context).showSnackBar(DeleteSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
                 message: "PayConfirmation " + value.documentID,
                 onUndo: () => BlocProvider.of<PayConfirmationListBloc>(context)
                     .add(AddPayConfirmationList(value: value)),
@@ -168,7 +168,7 @@ class PayConfirmationListWidgetState extends State<PayConfirmationListWidget> {
                               value: BlocProvider.of<PayConfirmationListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           DeleteSnackBar(
                         message: "PayConfirmation " + value.documentID,
                             onUndo: () => BlocProvider.of<PayConfirmationListBloc>(context)

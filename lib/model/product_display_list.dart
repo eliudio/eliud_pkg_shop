@@ -156,7 +156,7 @@ class ProductDisplayListWidgetState extends State<ProductDisplayListWidget> {
             onDismissed: (direction) {
               BlocProvider.of<ProductDisplayListBloc>(context)
                   .add(DeleteProductDisplayList(value: value));
-              Scaffold.of(context).showSnackBar(DeleteSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
                 message: "ProductDisplay " + value.documentID,
                 onUndo: () => BlocProvider.of<ProductDisplayListBloc>(context)
                     .add(AddProductDisplayList(value: value)),
@@ -168,7 +168,7 @@ class ProductDisplayListWidgetState extends State<ProductDisplayListWidget> {
                               value: BlocProvider.of<ProductDisplayListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           DeleteSnackBar(
                         message: "ProductDisplay " + value.documentID,
                             onUndo: () => BlocProvider.of<ProductDisplayListBloc>(context)

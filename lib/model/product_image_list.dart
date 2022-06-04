@@ -156,7 +156,7 @@ class ProductImageListWidgetState extends State<ProductImageListWidget> {
             onDismissed: (direction) {
               BlocProvider.of<ProductImageListBloc>(context)
                   .add(DeleteProductImageList(value: value));
-              Scaffold.of(context).showSnackBar(DeleteSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
                 message: "ProductImage " + value.documentID,
                 onUndo: () => BlocProvider.of<ProductImageListBloc>(context)
                     .add(AddProductImageList(value: value)),
@@ -168,7 +168,7 @@ class ProductImageListWidgetState extends State<ProductImageListWidget> {
                               value: BlocProvider.of<ProductImageListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           DeleteSnackBar(
                         message: "ProductImage " + value.documentID,
                             onUndo: () => BlocProvider.of<ProductImageListBloc>(context)
