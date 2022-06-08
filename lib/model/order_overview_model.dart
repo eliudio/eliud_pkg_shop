@@ -69,6 +69,10 @@ class OrderOverviewModel implements ModelBase, WithAppId {
           itemDetailBackground == other.itemDetailBackground &&
           conditions == other.conditions;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'OrderOverviewModel{documentID: $documentID, appId: $appId, description: $description, shop: $shop, itemImageBackground: $itemImageBackground, itemDetailBackground: $itemDetailBackground, conditions: $conditions}';

@@ -59,6 +59,10 @@ class CartItemModel implements ModelBase, WithAppId {
           appId == other.appId &&
           product == other.product;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'CartItemModel{documentID: $documentID, amount: $amount, appId: $appId, product: $product}';

@@ -71,6 +71,10 @@ class PayModel implements ModelBase, WithAppId {
           shop == other.shop &&
           conditions == other.conditions;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'PayModel{documentID: $documentID, appId: $appId, description: $description, succeeded: $succeeded, payAction: $payAction, shop: $shop, conditions: $conditions}';

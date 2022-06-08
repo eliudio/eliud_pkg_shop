@@ -67,6 +67,10 @@ class PayConfirmationModel implements ModelBase, WithAppId {
           backToShopAction == other.backToShopAction &&
           conditions == other.conditions;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'PayConfirmationModel{documentID: $documentID, appId: $appId, description: $description, shop: $shop, backToShopAction: $backToShopAction, conditions: $conditions}';

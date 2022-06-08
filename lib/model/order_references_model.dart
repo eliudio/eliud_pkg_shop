@@ -56,6 +56,10 @@ class OrderReferencesModel {
           shipmentReference == other.shipmentReference &&
           deliveryReference == other.deliveryReference;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'OrderReferencesModel{paymentReference: $paymentReference, shipmentReference: $shipmentReference, deliveryReference: $deliveryReference}';

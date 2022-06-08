@@ -61,6 +61,10 @@ class OrderItemModel implements ModelBase, WithAppId {
           soldPrice == other.soldPrice &&
           product == other.product;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'OrderItemModel{documentID: $documentID, amount: $amount, appId: $appId, soldPrice: $soldPrice, product: $product}';

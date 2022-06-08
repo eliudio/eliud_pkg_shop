@@ -74,6 +74,10 @@ class ProductModel implements ModelBase, WithAppId {
           ListEquality().equals(images, other.images) &&
           posSize == other.posSize;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     String imagesCsv = (images == null) ? '' : images!.join(', ');

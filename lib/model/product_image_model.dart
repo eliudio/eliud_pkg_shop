@@ -59,6 +59,10 @@ class ProductImageModel implements ModelBase {
           documentID == other.documentID &&
           image == other.image;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'ProductImageModel{documentID: $documentID, image: $image}';

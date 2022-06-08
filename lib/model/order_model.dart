@@ -129,6 +129,10 @@ class OrderModel implements ModelBase, WithAppId {
           status == other.status &&
           timeStamp == other.timeStamp;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     String productsCsv = (products == null) ? '' : products!.join(', ');

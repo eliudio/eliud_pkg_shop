@@ -62,6 +62,10 @@ class MemberCartModel implements ModelBase, WithAppId {
           appId == other.appId &&
           ListEquality().equals(cartItems, other.cartItems);
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     String cartItemsCsv = (cartItems == null) ? '' : cartItems!.join(', ');

@@ -61,6 +61,10 @@ class ShopModel implements ModelBase, WithAppId {
           shortDescription == other.shortDescription &&
           currency == other.currency;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'ShopModel{documentID: $documentID, appId: $appId, description: $description, shortDescription: $shortDescription, currency: $currency}';
