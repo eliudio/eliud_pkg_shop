@@ -32,6 +32,7 @@
       "fieldName": "image",
       "displayName": "Image",
       "fieldType": "PlatformMedium",
+      "extractImage": "url",
       "association": true,
       "optional": false,
       "group": "Image"

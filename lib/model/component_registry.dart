@@ -17,6 +17,7 @@
 import '../model/internal_component.dart';
 import 'package:eliud_core/core/registry.dart';
 import 'package:eliud_core/tools/component/component_spec.dart';
+import 'abstract_repository_singleton.dart';
 
 import '../extensions/cart_component.dart';
 import '../editors/cart_component_editor.dart';
@@ -60,12 +61,12 @@ class ComponentRegistry {
     Registry.registry()!.addDropDownSupporter("shopFronts", DropdownButtonComponentFactory());
     Registry.registry()!.register(componentName: "shopFronts", componentConstructor: ShopFrontComponentConstructorDefault());
     Registry.registry()!.addComponentSpec('eliud_pkg_shop', 'shop', [
-      ComponentSpec('carts', CartComponentConstructorDefault(), CartComponentSelector(), CartComponentEditorConstructor(), ), 
-      ComponentSpec('orderOverviews', OrderOverviewComponentConstructorDefault(), OrderOverviewComponentSelector(), OrderOverviewComponentEditorConstructor(), ), 
-      ComponentSpec('pays', PayComponentConstructorDefault(), PayComponentSelector(), PayComponentEditorConstructor(), ), 
-      ComponentSpec('payConfirmations', PayConfirmationComponentConstructorDefault(), PayConfirmationComponentSelector(), PayConfirmationComponentEditorConstructor(), ), 
-      ComponentSpec('productDisplays', ProductDisplayComponentConstructorDefault(), ProductDisplayComponentSelector(), ProductDisplayComponentEditorConstructor(), ), 
-      ComponentSpec('shopFronts', ShopFrontComponentConstructorDefault(), ShopFrontComponentSelector(), ShopFrontComponentEditorConstructor(), ), 
+      ComponentSpec('carts', CartComponentConstructorDefault(), CartComponentSelector(), CartComponentEditorConstructor(), ({String? appId}) => cartRepository(appId: appId)! ), 
+      ComponentSpec('orderOverviews', OrderOverviewComponentConstructorDefault(), OrderOverviewComponentSelector(), OrderOverviewComponentEditorConstructor(), ({String? appId}) => orderOverviewRepository(appId: appId)! ), 
+      ComponentSpec('pays', PayComponentConstructorDefault(), PayComponentSelector(), PayComponentEditorConstructor(), ({String? appId}) => payRepository(appId: appId)! ), 
+      ComponentSpec('payConfirmations', PayConfirmationComponentConstructorDefault(), PayConfirmationComponentSelector(), PayConfirmationComponentEditorConstructor(), ({String? appId}) => payConfirmationRepository(appId: appId)! ), 
+      ComponentSpec('productDisplays', ProductDisplayComponentConstructorDefault(), ProductDisplayComponentSelector(), ProductDisplayComponentEditorConstructor(), ({String? appId}) => productDisplayRepository(appId: appId)! ), 
+      ComponentSpec('shopFronts', ShopFrontComponentConstructorDefault(), ShopFrontComponentSelector(), ShopFrontComponentEditorConstructor(), ({String? appId}) => shopFrontRepository(appId: appId)! ), 
     ]);
 
   }
