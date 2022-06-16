@@ -34,6 +34,8 @@ typedef CartItemModelTrigger(List<CartItemModel?> list);
 typedef CartItemChanged(CartItemModel? value);
 
 abstract class CartItemRepository extends RepositoryBase<CartItemModel> {
+  Future<CartItemEntity> addEntity(String documentID, CartItemEntity value);
+  Future<CartItemEntity> updateEntity(String documentID, CartItemEntity value);
   Future<CartItemModel> add(CartItemModel value);
   Future<void> delete(CartItemModel value);
   Future<CartItemModel?> get(String? id, { Function(Exception)? onError });

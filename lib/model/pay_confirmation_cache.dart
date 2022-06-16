@@ -47,6 +47,14 @@ class PayConfirmationCache implements PayConfirmationRepository {
     });
   }
 
+  Future<PayConfirmationEntity> addEntity(String documentID, PayConfirmationEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<PayConfirmationEntity> updateEntity(String documentID, PayConfirmationEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(PayConfirmationModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

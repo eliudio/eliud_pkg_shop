@@ -38,6 +38,8 @@ typedef PayConfirmationModelTrigger(List<PayConfirmationModel?> list);
 typedef PayConfirmationChanged(PayConfirmationModel? value);
 
 abstract class PayConfirmationRepository extends RepositoryBase<PayConfirmationModel> {
+  Future<PayConfirmationEntity> addEntity(String documentID, PayConfirmationEntity value);
+  Future<PayConfirmationEntity> updateEntity(String documentID, PayConfirmationEntity value);
   Future<PayConfirmationModel> add(PayConfirmationModel value);
   Future<void> delete(PayConfirmationModel value);
   Future<PayConfirmationModel?> get(String? id, { Function(Exception)? onError });

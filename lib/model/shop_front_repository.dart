@@ -38,6 +38,8 @@ typedef ShopFrontModelTrigger(List<ShopFrontModel?> list);
 typedef ShopFrontChanged(ShopFrontModel? value);
 
 abstract class ShopFrontRepository extends RepositoryBase<ShopFrontModel> {
+  Future<ShopFrontEntity> addEntity(String documentID, ShopFrontEntity value);
+  Future<ShopFrontEntity> updateEntity(String documentID, ShopFrontEntity value);
   Future<ShopFrontModel> add(ShopFrontModel value);
   Future<void> delete(ShopFrontModel value);
   Future<ShopFrontModel?> get(String? id, { Function(Exception)? onError });

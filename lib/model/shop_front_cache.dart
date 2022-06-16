@@ -47,6 +47,14 @@ class ShopFrontCache implements ShopFrontRepository {
     });
   }
 
+  Future<ShopFrontEntity> addEntity(String documentID, ShopFrontEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<ShopFrontEntity> updateEntity(String documentID, ShopFrontEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(ShopFrontModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

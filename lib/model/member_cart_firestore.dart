@@ -36,6 +36,14 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class MemberCartFirestore implements MemberCartRepository {
+  Future<MemberCartEntity> addEntity(String documentID, MemberCartEntity value) {
+    return MemberCartCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  }
+
+  Future<MemberCartEntity> updateEntity(String documentID, MemberCartEntity value) {
+    return MemberCartCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  }
+
   Future<MemberCartModel> add(MemberCartModel value) {
     return MemberCartCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
@@ -54,6 +62,21 @@ class MemberCartFirestore implements MemberCartRepository {
 
   Future<MemberCartModel?> _populateDocPlus(DocumentSnapshot value) async {
     return MemberCartModel.fromEntityPlus(value.id, MemberCartEntity.fromMap(value.data()), appId: appId);  }
+
+  Future<MemberCartEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = MemberCartCollection.doc(id);
+      var doc = await collection.get();
+      return MemberCartEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving MemberCart with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
 
   Future<MemberCartModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

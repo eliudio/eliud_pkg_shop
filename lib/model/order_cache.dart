@@ -47,6 +47,14 @@ class OrderCache implements OrderRepository {
     });
   }
 
+  Future<OrderEntity> addEntity(String documentID, OrderEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<OrderEntity> updateEntity(String documentID, OrderEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(OrderModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

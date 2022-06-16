@@ -38,6 +38,8 @@ typedef ProductImageModelTrigger(List<ProductImageModel?> list);
 typedef ProductImageChanged(ProductImageModel? value);
 
 abstract class ProductImageRepository extends RepositoryBase<ProductImageModel> {
+  Future<ProductImageEntity> addEntity(String documentID, ProductImageEntity value);
+  Future<ProductImageEntity> updateEntity(String documentID, ProductImageEntity value);
   Future<ProductImageModel> add(ProductImageModel value);
   Future<void> delete(ProductImageModel value);
   Future<ProductImageModel?> get(String? id, { Function(Exception)? onError });

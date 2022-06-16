@@ -38,6 +38,8 @@ typedef ProductDisplayModelTrigger(List<ProductDisplayModel?> list);
 typedef ProductDisplayChanged(ProductDisplayModel? value);
 
 abstract class ProductDisplayRepository extends RepositoryBase<ProductDisplayModel> {
+  Future<ProductDisplayEntity> addEntity(String documentID, ProductDisplayEntity value);
+  Future<ProductDisplayEntity> updateEntity(String documentID, ProductDisplayEntity value);
   Future<ProductDisplayModel> add(ProductDisplayModel value);
   Future<void> delete(ProductDisplayModel value);
   Future<ProductDisplayModel?> get(String? id, { Function(Exception)? onError });

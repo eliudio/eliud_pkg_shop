@@ -47,6 +47,14 @@ class OrderOverviewCache implements OrderOverviewRepository {
     });
   }
 
+  Future<OrderOverviewEntity> addEntity(String documentID, OrderOverviewEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<OrderOverviewEntity> updateEntity(String documentID, OrderOverviewEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(OrderOverviewModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

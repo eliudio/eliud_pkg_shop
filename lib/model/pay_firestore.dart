@@ -36,6 +36,14 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class PayFirestore implements PayRepository {
+  Future<PayEntity> addEntity(String documentID, PayEntity value) {
+    return PayCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  }
+
+  Future<PayEntity> updateEntity(String documentID, PayEntity value) {
+    return PayCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  }
+
   Future<PayModel> add(PayModel value) {
     return PayCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
@@ -54,6 +62,21 @@ class PayFirestore implements PayRepository {
 
   Future<PayModel?> _populateDocPlus(DocumentSnapshot value) async {
     return PayModel.fromEntityPlus(value.id, PayEntity.fromMap(value.data()), appId: appId);  }
+
+  Future<PayEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = PayCollection.doc(id);
+      var doc = await collection.get();
+      return PayEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving Pay with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
 
   Future<PayModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

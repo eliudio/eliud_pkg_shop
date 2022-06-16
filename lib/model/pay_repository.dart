@@ -38,6 +38,8 @@ typedef PayModelTrigger(List<PayModel?> list);
 typedef PayChanged(PayModel? value);
 
 abstract class PayRepository extends RepositoryBase<PayModel> {
+  Future<PayEntity> addEntity(String documentID, PayEntity value);
+  Future<PayEntity> updateEntity(String documentID, PayEntity value);
   Future<PayModel> add(PayModel value);
   Future<void> delete(PayModel value);
   Future<PayModel?> get(String? id, { Function(Exception)? onError });

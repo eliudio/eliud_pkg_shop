@@ -47,6 +47,14 @@ class PayCache implements PayRepository {
     });
   }
 
+  Future<PayEntity> addEntity(String documentID, PayEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<PayEntity> updateEntity(String documentID, PayEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(PayModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

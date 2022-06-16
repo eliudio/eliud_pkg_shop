@@ -38,6 +38,8 @@ typedef CartModelTrigger(List<CartModel?> list);
 typedef CartChanged(CartModel? value);
 
 abstract class CartRepository extends RepositoryBase<CartModel> {
+  Future<CartEntity> addEntity(String documentID, CartEntity value);
+  Future<CartEntity> updateEntity(String documentID, CartEntity value);
   Future<CartModel> add(CartModel value);
   Future<void> delete(CartModel value);
   Future<CartModel?> get(String? id, { Function(Exception)? onError });

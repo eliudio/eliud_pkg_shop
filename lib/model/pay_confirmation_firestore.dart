@@ -36,6 +36,14 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class PayConfirmationFirestore implements PayConfirmationRepository {
+  Future<PayConfirmationEntity> addEntity(String documentID, PayConfirmationEntity value) {
+    return PayConfirmationCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  }
+
+  Future<PayConfirmationEntity> updateEntity(String documentID, PayConfirmationEntity value) {
+    return PayConfirmationCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  }
+
   Future<PayConfirmationModel> add(PayConfirmationModel value) {
     return PayConfirmationCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
@@ -54,6 +62,21 @@ class PayConfirmationFirestore implements PayConfirmationRepository {
 
   Future<PayConfirmationModel?> _populateDocPlus(DocumentSnapshot value) async {
     return PayConfirmationModel.fromEntityPlus(value.id, PayConfirmationEntity.fromMap(value.data()), appId: appId);  }
+
+  Future<PayConfirmationEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = PayConfirmationCollection.doc(id);
+      var doc = await collection.get();
+      return PayConfirmationEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving PayConfirmation with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
 
   Future<PayConfirmationModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

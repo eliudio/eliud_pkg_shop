@@ -36,6 +36,14 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class ShopFrontFirestore implements ShopFrontRepository {
+  Future<ShopFrontEntity> addEntity(String documentID, ShopFrontEntity value) {
+    return ShopFrontCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  }
+
+  Future<ShopFrontEntity> updateEntity(String documentID, ShopFrontEntity value) {
+    return ShopFrontCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  }
+
   Future<ShopFrontModel> add(ShopFrontModel value) {
     return ShopFrontCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
@@ -54,6 +62,21 @@ class ShopFrontFirestore implements ShopFrontRepository {
 
   Future<ShopFrontModel?> _populateDocPlus(DocumentSnapshot value) async {
     return ShopFrontModel.fromEntityPlus(value.id, ShopFrontEntity.fromMap(value.data()), appId: appId);  }
+
+  Future<ShopFrontEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = ShopFrontCollection.doc(id);
+      var doc = await collection.get();
+      return ShopFrontEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving ShopFront with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
 
   Future<ShopFrontModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

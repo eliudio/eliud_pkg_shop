@@ -47,6 +47,14 @@ class CartCache implements CartRepository {
     });
   }
 
+  Future<CartEntity> addEntity(String documentID, CartEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<CartEntity> updateEntity(String documentID, CartEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(CartModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

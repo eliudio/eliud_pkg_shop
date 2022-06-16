@@ -34,6 +34,8 @@ typedef OrderItemModelTrigger(List<OrderItemModel?> list);
 typedef OrderItemChanged(OrderItemModel? value);
 
 abstract class OrderItemRepository extends RepositoryBase<OrderItemModel> {
+  Future<OrderItemEntity> addEntity(String documentID, OrderItemEntity value);
+  Future<OrderItemEntity> updateEntity(String documentID, OrderItemEntity value);
   Future<OrderItemModel> add(OrderItemModel value);
   Future<void> delete(OrderItemModel value);
   Future<OrderItemModel?> get(String? id, { Function(Exception)? onError });

@@ -34,6 +34,8 @@ typedef ShopModelTrigger(List<ShopModel?> list);
 typedef ShopChanged(ShopModel? value);
 
 abstract class ShopRepository extends RepositoryBase<ShopModel> {
+  Future<ShopEntity> addEntity(String documentID, ShopEntity value);
+  Future<ShopEntity> updateEntity(String documentID, ShopEntity value);
   Future<ShopModel> add(ShopModel value);
   Future<void> delete(ShopModel value);
   Future<ShopModel?> get(String? id, { Function(Exception)? onError });

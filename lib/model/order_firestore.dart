@@ -36,6 +36,14 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class OrderFirestore implements OrderRepository {
+  Future<OrderEntity> addEntity(String documentID, OrderEntity value) {
+    return OrderCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  }
+
+  Future<OrderEntity> updateEntity(String documentID, OrderEntity value) {
+    return OrderCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  }
+
   Future<OrderModel> add(OrderModel value) {
     return OrderCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
@@ -54,6 +62,21 @@ class OrderFirestore implements OrderRepository {
 
   Future<OrderModel?> _populateDocPlus(DocumentSnapshot value) async {
     return OrderModel.fromEntityPlus(value.id, OrderEntity.fromMap(value.data()), appId: appId);  }
+
+  Future<OrderEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = OrderCollection.doc(id);
+      var doc = await collection.get();
+      return OrderEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving Order with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
 
   Future<OrderModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

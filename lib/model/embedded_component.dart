@@ -29,12 +29,14 @@ import '../model/order_item_list_bloc.dart';
 import '../model/order_item_list.dart';
 import '../model/order_item_list_event.dart';
 import '../model/order_item_model.dart';
+import '../model/order_item_entity.dart';
 import '../model/order_item_repository.dart';
 
 import '../model/product_image_list_bloc.dart';
 import '../model/product_image_list.dart';
 import '../model/product_image_list_event.dart';
 import '../model/product_image_model.dart';
+import '../model/product_image_entity.dart';
 import '../model/product_image_repository.dart';
 
 typedef OrderItemListChanged(List<OrderItemModel> values);
@@ -96,6 +98,14 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
         i++;
       }
       return -1;
+    }
+
+    Future<OrderItemEntity> addEntity(String documentID, OrderItemEntity value) {
+      throw Exception('Not implemented'); 
+    }
+
+    Future<OrderItemEntity> updateEntity(String documentID, OrderItemEntity value) {
+      throw Exception('Not implemented'); 
     }
 
     Future<OrderItemModel> add(OrderItemModel value) {
@@ -199,6 +209,14 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
         i++;
       }
       return -1;
+    }
+
+    Future<ProductImageEntity> addEntity(String documentID, ProductImageEntity value) {
+      throw Exception('Not implemented'); 
+    }
+
+    Future<ProductImageEntity> updateEntity(String documentID, ProductImageEntity value) {
+      throw Exception('Not implemented'); 
     }
 
     Future<ProductImageModel> add(ProductImageModel value) {

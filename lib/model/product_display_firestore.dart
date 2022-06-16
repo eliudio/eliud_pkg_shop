@@ -36,6 +36,14 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class ProductDisplayFirestore implements ProductDisplayRepository {
+  Future<ProductDisplayEntity> addEntity(String documentID, ProductDisplayEntity value) {
+    return ProductDisplayCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  }
+
+  Future<ProductDisplayEntity> updateEntity(String documentID, ProductDisplayEntity value) {
+    return ProductDisplayCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  }
+
   Future<ProductDisplayModel> add(ProductDisplayModel value) {
     return ProductDisplayCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
@@ -54,6 +62,21 @@ class ProductDisplayFirestore implements ProductDisplayRepository {
 
   Future<ProductDisplayModel?> _populateDocPlus(DocumentSnapshot value) async {
     return ProductDisplayModel.fromEntityPlus(value.id, ProductDisplayEntity.fromMap(value.data()), appId: appId);  }
+
+  Future<ProductDisplayEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = ProductDisplayCollection.doc(id);
+      var doc = await collection.get();
+      return ProductDisplayEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving ProductDisplay with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
 
   Future<ProductDisplayModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

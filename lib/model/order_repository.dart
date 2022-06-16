@@ -38,6 +38,8 @@ typedef OrderModelTrigger(List<OrderModel?> list);
 typedef OrderChanged(OrderModel? value);
 
 abstract class OrderRepository extends RepositoryBase<OrderModel> {
+  Future<OrderEntity> addEntity(String documentID, OrderEntity value);
+  Future<OrderEntity> updateEntity(String documentID, OrderEntity value);
   Future<OrderModel> add(OrderModel value);
   Future<void> delete(OrderModel value);
   Future<OrderModel?> get(String? id, { Function(Exception)? onError });

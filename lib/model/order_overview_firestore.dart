@@ -36,6 +36,14 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class OrderOverviewFirestore implements OrderOverviewRepository {
+  Future<OrderOverviewEntity> addEntity(String documentID, OrderOverviewEntity value) {
+    return OrderOverviewCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  }
+
+  Future<OrderOverviewEntity> updateEntity(String documentID, OrderOverviewEntity value) {
+    return OrderOverviewCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  }
+
   Future<OrderOverviewModel> add(OrderOverviewModel value) {
     return OrderOverviewCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
@@ -54,6 +62,21 @@ class OrderOverviewFirestore implements OrderOverviewRepository {
 
   Future<OrderOverviewModel?> _populateDocPlus(DocumentSnapshot value) async {
     return OrderOverviewModel.fromEntityPlus(value.id, OrderOverviewEntity.fromMap(value.data()), appId: appId);  }
+
+  Future<OrderOverviewEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = OrderOverviewCollection.doc(id);
+      var doc = await collection.get();
+      return OrderOverviewEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving OrderOverview with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
 
   Future<OrderOverviewModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

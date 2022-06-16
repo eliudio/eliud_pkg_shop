@@ -47,6 +47,14 @@ class ProductCache implements ProductRepository {
     });
   }
 
+  Future<ProductEntity> addEntity(String documentID, ProductEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<ProductEntity> updateEntity(String documentID, ProductEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(ProductModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

@@ -38,6 +38,8 @@ typedef OrderOverviewModelTrigger(List<OrderOverviewModel?> list);
 typedef OrderOverviewChanged(OrderOverviewModel? value);
 
 abstract class OrderOverviewRepository extends RepositoryBase<OrderOverviewModel> {
+  Future<OrderOverviewEntity> addEntity(String documentID, OrderOverviewEntity value);
+  Future<OrderOverviewEntity> updateEntity(String documentID, OrderOverviewEntity value);
   Future<OrderOverviewModel> add(OrderOverviewModel value);
   Future<void> delete(OrderOverviewModel value);
   Future<OrderOverviewModel?> get(String? id, { Function(Exception)? onError });

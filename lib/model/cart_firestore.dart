@@ -36,6 +36,14 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class CartFirestore implements CartRepository {
+  Future<CartEntity> addEntity(String documentID, CartEntity value) {
+    return CartCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  }
+
+  Future<CartEntity> updateEntity(String documentID, CartEntity value) {
+    return CartCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  }
+
   Future<CartModel> add(CartModel value) {
     return CartCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
@@ -54,6 +62,21 @@ class CartFirestore implements CartRepository {
 
   Future<CartModel?> _populateDocPlus(DocumentSnapshot value) async {
     return CartModel.fromEntityPlus(value.id, CartEntity.fromMap(value.data()), appId: appId);  }
+
+  Future<CartEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = CartCollection.doc(id);
+      var doc = await collection.get();
+      return CartEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving Cart with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
 
   Future<CartModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

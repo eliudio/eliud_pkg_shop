@@ -47,6 +47,14 @@ class ProductImageCache implements ProductImageRepository {
     });
   }
 
+  Future<ProductImageEntity> addEntity(String documentID, ProductImageEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<ProductImageEntity> updateEntity(String documentID, ProductImageEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(ProductImageModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

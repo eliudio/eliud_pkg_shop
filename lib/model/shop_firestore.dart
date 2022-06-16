@@ -32,6 +32,14 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class ShopFirestore implements ShopRepository {
+  Future<ShopEntity> addEntity(String documentID, ShopEntity value) {
+    return ShopCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  }
+
+  Future<ShopEntity> updateEntity(String documentID, ShopEntity value) {
+    return ShopCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  }
+
   Future<ShopModel> add(ShopModel value) {
     return ShopCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
@@ -50,6 +58,21 @@ class ShopFirestore implements ShopRepository {
 
   Future<ShopModel?> _populateDocPlus(DocumentSnapshot value) async {
     return ShopModel.fromEntityPlus(value.id, ShopEntity.fromMap(value.data()), appId: appId);  }
+
+  Future<ShopEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = ShopCollection.doc(id);
+      var doc = await collection.get();
+      return ShopEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving Shop with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
 
   Future<ShopModel?> get(String? id, {Function(Exception)? onError}) async {
     try {
