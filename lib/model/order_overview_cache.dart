@@ -115,6 +115,16 @@ class OrderOverviewCache implements OrderOverviewRepository {
     });
   }
 
+  @override
+  Future<OrderOverviewEntity?> getEntity(String? id, {Function(Exception p1)? onError}) {
+    return reference.getEntity(id, onError: onError);
+  }
+
+  @override
+  OrderOverviewEntity? fromMap(Object? o) {
+    return reference.fromMap(o);
+  }
+
   Future<void> deleteAll() {
     return reference.deleteAll();
   }

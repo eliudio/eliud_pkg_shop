@@ -36,6 +36,11 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class CartFirestore implements CartRepository {
+  @override
+  CartEntity? fromMap(Object? o) {
+    return CartEntity.fromMap(o);
+  }
+
   Future<CartEntity> addEntity(String documentID, CartEntity value) {
     return CartCollection.doc(documentID).set(value.toDocument()).then((_) => value);
   }

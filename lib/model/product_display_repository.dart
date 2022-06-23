@@ -37,7 +37,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef ProductDisplayModelTrigger(List<ProductDisplayModel?> list);
 typedef ProductDisplayChanged(ProductDisplayModel? value);
 
-abstract class ProductDisplayRepository extends RepositoryBase<ProductDisplayModel> {
+abstract class ProductDisplayRepository extends RepositoryBase<ProductDisplayModel, ProductDisplayEntity> {
   Future<ProductDisplayEntity> addEntity(String documentID, ProductDisplayEntity value);
   Future<ProductDisplayEntity> updateEntity(String documentID, ProductDisplayEntity value);
   Future<ProductDisplayModel> add(ProductDisplayModel value);

@@ -19,6 +19,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:eliud_core/model/app_model.dart';
 
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -132,20 +133,16 @@ class OrderModel implements ModelBase, WithAppId {
           timeStamp == other.timeStamp;
 
   @override
-  Future<String> toRichJsonString({String? appId}) async {
-    var document = toEntity(appId: appId).toDocument();
-    document['documentID'] = documentID;
-    return jsonEncode(document);
-  }
-
-  @override
   String toString() {
     String productsCsv = (products == null) ? '' : products!.join(', ');
 
     return 'OrderModel{documentID: $documentID, appId: $appId, customer: $customer, name: $name, email: $email, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, country: $country, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountry: $invoiceCountry, products: OrderItem[] { $productsCsv }, totalPrice: $totalPrice, currency: $currency, paymentReference: $paymentReference, shipmentReference: $shipmentReference, deliveryReference: $deliveryReference, paymentNote: $paymentNote, shipmentNote: $shipmentNote, deliveryNote: $deliveryNote, status: $status, timeStamp: $timeStamp}';
   }
 
-  OrderEntity toEntity({String? appId}) {
+  OrderEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+    if (referencesCollector != null) {
+      if (customer != null) referencesCollector.add(customer!);
+    }
     return OrderEntity(
           appId: (appId != null) ? appId : null, 
           customerId: (customer != null) ? customer!.documentID : null, 
@@ -165,7 +162,7 @@ class OrderModel implements ModelBase, WithAppId {
           invoicePostcode: (invoicePostcode != null) ? invoicePostcode : null, 
           invoiceCountry: (invoiceCountry != null) ? invoiceCountry : null, 
           products: (products != null) ? products
-            !.map((item) => item.toEntity(appId: appId))
+            !.map((item) => item.toEntity(appId: appId, referencesCollector: referencesCollector))
             .toList() : null, 
           totalPrice: (totalPrice != null) ? totalPrice : null, 
           currency: (currency != null) ? currency : null, 

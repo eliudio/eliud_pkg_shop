@@ -18,6 +18,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:eliud_core/model/app_model.dart';
 
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -100,18 +101,14 @@ class ShopFrontModel implements ModelBase, WithAppId {
           conditions == other.conditions;
 
   @override
-  Future<String> toRichJsonString({String? appId}) async {
-    var document = toEntity(appId: appId).toDocument();
-    document['documentID'] = documentID;
-    return jsonEncode(document);
-  }
-
-  @override
   String toString() {
     return 'ShopFrontModel{documentID: $documentID, appId: $appId, title: $title, description: $description, shop: $shop, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackground: $itemCardBackground, addToCartColor: $addToCartColor, scrollDirection: $scrollDirection, buyAction: $buyAction, openProductAction: $openProductAction, padding: $padding, conditions: $conditions}';
   }
 
-  ShopFrontEntity toEntity({String? appId}) {
+  ShopFrontEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+    if (referencesCollector != null) {
+      if (shop != null) referencesCollector.add(shop!);
+    }
     return ShopFrontEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
@@ -120,13 +117,13 @@ class ShopFrontModel implements ModelBase, WithAppId {
           size: (size != null) ? size : null, 
           cardElevation: (cardElevation != null) ? cardElevation : null, 
           cardAxisSpacing: (cardAxisSpacing != null) ? cardAxisSpacing : null, 
-          itemCardBackground: (itemCardBackground != null) ? itemCardBackground!.toEntity(appId: appId) : null, 
-          addToCartColor: (addToCartColor != null) ? addToCartColor!.toEntity(appId: appId) : null, 
+          itemCardBackground: (itemCardBackground != null) ? itemCardBackground!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          addToCartColor: (addToCartColor != null) ? addToCartColor!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
           scrollDirection: (scrollDirection != null) ? scrollDirection!.index : null, 
-          buyAction: (buyAction != null) ? buyAction!.toEntity(appId: appId) : null, 
-          openProductAction: (openProductAction != null) ? openProductAction!.toEntity(appId: appId) : null, 
-          padding: (padding != null) ? padding!.toEntity(appId: appId) : null, 
-          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
+          buyAction: (buyAction != null) ? buyAction!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          openProductAction: (openProductAction != null) ? openProductAction!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          padding: (padding != null) ? padding!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
     );
   }
 

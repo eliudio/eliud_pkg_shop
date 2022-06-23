@@ -33,7 +33,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef ShopModelTrigger(List<ShopModel?> list);
 typedef ShopChanged(ShopModel? value);
 
-abstract class ShopRepository extends RepositoryBase<ShopModel> {
+abstract class ShopRepository extends RepositoryBase<ShopModel, ShopEntity> {
   Future<ShopEntity> addEntity(String documentID, ShopEntity value);
   Future<ShopEntity> updateEntity(String documentID, ShopEntity value);
   Future<ShopModel> add(ShopModel value);

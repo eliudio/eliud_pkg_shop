@@ -24,6 +24,8 @@ import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_bloc.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_event.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_state.dart';
 
+import '../model/pay_confirmation_entity.dart';
+
 class PayConfirmationComponentEditorConstructor
     extends ComponentEditorConstructor {
   @override
@@ -90,7 +92,7 @@ class PayConfirmationComponentEditorConstructor
 }
 
 class PayConfirmationBloc
-    extends EditorBaseBloc<PayConfirmationModel> {
+    extends EditorBaseBloc<PayConfirmationModel, PayConfirmationEntity> {
 
   PayConfirmationBloc(String appId, EditorFeedback feedback)
       : super(appId, payConfirmationRepository(appId: appId)!, feedback);

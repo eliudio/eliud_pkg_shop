@@ -10,7 +10,9 @@ import 'package:eliud_pkg_shop/model/product_image_model.dart';
 import 'package:eliud_pkg_shop/model/product_model.dart';
 import 'package:eliud_pkg_shop/model/shop_model.dart';
 
-class ProductBloc extends ExtEditorBaseBloc<ProductModel, ProductImageModel> {
+import '../../../model/product_entity.dart';
+
+class ProductBloc extends ExtEditorBaseBloc<ProductModel, ProductImageModel, ProductEntity> {
   final ShopModel shopModel;
 
   ProductBloc(String appId, EditorFeedback feedback, this.shopModel)

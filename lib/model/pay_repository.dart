@@ -37,7 +37,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef PayModelTrigger(List<PayModel?> list);
 typedef PayChanged(PayModel? value);
 
-abstract class PayRepository extends RepositoryBase<PayModel> {
+abstract class PayRepository extends RepositoryBase<PayModel, PayEntity> {
   Future<PayEntity> addEntity(String documentID, PayEntity value);
   Future<PayEntity> updateEntity(String documentID, PayEntity value);
   Future<PayModel> add(PayModel value);

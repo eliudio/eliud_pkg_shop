@@ -7,8 +7,10 @@ import 'package:eliud_pkg_shop/model/shop_front_model.dart';
 
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_bloc.dart';
 
+import '../../model/shop_front_entity.dart';
+
 class ShopFrontBloc
-    extends EditorBaseBloc<ShopFrontModel> {
+    extends EditorBaseBloc<ShopFrontModel, ShopFrontEntity> {
 
   ShopFrontBloc(String appId, EditorFeedback feedback)
       : super(appId, shopFrontRepository(appId: appId)!, feedback);

@@ -115,6 +115,16 @@ class ProductImageCache implements ProductImageRepository {
     });
   }
 
+  @override
+  Future<ProductImageEntity?> getEntity(String? id, {Function(Exception p1)? onError}) {
+    return reference.getEntity(id, onError: onError);
+  }
+
+  @override
+  ProductImageEntity? fromMap(Object? o) {
+    return reference.fromMap(o);
+  }
+
   Future<void> deleteAll() {
     return reference.deleteAll();
   }

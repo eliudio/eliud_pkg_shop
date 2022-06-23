@@ -36,6 +36,11 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class MemberCartFirestore implements MemberCartRepository {
+  @override
+  MemberCartEntity? fromMap(Object? o) {
+    return MemberCartEntity.fromMap(o);
+  }
+
   Future<MemberCartEntity> addEntity(String documentID, MemberCartEntity value) {
     return MemberCartCollection.doc(documentID).set(value.toDocument()).then((_) => value);
   }

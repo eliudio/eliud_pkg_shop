@@ -18,6 +18,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:eliud_core/model/app_model.dart';
 
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -74,25 +75,21 @@ class PayModel implements ModelBase, WithAppId {
           conditions == other.conditions;
 
   @override
-  Future<String> toRichJsonString({String? appId}) async {
-    var document = toEntity(appId: appId).toDocument();
-    document['documentID'] = documentID;
-    return jsonEncode(document);
-  }
-
-  @override
   String toString() {
     return 'PayModel{documentID: $documentID, appId: $appId, description: $description, succeeded: $succeeded, payAction: $payAction, shop: $shop, conditions: $conditions}';
   }
 
-  PayEntity toEntity({String? appId}) {
+  PayEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+    if (referencesCollector != null) {
+      if (shop != null) referencesCollector.add(shop!);
+    }
     return PayEntity(
           appId: (appId != null) ? appId : null, 
           description: (description != null) ? description : null, 
-          succeeded: (succeeded != null) ? succeeded!.toEntity(appId: appId) : null, 
-          payAction: (payAction != null) ? payAction!.toEntity(appId: appId) : null, 
+          succeeded: (succeeded != null) ? succeeded!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          payAction: (payAction != null) ? payAction!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
           shopId: (shop != null) ? shop!.documentID : null, 
-          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
     );
   }
 

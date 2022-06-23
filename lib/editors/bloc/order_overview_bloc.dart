@@ -7,8 +7,10 @@ import 'package:eliud_pkg_shop/model/order_overview_model.dart';
 
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_bloc.dart';
 
+import '../../model/order_overview_entity.dart';
+
 class OrderOverviewBloc
-    extends EditorBaseBloc<OrderOverviewModel> {
+    extends EditorBaseBloc<OrderOverviewModel, OrderOverviewEntity> {
 
   OrderOverviewBloc(String appId, EditorFeedback feedback)
       : super(appId, orderOverviewRepository(appId: appId)!, feedback);

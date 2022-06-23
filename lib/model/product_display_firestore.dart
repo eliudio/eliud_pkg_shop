@@ -36,6 +36,11 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class ProductDisplayFirestore implements ProductDisplayRepository {
+  @override
+  ProductDisplayEntity? fromMap(Object? o) {
+    return ProductDisplayEntity.fromMap(o);
+  }
+
   Future<ProductDisplayEntity> addEntity(String documentID, ProductDisplayEntity value) {
     return ProductDisplayCollection.doc(documentID).set(value.toDocument()).then((_) => value);
   }

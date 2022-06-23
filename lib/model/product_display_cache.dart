@@ -115,6 +115,16 @@ class ProductDisplayCache implements ProductDisplayRepository {
     });
   }
 
+  @override
+  Future<ProductDisplayEntity?> getEntity(String? id, {Function(Exception p1)? onError}) {
+    return reference.getEntity(id, onError: onError);
+  }
+
+  @override
+  ProductDisplayEntity? fromMap(Object? o) {
+    return reference.fromMap(o);
+  }
+
   Future<void> deleteAll() {
     return reference.deleteAll();
   }

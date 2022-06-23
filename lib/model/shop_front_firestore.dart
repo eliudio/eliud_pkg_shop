@@ -36,6 +36,11 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class ShopFrontFirestore implements ShopFrontRepository {
+  @override
+  ShopFrontEntity? fromMap(Object? o) {
+    return ShopFrontEntity.fromMap(o);
+  }
+
   Future<ShopFrontEntity> addEntity(String documentID, ShopFrontEntity value) {
     return ShopFrontCollection.doc(documentID).set(value.toDocument()).then((_) => value);
   }

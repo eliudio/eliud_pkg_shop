@@ -37,7 +37,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef CartModelTrigger(List<CartModel?> list);
 typedef CartChanged(CartModel? value);
 
-abstract class CartRepository extends RepositoryBase<CartModel> {
+abstract class CartRepository extends RepositoryBase<CartModel, CartEntity> {
   Future<CartEntity> addEntity(String documentID, CartEntity value);
   Future<CartEntity> updateEntity(String documentID, CartEntity value);
   Future<CartModel> add(CartModel value);

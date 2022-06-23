@@ -37,7 +37,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef OrderOverviewModelTrigger(List<OrderOverviewModel?> list);
 typedef OrderOverviewChanged(OrderOverviewModel? value);
 
-abstract class OrderOverviewRepository extends RepositoryBase<OrderOverviewModel> {
+abstract class OrderOverviewRepository extends RepositoryBase<OrderOverviewModel, OrderOverviewEntity> {
   Future<OrderOverviewEntity> addEntity(String documentID, OrderOverviewEntity value);
   Future<OrderOverviewEntity> updateEntity(String documentID, OrderOverviewEntity value);
   Future<OrderOverviewModel> add(OrderOverviewModel value);

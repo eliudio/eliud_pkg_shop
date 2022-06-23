@@ -185,6 +185,15 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
     throw UnimplementedError();
   }
   
+  @override
+  Future<OrderItemEntity?> getEntity(String? id, {Function(Exception p1)? onError}) {
+    throw UnimplementedError();
+  }
+
+  @override
+  OrderItemEntity? fromMap(Object? o) {
+    throw UnimplementedError();
+  }
 
     Future<void> deleteAll() async {}
 }
@@ -296,6 +305,15 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
     throw UnimplementedError();
   }
   
+  @override
+  Future<ProductImageEntity?> getEntity(String? id, {Function(Exception p1)? onError}) {
+    throw UnimplementedError();
+  }
+
+  @override
+  ProductImageEntity? fromMap(Object? o) {
+    throw UnimplementedError();
+  }
 
     Future<void> deleteAll() async {}
 }

@@ -19,6 +19,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:eliud_core/model/app_model.dart';
 
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -77,20 +78,16 @@ class ProductModel implements ModelBase, WithAppId {
           posSize == other.posSize;
 
   @override
-  Future<String> toRichJsonString({String? appId}) async {
-    var document = toEntity(appId: appId).toDocument();
-    document['documentID'] = documentID;
-    return jsonEncode(document);
-  }
-
-  @override
   String toString() {
     String imagesCsv = (images == null) ? '' : images!.join(', ');
 
     return 'ProductModel{documentID: $documentID, appId: $appId, title: $title, about: $about, price: $price, weight: $weight, shop: $shop, images: ProductImage[] { $imagesCsv }, posSize: $posSize}';
   }
 
-  ProductEntity toEntity({String? appId}) {
+  ProductEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+    if (referencesCollector != null) {
+      if (shop != null) referencesCollector.add(shop!);
+    }
     return ProductEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
@@ -99,9 +96,9 @@ class ProductModel implements ModelBase, WithAppId {
           weight: (weight != null) ? weight : null, 
           shopId: (shop != null) ? shop!.documentID : null, 
           images: (images != null) ? images
-            !.map((item) => item.toEntity(appId: appId))
+            !.map((item) => item.toEntity(appId: appId, referencesCollector: referencesCollector))
             .toList() : null, 
-          posSize: (posSize != null) ? posSize!.toEntity(appId: appId) : null, 
+          posSize: (posSize != null) ? posSize!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
     );
   }
 

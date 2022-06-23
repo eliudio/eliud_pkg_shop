@@ -36,6 +36,11 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class OrderFirestore implements OrderRepository {
+  @override
+  OrderEntity? fromMap(Object? o) {
+    return OrderEntity.fromMap(o);
+  }
+
   Future<OrderEntity> addEntity(String documentID, OrderEntity value) {
     return OrderCollection.doc(documentID).set(value.toDocument()).then((_) => value);
   }

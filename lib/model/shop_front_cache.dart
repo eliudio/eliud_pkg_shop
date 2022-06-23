@@ -115,6 +115,16 @@ class ShopFrontCache implements ShopFrontRepository {
     });
   }
 
+  @override
+  Future<ShopFrontEntity?> getEntity(String? id, {Function(Exception p1)? onError}) {
+    return reference.getEntity(id, onError: onError);
+  }
+
+  @override
+  ShopFrontEntity? fromMap(Object? o) {
+    return reference.fromMap(o);
+  }
+
   Future<void> deleteAll() {
     return reference.deleteAll();
   }

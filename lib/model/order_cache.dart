@@ -115,6 +115,16 @@ class OrderCache implements OrderRepository {
     });
   }
 
+  @override
+  Future<OrderEntity?> getEntity(String? id, {Function(Exception p1)? onError}) {
+    return reference.getEntity(id, onError: onError);
+  }
+
+  @override
+  OrderEntity? fromMap(Object? o) {
+    return reference.fromMap(o);
+  }
+
   Future<void> deleteAll() {
     return reference.deleteAll();
   }

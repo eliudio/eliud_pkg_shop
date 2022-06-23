@@ -25,6 +25,8 @@ import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_bloc.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_event.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_state.dart';
 
+import '../model/pay_entity.dart';
+
 class PayComponentEditorConstructor
     extends ComponentEditorConstructor {
   @override
@@ -91,7 +93,7 @@ class PayComponentEditorConstructor
 }
 
 class PayBloc
-    extends EditorBaseBloc<PayModel> {
+    extends EditorBaseBloc<PayModel, PayEntity> {
 
   PayBloc(String appId, EditorFeedback feedback)
       : super(appId, payRepository(appId: appId)!, feedback);

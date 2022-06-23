@@ -37,7 +37,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef PayConfirmationModelTrigger(List<PayConfirmationModel?> list);
 typedef PayConfirmationChanged(PayConfirmationModel? value);
 
-abstract class PayConfirmationRepository extends RepositoryBase<PayConfirmationModel> {
+abstract class PayConfirmationRepository extends RepositoryBase<PayConfirmationModel, PayConfirmationEntity> {
   Future<PayConfirmationEntity> addEntity(String documentID, PayConfirmationEntity value);
   Future<PayConfirmationEntity> updateEntity(String documentID, PayConfirmationEntity value);
   Future<PayConfirmationModel> add(PayConfirmationModel value);

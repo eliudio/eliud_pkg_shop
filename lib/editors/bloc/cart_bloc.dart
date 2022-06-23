@@ -25,7 +25,9 @@ import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_bloc.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_event.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_state.dart';
 
-class CartBloc extends EditorBaseBloc<CartModel> {
+import '../../model/cart_entity.dart';
+
+class CartBloc extends EditorBaseBloc<CartModel, CartEntity> {
   CartBloc(String appId, EditorFeedback feedback)
       : super(appId, cartRepository(appId: appId)!, feedback);
 
