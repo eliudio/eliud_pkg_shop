@@ -36,6 +36,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class OrderItemModel implements ModelBase, WithAppId {
+  static const String packageName = 'eliud_pkg_shop';
+  static const String id = 'OrderItem';
+
   String documentID;
   int? amount;
   String appId;
@@ -69,9 +72,9 @@ class OrderItemModel implements ModelBase, WithAppId {
     return 'OrderItemModel{documentID: $documentID, amount: $amount, appId: $appId, soldPrice: $soldPrice, product: $product}';
   }
 
-  OrderItemEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  OrderItemEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
-      if (product != null) referencesCollector.add(product!);
+      if (product != null) referencesCollector.add(ModelReference(ProductModel.packageName, ProductModel.id, product!));
     }
     return OrderItemEntity(
           amount: (amount != null) ? amount : null, 

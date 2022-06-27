@@ -40,6 +40,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class PayConfirmationModel implements ModelBase, WithAppId {
+  static const String packageName = 'eliud_pkg_shop';
+  static const String id = 'PayConfirmation';
+
   String documentID;
   String appId;
   String? description;
@@ -75,9 +78,9 @@ class PayConfirmationModel implements ModelBase, WithAppId {
     return 'PayConfirmationModel{documentID: $documentID, appId: $appId, description: $description, shop: $shop, backToShopAction: $backToShopAction, conditions: $conditions}';
   }
 
-  PayConfirmationEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  PayConfirmationEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
-      if (shop != null) referencesCollector.add(shop!);
+      if (shop != null) referencesCollector.add(ModelReference(ShopModel.packageName, ShopModel.id, shop!));
     }
     return PayConfirmationEntity(
           appId: (appId != null) ? appId : null, 

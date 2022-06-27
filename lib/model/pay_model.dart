@@ -40,6 +40,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class PayModel implements ModelBase, WithAppId {
+  static const String packageName = 'eliud_pkg_shop';
+  static const String id = 'Pay';
+
   String documentID;
   String appId;
   String? description;
@@ -79,9 +82,9 @@ class PayModel implements ModelBase, WithAppId {
     return 'PayModel{documentID: $documentID, appId: $appId, description: $description, succeeded: $succeeded, payAction: $payAction, shop: $shop, conditions: $conditions}';
   }
 
-  PayEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  PayEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
-      if (shop != null) referencesCollector.add(shop!);
+      if (shop != null) referencesCollector.add(ModelReference(ShopModel.packageName, ShopModel.id, shop!));
     }
     return PayEntity(
           appId: (appId != null) ? appId : null, 

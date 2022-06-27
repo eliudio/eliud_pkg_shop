@@ -40,6 +40,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class ProductImageModel implements ModelBase {
+  static const String packageName = 'eliud_pkg_shop';
+  static const String id = 'ProductImage';
+
   String documentID;
   PlatformMediumModel? image;
 
@@ -67,9 +70,9 @@ class ProductImageModel implements ModelBase {
     return 'ProductImageModel{documentID: $documentID, image: $image}';
   }
 
-  ProductImageEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  ProductImageEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
-      if (image != null) referencesCollector.add(image!);
+      if (image != null) referencesCollector.add(ModelReference(PlatformMediumModel.packageName, PlatformMediumModel.id, image!));
     }
     return ProductImageEntity(
           imageId: (image != null) ? image!.documentID : null, 

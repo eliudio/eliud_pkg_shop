@@ -56,6 +56,9 @@ OrderStatus toOrderStatus(int? index) {
 
 
 class OrderModel implements ModelBase, WithAppId {
+  static const String packageName = 'eliud_pkg_shop';
+  static const String id = 'Order';
+
   String documentID;
   String appId;
   MemberModel? customer;
@@ -139,9 +142,9 @@ class OrderModel implements ModelBase, WithAppId {
     return 'OrderModel{documentID: $documentID, appId: $appId, customer: $customer, name: $name, email: $email, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, country: $country, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountry: $invoiceCountry, products: OrderItem[] { $productsCsv }, totalPrice: $totalPrice, currency: $currency, paymentReference: $paymentReference, shipmentReference: $shipmentReference, deliveryReference: $deliveryReference, paymentNote: $paymentNote, shipmentNote: $shipmentNote, deliveryNote: $deliveryNote, status: $status, timeStamp: $timeStamp}';
   }
 
-  OrderEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  OrderEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
-      if (customer != null) referencesCollector.add(customer!);
+      if (customer != null) referencesCollector.add(ModelReference(MemberModel.packageName, MemberModel.id, customer!));
     }
     return OrderEntity(
           appId: (appId != null) ? appId : null, 

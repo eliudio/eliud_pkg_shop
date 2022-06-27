@@ -40,6 +40,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class ProductDisplayModel implements ModelBase, WithAppId {
+  static const String packageName = 'eliud_pkg_shop';
+  static const String id = 'ProductDisplay';
+
   String documentID;
   String appId;
   String? description;
@@ -79,9 +82,9 @@ class ProductDisplayModel implements ModelBase, WithAppId {
     return 'ProductDisplayModel{documentID: $documentID, appId: $appId, description: $description, itemDetailBackground: $itemDetailBackground, addToBasketText: $addToBasketText, buyAction: $buyAction, shop: $shop, conditions: $conditions}';
   }
 
-  ProductDisplayEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  ProductDisplayEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
-      if (shop != null) referencesCollector.add(shop!);
+      if (shop != null) referencesCollector.add(ModelReference(ShopModel.packageName, ShopModel.id, shop!));
     }
     return ProductDisplayEntity(
           appId: (appId != null) ? appId : null, 

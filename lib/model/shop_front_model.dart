@@ -52,6 +52,9 @@ ScrollDirection toScrollDirection(int? index) {
 
 
 class ShopFrontModel implements ModelBase, WithAppId {
+  static const String packageName = 'eliud_pkg_shop';
+  static const String id = 'ShopFront';
+
   String documentID;
   String appId;
   String? title;
@@ -105,9 +108,9 @@ class ShopFrontModel implements ModelBase, WithAppId {
     return 'ShopFrontModel{documentID: $documentID, appId: $appId, title: $title, description: $description, shop: $shop, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackground: $itemCardBackground, addToCartColor: $addToCartColor, scrollDirection: $scrollDirection, buyAction: $buyAction, openProductAction: $openProductAction, padding: $padding, conditions: $conditions}';
   }
 
-  ShopFrontEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  ShopFrontEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
-      if (shop != null) referencesCollector.add(shop!);
+      if (shop != null) referencesCollector.add(ModelReference(ShopModel.packageName, ShopModel.id, shop!));
     }
     return ShopFrontEntity(
           appId: (appId != null) ? appId : null, 

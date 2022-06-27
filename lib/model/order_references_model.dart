@@ -36,6 +36,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class OrderReferencesModel {
+  static const String packageName = 'eliud_pkg_shop';
+  static const String id = 'OrderReferences';
+
   String? paymentReference;
   String? shipmentReference;
   String? deliveryReference;
@@ -64,7 +67,7 @@ class OrderReferencesModel {
     return 'OrderReferencesModel{paymentReference: $paymentReference, shipmentReference: $shipmentReference, deliveryReference: $deliveryReference}';
   }
 
-  OrderReferencesEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  OrderReferencesEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return OrderReferencesEntity(

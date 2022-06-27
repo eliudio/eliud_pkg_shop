@@ -41,6 +41,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class MemberCartModel implements ModelBase, WithAppId {
+  static const String packageName = 'eliud_pkg_shop';
+  static const String id = 'MemberCart';
+
   String documentID;
   String appId;
   List<CartItemModel>? cartItems;
@@ -72,7 +75,7 @@ class MemberCartModel implements ModelBase, WithAppId {
     return 'MemberCartModel{documentID: $documentID, appId: $appId, cartItems: CartItem[] { $cartItemsCsv }}';
   }
 
-  MemberCartEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  MemberCartEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return MemberCartEntity(
