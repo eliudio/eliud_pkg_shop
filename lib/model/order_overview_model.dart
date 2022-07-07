@@ -80,7 +80,7 @@ class OrderOverviewModel implements ModelBase, WithAppId {
     return 'OrderOverviewModel{documentID: $documentID, appId: $appId, description: $description, shop: $shop, itemImageBackground: $itemImageBackground, itemDetailBackground: $itemDetailBackground, conditions: $conditions}';
   }
 
-  OrderOverviewEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  OrderOverviewEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
       if (shop != null) referencesCollector.add(ModelReference(ShopModel.packageName, ShopModel.id, shop!));
     }

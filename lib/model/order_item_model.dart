@@ -72,7 +72,7 @@ class OrderItemModel implements ModelBase, WithAppId {
     return 'OrderItemModel{documentID: $documentID, amount: $amount, appId: $appId, soldPrice: $soldPrice, product: $product}';
   }
 
-  OrderItemEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  OrderItemEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
       if (product != null) referencesCollector.add(ModelReference(ProductModel.packageName, ProductModel.id, product!));
     }

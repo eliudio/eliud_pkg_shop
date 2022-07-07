@@ -75,7 +75,7 @@ class MemberCartModel implements ModelBase, WithAppId {
     return 'MemberCartModel{documentID: $documentID, appId: $appId, cartItems: CartItem[] { $cartItemsCsv }}';
   }
 
-  MemberCartEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  MemberCartEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return MemberCartEntity(

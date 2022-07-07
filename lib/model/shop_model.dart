@@ -72,7 +72,7 @@ class ShopModel implements ModelBase, WithAppId {
     return 'ShopModel{documentID: $documentID, appId: $appId, description: $description, shortDescription: $shortDescription, currency: $currency}';
   }
 
-  ShopEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  ShopEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return ShopEntity(

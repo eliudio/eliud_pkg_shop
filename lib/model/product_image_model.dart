@@ -70,7 +70,7 @@ class ProductImageModel implements ModelBase {
     return 'ProductImageModel{documentID: $documentID, image: $image}';
   }
 
-  ProductImageEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  ProductImageEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
       if (image != null) referencesCollector.add(ModelReference(PlatformMediumModel.packageName, PlatformMediumModel.id, image!));
     }

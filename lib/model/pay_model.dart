@@ -82,7 +82,7 @@ class PayModel implements ModelBase, WithAppId {
     return 'PayModel{documentID: $documentID, appId: $appId, description: $description, succeeded: $succeeded, payAction: $payAction, shop: $shop, conditions: $conditions}';
   }
 
-  PayEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  PayEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
       if (shop != null) referencesCollector.add(ModelReference(ShopModel.packageName, ShopModel.id, shop!));
     }

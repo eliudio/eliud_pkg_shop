@@ -78,7 +78,7 @@ class PayConfirmationModel implements ModelBase, WithAppId {
     return 'PayConfirmationModel{documentID: $documentID, appId: $appId, description: $description, shop: $shop, backToShopAction: $backToShopAction, conditions: $conditions}';
   }
 
-  PayConfirmationEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  PayConfirmationEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
       if (shop != null) referencesCollector.add(ModelReference(ShopModel.packageName, ShopModel.id, shop!));
     }

@@ -87,7 +87,7 @@ class ProductModel implements ModelBase, WithAppId {
     return 'ProductModel{documentID: $documentID, appId: $appId, title: $title, about: $about, price: $price, weight: $weight, shop: $shop, images: ProductImage[] { $imagesCsv }, posSize: $posSize}';
   }
 
-  ProductEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  ProductEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
       if (shop != null) referencesCollector.add(ModelReference(ShopModel.packageName, ShopModel.id, shop!));
     }

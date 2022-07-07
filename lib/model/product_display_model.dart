@@ -82,7 +82,7 @@ class ProductDisplayModel implements ModelBase, WithAppId {
     return 'ProductDisplayModel{documentID: $documentID, appId: $appId, description: $description, itemDetailBackground: $itemDetailBackground, addToBasketText: $addToBasketText, buyAction: $buyAction, shop: $shop, conditions: $conditions}';
   }
 
-  ProductDisplayEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  ProductDisplayEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
       if (shop != null) referencesCollector.add(ModelReference(ShopModel.packageName, ShopModel.id, shop!));
     }

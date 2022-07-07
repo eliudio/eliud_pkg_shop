@@ -67,7 +67,7 @@ class OrderReferencesModel {
     return 'OrderReferencesModel{paymentReference: $paymentReference, shipmentReference: $shipmentReference, deliveryReference: $deliveryReference}';
   }
 
-  OrderReferencesEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  OrderReferencesEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return OrderReferencesEntity(
