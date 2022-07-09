@@ -42,7 +42,7 @@ import 'package:eliud_core/tools/random.dart';
 
 class MemberCartModel implements ModelBase, WithAppId {
   static const String packageName = 'eliud_pkg_shop';
-  static const String id = 'MemberCart';
+  static const String id = 'memberCarts';
 
   String documentID;
   String appId;

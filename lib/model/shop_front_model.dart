@@ -53,7 +53,7 @@ ScrollDirection toScrollDirection(int? index) {
 
 class ShopFrontModel implements ModelBase, WithAppId {
   static const String packageName = 'eliud_pkg_shop';
-  static const String id = 'ShopFront';
+  static const String id = 'shopFronts';
 
   String documentID;
   String appId;

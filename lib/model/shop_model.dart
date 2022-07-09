@@ -37,7 +37,7 @@ import 'package:eliud_core/tools/random.dart';
 
 class ShopModel implements ModelBase, WithAppId {
   static const String packageName = 'eliud_pkg_shop';
-  static const String id = 'Shop';
+  static const String id = 'shops';
 
   String documentID;
   String appId;

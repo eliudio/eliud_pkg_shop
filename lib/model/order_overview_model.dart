@@ -41,7 +41,7 @@ import 'package:eliud_core/tools/random.dart';
 
 class OrderOverviewModel implements ModelBase, WithAppId {
   static const String packageName = 'eliud_pkg_shop';
-  static const String id = 'OrderOverview';
+  static const String id = 'orderOverviews';
 
   String documentID;
   String appId;

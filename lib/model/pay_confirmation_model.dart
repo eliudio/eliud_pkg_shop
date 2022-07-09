@@ -41,7 +41,7 @@ import 'package:eliud_core/tools/random.dart';
 
 class PayConfirmationModel implements ModelBase, WithAppId {
   static const String packageName = 'eliud_pkg_shop';
-  static const String id = 'PayConfirmation';
+  static const String id = 'payConfirmations';
 
   String documentID;
   String appId;

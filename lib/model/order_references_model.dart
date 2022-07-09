@@ -37,7 +37,7 @@ import 'package:eliud_core/tools/random.dart';
 
 class OrderReferencesModel {
   static const String packageName = 'eliud_pkg_shop';
-  static const String id = 'OrderReferences';
+  static const String id = 'orderReferencess';
 
   String? paymentReference;
   String? shipmentReference;

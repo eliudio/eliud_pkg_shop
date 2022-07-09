@@ -68,6 +68,16 @@ class ComponentRegistry {
       ComponentSpec('productDisplays', ProductDisplayComponentConstructorDefault(), ProductDisplayComponentSelector(), ProductDisplayComponentEditorConstructor(), ({String? appId}) => productDisplayRepository(appId: appId)! ), 
       ComponentSpec('shopFronts', ShopFrontComponentConstructorDefault(), ShopFrontComponentSelector(), ShopFrontComponentEditorConstructor(), ({String? appId}) => shopFrontRepository(appId: appId)! ), 
     ]);
+      Registry.registry()!.registerRetrieveRepository('eliud_pkg_shop', 'carts', ({String? appId}) => cartRepository(appId: appId)!);
+      Registry.registry()!.registerRetrieveRepository('eliud_pkg_shop', 'memberCarts', ({String? appId}) => memberCartRepository(appId: appId)!);
+      Registry.registry()!.registerRetrieveRepository('eliud_pkg_shop', 'orders', ({String? appId}) => orderRepository(appId: appId)!);
+      Registry.registry()!.registerRetrieveRepository('eliud_pkg_shop', 'orderOverviews', ({String? appId}) => orderOverviewRepository(appId: appId)!);
+      Registry.registry()!.registerRetrieveRepository('eliud_pkg_shop', 'pays', ({String? appId}) => payRepository(appId: appId)!);
+      Registry.registry()!.registerRetrieveRepository('eliud_pkg_shop', 'payConfirmations', ({String? appId}) => payConfirmationRepository(appId: appId)!);
+      Registry.registry()!.registerRetrieveRepository('eliud_pkg_shop', 'products', ({String? appId}) => productRepository(appId: appId)!);
+      Registry.registry()!.registerRetrieveRepository('eliud_pkg_shop', 'productDisplays', ({String? appId}) => productDisplayRepository(appId: appId)!);
+      Registry.registry()!.registerRetrieveRepository('eliud_pkg_shop', 'shops', ({String? appId}) => shopRepository(appId: appId)!);
+      Registry.registry()!.registerRetrieveRepository('eliud_pkg_shop', 'shopFronts', ({String? appId}) => shopFrontRepository(appId: appId)!);
 
   }
 }

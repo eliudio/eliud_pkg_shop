@@ -57,7 +57,7 @@ OrderStatus toOrderStatus(int? index) {
 
 class OrderModel implements ModelBase, WithAppId {
   static const String packageName = 'eliud_pkg_shop';
-  static const String id = 'Order';
+  static const String id = 'orders';
 
   String documentID;
   String appId;

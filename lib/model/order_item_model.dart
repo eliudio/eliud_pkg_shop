@@ -37,7 +37,7 @@ import 'package:eliud_core/tools/random.dart';
 
 class OrderItemModel implements ModelBase, WithAppId {
   static const String packageName = 'eliud_pkg_shop';
-  static const String id = 'OrderItem';
+  static const String id = 'orderItems';
 
   String documentID;
   int? amount;

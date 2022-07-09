@@ -41,7 +41,7 @@ import 'package:eliud_core/tools/random.dart';
 
 class ProductImageModel implements ModelBase {
   static const String packageName = 'eliud_pkg_shop';
-  static const String id = 'ProductImage';
+  static const String id = 'productImages';
 
   String documentID;
   PlatformMediumModel? image;
