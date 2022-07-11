@@ -67,9 +67,12 @@ class OrderReferencesModel {
     return 'OrderReferencesModel{paymentReference: $paymentReference, shipmentReference: $shipmentReference, deliveryReference: $deliveryReference}';
   }
 
-  OrderReferencesEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-    }
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    return referencesCollector;
+  }
+
+  OrderReferencesEntity toEntity({String? appId}) {
     return OrderReferencesEntity(
           paymentReference: (paymentReference != null) ? paymentReference : null, 
           shipmentReference: (shipmentReference != null) ? shipmentReference : null, 

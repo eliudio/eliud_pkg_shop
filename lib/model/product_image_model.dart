@@ -70,10 +70,16 @@ class ProductImageModel implements ModelBase {
     return 'ProductImageModel{documentID: $documentID, image: $image}';
   }
 
-  ProductImageEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-      if (image != null) referencesCollector.add(ModelReference(PlatformMediumModel.packageName, PlatformMediumModel.id, image!));
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (image != null) {
+      referencesCollector.add(ModelReference(PlatformMediumModel.packageName, PlatformMediumModel.id, image!));
     }
+    if (image != null) referencesCollector.addAll(await image!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  ProductImageEntity toEntity({String? appId}) {
     return ProductImageEntity(
           imageId: (image != null) ? image!.documentID : null, 
     );

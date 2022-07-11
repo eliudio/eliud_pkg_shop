@@ -108,10 +108,22 @@ class ShopFrontModel implements ModelBase, WithAppId {
     return 'ShopFrontModel{documentID: $documentID, appId: $appId, title: $title, description: $description, shop: $shop, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackground: $itemCardBackground, addToCartColor: $addToCartColor, scrollDirection: $scrollDirection, buyAction: $buyAction, openProductAction: $openProductAction, padding: $padding, conditions: $conditions}';
   }
 
-  ShopFrontEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-      if (shop != null) referencesCollector.add(ModelReference(ShopModel.packageName, ShopModel.id, shop!));
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (shop != null) {
+      referencesCollector.add(ModelReference(ShopModel.packageName, ShopModel.id, shop!));
     }
+    if (shop != null) referencesCollector.addAll(await shop!.collectReferences(appId: appId));
+    if (itemCardBackground != null) referencesCollector.addAll(await itemCardBackground!.collectReferences(appId: appId));
+    if (addToCartColor != null) referencesCollector.addAll(await addToCartColor!.collectReferences(appId: appId));
+    if (buyAction != null) referencesCollector.addAll(await buyAction!.collectReferences(appId: appId));
+    if (openProductAction != null) referencesCollector.addAll(await openProductAction!.collectReferences(appId: appId));
+    if (padding != null) referencesCollector.addAll(await padding!.collectReferences(appId: appId));
+    if (conditions != null) referencesCollector.addAll(await conditions!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  ShopFrontEntity toEntity({String? appId}) {
     return ShopFrontEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
@@ -120,13 +132,13 @@ class ShopFrontModel implements ModelBase, WithAppId {
           size: (size != null) ? size : null, 
           cardElevation: (cardElevation != null) ? cardElevation : null, 
           cardAxisSpacing: (cardAxisSpacing != null) ? cardAxisSpacing : null, 
-          itemCardBackground: (itemCardBackground != null) ? itemCardBackground!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
-          addToCartColor: (addToCartColor != null) ? addToCartColor!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          itemCardBackground: (itemCardBackground != null) ? itemCardBackground!.toEntity(appId: appId) : null, 
+          addToCartColor: (addToCartColor != null) ? addToCartColor!.toEntity(appId: appId) : null, 
           scrollDirection: (scrollDirection != null) ? scrollDirection!.index : null, 
-          buyAction: (buyAction != null) ? buyAction!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
-          openProductAction: (openProductAction != null) ? openProductAction!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
-          padding: (padding != null) ? padding!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
-          conditions: (conditions != null) ? conditions!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          buyAction: (buyAction != null) ? buyAction!.toEntity(appId: appId) : null, 
+          openProductAction: (openProductAction != null) ? openProductAction!.toEntity(appId: appId) : null, 
+          padding: (padding != null) ? padding!.toEntity(appId: appId) : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
 

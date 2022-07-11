@@ -142,10 +142,21 @@ class OrderModel implements ModelBase, WithAppId {
     return 'OrderModel{documentID: $documentID, appId: $appId, customer: $customer, name: $name, email: $email, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, country: $country, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountry: $invoiceCountry, products: OrderItem[] { $productsCsv }, totalPrice: $totalPrice, currency: $currency, paymentReference: $paymentReference, shipmentReference: $shipmentReference, deliveryReference: $deliveryReference, paymentNote: $paymentNote, shipmentNote: $shipmentNote, deliveryNote: $deliveryNote, status: $status, timeStamp: $timeStamp}';
   }
 
-  OrderEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-      if (customer != null) referencesCollector.add(ModelReference(MemberModel.packageName, MemberModel.id, customer!));
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (customer != null) {
+      referencesCollector.add(ModelReference(MemberModel.packageName, MemberModel.id, customer!));
     }
+    if (customer != null) referencesCollector.addAll(await customer!.collectReferences(appId: appId));
+    if (products != null) {
+      for (var item in products!) {
+        referencesCollector.addAll(await item.collectReferences(appId: appId));
+      }
+    }
+    return referencesCollector;
+  }
+
+  OrderEntity toEntity({String? appId}) {
     return OrderEntity(
           appId: (appId != null) ? appId : null, 
           customerId: (customer != null) ? customer!.documentID : null, 
@@ -165,7 +176,7 @@ class OrderModel implements ModelBase, WithAppId {
           invoicePostcode: (invoicePostcode != null) ? invoicePostcode : null, 
           invoiceCountry: (invoiceCountry != null) ? invoiceCountry : null, 
           products: (products != null) ? products
-            !.map((item) => item.toEntity(appId: appId, referencesCollector: referencesCollector))
+            !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
           totalPrice: (totalPrice != null) ? totalPrice : null, 
           currency: (currency != null) ? currency : null, 

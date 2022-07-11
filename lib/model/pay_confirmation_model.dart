@@ -78,16 +78,24 @@ class PayConfirmationModel implements ModelBase, WithAppId {
     return 'PayConfirmationModel{documentID: $documentID, appId: $appId, description: $description, shop: $shop, backToShopAction: $backToShopAction, conditions: $conditions}';
   }
 
-  PayConfirmationEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-      if (shop != null) referencesCollector.add(ModelReference(ShopModel.packageName, ShopModel.id, shop!));
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (shop != null) {
+      referencesCollector.add(ModelReference(ShopModel.packageName, ShopModel.id, shop!));
     }
+    if (shop != null) referencesCollector.addAll(await shop!.collectReferences(appId: appId));
+    if (backToShopAction != null) referencesCollector.addAll(await backToShopAction!.collectReferences(appId: appId));
+    if (conditions != null) referencesCollector.addAll(await conditions!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  PayConfirmationEntity toEntity({String? appId}) {
     return PayConfirmationEntity(
           appId: (appId != null) ? appId : null, 
           description: (description != null) ? description : null, 
           shopId: (shop != null) ? shop!.documentID : null, 
-          backToShopAction: (backToShopAction != null) ? backToShopAction!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
-          conditions: (conditions != null) ? conditions!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          backToShopAction: (backToShopAction != null) ? backToShopAction!.toEntity(appId: appId) : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
 

@@ -72,10 +72,16 @@ class OrderItemModel implements ModelBase, WithAppId {
     return 'OrderItemModel{documentID: $documentID, amount: $amount, appId: $appId, soldPrice: $soldPrice, product: $product}';
   }
 
-  OrderItemEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-      if (product != null) referencesCollector.add(ModelReference(ProductModel.packageName, ProductModel.id, product!));
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (product != null) {
+      referencesCollector.add(ModelReference(ProductModel.packageName, ProductModel.id, product!));
     }
+    if (product != null) referencesCollector.addAll(await product!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  OrderItemEntity toEntity({String? appId}) {
     return OrderItemEntity(
           amount: (amount != null) ? amount : null, 
           appId: (appId != null) ? appId : null, 

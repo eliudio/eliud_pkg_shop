@@ -87,10 +87,22 @@ class ProductModel implements ModelBase, WithAppId {
     return 'ProductModel{documentID: $documentID, appId: $appId, title: $title, about: $about, price: $price, weight: $weight, shop: $shop, images: ProductImage[] { $imagesCsv }, posSize: $posSize}';
   }
 
-  ProductEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-      if (shop != null) referencesCollector.add(ModelReference(ShopModel.packageName, ShopModel.id, shop!));
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (shop != null) {
+      referencesCollector.add(ModelReference(ShopModel.packageName, ShopModel.id, shop!));
     }
+    if (shop != null) referencesCollector.addAll(await shop!.collectReferences(appId: appId));
+    if (images != null) {
+      for (var item in images!) {
+        referencesCollector.addAll(await item.collectReferences(appId: appId));
+      }
+    }
+    if (posSize != null) referencesCollector.addAll(await posSize!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  ProductEntity toEntity({String? appId}) {
     return ProductEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
@@ -99,9 +111,9 @@ class ProductModel implements ModelBase, WithAppId {
           weight: (weight != null) ? weight : null, 
           shopId: (shop != null) ? shop!.documentID : null, 
           images: (images != null) ? images
-            !.map((item) => item.toEntity(appId: appId, referencesCollector: referencesCollector))
+            !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
-          posSize: (posSize != null) ? posSize!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          posSize: (posSize != null) ? posSize!.toEntity(appId: appId) : null, 
     );
   }
 

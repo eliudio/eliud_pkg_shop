@@ -70,10 +70,16 @@ class CartItemModel implements ModelBase, WithAppId {
     return 'CartItemModel{documentID: $documentID, amount: $amount, appId: $appId, product: $product}';
   }
 
-  CartItemEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-      if (product != null) referencesCollector.add(ModelReference(ProductModel.packageName, ProductModel.id, product!));
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (product != null) {
+      referencesCollector.add(ModelReference(ProductModel.packageName, ProductModel.id, product!));
     }
+    if (product != null) referencesCollector.addAll(await product!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  CartItemEntity toEntity({String? appId}) {
     return CartItemEntity(
           amount: (amount != null) ? amount : null, 
           appId: (appId != null) ? appId : null, 

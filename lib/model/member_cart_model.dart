@@ -75,13 +75,21 @@ class MemberCartModel implements ModelBase, WithAppId {
     return 'MemberCartModel{documentID: $documentID, appId: $appId, cartItems: CartItem[] { $cartItemsCsv }}';
   }
 
-  MemberCartEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (cartItems != null) {
+      for (var item in cartItems!) {
+        referencesCollector.addAll(await item.collectReferences(appId: appId));
+      }
     }
+    return referencesCollector;
+  }
+
+  MemberCartEntity toEntity({String? appId}) {
     return MemberCartEntity(
           appId: (appId != null) ? appId : null, 
           cartItems: (cartItems != null) ? cartItems
-            !.map((item) => item.toEntity(appId: appId, referencesCollector: referencesCollector))
+            !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
     );
   }

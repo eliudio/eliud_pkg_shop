@@ -72,9 +72,12 @@ class ShopModel implements ModelBase, WithAppId {
     return 'ShopModel{documentID: $documentID, appId: $appId, description: $description, shortDescription: $shortDescription, currency: $currency}';
   }
 
-  ShopEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-    }
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    return referencesCollector;
+  }
+
+  ShopEntity toEntity({String? appId}) {
     return ShopEntity(
           appId: (appId != null) ? appId : null, 
           description: (description != null) ? description : null, 

@@ -80,17 +80,26 @@ class OrderOverviewModel implements ModelBase, WithAppId {
     return 'OrderOverviewModel{documentID: $documentID, appId: $appId, description: $description, shop: $shop, itemImageBackground: $itemImageBackground, itemDetailBackground: $itemDetailBackground, conditions: $conditions}';
   }
 
-  OrderOverviewEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-      if (shop != null) referencesCollector.add(ModelReference(ShopModel.packageName, ShopModel.id, shop!));
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (shop != null) {
+      referencesCollector.add(ModelReference(ShopModel.packageName, ShopModel.id, shop!));
     }
+    if (shop != null) referencesCollector.addAll(await shop!.collectReferences(appId: appId));
+    if (itemImageBackground != null) referencesCollector.addAll(await itemImageBackground!.collectReferences(appId: appId));
+    if (itemDetailBackground != null) referencesCollector.addAll(await itemDetailBackground!.collectReferences(appId: appId));
+    if (conditions != null) referencesCollector.addAll(await conditions!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  OrderOverviewEntity toEntity({String? appId}) {
     return OrderOverviewEntity(
           appId: (appId != null) ? appId : null, 
           description: (description != null) ? description : null, 
           shopId: (shop != null) ? shop!.documentID : null, 
-          itemImageBackground: (itemImageBackground != null) ? itemImageBackground!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
-          itemDetailBackground: (itemDetailBackground != null) ? itemDetailBackground!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
-          conditions: (conditions != null) ? conditions!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          itemImageBackground: (itemImageBackground != null) ? itemImageBackground!.toEntity(appId: appId) : null, 
+          itemDetailBackground: (itemDetailBackground != null) ? itemDetailBackground!.toEntity(appId: appId) : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
 

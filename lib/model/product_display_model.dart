@@ -82,18 +82,27 @@ class ProductDisplayModel implements ModelBase, WithAppId {
     return 'ProductDisplayModel{documentID: $documentID, appId: $appId, description: $description, itemDetailBackground: $itemDetailBackground, addToBasketText: $addToBasketText, buyAction: $buyAction, shop: $shop, conditions: $conditions}';
   }
 
-  ProductDisplayEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-      if (shop != null) referencesCollector.add(ModelReference(ShopModel.packageName, ShopModel.id, shop!));
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (shop != null) {
+      referencesCollector.add(ModelReference(ShopModel.packageName, ShopModel.id, shop!));
     }
+    if (itemDetailBackground != null) referencesCollector.addAll(await itemDetailBackground!.collectReferences(appId: appId));
+    if (buyAction != null) referencesCollector.addAll(await buyAction!.collectReferences(appId: appId));
+    if (shop != null) referencesCollector.addAll(await shop!.collectReferences(appId: appId));
+    if (conditions != null) referencesCollector.addAll(await conditions!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  ProductDisplayEntity toEntity({String? appId}) {
     return ProductDisplayEntity(
           appId: (appId != null) ? appId : null, 
           description: (description != null) ? description : null, 
-          itemDetailBackground: (itemDetailBackground != null) ? itemDetailBackground!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          itemDetailBackground: (itemDetailBackground != null) ? itemDetailBackground!.toEntity(appId: appId) : null, 
           addToBasketText: (addToBasketText != null) ? addToBasketText : null, 
-          buyAction: (buyAction != null) ? buyAction!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          buyAction: (buyAction != null) ? buyAction!.toEntity(appId: appId) : null, 
           shopId: (shop != null) ? shop!.documentID : null, 
-          conditions: (conditions != null) ? conditions!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
 

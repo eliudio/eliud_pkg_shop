@@ -82,17 +82,26 @@ class PayModel implements ModelBase, WithAppId {
     return 'PayModel{documentID: $documentID, appId: $appId, description: $description, succeeded: $succeeded, payAction: $payAction, shop: $shop, conditions: $conditions}';
   }
 
-  PayEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-      if (shop != null) referencesCollector.add(ModelReference(ShopModel.packageName, ShopModel.id, shop!));
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (shop != null) {
+      referencesCollector.add(ModelReference(ShopModel.packageName, ShopModel.id, shop!));
     }
+    if (succeeded != null) referencesCollector.addAll(await succeeded!.collectReferences(appId: appId));
+    if (payAction != null) referencesCollector.addAll(await payAction!.collectReferences(appId: appId));
+    if (shop != null) referencesCollector.addAll(await shop!.collectReferences(appId: appId));
+    if (conditions != null) referencesCollector.addAll(await conditions!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  PayEntity toEntity({String? appId}) {
     return PayEntity(
           appId: (appId != null) ? appId : null, 
           description: (description != null) ? description : null, 
-          succeeded: (succeeded != null) ? succeeded!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
-          payAction: (payAction != null) ? payAction!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          succeeded: (succeeded != null) ? succeeded!.toEntity(appId: appId) : null, 
+          payAction: (payAction != null) ? payAction!.toEntity(appId: appId) : null, 
           shopId: (shop != null) ? shop!.documentID : null, 
-          conditions: (conditions != null) ? conditions!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
 
