@@ -55,7 +55,9 @@ class OrderEntity implements EntityBase {
 
   OrderEntity({required this.appId, this.customerId, this.name, this.email, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.country, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountry, this.products, this.totalPrice, this.currency, this.paymentReference, this.shipmentReference, this.deliveryReference, this.paymentNote, this.shipmentNote, this.deliveryNote, this.status, this.timeStamp, });
 
-
+  OrderEntity copyWith({String? documentID, String? appId, String? customerId, String? name, String? email, String? shipStreet1, String? shipStreet2, String? shipCity, String? shipState, String? postcode, String? country, bool? invoiceSame, String? invoiceStreet1, String? invoiceStreet2, String? invoiceCity, String? invoiceState, String? invoicePostcode, String? invoiceCountry, List<OrderItemEntity>? products, double? totalPrice, String? currency, String? paymentReference, String? shipmentReference, String? deliveryReference, String? paymentNote, String? shipmentNote, String? deliveryNote, int? status, String? timeStamp, }) {
+    return OrderEntity(appId : appId ?? this.appId, customerId : customerId ?? this.customerId, name : name ?? this.name, email : email ?? this.email, shipStreet1 : shipStreet1 ?? this.shipStreet1, shipStreet2 : shipStreet2 ?? this.shipStreet2, shipCity : shipCity ?? this.shipCity, shipState : shipState ?? this.shipState, postcode : postcode ?? this.postcode, country : country ?? this.country, invoiceSame : invoiceSame ?? this.invoiceSame, invoiceStreet1 : invoiceStreet1 ?? this.invoiceStreet1, invoiceStreet2 : invoiceStreet2 ?? this.invoiceStreet2, invoiceCity : invoiceCity ?? this.invoiceCity, invoiceState : invoiceState ?? this.invoiceState, invoicePostcode : invoicePostcode ?? this.invoicePostcode, invoiceCountry : invoiceCountry ?? this.invoiceCountry, products : products ?? this.products, totalPrice : totalPrice ?? this.totalPrice, currency : currency ?? this.currency, paymentReference : paymentReference ?? this.paymentReference, shipmentReference : shipmentReference ?? this.shipmentReference, deliveryReference : deliveryReference ?? this.deliveryReference, paymentNote : paymentNote ?? this.paymentNote, shipmentNote : shipmentNote ?? this.shipmentNote, deliveryNote : deliveryNote ?? this.deliveryNote, status : status ?? this.status, timeStamp : timeStamp ?? this.timeStamp, );
+  }
   List<Object?> get props => [appId, customerId, name, email, shipStreet1, shipStreet2, shipCity, shipState, postcode, country, invoiceSame, invoiceStreet1, invoiceStreet2, invoiceCity, invoiceState, invoicePostcode, invoiceCountry, products, totalPrice, currency, paymentReference, shipmentReference, deliveryReference, paymentNote, shipmentNote, deliveryNote, status, timeStamp, ];
 
   @override
@@ -173,6 +175,12 @@ class OrderEntity implements EntityBase {
     if (timeStamp != null) theDocument["timeStamp"] = timeStamp;
       else theDocument["timeStamp"] = null;
     return theDocument;
+  }
+
+  @override
+  OrderEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    return newEntity;
   }
 
   static OrderEntity? fromJsonString(String json) {

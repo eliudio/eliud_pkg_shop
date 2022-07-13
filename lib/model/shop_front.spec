@@ -20,6 +20,7 @@
     "isExtension": true,
     "documentSubCollectionOf": "app"
   },
+  "codeForNewAppId": "newEntity = newEntity.copyWith(buyAction: buyAction == null ? null : buyAction!.copyWith(appId: newAppId), openProductAction: openProductAction == null ? null : openProductAction!.copyWith(appId: newAppId));",
   "fields": [
     {
       "fieldName": "documentID",

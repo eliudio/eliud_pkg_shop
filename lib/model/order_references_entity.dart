@@ -29,7 +29,9 @@ class OrderReferencesEntity implements EntityBase {
 
   OrderReferencesEntity({this.paymentReference, this.shipmentReference, this.deliveryReference, });
 
-
+  OrderReferencesEntity copyWith({String? paymentReference, String? shipmentReference, String? deliveryReference, }) {
+    return OrderReferencesEntity(paymentReference : paymentReference ?? this.paymentReference, shipmentReference : shipmentReference ?? this.shipmentReference, deliveryReference : deliveryReference ?? this.deliveryReference, );
+  }
   List<Object?> get props => [paymentReference, shipmentReference, deliveryReference, ];
 
   @override
@@ -57,6 +59,12 @@ class OrderReferencesEntity implements EntityBase {
     if (deliveryReference != null) theDocument["deliveryReference"] = deliveryReference;
       else theDocument["deliveryReference"] = null;
     return theDocument;
+  }
+
+  @override
+  OrderReferencesEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static OrderReferencesEntity? fromJsonString(String json) {

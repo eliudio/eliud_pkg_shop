@@ -30,7 +30,9 @@ class OrderItemEntity implements EntityBase {
 
   OrderItemEntity({this.amount, required this.appId, this.soldPrice, this.productId, });
 
-
+  OrderItemEntity copyWith({String? documentID, int? amount, String? appId, double? soldPrice, String? productId, }) {
+    return OrderItemEntity(amount : amount ?? this.amount, appId : appId ?? this.appId, soldPrice : soldPrice ?? this.soldPrice, productId : productId ?? this.productId, );
+  }
   List<Object?> get props => [amount, appId, soldPrice, productId, ];
 
   @override
@@ -61,6 +63,12 @@ class OrderItemEntity implements EntityBase {
     if (productId != null) theDocument["productId"] = productId;
       else theDocument["productId"] = null;
     return theDocument;
+  }
+
+  @override
+  OrderItemEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    return newEntity;
   }
 
   static OrderItemEntity? fromJsonString(String json) {

@@ -29,7 +29,9 @@ class CartItemEntity implements EntityBase {
 
   CartItemEntity({this.amount, required this.appId, this.productId, });
 
-
+  CartItemEntity copyWith({String? documentID, int? amount, String? appId, String? productId, }) {
+    return CartItemEntity(amount : amount ?? this.amount, appId : appId ?? this.appId, productId : productId ?? this.productId, );
+  }
   List<Object?> get props => [amount, appId, productId, ];
 
   @override
@@ -57,6 +59,12 @@ class CartItemEntity implements EntityBase {
     if (productId != null) theDocument["productId"] = productId;
       else theDocument["productId"] = null;
     return theDocument;
+  }
+
+  @override
+  CartItemEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    return newEntity;
   }
 
   static CartItemEntity? fromJsonString(String json) {

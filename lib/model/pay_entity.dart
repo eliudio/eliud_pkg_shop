@@ -33,7 +33,9 @@ class PayEntity implements EntityBase {
 
   PayEntity({required this.appId, this.description, this.succeeded, this.payAction, this.shopId, this.conditions, });
 
-
+  PayEntity copyWith({String? documentID, String? appId, String? description, ActionEntity? succeeded, ActionEntity? payAction, String? shopId, StorageConditionsEntity? conditions, }) {
+    return PayEntity(appId : appId ?? this.appId, description : description ?? this.description, succeeded : succeeded ?? this.succeeded, payAction : payAction ?? this.payAction, shopId : shopId ?? this.shopId, conditions : conditions ?? this.conditions, );
+  }
   List<Object?> get props => [appId, description, succeeded, payAction, shopId, conditions, ];
 
   @override
@@ -93,6 +95,12 @@ class PayEntity implements EntityBase {
     if (conditions != null) theDocument["conditions"] = conditionsMap;
       else theDocument["conditions"] = null;
     return theDocument;
+  }
+
+  @override
+  PayEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    return newEntity;
   }
 
   static PayEntity? fromJsonString(String json) {

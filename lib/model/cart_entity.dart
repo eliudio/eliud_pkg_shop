@@ -38,7 +38,9 @@ class CartEntity implements EntityBase {
 
   CartEntity({required this.appId, this.title, this.description, this.checkoutText, this.shopId, this.itemImageBackground, this.itemDetailBackground, this.checkoutAction, this.backToShopAction, this.openProductAction, this.conditions, });
 
-
+  CartEntity copyWith({String? documentID, String? appId, String? title, String? description, String? checkoutText, String? shopId, BackgroundEntity? itemImageBackground, BackgroundEntity? itemDetailBackground, ActionEntity? checkoutAction, ActionEntity? backToShopAction, ActionEntity? openProductAction, StorageConditionsEntity? conditions, }) {
+    return CartEntity(appId : appId ?? this.appId, title : title ?? this.title, description : description ?? this.description, checkoutText : checkoutText ?? this.checkoutText, shopId : shopId ?? this.shopId, itemImageBackground : itemImageBackground ?? this.itemImageBackground, itemDetailBackground : itemDetailBackground ?? this.itemDetailBackground, checkoutAction : checkoutAction ?? this.checkoutAction, backToShopAction : backToShopAction ?? this.backToShopAction, openProductAction : openProductAction ?? this.openProductAction, conditions : conditions ?? this.conditions, );
+  }
   List<Object?> get props => [appId, title, description, checkoutText, shopId, itemImageBackground, itemDetailBackground, checkoutAction, backToShopAction, openProductAction, conditions, ];
 
   @override
@@ -134,6 +136,12 @@ class CartEntity implements EntityBase {
     if (conditions != null) theDocument["conditions"] = conditionsMap;
       else theDocument["conditions"] = null;
     return theDocument;
+  }
+
+  @override
+  CartEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    return newEntity;
   }
 
   static CartEntity? fromJsonString(String json) {

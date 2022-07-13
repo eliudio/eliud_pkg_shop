@@ -28,7 +28,9 @@ class ProductImageEntity implements EntityBase {
 
   ProductImageEntity({this.imageId, });
 
-
+  ProductImageEntity copyWith({String? documentID, String? imageId, }) {
+    return ProductImageEntity(imageId : imageId ?? this.imageId, );
+  }
   List<Object?> get props => [imageId, ];
 
   @override
@@ -50,6 +52,12 @@ class ProductImageEntity implements EntityBase {
     if (imageId != null) theDocument["imageId"] = imageId;
       else theDocument["imageId"] = null;
     return theDocument;
+  }
+
+  @override
+  ProductImageEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static ProductImageEntity? fromJsonString(String json) {

@@ -33,7 +33,9 @@ class OrderOverviewEntity implements EntityBase {
 
   OrderOverviewEntity({required this.appId, this.description, this.shopId, this.itemImageBackground, this.itemDetailBackground, this.conditions, });
 
-
+  OrderOverviewEntity copyWith({String? documentID, String? appId, String? description, String? shopId, BackgroundEntity? itemImageBackground, BackgroundEntity? itemDetailBackground, StorageConditionsEntity? conditions, }) {
+    return OrderOverviewEntity(appId : appId ?? this.appId, description : description ?? this.description, shopId : shopId ?? this.shopId, itemImageBackground : itemImageBackground ?? this.itemImageBackground, itemDetailBackground : itemDetailBackground ?? this.itemDetailBackground, conditions : conditions ?? this.conditions, );
+  }
   List<Object?> get props => [appId, description, shopId, itemImageBackground, itemDetailBackground, conditions, ];
 
   @override
@@ -93,6 +95,12 @@ class OrderOverviewEntity implements EntityBase {
     if (conditions != null) theDocument["conditions"] = conditionsMap;
       else theDocument["conditions"] = null;
     return theDocument;
+  }
+
+  @override
+  OrderOverviewEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    return newEntity;
   }
 
   static OrderOverviewEntity? fromJsonString(String json) {

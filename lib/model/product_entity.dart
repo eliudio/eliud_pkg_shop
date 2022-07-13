@@ -35,7 +35,9 @@ class ProductEntity implements EntityBase {
 
   ProductEntity({required this.appId, this.title, this.about, this.price, this.weight, this.shopId, this.images, this.posSize, });
 
-
+  ProductEntity copyWith({String? documentID, String? appId, String? title, String? about, double? price, double? weight, String? shopId, List<ProductImageEntity>? images, PosSizeEntity? posSize, }) {
+    return ProductEntity(appId : appId ?? this.appId, title : title ?? this.title, about : about ?? this.about, price : price ?? this.price, weight : weight ?? this.weight, shopId : shopId ?? this.shopId, images : images ?? this.images, posSize : posSize ?? this.posSize, );
+  }
   List<Object?> get props => [appId, title, about, price, weight, shopId, images, posSize, ];
 
   @override
@@ -100,6 +102,12 @@ class ProductEntity implements EntityBase {
     if (posSize != null) theDocument["posSize"] = posSizeMap;
       else theDocument["posSize"] = null;
     return theDocument;
+  }
+
+  @override
+  ProductEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    return newEntity;
   }
 
   static ProductEntity? fromJsonString(String json) {

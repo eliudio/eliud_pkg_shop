@@ -30,7 +30,9 @@ class ShopEntity implements EntityBase {
 
   ShopEntity({required this.appId, this.description, this.shortDescription, this.currency, });
 
-
+  ShopEntity copyWith({String? documentID, String? appId, String? description, String? shortDescription, String? currency, }) {
+    return ShopEntity(appId : appId ?? this.appId, description : description ?? this.description, shortDescription : shortDescription ?? this.shortDescription, currency : currency ?? this.currency, );
+  }
   List<Object?> get props => [appId, description, shortDescription, currency, ];
 
   @override
@@ -61,6 +63,12 @@ class ShopEntity implements EntityBase {
     if (currency != null) theDocument["currency"] = currency;
       else theDocument["currency"] = null;
     return theDocument;
+  }
+
+  @override
+  ShopEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    return newEntity;
   }
 
   static ShopEntity? fromJsonString(String json) {

@@ -29,7 +29,9 @@ class MemberCartEntity implements EntityBase {
 
   MemberCartEntity({required this.appId, this.cartItems, });
 
-
+  MemberCartEntity copyWith({String? documentID, String? appId, List<CartItemEntity>? cartItems, }) {
+    return MemberCartEntity(appId : appId ?? this.appId, cartItems : cartItems ?? this.cartItems, );
+  }
   List<Object?> get props => [appId, cartItems, ];
 
   @override
@@ -69,6 +71,12 @@ class MemberCartEntity implements EntityBase {
     if (cartItems != null) theDocument["cartItems"] = cartItemsListMap;
       else theDocument["cartItems"] = null;
     return theDocument;
+  }
+
+  @override
+  MemberCartEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    return newEntity;
   }
 
   static MemberCartEntity? fromJsonString(String json) {

@@ -41,7 +41,9 @@ class ShopFrontEntity implements EntityBase {
 
   ShopFrontEntity({required this.appId, this.title, this.description, this.shopId, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackground, this.addToCartColor, this.scrollDirection, this.buyAction, this.openProductAction, this.padding, this.conditions, });
 
-
+  ShopFrontEntity copyWith({String? documentID, String? appId, String? title, String? description, String? shopId, double? size, double? cardElevation, double? cardAxisSpacing, BackgroundEntity? itemCardBackground, RgbEntity? addToCartColor, int? scrollDirection, ActionEntity? buyAction, ActionEntity? openProductAction, EdgeInsetsGeometryEntity? padding, StorageConditionsEntity? conditions, }) {
+    return ShopFrontEntity(appId : appId ?? this.appId, title : title ?? this.title, description : description ?? this.description, shopId : shopId ?? this.shopId, size : size ?? this.size, cardElevation : cardElevation ?? this.cardElevation, cardAxisSpacing : cardAxisSpacing ?? this.cardAxisSpacing, itemCardBackground : itemCardBackground ?? this.itemCardBackground, addToCartColor : addToCartColor ?? this.addToCartColor, scrollDirection : scrollDirection ?? this.scrollDirection, buyAction : buyAction ?? this.buyAction, openProductAction : openProductAction ?? this.openProductAction, padding : padding ?? this.padding, conditions : conditions ?? this.conditions, );
+  }
   List<Object?> get props => [appId, title, description, shopId, size, cardElevation, cardAxisSpacing, itemCardBackground, addToCartColor, scrollDirection, buyAction, openProductAction, padding, conditions, ];
 
   @override
@@ -146,6 +148,13 @@ class ShopFrontEntity implements EntityBase {
     if (conditions != null) theDocument["conditions"] = conditionsMap;
       else theDocument["conditions"] = null;
     return theDocument;
+  }
+
+  @override
+  ShopFrontEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    newEntity = newEntity.copyWith(buyAction: buyAction == null ? null : buyAction!.copyWith(appId: newAppId), openProductAction: openProductAction == null ? null : openProductAction!.copyWith(appId: newAppId));
+    return newEntity;
   }
 
   static ShopFrontEntity? fromJsonString(String json) {
