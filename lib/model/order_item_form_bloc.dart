@@ -41,11 +41,7 @@ import 'package:eliud_pkg_shop/model/order_item_repository.dart';
 class OrderItemFormBloc extends Bloc<OrderItemFormEvent, OrderItemFormState> {
   final String? appId;
 
-  OrderItemFormBloc(this.appId, ): super(OrderItemFormUninitialized());
-  @override
-  Stream<OrderItemFormState> mapEventToState(OrderItemFormEvent event) async* {
-    final currentState = state;
-    if (currentState is OrderItemFormUninitialized) {
+  OrderItemFormBloc(this.appId, ): super(OrderItemFormUninitialized()) {
       on <InitialiseNewOrderItemFormEvent> ((event, emit) {
         OrderItemFormLoaded loaded = OrderItemFormLoaded(value: OrderItemModel(
                                                documentID: "IDENTIFIER", 
@@ -58,16 +54,18 @@ class OrderItemFormBloc extends Bloc<OrderItemFormEvent, OrderItemFormState> {
       });
 
 
-      if (event is InitialiseOrderItemFormEvent) {
+      on <InitialiseOrderItemFormEvent> ((event, emit) async {
         OrderItemFormLoaded loaded = OrderItemFormLoaded(value: event.value);
         emit(loaded);
-      } else if (event is InitialiseOrderItemFormNoLoadEvent) {
+      });
+      on <InitialiseOrderItemFormNoLoadEvent> ((event, emit) async {
         OrderItemFormLoaded loaded = OrderItemFormLoaded(value: event.value);
         emit(loaded);
-      }
-    } else if (currentState is OrderItemFormInitialized) {
+      });
       OrderItemModel? newValue = null;
       on <ChangedOrderItemAmount> ((event, emit) async {
+      if (state is OrderItemFormInitialized) {
+        final currentState = state as OrderItemFormInitialized;
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(amount: int.parse(event.value!));
           emit(SubmittableOrderItemForm(value: newValue));
@@ -76,13 +74,19 @@ class OrderItemFormBloc extends Bloc<OrderItemFormEvent, OrderItemFormState> {
           newValue = currentState.value!.copyWith(amount: 0);
           emit(AmountOrderItemFormError(message: "Value should be a number", value: newValue));
         }
+      }
       });
       on <ChangedOrderItemAppId> ((event, emit) async {
+      if (state is OrderItemFormInitialized) {
+        final currentState = state as OrderItemFormInitialized;
         newValue = currentState.value!.copyWith(appId: event.value);
         emit(SubmittableOrderItemForm(value: newValue));
 
+      }
       });
       on <ChangedOrderItemSoldPrice> ((event, emit) async {
+      if (state is OrderItemFormInitialized) {
+        final currentState = state as OrderItemFormInitialized;
         if (isDouble(event.value!)) {
           newValue = currentState.value!.copyWith(soldPrice: double.parse(event.value!));
           emit(SubmittableOrderItemForm(value: newValue));
@@ -91,14 +95,17 @@ class OrderItemFormBloc extends Bloc<OrderItemFormEvent, OrderItemFormState> {
           newValue = currentState.value!.copyWith(soldPrice: 0.0);
           emit(SoldPriceOrderItemFormError(message: "Value should be a number or decimal number", value: newValue));
         }
+      }
       });
       on <ChangedOrderItemProduct> ((event, emit) async {
+      if (state is OrderItemFormInitialized) {
+        final currentState = state as OrderItemFormInitialized;
         if (event.value != null)
           newValue = currentState.value!.copyWith(product: await productRepository(appId: appId)!.get(event.value));
         emit(SubmittableOrderItemForm(value: newValue));
 
+      }
       });
-    }
   }
 
 

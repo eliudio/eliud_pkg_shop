@@ -46,11 +46,7 @@ class ProductDisplayFormBloc extends Bloc<ProductDisplayFormEvent, ProductDispla
   final FormAction? formAction;
   final String? appId;
 
-  ProductDisplayFormBloc(this.appId, { this.formAction }): super(ProductDisplayFormUninitialized());
-  @override
-  Stream<ProductDisplayFormState> mapEventToState(ProductDisplayFormEvent event) async* {
-    final currentState = state;
-    if (currentState is ProductDisplayFormUninitialized) {
+  ProductDisplayFormBloc(this.appId, { this.formAction }): super(ProductDisplayFormUninitialized()) {
       on <InitialiseNewProductDisplayFormEvent> ((event, emit) {
         ProductDisplayFormLoaded loaded = ProductDisplayFormLoaded(value: ProductDisplayModel(
                                                documentID: "",
@@ -63,17 +59,19 @@ class ProductDisplayFormBloc extends Bloc<ProductDisplayFormEvent, ProductDispla
       });
 
 
-      if (event is InitialiseProductDisplayFormEvent) {
+      on <InitialiseProductDisplayFormEvent> ((event, emit) async {
         // Need to re-retrieve the document from the repository so that I get all associated types
         ProductDisplayFormLoaded loaded = ProductDisplayFormLoaded(value: await productDisplayRepository(appId: appId)!.get(event.value!.documentID));
         emit(loaded);
-      } else if (event is InitialiseProductDisplayFormNoLoadEvent) {
+      });
+      on <InitialiseProductDisplayFormNoLoadEvent> ((event, emit) async {
         ProductDisplayFormLoaded loaded = ProductDisplayFormLoaded(value: event.value);
         emit(loaded);
-      }
-    } else if (currentState is ProductDisplayFormInitialized) {
+      });
       ProductDisplayModel? newValue = null;
       on <ChangedProductDisplayDocumentID> ((event, emit) async {
+      if (state is ProductDisplayFormInitialized) {
+        final currentState = state as ProductDisplayFormInitialized;
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
           emit(await _isDocumentIDValid(event.value, newValue!));
@@ -81,39 +79,57 @@ class ProductDisplayFormBloc extends Bloc<ProductDisplayFormEvent, ProductDispla
           emit(SubmittableProductDisplayForm(value: newValue));
         }
 
+      }
       });
       on <ChangedProductDisplayDescription> ((event, emit) async {
+      if (state is ProductDisplayFormInitialized) {
+        final currentState = state as ProductDisplayFormInitialized;
         newValue = currentState.value!.copyWith(description: event.value);
         emit(SubmittableProductDisplayForm(value: newValue));
 
+      }
       });
       on <ChangedProductDisplayItemDetailBackground> ((event, emit) async {
+      if (state is ProductDisplayFormInitialized) {
+        final currentState = state as ProductDisplayFormInitialized;
         newValue = currentState.value!.copyWith(itemDetailBackground: event.value);
         emit(SubmittableProductDisplayForm(value: newValue));
 
+      }
       });
       on <ChangedProductDisplayAddToBasketText> ((event, emit) async {
+      if (state is ProductDisplayFormInitialized) {
+        final currentState = state as ProductDisplayFormInitialized;
         newValue = currentState.value!.copyWith(addToBasketText: event.value);
         emit(SubmittableProductDisplayForm(value: newValue));
 
+      }
       });
       on <ChangedProductDisplayBuyAction> ((event, emit) async {
+      if (state is ProductDisplayFormInitialized) {
+        final currentState = state as ProductDisplayFormInitialized;
         newValue = currentState.value!.copyWith(buyAction: event.value);
         emit(SubmittableProductDisplayForm(value: newValue));
 
+      }
       });
       on <ChangedProductDisplayShop> ((event, emit) async {
+      if (state is ProductDisplayFormInitialized) {
+        final currentState = state as ProductDisplayFormInitialized;
         if (event.value != null)
           newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event.value));
         emit(SubmittableProductDisplayForm(value: newValue));
 
+      }
       });
       on <ChangedProductDisplayConditions> ((event, emit) async {
+      if (state is ProductDisplayFormInitialized) {
+        final currentState = state as ProductDisplayFormInitialized;
         newValue = currentState.value!.copyWith(conditions: event.value);
         emit(SubmittableProductDisplayForm(value: newValue));
 
+      }
       });
-    }
   }
 
 

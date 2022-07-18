@@ -46,11 +46,7 @@ class OrderOverviewFormBloc extends Bloc<OrderOverviewFormEvent, OrderOverviewFo
   final FormAction? formAction;
   final String? appId;
 
-  OrderOverviewFormBloc(this.appId, { this.formAction }): super(OrderOverviewFormUninitialized());
-  @override
-  Stream<OrderOverviewFormState> mapEventToState(OrderOverviewFormEvent event) async* {
-    final currentState = state;
-    if (currentState is OrderOverviewFormUninitialized) {
+  OrderOverviewFormBloc(this.appId, { this.formAction }): super(OrderOverviewFormUninitialized()) {
       on <InitialiseNewOrderOverviewFormEvent> ((event, emit) {
         OrderOverviewFormLoaded loaded = OrderOverviewFormLoaded(value: OrderOverviewModel(
                                                documentID: "",
@@ -62,17 +58,19 @@ class OrderOverviewFormBloc extends Bloc<OrderOverviewFormEvent, OrderOverviewFo
       });
 
 
-      if (event is InitialiseOrderOverviewFormEvent) {
+      on <InitialiseOrderOverviewFormEvent> ((event, emit) async {
         // Need to re-retrieve the document from the repository so that I get all associated types
         OrderOverviewFormLoaded loaded = OrderOverviewFormLoaded(value: await orderOverviewRepository(appId: appId)!.get(event.value!.documentID));
         emit(loaded);
-      } else if (event is InitialiseOrderOverviewFormNoLoadEvent) {
+      });
+      on <InitialiseOrderOverviewFormNoLoadEvent> ((event, emit) async {
         OrderOverviewFormLoaded loaded = OrderOverviewFormLoaded(value: event.value);
         emit(loaded);
-      }
-    } else if (currentState is OrderOverviewFormInitialized) {
+      });
       OrderOverviewModel? newValue = null;
       on <ChangedOrderOverviewDocumentID> ((event, emit) async {
+      if (state is OrderOverviewFormInitialized) {
+        final currentState = state as OrderOverviewFormInitialized;
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
           emit(await _isDocumentIDValid(event.value, newValue!));
@@ -80,34 +78,49 @@ class OrderOverviewFormBloc extends Bloc<OrderOverviewFormEvent, OrderOverviewFo
           emit(SubmittableOrderOverviewForm(value: newValue));
         }
 
+      }
       });
       on <ChangedOrderOverviewDescription> ((event, emit) async {
+      if (state is OrderOverviewFormInitialized) {
+        final currentState = state as OrderOverviewFormInitialized;
         newValue = currentState.value!.copyWith(description: event.value);
         emit(SubmittableOrderOverviewForm(value: newValue));
 
+      }
       });
       on <ChangedOrderOverviewShop> ((event, emit) async {
+      if (state is OrderOverviewFormInitialized) {
+        final currentState = state as OrderOverviewFormInitialized;
         if (event.value != null)
           newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event.value));
         emit(SubmittableOrderOverviewForm(value: newValue));
 
+      }
       });
       on <ChangedOrderOverviewItemImageBackground> ((event, emit) async {
+      if (state is OrderOverviewFormInitialized) {
+        final currentState = state as OrderOverviewFormInitialized;
         newValue = currentState.value!.copyWith(itemImageBackground: event.value);
         emit(SubmittableOrderOverviewForm(value: newValue));
 
+      }
       });
       on <ChangedOrderOverviewItemDetailBackground> ((event, emit) async {
+      if (state is OrderOverviewFormInitialized) {
+        final currentState = state as OrderOverviewFormInitialized;
         newValue = currentState.value!.copyWith(itemDetailBackground: event.value);
         emit(SubmittableOrderOverviewForm(value: newValue));
 
+      }
       });
       on <ChangedOrderOverviewConditions> ((event, emit) async {
+      if (state is OrderOverviewFormInitialized) {
+        final currentState = state as OrderOverviewFormInitialized;
         newValue = currentState.value!.copyWith(conditions: event.value);
         emit(SubmittableOrderOverviewForm(value: newValue));
 
+      }
       });
-    }
   }
 
 

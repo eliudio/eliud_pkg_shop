@@ -42,11 +42,7 @@ class ShopFormBloc extends Bloc<ShopFormEvent, ShopFormState> {
   final FormAction? formAction;
   final String? appId;
 
-  ShopFormBloc(this.appId, { this.formAction }): super(ShopFormUninitialized());
-  @override
-  Stream<ShopFormState> mapEventToState(ShopFormEvent event) async* {
-    final currentState = state;
-    if (currentState is ShopFormUninitialized) {
+  ShopFormBloc(this.appId, { this.formAction }): super(ShopFormUninitialized()) {
       on <InitialiseNewShopFormEvent> ((event, emit) {
         ShopFormLoaded loaded = ShopFormLoaded(value: ShopModel(
                                                documentID: "",
@@ -60,17 +56,19 @@ class ShopFormBloc extends Bloc<ShopFormEvent, ShopFormState> {
       });
 
 
-      if (event is InitialiseShopFormEvent) {
+      on <InitialiseShopFormEvent> ((event, emit) async {
         // Need to re-retrieve the document from the repository so that I get all associated types
         ShopFormLoaded loaded = ShopFormLoaded(value: await shopRepository(appId: appId)!.get(event.value!.documentID));
         emit(loaded);
-      } else if (event is InitialiseShopFormNoLoadEvent) {
+      });
+      on <InitialiseShopFormNoLoadEvent> ((event, emit) async {
         ShopFormLoaded loaded = ShopFormLoaded(value: event.value);
         emit(loaded);
-      }
-    } else if (currentState is ShopFormInitialized) {
+      });
       ShopModel? newValue = null;
       on <ChangedShopDocumentID> ((event, emit) async {
+      if (state is ShopFormInitialized) {
+        final currentState = state as ShopFormInitialized;
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
           emit(await _isDocumentIDValid(event.value, newValue!));
@@ -78,23 +76,32 @@ class ShopFormBloc extends Bloc<ShopFormEvent, ShopFormState> {
           emit(SubmittableShopForm(value: newValue));
         }
 
+      }
       });
       on <ChangedShopDescription> ((event, emit) async {
+      if (state is ShopFormInitialized) {
+        final currentState = state as ShopFormInitialized;
         newValue = currentState.value!.copyWith(description: event.value);
         emit(SubmittableShopForm(value: newValue));
 
+      }
       });
       on <ChangedShopShortDescription> ((event, emit) async {
+      if (state is ShopFormInitialized) {
+        final currentState = state as ShopFormInitialized;
         newValue = currentState.value!.copyWith(shortDescription: event.value);
         emit(SubmittableShopForm(value: newValue));
 
+      }
       });
       on <ChangedShopCurrency> ((event, emit) async {
+      if (state is ShopFormInitialized) {
+        final currentState = state as ShopFormInitialized;
         newValue = currentState.value!.copyWith(currency: event.value);
         emit(SubmittableShopForm(value: newValue));
 
+      }
       });
-    }
   }
 
 

@@ -45,11 +45,7 @@ import 'package:eliud_pkg_shop/model/product_image_repository.dart';
 class ProductImageFormBloc extends Bloc<ProductImageFormEvent, ProductImageFormState> {
   final String? appId;
 
-  ProductImageFormBloc(this.appId, ): super(ProductImageFormUninitialized());
-  @override
-  Stream<ProductImageFormState> mapEventToState(ProductImageFormEvent event) async* {
-    final currentState = state;
-    if (currentState is ProductImageFormUninitialized) {
+  ProductImageFormBloc(this.appId, ): super(ProductImageFormUninitialized()) {
       on <InitialiseNewProductImageFormEvent> ((event, emit) {
         ProductImageFormLoaded loaded = ProductImageFormLoaded(value: ProductImageModel(
                                                documentID: "IDENTIFIER", 
@@ -59,22 +55,24 @@ class ProductImageFormBloc extends Bloc<ProductImageFormEvent, ProductImageFormS
       });
 
 
-      if (event is InitialiseProductImageFormEvent) {
+      on <InitialiseProductImageFormEvent> ((event, emit) async {
         ProductImageFormLoaded loaded = ProductImageFormLoaded(value: event.value);
         emit(loaded);
-      } else if (event is InitialiseProductImageFormNoLoadEvent) {
+      });
+      on <InitialiseProductImageFormNoLoadEvent> ((event, emit) async {
         ProductImageFormLoaded loaded = ProductImageFormLoaded(value: event.value);
         emit(loaded);
-      }
-    } else if (currentState is ProductImageFormInitialized) {
+      });
       ProductImageModel? newValue = null;
       on <ChangedProductImageImage> ((event, emit) async {
+      if (state is ProductImageFormInitialized) {
+        final currentState = state as ProductImageFormInitialized;
         if (event.value != null)
           newValue = currentState.value!.copyWith(image: await platformMediumRepository(appId: appId)!.get(event.value));
         emit(SubmittableProductImageForm(value: newValue));
 
+      }
       });
-    }
   }
 
 

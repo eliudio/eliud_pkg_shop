@@ -46,11 +46,7 @@ class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirma
   final FormAction? formAction;
   final String? appId;
 
-  PayConfirmationFormBloc(this.appId, { this.formAction }): super(PayConfirmationFormUninitialized());
-  @override
-  Stream<PayConfirmationFormState> mapEventToState(PayConfirmationFormEvent event) async* {
-    final currentState = state;
-    if (currentState is PayConfirmationFormUninitialized) {
+  PayConfirmationFormBloc(this.appId, { this.formAction }): super(PayConfirmationFormUninitialized()) {
       on <InitialiseNewPayConfirmationFormEvent> ((event, emit) {
         PayConfirmationFormLoaded loaded = PayConfirmationFormLoaded(value: PayConfirmationModel(
                                                documentID: "",
@@ -62,17 +58,19 @@ class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirma
       });
 
 
-      if (event is InitialisePayConfirmationFormEvent) {
+      on <InitialisePayConfirmationFormEvent> ((event, emit) async {
         // Need to re-retrieve the document from the repository so that I get all associated types
         PayConfirmationFormLoaded loaded = PayConfirmationFormLoaded(value: await payConfirmationRepository(appId: appId)!.get(event.value!.documentID));
         emit(loaded);
-      } else if (event is InitialisePayConfirmationFormNoLoadEvent) {
+      });
+      on <InitialisePayConfirmationFormNoLoadEvent> ((event, emit) async {
         PayConfirmationFormLoaded loaded = PayConfirmationFormLoaded(value: event.value);
         emit(loaded);
-      }
-    } else if (currentState is PayConfirmationFormInitialized) {
+      });
       PayConfirmationModel? newValue = null;
       on <ChangedPayConfirmationDocumentID> ((event, emit) async {
+      if (state is PayConfirmationFormInitialized) {
+        final currentState = state as PayConfirmationFormInitialized;
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
           emit(await _isDocumentIDValid(event.value, newValue!));
@@ -80,29 +78,41 @@ class PayConfirmationFormBloc extends Bloc<PayConfirmationFormEvent, PayConfirma
           emit(SubmittablePayConfirmationForm(value: newValue));
         }
 
+      }
       });
       on <ChangedPayConfirmationDescription> ((event, emit) async {
+      if (state is PayConfirmationFormInitialized) {
+        final currentState = state as PayConfirmationFormInitialized;
         newValue = currentState.value!.copyWith(description: event.value);
         emit(SubmittablePayConfirmationForm(value: newValue));
 
+      }
       });
       on <ChangedPayConfirmationShop> ((event, emit) async {
+      if (state is PayConfirmationFormInitialized) {
+        final currentState = state as PayConfirmationFormInitialized;
         if (event.value != null)
           newValue = currentState.value!.copyWith(shop: await shopRepository(appId: appId)!.get(event.value));
         emit(SubmittablePayConfirmationForm(value: newValue));
 
+      }
       });
       on <ChangedPayConfirmationBackToShopAction> ((event, emit) async {
+      if (state is PayConfirmationFormInitialized) {
+        final currentState = state as PayConfirmationFormInitialized;
         newValue = currentState.value!.copyWith(backToShopAction: event.value);
         emit(SubmittablePayConfirmationForm(value: newValue));
 
+      }
       });
       on <ChangedPayConfirmationConditions> ((event, emit) async {
+      if (state is PayConfirmationFormInitialized) {
+        final currentState = state as PayConfirmationFormInitialized;
         newValue = currentState.value!.copyWith(conditions: event.value);
         emit(SubmittablePayConfirmationForm(value: newValue));
 
+      }
       });
-    }
   }
 
 

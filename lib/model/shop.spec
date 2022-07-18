@@ -20,7 +20,10 @@
     "isExtension": false,
     "documentSubCollectionOf": "app"
   },
-  codeToCollectReferences: "",
+  "codeToCollectReferences": "    var products = await productRepository(appId: appId)!.valuesListWithDetails(eliudQuery: EliudQuery(theConditions: [\n      EliudQueryCondition('shopId', isEqualTo: documentID),\n    ]));\n    referencesCollector.addAll(products.map((product) => ModelReference(ProductModel.packageName, ProductModel.id, product!)));",
+  "extraImports": {
+    "model": "import 'package:eliud_core/tools/query/query_tools.dart';"
+  },
   "fields": [
     {
       "fieldName": "documentID",

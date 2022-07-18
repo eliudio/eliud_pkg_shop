@@ -16,7 +16,6 @@
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
-import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:eliud_core/model/app_model.dart';
@@ -32,6 +31,7 @@ import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 import 'package:eliud_pkg_shop/model/shop_entity.dart';
 
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/random.dart';
 
 
