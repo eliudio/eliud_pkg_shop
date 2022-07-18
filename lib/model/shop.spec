@@ -20,6 +20,7 @@
     "isExtension": false,
     "documentSubCollectionOf": "app"
   },
+  codeToCollectReferences: "",
   "fields": [
     {
       "fieldName": "documentID",
