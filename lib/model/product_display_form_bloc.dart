@@ -122,6 +122,14 @@ class ProductDisplayFormBloc extends Bloc<ProductDisplayFormEvent, ProductDispla
 
       }
       });
+      on <ChangedProductDisplayBackground> ((event, emit) async {
+      if (state is ProductDisplayFormInitialized) {
+        final currentState = state as ProductDisplayFormInitialized;
+        newValue = currentState.value!.copyWith(background: event.value);
+        emit(SubmittableProductDisplayForm(value: newValue));
+
+      }
+      });
       on <ChangedProductDisplayConditions> ((event, emit) async {
       if (state is ProductDisplayFormInitialized) {
         final currentState = state as ProductDisplayFormInitialized;

@@ -74,6 +74,13 @@
       "group": "shop"
     },
     {
+      "fieldName": "background",
+      "displayName": "Background",
+      "fieldType": "Background",
+      "optional": true,
+      "group": "background"
+    },
+    {
       "fieldName": "conditions",
       "displayName": "Conditions",
       "fieldType": "StorageConditions",

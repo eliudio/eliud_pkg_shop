@@ -143,6 +143,18 @@ class ChangedProductDisplayShop extends ProductDisplayFormEvent {
   String toString() => 'ChangedProductDisplayShop{ value: $value }';
 }
 
+class ChangedProductDisplayBackground extends ProductDisplayFormEvent {
+  final BackgroundModel? value;
+
+  ChangedProductDisplayBackground({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedProductDisplayBackground{ value: $value }';
+}
+
 class ChangedProductDisplayConditions extends ProductDisplayFormEvent {
   final StorageConditionsModel? value;
 

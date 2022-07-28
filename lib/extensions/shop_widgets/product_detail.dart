@@ -78,7 +78,9 @@ class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
             physics: BouncingScrollPhysics(),
             child: Column(
               children: [
-                TheImageGF(
+                TheImageGF(widget.app,
+                    accessState.getMember(),
+                    widget.productDisplayModel!.background,
                     images, positionsAndSizes, null, orientation, 1, 1000),
                 Container(
                   padding: const EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 15.0),

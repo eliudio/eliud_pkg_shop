@@ -137,6 +137,7 @@ class _ProductDisplayComponentEditorState
     extends State<ProductDisplayComponentEditor> {
   @override
   Widget build(BuildContext context) {
+    var ownerId = AccessBloc.member(context)!.documentID;
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (aContext, accessState) {
       if (accessState is AccessDetermined) {
@@ -201,6 +202,36 @@ class _ProductDisplayComponentEditorState
                                 setState(() {
                                   productDisplayState.model.shop = shop;
                                 })),
+                        topicContainer(widget.app, context,
+                            title: 'Background',
+                            collapsible: true,
+                            collapsed: true,
+                            children: [
+                              checkboxListTile(
+                                  widget.app,
+                                  context,
+                                  'Background?',
+                                  productDisplayState.model.background !=
+                                      null, (value) {
+                                setState(() {
+                                  if (value!) {
+                                    productDisplayState.model.background =
+                                        BackgroundModel();
+                                  } else {
+                                    productDisplayState.model.background =
+                                    null;
+                                  }
+                                });
+                              }),
+                              if (productDisplayState.model.background !=
+                                  null)
+                                BackgroundWidget(
+                                    app: widget.app,
+                                    memberId: ownerId,
+                                    value:
+                                    productDisplayState.model.background!,
+                                    label: 'Background'),
+                            ]),
                         topicContainer(widget.app, context,
                             title: 'Background / Layout',
                             collapsible: true,

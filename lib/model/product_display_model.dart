@@ -50,18 +50,19 @@ class ProductDisplayModel implements ModelBase, WithAppId {
   String? addToBasketText;
   ActionModel? buyAction;
   ShopModel? shop;
+  BackgroundModel? background;
   StorageConditionsModel? conditions;
 
-  ProductDisplayModel({required this.documentID, required this.appId, this.description, this.itemDetailBackground, this.addToBasketText, this.buyAction, this.shop, this.conditions, })  {
+  ProductDisplayModel({required this.documentID, required this.appId, this.description, this.itemDetailBackground, this.addToBasketText, this.buyAction, this.shop, this.background, this.conditions, })  {
     assert(documentID != null);
   }
 
-  ProductDisplayModel copyWith({String? documentID, String? appId, String? description, BackgroundModel? itemDetailBackground, String? addToBasketText, ActionModel? buyAction, ShopModel? shop, StorageConditionsModel? conditions, }) {
-    return ProductDisplayModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, description: description ?? this.description, itemDetailBackground: itemDetailBackground ?? this.itemDetailBackground, addToBasketText: addToBasketText ?? this.addToBasketText, buyAction: buyAction ?? this.buyAction, shop: shop ?? this.shop, conditions: conditions ?? this.conditions, );
+  ProductDisplayModel copyWith({String? documentID, String? appId, String? description, BackgroundModel? itemDetailBackground, String? addToBasketText, ActionModel? buyAction, ShopModel? shop, BackgroundModel? background, StorageConditionsModel? conditions, }) {
+    return ProductDisplayModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, description: description ?? this.description, itemDetailBackground: itemDetailBackground ?? this.itemDetailBackground, addToBasketText: addToBasketText ?? this.addToBasketText, buyAction: buyAction ?? this.buyAction, shop: shop ?? this.shop, background: background ?? this.background, conditions: conditions ?? this.conditions, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ description.hashCode ^ itemDetailBackground.hashCode ^ addToBasketText.hashCode ^ buyAction.hashCode ^ shop.hashCode ^ conditions.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ description.hashCode ^ itemDetailBackground.hashCode ^ addToBasketText.hashCode ^ buyAction.hashCode ^ shop.hashCode ^ background.hashCode ^ conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -75,11 +76,12 @@ class ProductDisplayModel implements ModelBase, WithAppId {
           addToBasketText == other.addToBasketText &&
           buyAction == other.buyAction &&
           shop == other.shop &&
+          background == other.background &&
           conditions == other.conditions;
 
   @override
   String toString() {
-    return 'ProductDisplayModel{documentID: $documentID, appId: $appId, description: $description, itemDetailBackground: $itemDetailBackground, addToBasketText: $addToBasketText, buyAction: $buyAction, shop: $shop, conditions: $conditions}';
+    return 'ProductDisplayModel{documentID: $documentID, appId: $appId, description: $description, itemDetailBackground: $itemDetailBackground, addToBasketText: $addToBasketText, buyAction: $buyAction, shop: $shop, background: $background, conditions: $conditions}';
   }
 
   Future<List<ModelReference>> collectReferences({String? appId}) async {
@@ -90,6 +92,7 @@ class ProductDisplayModel implements ModelBase, WithAppId {
     if (itemDetailBackground != null) referencesCollector.addAll(await itemDetailBackground!.collectReferences(appId: appId));
     if (buyAction != null) referencesCollector.addAll(await buyAction!.collectReferences(appId: appId));
     if (shop != null) referencesCollector.addAll(await shop!.collectReferences(appId: appId));
+    if (background != null) referencesCollector.addAll(await background!.collectReferences(appId: appId));
     if (conditions != null) referencesCollector.addAll(await conditions!.collectReferences(appId: appId));
     return referencesCollector;
   }
@@ -102,6 +105,7 @@ class ProductDisplayModel implements ModelBase, WithAppId {
           addToBasketText: (addToBasketText != null) ? addToBasketText : null, 
           buyAction: (buyAction != null) ? buyAction!.toEntity(appId: appId) : null, 
           shopId: (shop != null) ? shop!.documentID : null, 
+          background: (background != null) ? background!.toEntity(appId: appId) : null, 
           conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
@@ -118,6 +122,8 @@ class ProductDisplayModel implements ModelBase, WithAppId {
           addToBasketText: entity.addToBasketText, 
           buyAction: 
             await ActionModel.fromEntity(entity.buyAction), 
+          background: 
+            await BackgroundModel.fromEntity(entity.background), 
           conditions: 
             await StorageConditionsModel.fromEntity(entity.conditions), 
     );
@@ -148,6 +154,8 @@ class ProductDisplayModel implements ModelBase, WithAppId {
           buyAction: 
             await ActionModel.fromEntityPlus(entity.buyAction, appId: appId), 
           shop: shopHolder, 
+          background: 
+            await BackgroundModel.fromEntityPlus(entity.background, appId: appId), 
           conditions: 
             await StorageConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
     );

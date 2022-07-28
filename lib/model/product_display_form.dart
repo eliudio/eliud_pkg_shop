@@ -193,6 +193,7 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
           );
 
 
+
         children.add(Container(height: 20.0));
         children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
@@ -251,6 +252,7 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
                               addToBasketText: state.value!.addToBasketText, 
                               buyAction: state.value!.buyAction, 
                               shop: state.value!.shop, 
+                              background: state.value!.background, 
                               conditions: state.value!.conditions, 
                         )));
                       } else {
@@ -263,6 +265,7 @@ class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
                               addToBasketText: state.value!.addToBasketText, 
                               buyAction: state.value!.buyAction, 
                               shop: state.value!.shop, 
+                              background: state.value!.background, 
                               conditions: state.value!.conditions, 
                           )));
                       }

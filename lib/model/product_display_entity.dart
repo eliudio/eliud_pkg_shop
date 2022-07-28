@@ -30,18 +30,19 @@ class ProductDisplayEntity implements EntityBase {
   final String? addToBasketText;
   final ActionEntity? buyAction;
   final String? shopId;
+  final BackgroundEntity? background;
   final StorageConditionsEntity? conditions;
 
-  ProductDisplayEntity({required this.appId, this.description, this.itemDetailBackground, this.addToBasketText, this.buyAction, this.shopId, this.conditions, });
+  ProductDisplayEntity({required this.appId, this.description, this.itemDetailBackground, this.addToBasketText, this.buyAction, this.shopId, this.background, this.conditions, });
 
-  ProductDisplayEntity copyWith({String? documentID, String? appId, String? description, BackgroundEntity? itemDetailBackground, String? addToBasketText, ActionEntity? buyAction, String? shopId, StorageConditionsEntity? conditions, }) {
-    return ProductDisplayEntity(appId : appId ?? this.appId, description : description ?? this.description, itemDetailBackground : itemDetailBackground ?? this.itemDetailBackground, addToBasketText : addToBasketText ?? this.addToBasketText, buyAction : buyAction ?? this.buyAction, shopId : shopId ?? this.shopId, conditions : conditions ?? this.conditions, );
+  ProductDisplayEntity copyWith({String? documentID, String? appId, String? description, BackgroundEntity? itemDetailBackground, String? addToBasketText, ActionEntity? buyAction, String? shopId, BackgroundEntity? background, StorageConditionsEntity? conditions, }) {
+    return ProductDisplayEntity(appId : appId ?? this.appId, description : description ?? this.description, itemDetailBackground : itemDetailBackground ?? this.itemDetailBackground, addToBasketText : addToBasketText ?? this.addToBasketText, buyAction : buyAction ?? this.buyAction, shopId : shopId ?? this.shopId, background : background ?? this.background, conditions : conditions ?? this.conditions, );
   }
-  List<Object?> get props => [appId, description, itemDetailBackground, addToBasketText, buyAction, shopId, conditions, ];
+  List<Object?> get props => [appId, description, itemDetailBackground, addToBasketText, buyAction, shopId, background, conditions, ];
 
   @override
   String toString() {
-    return 'ProductDisplayEntity{appId: $appId, description: $description, itemDetailBackground: $itemDetailBackground, addToBasketText: $addToBasketText, buyAction: $buyAction, shopId: $shopId, conditions: $conditions}';
+    return 'ProductDisplayEntity{appId: $appId, description: $description, itemDetailBackground: $itemDetailBackground, addToBasketText: $addToBasketText, buyAction: $buyAction, shopId: $shopId, background: $background, conditions: $conditions}';
   }
 
   static ProductDisplayEntity? fromMap(Object? o) {
@@ -56,6 +57,10 @@ class ProductDisplayEntity implements EntityBase {
     buyActionFromMap = map['buyAction'];
     if (buyActionFromMap != null)
       buyActionFromMap = ActionEntity.fromMap(buyActionFromMap);
+    var backgroundFromMap;
+    backgroundFromMap = map['background'];
+    if (backgroundFromMap != null)
+      backgroundFromMap = BackgroundEntity.fromMap(backgroundFromMap);
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
@@ -68,6 +73,7 @@ class ProductDisplayEntity implements EntityBase {
       addToBasketText: map['addToBasketText'], 
       buyAction: buyActionFromMap, 
       shopId: map['shopId'], 
+      background: backgroundFromMap, 
       conditions: conditionsFromMap, 
     );
   }
@@ -78,6 +84,9 @@ class ProductDisplayEntity implements EntityBase {
         : null;
     final Map<String, dynamic>? buyActionMap = buyAction != null 
         ? buyAction!.toDocument()
+        : null;
+    final Map<String, dynamic>? backgroundMap = background != null 
+        ? background!.toDocument()
         : null;
     final Map<String, dynamic>? conditionsMap = conditions != null 
         ? conditions!.toDocument()
@@ -96,6 +105,8 @@ class ProductDisplayEntity implements EntityBase {
       else theDocument["buyAction"] = null;
     if (shopId != null) theDocument["shopId"] = shopId;
       else theDocument["shopId"] = null;
+    if (background != null) theDocument["background"] = backgroundMap;
+      else theDocument["background"] = null;
     if (conditions != null) theDocument["conditions"] = conditionsMap;
       else theDocument["conditions"] = null;
     return theDocument;
