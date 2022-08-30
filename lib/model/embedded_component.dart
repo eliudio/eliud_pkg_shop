@@ -191,7 +191,7 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
   }
 
   @override
-  OrderItemEntity? fromMap(Object? o) {
+  OrderItemEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     throw UnimplementedError();
   }
 
@@ -311,7 +311,7 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
   }
 
   @override
-  ProductImageEntity? fromMap(Object? o) {
+  ProductImageEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     throw UnimplementedError();
   }
 

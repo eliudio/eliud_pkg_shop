@@ -37,8 +37,8 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class PayConfirmationFirestore implements PayConfirmationRepository {
   @override
-  PayConfirmationEntity? fromMap(Object? o) {
-    return PayConfirmationEntity.fromMap(o);
+  PayConfirmationEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return PayConfirmationEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<PayConfirmationEntity> addEntity(String documentID, PayConfirmationEntity value) {

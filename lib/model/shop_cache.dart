@@ -116,8 +116,8 @@ class ShopCache implements ShopRepository {
   }
 
   @override
-  ShopEntity? fromMap(Object? o) {
-    return reference.fromMap(o);
+  ShopEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return reference.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<void> deleteAll() {

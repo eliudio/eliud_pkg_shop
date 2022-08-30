@@ -116,8 +116,8 @@ class CartItemCache implements CartItemRepository {
   }
 
   @override
-  CartItemEntity? fromMap(Object? o) {
-    return reference.fromMap(o);
+  CartItemEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return reference.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<void> deleteAll() {

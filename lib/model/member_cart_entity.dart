@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/random.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
@@ -41,7 +42,7 @@ class MemberCartEntity implements EntityBase {
     return 'MemberCartEntity{appId: $appId, cartItems: CartItem[] { $cartItemsCsv }}';
   }
 
-  static MemberCartEntity? fromMap(Object? o) {
+  static MemberCartEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
@@ -51,7 +52,7 @@ class MemberCartEntity implements EntityBase {
     if (cartItemsFromMap != null)
       cartItemsList = (map['cartItems'] as List<dynamic>)
         .map((dynamic item) =>
-        CartItemEntity.fromMap(item as Map)!)
+        CartItemEntity.fromMap(item as Map, newDocumentIds: newDocumentIds)!)
         .toList();
 
     return MemberCartEntity(
@@ -79,9 +80,9 @@ class MemberCartEntity implements EntityBase {
     return newEntity;
   }
 
-  static MemberCartEntity? fromJsonString(String json) {
+  static MemberCartEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
-    return fromMap(generationSpecificationMap);
+    return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
 
   String toJsonString() {

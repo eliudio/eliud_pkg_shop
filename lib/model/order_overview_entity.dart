@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/random.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
@@ -43,22 +44,22 @@ class OrderOverviewEntity implements EntityBase {
     return 'OrderOverviewEntity{appId: $appId, description: $description, shopId: $shopId, itemImageBackground: $itemImageBackground, itemDetailBackground: $itemDetailBackground, conditions: $conditions}';
   }
 
-  static OrderOverviewEntity? fromMap(Object? o) {
+  static OrderOverviewEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
     var itemImageBackgroundFromMap;
     itemImageBackgroundFromMap = map['itemImageBackground'];
     if (itemImageBackgroundFromMap != null)
-      itemImageBackgroundFromMap = BackgroundEntity.fromMap(itemImageBackgroundFromMap);
+      itemImageBackgroundFromMap = BackgroundEntity.fromMap(itemImageBackgroundFromMap, newDocumentIds: newDocumentIds);
     var itemDetailBackgroundFromMap;
     itemDetailBackgroundFromMap = map['itemDetailBackground'];
     if (itemDetailBackgroundFromMap != null)
-      itemDetailBackgroundFromMap = BackgroundEntity.fromMap(itemDetailBackgroundFromMap);
+      itemDetailBackgroundFromMap = BackgroundEntity.fromMap(itemDetailBackgroundFromMap, newDocumentIds: newDocumentIds);
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
-      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap);
+      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap, newDocumentIds: newDocumentIds);
 
     return OrderOverviewEntity(
       appId: map['appId'], 
@@ -103,9 +104,9 @@ class OrderOverviewEntity implements EntityBase {
     return newEntity;
   }
 
-  static OrderOverviewEntity? fromJsonString(String json) {
+  static OrderOverviewEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
-    return fromMap(generationSpecificationMap);
+    return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
 
   String toJsonString() {

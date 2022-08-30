@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/random.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
@@ -45,26 +46,26 @@ class ProductDisplayEntity implements EntityBase {
     return 'ProductDisplayEntity{appId: $appId, description: $description, itemDetailBackground: $itemDetailBackground, addToBasketText: $addToBasketText, buyAction: $buyAction, shopId: $shopId, background: $background, conditions: $conditions}';
   }
 
-  static ProductDisplayEntity? fromMap(Object? o) {
+  static ProductDisplayEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
     var itemDetailBackgroundFromMap;
     itemDetailBackgroundFromMap = map['itemDetailBackground'];
     if (itemDetailBackgroundFromMap != null)
-      itemDetailBackgroundFromMap = BackgroundEntity.fromMap(itemDetailBackgroundFromMap);
+      itemDetailBackgroundFromMap = BackgroundEntity.fromMap(itemDetailBackgroundFromMap, newDocumentIds: newDocumentIds);
     var buyActionFromMap;
     buyActionFromMap = map['buyAction'];
     if (buyActionFromMap != null)
-      buyActionFromMap = ActionEntity.fromMap(buyActionFromMap);
+      buyActionFromMap = ActionEntity.fromMap(buyActionFromMap, newDocumentIds: newDocumentIds);
     var backgroundFromMap;
     backgroundFromMap = map['background'];
     if (backgroundFromMap != null)
-      backgroundFromMap = BackgroundEntity.fromMap(backgroundFromMap);
+      backgroundFromMap = BackgroundEntity.fromMap(backgroundFromMap, newDocumentIds: newDocumentIds);
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
-      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap);
+      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap, newDocumentIds: newDocumentIds);
 
     return ProductDisplayEntity(
       appId: map['appId'], 
@@ -118,9 +119,9 @@ class ProductDisplayEntity implements EntityBase {
     return newEntity;
   }
 
-  static ProductDisplayEntity? fromJsonString(String json) {
+  static ProductDisplayEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
-    return fromMap(generationSpecificationMap);
+    return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
 
   String toJsonString() {

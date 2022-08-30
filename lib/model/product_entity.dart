@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/random.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
@@ -47,7 +48,7 @@ class ProductEntity implements EntityBase {
     return 'ProductEntity{appId: $appId, title: $title, about: $about, price: $price, weight: $weight, shopId: $shopId, images: ProductImage[] { $imagesCsv }, posSize: $posSize}';
   }
 
-  static ProductEntity? fromMap(Object? o) {
+  static ProductEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
@@ -57,12 +58,12 @@ class ProductEntity implements EntityBase {
     if (imagesFromMap != null)
       imagesList = (map['images'] as List<dynamic>)
         .map((dynamic item) =>
-        ProductImageEntity.fromMap(item as Map)!)
+        ProductImageEntity.fromMap(item as Map, newDocumentIds: newDocumentIds)!)
         .toList();
     var posSizeFromMap;
     posSizeFromMap = map['posSize'];
     if (posSizeFromMap != null)
-      posSizeFromMap = PosSizeEntity.fromMap(posSizeFromMap);
+      posSizeFromMap = PosSizeEntity.fromMap(posSizeFromMap, newDocumentIds: newDocumentIds);
 
     return ProductEntity(
       appId: map['appId'], 
@@ -110,9 +111,9 @@ class ProductEntity implements EntityBase {
     return newEntity;
   }
 
-  static ProductEntity? fromJsonString(String json) {
+  static ProductEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
-    return fromMap(generationSpecificationMap);
+    return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
 
   String toJsonString() {

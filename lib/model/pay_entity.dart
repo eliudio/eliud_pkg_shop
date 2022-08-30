@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/random.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
@@ -43,22 +44,22 @@ class PayEntity implements EntityBase {
     return 'PayEntity{appId: $appId, description: $description, succeeded: $succeeded, payAction: $payAction, shopId: $shopId, conditions: $conditions}';
   }
 
-  static PayEntity? fromMap(Object? o) {
+  static PayEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
     var succeededFromMap;
     succeededFromMap = map['succeeded'];
     if (succeededFromMap != null)
-      succeededFromMap = ActionEntity.fromMap(succeededFromMap);
+      succeededFromMap = ActionEntity.fromMap(succeededFromMap, newDocumentIds: newDocumentIds);
     var payActionFromMap;
     payActionFromMap = map['payAction'];
     if (payActionFromMap != null)
-      payActionFromMap = ActionEntity.fromMap(payActionFromMap);
+      payActionFromMap = ActionEntity.fromMap(payActionFromMap, newDocumentIds: newDocumentIds);
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
-      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap);
+      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap, newDocumentIds: newDocumentIds);
 
     return PayEntity(
       appId: map['appId'], 
@@ -103,9 +104,9 @@ class PayEntity implements EntityBase {
     return newEntity;
   }
 
-  static PayEntity? fromJsonString(String json) {
+  static PayEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
-    return fromMap(generationSpecificationMap);
+    return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
 
   String toJsonString() {

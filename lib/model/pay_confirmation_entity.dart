@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/random.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
@@ -42,18 +43,18 @@ class PayConfirmationEntity implements EntityBase {
     return 'PayConfirmationEntity{appId: $appId, description: $description, shopId: $shopId, backToShopAction: $backToShopAction, conditions: $conditions}';
   }
 
-  static PayConfirmationEntity? fromMap(Object? o) {
+  static PayConfirmationEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
     var backToShopActionFromMap;
     backToShopActionFromMap = map['backToShopAction'];
     if (backToShopActionFromMap != null)
-      backToShopActionFromMap = ActionEntity.fromMap(backToShopActionFromMap);
+      backToShopActionFromMap = ActionEntity.fromMap(backToShopActionFromMap, newDocumentIds: newDocumentIds);
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
-      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap);
+      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap, newDocumentIds: newDocumentIds);
 
     return PayConfirmationEntity(
       appId: map['appId'], 
@@ -92,9 +93,9 @@ class PayConfirmationEntity implements EntityBase {
     return newEntity;
   }
 
-  static PayConfirmationEntity? fromJsonString(String json) {
+  static PayConfirmationEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
-    return fromMap(generationSpecificationMap);
+    return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
 
   String toJsonString() {

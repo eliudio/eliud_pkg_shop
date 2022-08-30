@@ -37,8 +37,8 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class PayFirestore implements PayRepository {
   @override
-  PayEntity? fromMap(Object? o) {
-    return PayEntity.fromMap(o);
+  PayEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return PayEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<PayEntity> addEntity(String documentID, PayEntity value) {

@@ -37,8 +37,8 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class ProductFirestore implements ProductRepository {
   @override
-  ProductEntity? fromMap(Object? o) {
-    return ProductEntity.fromMap(o);
+  ProductEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return ProductEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<ProductEntity> addEntity(String documentID, ProductEntity value) {

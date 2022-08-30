@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/random.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
@@ -51,34 +52,34 @@ class ShopFrontEntity implements EntityBase {
     return 'ShopFrontEntity{appId: $appId, title: $title, description: $description, shopId: $shopId, size: $size, cardElevation: $cardElevation, cardAxisSpacing: $cardAxisSpacing, itemCardBackground: $itemCardBackground, addToCartColor: $addToCartColor, scrollDirection: $scrollDirection, buyAction: $buyAction, openProductAction: $openProductAction, padding: $padding, conditions: $conditions}';
   }
 
-  static ShopFrontEntity? fromMap(Object? o) {
+  static ShopFrontEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
     var itemCardBackgroundFromMap;
     itemCardBackgroundFromMap = map['itemCardBackground'];
     if (itemCardBackgroundFromMap != null)
-      itemCardBackgroundFromMap = BackgroundEntity.fromMap(itemCardBackgroundFromMap);
+      itemCardBackgroundFromMap = BackgroundEntity.fromMap(itemCardBackgroundFromMap, newDocumentIds: newDocumentIds);
     var addToCartColorFromMap;
     addToCartColorFromMap = map['addToCartColor'];
     if (addToCartColorFromMap != null)
-      addToCartColorFromMap = RgbEntity.fromMap(addToCartColorFromMap);
+      addToCartColorFromMap = RgbEntity.fromMap(addToCartColorFromMap, newDocumentIds: newDocumentIds);
     var buyActionFromMap;
     buyActionFromMap = map['buyAction'];
     if (buyActionFromMap != null)
-      buyActionFromMap = ActionEntity.fromMap(buyActionFromMap);
+      buyActionFromMap = ActionEntity.fromMap(buyActionFromMap, newDocumentIds: newDocumentIds);
     var openProductActionFromMap;
     openProductActionFromMap = map['openProductAction'];
     if (openProductActionFromMap != null)
-      openProductActionFromMap = ActionEntity.fromMap(openProductActionFromMap);
+      openProductActionFromMap = ActionEntity.fromMap(openProductActionFromMap, newDocumentIds: newDocumentIds);
     var paddingFromMap;
     paddingFromMap = map['padding'];
     if (paddingFromMap != null)
-      paddingFromMap = EdgeInsetsGeometryEntity.fromMap(paddingFromMap);
+      paddingFromMap = EdgeInsetsGeometryEntity.fromMap(paddingFromMap, newDocumentIds: newDocumentIds);
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
-      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap);
+      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap, newDocumentIds: newDocumentIds);
 
     return ShopFrontEntity(
       appId: map['appId'], 
@@ -157,9 +158,9 @@ class ShopFrontEntity implements EntityBase {
     return newEntity;
   }
 
-  static ShopFrontEntity? fromJsonString(String json) {
+  static ShopFrontEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
-    return fromMap(generationSpecificationMap);
+    return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
 
   String toJsonString() {
