@@ -67,7 +67,7 @@ class ProductDashboard extends StatefulWidget {
         child: BlocProvider<ProductBloc>(
           create: (context) => ProductBloc(
             app.documentID,
-                (_) {},
+                (_, __) {},
             shop,
           )..add(ExtEditorBaseInitialise<ProductModel>(model)),
           child: ProductDashboard(

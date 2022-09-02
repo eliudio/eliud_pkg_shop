@@ -88,7 +88,7 @@ class ShopDashboardBloc
       } else {
         await shopRepository(appId: appId)!.update(newModel);
       }
-      feedback(true);
+      feedback(true, newModel);
     }
   }
 }

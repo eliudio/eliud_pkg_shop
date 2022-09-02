@@ -60,7 +60,7 @@ class ShopDashboard {
       child: BlocProvider<ShopDashboardBloc>(
           create: (context) => ShopDashboardBloc(
                 app.documentID,
-                (_) {},
+                (_, __) {},
               )..add(ShopDashboardInitialise(model)),
           child: ShopDashboardWidget(
             app: app,
