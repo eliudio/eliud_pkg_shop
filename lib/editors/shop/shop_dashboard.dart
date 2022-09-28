@@ -192,7 +192,7 @@ class _ShopDashboardWidgetState
 
   Widget _products(
       ShopDashboardInitialised state) {
-    List<ProductModel> items =
+    var items =
         state.values != null ? state.values! : [];
     return Container(
       height: 150,
