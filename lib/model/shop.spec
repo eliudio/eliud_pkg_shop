@@ -61,6 +61,12 @@
       "displayName": "Currency",
       "fieldType": "String",
       "group": "general"
+    },
+    {
+      "fieldName": "conditions",
+      "displayName": "Conditions",
+      "fieldType": "StorageConditions",
+      "group": "conditional"
     }
   ],
   "groups": [
@@ -72,5 +78,6 @@
   "listFields": {
     "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID)) : Container()",
     "subTitle": "value.description != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.description!)) : Container()"
-  }
+  },
+  "depends": ["eliud_core"]
 }

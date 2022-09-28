@@ -41,8 +41,16 @@ class ShopPageBuilder extends PageBuilder {
     AppBarModel theAppBar,
     DrawerModel leftDrawer,
     DrawerModel rightDrawer,
-  ) : super(uniqueId, PAGE_ID, app, memberId, theHomeMenu, theAppBar, leftDrawer,
-            rightDrawer, );
+  ) : super(
+          uniqueId,
+          PAGE_ID,
+          app,
+          memberId,
+          theHomeMenu,
+          theAppBar,
+          leftDrawer,
+          rightDrawer,
+        );
 
   static ActionModel action(AppModel app, String uniqueId) => GotoPage(
         app,
@@ -56,7 +64,9 @@ class ShopPageBuilder extends PageBuilder {
       icon: IconModel(
           codePoint: Icons.shopping_basket.codePoint,
           fontFamily: Icons.settings.fontFamily),
-      action: GotoPage(app, pageID: constructDocumentId(uniqueId: uniqueId, documentId: PAGE_ID)));
+      action: GotoPage(app,
+          pageID:
+              constructDocumentId(uniqueId: uniqueId, documentId: PAGE_ID)));
 
   Future<PageModel> _setupPage(
       String? presentationDocumentId, String? faderIdentifier) async {
@@ -87,7 +97,8 @@ class ShopPageBuilder extends PageBuilder {
     }
 
     return PageModel(
-        documentID: constructDocumentId(uniqueId: uniqueId, documentId: PAGE_ID),
+        documentID:
+            constructDocumentId(uniqueId: uniqueId, documentId: PAGE_ID),
         appId: app.documentID,
         title: 'Shop',
         description: 'Shop',
@@ -139,11 +150,16 @@ class ShopPageBuilder extends PageBuilder {
 
   ShopModel _shop() {
     var document = ShopModel(
-        documentID: constructDocumentId(uniqueId: uniqueId, documentId: 'mainshop'),
-        description: 'Main shop',
-        shortDescription: 'Main shop',
-        currency: 'eur',
-        appId: app.documentID);
+      documentID:
+          constructDocumentId(uniqueId: uniqueId, documentId: 'mainshop'),
+      description: 'Main shop',
+      shortDescription: 'Main shop',
+      currency: 'eur',
+      appId: app.documentID,
+      conditions: StorageConditionsModel(
+          privilegeLevelRequired:
+              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+    );
     return document;
   }
 
@@ -151,7 +167,8 @@ class ShopPageBuilder extends PageBuilder {
 
   ShopFrontModel _shopFront1() {
     return ShopFrontModel(
-      documentID: constructDocumentId(uniqueId: uniqueId, documentId: shopFrontIdentifier1),
+      documentID: constructDocumentId(
+          uniqueId: uniqueId, documentId: shopFrontIdentifier1),
       appId: app.documentID,
       title: 'Featured',
       description: 'These are my featured products',
@@ -159,7 +176,9 @@ class ShopPageBuilder extends PageBuilder {
       addToCartColor: EliudColors.red,
       itemCardBackground: cardBG(),
       buyAction: CartPageBuilder.openCartPage(app, uniqueId),
-      openProductAction: GotoPage(app, pageID: constructDocumentId(uniqueId: uniqueId, documentId: ProductPageBuilder.PAGE_ID)),
+      openProductAction: GotoPage(app,
+          pageID: constructDocumentId(
+              uniqueId: uniqueId, documentId: ProductPageBuilder.PAGE_ID)),
       size: 250,
       cardElevation: 10,
       cardAxisSpacing: 20,
@@ -174,7 +193,8 @@ class ShopPageBuilder extends PageBuilder {
 
   ShopFrontModel _shopFront2() {
     return ShopFrontModel(
-      documentID: constructDocumentId(uniqueId: uniqueId, documentId: shopFrontIdentifier2),
+      documentID: constructDocumentId(
+          uniqueId: uniqueId, documentId: shopFrontIdentifier2),
       appId: app.documentID,
       title: 'My products',
       description: 'These are my lovely products',
@@ -182,7 +202,9 @@ class ShopPageBuilder extends PageBuilder {
       addToCartColor: EliudColors.red,
       itemCardBackground: cardBG(),
       buyAction: CartPageBuilder.openCartPage(app, uniqueId),
-      openProductAction: GotoPage(app, pageID: constructDocumentId(uniqueId: uniqueId, documentId: ProductPageBuilder.PAGE_ID)),
+      openProductAction: GotoPage(app,
+          pageID: constructDocumentId(
+              uniqueId: uniqueId, documentId: ProductPageBuilder.PAGE_ID)),
       size: 250,
       cardElevation: 10,
       cardAxisSpacing: 20,
@@ -260,7 +282,8 @@ class ShopPageBuilder extends PageBuilder {
   static String dividerId = 'shop-divider';
   DividerModel _divider() {
     var dividerModel = DividerModel(
-      documentID: constructDocumentId(uniqueId: uniqueId, documentId: dividerId),
+      documentID:
+          constructDocumentId(uniqueId: uniqueId, documentId: dividerId),
       description: 'shop divider',
       color: EliudColors.black,
       endIndent: 0,

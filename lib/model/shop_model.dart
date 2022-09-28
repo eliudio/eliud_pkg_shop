@@ -20,11 +20,15 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:eliud_core/model/app_model.dart';
 
+import 'package:eliud_core/model/repository_export.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/repository_export.dart';
+import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
+import 'package:eliud_core/model/entity_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
@@ -45,17 +49,18 @@ class ShopModel implements ModelBase, WithAppId {
   String? description;
   String? shortDescription;
   String? currency;
+  StorageConditionsModel? conditions;
 
-  ShopModel({required this.documentID, required this.appId, this.description, this.shortDescription, this.currency, })  {
+  ShopModel({required this.documentID, required this.appId, this.description, this.shortDescription, this.currency, this.conditions, })  {
     assert(documentID != null);
   }
 
-  ShopModel copyWith({String? documentID, String? appId, String? description, String? shortDescription, String? currency, }) {
-    return ShopModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, description: description ?? this.description, shortDescription: shortDescription ?? this.shortDescription, currency: currency ?? this.currency, );
+  ShopModel copyWith({String? documentID, String? appId, String? description, String? shortDescription, String? currency, StorageConditionsModel? conditions, }) {
+    return ShopModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, description: description ?? this.description, shortDescription: shortDescription ?? this.shortDescription, currency: currency ?? this.currency, conditions: conditions ?? this.conditions, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ description.hashCode ^ shortDescription.hashCode ^ currency.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ description.hashCode ^ shortDescription.hashCode ^ currency.hashCode ^ conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -66,11 +71,12 @@ class ShopModel implements ModelBase, WithAppId {
           appId == other.appId &&
           description == other.description &&
           shortDescription == other.shortDescription &&
-          currency == other.currency;
+          currency == other.currency &&
+          conditions == other.conditions;
 
   @override
   String toString() {
-    return 'ShopModel{documentID: $documentID, appId: $appId, description: $description, shortDescription: $shortDescription, currency: $currency}';
+    return 'ShopModel{documentID: $documentID, appId: $appId, description: $description, shortDescription: $shortDescription, currency: $currency, conditions: $conditions}';
   }
 
   Future<List<ModelReference>> collectReferences({String? appId}) async {
@@ -79,6 +85,7 @@ class ShopModel implements ModelBase, WithAppId {
       EliudQueryCondition('shopId', isEqualTo: documentID),
     ]));
     referencesCollector.addAll(products.map((product) => ModelReference(ProductModel.packageName, ProductModel.id, product!)));
+    if (conditions != null) referencesCollector.addAll(await conditions!.collectReferences(appId: appId));
     return referencesCollector;
   }
 
@@ -88,6 +95,7 @@ class ShopModel implements ModelBase, WithAppId {
           description: (description != null) ? description : null, 
           shortDescription: (shortDescription != null) ? shortDescription : null, 
           currency: (currency != null) ? currency : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
 
@@ -100,6 +108,8 @@ class ShopModel implements ModelBase, WithAppId {
           description: entity.description, 
           shortDescription: entity.shortDescription, 
           currency: entity.currency, 
+          conditions: 
+            await StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 
@@ -113,6 +123,8 @@ class ShopModel implements ModelBase, WithAppId {
           description: entity.description, 
           shortDescription: entity.shortDescription, 
           currency: entity.currency, 
+          conditions: 
+            await StorageConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
     );
   }
 

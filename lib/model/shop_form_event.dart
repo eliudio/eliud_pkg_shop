@@ -16,11 +16,15 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/model/repository_export.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/repository_export.dart';
+import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
+import 'package:eliud_core/model/entity_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
@@ -113,5 +117,17 @@ class ChangedShopCurrency extends ShopFormEvent {
 
   @override
   String toString() => 'ChangedShopCurrency{ value: $value }';
+}
+
+class ChangedShopConditions extends ShopFormEvent {
+  final StorageConditionsModel? value;
+
+  ChangedShopConditions({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedShopConditions{ value: $value }';
 }
 

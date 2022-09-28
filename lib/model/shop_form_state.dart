@@ -143,6 +143,22 @@ class CurrencyShopFormError extends ShopFormError {
 }
 
 
+class ConditionsShopFormError extends ShopFormError { 
+  const ConditionsShopFormError({ String? message, ShopModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''ConditionsShopFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class ShopFormLoaded extends ShopFormInitialized { 
   const ShopFormLoaded({ ShopModel? value }): super(value: value);
 

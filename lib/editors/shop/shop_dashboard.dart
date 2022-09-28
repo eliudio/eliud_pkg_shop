@@ -10,6 +10,7 @@ import 'package:eliud_core/style/frontend/has_list_tile.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/tools/random.dart';
+import 'package:eliud_core/tools/widgets/condition_simple_widget.dart';
 import 'package:eliud_core/tools/widgets/header_widget.dart';
 import 'package:eliud_pkg_shop/editors/shop/product_dashboard.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
@@ -24,37 +25,33 @@ import 'shop_bloc/shop_dashboard_event.dart';
 import 'shop_bloc/shop_dashboard_state.dart';
 
 class ShopDashboard {
-  static void updateShop(
-      AppModel app, BuildContext context, model) {
+  static void updateShop(AppModel app, BuildContext context, model) {
     _openIt(app, context, false, model.copyWith());
   }
 
-  static void deleteShop(
-      AppModel app, BuildContext context, model) {
+  static void deleteShop(AppModel app, BuildContext context, model) {
     // ask for confirmation. Very dangerous
   }
 
-  static void addShop(
-      AppModel app, BuildContext context) {
+  static void addShop(AppModel app, BuildContext context) {
     _openIt(
-        app,
-        context,
-        true,
-        ShopModel(
-          appId: app.documentID,
-          documentID: newRandomKey(),
-        ),);
+      app,
+      context,
+      true,
+      ShopModel(
+        appId: app.documentID,
+        documentID: newRandomKey(),
+      ),
+    );
   }
 
-  static void _openIt(AppModel app, BuildContext context, bool create,
-      ShopModel model) {
+  static void _openIt(
+      AppModel app, BuildContext context, bool create, ShopModel model) {
     openComplexDialog(
       app,
       context,
       app.documentID + '/shop',
-      title: create
-          ? 'Create Shop'
-          : 'Update Shop',
+      title: create ? 'Create Shop' : 'Update Shop',
       includeHeading: false,
       widthFraction: .9,
       child: BlocProvider<ShopDashboardBloc>(
@@ -78,22 +75,18 @@ class ShopDashboardWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() =>
-      _ShopDashboardWidgetState();
+  State<StatefulWidget> createState() => _ShopDashboardWidgetState();
 }
 
-class _ShopDashboardWidgetState
-    extends State<ShopDashboardWidget> {
+class _ShopDashboardWidgetState extends State<ShopDashboardWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (aContext, accessState) {
       if (accessState is AccessDetermined) {
-        return BlocBuilder<ShopDashboardBloc,
-                ShopDashboardBaseState>(
+        return BlocBuilder<ShopDashboardBloc, ShopDashboardBaseState>(
             builder: (ppContext, shopState) {
-          if (shopState
-              is ShopDashboardInitialised) {
+          if (shopState is ShopDashboardInitialised) {
             return ListView(
                 shrinkWrap: true,
                 physics: ScrollPhysics(),
@@ -102,9 +95,8 @@ class _ShopDashboardWidgetState
                     app: widget.app,
                     title: 'Shop',
                     okAction: () async {
-                      await BlocProvider.of<ShopDashboardBloc>(context)
-                          .save(ShopDashboardApplyChanges(
-                              model: shopState.shop));
+                      await BlocProvider.of<ShopDashboardBloc>(context).save(
+                          ShopDashboardApplyChanges(model: shopState.shop));
                       return true;
                     },
                     cancelAction: () async {
@@ -125,11 +117,9 @@ class _ShopDashboardWidgetState
                             title: dialogField(
                               widget.app,
                               context,
-                              initialValue:
-                              shopState.shop.shortDescription,
+                              initialValue: shopState.shop.shortDescription,
                               valueChanged: (value) {
-                                shopState.shop.shortDescription =
-                                    value;
+                                shopState.shop.shortDescription = value;
                               },
                               maxLines: 1,
                               decoration: const InputDecoration(
@@ -142,11 +132,9 @@ class _ShopDashboardWidgetState
                             title: dialogField(
                               widget.app,
                               context,
-                              initialValue:
-                              shopState.shop.currency,
+                              initialValue: shopState.shop.currency,
                               valueChanged: (value) {
-                                shopState.shop.currency =
-                                    value;
+                                shopState.shop.currency = value;
                               },
                               maxLines: 1,
                               decoration: const InputDecoration(
@@ -159,11 +147,9 @@ class _ShopDashboardWidgetState
                             title: dialogField(
                               widget.app,
                               context,
-                              initialValue:
-                              shopState.shop.description,
+                              initialValue: shopState.shop.description,
                               valueChanged: (value) {
-                                shopState.shop.description =
-                                    value;
+                                shopState.shop.description = value;
                               },
                               maxLines: 1,
                               decoration: const InputDecoration(
@@ -179,6 +165,19 @@ class _ShopDashboardWidgetState
                       children: [
                         _products(shopState),
                       ]),
+                  topicContainer(widget.app, context,
+                      title: 'Condition',
+                      collapsible: true,
+                      collapsed: true,
+                      children: [
+                        getListTile(context, widget.app,
+                            leading: Icon(Icons.security),
+                            title: ConditionsSimpleWidget(
+                              app: widget.app,
+                              readOnly: false,
+                              value: shopState.shop.conditions!,
+                            )),
+                      ]),
                 ]);
           } else {
             return progressIndicator(widget.app, context);
@@ -190,10 +189,8 @@ class _ShopDashboardWidgetState
     });
   }
 
-  Widget _products(
-      ShopDashboardInitialised state) {
-    var items =
-        state.values != null ? state.values! : [];
+  Widget _products(ShopDashboardInitialised state) {
+    var items = state.values != null ? state.values! : [];
     return Container(
       height: 150,
       child: ListView(shrinkWrap: true, physics: ScrollPhysics(), children: [
@@ -209,28 +206,30 @@ class _ShopDashboardWidgetState
                   return getListTile(
                     context,
                     widget.app,
-                    title: text(widget.app, context,
-                        (value.title ?? '?')),
-                    trailing: popupMenuButton<int>(
-                        widget.app, context,
+                    title: text(widget.app, context, (value.title ?? '?')),
+                    trailing: popupMenuButton<int>(widget.app, context,
                         child: Icon(Icons.more_vert),
                         itemBuilder: (context) => [
                               popupMenuItem(
-                                widget.app, context,
+                                widget.app,
+                                context,
                                 value: 1,
                                 label: 'Update',
                               ),
                               popupMenuItem(
-                                widget.app, context,
+                                widget.app,
+                                context,
                                 value: 2,
                                 label: 'Delete',
                               ),
                             ],
                         onSelected: (selectedValue) {
                           if (selectedValue == 1) {
-                            ProductDashboard.updateProduct(widget.app, context, state.shop, value);
+                            ProductDashboard.updateProduct(
+                                widget.app, context, state.shop, value);
                           } else if (selectedValue == 2) {
-                            productRepository(appId: widget.app.documentID)!.delete(value);
+                            productRepository(appId: widget.app.documentID)!
+                                .delete(value);
                           }
                         }),
                   );
@@ -249,7 +248,11 @@ class _ShopDashboardWidgetState
             ),
             label: 'Add',
             onPressed: () {
-              ProductDashboard.createNewProduct(widget.app, context, state.shop, );
+              ProductDashboard.createNewProduct(
+                widget.app,
+                context,
+                state.shop,
+              );
             },
           ),
           Spacer(),
@@ -257,5 +260,4 @@ class _ShopDashboardWidgetState
       ]),
     );
   }
-
 }

@@ -19,6 +19,7 @@ import 'package:eliud_core/tools/random.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
+import 'package:eliud_core/model/entity_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
@@ -28,32 +29,43 @@ class ShopEntity implements EntityBase {
   final String? description;
   final String? shortDescription;
   final String? currency;
+  final StorageConditionsEntity? conditions;
 
-  ShopEntity({required this.appId, this.description, this.shortDescription, this.currency, });
+  ShopEntity({required this.appId, this.description, this.shortDescription, this.currency, this.conditions, });
 
-  ShopEntity copyWith({String? documentID, String? appId, String? description, String? shortDescription, String? currency, }) {
-    return ShopEntity(appId : appId ?? this.appId, description : description ?? this.description, shortDescription : shortDescription ?? this.shortDescription, currency : currency ?? this.currency, );
+  ShopEntity copyWith({String? documentID, String? appId, String? description, String? shortDescription, String? currency, StorageConditionsEntity? conditions, }) {
+    return ShopEntity(appId : appId ?? this.appId, description : description ?? this.description, shortDescription : shortDescription ?? this.shortDescription, currency : currency ?? this.currency, conditions : conditions ?? this.conditions, );
   }
-  List<Object?> get props => [appId, description, shortDescription, currency, ];
+  List<Object?> get props => [appId, description, shortDescription, currency, conditions, ];
 
   @override
   String toString() {
-    return 'ShopEntity{appId: $appId, description: $description, shortDescription: $shortDescription, currency: $currency}';
+    return 'ShopEntity{appId: $appId, description: $description, shortDescription: $shortDescription, currency: $currency, conditions: $conditions}';
   }
 
   static ShopEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
+    var conditionsFromMap;
+    conditionsFromMap = map['conditions'];
+    if (conditionsFromMap != null)
+      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap, newDocumentIds: newDocumentIds);
+
     return ShopEntity(
       appId: map['appId'], 
       description: map['description'], 
       shortDescription: map['shortDescription'], 
       currency: map['currency'], 
+      conditions: conditionsFromMap, 
     );
   }
 
   Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? conditionsMap = conditions != null 
+        ? conditions!.toDocument()
+        : null;
+
     Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
@@ -63,6 +75,8 @@ class ShopEntity implements EntityBase {
       else theDocument["shortDescription"] = null;
     if (currency != null) theDocument["currency"] = currency;
       else theDocument["currency"] = null;
+    if (conditions != null) theDocument["conditions"] = conditionsMap;
+      else theDocument["conditions"] = null;
     return theDocument;
   }
 
