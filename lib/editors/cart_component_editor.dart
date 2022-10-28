@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
+import 'package:eliud_core/core/registry.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/storage_conditions_model.dart';
@@ -13,7 +14,6 @@ import 'package:eliud_core/tools/component/component_spec.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_core/tools/widgets/background_widget.dart';
 import 'package:eliud_core/tools/widgets/condition_simple_widget.dart';
-import 'package:eliud_core/tools/widgets/editor/select_action_widget.dart';
 import 'package:eliud_core/tools/widgets/header_widget.dart';
 import 'package:eliud_pkg_shop/editors/widgets/select_shop_widget.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
@@ -85,6 +85,24 @@ class CartComponentEditorConstructor extends ComponentEditorConstructor {
             app: app,
           )),
     );
+  }
+
+  @override
+  Future<CartModel> revalidateModel(AppModel app, model) async {
+    if (model != null) {
+      var myModel = model as CartModel;
+      var newModel = myModel.copyWith(
+        backToShopAction: myModel.backToShopAction != null ? myModel
+            .backToShopAction!.copyWith(app) : null,
+        checkoutAction: myModel.checkoutAction != null ? myModel.checkoutAction!
+            .copyWith(app) : null,
+        openProductAction: myModel.openProductAction != null ? myModel
+            .openProductAction!.copyWith(app) : null,
+      );
+      return newModel;
+    } else {
+      return model;
+    }
   }
 }
 
@@ -259,7 +277,7 @@ class _CartComponentEditorState extends State<CartComponentEditor> {
                         collapsible: true,
                         collapsed: true,
                         children: [
-                          SelectActionWidget(
+                          Registry.registry()!.openSelectActionWidget(
                               app: widget.app,
                               action: cartState.model.backToShopAction,
                               label: 'Back To Shop',
@@ -276,7 +294,7 @@ class _CartComponentEditorState extends State<CartComponentEditor> {
                                   cartState.model.backToShopAction = action;
                                 });
                               }),
-                          SelectActionWidget(
+                          Registry.registry()!.openSelectActionWidget(
                               app: widget.app,
                               action: cartState.model.checkoutAction,
                               label: 'Checkout Action',
@@ -293,7 +311,7 @@ class _CartComponentEditorState extends State<CartComponentEditor> {
                                   cartState.model.checkoutAction = action;
                                 });
                               }),
-                          SelectActionWidget(
+                          Registry.registry()!.openSelectActionWidget(
                               app: widget.app,
                               action: cartState.model.openProductAction,
                               label: 'Open Product',

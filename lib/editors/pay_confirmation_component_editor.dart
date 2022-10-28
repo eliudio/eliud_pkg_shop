@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
+import 'package:eliud_core/core/registry.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/storage_conditions_model.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
@@ -11,7 +12,6 @@ import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/tools/component/component_spec.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_core/tools/widgets/condition_simple_widget.dart';
-import 'package:eliud_core/tools/widgets/editor/select_action_widget.dart';
 import 'package:eliud_core/tools/widgets/header_widget.dart';
 import 'package:eliud_pkg_shop/editors/widgets/select_shop_widget.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
@@ -88,6 +88,19 @@ class PayConfirmationComponentEditorConstructor
             app: app,
           )),
     );
+  }
+
+  @override
+  Future<PayConfirmationModel> revalidateModel(AppModel app, model) async {
+    if (model != null) {
+      var myModel = model as PayConfirmationModel;
+      var newModel = myModel.copyWith(
+        backToShopAction: myModel.backToShopAction == null? myModel.backToShopAction!.copyWith(app) : null,
+      );
+      return newModel;
+    } else {
+      return model;
+    }
   }
 }
 
@@ -200,7 +213,7 @@ class _PayConfirmationComponentEditorState
                             collapsible: true,
                             collapsed: true,
                             children: [
-                              SelectActionWidget(
+                              Registry.registry()!.openSelectActionWidget(
                                   app: widget.app,
                                   action: payConfirmationState.model.backToShopAction,
                                   label: 'Back to shop action',

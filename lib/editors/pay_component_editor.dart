@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
+import 'package:eliud_core/core/registry.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/storage_conditions_model.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
@@ -11,7 +12,6 @@ import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/tools/component/component_spec.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_core/tools/widgets/condition_simple_widget.dart';
-import 'package:eliud_core/tools/widgets/editor/select_action_widget.dart';
 import 'package:eliud_core/tools/widgets/header_widget.dart';
 import 'package:eliud_pkg_notifications/model/notification_dashboard_model.dart';
 import 'package:eliud_pkg_shop/editors/widgets/select_shop_widget.dart';
@@ -27,8 +27,7 @@ import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_state.dart';
 
 import '../model/pay_entity.dart';
 
-class PayComponentEditorConstructor
-    extends ComponentEditorConstructor {
+class PayComponentEditorConstructor extends ComponentEditorConstructor {
   @override
   void updateComponent(
       AppModel app, BuildContext context, model, EditorFeedback feedback) {
@@ -56,8 +55,7 @@ class PayComponentEditorConstructor
   @override
   void updateComponentWithID(AppModel app, BuildContext context, String id,
       EditorFeedback feedback) async {
-    var pay =
-        await payRepository(appId: app.documentID)!.get(id);
+    var pay = await payRepository(appId: app.documentID)!.get(id);
     if (pay != null) {
       _openIt(app, context, false, pay, feedback);
     } else {
@@ -67,8 +65,8 @@ class PayComponentEditorConstructor
     }
   }
 
-  void _openIt(AppModel app, BuildContext context, bool create,
-      PayModel model, EditorFeedback feedback) {
+  void _openIt(AppModel app, BuildContext context, bool create, PayModel model,
+      EditorFeedback feedback) {
     openComplexDialog(
       app,
       context,
@@ -90,11 +88,25 @@ class PayComponentEditorConstructor
           )),
     );
   }
+
+  @override
+  Future<PayModel> revalidateModel(AppModel app, model) async {
+    if (model != null) {
+      var myModel = model as PayModel;
+      var newModel = myModel.copyWith(
+        succeeded:
+            myModel.succeeded == null ? myModel.succeeded!.copyWith(app) : null,
+        payAction:
+            myModel.payAction == null ? myModel.payAction!.copyWith(app) : null,
+      );
+      return newModel;
+    } else {
+      return model;
+    }
+  }
 }
 
-class PayBloc
-    extends EditorBaseBloc<PayModel, PayEntity> {
-
+class PayBloc extends EditorBaseBloc<PayModel, PayEntity> {
   PayBloc(String appId, EditorFeedback feedback)
       : super(appId, payRepository(appId: appId)!, feedback);
 
@@ -108,10 +120,8 @@ class PayBloc
   }
 
   @override
-  PayModel setDefaultValues(
-      PayModel t, StorageConditionsModel conditions) {
-    return t.copyWith(
-        conditions: t.conditions ?? conditions);
+  PayModel setDefaultValues(PayModel t, StorageConditionsModel conditions) {
+    return t.copyWith(conditions: t.conditions ?? conditions);
   }
 }
 
@@ -124,12 +134,10 @@ class PayComponentEditor extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() =>
-      _PayComponentEditorState();
+  State<StatefulWidget> createState() => _PayComponentEditorState();
 }
 
-class _PayComponentEditorState
-    extends State<PayComponentEditor> {
+class _PayComponentEditorState extends State<PayComponentEditor> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AccessBloc, AccessState>(
@@ -138,108 +146,94 @@ class _PayComponentEditorState
         var member = accessState.getMember();
         if (member != null) {
           var memberId = member.documentID;
-          return BlocBuilder<PayBloc,
-              EditorBaseState<PayModel>>(
+          return BlocBuilder<PayBloc, EditorBaseState<PayModel>>(
               builder: (ppContext, payState) {
-                if (payState is EditorBaseInitialised<
-                    PayModel>) {
-                  return ListView(
-                      shrinkWrap: true,
-                      physics: ScrollPhysics(),
-                      children: [
-                        HeaderWidget(
-                          app: widget.app,
-                          title: 'Pay',
-                          okAction: () async {
-                            await BlocProvider.of<PayBloc>(context)
-                                .save(
-                                EditorBaseApplyChanges<PayModel>(
-                                    model: payState.model));
-                            return true;
-                          },
-                          cancelAction: () async {
-                            return true;
-                          },
-                        ),
-                        topicContainer(widget.app, context,
-                            title: 'General',
-                            collapsible: true,
-                            collapsed: true,
-                            children: [
-                              getListTile(context, widget.app,
-                                  leading: Icon(Icons.vpn_key),
-                                  title: text(widget.app, context,
-                                      payState.model.documentID)),
-                              getListTile(context, widget.app,
-                                  leading: Icon(Icons.description),
-                                  title: dialogField(
-                                    widget.app,
-                                    context,
-                                    initialValue: payState.model
-                                        .description,
-                                    valueChanged: (value) {
-                                      payState.model.description = value;
-                                    },
-                                    maxLines: 1,
-                                    decoration: const InputDecoration(
-                                      hintText: 'Description',
-                                      labelText: 'Description',
-                                    ),
-                                  )),
-                            ]),
-                        selectShopWidget(
-                            context,
-                            widget.app,
-                            payState.model.conditions,
-                            payState.model.shop,
-                                (shop) =>
-                                setState(() {
-                                  payState.model.shop = shop;
-                                })),
-                        topicContainer(widget.app, context,
-                            title: 'Actions',
-                            collapsible: true,
-                            collapsed: true,
-                            children: [
-                              SelectActionWidget(
-                                  app: widget.app,
-                                  action: payState.model.payAction,
-                                  label: 'Pay Action',
-                                  containerPrivilege:
-                                  ((payState.model.conditions != null) &&
-                                      (payState.model.conditions!
-                                          .privilegeLevelRequired !=
-                                          null))
-                                      ? payState.model.conditions!
-                                      .privilegeLevelRequired!.index
-                                      : 0,
-                                  actionSelected: (action) {
-                                    setState(() {
-                                      payState.model.payAction =
-                                          action;
-                                    });
-                                  }),
-                            ]),
-                        topicContainer(widget.app, context,
-                            title: 'Condition',
-                            collapsible: true,
-                            collapsed: true,
-                            children: [
-                              getListTile(context, widget.app,
-                                  leading: Icon(Icons.security),
-                                  title: ConditionsSimpleWidget(
-                                    app: widget.app,
-                                    value: payState.model
-                                        .conditions!,
-                                  )),
-                            ]),
-                      ]);
-                } else {
-                  return progressIndicator(widget.app, context);
-                }
-              });
+            if (payState is EditorBaseInitialised<PayModel>) {
+              return ListView(
+                  shrinkWrap: true,
+                  physics: ScrollPhysics(),
+                  children: [
+                    HeaderWidget(
+                      app: widget.app,
+                      title: 'Pay',
+                      okAction: () async {
+                        await BlocProvider.of<PayBloc>(context).save(
+                            EditorBaseApplyChanges<PayModel>(
+                                model: payState.model));
+                        return true;
+                      },
+                      cancelAction: () async {
+                        return true;
+                      },
+                    ),
+                    topicContainer(widget.app, context,
+                        title: 'General',
+                        collapsible: true,
+                        collapsed: true,
+                        children: [
+                          getListTile(context, widget.app,
+                              leading: Icon(Icons.vpn_key),
+                              title: text(widget.app, context,
+                                  payState.model.documentID)),
+                          getListTile(context, widget.app,
+                              leading: Icon(Icons.description),
+                              title: dialogField(
+                                widget.app,
+                                context,
+                                initialValue: payState.model.description,
+                                valueChanged: (value) {
+                                  payState.model.description = value;
+                                },
+                                maxLines: 1,
+                                decoration: const InputDecoration(
+                                  hintText: 'Description',
+                                  labelText: 'Description',
+                                ),
+                              )),
+                        ]),
+                    selectShopWidget(
+                        context,
+                        widget.app,
+                        payState.model.conditions,
+                        payState.model.shop,
+                        (shop) => setState(() {
+                              payState.model.shop = shop;
+                            })),
+                    Registry.registry()!.openSelectActionWidget(
+                        app: widget.app,
+                        action: payState.model.payAction,
+                        label: 'Pay Action',
+                        containerPrivilege:
+                            ((payState.model.conditions != null) &&
+                                    (payState.model.conditions!
+                                            .privilegeLevelRequired !=
+                                        null))
+                                ? payState.model.conditions!
+                                    .privilegeLevelRequired!.index
+                                : 0,
+                        actionSelected: (action) {
+                          setState(() {
+                            payState.model.payAction = action;
+                          });
+                        }),
+                    topicContainer(widget.app, context,
+                        title: 'Condition',
+                        collapsible: true,
+                        collapsed: true,
+                        children: [
+                          getListTile(context, widget.app,
+                              leading: Icon(Icons.security),
+                              title: ConditionsSimpleWidget(
+                                app: widget.app,
+                                value: payState.model.conditions!,
+                              )),
+                        ]),
+                  ]);
+            } else {
+              return progressIndicator(widget.app, context);
+            }
+          });
         } else {
-
           return progressIndicator(widget.app, context);
         }
       } else {
@@ -247,5 +241,4 @@ class _PayComponentEditorState
       }
     });
   }
-
 }

@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
+import 'package:eliud_core/core/registry.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/edge_insets_geometry_model.dart';
@@ -17,7 +18,6 @@ import 'package:eliud_core/tools/widgets/background_widget.dart';
 import 'package:eliud_core/tools/widgets/background_widgets/edge_insets_geometry_widget.dart';
 import 'package:eliud_core/tools/widgets/background_widgets/style_color_widget.dart';
 import 'package:eliud_core/tools/widgets/condition_simple_widget.dart';
-import 'package:eliud_core/tools/widgets/editor/select_action_widget.dart';
 import 'package:eliud_core/tools/widgets/header_widget.dart';
 import 'package:eliud_pkg_shop/editors/widgets/scroll_direction_widget.dart';
 import 'package:eliud_pkg_shop/editors/widgets/select_shop_widget.dart';
@@ -91,6 +91,22 @@ class ShopFrontComponentEditorConstructor extends ComponentEditorConstructor {
             app: app,
           )),
     );
+  }
+
+  @override
+  Future<ShopFrontModel> revalidateModel(AppModel app, model) async {
+    if (model != null) {
+      var myModel = model as ShopFrontModel;
+      var newModel = myModel.copyWith(
+        buyAction: myModel.buyAction != null ? myModel
+            .buyAction!.copyWith(app) : null,
+        openProductAction: myModel.openProductAction != null ? myModel
+            .openProductAction!.copyWith(app) : null,
+      );
+      return newModel;
+    } else {
+      return model;
+    }
   }
 }
 
@@ -180,7 +196,7 @@ class _ShopFrontComponentEditorState extends State<ShopFrontComponentEditor> {
                         collapsible: true,
                         collapsed: true,
                         children: [
-                          SelectActionWidget(
+                          Registry.registry()!.openSelectActionWidget(
                               app: widget.app,
                               action: shopFrontState.model.buyAction,
                               label: 'Buy Product',
@@ -198,7 +214,7 @@ class _ShopFrontComponentEditorState extends State<ShopFrontComponentEditor> {
                                       action;
                                 });
                               }),
-                          SelectActionWidget(
+                          Registry.registry()!.openSelectActionWidget(
                               app: widget.app,
                               action: shopFrontState.model.openProductAction,
                               label: 'Open Product',

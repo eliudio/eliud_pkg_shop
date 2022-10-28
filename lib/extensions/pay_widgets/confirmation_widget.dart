@@ -48,7 +48,6 @@ class ConfirmationState extends State<ConfirmationWidget> {
                 builder: (context, state) {
                   if (state is OrderComponentLoaded) {
                     var order = state.value;
-                    debugPrint('state is OrderPaid');
                     var widgets = <Widget>[];
                     widgets.add(ListTile(
                       trailing: Icon(

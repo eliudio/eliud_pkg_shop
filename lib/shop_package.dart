@@ -91,7 +91,7 @@ abstract class ShopPackage extends Package {
 
     // Wizards
     NewAppWizardRegistry.registry().register(ShopPageWizard());
-//  NewAppWizardRegistry.registry().register(PaymentWorkflowWizard());
+    NewAppWizardRegistry.registry().register(PaymentWorkflowWizard());
 
     AbstractRepositorySingleton.singleton = RepositorySingleton();
   }

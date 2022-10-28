@@ -4,9 +4,10 @@ import 'package:eliud_core/model/display_conditions_model.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_pkg_pay/tasks/context_amount_pay_model.dart';
-import 'package:eliud_pkg_pay/tasks/creditcard_pay_type_model.dart';
-import 'package:eliud_pkg_pay/tasks/manual_pay_type_model.dart';
-import 'package:eliud_pkg_pay/tasks/pay_type_model.dart';
+import 'package:eliud_pkg_pay/tasks/pay_type_types/creditcard_pay_type_model.dart';
+import 'package:eliud_pkg_pay/tasks/pay_type_types/manual_pay_type_model.dart';
+import 'package:eliud_pkg_pay/tasks/pay_type_types/pay_type_model.dart';
+import 'package:eliud_pkg_pay/tasks/pay_type_types/pay_type_model.dart';
 import 'package:eliud_pkg_pay/tasks/review_and_ship_task_model.dart';
 import 'package:eliud_pkg_shop/shop_package.dart';
 import 'package:eliud_pkg_workflow/model/abstract_repository_singleton.dart';
@@ -109,7 +110,7 @@ class PaymentWorkflowBuilder {
             task: ContextAmountPayModel(
               identifier: newRandomKey(),
               executeInstantly: false,
-              description: 'Please pay for your buy',
+              description: 'Please pay for your purchase',
               paymentType: payTypeModel,
             ),
           ),
