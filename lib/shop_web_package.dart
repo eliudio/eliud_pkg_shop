@@ -1,6 +1,8 @@
 import 'package:eliud_pkg_shop/shop_package.dart';
 import 'package:flutter/foundation.dart';
 
+ShopPackage getShopPackage() => ShopWebPackage();
+
 class ShopWebPackage extends ShopPackage {
 
   @override
@@ -14,4 +16,5 @@ class ShopWebPackage extends ShopPackage {
           other is ShopWebPackage &&
               runtimeType == other.runtimeType &&
               mapEquals(stateCONDITION_CARTS_HAS_ITEMS, other.stateCONDITION_CARTS_HAS_ITEMS);
+
 }

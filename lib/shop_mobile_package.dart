@@ -1,6 +1,8 @@
 import 'package:eliud_pkg_shop/shop_package.dart';
 import 'package:flutter/foundation.dart';
 
+ShopPackage getShopPackage() => ShopMobilePackage();
+
 class ShopMobilePackage extends ShopPackage {
 
   @override

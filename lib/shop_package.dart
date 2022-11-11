@@ -16,6 +16,10 @@ import 'bloc/cart/cart_bloc.dart';
 import 'model/member_cart_model.dart';
 import 'wizards/shop_page_wizard.dart';
 
+import 'package:eliud_pkg_shop/shop_package_stub.dart'
+if (dart.library.io) 'shop_mobile_package.dart'
+if (dart.library.html) 'shop_web_package.dart';
+
 abstract class ShopPackage extends Package {
   ShopPackage() : super('eliud_pkg_shop');
 
@@ -99,4 +103,6 @@ abstract class ShopPackage extends Package {
   @override
   List<MemberCollectionInfo> getMemberCollectionInfo() =>
       AbstractRepositorySingleton.collections;
+
+  static ShopPackage instance() => getShopPackage();
 }
