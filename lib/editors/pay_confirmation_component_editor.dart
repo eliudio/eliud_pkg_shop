@@ -91,15 +91,15 @@ class PayConfirmationComponentEditorConstructor
   }
 
   @override
-  Future<PayConfirmationModel> revalidateModel(AppModel app, model) async {
-    if (model != null) {
-      var myModel = model as PayConfirmationModel;
-      var newModel = myModel.copyWith(
-        backToShopAction: myModel.backToShopAction == null? myModel.backToShopAction!.copyWith(app) : null,
+  Future<PayConfirmationEntity> revalidateEntity(AppModel app, entity) async {
+    if (entity != null) {
+      var myEntiy = entity as PayConfirmationEntity;
+      var newEntity = myEntiy.copyWith(
+        backToShopAction: myEntiy.backToShopAction == null? myEntiy.backToShopAction!.copyWith(appId: app.documentID) : null,
       );
-      return newModel;
+      return newEntity;
     } else {
-      return model;
+      return entity;
     }
   }
 }

@@ -92,15 +92,15 @@ class ProductDisplayComponentEditorConstructor
     );
   }
   @override
-  Future<ProductDisplayModel> revalidateModel(AppModel app, model) async {
-    if (model != null) {
-      var myModel = model as ProductDisplayModel;
-      var newModel = myModel.copyWith(
-        buyAction: myModel.buyAction == null? myModel.buyAction!.copyWith(app) : null,
+  Future<ProductDisplayEntity> revalidateEntity(AppModel app, entity) async {
+    if (entity != null) {
+      var myEntity = entity as ProductDisplayEntity;
+      var newEntity = myEntity.copyWith(
+        buyAction: myEntity.buyAction == null? myEntity.buyAction!.copyWith(appId: app.documentID) : null,
       );
-      return newModel;
+      return newEntity;
     } else {
-      return model;
+      return entity;
     }
   }
 }

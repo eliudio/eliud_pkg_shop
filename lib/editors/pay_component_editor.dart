@@ -90,18 +90,18 @@ class PayComponentEditorConstructor extends ComponentEditorConstructor {
   }
 
   @override
-  Future<PayModel> revalidateModel(AppModel app, model) async {
-    if (model != null) {
-      var myModel = model as PayModel;
-      var newModel = myModel.copyWith(
+  Future<PayEntity> revalidateEntity(AppModel app, entity) async {
+    if (entity != null) {
+      var myEntity = entity as PayEntity;
+      var newEntity = myEntity.copyWith(
         succeeded:
-            myModel.succeeded == null ? myModel.succeeded!.copyWith(app) : null,
+          myEntity.succeeded == null ? myEntity.succeeded!.copyWith(appId: app.documentID) : null,
         payAction:
-            myModel.payAction == null ? myModel.payAction!.copyWith(app) : null,
+          myEntity.payAction == null ? myEntity.payAction!.copyWith(appId: app.documentID) : null,
       );
-      return newModel;
+      return newEntity;
     } else {
-      return model;
+      return entity;
     }
   }
 }

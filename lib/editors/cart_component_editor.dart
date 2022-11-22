@@ -23,6 +23,7 @@ import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_event.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_state.dart';
+import '../model/cart_entity.dart';
 import 'bloc/cart_bloc.dart';
 
 class CartComponentEditorConstructor extends ComponentEditorConstructor {
@@ -88,20 +89,20 @@ class CartComponentEditorConstructor extends ComponentEditorConstructor {
   }
 
   @override
-  Future<CartModel> revalidateModel(AppModel app, model) async {
-    if (model != null) {
-      var myModel = model as CartModel;
-      var newModel = myModel.copyWith(
-        backToShopAction: myModel.backToShopAction != null ? myModel
-            .backToShopAction!.copyWith(app) : null,
-        checkoutAction: myModel.checkoutAction != null ? myModel.checkoutAction!
-            .copyWith(app) : null,
-        openProductAction: myModel.openProductAction != null ? myModel
-            .openProductAction!.copyWith(app) : null,
+  Future<CartEntity> revalidateEntity(AppModel app, entity) async {
+    if (entity != null) {
+      var myEntity = entity as CartEntity;
+      var newEntity = myEntity.copyWith(
+        backToShopAction: myEntity.backToShopAction != null ? myEntity
+            .backToShopAction!.copyWith(appId: app.documentID) : null,
+        checkoutAction: myEntity.checkoutAction != null ? myEntity.checkoutAction!
+            .copyWith(appId: app.documentID) : null,
+        openProductAction: myEntity.openProductAction != null ? myEntity
+            .openProductAction!.copyWith(appId: app.documentID) : null,
       );
-      return newModel;
+      return newEntity;
     } else {
-      return model;
+      return entity;
     }
   }
 }

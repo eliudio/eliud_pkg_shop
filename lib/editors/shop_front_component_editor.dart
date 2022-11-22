@@ -29,6 +29,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_event.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_state.dart';
 
+import '../model/shop_front_entity.dart';
 import 'bloc/shop_front_bloc.dart';
 
 class ShopFrontComponentEditorConstructor extends ComponentEditorConstructor {
@@ -94,18 +95,18 @@ class ShopFrontComponentEditorConstructor extends ComponentEditorConstructor {
   }
 
   @override
-  Future<ShopFrontModel> revalidateModel(AppModel app, model) async {
-    if (model != null) {
-      var myModel = model as ShopFrontModel;
-      var newModel = myModel.copyWith(
-        buyAction: myModel.buyAction != null ? myModel
-            .buyAction!.copyWith(app) : null,
-        openProductAction: myModel.openProductAction != null ? myModel
-            .openProductAction!.copyWith(app) : null,
+  Future<ShopFrontEntity> revalidateEntity(AppModel app, entity) async {
+    if (entity != null) {
+      var myEntity = entity as ShopFrontEntity;
+      var newEntity = myEntity.copyWith(
+        buyAction: myEntity.buyAction != null ? myEntity
+            .buyAction!.copyWith(appId: app.documentID) : null,
+        openProductAction: myEntity.openProductAction != null ? myEntity
+            .openProductAction!.copyWith(appId: app.documentID) : null,
       );
-      return newModel;
+      return newEntity;
     } else {
-      return model;
+      return entity;
     }
   }
 }
