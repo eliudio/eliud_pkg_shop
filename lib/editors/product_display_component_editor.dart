@@ -96,7 +96,7 @@ class ProductDisplayComponentEditorConstructor
     if (entity != null) {
       var myEntity = entity as ProductDisplayEntity;
       var newEntity = myEntity.copyWith(
-        buyAction: myEntity.buyAction == null? myEntity.buyAction!.copyWith(appId: app.documentID) : null,
+        buyAction: myEntity.buyAction != null? myEntity.buyAction!.copyWith(appId: app.documentID) : null,
       );
       return newEntity;
     } else {

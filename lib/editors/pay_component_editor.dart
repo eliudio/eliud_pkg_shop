@@ -95,9 +95,9 @@ class PayComponentEditorConstructor extends ComponentEditorConstructor {
       var myEntity = entity as PayEntity;
       var newEntity = myEntity.copyWith(
         succeeded:
-          myEntity.succeeded == null ? myEntity.succeeded!.copyWith(appId: app.documentID) : null,
+          myEntity.succeeded != null ? myEntity.succeeded!.copyWith(appId: app.documentID) : null,
         payAction:
-          myEntity.payAction == null ? myEntity.payAction!.copyWith(appId: app.documentID) : null,
+          myEntity.payAction != null ? myEntity.payAction!.copyWith(appId: app.documentID) : null,
       );
       return newEntity;
     } else {

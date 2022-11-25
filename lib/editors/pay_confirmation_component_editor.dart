@@ -95,7 +95,7 @@ class PayConfirmationComponentEditorConstructor
     if (entity != null) {
       var myEntiy = entity as PayConfirmationEntity;
       var newEntity = myEntiy.copyWith(
-        backToShopAction: myEntiy.backToShopAction == null? myEntiy.backToShopAction!.copyWith(appId: app.documentID) : null,
+        backToShopAction: myEntiy.backToShopAction != null? myEntiy.backToShopAction!.copyWith(appId: app.documentID) : null,
       );
       return newEntity;
     } else {
