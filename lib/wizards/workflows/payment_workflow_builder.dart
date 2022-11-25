@@ -100,7 +100,7 @@ class PaymentWorkflowBuilder {
     return WorkflowModel(
         appId: appId,
         documentID: constructDocumentId(
-            uniqueId: uniqueId, documentId: "cart_paid_manually"),
+            uniqueId: uniqueId, documentId: "payment"),
         name: "Manual Cart Payment",
         workflowTask: [
           WorkflowTaskModel(
