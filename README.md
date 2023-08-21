@@ -4,7 +4,7 @@ Eliud shop package
 
 ## Dependency diagram
 
-![Dependency diagram](depends.jpg)
+![Dependency diagram](https://github.com/eliudio/eliud_pkg_shop/blob/main/depends.jpg)
 
 ## eliud.io
 
