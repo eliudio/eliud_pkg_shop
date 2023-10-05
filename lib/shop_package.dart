@@ -2,15 +2,21 @@ import 'dart:async';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/access_event.dart';
 import 'package:eliud_core/core/wizards/registry/registry.dart';
+import 'package:eliud_core/core_package.dart';
+import 'package:eliud_core/eliud.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/package/package.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
+import 'package:eliud_pkg_fundamentals/fundamentals_package.dart';
+import 'package:eliud_pkg_notifications/notifications_package.dart';
+import 'package:eliud_pkg_pay/pay_package.dart';
 import 'package:eliud_pkg_shop/model/component_registry.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/repository_singleton.dart';
 import 'package:eliud_pkg_shop/wizards/payment_workflow_wizard.dart';
+import 'package:eliud_pkg_workflow/workflow_package.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/cart/cart_bloc.dart';
 import 'model/member_cart_model.dart';
@@ -105,4 +111,15 @@ abstract class ShopPackage extends Package {
       AbstractRepositorySingleton.collections;
 
   static ShopPackage instance() => getShopPackage();
+
+  /*
+   * Register depending packages
+   */
+  void registerDependencies(Eliud eliud) {
+    eliud.registerPackage(CorePackage.instance());
+    eliud.registerPackage(FundamentalsPackage.instance());
+    eliud.registerPackage(PayPackage.instance());
+    eliud.registerPackage(NotificationsPackage.instance());
+    eliud.registerPackage(WorkflowPackage.instance());
+  }
 }
