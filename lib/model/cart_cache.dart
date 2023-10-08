@@ -140,13 +140,13 @@ class CartCache implements CartRepository {
   }
 
   @override
-  StreamSubscription<CartModel?> listenTo(String documentId, CartChanged changed) {
+  StreamSubscription<CartModel?> listenTo(String documentId, CartChanged changed, {CartErrorHandler? errorHandler}) {
     return reference.listenTo(documentId, ((value) {
       if (value != null) {
         fullCache[value.documentID] = value;
       }
       changed(value);
-    }));
+    }), errorHandler: errorHandler);
   }
 
   static Future<CartModel> refreshRelations(CartModel model) async {

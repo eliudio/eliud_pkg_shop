@@ -36,6 +36,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef ShopFrontModelTrigger(List<ShopFrontModel?> list);
 typedef ShopFrontChanged(ShopFrontModel? value);
+typedef ShopFrontErrorHandler(o, e);
 
 abstract class ShopFrontRepository extends RepositoryBase<ShopFrontModel, ShopFrontEntity> {
   Future<ShopFrontEntity> addEntity(String documentID, ShopFrontEntity value);
@@ -52,7 +53,7 @@ abstract class ShopFrontRepository extends RepositoryBase<ShopFrontModel, ShopFr
 
   StreamSubscription<List<ShopFrontModel?>> listen(ShopFrontModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<ShopFrontModel?>> listenWithDetails(ShopFrontModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<ShopFrontModel?> listenTo(String documentId, ShopFrontChanged changed);
+  StreamSubscription<ShopFrontModel?> listenTo(String documentId, ShopFrontChanged changed, {ShopFrontErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

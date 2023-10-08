@@ -140,13 +140,13 @@ class PayConfirmationCache implements PayConfirmationRepository {
   }
 
   @override
-  StreamSubscription<PayConfirmationModel?> listenTo(String documentId, PayConfirmationChanged changed) {
+  StreamSubscription<PayConfirmationModel?> listenTo(String documentId, PayConfirmationChanged changed, {PayConfirmationErrorHandler? errorHandler}) {
     return reference.listenTo(documentId, ((value) {
       if (value != null) {
         fullCache[value.documentID] = value;
       }
       changed(value);
-    }));
+    }), errorHandler: errorHandler);
   }
 
   static Future<PayConfirmationModel> refreshRelations(PayConfirmationModel model) async {

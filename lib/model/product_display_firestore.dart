@@ -127,15 +127,21 @@ class ProductDisplayFirestore implements ProductDisplayRepository {
   }
 
   @override
-  StreamSubscription<ProductDisplayModel?> listenTo(String documentId, ProductDisplayChanged changed) {
+  StreamSubscription<ProductDisplayModel?> listenTo(String documentId, ProductDisplayChanged changed, {ProductDisplayErrorHandler? errorHandler}) {
     var stream = ProductDisplayCollection.doc(documentId)
         .snapshots()
         .asyncMap((data) {
       return _populateDocPlus(data);
     });
-    return stream.listen((value) {
+    var theStream = stream.listen((value) {
       changed(value);
     });
+    theStream.onError((theException, theStacktrace) {
+      if (errorHandler != null) {
+        errorHandler(theException, theStacktrace);
+      }
+    });
+    return theStream;
   }
 
   Stream<List<ProductDisplayModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {

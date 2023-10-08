@@ -36,6 +36,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef OrderModelTrigger(List<OrderModel?> list);
 typedef OrderChanged(OrderModel? value);
+typedef OrderErrorHandler(o, e);
 
 abstract class OrderRepository extends RepositoryBase<OrderModel, OrderEntity> {
   Future<OrderEntity> addEntity(String documentID, OrderEntity value);
@@ -52,7 +53,7 @@ abstract class OrderRepository extends RepositoryBase<OrderModel, OrderEntity> {
 
   StreamSubscription<List<OrderModel?>> listen(OrderModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<OrderModel?>> listenWithDetails(OrderModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<OrderModel?> listenTo(String documentId, OrderChanged changed);
+  StreamSubscription<OrderModel?> listenTo(String documentId, OrderChanged changed, {OrderErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

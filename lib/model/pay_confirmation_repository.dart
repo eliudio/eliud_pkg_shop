@@ -36,6 +36,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef PayConfirmationModelTrigger(List<PayConfirmationModel?> list);
 typedef PayConfirmationChanged(PayConfirmationModel? value);
+typedef PayConfirmationErrorHandler(o, e);
 
 abstract class PayConfirmationRepository extends RepositoryBase<PayConfirmationModel, PayConfirmationEntity> {
   Future<PayConfirmationEntity> addEntity(String documentID, PayConfirmationEntity value);
@@ -52,7 +53,7 @@ abstract class PayConfirmationRepository extends RepositoryBase<PayConfirmationM
 
   StreamSubscription<List<PayConfirmationModel?>> listen(PayConfirmationModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<PayConfirmationModel?>> listenWithDetails(PayConfirmationModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<PayConfirmationModel?> listenTo(String documentId, PayConfirmationChanged changed);
+  StreamSubscription<PayConfirmationModel?> listenTo(String documentId, PayConfirmationChanged changed, {PayConfirmationErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

@@ -36,6 +36,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef PayModelTrigger(List<PayModel?> list);
 typedef PayChanged(PayModel? value);
+typedef PayErrorHandler(o, e);
 
 abstract class PayRepository extends RepositoryBase<PayModel, PayEntity> {
   Future<PayEntity> addEntity(String documentID, PayEntity value);
@@ -52,7 +53,7 @@ abstract class PayRepository extends RepositoryBase<PayModel, PayEntity> {
 
   StreamSubscription<List<PayModel?>> listen(PayModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<PayModel?>> listenWithDetails(PayModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<PayModel?> listenTo(String documentId, PayChanged changed);
+  StreamSubscription<PayModel?> listenTo(String documentId, PayChanged changed, {PayErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

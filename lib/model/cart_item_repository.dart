@@ -32,6 +32,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef CartItemModelTrigger(List<CartItemModel?> list);
 typedef CartItemChanged(CartItemModel? value);
+typedef CartItemErrorHandler(o, e);
 
 abstract class CartItemRepository extends RepositoryBase<CartItemModel, CartItemEntity> {
   Future<CartItemEntity> addEntity(String documentID, CartItemEntity value);
@@ -48,7 +49,7 @@ abstract class CartItemRepository extends RepositoryBase<CartItemModel, CartItem
 
   StreamSubscription<List<CartItemModel?>> listen(CartItemModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<CartItemModel?>> listenWithDetails(CartItemModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<CartItemModel?> listenTo(String documentId, CartItemChanged changed);
+  StreamSubscription<CartItemModel?> listenTo(String documentId, CartItemChanged changed, {CartItemErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

@@ -140,13 +140,13 @@ class PayCache implements PayRepository {
   }
 
   @override
-  StreamSubscription<PayModel?> listenTo(String documentId, PayChanged changed) {
+  StreamSubscription<PayModel?> listenTo(String documentId, PayChanged changed, {PayErrorHandler? errorHandler}) {
     return reference.listenTo(documentId, ((value) {
       if (value != null) {
         fullCache[value.documentID] = value;
       }
       changed(value);
-    }));
+    }), errorHandler: errorHandler);
   }
 
   static Future<PayModel> refreshRelations(PayModel model) async {

@@ -36,6 +36,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef ProductModelTrigger(List<ProductModel?> list);
 typedef ProductChanged(ProductModel? value);
+typedef ProductErrorHandler(o, e);
 
 abstract class ProductRepository extends RepositoryBase<ProductModel, ProductEntity> {
   Future<ProductEntity> addEntity(String documentID, ProductEntity value);
@@ -52,7 +53,7 @@ abstract class ProductRepository extends RepositoryBase<ProductModel, ProductEnt
 
   StreamSubscription<List<ProductModel?>> listen(ProductModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<ProductModel?>> listenWithDetails(ProductModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<ProductModel?> listenTo(String documentId, ProductChanged changed);
+  StreamSubscription<ProductModel?> listenTo(String documentId, ProductChanged changed, {ProductErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

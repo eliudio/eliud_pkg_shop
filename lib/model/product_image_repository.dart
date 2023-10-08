@@ -36,6 +36,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef ProductImageModelTrigger(List<ProductImageModel?> list);
 typedef ProductImageChanged(ProductImageModel? value);
+typedef ProductImageErrorHandler(o, e);
 
 abstract class ProductImageRepository extends RepositoryBase<ProductImageModel, ProductImageEntity> {
   Future<ProductImageEntity> addEntity(String documentID, ProductImageEntity value);
@@ -52,7 +53,7 @@ abstract class ProductImageRepository extends RepositoryBase<ProductImageModel, 
 
   StreamSubscription<List<ProductImageModel?>> listen(ProductImageModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<ProductImageModel?>> listenWithDetails(ProductImageModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<ProductImageModel?> listenTo(String documentId, ProductImageChanged changed);
+  StreamSubscription<ProductImageModel?> listenTo(String documentId, ProductImageChanged changed, {ProductImageErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

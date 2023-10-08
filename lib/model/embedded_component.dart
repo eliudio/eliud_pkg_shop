@@ -176,7 +176,7 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
   }
   
   @override
-  StreamSubscription<OrderItemModel> listenTo(String documentId, OrderItemChanged changed) {
+  StreamSubscription<OrderItemModel> listenTo(String documentId, OrderItemChanged changed, {OrderItemErrorHandler? errorHandler}) {
     throw UnimplementedError();
   }
 
@@ -296,7 +296,7 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
   }
   
   @override
-  StreamSubscription<ProductImageModel> listenTo(String documentId, ProductImageChanged changed) {
+  StreamSubscription<ProductImageModel> listenTo(String documentId, ProductImageChanged changed, {ProductImageErrorHandler? errorHandler}) {
     throw UnimplementedError();
   }
 

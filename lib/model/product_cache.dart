@@ -140,13 +140,13 @@ class ProductCache implements ProductRepository {
   }
 
   @override
-  StreamSubscription<ProductModel?> listenTo(String documentId, ProductChanged changed) {
+  StreamSubscription<ProductModel?> listenTo(String documentId, ProductChanged changed, {ProductErrorHandler? errorHandler}) {
     return reference.listenTo(documentId, ((value) {
       if (value != null) {
         fullCache[value.documentID] = value;
       }
       changed(value);
-    }));
+    }), errorHandler: errorHandler);
   }
 
   static Future<ProductModel> refreshRelations(ProductModel model) async {

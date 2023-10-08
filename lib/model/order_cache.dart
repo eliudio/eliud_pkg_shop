@@ -140,13 +140,13 @@ class OrderCache implements OrderRepository {
   }
 
   @override
-  StreamSubscription<OrderModel?> listenTo(String documentId, OrderChanged changed) {
+  StreamSubscription<OrderModel?> listenTo(String documentId, OrderChanged changed, {OrderErrorHandler? errorHandler}) {
     return reference.listenTo(documentId, ((value) {
       if (value != null) {
         fullCache[value.documentID] = value;
       }
       changed(value);
-    }));
+    }), errorHandler: errorHandler);
   }
 
   static Future<OrderModel> refreshRelations(OrderModel model) async {
