@@ -15,16 +15,20 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_pkg_shop/model/product_image_repository.dart';
 import 'package:eliud_pkg_shop/model/product_image_list_event.dart';
 import 'package:eliud_pkg_shop/model/product_image_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'product_image_model.dart';
+
+typedef List<ProductImageModel?> FilterProductImageModels(List<ProductImageModel?> values);
+
 
 
 class ProductImageListBloc extends Bloc<ProductImageListEvent, ProductImageListState> {
+  final FilterProductImageModels? filter;
   final ProductImageRepository _productImageRepository;
   StreamSubscription? _productImagesListSubscription;
   EliudQuery? eliudQuery;
@@ -35,9 +39,8 @@ class ProductImageListBloc extends Bloc<ProductImageListEvent, ProductImageListS
   final bool? detailed;
   final int productImageLimit;
 
-  ProductImageListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ProductImageRepository productImageRepository, this.productImageLimit = 5})
-      : assert(productImageRepository != null),
-        _productImageRepository = productImageRepository,
+  ProductImageListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ProductImageRepository productImageRepository, this.productImageLimit = 5})
+      : _productImageRepository = productImageRepository,
         super(ProductImageListLoading()) {
     on <LoadProductImageList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {
@@ -78,11 +81,19 @@ class ProductImageListBloc extends Bloc<ProductImageListEvent, ProductImageListS
     });
   }
 
+  List<ProductImageModel?> _filter(List<ProductImageModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadProductImageListToState() async {
     int amountNow =  (state is ProductImageListLoaded) ? (state as ProductImageListLoaded).values!.length : 0;
     _productImagesListSubscription?.cancel();
     _productImagesListSubscription = _productImageRepository.listen(
-          (list) => add(ProductImageListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(ProductImageListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +105,7 @@ class ProductImageListBloc extends Bloc<ProductImageListEvent, ProductImageListS
     int amountNow =  (state is ProductImageListLoaded) ? (state as ProductImageListLoaded).values!.length : 0;
     _productImagesListSubscription?.cancel();
     _productImagesListSubscription = _productImageRepository.listenWithDetails(
-            (list) => add(ProductImageListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(ProductImageListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

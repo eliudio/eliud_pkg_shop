@@ -15,16 +15,20 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_pkg_shop/model/cart_repository.dart';
 import 'package:eliud_pkg_shop/model/cart_list_event.dart';
 import 'package:eliud_pkg_shop/model/cart_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'cart_model.dart';
+
+typedef List<CartModel?> FilterCartModels(List<CartModel?> values);
+
 
 
 class CartListBloc extends Bloc<CartListEvent, CartListState> {
+  final FilterCartModels? filter;
   final CartRepository _cartRepository;
   StreamSubscription? _cartsListSubscription;
   EliudQuery? eliudQuery;
@@ -35,9 +39,8 @@ class CartListBloc extends Bloc<CartListEvent, CartListState> {
   final bool? detailed;
   final int cartLimit;
 
-  CartListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required CartRepository cartRepository, this.cartLimit = 5})
-      : assert(cartRepository != null),
-        _cartRepository = cartRepository,
+  CartListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required CartRepository cartRepository, this.cartLimit = 5})
+      : _cartRepository = cartRepository,
         super(CartListLoading()) {
     on <LoadCartList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {
@@ -78,11 +81,19 @@ class CartListBloc extends Bloc<CartListEvent, CartListState> {
     });
   }
 
+  List<CartModel?> _filter(List<CartModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadCartListToState() async {
     int amountNow =  (state is CartListLoaded) ? (state as CartListLoaded).values!.length : 0;
     _cartsListSubscription?.cancel();
     _cartsListSubscription = _cartRepository.listen(
-          (list) => add(CartListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(CartListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +105,7 @@ class CartListBloc extends Bloc<CartListEvent, CartListState> {
     int amountNow =  (state is CartListLoaded) ? (state as CartListLoaded).values!.length : 0;
     _cartsListSubscription?.cancel();
     _cartsListSubscription = _cartRepository.listenWithDetails(
-            (list) => add(CartListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(CartListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

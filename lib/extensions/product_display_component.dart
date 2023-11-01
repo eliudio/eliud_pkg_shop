@@ -1,8 +1,6 @@
-import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
-import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/component/component_constructor.dart';
 import 'package:eliud_pkg_shop/extensions/shop_widgets/product_detail.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
@@ -12,7 +10,6 @@ import 'package:eliud_pkg_shop/model/product_display_repository.dart';
 import 'package:eliud_pkg_shop/model/product_model.dart';
 import 'package:eliud_pkg_shop/model/product_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductDisplayComponentConstructorDefault
     implements ComponentConstructor {

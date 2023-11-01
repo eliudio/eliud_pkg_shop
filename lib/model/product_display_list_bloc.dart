@@ -15,16 +15,20 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_pkg_shop/model/product_display_repository.dart';
 import 'package:eliud_pkg_shop/model/product_display_list_event.dart';
 import 'package:eliud_pkg_shop/model/product_display_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'product_display_model.dart';
+
+typedef List<ProductDisplayModel?> FilterProductDisplayModels(List<ProductDisplayModel?> values);
+
 
 
 class ProductDisplayListBloc extends Bloc<ProductDisplayListEvent, ProductDisplayListState> {
+  final FilterProductDisplayModels? filter;
   final ProductDisplayRepository _productDisplayRepository;
   StreamSubscription? _productDisplaysListSubscription;
   EliudQuery? eliudQuery;
@@ -35,9 +39,8 @@ class ProductDisplayListBloc extends Bloc<ProductDisplayListEvent, ProductDispla
   final bool? detailed;
   final int productDisplayLimit;
 
-  ProductDisplayListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ProductDisplayRepository productDisplayRepository, this.productDisplayLimit = 5})
-      : assert(productDisplayRepository != null),
-        _productDisplayRepository = productDisplayRepository,
+  ProductDisplayListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ProductDisplayRepository productDisplayRepository, this.productDisplayLimit = 5})
+      : _productDisplayRepository = productDisplayRepository,
         super(ProductDisplayListLoading()) {
     on <LoadProductDisplayList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {
@@ -78,11 +81,19 @@ class ProductDisplayListBloc extends Bloc<ProductDisplayListEvent, ProductDispla
     });
   }
 
+  List<ProductDisplayModel?> _filter(List<ProductDisplayModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadProductDisplayListToState() async {
     int amountNow =  (state is ProductDisplayListLoaded) ? (state as ProductDisplayListLoaded).values!.length : 0;
     _productDisplaysListSubscription?.cancel();
     _productDisplaysListSubscription = _productDisplayRepository.listen(
-          (list) => add(ProductDisplayListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(ProductDisplayListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +105,7 @@ class ProductDisplayListBloc extends Bloc<ProductDisplayListEvent, ProductDispla
     int amountNow =  (state is ProductDisplayListLoaded) ? (state as ProductDisplayListLoaded).values!.length : 0;
     _productDisplaysListSubscription?.cancel();
     _productDisplaysListSubscription = _productDisplayRepository.listenWithDetails(
-            (list) => add(ProductDisplayListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(ProductDisplayListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

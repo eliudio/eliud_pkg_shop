@@ -13,29 +13,17 @@
 
 */
 
-import 'package:eliud_core/tools/common_tools.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:eliud_core/model/app_model.dart';
 
-import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/repository_export.dart';
 import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
-import 'package:eliud_core/model/entity_export.dart';
-import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 
 import 'package:eliud_pkg_shop/model/shop_front_entity.dart';
 
-import 'package:eliud_core/tools/random.dart';
 
 enum ScrollDirection {
   Horizontal, Vertical, Unknown
@@ -72,7 +60,6 @@ class ShopFrontModel implements ModelBase, WithAppId {
   StorageConditionsModel? conditions;
 
   ShopFrontModel({required this.documentID, required this.appId, this.title, this.description, this.shop, this.size, this.cardElevation, this.cardAxisSpacing, this.itemCardBackground, this.addToCartColor, this.scrollDirection, this.buyAction, this.openProductAction, this.padding, this.conditions, })  {
-    assert(documentID != null);
   }
 
   ShopFrontModel copyWith({String? documentID, String? appId, String? title, String? description, ShopModel? shop, double? size, double? cardElevation, double? cardAxisSpacing, BackgroundModel? itemCardBackground, RgbModel? addToCartColor, ScrollDirection? scrollDirection, ActionModel? buyAction, ActionModel? openProductAction, EdgeInsetsGeometryModel? padding, StorageConditionsModel? conditions, }) {

@@ -1,7 +1,6 @@
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:bloc/bloc.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/access/access_event.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';

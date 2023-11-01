@@ -15,7 +15,6 @@
 
 
 import 'package:eliud_core/tools/component/component_constructor.dart';
-import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
@@ -28,153 +27,56 @@ import 'package:eliud_pkg_shop/model/cart_list.dart';
 import 'package:eliud_pkg_shop/model/cart_dropdown_button.dart';
 import 'package:eliud_pkg_shop/model/cart_list_event.dart';
 
-import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/repository_export.dart';
 import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_pkg_shop/model/model_export.dart';
-import 'package:eliud_core/model/entity_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 import 'package:eliud_pkg_shop/model/order_list_bloc.dart';
 import 'package:eliud_pkg_shop/model/order_list.dart';
 import 'package:eliud_pkg_shop/model/order_dropdown_button.dart';
 import 'package:eliud_pkg_shop/model/order_list_event.dart';
 
-import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/repository_export.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_pkg_shop/model/model_export.dart';
-import 'package:eliud_core/model/entity_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 import 'package:eliud_pkg_shop/model/order_overview_list_bloc.dart';
 import 'package:eliud_pkg_shop/model/order_overview_list.dart';
 import 'package:eliud_pkg_shop/model/order_overview_dropdown_button.dart';
 import 'package:eliud_pkg_shop/model/order_overview_list_event.dart';
 
-import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/repository_export.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_pkg_shop/model/model_export.dart';
-import 'package:eliud_core/model/entity_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 import 'package:eliud_pkg_shop/model/pay_list_bloc.dart';
 import 'package:eliud_pkg_shop/model/pay_list.dart';
 import 'package:eliud_pkg_shop/model/pay_dropdown_button.dart';
 import 'package:eliud_pkg_shop/model/pay_list_event.dart';
 
-import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/repository_export.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_pkg_shop/model/model_export.dart';
-import 'package:eliud_core/model/entity_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 import 'package:eliud_pkg_shop/model/pay_confirmation_list_bloc.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_list.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_dropdown_button.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_list_event.dart';
 
-import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/repository_export.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_pkg_shop/model/model_export.dart';
-import 'package:eliud_core/model/entity_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 import 'package:eliud_pkg_shop/model/product_list_bloc.dart';
 import 'package:eliud_pkg_shop/model/product_list.dart';
 import 'package:eliud_pkg_shop/model/product_dropdown_button.dart';
 import 'package:eliud_pkg_shop/model/product_list_event.dart';
 
-import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/repository_export.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_pkg_shop/model/model_export.dart';
-import 'package:eliud_core/model/entity_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 import 'package:eliud_pkg_shop/model/product_display_list_bloc.dart';
 import 'package:eliud_pkg_shop/model/product_display_list.dart';
 import 'package:eliud_pkg_shop/model/product_display_dropdown_button.dart';
 import 'package:eliud_pkg_shop/model/product_display_list_event.dart';
 
-import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/repository_export.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_pkg_shop/model/model_export.dart';
-import 'package:eliud_core/model/entity_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 import 'package:eliud_pkg_shop/model/shop_list_bloc.dart';
 import 'package:eliud_pkg_shop/model/shop_list.dart';
 import 'package:eliud_pkg_shop/model/shop_dropdown_button.dart';
 import 'package:eliud_pkg_shop/model/shop_list_event.dart';
 
-import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/repository_export.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_pkg_shop/model/model_export.dart';
-import 'package:eliud_core/model/entity_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 import 'package:eliud_pkg_shop/model/shop_front_list_bloc.dart';
 import 'package:eliud_pkg_shop/model/shop_front_list.dart';
 import 'package:eliud_pkg_shop/model/shop_front_dropdown_button.dart';
 import 'package:eliud_pkg_shop/model/shop_front_list_event.dart';
 
-import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/repository_export.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_pkg_shop/model/model_export.dart';
-import 'package:eliud_core/model/entity_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 class ListComponentFactory implements ComponentConstructor {
   Widget? createNew({Key? key, required AppModel app,  required String id, int? privilegeLevel, Map<String, dynamic>? parameters}) {

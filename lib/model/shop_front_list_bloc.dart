@@ -15,16 +15,20 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_pkg_shop/model/shop_front_repository.dart';
 import 'package:eliud_pkg_shop/model/shop_front_list_event.dart';
 import 'package:eliud_pkg_shop/model/shop_front_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'shop_front_model.dart';
+
+typedef List<ShopFrontModel?> FilterShopFrontModels(List<ShopFrontModel?> values);
+
 
 
 class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {
+  final FilterShopFrontModels? filter;
   final ShopFrontRepository _shopFrontRepository;
   StreamSubscription? _shopFrontsListSubscription;
   EliudQuery? eliudQuery;
@@ -35,9 +39,8 @@ class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {
   final bool? detailed;
   final int shopFrontLimit;
 
-  ShopFrontListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ShopFrontRepository shopFrontRepository, this.shopFrontLimit = 5})
-      : assert(shopFrontRepository != null),
-        _shopFrontRepository = shopFrontRepository,
+  ShopFrontListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ShopFrontRepository shopFrontRepository, this.shopFrontLimit = 5})
+      : _shopFrontRepository = shopFrontRepository,
         super(ShopFrontListLoading()) {
     on <LoadShopFrontList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {
@@ -78,11 +81,19 @@ class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {
     });
   }
 
+  List<ShopFrontModel?> _filter(List<ShopFrontModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadShopFrontListToState() async {
     int amountNow =  (state is ShopFrontListLoaded) ? (state as ShopFrontListLoaded).values!.length : 0;
     _shopFrontsListSubscription?.cancel();
     _shopFrontsListSubscription = _shopFrontRepository.listen(
-          (list) => add(ShopFrontListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(ShopFrontListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +105,7 @@ class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {
     int amountNow =  (state is ShopFrontListLoaded) ? (state as ShopFrontListLoaded).values!.length : 0;
     _shopFrontsListSubscription?.cancel();
     _shopFrontsListSubscription = _shopFrontRepository.listenWithDetails(
-            (list) => add(ShopFrontListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(ShopFrontListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

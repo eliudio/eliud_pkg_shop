@@ -15,16 +15,20 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_pkg_shop/model/pay_confirmation_repository.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_list_event.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'pay_confirmation_model.dart';
+
+typedef List<PayConfirmationModel?> FilterPayConfirmationModels(List<PayConfirmationModel?> values);
+
 
 
 class PayConfirmationListBloc extends Bloc<PayConfirmationListEvent, PayConfirmationListState> {
+  final FilterPayConfirmationModels? filter;
   final PayConfirmationRepository _payConfirmationRepository;
   StreamSubscription? _payConfirmationsListSubscription;
   EliudQuery? eliudQuery;
@@ -35,9 +39,8 @@ class PayConfirmationListBloc extends Bloc<PayConfirmationListEvent, PayConfirma
   final bool? detailed;
   final int payConfirmationLimit;
 
-  PayConfirmationListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PayConfirmationRepository payConfirmationRepository, this.payConfirmationLimit = 5})
-      : assert(payConfirmationRepository != null),
-        _payConfirmationRepository = payConfirmationRepository,
+  PayConfirmationListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PayConfirmationRepository payConfirmationRepository, this.payConfirmationLimit = 5})
+      : _payConfirmationRepository = payConfirmationRepository,
         super(PayConfirmationListLoading()) {
     on <LoadPayConfirmationList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {
@@ -78,11 +81,19 @@ class PayConfirmationListBloc extends Bloc<PayConfirmationListEvent, PayConfirma
     });
   }
 
+  List<PayConfirmationModel?> _filter(List<PayConfirmationModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadPayConfirmationListToState() async {
     int amountNow =  (state is PayConfirmationListLoaded) ? (state as PayConfirmationListLoaded).values!.length : 0;
     _payConfirmationsListSubscription?.cancel();
     _payConfirmationsListSubscription = _payConfirmationRepository.listen(
-          (list) => add(PayConfirmationListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(PayConfirmationListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +105,7 @@ class PayConfirmationListBloc extends Bloc<PayConfirmationListEvent, PayConfirma
     int amountNow =  (state is PayConfirmationListLoaded) ? (state as PayConfirmationListLoaded).values!.length : 0;
     _payConfirmationsListSubscription?.cancel();
     _payConfirmationsListSubscription = _payConfirmationRepository.listenWithDetails(
-            (list) => add(PayConfirmationListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(PayConfirmationListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

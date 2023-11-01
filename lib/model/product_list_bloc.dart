@@ -15,16 +15,20 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_pkg_shop/model/product_repository.dart';
 import 'package:eliud_pkg_shop/model/product_list_event.dart';
 import 'package:eliud_pkg_shop/model/product_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'product_model.dart';
+
+typedef List<ProductModel?> FilterProductModels(List<ProductModel?> values);
+
 
 
 class ProductListBloc extends Bloc<ProductListEvent, ProductListState> {
+  final FilterProductModels? filter;
   final ProductRepository _productRepository;
   StreamSubscription? _productsListSubscription;
   EliudQuery? eliudQuery;
@@ -35,9 +39,8 @@ class ProductListBloc extends Bloc<ProductListEvent, ProductListState> {
   final bool? detailed;
   final int productLimit;
 
-  ProductListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ProductRepository productRepository, this.productLimit = 5})
-      : assert(productRepository != null),
-        _productRepository = productRepository,
+  ProductListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ProductRepository productRepository, this.productLimit = 5})
+      : _productRepository = productRepository,
         super(ProductListLoading()) {
     on <LoadProductList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {
@@ -78,11 +81,19 @@ class ProductListBloc extends Bloc<ProductListEvent, ProductListState> {
     });
   }
 
+  List<ProductModel?> _filter(List<ProductModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadProductListToState() async {
     int amountNow =  (state is ProductListLoaded) ? (state as ProductListLoaded).values!.length : 0;
     _productsListSubscription?.cancel();
     _productsListSubscription = _productRepository.listen(
-          (list) => add(ProductListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(ProductListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +105,7 @@ class ProductListBloc extends Bloc<ProductListEvent, ProductListState> {
     int amountNow =  (state is ProductListLoaded) ? (state as ProductListLoaded).values!.length : 0;
     _productsListSubscription?.cancel();
     _productsListSubscription = _productRepository.listenWithDetails(
-            (list) => add(ProductListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(ProductListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

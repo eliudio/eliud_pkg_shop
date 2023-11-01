@@ -12,7 +12,6 @@ import 'package:eliud_pkg_shop/bloc/cart/cart_tools.dart';
 import 'package:eliud_pkg_shop/model/product_list_bloc.dart';
 import 'package:eliud_pkg_shop/model/product_list_state.dart';
 import 'package:eliud_pkg_shop/model/shop_front_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -101,7 +100,7 @@ class _GridProductsState extends State<GridProducts> {
                                 eliudrouter.Router.navigateTo(context,
                                     widget.shopFrontModel.openProductAction!,
                                     parameters:
-                                        parameters as Map<String, dynamic>);
+                                        parameters);
                               }),
                           Align(
                               alignment: Alignment.topRight,

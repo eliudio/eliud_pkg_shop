@@ -1,5 +1,3 @@
-import 'package:eliud_core/core/wizards/builders/page_builder.dart';
-import 'package:eliud_core/core/wizards/registry/registry.dart';
 import 'package:eliud_core/core/wizards/tools/documentIdentifier.dart';
 import 'package:eliud_core/model/app_bar_model.dart';
 import 'package:eliud_core/model/app_model.dart';

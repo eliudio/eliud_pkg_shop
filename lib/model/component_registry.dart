@@ -37,7 +37,6 @@ import 'product_display_component_selector.dart';
 import '../extensions/shop_front_component.dart';
 import '../editors/shop_front_component_editor.dart';
 import 'shop_front_component_selector.dart';
-import 'package:eliud_pkg_shop/model/internal_component.dart';
 
 
 

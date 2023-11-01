@@ -13,7 +13,6 @@ import 'package:eliud_core/tools/component/component_spec.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_core/tools/widgets/condition_simple_widget.dart';
 import 'package:eliud_core/tools/widgets/header_widget.dart';
-import 'package:eliud_pkg_notifications/model/notification_dashboard_model.dart';
 import 'package:eliud_pkg_shop/editors/widgets/select_shop_widget.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/pay_model.dart';

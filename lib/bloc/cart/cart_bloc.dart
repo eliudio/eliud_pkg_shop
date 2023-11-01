@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/access_event.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
-import 'package:eliud_core/core/navigate/router.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/random.dart';
@@ -54,37 +53,33 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   Future<void> _updateCartChangeAmount(
       LoggedIn accessState, ProductModel? product, int amount) async {
     var member = accessState.member;
-    if (member != null) {
-      var cart =
-          await memberCartRepository(appId: appId)!.get(member.documentID);
-      List<CartItemModel>? items;
-      if (cart != null) {
-        items = cart.cartItems;
-        var newItems = _copyListAndChangeAmount(items!, product, amount);
-        await memberCartRepository(appId: appId)!
-            .update(cart.copyWith(cartItems: newItems));
-      } else {
-        await memberCartRepository(appId: appId)!.add(MemberCartModel(
-            documentID: member.documentID,
-            appId: appId,
-            cartItems: _copyListAndChangeAmount([], product, amount)));
-      }
+    var cart =
+        await memberCartRepository(appId: appId)!.get(member.documentID);
+    List<CartItemModel>? items;
+    if ((cart != null) && (cart.cartItems != null)) {
+      items = cart.cartItems!;
+      var newItems = _copyListAndChangeAmount(items, product, amount);
+      await memberCartRepository(appId: appId)!
+          .update(cart.copyWith(cartItems: newItems));
+    } else {
+      await memberCartRepository(appId: appId)!.add(MemberCartModel(
+          documentID: member.documentID,
+          appId: appId,
+          cartItems: _copyListAndChangeAmount([], product, amount)));
     }
-  }
+    }
 
   Future<void> _emptyCart(
     LoggedIn accessState,
   ) async {
     var member = accessState.member;
-    if (member != null) {
-      var cart =
-          await memberCartRepository(appId: appId)!.get(member.documentID);
-      if (cart != null) {
-        await memberCartRepository(appId: appId)!
-            .update(cart.copyWith(cartItems: []));
-      }
+    var cart =
+        await memberCartRepository(appId: appId)!.get(member.documentID);
+    if (cart != null) {
+      await memberCartRepository(appId: appId)!
+          .update(cart.copyWith(cartItems: []));
     }
-  }
+    }
 
   Future<CartInitialised> toEmit(LoggedIn accessState) async {
     var member = accessState.member;

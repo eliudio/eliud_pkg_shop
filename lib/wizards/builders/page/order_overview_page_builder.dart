@@ -1,9 +1,4 @@
-import 'package:eliud_core/core/wizards/builders/page_builder.dart';
-import 'package:eliud_core/core/wizards/registry/registry.dart';
 import 'package:eliud_core/core/wizards/tools/documentIdentifier.dart';
-import 'package:eliud_core/model/drawer_model.dart';
-import 'package:eliud_core/model/home_menu_model.dart';
-import 'package:eliud_core/model/menu_def_model.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';

@@ -63,10 +63,8 @@ class PresentationHelper {
     }
 
     double? size;
-    if (imageSize != null) {
-      size = fullScreenWidth(context) * imageSize;
-    }
-    var widgetImage;
+    size = fullScreenWidth(context) * imageSize;
+      var widgetImage;
     if (image.url != null) {
       widgetImage = FadeInImage.memoryNetwork(
         placeholder: kTransparentImage,

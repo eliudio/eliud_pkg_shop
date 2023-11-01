@@ -15,15 +15,9 @@
 
 import 'dart:collection';
 import 'dart:convert';
-import 'package:eliud_core/tools/random.dart';
-import 'abstract_repository_singleton.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
-import 'package:eliud_core/model/entity_export.dart';
-import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
-import 'package:eliud_core/tools/common_tools.dart';
 class MemberCartEntity implements EntityBase {
   final String? appId;
   final List<CartItemEntity>? cartItems;
@@ -48,12 +42,15 @@ class MemberCartEntity implements EntityBase {
 
     var cartItemsFromMap;
     cartItemsFromMap = map['cartItems'];
-    var cartItemsList;
-    if (cartItemsFromMap != null)
+    List<CartItemEntity> cartItemsList;
+    if (cartItemsFromMap != null) {
       cartItemsList = (map['cartItems'] as List<dynamic>)
         .map((dynamic item) =>
         CartItemEntity.fromMap(item as Map, newDocumentIds: newDocumentIds)!)
         .toList();
+    } else {
+      cartItemsList = [];
+    }
 
     return MemberCartEntity(
       appId: map['appId'], 

@@ -7,7 +7,6 @@ import 'package:eliud_pkg_pay/tasks/context_amount_pay_model.dart';
 import 'package:eliud_pkg_pay/tasks/pay_type_types/creditcard_pay_type_model.dart';
 import 'package:eliud_pkg_pay/tasks/pay_type_types/manual_pay_type_model.dart';
 import 'package:eliud_pkg_pay/tasks/pay_type_types/pay_type_model.dart';
-import 'package:eliud_pkg_pay/tasks/pay_type_types/pay_type_model.dart';
 import 'package:eliud_pkg_pay/tasks/review_and_ship_task_model.dart';
 import 'package:eliud_pkg_shop/shop_package.dart';
 import 'package:eliud_pkg_workflow/model/abstract_repository_singleton.dart';

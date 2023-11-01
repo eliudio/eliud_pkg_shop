@@ -14,29 +14,17 @@
 */
 
 import 'package:collection/collection.dart';
-import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:eliud_core/model/app_model.dart';
 
-import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/repository_export.dart';
 import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_models.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
-import 'package:eliud_core/model/entity_export.dart';
-import '../tools/bespoke_entities.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
 
 import 'package:eliud_pkg_shop/model/order_entity.dart';
 
-import 'package:eliud_core/tools/random.dart';
 
 enum OrderStatus {
   Ordered, Paid, PaymentFailed, Shipped, Delivered, Unknown
@@ -90,7 +78,6 @@ class OrderModel implements ModelBase, WithAppId {
   String? timeStamp;
 
   OrderModel({required this.documentID, required this.appId, this.customer, this.name, this.email, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.country, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountry, this.products, this.totalPrice, this.currency, this.paymentReference, this.shipmentReference, this.deliveryReference, this.paymentNote, this.shipmentNote, this.deliveryNote, this.status, this.timeStamp, })  {
-    assert(documentID != null);
   }
 
   OrderModel copyWith({String? documentID, String? appId, MemberModel? customer, String? name, String? email, String? shipStreet1, String? shipStreet2, String? shipCity, String? shipState, String? postcode, String? country, bool? invoiceSame, String? invoiceStreet1, String? invoiceStreet2, String? invoiceCity, String? invoiceState, String? invoicePostcode, String? invoiceCountry, List<OrderItemModel>? products, double? totalPrice, String? currency, String? paymentReference, String? shipmentReference, String? deliveryReference, String? paymentNote, String? shipmentNote, String? deliveryNote, OrderStatus? status, String? timeStamp, }) {

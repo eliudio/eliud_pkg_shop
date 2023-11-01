@@ -15,16 +15,20 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_pkg_shop/model/pay_repository.dart';
 import 'package:eliud_pkg_shop/model/pay_list_event.dart';
 import 'package:eliud_pkg_shop/model/pay_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'pay_model.dart';
+
+typedef List<PayModel?> FilterPayModels(List<PayModel?> values);
+
 
 
 class PayListBloc extends Bloc<PayListEvent, PayListState> {
+  final FilterPayModels? filter;
   final PayRepository _payRepository;
   StreamSubscription? _paysListSubscription;
   EliudQuery? eliudQuery;
@@ -35,9 +39,8 @@ class PayListBloc extends Bloc<PayListEvent, PayListState> {
   final bool? detailed;
   final int payLimit;
 
-  PayListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PayRepository payRepository, this.payLimit = 5})
-      : assert(payRepository != null),
-        _payRepository = payRepository,
+  PayListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PayRepository payRepository, this.payLimit = 5})
+      : _payRepository = payRepository,
         super(PayListLoading()) {
     on <LoadPayList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {
@@ -78,11 +81,19 @@ class PayListBloc extends Bloc<PayListEvent, PayListState> {
     });
   }
 
+  List<PayModel?> _filter(List<PayModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadPayListToState() async {
     int amountNow =  (state is PayListLoaded) ? (state as PayListLoaded).values!.length : 0;
     _paysListSubscription?.cancel();
     _paysListSubscription = _payRepository.listen(
-          (list) => add(PayListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(PayListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +105,7 @@ class PayListBloc extends Bloc<PayListEvent, PayListState> {
     int amountNow =  (state is PayListLoaded) ? (state as PayListLoaded).values!.length : 0;
     _paysListSubscription?.cancel();
     _paysListSubscription = _payRepository.listenWithDetails(
-            (list) => add(PayListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(PayListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

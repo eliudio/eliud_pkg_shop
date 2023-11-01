@@ -16,11 +16,9 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import 'package:eliud_pkg_shop/model/order_model.dart';
 import 'package:eliud_pkg_shop/model/order_component_event.dart';
 import 'package:eliud_pkg_shop/model/order_component_state.dart';
 import 'package:eliud_pkg_shop/model/order_repository.dart';
-import 'package:flutter/services.dart';
 
 
 class OrderComponentBloc extends Bloc<OrderComponentEvent, OrderComponentState> {

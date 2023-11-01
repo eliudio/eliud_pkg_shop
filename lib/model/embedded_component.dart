@@ -23,7 +23,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 
 import '../model/order_item_list_bloc.dart';
 import '../model/order_item_list.dart';
@@ -85,7 +84,7 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
 
     OrderItemInMemoryRepository(this.trigger, this.items) {
         List<List<OrderItemModel>> myList = <List<OrderItemModel>>[];
-        if (items != null) myList.add(items);
+        myList.add(items);
         theValues = Stream<List<OrderItemModel>>.fromIterable(myList);
     }
 
@@ -205,7 +204,7 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
 
     ProductImageInMemoryRepository(this.trigger, this.items) {
         List<List<ProductImageModel>> myList = <List<ProductImageModel>>[];
-        if (items != null) myList.add(items);
+        myList.add(items);
         theValues = Stream<List<ProductImageModel>>.fromIterable(myList);
     }
 

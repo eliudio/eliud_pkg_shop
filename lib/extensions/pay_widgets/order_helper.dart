@@ -1,7 +1,6 @@
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_icon.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
-import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_pkg_shop/model/order_item_model.dart';
 import 'package:eliud_pkg_shop/model/order_model.dart';
 import 'package:flutter/material.dart';
@@ -114,7 +113,7 @@ class OrderHelper {
         trailing: h1Icon2(app, context, iconData: Icons.list, semanticLabel: 'Contact')));
 
     final theme = Theme.of(context);
-    final style = theme.textTheme.bodyText2!
+    final style = theme.textTheme.bodyMedium!
         .copyWith(color: theme.disabledColor, fontSize: 12.0);
 
     order.products!.forEach((element) {

@@ -16,11 +16,9 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import 'package:eliud_pkg_shop/model/shop_front_model.dart';
 import 'package:eliud_pkg_shop/model/shop_front_component_event.dart';
 import 'package:eliud_pkg_shop/model/shop_front_component_state.dart';
 import 'package:eliud_pkg_shop/model/shop_front_repository.dart';
-import 'package:flutter/services.dart';
 
 
 class ShopFrontComponentBloc extends Bloc<ShopFrontComponentEvent, ShopFrontComponentState> {

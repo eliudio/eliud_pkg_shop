@@ -15,16 +15,20 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_pkg_shop/model/order_repository.dart';
 import 'package:eliud_pkg_shop/model/order_list_event.dart';
 import 'package:eliud_pkg_shop/model/order_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'order_model.dart';
+
+typedef List<OrderModel?> FilterOrderModels(List<OrderModel?> values);
+
 
 
 class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
+  final FilterOrderModels? filter;
   final OrderRepository _orderRepository;
   StreamSubscription? _ordersListSubscription;
   EliudQuery? eliudQuery;
@@ -35,9 +39,8 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
   final bool? detailed;
   final int orderLimit;
 
-  OrderListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required OrderRepository orderRepository, this.orderLimit = 5})
-      : assert(orderRepository != null),
-        _orderRepository = orderRepository,
+  OrderListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required OrderRepository orderRepository, this.orderLimit = 5})
+      : _orderRepository = orderRepository,
         super(OrderListLoading()) {
     on <LoadOrderList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {
@@ -78,11 +81,19 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
     });
   }
 
+  List<OrderModel?> _filter(List<OrderModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadOrderListToState() async {
     int amountNow =  (state is OrderListLoaded) ? (state as OrderListLoaded).values!.length : 0;
     _ordersListSubscription?.cancel();
     _ordersListSubscription = _orderRepository.listen(
-          (list) => add(OrderListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(OrderListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +105,7 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
     int amountNow =  (state is OrderListLoaded) ? (state as OrderListLoaded).values!.length : 0;
     _ordersListSubscription?.cancel();
     _ordersListSubscription = _orderRepository.listenWithDetails(
-            (list) => add(OrderListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(OrderListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

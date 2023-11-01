@@ -15,16 +15,20 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_pkg_shop/model/shop_repository.dart';
 import 'package:eliud_pkg_shop/model/shop_list_event.dart';
 import 'package:eliud_pkg_shop/model/shop_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'shop_model.dart';
+
+typedef List<ShopModel?> FilterShopModels(List<ShopModel?> values);
+
 
 
 class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
+  final FilterShopModels? filter;
   final ShopRepository _shopRepository;
   StreamSubscription? _shopsListSubscription;
   EliudQuery? eliudQuery;
@@ -35,9 +39,8 @@ class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
   final bool? detailed;
   final int shopLimit;
 
-  ShopListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ShopRepository shopRepository, this.shopLimit = 5})
-      : assert(shopRepository != null),
-        _shopRepository = shopRepository,
+  ShopListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ShopRepository shopRepository, this.shopLimit = 5})
+      : _shopRepository = shopRepository,
         super(ShopListLoading()) {
     on <LoadShopList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {
@@ -78,11 +81,19 @@ class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
     });
   }
 
+  List<ShopModel?> _filter(List<ShopModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadShopListToState() async {
     int amountNow =  (state is ShopListLoaded) ? (state as ShopListLoaded).values!.length : 0;
     _shopsListSubscription?.cancel();
     _shopsListSubscription = _shopRepository.listen(
-          (list) => add(ShopListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(ShopListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +105,7 @@ class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
     int amountNow =  (state is ShopListLoaded) ? (state as ShopListLoaded).values!.length : 0;
     _shopsListSubscription?.cancel();
     _shopsListSubscription = _shopRepository.listenWithDetails(
-            (list) => add(ShopListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(ShopListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

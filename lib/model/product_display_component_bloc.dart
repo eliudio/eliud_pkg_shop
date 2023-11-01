@@ -16,11 +16,9 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import 'package:eliud_pkg_shop/model/product_display_model.dart';
 import 'package:eliud_pkg_shop/model/product_display_component_event.dart';
 import 'package:eliud_pkg_shop/model/product_display_component_state.dart';
 import 'package:eliud_pkg_shop/model/product_display_repository.dart';
-import 'package:flutter/services.dart';
 
 
 class ProductDisplayComponentBloc extends Bloc<ProductDisplayComponentEvent, ProductDisplayComponentState> {

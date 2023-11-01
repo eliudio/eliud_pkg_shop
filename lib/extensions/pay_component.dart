@@ -1,7 +1,6 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
-import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
@@ -21,7 +20,6 @@ import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/order_model.dart';
 import 'package:eliud_pkg_shop/model/pay_component.dart';
 import 'package:eliud_pkg_shop/model/pay_model.dart';
-import 'package:eliud_pkg_shop/model/pay_repository.dart';
 import 'package:eliud_pkg_workflow/model/assignment_model.dart';
 import 'package:eliud_pkg_workflow/tools/action/workflow_action_handler.dart';
 import 'package:eliud_pkg_workflow/tools/helper/assignment_helper.dart';

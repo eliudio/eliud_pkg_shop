@@ -15,16 +15,20 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_pkg_shop/model/order_overview_repository.dart';
 import 'package:eliud_pkg_shop/model/order_overview_list_event.dart';
 import 'package:eliud_pkg_shop/model/order_overview_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'order_overview_model.dart';
+
+typedef List<OrderOverviewModel?> FilterOrderOverviewModels(List<OrderOverviewModel?> values);
+
 
 
 class OrderOverviewListBloc extends Bloc<OrderOverviewListEvent, OrderOverviewListState> {
+  final FilterOrderOverviewModels? filter;
   final OrderOverviewRepository _orderOverviewRepository;
   StreamSubscription? _orderOverviewsListSubscription;
   EliudQuery? eliudQuery;
@@ -35,9 +39,8 @@ class OrderOverviewListBloc extends Bloc<OrderOverviewListEvent, OrderOverviewLi
   final bool? detailed;
   final int orderOverviewLimit;
 
-  OrderOverviewListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required OrderOverviewRepository orderOverviewRepository, this.orderOverviewLimit = 5})
-      : assert(orderOverviewRepository != null),
-        _orderOverviewRepository = orderOverviewRepository,
+  OrderOverviewListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required OrderOverviewRepository orderOverviewRepository, this.orderOverviewLimit = 5})
+      : _orderOverviewRepository = orderOverviewRepository,
         super(OrderOverviewListLoading()) {
     on <LoadOrderOverviewList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {
@@ -78,11 +81,19 @@ class OrderOverviewListBloc extends Bloc<OrderOverviewListEvent, OrderOverviewLi
     });
   }
 
+  List<OrderOverviewModel?> _filter(List<OrderOverviewModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadOrderOverviewListToState() async {
     int amountNow =  (state is OrderOverviewListLoaded) ? (state as OrderOverviewListLoaded).values!.length : 0;
     _orderOverviewsListSubscription?.cancel();
     _orderOverviewsListSubscription = _orderOverviewRepository.listen(
-          (list) => add(OrderOverviewListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(OrderOverviewListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +105,7 @@ class OrderOverviewListBloc extends Bloc<OrderOverviewListEvent, OrderOverviewLi
     int amountNow =  (state is OrderOverviewListLoaded) ? (state as OrderOverviewListLoaded).values!.length : 0;
     _orderOverviewsListSubscription?.cancel();
     _orderOverviewsListSubscription = _orderOverviewRepository.listenWithDetails(
-            (list) => add(OrderOverviewListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(OrderOverviewListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

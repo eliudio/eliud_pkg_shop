@@ -7,7 +7,6 @@ import 'package:eliud_core/tools/widgets/header_widget.dart';
 import 'package:eliud_core/tools/widgets/platform_medium_widget.dart';
 import 'package:eliud_pkg_shop/model/product_image_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 typedef void ProductImageModelCallback(ProductImageModel tutorialEntryModel);
 
