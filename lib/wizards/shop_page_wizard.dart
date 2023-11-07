@@ -50,8 +50,7 @@ class ShopPageWizard extends NewAppWizardInfo {
         available: false,
       ),
       shopAsCart: true,
-      paymentParameters: PaymentWorkflowWizard.defaultParameters()
-      );
+      paymentParameters: PaymentWorkflowWizard.defaultParameters());
 
   @override
   List<NewAppTask>? getCreateTasks(
@@ -65,86 +64,86 @@ class ShopPageWizard extends NewAppWizardInfo {
     DrawerProvider rightDrawerProvider,
   ) {
     if (parameters is ShopParameters) {
-        var memberId = member.documentID;
-        var tasks = <NewAppTask>[];
+      var memberId = member.documentID;
+      var tasks = <NewAppTask>[];
 
-        tasks.add(() async {
-          var cartPaymentWorkflows = await PaymentWorkflowBuilder(uniqueId,
-            app.documentID,
-            parameters: parameters.paymentParameters,
-          ).create();
-          parameters.paymentParameters.registerCartPaymentWorkflows(cartPaymentWorkflows);
-          var shop = await ShopPageBuilder(
-                  uniqueId,
-                  app,
-                  memberId,
-                  homeMenuProvider(),
-                  appBarProvider(),
-                  leftDrawerProvider(),
-                  rightDrawerProvider(),
-                  )
-              .create(parameters.shopImage, parameters.faderImage);
-          await CartPageBuilder(
-                  uniqueId,
-                  app,
-                  memberId,
-                  homeMenuProvider(),
-                  appBarProvider(),
-                  leftDrawerProvider(),
-                  rightDrawerProvider(),
-                  shop,
-                  cardBG())
-              .create(parameters.cartImage);
-          await PayPageBuilder(
-                  uniqueId,
-                  app,
-                  memberId,
-                  homeMenuProvider(),
-                  appBarProvider(),
-                  leftDrawerProvider(),
-                  rightDrawerProvider(),
-                  shop,
-                  cardBG(),
-                  cartPaymentWorkflows)
-              .create(parameters.payImage);
-          await OrderOverviewPageBuilder(
-                  uniqueId,
-                  app,
-                  memberId,
-                  homeMenuProvider(),
-                  appBarProvider(),
-                  leftDrawerProvider(),
-                  rightDrawerProvider(),
-                  shop,
-                  cardBG())
-              .create(parameters.orderImage);
-          await PayConfirmationPageBuilder(
-                  uniqueId,
-                  app,
-                  memberId,
-                  homeMenuProvider(),
-                  appBarProvider(),
-                  leftDrawerProvider(),
-                  rightDrawerProvider(),
-                  shop,
-                  cardBG())
-              .create(parameters.payConfirmationImage);
-          await ProductPageBuilder(
-                  uniqueId,
-                  app,
-                  memberId,
-                  homeMenuProvider(),
-                  appBarProvider(),
-                  leftDrawerProvider(),
-                  rightDrawerProvider(),
-                  shop)
-              .create();
-        });
+      tasks.add(() async {
+        var cartPaymentWorkflows = await PaymentWorkflowBuilder(
+          uniqueId,
+          app.documentID,
+          parameters: parameters.paymentParameters,
+        ).create();
+        parameters.paymentParameters
+            .registerCartPaymentWorkflows(cartPaymentWorkflows);
+        var shop = await ShopPageBuilder(
+          uniqueId,
+          app,
+          memberId,
+          homeMenuProvider(),
+          appBarProvider(),
+          leftDrawerProvider(),
+          rightDrawerProvider(),
+        ).create(parameters.shopImage, parameters.faderImage);
+        await CartPageBuilder(
+                uniqueId,
+                app,
+                memberId,
+                homeMenuProvider(),
+                appBarProvider(),
+                leftDrawerProvider(),
+                rightDrawerProvider(),
+                shop,
+                cardBG())
+            .create(parameters.cartImage);
+        await PayPageBuilder(
+                uniqueId,
+                app,
+                memberId,
+                homeMenuProvider(),
+                appBarProvider(),
+                leftDrawerProvider(),
+                rightDrawerProvider(),
+                shop,
+                cardBG(),
+                cartPaymentWorkflows)
+            .create(parameters.payImage);
+        await OrderOverviewPageBuilder(
+                uniqueId,
+                app,
+                memberId,
+                homeMenuProvider(),
+                appBarProvider(),
+                leftDrawerProvider(),
+                rightDrawerProvider(),
+                shop,
+                cardBG())
+            .create(parameters.orderImage);
+        await PayConfirmationPageBuilder(
+                uniqueId,
+                app,
+                memberId,
+                homeMenuProvider(),
+                appBarProvider(),
+                leftDrawerProvider(),
+                rightDrawerProvider(),
+                shop,
+                cardBG())
+            .create(parameters.payConfirmationImage);
+        await ProductPageBuilder(
+                uniqueId,
+                app,
+                memberId,
+                homeMenuProvider(),
+                appBarProvider(),
+                leftDrawerProvider(),
+                rightDrawerProvider(),
+                shop)
+            .create();
+      });
 
-        return tasks;
+      return tasks;
     } else {
-      throw Exception(
-          'Unexpected class for parameters: ' + parameters.toString());
+      throw Exception('Unexpected class for parameters: $parameters');
     }
   }
 
@@ -163,8 +162,8 @@ class ShopPageWizard extends NewAppWizardInfo {
     decorationColorModels.add(decorationColorModel2);
     var backgroundModel = BackgroundModel(
       border: true,
-      beginGradientPosition: StartGradientPosition.CenterLeft,
-      endGradientPosition: EndGradientPosition.CenterRight,
+      beginGradientPosition: StartGradientPosition.centerLeft,
+      endGradientPosition: EndGradientPosition.centerRight,
       decorationColors: decorationColorModels,
     );
     return backgroundModel;
@@ -206,27 +205,27 @@ class ShopPageWizard extends NewAppWizardInfo {
           CartPageBuilder.menuItemBag(app, uniqueId),
       ];
     } else {
-      throw Exception(
-          'Unexpected class for parameters: ' + parameters.toString());
+      throw Exception('Unexpected class for parameters: $parameters');
     }
   }
 
   @override
-  Widget wizardParametersWidget(AppModel app,
-      BuildContext context, NewAppWizardParameters parameters) {
+  Widget wizardParametersWidget(
+      AppModel app, BuildContext context, NewAppWizardParameters parameters) {
     if (parameters is ShopParameters) {
       return ShopParametersWidget(
         app: app,
         parameters: parameters,
       );
     } else {
-      return text(app, context,
-          'Unexpected class for parameters: ' + parameters.toString());
+      return text(app, context, 'Unexpected class for parameters: $parameters');
     }
   }
 
   @override
-  PublicMediumModel? getPublicMediumModel(String uniqueId, NewAppWizardParameters parameters, String pageType) => null;
+  PublicMediumModel? getPublicMediumModel(String uniqueId,
+          NewAppWizardParameters parameters, String mediumType) =>
+      null;
 }
 
 class ShopParameters extends NewAppWizardParameters {
@@ -246,5 +245,5 @@ class ShopParameters extends NewAppWizardParameters {
     required this.cartSpecifications,
     required this.shopAsCart,
     required this.paymentParameters,
-  }) {}
+  });
 }

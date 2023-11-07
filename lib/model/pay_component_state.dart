@@ -27,7 +27,7 @@ class PayComponentUninitialized extends PayComponentState {}
 
 class PayComponentError extends PayComponentState {
   final String? message;
-  PayComponentError({ this.message });
+  PayComponentError({this.message});
 }
 
 class PayComponentPermissionDenied extends PayComponentState {
@@ -37,10 +37,10 @@ class PayComponentPermissionDenied extends PayComponentState {
 class PayComponentLoaded extends PayComponentState {
   final PayModel value;
 
-  const PayComponentLoaded({ required this.value });
+  const PayComponentLoaded({required this.value});
 
-  PayComponentLoaded copyWith({ PayModel? copyThis }) {
-    return PayComponentLoaded(value: copyThis ?? this.value);
+  PayComponentLoaded copyWith({PayModel? copyThis}) {
+    return PayComponentLoaded(value: copyThis ?? value);
   }
 
   @override
@@ -49,4 +49,3 @@ class PayComponentLoaded extends PayComponentState {
   @override
   String toString() => 'PayComponentLoaded { value: $value }';
 }
-

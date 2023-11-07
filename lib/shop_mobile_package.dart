@@ -4,17 +4,20 @@ import 'package:flutter/foundation.dart';
 ShopPackage getShopPackage() => ShopMobilePackage();
 
 class ShopMobilePackage extends ShopPackage {
-
   @override
   List<Object?> get props => [
-    stateCONDITION_CARTS_HAS_ITEMS,
-  ];
+        stateConditionCartsHasItems,
+      ];
 
   @override
-  bool operator == (Object other) =>
+  bool operator ==(Object other) =>
       identical(this, other) ||
-          other is ShopMobilePackage &&
-              runtimeType == other.runtimeType &&
-              mapEquals(stateCONDITION_CARTS_HAS_ITEMS, other.stateCONDITION_CARTS_HAS_ITEMS);
+      other is ShopMobilePackage &&
+          runtimeType == other.runtimeType &&
+          mapEquals(
+              stateConditionCartsHasItems, other.stateConditionCartsHasItems);
 
+  @override
+  int get hashCode =>
+      stateConditionCartsHasItems.hashCode ^ subscription.hashCode;
 }

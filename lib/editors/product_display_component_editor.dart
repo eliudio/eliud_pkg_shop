@@ -49,7 +49,7 @@ class ProductDisplayComponentEditorConstructor
           description: 'New Product Display',
           conditions: StorageConditionsModel(
               privilegeLevelRequired:
-                  PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+                  PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple),
         ),
         feedback);
   }
@@ -62,7 +62,7 @@ class ProductDisplayComponentEditorConstructor
     if (productDisplay != null) {
       _openIt(app, context, false, productDisplay, feedback);
     } else {
-      openErrorDialog(app, context, app.documentID + '/_error',
+      openErrorDialog(app, context, '${app.documentID}/_error',
           title: 'Error',
           errorMessage: 'Cannot find notification dashboard with id $id');
     }
@@ -73,7 +73,7 @@ class ProductDisplayComponentEditorConstructor
     openComplexDialog(
       app,
       context,
-      app.documentID + '/notificationdashboard',
+      '${app.documentID}/notificationdashboard',
       title: create
           ? 'Create Notification Dashboard'
           : 'Update Notification Dashboard',
@@ -91,12 +91,15 @@ class ProductDisplayComponentEditorConstructor
           )),
     );
   }
+
   @override
   Future<ProductDisplayEntity> revalidateEntity(AppModel app, entity) async {
     if (entity != null) {
       var myEntity = entity as ProductDisplayEntity;
       var newEntity = myEntity.copyWith(
-        buyAction: myEntity.buyAction != null? myEntity.buyAction!.copyWith(appId: app.documentID) : null,
+        buyAction: myEntity.buyAction != null
+            ? myEntity.buyAction!.copyWith(appId: app.documentID)
+            : null,
       );
       return newEntity;
     } else {
@@ -107,7 +110,6 @@ class ProductDisplayComponentEditorConstructor
 
 class ProductDisplayBloc
     extends EditorBaseBloc<ProductDisplayModel, ProductDisplayEntity> {
-
   ProductDisplayBloc(String appId, EditorFeedback feedback)
       : super(appId, productDisplayRepository(appId: appId)!, feedback);
 
@@ -134,13 +136,12 @@ class ProductDisplayComponentEditor extends StatefulWidget {
   final AppModel app;
 
   const ProductDisplayComponentEditor({
-    Key? key,
+    super.key,
     required this.app,
-  }) : super(key: key);
+  });
 
   @override
-  State<StatefulWidget> createState() =>
-      _ProductDisplayComponentEditorState();
+  State<StatefulWidget> createState() => _ProductDisplayComponentEditorState();
 }
 
 class _ProductDisplayComponentEditorState
@@ -155,164 +156,156 @@ class _ProductDisplayComponentEditorState
         if (member != null) {
           var memberId = member.documentID;
           return BlocBuilder<ProductDisplayBloc,
-              EditorBaseState<ProductDisplayModel>>(
+                  EditorBaseState<ProductDisplayModel>>(
               builder: (ppContext, productDisplayState) {
-                if (productDisplayState is EditorBaseInitialised<
-                    ProductDisplayModel>) {
-                  return ListView(
-                      shrinkWrap: true,
-                      physics: ScrollPhysics(),
-                      children: [
-                        HeaderWidget(
-                          app: widget.app,
-                          title: 'ProductDisplay',
-                          okAction: () async {
-                            await BlocProvider.of<ProductDisplayBloc>(context)
-                                .save(
-                                EditorBaseApplyChanges<ProductDisplayModel>(
-                                    model: productDisplayState.model));
-                            return true;
-                          },
-                          cancelAction: () async {
-                            return true;
-                          },
-                        ),
-                        topicContainer(widget.app, context,
-                            title: 'General',
-                            collapsible: true,
-                            collapsed: true,
-                            children: [
-                              getListTile(context, widget.app,
-                                  leading: Icon(Icons.vpn_key),
-                                  title: text(widget.app, context,
-                                      productDisplayState.model.documentID)),
-                              getListTile(context, widget.app,
-                                  leading: Icon(Icons.description),
-                                  title: dialogField(
-                                    widget.app,
-                                    context,
-                                    initialValue: productDisplayState.model
-                                        .description,
-                                    valueChanged: (value) {
-                                      productDisplayState.model.description = value;
-                                    },
-                                    maxLines: 1,
-                                    decoration: const InputDecoration(
-                                      hintText: 'Description',
-                                      labelText: 'Description',
-                                    ),
-                                  )),
-                            ]),
-                        selectShopWidget(
-                            context,
-                            widget.app,
-                            productDisplayState.model.conditions,
-                            productDisplayState.model.shop,
-                                (shop) =>
+            if (productDisplayState
+                is EditorBaseInitialised<ProductDisplayModel>) {
+              return ListView(
+                  shrinkWrap: true,
+                  physics: ScrollPhysics(),
+                  children: [
+                    HeaderWidget(
+                      app: widget.app,
+                      title: 'ProductDisplay',
+                      okAction: () async {
+                        await BlocProvider.of<ProductDisplayBloc>(context).save(
+                            EditorBaseApplyChanges<ProductDisplayModel>(
+                                model: productDisplayState.model));
+                        return true;
+                      },
+                      cancelAction: () async {
+                        return true;
+                      },
+                    ),
+                    topicContainer(widget.app, context,
+                        title: 'General',
+                        collapsible: true,
+                        collapsed: true,
+                        children: [
+                          getListTile(context, widget.app,
+                              leading: Icon(Icons.vpn_key),
+                              title: text(widget.app, context,
+                                  productDisplayState.model.documentID)),
+                          getListTile(context, widget.app,
+                              leading: Icon(Icons.description),
+                              title: dialogField(
+                                widget.app,
+                                context,
+                                initialValue:
+                                    productDisplayState.model.description,
+                                valueChanged: (value) {
+                                  productDisplayState.model.description = value;
+                                },
+                                maxLines: 1,
+                                decoration: const InputDecoration(
+                                  hintText: 'Description',
+                                  labelText: 'Description',
+                                ),
+                              )),
+                        ]),
+                    selectShopWidget(
+                        context,
+                        widget.app,
+                        productDisplayState.model.conditions,
+                        productDisplayState.model.shop,
+                        (shop) => setState(() {
+                              productDisplayState.model.shop = shop;
+                            })),
+                    topicContainer(widget.app, context,
+                        title: 'Background',
+                        collapsible: true,
+                        collapsed: true,
+                        children: [
+                          checkboxListTile(widget.app, context, 'Background?',
+                              productDisplayState.model.background != null,
+                              (value) {
+                            setState(() {
+                              if (value!) {
+                                productDisplayState.model.background =
+                                    BackgroundModel();
+                              } else {
+                                productDisplayState.model.background = null;
+                              }
+                            });
+                          }),
+                          if (productDisplayState.model.background != null)
+                            BackgroundWidget(
+                                app: widget.app,
+                                memberId: ownerId,
+                                value: productDisplayState.model.background!,
+                                label: 'Background'),
+                        ]),
+                    topicContainer(widget.app, context,
+                        title: 'Background / Layout',
+                        collapsible: true,
+                        collapsed: true,
+                        children: [
+                          getListTile(context, widget.app,
+                              leading: Icon(Icons.description),
+                              title: dialogField(
+                                widget.app,
+                                context,
+                                initialValue:
+                                    productDisplayState.model.addToBasketText,
+                                valueChanged: (value) {
+                                  productDisplayState.model.addToBasketText =
+                                      value;
+                                },
+                                maxLines: 1,
+                                decoration: const InputDecoration(
+                                  hintText: 'Add To Basket Text',
+                                  labelText: 'Add To Basket Text',
+                                ),
+                              )),
+                          BackgroundWidget(
+                              app: widget.app,
+                              memberId: memberId,
+                              value: productDisplayState
+                                  .model.itemDetailBackground!,
+                              label: 'Item Detail Background'),
+                        ]),
+                    topicContainer(widget.app, context,
+                        title: 'Actions',
+                        collapsible: true,
+                        collapsed: true,
+                        children: [
+                          Registry.registry()!.openSelectActionWidget(
+                              app: widget.app,
+                              action: productDisplayState.model.buyAction,
+                              label: 'Buy Action',
+                              containerPrivilege:
+                                  ((productDisplayState.model.conditions !=
+                                              null) &&
+                                          (productDisplayState.model.conditions!
+                                                  .privilegeLevelRequired !=
+                                              null))
+                                      ? productDisplayState.model.conditions!
+                                          .privilegeLevelRequired!.index
+                                      : 0,
+                              actionSelected: (action) {
                                 setState(() {
-                                  productDisplayState.model.shop = shop;
-                                })),
-                        topicContainer(widget.app, context,
-                            title: 'Background',
-                            collapsible: true,
-                            collapsed: true,
-                            children: [
-                              checkboxListTile(
-                                  widget.app,
-                                  context,
-                                  'Background?',
-                                  productDisplayState.model.background !=
-                                      null, (value) {
-                                setState(() {
-                                  if (value!) {
-                                    productDisplayState.model.background =
-                                        BackgroundModel();
-                                  } else {
-                                    productDisplayState.model.background =
-                                    null;
-                                  }
+                                  productDisplayState.model.buyAction = action;
                                 });
                               }),
-                              if (productDisplayState.model.background !=
-                                  null)
-                                BackgroundWidget(
-                                    app: widget.app,
-                                    memberId: ownerId,
-                                    value:
-                                    productDisplayState.model.background!,
-                                    label: 'Background'),
-                            ]),
-                        topicContainer(widget.app, context,
-                            title: 'Background / Layout',
-                            collapsible: true,
-                            collapsed: true,
-                            children: [
-                              getListTile(context, widget.app,
-                                  leading: Icon(Icons.description),
-                                  title: dialogField(
-                                    widget.app,
-                                    context,
-                                    initialValue: productDisplayState.model
-                                        .addToBasketText,
-                                    valueChanged: (value) {
-                                      productDisplayState.model.addToBasketText = value;
-                                    },
-                                    maxLines: 1,
-                                    decoration: const InputDecoration(
-                                      hintText: 'Add To Basket Text',
-                                      labelText: 'Add To Basket Text',
-                                    ),
-                                  )),
-                              BackgroundWidget(
-                                  app: widget.app,
-                                  memberId: memberId,
-                                  value: productDisplayState.model.itemDetailBackground!,
-                                  label: 'Item Detail Background'),
-                            ]),
-                        topicContainer(widget.app, context,
-                            title: 'Actions',
-                            collapsible: true,
-                            collapsed: true,
-                            children: [
-                              Registry.registry()!.openSelectActionWidget(
-                                  app: widget.app,
-                                  action: productDisplayState.model.buyAction,
-                                  label: 'Buy Action',
-                                  containerPrivilege:
-                                  ((productDisplayState.model.conditions != null) &&
-                                      (productDisplayState.model.conditions!
-                                          .privilegeLevelRequired !=
-                                          null))
-                                      ? productDisplayState.model.conditions!
-                                      .privilegeLevelRequired!.index
-                                      : 0,
-                                  actionSelected: (action) {
-                                    setState(() {
-                                      productDisplayState.model.buyAction =
-                                          action;
-                                    });
-                                  }),
-                            ]),
-                        topicContainer(widget.app, context,
-                            title: 'Condition',
-                            collapsible: true,
-                            collapsed: true,
-                            children: [
-                              getListTile(context, widget.app,
-                                  leading: Icon(Icons.security),
-                                  title: ConditionsSimpleWidget(
-                                    app: widget.app,
-                                    value: productDisplayState.model
-                                        .conditions!,
-                                  )),
-                            ]),
-                      ]);
-                } else {
-                  return progressIndicator(widget.app, context);
-                }
-              });
+                        ]),
+                    topicContainer(widget.app, context,
+                        title: 'Condition',
+                        collapsible: true,
+                        collapsed: true,
+                        children: [
+                          getListTile(context, widget.app,
+                              leading: Icon(Icons.security),
+                              title: ConditionsSimpleWidget(
+                                app: widget.app,
+                                value: productDisplayState.model.conditions!,
+                              )),
+                        ]),
+                  ]);
+            } else {
+              return progressIndicator(widget.app, context);
+            }
+          });
         } else {
-
           return progressIndicator(widget.app, context);
         }
       } else {
@@ -320,5 +313,4 @@ class _ProductDisplayComponentEditorState
       }
     });
   }
-
 }

@@ -23,9 +23,8 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 import 'order_item_model.dart';
 
-typedef List<OrderItemModel?> FilterOrderItemModels(List<OrderItemModel?> values);
-
-
+typedef FilterOrderItemModels = List<OrderItemModel?> Function(
+    List<OrderItemModel?> values);
 
 class OrderItemListBloc extends Bloc<OrderItemListEvent, OrderItemListState> {
   final FilterOrderItemModels? filter;
@@ -39,23 +38,32 @@ class OrderItemListBloc extends Bloc<OrderItemListEvent, OrderItemListState> {
   final bool? detailed;
   final int orderItemLimit;
 
-  OrderItemListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required OrderItemRepository orderItemRepository, this.orderItemLimit = 5})
+  OrderItemListBloc(
+      {this.filter,
+      this.paged,
+      this.orderBy,
+      this.descending,
+      this.detailed,
+      this.eliudQuery,
+      required OrderItemRepository orderItemRepository,
+      this.orderItemLimit = 5})
       : _orderItemRepository = orderItemRepository,
         super(OrderItemListLoading()) {
-    on <LoadOrderItemList> ((event, emit) {
+    on<LoadOrderItemList>((event, emit) {
       if ((detailed == null) || (!detailed!)) {
         _mapLoadOrderItemListToState();
       } else {
         _mapLoadOrderItemListWithDetailsToState();
       }
     });
-    
-    on <NewPage> ((event, emit) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+
+    on<NewPage>((event, emit) {
+      pages = pages +
+          1; // it doesn't matter so much if we increase pages beyond the end
       _mapLoadOrderItemListWithDetailsToState();
     });
-    
-    on <OrderItemChangeQuery> ((event, emit) {
+
+    on<OrderItemChangeQuery>((event, emit) {
       eliudQuery = event.newQuery;
       if ((detailed == null) || (!detailed!)) {
         _mapLoadOrderItemListToState();
@@ -63,20 +71,20 @@ class OrderItemListBloc extends Bloc<OrderItemListEvent, OrderItemListState> {
         _mapLoadOrderItemListWithDetailsToState();
       }
     });
-      
-    on <AddOrderItemList> ((event, emit) async {
+
+    on<AddOrderItemList>((event, emit) async {
       await _mapAddOrderItemListToState(event);
     });
-    
-    on <UpdateOrderItemList> ((event, emit) async {
+
+    on<UpdateOrderItemList>((event, emit) async {
       await _mapUpdateOrderItemListToState(event);
     });
-    
-    on <DeleteOrderItemList> ((event, emit) async {
+
+    on<DeleteOrderItemList>((event, emit) async {
       await _mapDeleteOrderItemListToState(event);
     });
-    
-    on <OrderItemListUpdated> ((event, emit) {
+
+    on<OrderItemListUpdated>((event, emit) {
       emit(_mapOrderItemListUpdatedToState(event));
     });
   }
@@ -90,27 +98,31 @@ class OrderItemListBloc extends Bloc<OrderItemListEvent, OrderItemListState> {
   }
 
   Future<void> _mapLoadOrderItemListToState() async {
-    int amountNow =  (state is OrderItemListLoaded) ? (state as OrderItemListLoaded).values!.length : 0;
+    int amountNow = (state is OrderItemListLoaded)
+        ? (state as OrderItemListLoaded).values!.length
+        : 0;
     _orderItemsListSubscription?.cancel();
     _orderItemsListSubscription = _orderItemRepository.listen(
-          (list) => add(OrderItemListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
-      orderBy: orderBy,
-      descending: descending,
-      eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * orderItemLimit : null
-    );
-  }
-
-  Future<void> _mapLoadOrderItemListWithDetailsToState() async {
-    int amountNow =  (state is OrderItemListLoaded) ? (state as OrderItemListLoaded).values!.length : 0;
-    _orderItemsListSubscription?.cancel();
-    _orderItemsListSubscription = _orderItemRepository.listenWithDetails(
-            (list) => add(OrderItemListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
+        (list) => add(OrderItemListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * orderItemLimit : null
-    );
+        limit: ((paged != null) && paged!) ? pages * orderItemLimit : null);
+  }
+
+  Future<void> _mapLoadOrderItemListWithDetailsToState() async {
+    int amountNow = (state is OrderItemListLoaded)
+        ? (state as OrderItemListLoaded).values!.length
+        : 0;
+    _orderItemsListSubscription?.cancel();
+    _orderItemsListSubscription = _orderItemRepository.listenWithDetails(
+        (list) => add(OrderItemListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && paged!) ? pages * orderItemLimit : null);
   }
 
   Future<void> _mapAddOrderItemListToState(AddOrderItemList event) async {
@@ -135,7 +147,9 @@ class OrderItemListBloc extends Bloc<OrderItemListEvent, OrderItemListState> {
   }
 
   OrderItemListLoaded _mapOrderItemListUpdatedToState(
-      OrderItemListUpdated event) => OrderItemListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
+          OrderItemListUpdated event) =>
+      OrderItemListLoaded(
+          values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {
@@ -143,5 +157,3 @@ class OrderItemListBloc extends Bloc<OrderItemListEvent, OrderItemListState> {
     return super.close();
   }
 }
-
-

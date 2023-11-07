@@ -47,7 +47,7 @@ class PayConfirmationComponentEditorConstructor
           description: 'New Pay Confirmation',
           conditions: StorageConditionsModel(
               privilegeLevelRequired:
-                  PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+                  PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple),
         ),
         feedback);
   }
@@ -60,7 +60,7 @@ class PayConfirmationComponentEditorConstructor
     if (payConfirmation != null) {
       _openIt(app, context, false, payConfirmation, feedback);
     } else {
-      openErrorDialog(app, context, app.documentID + '/_error',
+      openErrorDialog(app, context, '${app.documentID}/_error',
           title: 'Error',
           errorMessage: 'Cannot find notification dashboard with id $id');
     }
@@ -71,7 +71,7 @@ class PayConfirmationComponentEditorConstructor
     openComplexDialog(
       app,
       context,
-      app.documentID + '/notificationdashboard',
+      '${app.documentID}/notificationdashboard',
       title: create
           ? 'Create Notification Dashboard'
           : 'Update Notification Dashboard',
@@ -95,7 +95,9 @@ class PayConfirmationComponentEditorConstructor
     if (entity != null) {
       var myEntiy = entity as PayConfirmationEntity;
       var newEntity = myEntiy.copyWith(
-        backToShopAction: myEntiy.backToShopAction != null? myEntiy.backToShopAction!.copyWith(appId: app.documentID) : null,
+        backToShopAction: myEntiy.backToShopAction != null
+            ? myEntiy.backToShopAction!.copyWith(appId: app.documentID)
+            : null,
       );
       return newEntity;
     } else {
@@ -106,7 +108,6 @@ class PayConfirmationComponentEditorConstructor
 
 class PayConfirmationBloc
     extends EditorBaseBloc<PayConfirmationModel, PayConfirmationEntity> {
-
   PayConfirmationBloc(String appId, EditorFeedback feedback)
       : super(appId, payConfirmationRepository(appId: appId)!, feedback);
 
@@ -122,8 +123,7 @@ class PayConfirmationBloc
   @override
   PayConfirmationModel setDefaultValues(
       PayConfirmationModel t, StorageConditionsModel conditions) {
-    return t.copyWith(
-        conditions: t.conditions ?? conditions);
+    return t.copyWith(conditions: t.conditions ?? conditions);
   }
 }
 
@@ -131,13 +131,12 @@ class PayConfirmationComponentEditor extends StatefulWidget {
   final AppModel app;
 
   const PayConfirmationComponentEditor({
-    Key? key,
+    super.key,
     required this.app,
-  }) : super(key: key);
+  });
 
   @override
-  State<StatefulWidget> createState() =>
-      _PayConfirmationComponentEditorState();
+  State<StatefulWidget> createState() => _PayConfirmationComponentEditorState();
 }
 
 class _PayConfirmationComponentEditorState
@@ -149,109 +148,110 @@ class _PayConfirmationComponentEditorState
       if (accessState is AccessDetermined) {
         var member = accessState.getMember();
         if (member != null) {
-          var memberId = member.documentID;
+          //var memberId = member.documentID;
           return BlocBuilder<PayConfirmationBloc,
-              EditorBaseState<PayConfirmationModel>>(
+                  EditorBaseState<PayConfirmationModel>>(
               builder: (ppContext, payConfirmationState) {
-                if (payConfirmationState is EditorBaseInitialised<
-                    PayConfirmationModel>) {
-                  return ListView(
-                      shrinkWrap: true,
-                      physics: ScrollPhysics(),
-                      children: [
-                        HeaderWidget(
-                          app: widget.app,
-                          title: 'PayConfirmation',
-                          okAction: () async {
-                            await BlocProvider.of<PayConfirmationBloc>(context)
-                                .save(
-                                EditorBaseApplyChanges<PayConfirmationModel>(
-                                    model: payConfirmationState.model));
-                            return true;
-                          },
-                          cancelAction: () async {
-                            return true;
-                          },
-                        ),
-                        topicContainer(widget.app, context,
-                            title: 'General',
-                            collapsible: true,
-                            collapsed: true,
-                            children: [
-                              getListTile(context, widget.app,
-                                  leading: Icon(Icons.vpn_key),
-                                  title: text(widget.app, context,
-                                      payConfirmationState.model.documentID)),
-                              getListTile(context, widget.app,
-                                  leading: Icon(Icons.description),
-                                  title: dialogField(
-                                    widget.app,
-                                    context,
-                                    initialValue: payConfirmationState.model
-                                        .description,
-                                    valueChanged: (value) {
-                                      payConfirmationState.model.description = value;
-                                    },
-                                    maxLines: 1,
-                                    decoration: const InputDecoration(
-                                      hintText: 'Description',
-                                      labelText: 'Description',
-                                    ),
-                                  )),
-                            ]),
-                        selectShopWidget(
-                            context,
-                            widget.app,
-                            payConfirmationState.model.conditions,
-                            payConfirmationState.model.shop,
-                                (shop) =>
-                                setState(() {
-                                  payConfirmationState.model.shop = shop;
-                                })),
-                        topicContainer(widget.app, context,
-                            title: 'Actions',
-                            collapsible: true,
-                            collapsed: true,
-                            children: [
-                              Registry.registry()!.openSelectActionWidget(
-                                  app: widget.app,
-                                  action: payConfirmationState.model.backToShopAction,
-                                  label: 'Back to shop action',
-                                  containerPrivilege:
-                                  ((payConfirmationState.model.conditions != null) &&
-                                      (payConfirmationState.model.conditions!
-                                          .privilegeLevelRequired !=
-                                          null))
+            if (payConfirmationState
+                is EditorBaseInitialised<PayConfirmationModel>) {
+              return ListView(
+                  shrinkWrap: true,
+                  physics: ScrollPhysics(),
+                  children: [
+                    HeaderWidget(
+                      app: widget.app,
+                      title: 'PayConfirmation',
+                      okAction: () async {
+                        await BlocProvider.of<PayConfirmationBloc>(context)
+                            .save(EditorBaseApplyChanges<PayConfirmationModel>(
+                                model: payConfirmationState.model));
+                        return true;
+                      },
+                      cancelAction: () async {
+                        return true;
+                      },
+                    ),
+                    topicContainer(widget.app, context,
+                        title: 'General',
+                        collapsible: true,
+                        collapsed: true,
+                        children: [
+                          getListTile(context, widget.app,
+                              leading: Icon(Icons.vpn_key),
+                              title: text(widget.app, context,
+                                  payConfirmationState.model.documentID)),
+                          getListTile(context, widget.app,
+                              leading: Icon(Icons.description),
+                              title: dialogField(
+                                widget.app,
+                                context,
+                                initialValue:
+                                    payConfirmationState.model.description,
+                                valueChanged: (value) {
+                                  payConfirmationState.model.description =
+                                      value;
+                                },
+                                maxLines: 1,
+                                decoration: const InputDecoration(
+                                  hintText: 'Description',
+                                  labelText: 'Description',
+                                ),
+                              )),
+                        ]),
+                    selectShopWidget(
+                        context,
+                        widget.app,
+                        payConfirmationState.model.conditions,
+                        payConfirmationState.model.shop,
+                        (shop) => setState(() {
+                              payConfirmationState.model.shop = shop;
+                            })),
+                    topicContainer(widget.app, context,
+                        title: 'Actions',
+                        collapsible: true,
+                        collapsed: true,
+                        children: [
+                          Registry.registry()!.openSelectActionWidget(
+                              app: widget.app,
+                              action:
+                                  payConfirmationState.model.backToShopAction,
+                              label: 'Back to shop action',
+                              containerPrivilege:
+                                  ((payConfirmationState.model.conditions !=
+                                              null) &&
+                                          (payConfirmationState
+                                                  .model
+                                                  .conditions!
+                                                  .privilegeLevelRequired !=
+                                              null))
                                       ? payConfirmationState.model.conditions!
-                                      .privilegeLevelRequired!.index
+                                          .privilegeLevelRequired!.index
                                       : 0,
-                                  actionSelected: (action) {
-                                    setState(() {
-                                      payConfirmationState.model.backToShopAction =
-                                          action;
-                                    });
-                                  }),
-                            ]),
-                        topicContainer(widget.app, context,
-                            title: 'Condition',
-                            collapsible: true,
-                            collapsed: true,
-                            children: [
-                              getListTile(context, widget.app,
-                                  leading: Icon(Icons.security),
-                                  title: ConditionsSimpleWidget(
-                                    app: widget.app,
-                                    value: payConfirmationState.model
-                                        .conditions!,
-                                  )),
-                            ]),
-                      ]);
-                } else {
-                  return progressIndicator(widget.app, context);
-                }
-              });
+                              actionSelected: (action) {
+                                setState(() {
+                                  payConfirmationState.model.backToShopAction =
+                                      action;
+                                });
+                              }),
+                        ]),
+                    topicContainer(widget.app, context,
+                        title: 'Condition',
+                        collapsible: true,
+                        collapsed: true,
+                        children: [
+                          getListTile(context, widget.app,
+                              leading: Icon(Icons.security),
+                              title: ConditionsSimpleWidget(
+                                app: widget.app,
+                                value: payConfirmationState.model.conditions!,
+                              )),
+                        ]),
+                  ]);
+            } else {
+              return progressIndicator(widget.app, context);
+            }
+          });
         } else {
-
           return progressIndicator(widget.app, context);
         }
       } else {
@@ -259,5 +259,4 @@ class _PayConfirmationComponentEditorState
       }
     });
   }
-
 }

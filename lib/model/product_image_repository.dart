@@ -13,45 +13,106 @@
 
 */
 
-
-
 import 'package:eliud_pkg_shop/model/model_export.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
-
 
 import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/core/base/repository_base.dart';
 
-typedef ProductImageModelTrigger(List<ProductImageModel?> list);
-typedef ProductImageChanged(ProductImageModel? value);
-typedef ProductImageErrorHandler(o, e);
+typedef ProductImageModelTrigger = Function(List<ProductImageModel?> list);
+typedef ProductImageChanged = Function(ProductImageModel? value);
+typedef ProductImageErrorHandler = Function(dynamic o, dynamic e);
 
-abstract class ProductImageRepository extends RepositoryBase<ProductImageModel, ProductImageEntity> {
-  Future<ProductImageEntity> addEntity(String documentID, ProductImageEntity value);
-  Future<ProductImageEntity> updateEntity(String documentID, ProductImageEntity value);
+abstract class ProductImageRepository
+    extends RepositoryBase<ProductImageModel, ProductImageEntity> {
+  @override
+  Future<ProductImageEntity> addEntity(
+      String documentID, ProductImageEntity value);
+  @override
+  Future<ProductImageEntity> updateEntity(
+      String documentID, ProductImageEntity value);
+  @override
   Future<ProductImageModel> add(ProductImageModel value);
+  @override
   Future<void> delete(ProductImageModel value);
-  Future<ProductImageModel?> get(String? id, { Function(Exception)? onError });
+  @override
+  Future<ProductImageModel?> get(String? id, {Function(Exception)? onError});
+  @override
   Future<ProductImageModel> update(ProductImageModel value);
 
-  Stream<List<ProductImageModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
-  Stream<List<ProductImageModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
-  Future<List<ProductImageModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
-  Future<List<ProductImageModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  @override
+  Stream<List<ProductImageModel?>> values(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
+  @override
+  Stream<List<ProductImageModel?>> valuesWithDetails(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
+  @override
+  Future<List<ProductImageModel?>> valuesList(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
+  @override
+  Future<List<ProductImageModel?>> valuesListWithDetails(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
 
-  StreamSubscription<List<ProductImageModel?>> listen(ProductImageModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<List<ProductImageModel?>> listenWithDetails(ProductImageModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<ProductImageModel?> listenTo(String documentId, ProductImageChanged changed, {ProductImageErrorHandler? errorHandler});
+  @override
+  StreamSubscription<List<ProductImageModel?>> listen(
+      ProductImageModelTrigger trigger,
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
+  @override
+  StreamSubscription<List<ProductImageModel?>> listenWithDetails(
+      ProductImageModelTrigger trigger,
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
+  @override
+  StreamSubscription<ProductImageModel?> listenTo(
+      String documentId, ProductImageChanged changed,
+      {ProductImageErrorHandler? errorHandler});
+  @override
   void flush();
-  
+
+  @override
   String? timeStampToString(dynamic timeStamp);
 
+  @override
   dynamic getSubCollection(String documentId, String name);
-  Future<ProductImageModel?> changeValue(String documentId, String fieldName, num changeByThisValue);
+  @override
+  Future<ProductImageModel?> changeValue(
+      String documentId, String fieldName, num changeByThisValue);
 
+  @override
   Future<void> deleteAll();
 }
-
-

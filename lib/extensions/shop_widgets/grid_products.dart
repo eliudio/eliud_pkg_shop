@@ -26,11 +26,10 @@ class GridProducts extends StatefulWidget {
   */
 
   const GridProducts(
-      {Key? key, required this.app, required this.shopFrontModel})
-      : super(key: key);
+      {super.key, required this.app, required this.shopFrontModel});
 
   @override
-  _GridProductsState createState() => _GridProductsState();
+  State<GridProducts> createState() => _GridProductsState();
 }
 
 class _GridProductsState extends State<GridProducts> {
@@ -99,8 +98,7 @@ class _GridProductsState extends State<GridProducts> {
                                 };
                                 eliudrouter.Router.navigateTo(context,
                                     widget.shopFrontModel.openProductAction!,
-                                    parameters:
-                                        parameters);
+                                    parameters: parameters);
                               }),
                           Align(
                               alignment: Alignment.topRight,
@@ -120,7 +118,6 @@ class _GridProductsState extends State<GridProducts> {
                         ],
                       ),
                     ));
-
               }).toList();
 
               return GridView.count(
@@ -132,10 +129,13 @@ class _GridProductsState extends State<GridProducts> {
                   shrinkWrap: true,
                   physics: ScrollPhysics(),
                   scrollDirection: widget.shopFrontModel.scrollDirection ==
-                          ScrollDirection.Vertical
+                          ScrollDirection.vertical
                       ? Axis.vertical
                       : Axis.horizontal,
-                  padding: widget.shopFrontModel.padding != null ? BoxDecorationHelper.determinePadding2(widget.app, null,  widget.shopFrontModel.padding): const EdgeInsets.all(0.0),
+                  padding: widget.shopFrontModel.padding != null
+                      ? BoxDecorationHelper.determinePadding2(
+                          widget.app, null, widget.shopFrontModel.padding)
+                      : const EdgeInsets.all(0.0),
                   children: cards);
             } else {
               return progressIndicator(widget.app, context);

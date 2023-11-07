@@ -30,10 +30,10 @@ class NewPage extends OrderOverviewListEvent {}
 class AddOrderOverviewList extends OrderOverviewListEvent {
   final OrderOverviewModel? value;
 
-  const AddOrderOverviewList({ this.value });
+  const AddOrderOverviewList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddOrderOverviewList{ value: $value }';
@@ -42,10 +42,10 @@ class AddOrderOverviewList extends OrderOverviewListEvent {
 class UpdateOrderOverviewList extends OrderOverviewListEvent {
   final OrderOverviewModel? value;
 
-  const UpdateOrderOverviewList({ this.value });
+  const UpdateOrderOverviewList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateOrderOverviewList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateOrderOverviewList extends OrderOverviewListEvent {
 class DeleteOrderOverviewList extends OrderOverviewListEvent {
   final OrderOverviewModel? value;
 
-  const DeleteOrderOverviewList({ this.value });
+  const DeleteOrderOverviewList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteOrderOverviewList{ value: $value }';
@@ -67,24 +67,24 @@ class OrderOverviewListUpdated extends OrderOverviewListEvent {
   final List<OrderOverviewModel?>? value;
   final bool? mightHaveMore;
 
-  const OrderOverviewListUpdated({ this.value, this.mightHaveMore });
+  const OrderOverviewListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'OrderOverviewListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'OrderOverviewListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class OrderOverviewChangeQuery extends OrderOverviewListEvent {
   final EliudQuery? newQuery;
 
-  const OrderOverviewChangeQuery({ required this.newQuery });
+  const OrderOverviewChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'OrderOverviewChangeQuery{ value: $newQuery }';
 }
-

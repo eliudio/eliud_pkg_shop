@@ -13,7 +13,7 @@ class CollectOrder extends PaymentEvent {
   CollectOrder(this.shop);
 
   @override
-  List<Object?> get props => [ shop ];
+  List<Object?> get props => [shop];
 }
 
 // The user indicated he wants to pay
@@ -23,7 +23,7 @@ class PayTheOrder extends PaymentEvent {
   PayTheOrder(this.order);
 
   @override
-  List<Object> get props => [ order ];
+  List<Object> get props => [order];
 }
 
 // The payment system reported successful payment
@@ -34,8 +34,7 @@ class PaymentDoneWithSuccess extends PaymentEvent {
   PaymentDoneWithSuccess(this.order, this.reference);
 
   @override
-  List<Object?> get props => [ order ];
-
+  List<Object?> get props => [order];
 }
 
 // The payment system reported failure during payment
@@ -46,6 +45,5 @@ class PaymentDoneWithFailure extends PaymentEvent {
   PaymentDoneWithFailure(this.order, this.msg);
 
   @override
-  List<Object?> get props => [ order, msg ];
-
+  List<Object?> get props => [order, msg];
 }

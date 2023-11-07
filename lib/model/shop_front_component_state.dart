@@ -27,7 +27,7 @@ class ShopFrontComponentUninitialized extends ShopFrontComponentState {}
 
 class ShopFrontComponentError extends ShopFrontComponentState {
   final String? message;
-  ShopFrontComponentError({ this.message });
+  ShopFrontComponentError({this.message});
 }
 
 class ShopFrontComponentPermissionDenied extends ShopFrontComponentState {
@@ -37,10 +37,10 @@ class ShopFrontComponentPermissionDenied extends ShopFrontComponentState {
 class ShopFrontComponentLoaded extends ShopFrontComponentState {
   final ShopFrontModel value;
 
-  const ShopFrontComponentLoaded({ required this.value });
+  const ShopFrontComponentLoaded({required this.value});
 
-  ShopFrontComponentLoaded copyWith({ ShopFrontModel? copyThis }) {
-    return ShopFrontComponentLoaded(value: copyThis ?? this.value);
+  ShopFrontComponentLoaded copyWith({ShopFrontModel? copyThis}) {
+    return ShopFrontComponentLoaded(value: copyThis ?? value);
   }
 
   @override
@@ -49,4 +49,3 @@ class ShopFrontComponentLoaded extends ShopFrontComponentState {
   @override
   String toString() => 'ShopFrontComponentLoaded { value: $value }';
 }
-

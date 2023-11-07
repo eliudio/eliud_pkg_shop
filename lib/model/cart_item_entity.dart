@@ -22,37 +22,66 @@ class CartItemEntity implements EntityBase {
   final String? appId;
   final String? productId;
 
-  CartItemEntity({this.amount, required this.appId, this.productId, });
+  CartItemEntity({
+    this.amount,
+    required this.appId,
+    this.productId,
+  });
 
-  CartItemEntity copyWith({String? documentID, int? amount, String? appId, String? productId, }) {
-    return CartItemEntity(amount : amount ?? this.amount, appId : appId ?? this.appId, productId : productId ?? this.productId, );
+  CartItemEntity copyWith({
+    String? documentID,
+    int? amount,
+    String? appId,
+    String? productId,
+  }) {
+    return CartItemEntity(
+      amount: amount ?? this.amount,
+      appId: appId ?? this.appId,
+      productId: productId ?? this.productId,
+    );
   }
-  List<Object?> get props => [amount, appId, productId, ];
+
+  List<Object?> get props => [
+        amount,
+        appId,
+        productId,
+      ];
 
   @override
   String toString() {
     return 'CartItemEntity{amount: $amount, appId: $appId, productId: $productId}';
   }
 
-  static CartItemEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+  static CartItemEntity? fromMap(Object? o,
+      {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
     return CartItemEntity(
-      amount: int.tryParse(map['amount'].toString()), 
-      appId: map['appId'], 
-      productId: map['productId'], 
+      amount: int.tryParse(map['amount'].toString()),
+      appId: map['appId'],
+      productId: map['productId'],
     );
   }
 
+  @override
   Map<String, Object?> toDocument() {
     Map<String, Object?> theDocument = HashMap();
-    if (amount != null) theDocument["amount"] = amount;
-      else theDocument["amount"] = null;
-    if (appId != null) theDocument["appId"] = appId;
-      else theDocument["appId"] = null;
-    if (productId != null) theDocument["productId"] = productId;
-      else theDocument["productId"] = null;
+    if (amount != null) {
+      theDocument["amount"] = amount;
+    } else {
+      theDocument["amount"] = null;
+    }
+    if (appId != null) {
+      theDocument["appId"] = appId;
+    } else {
+      theDocument["appId"] = null;
+    }
+    if (productId != null) {
+      theDocument["productId"] = productId;
+    } else {
+      theDocument["productId"] = null;
+    }
     return theDocument;
   }
 
@@ -62,7 +91,8 @@ class CartItemEntity implements EntityBase {
     return newEntity;
   }
 
-  static CartItemEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
+  static CartItemEntity? fromJsonString(String json,
+      {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
@@ -71,9 +101,9 @@ class CartItemEntity implements EntityBase {
     return jsonEncode(toDocument());
   }
 
-  Future<Map<String, Object?>> enrichedDocument(Map<String, Object?> theDocument) async {
+  @override
+  Future<Map<String, Object?>> enrichedDocument(
+      Map<String, Object?> theDocument) async {
     return theDocument;
   }
-
 }
-

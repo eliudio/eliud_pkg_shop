@@ -50,7 +50,7 @@ class ShopDashboard {
     openComplexDialog(
       app,
       context,
-      app.documentID + '/shop',
+      '${app.documentID}/shop',
       title: create ? 'Create Shop' : 'Update Shop',
       includeHeading: false,
       widthFraction: .9,
@@ -70,9 +70,9 @@ class ShopDashboardWidget extends StatefulWidget {
   final AppModel app;
 
   const ShopDashboardWidget({
-    Key? key,
+    super.key,
     required this.app,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() => _ShopDashboardWidgetState();
@@ -175,9 +175,11 @@ class _ShopDashboardWidgetState extends State<ShopDashboardWidget> {
                             title: ConditionsSimpleWidget(
                               app: widget.app,
                               readOnly: false,
-                              value: shopState.shop.conditions ?? StorageConditionsModel(
-                                  privilegeLevelRequired:
-                                  PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+                              value: shopState.shop.conditions ??
+                                  StorageConditionsModel(
+                                      privilegeLevelRequired:
+                                          PrivilegeLevelRequiredSimple
+                                              .noPrivilegeRequiredSimple),
                             )),
                       ]),
                 ]);

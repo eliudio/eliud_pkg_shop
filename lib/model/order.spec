@@ -215,7 +215,7 @@
       "displayName": "Status of the Order",
       "fieldType": "enum",
       "enumName": "OrderStatus",
-      "enumValues" : [ "Ordered", "Paid", "PaymentFailed", "Shipped", "Delivered"],
+      "enumValues" : [ "ordered", "paid", "paymentFailed", "shipped", "delivered"],
       "group": "orderStatus"
     },
     {
@@ -274,7 +274,7 @@
     }
   ],
   "listFields": {
-    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID)) : Container()",
+    "title": "Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID))",
     "subTitle": "value.paymentReference != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.paymentReference!)) : Container()"
   },
   "alternativeViews": [

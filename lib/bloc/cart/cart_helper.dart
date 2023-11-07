@@ -5,7 +5,10 @@ class CartHelper {
     if (items.isEmpty) return 0;
     var value = items
         .map((item) =>
-            item.amount! * ((item.product != null) && (item.product!.price != null) ? item.product!.price! : 0.0))
+            item.amount! *
+            ((item.product != null) && (item.product!.price != null)
+                ? item.product!.price!
+                : 0.0))
         .reduce((value, element) => value + element);
     return value.toDouble();
   }

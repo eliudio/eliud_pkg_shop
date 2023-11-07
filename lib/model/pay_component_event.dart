@@ -24,13 +24,11 @@ abstract class PayComponentEvent extends Equatable {
 class FetchPayComponent extends PayComponentEvent {
   final String? id;
 
-  FetchPayComponent({ this.id });
+  FetchPayComponent({this.id});
 }
 
 class PayComponentUpdated extends PayComponentEvent {
   final PayModel value;
 
-  PayComponentUpdated({ required this.value });
+  PayComponentUpdated({required this.value});
 }
-
-

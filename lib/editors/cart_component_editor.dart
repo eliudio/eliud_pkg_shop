@@ -46,7 +46,7 @@ class CartComponentEditorConstructor extends ComponentEditorConstructor {
           description: 'New cart',
           conditions: StorageConditionsModel(
               privilegeLevelRequired:
-                  PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+                  PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple),
         ),
         feedback);
   }
@@ -58,7 +58,7 @@ class CartComponentEditorConstructor extends ComponentEditorConstructor {
     if (cart != null) {
       _openIt(app, context, false, cart, feedback);
     } else {
-      openErrorDialog(app, context, app.documentID + '/_error',
+      openErrorDialog(app, context, '${app.documentID}/_error',
           title: 'Error',
           errorMessage: 'Cannot find notification dashboard with id $id');
     }
@@ -69,7 +69,7 @@ class CartComponentEditorConstructor extends ComponentEditorConstructor {
     openComplexDialog(
       app,
       context,
-      app.documentID + '/notificationdashboard',
+      '${app.documentID}/notificationdashboard',
       title: create
           ? 'Create Notification Dashboard'
           : 'Update Notification Dashboard',
@@ -93,12 +93,15 @@ class CartComponentEditorConstructor extends ComponentEditorConstructor {
     if (entity != null) {
       var myEntity = entity as CartEntity;
       var newEntity = myEntity.copyWith(
-        backToShopAction: myEntity.backToShopAction != null ? myEntity
-            .backToShopAction!.copyWith(appId: app.documentID) : null,
-        checkoutAction: myEntity.checkoutAction != null ? myEntity.checkoutAction!
-            .copyWith(appId: app.documentID) : null,
-        openProductAction: myEntity.openProductAction != null ? myEntity
-            .openProductAction!.copyWith(appId: app.documentID) : null,
+        backToShopAction: myEntity.backToShopAction != null
+            ? myEntity.backToShopAction!.copyWith(appId: app.documentID)
+            : null,
+        checkoutAction: myEntity.checkoutAction != null
+            ? myEntity.checkoutAction!.copyWith(appId: app.documentID)
+            : null,
+        openProductAction: myEntity.openProductAction != null
+            ? myEntity.openProductAction!.copyWith(appId: app.documentID)
+            : null,
       );
       return newEntity;
     } else {
@@ -111,9 +114,9 @@ class CartComponentEditor extends StatefulWidget {
   final AppModel app;
 
   const CartComponentEditor({
-    Key? key,
+    super.key,
     required this.app,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() => _CartComponentEditorState();
@@ -214,7 +217,6 @@ class _CartComponentEditorState extends State<CartComponentEditor> {
                         collapsible: true,
                         collapsed: true,
                         children: [
-
                           topicContainer(widget.app, context,
                               title: 'Item Detail Background',
                               collapsible: true,
@@ -231,7 +233,8 @@ class _CartComponentEditorState extends State<CartComponentEditor> {
                                       cartState.model.itemDetailBackground =
                                           BackgroundModel();
                                     } else {
-                                      cartState.model.itemDetailBackground = null;
+                                      cartState.model.itemDetailBackground =
+                                          null;
                                     }
                                   });
                                 }),
@@ -240,10 +243,10 @@ class _CartComponentEditorState extends State<CartComponentEditor> {
                                   BackgroundWidget(
                                       app: widget.app,
                                       memberId: memberId,
-                                      value: cartState.model.itemDetailBackground!,
+                                      value:
+                                          cartState.model.itemDetailBackground!,
                                       label: 'Item Detail Background'),
                               ]),
-
                           topicContainer(widget.app, context,
                               title: 'Item Image Background',
                               collapsible: true,
@@ -253,23 +256,24 @@ class _CartComponentEditorState extends State<CartComponentEditor> {
                                     widget.app,
                                     context,
                                     'Item Image Background?',
-                                    cartState.model.itemImageBackground !=
-                                        null, (value) {
+                                    cartState.model.itemImageBackground != null,
+                                    (value) {
                                   setState(() {
                                     if (value!) {
                                       cartState.model.itemImageBackground =
                                           BackgroundModel();
                                     } else {
-                                      cartState.model.itemImageBackground = null;
+                                      cartState.model.itemImageBackground =
+                                          null;
                                     }
                                   });
                                 }),
-                                if (cartState.model.itemImageBackground !=
-                                    null)
+                                if (cartState.model.itemImageBackground != null)
                                   BackgroundWidget(
                                       app: widget.app,
                                       memberId: memberId,
-                                      value: cartState.model.itemImageBackground!,
+                                      value:
+                                          cartState.model.itemImageBackground!,
                                       label: 'Item Image Background'),
                               ]),
                         ]),

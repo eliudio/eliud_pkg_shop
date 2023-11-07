@@ -22,12 +22,26 @@ class MemberCartEntity implements EntityBase {
   final String? appId;
   final List<CartItemEntity>? cartItems;
 
-  MemberCartEntity({required this.appId, this.cartItems, });
+  MemberCartEntity({
+    required this.appId,
+    this.cartItems,
+  });
 
-  MemberCartEntity copyWith({String? documentID, String? appId, List<CartItemEntity>? cartItems, }) {
-    return MemberCartEntity(appId : appId ?? this.appId, cartItems : cartItems ?? this.cartItems, );
+  MemberCartEntity copyWith({
+    String? documentID,
+    String? appId,
+    List<CartItemEntity>? cartItems,
+  }) {
+    return MemberCartEntity(
+      appId: appId ?? this.appId,
+      cartItems: cartItems ?? this.cartItems,
+    );
   }
-  List<Object?> get props => [appId, cartItems, ];
+
+  List<Object?> get props => [
+        appId,
+        cartItems,
+      ];
 
   @override
   String toString() {
@@ -36,38 +50,45 @@ class MemberCartEntity implements EntityBase {
     return 'MemberCartEntity{appId: $appId, cartItems: CartItem[] { $cartItemsCsv }}';
   }
 
-  static MemberCartEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+  static MemberCartEntity? fromMap(Object? o,
+      {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
-    var cartItemsFromMap;
-    cartItemsFromMap = map['cartItems'];
+    var cartItemsFromMap = map['cartItems'];
     List<CartItemEntity> cartItemsList;
     if (cartItemsFromMap != null) {
       cartItemsList = (map['cartItems'] as List<dynamic>)
-        .map((dynamic item) =>
-        CartItemEntity.fromMap(item as Map, newDocumentIds: newDocumentIds)!)
-        .toList();
+          .map((dynamic item) => CartItemEntity.fromMap(item as Map,
+              newDocumentIds: newDocumentIds)!)
+          .toList();
     } else {
       cartItemsList = [];
     }
 
     return MemberCartEntity(
-      appId: map['appId'], 
-      cartItems: cartItemsList, 
+      appId: map['appId'],
+      cartItems: cartItemsList,
     );
   }
 
+  @override
   Map<String, Object?> toDocument() {
-    final List<Map<String?, dynamic>>? cartItemsListMap = cartItems != null 
+    final List<Map<String?, dynamic>>? cartItemsListMap = cartItems != null
         ? cartItems!.map((item) => item.toDocument()).toList()
         : null;
 
     Map<String, Object?> theDocument = HashMap();
-    if (appId != null) theDocument["appId"] = appId;
-      else theDocument["appId"] = null;
-    if (cartItems != null) theDocument["cartItems"] = cartItemsListMap;
-      else theDocument["cartItems"] = null;
+    if (appId != null) {
+      theDocument["appId"] = appId;
+    } else {
+      theDocument["appId"] = null;
+    }
+    if (cartItems != null) {
+      theDocument["cartItems"] = cartItemsListMap;
+    } else {
+      theDocument["cartItems"] = null;
+    }
     return theDocument;
   }
 
@@ -77,7 +98,8 @@ class MemberCartEntity implements EntityBase {
     return newEntity;
   }
 
-  static MemberCartEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
+  static MemberCartEntity? fromJsonString(String json,
+      {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
@@ -86,9 +108,9 @@ class MemberCartEntity implements EntityBase {
     return jsonEncode(toDocument());
   }
 
-  Future<Map<String, Object?>> enrichedDocument(Map<String, Object?> theDocument) async {
+  @override
+  Future<Map<String, Object?>> enrichedDocument(
+      Map<String, Object?> theDocument) async {
     return theDocument;
   }
-
 }
-

@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
 
-
 @immutable
 abstract class ProductImageFormEvent extends Equatable {
   const ProductImageFormEvent();
@@ -26,15 +25,13 @@ abstract class ProductImageFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewProductImageFormEvent extends ProductImageFormEvent {
-}
-
+class InitialiseNewProductImageFormEvent extends ProductImageFormEvent {}
 
 class InitialiseProductImageFormEvent extends ProductImageFormEvent {
   final ProductImageModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseProductImageFormEvent({this.value});
 }
@@ -43,7 +40,7 @@ class InitialiseProductImageFormNoLoadEvent extends ProductImageFormEvent {
   final ProductImageModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseProductImageFormNoLoadEvent({this.value});
 }
@@ -54,7 +51,7 @@ class ChangedProductImageDocumentID extends ProductImageFormEvent {
   ChangedProductImageDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedProductImageDocumentID{ value: $value }';
@@ -66,9 +63,8 @@ class ChangedProductImageImage extends ProductImageFormEvent {
   ChangedProductImageImage({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedProductImageImage{ value: $value }';
 }
-

@@ -20,8 +20,8 @@ import 'package:eliud_pkg_shop/model/order_component_event.dart';
 import 'package:eliud_pkg_shop/model/order_component_state.dart';
 import 'package:eliud_pkg_shop/model/order_repository.dart';
 
-
-class OrderComponentBloc extends Bloc<OrderComponentEvent, OrderComponentState> {
+class OrderComponentBloc
+    extends Bloc<OrderComponentEvent, OrderComponentState> {
   final OrderRepository? orderRepository;
   StreamSubscription? _orderSubscription;
 
@@ -34,11 +34,12 @@ class OrderComponentBloc extends Bloc<OrderComponentEvent, OrderComponentState> 
     });
   }
 
-  OrderComponentBloc({ this.orderRepository }): super(OrderComponentUninitialized()) {
-    on <FetchOrderComponent> ((event, emit) {
+  OrderComponentBloc({this.orderRepository})
+      : super(OrderComponentUninitialized()) {
+    on<FetchOrderComponent>((event, emit) {
       _mapLoadOrderComponentUpdateToState(event.id!);
     });
-    on <OrderComponentUpdated> ((event, emit) {
+    on<OrderComponentUpdated>((event, emit) {
       emit(OrderComponentLoaded(value: event.value));
     });
   }
@@ -48,6 +49,4 @@ class OrderComponentBloc extends Bloc<OrderComponentEvent, OrderComponentState> 
     _orderSubscription?.cancel();
     return super.close();
   }
-
 }
-

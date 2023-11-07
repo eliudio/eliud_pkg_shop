@@ -9,19 +9,17 @@ import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_bloc.dart';
 
 import '../../model/shop_front_entity.dart';
 
-class ShopFrontBloc
-    extends EditorBaseBloc<ShopFrontModel, ShopFrontEntity> {
-
+class ShopFrontBloc extends EditorBaseBloc<ShopFrontModel, ShopFrontEntity> {
   ShopFrontBloc(String appId, EditorFeedback feedback)
       : super(appId, shopFrontRepository(appId: appId)!, feedback);
 
   @override
   ShopFrontModel newInstance(StorageConditionsModel conditions) {
     return ShopFrontModel(
-        appId: appId,
-        documentID: newRandomKey(),
-        description: 'New Shop Front',
-        conditions: conditions,
+      appId: appId,
+      documentID: newRandomKey(),
+      description: 'New Shop Front',
+      conditions: conditions,
     );
   }
 
@@ -29,8 +27,7 @@ class ShopFrontBloc
   ShopFrontModel setDefaultValues(
       ShopFrontModel t, StorageConditionsModel conditions) {
     return t.copyWith(
-      addToCartColor: t.addToCartColor ?? RgbModel(r: 0, g: 0, b: 0),
+        addToCartColor: t.addToCartColor ?? RgbModel(r: 0, g: 0, b: 0),
         conditions: t.conditions ?? conditions);
   }
 }
-

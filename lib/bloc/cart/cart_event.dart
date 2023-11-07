@@ -12,10 +12,11 @@ class LoadCart extends CartEvent {}
 class AddProduct extends CartEvent {
   final int amount;
   final ProductModel? product;
-  ActionModel? continueShoppingAction;
+  final ActionModel? continueShoppingAction;
 
   AddProduct(this.amount, this.product, this.continueShoppingAction);
 
+  @override
   List<Object?> get props => [amount, product, continueShoppingAction];
 }
 
@@ -25,6 +26,7 @@ class SimpleAddProduct extends CartEvent {
 
   SimpleAddProduct(this.amount, this.product);
 
+  @override
   List<Object?> get props => [amount, product];
 }
 
@@ -34,6 +36,7 @@ class RemoveProduct extends CartEvent {
 
   RemoveProduct(this.amount, this.product);
 
+  @override
   List<Object> get props => [amount, product];
 }
 

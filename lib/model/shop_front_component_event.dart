@@ -24,13 +24,11 @@ abstract class ShopFrontComponentEvent extends Equatable {
 class FetchShopFrontComponent extends ShopFrontComponentEvent {
   final String? id;
 
-  FetchShopFrontComponent({ this.id });
+  FetchShopFrontComponent({this.id});
 }
 
 class ShopFrontComponentUpdated extends ShopFrontComponentEvent {
   final ShopFrontModel value;
 
-  ShopFrontComponentUpdated({ required this.value });
+  ShopFrontComponentUpdated({required this.value});
 }
-
-

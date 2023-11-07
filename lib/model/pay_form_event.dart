@@ -19,7 +19,6 @@ import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
 
-
 @immutable
 abstract class PayFormEvent extends Equatable {
   const PayFormEvent();
@@ -28,15 +27,13 @@ abstract class PayFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewPayFormEvent extends PayFormEvent {
-}
-
+class InitialiseNewPayFormEvent extends PayFormEvent {}
 
 class InitialisePayFormEvent extends PayFormEvent {
   final PayModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialisePayFormEvent({this.value});
 }
@@ -45,7 +42,7 @@ class InitialisePayFormNoLoadEvent extends PayFormEvent {
   final PayModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialisePayFormNoLoadEvent({this.value});
 }
@@ -56,7 +53,7 @@ class ChangedPayDocumentID extends PayFormEvent {
   ChangedPayDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPayDocumentID{ value: $value }';
@@ -68,7 +65,7 @@ class ChangedPayAppId extends PayFormEvent {
   ChangedPayAppId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPayAppId{ value: $value }';
@@ -80,7 +77,7 @@ class ChangedPayDescription extends PayFormEvent {
   ChangedPayDescription({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPayDescription{ value: $value }';
@@ -92,7 +89,7 @@ class ChangedPaySucceeded extends PayFormEvent {
   ChangedPaySucceeded({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPaySucceeded{ value: $value }';
@@ -104,7 +101,7 @@ class ChangedPayPayAction extends PayFormEvent {
   ChangedPayPayAction({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPayPayAction{ value: $value }';
@@ -116,7 +113,7 @@ class ChangedPayShop extends PayFormEvent {
   ChangedPayShop({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPayShop{ value: $value }';
@@ -128,9 +125,8 @@ class ChangedPayConditions extends PayFormEvent {
   ChangedPayConditions({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPayConditions{ value: $value }';
 }
-

@@ -18,7 +18,6 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
 
-
 @immutable
 abstract class ShopFormEvent extends Equatable {
   const ShopFormEvent();
@@ -27,15 +26,13 @@ abstract class ShopFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewShopFormEvent extends ShopFormEvent {
-}
-
+class InitialiseNewShopFormEvent extends ShopFormEvent {}
 
 class InitialiseShopFormEvent extends ShopFormEvent {
   final ShopModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseShopFormEvent({this.value});
 }
@@ -44,7 +41,7 @@ class InitialiseShopFormNoLoadEvent extends ShopFormEvent {
   final ShopModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseShopFormNoLoadEvent({this.value});
 }
@@ -55,7 +52,7 @@ class ChangedShopDocumentID extends ShopFormEvent {
   ChangedShopDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedShopDocumentID{ value: $value }';
@@ -67,7 +64,7 @@ class ChangedShopAppId extends ShopFormEvent {
   ChangedShopAppId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedShopAppId{ value: $value }';
@@ -79,7 +76,7 @@ class ChangedShopDescription extends ShopFormEvent {
   ChangedShopDescription({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedShopDescription{ value: $value }';
@@ -91,7 +88,7 @@ class ChangedShopShortDescription extends ShopFormEvent {
   ChangedShopShortDescription({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedShopShortDescription{ value: $value }';
@@ -103,7 +100,7 @@ class ChangedShopCurrency extends ShopFormEvent {
   ChangedShopCurrency({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedShopCurrency{ value: $value }';
@@ -115,9 +112,8 @@ class ChangedShopConditions extends ShopFormEvent {
   ChangedShopConditions({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedShopConditions{ value: $value }';
 }
-

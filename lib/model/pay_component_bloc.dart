@@ -20,7 +20,6 @@ import 'package:eliud_pkg_shop/model/pay_component_event.dart';
 import 'package:eliud_pkg_shop/model/pay_component_state.dart';
 import 'package:eliud_pkg_shop/model/pay_repository.dart';
 
-
 class PayComponentBloc extends Bloc<PayComponentEvent, PayComponentState> {
   final PayRepository? payRepository;
   StreamSubscription? _paySubscription;
@@ -34,11 +33,11 @@ class PayComponentBloc extends Bloc<PayComponentEvent, PayComponentState> {
     });
   }
 
-  PayComponentBloc({ this.payRepository }): super(PayComponentUninitialized()) {
-    on <FetchPayComponent> ((event, emit) {
+  PayComponentBloc({this.payRepository}) : super(PayComponentUninitialized()) {
+    on<FetchPayComponent>((event, emit) {
       _mapLoadPayComponentUpdateToState(event.id!);
     });
-    on <PayComponentUpdated> ((event, emit) {
+    on<PayComponentUpdated>((event, emit) {
       emit(PayComponentLoaded(value: event.value));
     });
   }
@@ -48,6 +47,4 @@ class PayComponentBloc extends Bloc<PayComponentEvent, PayComponentState> {
     _paySubscription?.cancel();
     return super.close();
   }
-
 }
-

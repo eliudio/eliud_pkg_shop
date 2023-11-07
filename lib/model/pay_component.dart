@@ -13,7 +13,6 @@
 
 */
 
-
 import 'package:eliud_pkg_shop/model/pay_component_bloc.dart';
 import 'package:eliud_pkg_shop/model/pay_component_event.dart';
 import 'package:eliud_pkg_shop/model/pay_model.dart';
@@ -31,20 +30,21 @@ abstract class AbstractPayComponent extends StatelessWidget {
   final AppModel app;
   final String payId;
 
-  AbstractPayComponent({Key? key, required this.app, required this.payId}): super(key: key);
+  AbstractPayComponent({super.key, required this.app, required this.payId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<PayComponentBloc> (
-          create: (context) => PayComponentBloc(
-            payRepository: payRepository(appId: app.documentID)!)
-        ..add(FetchPayComponent(id: payId)),
+    return BlocProvider<PayComponentBloc>(
+      create: (context) =>
+          PayComponentBloc(payRepository: payRepository(appId: app.documentID)!)
+            ..add(FetchPayComponent(id: payId)),
       child: _payBlockBuilder(context),
     );
   }
 
   Widget _payBlockBuilder(BuildContext context) {
-    return BlocBuilder<PayComponentBloc, PayComponentState>(builder: (context, state) {
+    return BlocBuilder<PayComponentBloc, PayComponentState>(
+        builder: (context, state) {
       if (state is PayComponentLoaded) {
         return yourWidget(context, state.value);
       } else if (state is PayComponentPermissionDenied) {
@@ -57,7 +57,11 @@ abstract class AbstractPayComponent extends StatelessWidget {
         return AlertWidget(app: app, title: 'Error', content: state.message);
       } else {
         return Center(
-          child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context),
+          child: StyleRegistry.registry()
+              .styleWithApp(app)
+              .frontEndStyle()
+              .progressIndicatorStyle()
+              .progressIndicator(app, context),
         );
       }
     });
@@ -65,4 +69,3 @@ abstract class AbstractPayComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, PayModel value);
 }
-

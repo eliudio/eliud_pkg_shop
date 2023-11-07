@@ -30,10 +30,10 @@ class NewPage extends ProductListEvent {}
 class AddProductList extends ProductListEvent {
   final ProductModel? value;
 
-  const AddProductList({ this.value });
+  const AddProductList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddProductList{ value: $value }';
@@ -42,10 +42,10 @@ class AddProductList extends ProductListEvent {
 class UpdateProductList extends ProductListEvent {
   final ProductModel? value;
 
-  const UpdateProductList({ this.value });
+  const UpdateProductList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateProductList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateProductList extends ProductListEvent {
 class DeleteProductList extends ProductListEvent {
   final ProductModel? value;
 
-  const DeleteProductList({ this.value });
+  const DeleteProductList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteProductList{ value: $value }';
@@ -67,24 +67,24 @@ class ProductListUpdated extends ProductListEvent {
   final List<ProductModel?>? value;
   final bool? mightHaveMore;
 
-  const ProductListUpdated({ this.value, this.mightHaveMore });
+  const ProductListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'ProductListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'ProductListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class ProductChangeQuery extends ProductListEvent {
   final EliudQuery? newQuery;
 
-  const ProductChangeQuery({ required this.newQuery });
+  const ProductChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'ProductChangeQuery{ value: $newQuery }';
 }
-

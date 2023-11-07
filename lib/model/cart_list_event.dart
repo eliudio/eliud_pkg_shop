@@ -30,10 +30,10 @@ class NewPage extends CartListEvent {}
 class AddCartList extends CartListEvent {
   final CartModel? value;
 
-  const AddCartList({ this.value });
+  const AddCartList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddCartList{ value: $value }';
@@ -42,10 +42,10 @@ class AddCartList extends CartListEvent {
 class UpdateCartList extends CartListEvent {
   final CartModel? value;
 
-  const UpdateCartList({ this.value });
+  const UpdateCartList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateCartList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateCartList extends CartListEvent {
 class DeleteCartList extends CartListEvent {
   final CartModel? value;
 
-  const DeleteCartList({ this.value });
+  const DeleteCartList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteCartList{ value: $value }';
@@ -67,24 +67,24 @@ class CartListUpdated extends CartListEvent {
   final List<CartModel?>? value;
   final bool? mightHaveMore;
 
-  const CartListUpdated({ this.value, this.mightHaveMore });
+  const CartListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'CartListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'CartListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class CartChangeQuery extends CartListEvent {
   final EliudQuery? newQuery;
 
-  const CartChangeQuery({ required this.newQuery });
+  const CartChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'CartChangeQuery{ value: $newQuery }';
 }
-

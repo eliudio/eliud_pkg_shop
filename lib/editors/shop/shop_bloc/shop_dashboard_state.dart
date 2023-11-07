@@ -17,14 +17,16 @@ class ShopDashboardUninitialised extends ShopDashboardBaseState {
   @override
   bool operator ==(Object other) =>
       identical(this, other) || other is ShopDashboardUninitialised;
+
+  @override
+  int get hashCode => 0;
 }
 
 class ShopDashboardInitialised extends ShopDashboardBaseState {
   final ShopModel shop;
   final List<ProductModel>? values;
 
-  const ShopDashboardInitialised(
-      {required this.shop, this.values});
+  const ShopDashboardInitialised({required this.shop, this.values});
 
   @override
   bool operator ==(Object other) =>
@@ -32,13 +34,13 @@ class ShopDashboardInitialised extends ShopDashboardBaseState {
       other is ShopDashboardInitialised &&
           shop == other.shop &&
           ListEquality().equals(values, other.values);
+
+  @override
+  int get hashCode => shop.hashCode ^ values.hashCode;
 }
 
 class ShopDashboardLoaded extends ShopDashboardInitialised {
-  ShopDashboardLoaded(
-      { required ShopModel shop,
-        List<ProductModel>? values})
-      : super(shop: shop, values: values);
+  ShopDashboardLoaded({required super.shop, super.values});
 }
 
 class ShopDashboardError extends ShopDashboardInitialised {
@@ -46,7 +48,6 @@ class ShopDashboardError extends ShopDashboardInitialised {
 
   ShopDashboardError(
       {required this.error,
-      required ShopModel shop,
-      required List<ProductModel> values})
-      : super(shop: shop, values: values);
+      required super.shop,
+      required List<ProductModel> super.values});
 }

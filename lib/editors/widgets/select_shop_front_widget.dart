@@ -12,36 +12,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 
-Widget selectShopFrontWidget(BuildContext context, AppModel app, StorageConditionsModel? containerStorageConditions, ShopFrontModel? shopFront, Function (dynamic selected) selectedCallback) {
+Widget selectShopFrontWidget(
+    BuildContext context,
+    AppModel app,
+    StorageConditionsModel? containerStorageConditions,
+    ShopFrontModel? shopFront,
+    Function(dynamic selected) selectedCallback) {
   return SelectWidget<ShopFrontModel>(
       app: app,
       currentlySelected: shopFront,
       title: 'Shop Front',
       selectTitle: 'Select shop front',
-      displayItemFunction: (item) => text(app, context,
-          item.documentID + ' ' + (item.description ?? '?')),
+      displayItemFunction: (item) =>
+          text(app, context, item.documentID + ' ' + (item.description ?? '?')),
       blocProviderProvider: () => BlocProvider<ShopFrontListBloc>(
-       create: (context) => ShopFrontListBloc(
-         eliudQuery: getComponentSelectorQuery(0, app.documentID),
-          shopFrontRepository: shopFrontRepository(appId: app.documentID)!,
-        )..add(LoadShopFrontList()),
-      ),
+            create: (context) => ShopFrontListBloc(
+              eliudQuery: getComponentSelectorQuery(0, app.documentID),
+              shopFrontRepository: shopFrontRepository(appId: app.documentID)!,
+            )..add(LoadShopFrontList()),
+          ),
       blocBuilder: (contentsLoaded, contentsNotLoaded) {
         return BlocBuilder<ShopFrontListBloc, ShopFrontListState>(
             builder: (context, state) {
-              if ((state is ShopFrontListLoaded) && (state.values != null)) {
-                return contentsLoaded(context, state.values!);
-              } else {
-                return contentsNotLoaded(context, );
-              }
-            });
+          if ((state is ShopFrontListLoaded) && (state.values != null)) {
+            return contentsLoaded(context, state.values!);
+          } else {
+            return contentsNotLoaded(
+              context,
+            );
+          }
+        });
       },
       selectedCallback: selectedCallback,
       changePrivilegeEventCallback: (BuildContext context, int privilegeLevel) {
-        BlocProvider.of<ShopFrontListBloc>(context).add(
-            ShopFrontChangeQuery(newQuery: getComponentSelectorQuery(privilegeLevel,
-                app.documentID)));
+        BlocProvider.of<ShopFrontListBloc>(context).add(ShopFrontChangeQuery(
+            newQuery:
+                getComponentSelectorQuery(privilegeLevel, app.documentID)));
       },
-      containerPrivilege: containerStorageConditions == null || containerStorageConditions.privilegeLevelRequired == null ? 0 : containerStorageConditions.privilegeLevelRequired!.index
-    );
+      containerPrivilege: containerStorageConditions == null ||
+              containerStorageConditions.privilegeLevelRequired == null
+          ? 0
+          : containerStorageConditions.privilegeLevelRequired!.index);
 }

@@ -18,7 +18,6 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
 
-
 @immutable
 abstract class ProductFormEvent extends Equatable {
   const ProductFormEvent();
@@ -27,15 +26,13 @@ abstract class ProductFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewProductFormEvent extends ProductFormEvent {
-}
-
+class InitialiseNewProductFormEvent extends ProductFormEvent {}
 
 class InitialiseProductFormEvent extends ProductFormEvent {
   final ProductModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseProductFormEvent({this.value});
 }
@@ -44,7 +41,7 @@ class InitialiseProductFormNoLoadEvent extends ProductFormEvent {
   final ProductModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseProductFormNoLoadEvent({this.value});
 }
@@ -55,7 +52,7 @@ class ChangedProductDocumentID extends ProductFormEvent {
   ChangedProductDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedProductDocumentID{ value: $value }';
@@ -67,7 +64,7 @@ class ChangedProductAppId extends ProductFormEvent {
   ChangedProductAppId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedProductAppId{ value: $value }';
@@ -79,7 +76,7 @@ class ChangedProductTitle extends ProductFormEvent {
   ChangedProductTitle({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedProductTitle{ value: $value }';
@@ -91,7 +88,7 @@ class ChangedProductAbout extends ProductFormEvent {
   ChangedProductAbout({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedProductAbout{ value: $value }';
@@ -103,7 +100,7 @@ class ChangedProductPrice extends ProductFormEvent {
   ChangedProductPrice({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedProductPrice{ value: $value }';
@@ -115,7 +112,7 @@ class ChangedProductWeight extends ProductFormEvent {
   ChangedProductWeight({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedProductWeight{ value: $value }';
@@ -127,7 +124,7 @@ class ChangedProductShop extends ProductFormEvent {
   ChangedProductShop({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedProductShop{ value: $value }';
@@ -139,7 +136,7 @@ class ChangedProductImages extends ProductFormEvent {
   ChangedProductImages({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedProductImages{ value: $value }';
@@ -151,9 +148,8 @@ class ChangedProductPosSize extends ProductFormEvent {
   ChangedProductPosSize({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedProductPosSize{ value: $value }';
 }
-

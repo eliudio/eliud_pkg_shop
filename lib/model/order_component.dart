@@ -13,7 +13,6 @@
 
 */
 
-
 import 'package:eliud_pkg_shop/model/order_component_bloc.dart';
 import 'package:eliud_pkg_shop/model/order_component_event.dart';
 import 'package:eliud_pkg_shop/model/order_model.dart';
@@ -31,20 +30,21 @@ abstract class AbstractOrderComponent extends StatelessWidget {
   final AppModel app;
   final String orderId;
 
-  AbstractOrderComponent({Key? key, required this.app, required this.orderId}): super(key: key);
+  AbstractOrderComponent({super.key, required this.app, required this.orderId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<OrderComponentBloc> (
-          create: (context) => OrderComponentBloc(
-            orderRepository: orderRepository(appId: app.documentID)!)
+    return BlocProvider<OrderComponentBloc>(
+      create: (context) => OrderComponentBloc(
+          orderRepository: orderRepository(appId: app.documentID)!)
         ..add(FetchOrderComponent(id: orderId)),
       child: _orderBlockBuilder(context),
     );
   }
 
   Widget _orderBlockBuilder(BuildContext context) {
-    return BlocBuilder<OrderComponentBloc, OrderComponentState>(builder: (context, state) {
+    return BlocBuilder<OrderComponentBloc, OrderComponentState>(
+        builder: (context, state) {
       if (state is OrderComponentLoaded) {
         return yourWidget(context, state.value);
       } else if (state is OrderComponentPermissionDenied) {
@@ -57,7 +57,11 @@ abstract class AbstractOrderComponent extends StatelessWidget {
         return AlertWidget(app: app, title: 'Error', content: state.message);
       } else {
         return Center(
-          child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context),
+          child: StyleRegistry.registry()
+              .styleWithApp(app)
+              .frontEndStyle()
+              .progressIndicatorStyle()
+              .progressIndicator(app, context),
         );
       }
     });
@@ -65,4 +69,3 @@ abstract class AbstractOrderComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, OrderModel value);
 }
-

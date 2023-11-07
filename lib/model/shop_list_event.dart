@@ -30,10 +30,10 @@ class NewPage extends ShopListEvent {}
 class AddShopList extends ShopListEvent {
   final ShopModel? value;
 
-  const AddShopList({ this.value });
+  const AddShopList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddShopList{ value: $value }';
@@ -42,10 +42,10 @@ class AddShopList extends ShopListEvent {
 class UpdateShopList extends ShopListEvent {
   final ShopModel? value;
 
-  const UpdateShopList({ this.value });
+  const UpdateShopList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateShopList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateShopList extends ShopListEvent {
 class DeleteShopList extends ShopListEvent {
   final ShopModel? value;
 
-  const DeleteShopList({ this.value });
+  const DeleteShopList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteShopList{ value: $value }';
@@ -67,24 +67,24 @@ class ShopListUpdated extends ShopListEvent {
   final List<ShopModel?>? value;
   final bool? mightHaveMore;
 
-  const ShopListUpdated({ this.value, this.mightHaveMore });
+  const ShopListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'ShopListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'ShopListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class ShopChangeQuery extends ShopListEvent {
   final EliudQuery? newQuery;
 
-  const ShopChangeQuery({ required this.newQuery });
+  const ShopChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'ShopChangeQuery{ value: $newQuery }';
 }
-

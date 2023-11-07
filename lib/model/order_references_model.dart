@@ -17,11 +17,7 @@ import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
-
 import 'package:eliud_pkg_shop/model/order_references_entity.dart';
-
-
-
 
 class OrderReferencesModel {
   static const String packageName = 'eliud_pkg_shop';
@@ -31,21 +27,35 @@ class OrderReferencesModel {
   String? shipmentReference;
   String? deliveryReference;
 
-  OrderReferencesModel({this.paymentReference, this.shipmentReference, this.deliveryReference, })  {
-  }
+  OrderReferencesModel({
+    this.paymentReference,
+    this.shipmentReference,
+    this.deliveryReference,
+  });
 
-  OrderReferencesModel copyWith({String? paymentReference, String? shipmentReference, String? deliveryReference, }) {
-    return OrderReferencesModel(paymentReference: paymentReference ?? this.paymentReference, shipmentReference: shipmentReference ?? this.shipmentReference, deliveryReference: deliveryReference ?? this.deliveryReference, );
+  OrderReferencesModel copyWith({
+    String? paymentReference,
+    String? shipmentReference,
+    String? deliveryReference,
+  }) {
+    return OrderReferencesModel(
+      paymentReference: paymentReference ?? this.paymentReference,
+      shipmentReference: shipmentReference ?? this.shipmentReference,
+      deliveryReference: deliveryReference ?? this.deliveryReference,
+    );
   }
 
   @override
-  int get hashCode => paymentReference.hashCode ^ shipmentReference.hashCode ^ deliveryReference.hashCode;
+  int get hashCode =>
+      paymentReference.hashCode ^
+      shipmentReference.hashCode ^
+      deliveryReference.hashCode;
 
   @override
   bool operator ==(Object other) =>
-          identical(this, other) ||
-          other is OrderReferencesModel &&
-          runtimeType == other.runtimeType && 
+      identical(this, other) ||
+      other is OrderReferencesModel &&
+          runtimeType == other.runtimeType &&
           paymentReference == other.paymentReference &&
           shipmentReference == other.shipmentReference &&
           deliveryReference == other.deliveryReference;
@@ -62,32 +72,31 @@ class OrderReferencesModel {
 
   OrderReferencesEntity toEntity({String? appId}) {
     return OrderReferencesEntity(
-          paymentReference: (paymentReference != null) ? paymentReference : null, 
-          shipmentReference: (shipmentReference != null) ? shipmentReference : null, 
-          deliveryReference: (deliveryReference != null) ? deliveryReference : null, 
+      paymentReference: (paymentReference != null) ? paymentReference : null,
+      shipmentReference: (shipmentReference != null) ? shipmentReference : null,
+      deliveryReference: (deliveryReference != null) ? deliveryReference : null,
     );
   }
 
-  static Future<OrderReferencesModel?> fromEntity(OrderReferencesEntity? entity) async {
+  static Future<OrderReferencesModel?> fromEntity(
+      OrderReferencesEntity? entity) async {
     if (entity == null) return null;
-    var counter = 0;
     return OrderReferencesModel(
-          paymentReference: entity.paymentReference, 
-          shipmentReference: entity.shipmentReference, 
-          deliveryReference: entity.deliveryReference, 
+      paymentReference: entity.paymentReference,
+      shipmentReference: entity.shipmentReference,
+      deliveryReference: entity.deliveryReference,
     );
   }
 
-  static Future<OrderReferencesModel?> fromEntityPlus(OrderReferencesEntity? entity, { String? appId}) async {
+  static Future<OrderReferencesModel?> fromEntityPlus(
+      OrderReferencesEntity? entity,
+      {String? appId}) async {
     if (entity == null) return null;
 
-    var counter = 0;
     return OrderReferencesModel(
-          paymentReference: entity.paymentReference, 
-          shipmentReference: entity.shipmentReference, 
-          deliveryReference: entity.deliveryReference, 
+      paymentReference: entity.paymentReference,
+      shipmentReference: entity.shipmentReference,
+      deliveryReference: entity.deliveryReference,
     );
   }
-
 }
-

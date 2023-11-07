@@ -13,7 +13,6 @@
 
 */
 
-
 import 'package:eliud_pkg_shop/model/cart_component_bloc.dart';
 import 'package:eliud_pkg_shop/model/cart_component_event.dart';
 import 'package:eliud_pkg_shop/model/cart_model.dart';
@@ -31,20 +30,21 @@ abstract class AbstractCartComponent extends StatelessWidget {
   final AppModel app;
   final String cartId;
 
-  AbstractCartComponent({Key? key, required this.app, required this.cartId}): super(key: key);
+  AbstractCartComponent({super.key, required this.app, required this.cartId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<CartComponentBloc> (
-          create: (context) => CartComponentBloc(
-            cartRepository: cartRepository(appId: app.documentID)!)
+    return BlocProvider<CartComponentBloc>(
+      create: (context) => CartComponentBloc(
+          cartRepository: cartRepository(appId: app.documentID)!)
         ..add(FetchCartComponent(id: cartId)),
       child: _cartBlockBuilder(context),
     );
   }
 
   Widget _cartBlockBuilder(BuildContext context) {
-    return BlocBuilder<CartComponentBloc, CartComponentState>(builder: (context, state) {
+    return BlocBuilder<CartComponentBloc, CartComponentState>(
+        builder: (context, state) {
       if (state is CartComponentLoaded) {
         return yourWidget(context, state.value);
       } else if (state is CartComponentPermissionDenied) {
@@ -57,7 +57,11 @@ abstract class AbstractCartComponent extends StatelessWidget {
         return AlertWidget(app: app, title: 'Error', content: state.message);
       } else {
         return Center(
-          child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context),
+          child: StyleRegistry.registry()
+              .styleWithApp(app)
+              .frontEndStyle()
+              .progressIndicatorStyle()
+              .progressIndicator(app, context),
         );
       }
     });
@@ -65,4 +69,3 @@ abstract class AbstractCartComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, CartModel value);
 }
-

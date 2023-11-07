@@ -8,7 +8,8 @@ import 'package:eliud_core/tools/widgets/platform_medium_widget.dart';
 import 'package:eliud_pkg_shop/model/product_image_model.dart';
 import 'package:flutter/material.dart';
 
-typedef void ProductImageModelCallback(ProductImageModel tutorialEntryModel);
+typedef ProductImageModelCallback = void Function(
+    ProductImageModel tutorialEntryModel);
 
 class ProductImageModelWidget extends StatefulWidget {
   final bool create;
@@ -19,14 +20,13 @@ class ProductImageModelWidget extends StatefulWidget {
   final ProductImageModelCallback tutorialEntryModelCallback;
 
   ProductImageModelWidget._({
-    Key? key,
     required this.app,
     required this.create,
     required this.widgetWidth,
     required this.widgetHeight,
     required this.tutorialEntryModel,
     required this.tutorialEntryModelCallback,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -79,7 +79,10 @@ class _ProductImageModelWidgetState extends State<ProductImageModelWidget> {
                 title: text(
                     widget.app, context, widget.tutorialEntryModel.documentID)),
           ]),
-      if (widget.tutorialEntryModel.image != null) PlatformMediumWidget(app: widget.app, platformMediumModel: widget.tutorialEntryModel.image!)
+      if (widget.tutorialEntryModel.image != null)
+        PlatformMediumWidget(
+            app: widget.app,
+            platformMediumModel: widget.tutorialEntryModel.image!)
     ]);
   }
 }

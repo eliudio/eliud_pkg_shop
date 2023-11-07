@@ -23,9 +23,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 import 'cart_model.dart';
 
-typedef List<CartModel?> FilterCartModels(List<CartModel?> values);
-
-
+typedef FilterCartModels = List<CartModel?> Function(List<CartModel?> values);
 
 class CartListBloc extends Bloc<CartListEvent, CartListState> {
   final FilterCartModels? filter;
@@ -39,23 +37,32 @@ class CartListBloc extends Bloc<CartListEvent, CartListState> {
   final bool? detailed;
   final int cartLimit;
 
-  CartListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required CartRepository cartRepository, this.cartLimit = 5})
+  CartListBloc(
+      {this.filter,
+      this.paged,
+      this.orderBy,
+      this.descending,
+      this.detailed,
+      this.eliudQuery,
+      required CartRepository cartRepository,
+      this.cartLimit = 5})
       : _cartRepository = cartRepository,
         super(CartListLoading()) {
-    on <LoadCartList> ((event, emit) {
+    on<LoadCartList>((event, emit) {
       if ((detailed == null) || (!detailed!)) {
         _mapLoadCartListToState();
       } else {
         _mapLoadCartListWithDetailsToState();
       }
     });
-    
-    on <NewPage> ((event, emit) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+
+    on<NewPage>((event, emit) {
+      pages = pages +
+          1; // it doesn't matter so much if we increase pages beyond the end
       _mapLoadCartListWithDetailsToState();
     });
-    
-    on <CartChangeQuery> ((event, emit) {
+
+    on<CartChangeQuery>((event, emit) {
       eliudQuery = event.newQuery;
       if ((detailed == null) || (!detailed!)) {
         _mapLoadCartListToState();
@@ -63,20 +70,20 @@ class CartListBloc extends Bloc<CartListEvent, CartListState> {
         _mapLoadCartListWithDetailsToState();
       }
     });
-      
-    on <AddCartList> ((event, emit) async {
+
+    on<AddCartList>((event, emit) async {
       await _mapAddCartListToState(event);
     });
-    
-    on <UpdateCartList> ((event, emit) async {
+
+    on<UpdateCartList>((event, emit) async {
       await _mapUpdateCartListToState(event);
     });
-    
-    on <DeleteCartList> ((event, emit) async {
+
+    on<DeleteCartList>((event, emit) async {
       await _mapDeleteCartListToState(event);
     });
-    
-    on <CartListUpdated> ((event, emit) {
+
+    on<CartListUpdated>((event, emit) {
       emit(_mapCartListUpdatedToState(event));
     });
   }
@@ -90,27 +97,31 @@ class CartListBloc extends Bloc<CartListEvent, CartListState> {
   }
 
   Future<void> _mapLoadCartListToState() async {
-    int amountNow =  (state is CartListLoaded) ? (state as CartListLoaded).values!.length : 0;
+    int amountNow = (state is CartListLoaded)
+        ? (state as CartListLoaded).values!.length
+        : 0;
     _cartsListSubscription?.cancel();
     _cartsListSubscription = _cartRepository.listen(
-          (list) => add(CartListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
-      orderBy: orderBy,
-      descending: descending,
-      eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * cartLimit : null
-    );
-  }
-
-  Future<void> _mapLoadCartListWithDetailsToState() async {
-    int amountNow =  (state is CartListLoaded) ? (state as CartListLoaded).values!.length : 0;
-    _cartsListSubscription?.cancel();
-    _cartsListSubscription = _cartRepository.listenWithDetails(
-            (list) => add(CartListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
+        (list) => add(CartListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * cartLimit : null
-    );
+        limit: ((paged != null) && paged!) ? pages * cartLimit : null);
+  }
+
+  Future<void> _mapLoadCartListWithDetailsToState() async {
+    int amountNow = (state is CartListLoaded)
+        ? (state as CartListLoaded).values!.length
+        : 0;
+    _cartsListSubscription?.cancel();
+    _cartsListSubscription = _cartRepository.listenWithDetails(
+        (list) => add(CartListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && paged!) ? pages * cartLimit : null);
   }
 
   Future<void> _mapAddCartListToState(AddCartList event) async {
@@ -134,8 +145,8 @@ class CartListBloc extends Bloc<CartListEvent, CartListState> {
     }
   }
 
-  CartListLoaded _mapCartListUpdatedToState(
-      CartListUpdated event) => CartListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
+  CartListLoaded _mapCartListUpdatedToState(CartListUpdated event) =>
+      CartListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {
@@ -143,5 +154,3 @@ class CartListBloc extends Bloc<CartListEvent, CartListState> {
     return super.close();
   }
 }
-
-

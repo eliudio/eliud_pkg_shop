@@ -1,5 +1,5 @@
 import 'package:eliud_core/core/wizards/builders/page_builder.dart';
-import 'package:eliud_core/core/wizards/tools/documentIdentifier.dart';
+import 'package:eliud_core/core/wizards/tools/document_identifier.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart'
     as corerepo;
 import 'package:eliud_core/model/model_export.dart';
@@ -18,18 +18,16 @@ abstract class AbstractBasicPageTemplate extends PageBuilder {
   Future<void> setupComponent();
 
   AbstractBasicPageTemplate(
-      String uniqueId,
-      String pageId,
-      AppModel app,
-      String memberId,
-      HomeMenuModel theHomeMenu,
-      AppBarModel theAppBar,
-      DrawerModel leftDrawer,
-      DrawerModel rightDrawer,
+      super.uniqueId,
+      super.pageId,
+      super.app,
+      super.memberId,
+      super.theHomeMenu,
+      super.theAppBar,
+      super.leftDrawer,
+      super.rightDrawer,
       {this.privilegeLevelRequired,
-      this.presentationImageAlignment})
-      : super(uniqueId, pageId, app, memberId, theHomeMenu, theAppBar, leftDrawer,
-            rightDrawer, );
+      this.presentationImageAlignment});
 
   Future<PageModel> _setupPage(AppBarModel appBar) async {
     return await corerepo.AbstractRepositorySingleton.singleton
@@ -53,7 +51,7 @@ abstract class AbstractBasicPageTemplate extends PageBuilder {
         endDrawer: rightDrawer,
         appBar: appBar,
         homeMenu: theHomeMenu,
-        layout: PageLayout.ListView,
+        layout: PageLayout.listView,
         conditions: StorageConditionsModel(
           privilegeLevelRequired: privilegeLevelRequired,
         ),

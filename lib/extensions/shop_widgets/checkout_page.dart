@@ -16,10 +16,10 @@ class CheckOutPage extends StatefulWidget {
   final AppModel app;
   final ActionModel? checkoutAction;
 
-  const CheckOutPage({Key? key, required this.app, this.checkoutAction}) : super(key: key);
+  const CheckOutPage({super.key, required this.app, this.checkoutAction});
 
   @override
-  _CheckOutPageState createState() => _CheckOutPageState();
+  State<CheckOutPage> createState() => _CheckOutPageState();
 }
 
 class _CheckOutPageState extends State<CheckOutPage> {
@@ -33,10 +33,10 @@ class _CheckOutPageState extends State<CheckOutPage> {
                   memberRepository: memberRepository()!,
                 )..add(LoadMemberList()),
             child: MemberAddressForm(
-              app: widget.app,
+                app: widget.app,
                 submitAction: widget.checkoutAction!,
                 value: accessState.getMember(),
-                formAction: FormAction.UpdateAction));
+                formAction: FormAction.updateAction));
       } else {
         return progressIndicator(widget.app, context);
       }

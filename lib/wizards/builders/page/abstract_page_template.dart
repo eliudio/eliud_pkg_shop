@@ -1,13 +1,10 @@
 import 'package:eliud_core/core/wizards/builders/page_builder.dart';
-import 'package:eliud_core/core/wizards/tools/documentIdentifier.dart';
+import 'package:eliud_core/core/wizards/tools/document_identifier.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart'
     as corerepo;
 import 'package:eliud_core/model/app_bar_model.dart';
-import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/body_component_model.dart';
 import 'package:eliud_core/model/display_conditions_model.dart';
-import 'package:eliud_core/model/drawer_model.dart';
-import 'package:eliud_core/model/home_menu_model.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/model/platform_medium_model.dart';
 import 'package:eliud_core/model/storage_conditions_model.dart';
@@ -35,20 +32,18 @@ abstract class AbstractPageTemplate extends PageBuilder {
   Future<void> setupComponent();
 
   AbstractPageTemplate(
-    String uniqueId,
-    String pageId,
-    AppModel app,
-    String memberId,
-    HomeMenuModel theHomeMenu,
-    AppBarModel theAppBar,
-    DrawerModel leftDrawer,
-    DrawerModel rightDrawer,
-     {
+    super.uniqueId,
+    super.pageId,
+    super.app,
+    super.memberId,
+    super.theHomeMenu,
+    super.theAppBar,
+    super.leftDrawer,
+    super.rightDrawer, {
     this.privilegeLevelRequired,
     this.packageCondition,
     this.conditionOverride,
-  }) : super(uniqueId, pageId, app, memberId, theHomeMenu, theAppBar, leftDrawer,
-            rightDrawer, );
+  });
 
   Future<PageModel> _setupPage(
       AppBarModel appBar, String? presentationId) async {
@@ -73,7 +68,7 @@ abstract class AbstractPageTemplate extends PageBuilder {
         endDrawer: rightDrawer,
         appBar: appBar,
         homeMenu: theHomeMenu,
-        layout: PageLayout.ListView,
+        layout: PageLayout.listView,
         conditions: StorageConditionsModel(
           privilegeLevelRequired: privilegeLevelRequired,
         ),
@@ -91,12 +86,13 @@ abstract class AbstractPageTemplate extends PageBuilder {
             componentName: componentName())
       ],
       image: image,
-      imagePositionRelative: PresentationRelativeImagePosition.Aside,
-      imageAlignment: presentationImageAlignment ?? PresentationImageAlignment.Right,
+      imagePositionRelative: PresentationRelativeImagePosition.aside,
+      imageAlignment:
+          presentationImageAlignment ?? PresentationImageAlignment.right,
       imageWidth: .40,
       conditions: StorageConditionsModel(
           privilegeLevelRequired:
-              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+              PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple),
     );
   }
 
@@ -112,12 +108,12 @@ abstract class AbstractPageTemplate extends PageBuilder {
 /*
   Future<PlatformMediumModel> uploadImage() async {
     return await ImageTools.uploadPlatformPhoto(app, memberId, assetLocation(),
-        PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple);
+        PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple);
   }
 
 */
   Future<PageModel> create(PlatformMediumModel? image) async {
-    var presentationModelId;
+    String presentationModelId;
     presentationModelId = (await _setupPresentation(image)).documentID;
     await setupComponent();
     return await _setupPage(theAppBar, presentationModelId);

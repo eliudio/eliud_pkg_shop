@@ -25,16 +25,26 @@ import '../model/shop_repository.dart';
 import '../model/shop_front_repository.dart';
 import 'package:eliud_core/package/package.dart';
 
-CartRepository? cartRepository({ String? appId }) => AbstractRepositorySingleton.singleton.cartRepository(appId);
-MemberCartRepository? memberCartRepository({ String? appId }) => AbstractRepositorySingleton.singleton.memberCartRepository(appId);
-OrderRepository? orderRepository({ String? appId }) => AbstractRepositorySingleton.singleton.orderRepository(appId);
-OrderOverviewRepository? orderOverviewRepository({ String? appId }) => AbstractRepositorySingleton.singleton.orderOverviewRepository(appId);
-PayRepository? payRepository({ String? appId }) => AbstractRepositorySingleton.singleton.payRepository(appId);
-PayConfirmationRepository? payConfirmationRepository({ String? appId }) => AbstractRepositorySingleton.singleton.payConfirmationRepository(appId);
-ProductRepository? productRepository({ String? appId }) => AbstractRepositorySingleton.singleton.productRepository(appId);
-ProductDisplayRepository? productDisplayRepository({ String? appId }) => AbstractRepositorySingleton.singleton.productDisplayRepository(appId);
-ShopRepository? shopRepository({ String? appId }) => AbstractRepositorySingleton.singleton.shopRepository(appId);
-ShopFrontRepository? shopFrontRepository({ String? appId }) => AbstractRepositorySingleton.singleton.shopFrontRepository(appId);
+CartRepository? cartRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.cartRepository(appId);
+MemberCartRepository? memberCartRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.memberCartRepository(appId);
+OrderRepository? orderRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.orderRepository(appId);
+OrderOverviewRepository? orderOverviewRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.orderOverviewRepository(appId);
+PayRepository? payRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.payRepository(appId);
+PayConfirmationRepository? payConfirmationRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.payConfirmationRepository(appId);
+ProductRepository? productRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.productRepository(appId);
+ProductDisplayRepository? productDisplayRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.productDisplayRepository(appId);
+ShopRepository? shopRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.shopRepository(appId);
+ShopFrontRepository? shopFrontRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.shopFrontRepository(appId);
 
 abstract class AbstractRepositorySingleton {
   static List<MemberCollectionInfo> collections = [

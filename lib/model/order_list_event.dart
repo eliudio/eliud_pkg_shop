@@ -30,10 +30,10 @@ class NewPage extends OrderListEvent {}
 class AddOrderList extends OrderListEvent {
   final OrderModel? value;
 
-  const AddOrderList({ this.value });
+  const AddOrderList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddOrderList{ value: $value }';
@@ -42,10 +42,10 @@ class AddOrderList extends OrderListEvent {
 class UpdateOrderList extends OrderListEvent {
   final OrderModel? value;
 
-  const UpdateOrderList({ this.value });
+  const UpdateOrderList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateOrderList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateOrderList extends OrderListEvent {
 class DeleteOrderList extends OrderListEvent {
   final OrderModel? value;
 
-  const DeleteOrderList({ this.value });
+  const DeleteOrderList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteOrderList{ value: $value }';
@@ -67,24 +67,24 @@ class OrderListUpdated extends OrderListEvent {
   final List<OrderModel?>? value;
   final bool? mightHaveMore;
 
-  const OrderListUpdated({ this.value, this.mightHaveMore });
+  const OrderListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'OrderListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'OrderListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class OrderChangeQuery extends OrderListEvent {
   final EliudQuery? newQuery;
 
-  const OrderChangeQuery({ required this.newQuery });
+  const OrderChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'OrderChangeQuery{ value: $newQuery }';
 }
-

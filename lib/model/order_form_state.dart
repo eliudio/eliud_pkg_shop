@@ -41,9 +41,9 @@ class OrderFormInitialized extends OrderFormState {
   final OrderModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const OrderFormInitialized({ this.value });
+  const OrderFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
@@ -51,9 +51,9 @@ abstract class OrderFormError extends OrderFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const OrderFormError({this.message, OrderModel? value }) : super(value: value);
+  const OrderFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +63,12 @@ abstract class OrderFormError extends OrderFormInitialized {
     }''';
   }
 }
-class DocumentIDOrderFormError extends OrderFormError { 
-  const DocumentIDOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+
+class DocumentIDOrderFormError extends OrderFormError {
+  const DocumentIDOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +79,11 @@ class DocumentIDOrderFormError extends OrderFormError {
   }
 }
 
-
-class AppIdOrderFormError extends OrderFormError { 
-  const AppIdOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class AppIdOrderFormError extends OrderFormError {
+  const AppIdOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +94,11 @@ class AppIdOrderFormError extends OrderFormError {
   }
 }
 
-
-class CustomerOrderFormError extends OrderFormError { 
-  const CustomerOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class CustomerOrderFormError extends OrderFormError {
+  const CustomerOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +109,11 @@ class CustomerOrderFormError extends OrderFormError {
   }
 }
 
-
-class NameOrderFormError extends OrderFormError { 
-  const NameOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class NameOrderFormError extends OrderFormError {
+  const NameOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -126,12 +124,11 @@ class NameOrderFormError extends OrderFormError {
   }
 }
 
-
-class EmailOrderFormError extends OrderFormError { 
-  const EmailOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class EmailOrderFormError extends OrderFormError {
+  const EmailOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -142,12 +139,11 @@ class EmailOrderFormError extends OrderFormError {
   }
 }
 
-
-class ShipStreet1OrderFormError extends OrderFormError { 
-  const ShipStreet1OrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class ShipStreet1OrderFormError extends OrderFormError {
+  const ShipStreet1OrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -158,12 +154,11 @@ class ShipStreet1OrderFormError extends OrderFormError {
   }
 }
 
-
-class ShipStreet2OrderFormError extends OrderFormError { 
-  const ShipStreet2OrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class ShipStreet2OrderFormError extends OrderFormError {
+  const ShipStreet2OrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -174,12 +169,11 @@ class ShipStreet2OrderFormError extends OrderFormError {
   }
 }
 
-
-class ShipCityOrderFormError extends OrderFormError { 
-  const ShipCityOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class ShipCityOrderFormError extends OrderFormError {
+  const ShipCityOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -190,12 +184,11 @@ class ShipCityOrderFormError extends OrderFormError {
   }
 }
 
-
-class ShipStateOrderFormError extends OrderFormError { 
-  const ShipStateOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class ShipStateOrderFormError extends OrderFormError {
+  const ShipStateOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -206,12 +199,11 @@ class ShipStateOrderFormError extends OrderFormError {
   }
 }
 
-
-class PostcodeOrderFormError extends OrderFormError { 
-  const PostcodeOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class PostcodeOrderFormError extends OrderFormError {
+  const PostcodeOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -222,12 +214,11 @@ class PostcodeOrderFormError extends OrderFormError {
   }
 }
 
-
-class CountryOrderFormError extends OrderFormError { 
-  const CountryOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class CountryOrderFormError extends OrderFormError {
+  const CountryOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -238,12 +229,11 @@ class CountryOrderFormError extends OrderFormError {
   }
 }
 
-
-class InvoiceSameOrderFormError extends OrderFormError { 
-  const InvoiceSameOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class InvoiceSameOrderFormError extends OrderFormError {
+  const InvoiceSameOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -254,12 +244,11 @@ class InvoiceSameOrderFormError extends OrderFormError {
   }
 }
 
-
-class InvoiceStreet1OrderFormError extends OrderFormError { 
-  const InvoiceStreet1OrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class InvoiceStreet1OrderFormError extends OrderFormError {
+  const InvoiceStreet1OrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -270,12 +259,11 @@ class InvoiceStreet1OrderFormError extends OrderFormError {
   }
 }
 
-
-class InvoiceStreet2OrderFormError extends OrderFormError { 
-  const InvoiceStreet2OrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class InvoiceStreet2OrderFormError extends OrderFormError {
+  const InvoiceStreet2OrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -286,12 +274,11 @@ class InvoiceStreet2OrderFormError extends OrderFormError {
   }
 }
 
-
-class InvoiceCityOrderFormError extends OrderFormError { 
-  const InvoiceCityOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class InvoiceCityOrderFormError extends OrderFormError {
+  const InvoiceCityOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -302,12 +289,11 @@ class InvoiceCityOrderFormError extends OrderFormError {
   }
 }
 
-
-class InvoiceStateOrderFormError extends OrderFormError { 
-  const InvoiceStateOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class InvoiceStateOrderFormError extends OrderFormError {
+  const InvoiceStateOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -318,12 +304,11 @@ class InvoiceStateOrderFormError extends OrderFormError {
   }
 }
 
-
-class InvoicePostcodeOrderFormError extends OrderFormError { 
-  const InvoicePostcodeOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class InvoicePostcodeOrderFormError extends OrderFormError {
+  const InvoicePostcodeOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -334,12 +319,11 @@ class InvoicePostcodeOrderFormError extends OrderFormError {
   }
 }
 
-
-class InvoiceCountryOrderFormError extends OrderFormError { 
-  const InvoiceCountryOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class InvoiceCountryOrderFormError extends OrderFormError {
+  const InvoiceCountryOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -350,12 +334,11 @@ class InvoiceCountryOrderFormError extends OrderFormError {
   }
 }
 
-
-class ProductsOrderFormError extends OrderFormError { 
-  const ProductsOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class ProductsOrderFormError extends OrderFormError {
+  const ProductsOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -366,12 +349,11 @@ class ProductsOrderFormError extends OrderFormError {
   }
 }
 
-
-class TotalPriceOrderFormError extends OrderFormError { 
-  const TotalPriceOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class TotalPriceOrderFormError extends OrderFormError {
+  const TotalPriceOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -382,12 +364,11 @@ class TotalPriceOrderFormError extends OrderFormError {
   }
 }
 
-
-class CurrencyOrderFormError extends OrderFormError { 
-  const CurrencyOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class CurrencyOrderFormError extends OrderFormError {
+  const CurrencyOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -398,12 +379,11 @@ class CurrencyOrderFormError extends OrderFormError {
   }
 }
 
-
-class PaymentReferenceOrderFormError extends OrderFormError { 
-  const PaymentReferenceOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class PaymentReferenceOrderFormError extends OrderFormError {
+  const PaymentReferenceOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -414,12 +394,11 @@ class PaymentReferenceOrderFormError extends OrderFormError {
   }
 }
 
-
-class ShipmentReferenceOrderFormError extends OrderFormError { 
-  const ShipmentReferenceOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class ShipmentReferenceOrderFormError extends OrderFormError {
+  const ShipmentReferenceOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -430,12 +409,11 @@ class ShipmentReferenceOrderFormError extends OrderFormError {
   }
 }
 
-
-class DeliveryReferenceOrderFormError extends OrderFormError { 
-  const DeliveryReferenceOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class DeliveryReferenceOrderFormError extends OrderFormError {
+  const DeliveryReferenceOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -446,12 +424,11 @@ class DeliveryReferenceOrderFormError extends OrderFormError {
   }
 }
 
-
-class PaymentNoteOrderFormError extends OrderFormError { 
-  const PaymentNoteOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class PaymentNoteOrderFormError extends OrderFormError {
+  const PaymentNoteOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -462,12 +439,11 @@ class PaymentNoteOrderFormError extends OrderFormError {
   }
 }
 
-
-class ShipmentNoteOrderFormError extends OrderFormError { 
-  const ShipmentNoteOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class ShipmentNoteOrderFormError extends OrderFormError {
+  const ShipmentNoteOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -478,12 +454,11 @@ class ShipmentNoteOrderFormError extends OrderFormError {
   }
 }
 
-
-class DeliveryNoteOrderFormError extends OrderFormError { 
-  const DeliveryNoteOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class DeliveryNoteOrderFormError extends OrderFormError {
+  const DeliveryNoteOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -494,12 +469,11 @@ class DeliveryNoteOrderFormError extends OrderFormError {
   }
 }
 
-
-class StatusOrderFormError extends OrderFormError { 
-  const StatusOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class StatusOrderFormError extends OrderFormError {
+  const StatusOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -510,12 +484,11 @@ class StatusOrderFormError extends OrderFormError {
   }
 }
 
-
-class TimeStampOrderFormError extends OrderFormError { 
-  const TimeStampOrderFormError({ String? message, OrderModel? value }): super(message: message, value: value);
+class TimeStampOrderFormError extends OrderFormError {
+  const TimeStampOrderFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -526,12 +499,11 @@ class TimeStampOrderFormError extends OrderFormError {
   }
 }
 
-
-class OrderFormLoaded extends OrderFormInitialized { 
-  const OrderFormLoaded({ OrderModel? value }): super(value: value);
+class OrderFormLoaded extends OrderFormInitialized {
+  const OrderFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -541,12 +513,11 @@ class OrderFormLoaded extends OrderFormInitialized {
   }
 }
 
-
-class SubmittableOrderForm extends OrderFormInitialized { 
-  const SubmittableOrderForm({ OrderModel? value }): super(value: value);
+class SubmittableOrderForm extends OrderFormInitialized {
+  const SubmittableOrderForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -555,5 +526,3 @@ class SubmittableOrderForm extends OrderFormInitialized {
     }''';
   }
 }
-
-

@@ -19,7 +19,6 @@ import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
 
-
 @immutable
 abstract class CartFormEvent extends Equatable {
   const CartFormEvent();
@@ -28,15 +27,13 @@ abstract class CartFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewCartFormEvent extends CartFormEvent {
-}
-
+class InitialiseNewCartFormEvent extends CartFormEvent {}
 
 class InitialiseCartFormEvent extends CartFormEvent {
   final CartModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseCartFormEvent({this.value});
 }
@@ -45,7 +42,7 @@ class InitialiseCartFormNoLoadEvent extends CartFormEvent {
   final CartModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseCartFormNoLoadEvent({this.value});
 }
@@ -56,7 +53,7 @@ class ChangedCartDocumentID extends CartFormEvent {
   ChangedCartDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedCartDocumentID{ value: $value }';
@@ -68,7 +65,7 @@ class ChangedCartAppId extends CartFormEvent {
   ChangedCartAppId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedCartAppId{ value: $value }';
@@ -80,7 +77,7 @@ class ChangedCartTitle extends CartFormEvent {
   ChangedCartTitle({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedCartTitle{ value: $value }';
@@ -92,7 +89,7 @@ class ChangedCartDescription extends CartFormEvent {
   ChangedCartDescription({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedCartDescription{ value: $value }';
@@ -104,7 +101,7 @@ class ChangedCartCheckoutText extends CartFormEvent {
   ChangedCartCheckoutText({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedCartCheckoutText{ value: $value }';
@@ -116,7 +113,7 @@ class ChangedCartShop extends CartFormEvent {
   ChangedCartShop({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedCartShop{ value: $value }';
@@ -128,7 +125,7 @@ class ChangedCartItemImageBackground extends CartFormEvent {
   ChangedCartItemImageBackground({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedCartItemImageBackground{ value: $value }';
@@ -140,7 +137,7 @@ class ChangedCartItemDetailBackground extends CartFormEvent {
   ChangedCartItemDetailBackground({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedCartItemDetailBackground{ value: $value }';
@@ -152,7 +149,7 @@ class ChangedCartCheckoutAction extends CartFormEvent {
   ChangedCartCheckoutAction({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedCartCheckoutAction{ value: $value }';
@@ -164,7 +161,7 @@ class ChangedCartBackToShopAction extends CartFormEvent {
   ChangedCartBackToShopAction({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedCartBackToShopAction{ value: $value }';
@@ -176,7 +173,7 @@ class ChangedCartOpenProductAction extends CartFormEvent {
   ChangedCartOpenProductAction({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedCartOpenProductAction{ value: $value }';
@@ -188,9 +185,8 @@ class ChangedCartConditions extends CartFormEvent {
   ChangedCartConditions({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedCartConditions{ value: $value }';
 }
-

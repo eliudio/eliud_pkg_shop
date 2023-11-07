@@ -21,19 +21,30 @@ import 'package:eliud_core/core/base/entity_base.dart';
 class ProductImageEntity implements EntityBase {
   final String? imageId;
 
-  ProductImageEntity({this.imageId, });
+  ProductImageEntity({
+    this.imageId,
+  });
 
-  ProductImageEntity copyWith({String? documentID, String? imageId, }) {
-    return ProductImageEntity(imageId : imageId ?? this.imageId, );
+  ProductImageEntity copyWith({
+    String? documentID,
+    String? imageId,
+  }) {
+    return ProductImageEntity(
+      imageId: imageId ?? this.imageId,
+    );
   }
-  List<Object?> get props => [imageId, ];
+
+  List<Object?> get props => [
+        imageId,
+      ];
 
   @override
   String toString() {
     return 'ProductImageEntity{imageId: $imageId}';
   }
 
-  static ProductImageEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+  static ProductImageEntity? fromMap(Object? o,
+      {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
@@ -44,14 +55,18 @@ class ProductImageEntity implements EntityBase {
       newDocumentIds[imageIdOldDocmentId] = imageIdNewDocmentId;
     }
     return ProductImageEntity(
-      imageId: imageIdNewDocmentId, 
+      imageId: imageIdNewDocmentId,
     );
   }
 
+  @override
   Map<String, Object?> toDocument() {
     Map<String, Object?> theDocument = HashMap();
-    if (imageId != null) theDocument["imageId"] = imageId;
-      else theDocument["imageId"] = null;
+    if (imageId != null) {
+      theDocument["imageId"] = imageId;
+    } else {
+      theDocument["imageId"] = null;
+    }
     return theDocument;
   }
 
@@ -61,7 +76,8 @@ class ProductImageEntity implements EntityBase {
     return newEntity;
   }
 
-  static ProductImageEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
+  static ProductImageEntity? fromJsonString(String json,
+      {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
@@ -70,9 +86,9 @@ class ProductImageEntity implements EntityBase {
     return jsonEncode(toDocument());
   }
 
-  Future<Map<String, Object?>> enrichedDocument(Map<String, Object?> theDocument) async {
+  @override
+  Future<Map<String, Object?>> enrichedDocument(
+      Map<String, Object?> theDocument) async {
     return theDocument;
   }
-
 }
-

@@ -68,7 +68,7 @@ class ImageTools {
       AppModel app, String memberId, String assetPath) async {
     var docID = newRandomKey();
     var photo = await MemberMediumHelper(
-            app, memberId, MemberMediumAccessibleByGroup.Public)
+            app, memberId, MemberMediumAccessibleByGroup.public)
         .createThumbnailUploadPhotoAsset(
       docID,
       assetPath,
@@ -89,7 +89,7 @@ class ImageTools {
       AppModel app, String memberId, String assetPath) async {
     var docID = newRandomKey();
     var video = await MemberMediumHelper(
-            app, memberId, MemberMediumAccessibleByGroup.Public)
+            app, memberId, MemberMediumAccessibleByGroup.public)
         .createThumbnailUploadVideoAsset(
       docID,
       assetPath,

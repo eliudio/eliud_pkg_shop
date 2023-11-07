@@ -18,7 +18,6 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
 
-
 @immutable
 abstract class OrderOverviewFormEvent extends Equatable {
   const OrderOverviewFormEvent();
@@ -27,15 +26,13 @@ abstract class OrderOverviewFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewOrderOverviewFormEvent extends OrderOverviewFormEvent {
-}
-
+class InitialiseNewOrderOverviewFormEvent extends OrderOverviewFormEvent {}
 
 class InitialiseOrderOverviewFormEvent extends OrderOverviewFormEvent {
   final OrderOverviewModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseOrderOverviewFormEvent({this.value});
 }
@@ -44,7 +41,7 @@ class InitialiseOrderOverviewFormNoLoadEvent extends OrderOverviewFormEvent {
   final OrderOverviewModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseOrderOverviewFormNoLoadEvent({this.value});
 }
@@ -55,7 +52,7 @@ class ChangedOrderOverviewDocumentID extends OrderOverviewFormEvent {
   ChangedOrderOverviewDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderOverviewDocumentID{ value: $value }';
@@ -67,7 +64,7 @@ class ChangedOrderOverviewAppId extends OrderOverviewFormEvent {
   ChangedOrderOverviewAppId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderOverviewAppId{ value: $value }';
@@ -79,7 +76,7 @@ class ChangedOrderOverviewDescription extends OrderOverviewFormEvent {
   ChangedOrderOverviewDescription({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderOverviewDescription{ value: $value }';
@@ -91,7 +88,7 @@ class ChangedOrderOverviewShop extends OrderOverviewFormEvent {
   ChangedOrderOverviewShop({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderOverviewShop{ value: $value }';
@@ -103,10 +100,11 @@ class ChangedOrderOverviewItemImageBackground extends OrderOverviewFormEvent {
   ChangedOrderOverviewItemImageBackground({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
-  String toString() => 'ChangedOrderOverviewItemImageBackground{ value: $value }';
+  String toString() =>
+      'ChangedOrderOverviewItemImageBackground{ value: $value }';
 }
 
 class ChangedOrderOverviewItemDetailBackground extends OrderOverviewFormEvent {
@@ -115,10 +113,11 @@ class ChangedOrderOverviewItemDetailBackground extends OrderOverviewFormEvent {
   ChangedOrderOverviewItemDetailBackground({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
-  String toString() => 'ChangedOrderOverviewItemDetailBackground{ value: $value }';
+  String toString() =>
+      'ChangedOrderOverviewItemDetailBackground{ value: $value }';
 }
 
 class ChangedOrderOverviewConditions extends OrderOverviewFormEvent {
@@ -127,9 +126,8 @@ class ChangedOrderOverviewConditions extends OrderOverviewFormEvent {
   ChangedOrderOverviewConditions({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderOverviewConditions{ value: $value }';
 }
-

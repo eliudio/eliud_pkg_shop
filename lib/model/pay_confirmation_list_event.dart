@@ -30,10 +30,10 @@ class NewPage extends PayConfirmationListEvent {}
 class AddPayConfirmationList extends PayConfirmationListEvent {
   final PayConfirmationModel? value;
 
-  const AddPayConfirmationList({ this.value });
+  const AddPayConfirmationList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddPayConfirmationList{ value: $value }';
@@ -42,10 +42,10 @@ class AddPayConfirmationList extends PayConfirmationListEvent {
 class UpdatePayConfirmationList extends PayConfirmationListEvent {
   final PayConfirmationModel? value;
 
-  const UpdatePayConfirmationList({ this.value });
+  const UpdatePayConfirmationList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdatePayConfirmationList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdatePayConfirmationList extends PayConfirmationListEvent {
 class DeletePayConfirmationList extends PayConfirmationListEvent {
   final PayConfirmationModel? value;
 
-  const DeletePayConfirmationList({ this.value });
+  const DeletePayConfirmationList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeletePayConfirmationList{ value: $value }';
@@ -67,24 +67,24 @@ class PayConfirmationListUpdated extends PayConfirmationListEvent {
   final List<PayConfirmationModel?>? value;
   final bool? mightHaveMore;
 
-  const PayConfirmationListUpdated({ this.value, this.mightHaveMore });
+  const PayConfirmationListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'PayConfirmationListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'PayConfirmationListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class PayConfirmationChangeQuery extends PayConfirmationListEvent {
   final EliudQuery? newQuery;
 
-  const PayConfirmationChangeQuery({ required this.newQuery });
+  const PayConfirmationChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'PayConfirmationChangeQuery{ value: $newQuery }';
 }
-

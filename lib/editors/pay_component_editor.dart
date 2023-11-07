@@ -46,7 +46,7 @@ class PayComponentEditorConstructor extends ComponentEditorConstructor {
           description: 'New payment',
           conditions: StorageConditionsModel(
               privilegeLevelRequired:
-                  PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+                  PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple),
         ),
         feedback);
   }
@@ -58,7 +58,7 @@ class PayComponentEditorConstructor extends ComponentEditorConstructor {
     if (pay != null) {
       _openIt(app, context, false, pay, feedback);
     } else {
-      openErrorDialog(app, context, app.documentID + '/_error',
+      openErrorDialog(app, context, '${app.documentID}/_error',
           title: 'Error',
           errorMessage: 'Cannot find notification dashboard with id $id');
     }
@@ -69,7 +69,7 @@ class PayComponentEditorConstructor extends ComponentEditorConstructor {
     openComplexDialog(
       app,
       context,
-      app.documentID + '/notificationdashboard',
+      '${app.documentID}/notificationdashboard',
       title: create
           ? 'Create Notification Dashboard'
           : 'Update Notification Dashboard',
@@ -93,10 +93,12 @@ class PayComponentEditorConstructor extends ComponentEditorConstructor {
     if (entity != null) {
       var myEntity = entity as PayEntity;
       var newEntity = myEntity.copyWith(
-        succeeded:
-          myEntity.succeeded != null ? myEntity.succeeded!.copyWith(appId: app.documentID) : null,
-        payAction:
-          myEntity.payAction != null ? myEntity.payAction!.copyWith(appId: app.documentID) : null,
+        succeeded: myEntity.succeeded != null
+            ? myEntity.succeeded!.copyWith(appId: app.documentID)
+            : null,
+        payAction: myEntity.payAction != null
+            ? myEntity.payAction!.copyWith(appId: app.documentID)
+            : null,
       );
       return newEntity;
     } else {
@@ -128,9 +130,9 @@ class PayComponentEditor extends StatefulWidget {
   final AppModel app;
 
   const PayComponentEditor({
-    Key? key,
+    super.key,
     required this.app,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() => _PayComponentEditorState();
@@ -144,7 +146,7 @@ class _PayComponentEditorState extends State<PayComponentEditor> {
       if (accessState is AccessDetermined) {
         var member = accessState.getMember();
         if (member != null) {
-          var memberId = member.documentID;
+          //var memberId = member.documentID;
           return BlocBuilder<PayBloc, EditorBaseState<PayModel>>(
               builder: (ppContext, payState) {
             if (payState is EditorBaseInitialised<PayModel>) {

@@ -4,19 +4,17 @@ import 'package:eliud_pkg_shop/model/shop_front_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-typedef ScrollDirectionCallback = Function(
-    ScrollDirection scrollDirection);
+typedef ScrollDirectionCallback = Function(ScrollDirection scrollDirection);
 
 class ScrollDirectionWidget extends StatefulWidget {
-  ScrollDirectionCallback scrollDirectionCallback;
+  final ScrollDirectionCallback scrollDirectionCallback;
   final ScrollDirection scrollDirection;
   final AppModel app;
   ScrollDirectionWidget(
-      {Key? key,
+      {super.key,
       required this.app,
       required this.scrollDirectionCallback,
-      required this.scrollDirection})
-      : super(key: key);
+      required this.scrollDirection});
 
   @override
   State<StatefulWidget> createState() {
@@ -27,17 +25,22 @@ class ScrollDirectionWidget extends StatefulWidget {
 class _ScrollDirectionWidgetState extends State<ScrollDirectionWidget> {
   int? _widthTypeSelectedRadioTile;
 
+  @override
   void initState() {
     super.initState();
     _widthTypeSelectedRadioTile = widget.scrollDirection.index;
   }
 
-  String widthtTypePortraitStringValue(ScrollDirection? scrollDirection) {
+  String widthTypePortraitStringValue(ScrollDirection? scrollDirection) {
     switch (scrollDirection) {
-      case ScrollDirection.Vertical:
+      case ScrollDirection.vertical:
         return 'Vertical';
-      case ScrollDirection.Horizontal:
+      case ScrollDirection.horizontal:
         return 'Horizontal';
+      case ScrollDirection.unknown:
+        break;
+      case null:
+        break;
     }
     return '?';
   }
@@ -51,7 +54,7 @@ class _ScrollDirectionWidgetState extends State<ScrollDirectionWidget> {
 
   Widget getPrivilegeOption(ScrollDirection? scrollDirection) {
     if (scrollDirection == null) return Text("?");
-    var stringValue = widthtTypePortraitStringValue(scrollDirection);
+    var stringValue = widthTypePortraitStringValue(scrollDirection);
     return Center(
         child: radioListTile(
             widget.app,
@@ -66,8 +69,8 @@ class _ScrollDirectionWidgetState extends State<ScrollDirectionWidget> {
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      getPrivilegeOption(ScrollDirection.Horizontal),
-      getPrivilegeOption(ScrollDirection.Vertical)
+      getPrivilegeOption(ScrollDirection.horizontal),
+      getPrivilegeOption(ScrollDirection.vertical)
     ], shrinkWrap: true, physics: ScrollPhysics());
   }
 }

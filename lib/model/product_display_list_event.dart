@@ -30,10 +30,10 @@ class NewPage extends ProductDisplayListEvent {}
 class AddProductDisplayList extends ProductDisplayListEvent {
   final ProductDisplayModel? value;
 
-  const AddProductDisplayList({ this.value });
+  const AddProductDisplayList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddProductDisplayList{ value: $value }';
@@ -42,10 +42,10 @@ class AddProductDisplayList extends ProductDisplayListEvent {
 class UpdateProductDisplayList extends ProductDisplayListEvent {
   final ProductDisplayModel? value;
 
-  const UpdateProductDisplayList({ this.value });
+  const UpdateProductDisplayList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateProductDisplayList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateProductDisplayList extends ProductDisplayListEvent {
 class DeleteProductDisplayList extends ProductDisplayListEvent {
   final ProductDisplayModel? value;
 
-  const DeleteProductDisplayList({ this.value });
+  const DeleteProductDisplayList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteProductDisplayList{ value: $value }';
@@ -67,24 +67,24 @@ class ProductDisplayListUpdated extends ProductDisplayListEvent {
   final List<ProductDisplayModel?>? value;
   final bool? mightHaveMore;
 
-  const ProductDisplayListUpdated({ this.value, this.mightHaveMore });
+  const ProductDisplayListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'ProductDisplayListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'ProductDisplayListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class ProductDisplayChangeQuery extends ProductDisplayListEvent {
   final EliudQuery? newQuery;
 
-  const ProductDisplayChangeQuery({ required this.newQuery });
+  const ProductDisplayChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'ProductDisplayChangeQuery{ value: $newQuery }';
 }
-

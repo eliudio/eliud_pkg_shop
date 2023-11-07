@@ -23,20 +23,20 @@ import 'model/member_cart_model.dart';
 import 'wizards/shop_page_wizard.dart';
 
 import 'package:eliud_pkg_shop/shop_package_stub.dart'
-if (dart.library.io) 'shop_mobile_package.dart'
-if (dart.library.html) 'shop_web_package.dart';
+    if (dart.library.io) 'shop_mobile_package.dart'
+    if (dart.library.html) 'shop_web_package.dart';
 
 abstract class ShopPackage extends Package {
   ShopPackage() : super('eliud_pkg_shop');
 
-  static final String CONDITION_CARTS_HAS_ITEMS = 'MustHaveStuffInBasket';
-  Map<String, bool?> stateCONDITION_CARTS_HAS_ITEMS = {};
-  Map<String, StreamSubscription<List<MemberCartModel?>>> subscription = {};
+  static final String conditionCartsHasItems = 'MustHaveStuffInBasket';
+  final Map<String, bool?> stateConditionCartsHasItems = {};
+  final Map<String, StreamSubscription<List<MemberCartModel?>>> subscription =
+      {};
 
   @override
   BlocProvider createPackageAppBloc(String appId, AccessBloc accessBloc) =>
-      BlocProvider<CartBloc>(create: (context) =>
-          CartBloc(appId, accessBloc));
+      BlocProvider<CartBloc>(create: (context) => CartBloc(appId, accessBloc));
 
   @override
   Future<List<PackageConditionDetails>>? getAndSubscribe(
@@ -55,30 +55,30 @@ abstract class ShopPackage extends Package {
             (list.first!.cartItems != null) &&
             (list.first!.cartItems!.isNotEmpty);
         if (!c.isCompleted) {
-          stateCONDITION_CARTS_HAS_ITEMS[appId] = cartHasItems;
+          stateConditionCartsHasItems[appId] = cartHasItems;
           // the first time we get this trigger, it's upon entry of the getAndSubscribe. Now we simply return the value
           c.complete([
             PackageConditionDetails(
                 packageName: packageName,
-                conditionName: CONDITION_CARTS_HAS_ITEMS,
+                conditionName: conditionCartsHasItems,
                 value: cartHasItems)
           ]);
         } else {
           // subsequent calls we get this trigger, it's when the date has changed. Now add the event to the bloc
-          if (cartHasItems != stateCONDITION_CARTS_HAS_ITEMS[appId]) {
-            stateCONDITION_CARTS_HAS_ITEMS[appId] = cartHasItems;
+          if (cartHasItems != stateConditionCartsHasItems[appId]) {
+            stateConditionCartsHasItems[appId] = cartHasItems;
             accessBloc.add(UpdatePackageConditionEvent(
-                app, this, CONDITION_CARTS_HAS_ITEMS, cartHasItems));
+                app, this, conditionCartsHasItems, cartHasItems));
           }
         }
       }, eliudQuery: getCartQuery(appId, member.documentID));
       return c.future;
     } else {
-      stateCONDITION_CARTS_HAS_ITEMS[appId] = false;
+      stateConditionCartsHasItems[appId] = false;
       return Future.value([
         PackageConditionDetails(
             packageName: packageName,
-            conditionName: CONDITION_CARTS_HAS_ITEMS,
+            conditionName: conditionCartsHasItems,
             value: false)
       ]);
     }
@@ -92,7 +92,7 @@ abstract class ShopPackage extends Package {
 
   @override
   List<String> retrieveAllPackageConditions() {
-    return [CONDITION_CARTS_HAS_ITEMS];
+    return [conditionCartsHasItems];
   }
 
   @override
@@ -115,6 +115,7 @@ abstract class ShopPackage extends Package {
   /*
    * Register depending packages
    */
+  @override
   void registerDependencies(Eliud eliud) {
     eliud.registerPackage(CorePackage.instance());
     eliud.registerPackage(FundamentalsPackage.instance());

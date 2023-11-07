@@ -19,7 +19,6 @@ import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
 
-
 @immutable
 abstract class ShopFrontFormEvent extends Equatable {
   const ShopFrontFormEvent();
@@ -28,15 +27,13 @@ abstract class ShopFrontFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewShopFrontFormEvent extends ShopFrontFormEvent {
-}
-
+class InitialiseNewShopFrontFormEvent extends ShopFrontFormEvent {}
 
 class InitialiseShopFrontFormEvent extends ShopFrontFormEvent {
   final ShopFrontModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseShopFrontFormEvent({this.value});
 }
@@ -45,7 +42,7 @@ class InitialiseShopFrontFormNoLoadEvent extends ShopFrontFormEvent {
   final ShopFrontModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseShopFrontFormNoLoadEvent({this.value});
 }
@@ -56,7 +53,7 @@ class ChangedShopFrontDocumentID extends ShopFrontFormEvent {
   ChangedShopFrontDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedShopFrontDocumentID{ value: $value }';
@@ -68,7 +65,7 @@ class ChangedShopFrontAppId extends ShopFrontFormEvent {
   ChangedShopFrontAppId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedShopFrontAppId{ value: $value }';
@@ -80,7 +77,7 @@ class ChangedShopFrontTitle extends ShopFrontFormEvent {
   ChangedShopFrontTitle({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedShopFrontTitle{ value: $value }';
@@ -92,7 +89,7 @@ class ChangedShopFrontDescription extends ShopFrontFormEvent {
   ChangedShopFrontDescription({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedShopFrontDescription{ value: $value }';
@@ -104,7 +101,7 @@ class ChangedShopFrontShop extends ShopFrontFormEvent {
   ChangedShopFrontShop({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedShopFrontShop{ value: $value }';
@@ -116,7 +113,7 @@ class ChangedShopFrontSize extends ShopFrontFormEvent {
   ChangedShopFrontSize({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedShopFrontSize{ value: $value }';
@@ -128,7 +125,7 @@ class ChangedShopFrontCardElevation extends ShopFrontFormEvent {
   ChangedShopFrontCardElevation({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedShopFrontCardElevation{ value: $value }';
@@ -140,7 +137,7 @@ class ChangedShopFrontCardAxisSpacing extends ShopFrontFormEvent {
   ChangedShopFrontCardAxisSpacing({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedShopFrontCardAxisSpacing{ value: $value }';
@@ -152,7 +149,7 @@ class ChangedShopFrontItemCardBackground extends ShopFrontFormEvent {
   ChangedShopFrontItemCardBackground({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedShopFrontItemCardBackground{ value: $value }';
@@ -164,7 +161,7 @@ class ChangedShopFrontAddToCartColor extends ShopFrontFormEvent {
   ChangedShopFrontAddToCartColor({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedShopFrontAddToCartColor{ value: $value }';
@@ -176,7 +173,7 @@ class ChangedShopFrontScrollDirection extends ShopFrontFormEvent {
   ChangedShopFrontScrollDirection({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedShopFrontScrollDirection{ value: $value }';
@@ -188,7 +185,7 @@ class ChangedShopFrontBuyAction extends ShopFrontFormEvent {
   ChangedShopFrontBuyAction({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedShopFrontBuyAction{ value: $value }';
@@ -200,7 +197,7 @@ class ChangedShopFrontOpenProductAction extends ShopFrontFormEvent {
   ChangedShopFrontOpenProductAction({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedShopFrontOpenProductAction{ value: $value }';
@@ -212,7 +209,7 @@ class ChangedShopFrontPadding extends ShopFrontFormEvent {
   ChangedShopFrontPadding({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedShopFrontPadding{ value: $value }';
@@ -224,9 +221,8 @@ class ChangedShopFrontConditions extends ShopFrontFormEvent {
   ChangedShopFrontConditions({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedShopFrontConditions{ value: $value }';
 }
-

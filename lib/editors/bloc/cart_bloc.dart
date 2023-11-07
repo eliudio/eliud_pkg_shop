@@ -24,7 +24,6 @@ class CartBloc extends EditorBaseBloc<CartModel, CartEntity> {
 
   @override
   CartModel setDefaultValues(CartModel t, StorageConditionsModel conditions) {
-    return t.copyWith(
-        conditions: t.conditions ?? conditions);
+    return t.copyWith(conditions: t.conditions ?? conditions);
   }
 }

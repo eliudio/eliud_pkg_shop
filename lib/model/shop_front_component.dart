@@ -13,7 +13,6 @@
 
 */
 
-
 import 'package:eliud_pkg_shop/model/shop_front_component_bloc.dart';
 import 'package:eliud_pkg_shop/model/shop_front_component_event.dart';
 import 'package:eliud_pkg_shop/model/shop_front_model.dart';
@@ -31,20 +30,22 @@ abstract class AbstractShopFrontComponent extends StatelessWidget {
   final AppModel app;
   final String shopFrontId;
 
-  AbstractShopFrontComponent({Key? key, required this.app, required this.shopFrontId}): super(key: key);
+  AbstractShopFrontComponent(
+      {super.key, required this.app, required this.shopFrontId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ShopFrontComponentBloc> (
-          create: (context) => ShopFrontComponentBloc(
-            shopFrontRepository: shopFrontRepository(appId: app.documentID)!)
+    return BlocProvider<ShopFrontComponentBloc>(
+      create: (context) => ShopFrontComponentBloc(
+          shopFrontRepository: shopFrontRepository(appId: app.documentID)!)
         ..add(FetchShopFrontComponent(id: shopFrontId)),
       child: _shopFrontBlockBuilder(context),
     );
   }
 
   Widget _shopFrontBlockBuilder(BuildContext context) {
-    return BlocBuilder<ShopFrontComponentBloc, ShopFrontComponentState>(builder: (context, state) {
+    return BlocBuilder<ShopFrontComponentBloc, ShopFrontComponentState>(
+        builder: (context, state) {
       if (state is ShopFrontComponentLoaded) {
         return yourWidget(context, state.value);
       } else if (state is ShopFrontComponentPermissionDenied) {
@@ -57,7 +58,11 @@ abstract class AbstractShopFrontComponent extends StatelessWidget {
         return AlertWidget(app: app, title: 'Error', content: state.message);
       } else {
         return Center(
-          child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context),
+          child: StyleRegistry.registry()
+              .styleWithApp(app)
+              .frontEndStyle()
+              .progressIndicatorStyle()
+              .progressIndicator(app, context),
         );
       }
     });
@@ -65,4 +70,3 @@ abstract class AbstractShopFrontComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, ShopFrontModel value);
 }
-

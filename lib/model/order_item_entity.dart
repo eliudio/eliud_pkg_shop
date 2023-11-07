@@ -23,40 +23,76 @@ class OrderItemEntity implements EntityBase {
   final double? soldPrice;
   final String? productId;
 
-  OrderItemEntity({this.amount, required this.appId, this.soldPrice, this.productId, });
+  OrderItemEntity({
+    this.amount,
+    required this.appId,
+    this.soldPrice,
+    this.productId,
+  });
 
-  OrderItemEntity copyWith({String? documentID, int? amount, String? appId, double? soldPrice, String? productId, }) {
-    return OrderItemEntity(amount : amount ?? this.amount, appId : appId ?? this.appId, soldPrice : soldPrice ?? this.soldPrice, productId : productId ?? this.productId, );
+  OrderItemEntity copyWith({
+    String? documentID,
+    int? amount,
+    String? appId,
+    double? soldPrice,
+    String? productId,
+  }) {
+    return OrderItemEntity(
+      amount: amount ?? this.amount,
+      appId: appId ?? this.appId,
+      soldPrice: soldPrice ?? this.soldPrice,
+      productId: productId ?? this.productId,
+    );
   }
-  List<Object?> get props => [amount, appId, soldPrice, productId, ];
+
+  List<Object?> get props => [
+        amount,
+        appId,
+        soldPrice,
+        productId,
+      ];
 
   @override
   String toString() {
     return 'OrderItemEntity{amount: $amount, appId: $appId, soldPrice: $soldPrice, productId: $productId}';
   }
 
-  static OrderItemEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+  static OrderItemEntity? fromMap(Object? o,
+      {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
     return OrderItemEntity(
-      amount: int.tryParse(map['amount'].toString()), 
-      appId: map['appId'], 
-      soldPrice: double.tryParse(map['soldPrice'].toString()), 
-      productId: map['productId'], 
+      amount: int.tryParse(map['amount'].toString()),
+      appId: map['appId'],
+      soldPrice: double.tryParse(map['soldPrice'].toString()),
+      productId: map['productId'],
     );
   }
 
+  @override
   Map<String, Object?> toDocument() {
     Map<String, Object?> theDocument = HashMap();
-    if (amount != null) theDocument["amount"] = amount;
-      else theDocument["amount"] = null;
-    if (appId != null) theDocument["appId"] = appId;
-      else theDocument["appId"] = null;
-    if (soldPrice != null) theDocument["soldPrice"] = soldPrice;
-      else theDocument["soldPrice"] = null;
-    if (productId != null) theDocument["productId"] = productId;
-      else theDocument["productId"] = null;
+    if (amount != null) {
+      theDocument["amount"] = amount;
+    } else {
+      theDocument["amount"] = null;
+    }
+    if (appId != null) {
+      theDocument["appId"] = appId;
+    } else {
+      theDocument["appId"] = null;
+    }
+    if (soldPrice != null) {
+      theDocument["soldPrice"] = soldPrice;
+    } else {
+      theDocument["soldPrice"] = null;
+    }
+    if (productId != null) {
+      theDocument["productId"] = productId;
+    } else {
+      theDocument["productId"] = null;
+    }
     return theDocument;
   }
 
@@ -66,7 +102,8 @@ class OrderItemEntity implements EntityBase {
     return newEntity;
   }
 
-  static OrderItemEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
+  static OrderItemEntity? fromJsonString(String json,
+      {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
@@ -75,9 +112,9 @@ class OrderItemEntity implements EntityBase {
     return jsonEncode(toDocument());
   }
 
-  Future<Map<String, Object?>> enrichedDocument(Map<String, Object?> theDocument) async {
+  @override
+  Future<Map<String, Object?>> enrichedDocument(
+      Map<String, Object?> theDocument) async {
     return theDocument;
   }
-
 }
-

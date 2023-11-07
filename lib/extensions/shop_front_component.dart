@@ -16,28 +16,40 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ShopFrontComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({Key? key, required AppModel app, required String id, Map<String, dynamic>? parameters}) {
+  Widget createNew(
+      {Key? key,
+      required AppModel app,
+      required String id,
+      Map<String, dynamic>? parameters}) {
     return ShopFrontBase(app: app, id: id, key: key);
   }
 
   @override
-  Future<dynamic> getModel({required AppModel app, required String id}) async => await shopFrontRepository(appId: app.documentID)!.get(id);
+  Future<dynamic> getModel({required AppModel app, required String id}) async =>
+      await shopFrontRepository(appId: app.documentID)!.get(id);
 }
 
 class ShopFrontBase extends AbstractShopFrontComponent {
-  ShopFrontBase({Key? key, required AppModel app, required String id, }) : super(key: key, app: app, shopFrontId: id);
+  ShopFrontBase({
+    super.key,
+    required super.app,
+    required String id,
+  }) : super(shopFrontId: id);
 
   Widget _grid(BuildContext context, ShopFrontModel value) {
-    if (value.shop == null) return text(app, context, 'Shopfront has no shop specified');
+    if (value.shop == null) {
+      return text(app, context, 'Shopfront has no shop specified');
+    }
     return BlocProvider<ProductListBloc>(
-      create: (context) => ProductListBloc(
-        detailed: true,
-        eliudQuery: EliudQuery(theConditions: [
-          EliudQueryCondition('shopId', isEqualTo: value.shop!.documentID),
-        ]),
-        productRepository: productRepository(appId: app.documentID)!,
-      )..add(LoadProductList()),
-    child: GridProducts(app: app, shopFrontModel: value));
+        create: (context) => ProductListBloc(
+              detailed: true,
+              eliudQuery: EliudQuery(theConditions: [
+                EliudQueryCondition('shopId',
+                    isEqualTo: value.shop!.documentID),
+              ]),
+              productRepository: productRepository(appId: app.documentID)!,
+            )..add(LoadProductList()),
+        child: GridProducts(app: app, shopFrontModel: value));
   }
 
   @override

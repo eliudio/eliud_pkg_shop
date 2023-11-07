@@ -23,9 +23,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 import 'shop_model.dart';
 
-typedef List<ShopModel?> FilterShopModels(List<ShopModel?> values);
-
-
+typedef FilterShopModels = List<ShopModel?> Function(List<ShopModel?> values);
 
 class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
   final FilterShopModels? filter;
@@ -39,23 +37,32 @@ class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
   final bool? detailed;
   final int shopLimit;
 
-  ShopListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ShopRepository shopRepository, this.shopLimit = 5})
+  ShopListBloc(
+      {this.filter,
+      this.paged,
+      this.orderBy,
+      this.descending,
+      this.detailed,
+      this.eliudQuery,
+      required ShopRepository shopRepository,
+      this.shopLimit = 5})
       : _shopRepository = shopRepository,
         super(ShopListLoading()) {
-    on <LoadShopList> ((event, emit) {
+    on<LoadShopList>((event, emit) {
       if ((detailed == null) || (!detailed!)) {
         _mapLoadShopListToState();
       } else {
         _mapLoadShopListWithDetailsToState();
       }
     });
-    
-    on <NewPage> ((event, emit) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+
+    on<NewPage>((event, emit) {
+      pages = pages +
+          1; // it doesn't matter so much if we increase pages beyond the end
       _mapLoadShopListWithDetailsToState();
     });
-    
-    on <ShopChangeQuery> ((event, emit) {
+
+    on<ShopChangeQuery>((event, emit) {
       eliudQuery = event.newQuery;
       if ((detailed == null) || (!detailed!)) {
         _mapLoadShopListToState();
@@ -63,20 +70,20 @@ class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
         _mapLoadShopListWithDetailsToState();
       }
     });
-      
-    on <AddShopList> ((event, emit) async {
+
+    on<AddShopList>((event, emit) async {
       await _mapAddShopListToState(event);
     });
-    
-    on <UpdateShopList> ((event, emit) async {
+
+    on<UpdateShopList>((event, emit) async {
       await _mapUpdateShopListToState(event);
     });
-    
-    on <DeleteShopList> ((event, emit) async {
+
+    on<DeleteShopList>((event, emit) async {
       await _mapDeleteShopListToState(event);
     });
-    
-    on <ShopListUpdated> ((event, emit) {
+
+    on<ShopListUpdated>((event, emit) {
       emit(_mapShopListUpdatedToState(event));
     });
   }
@@ -90,27 +97,31 @@ class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
   }
 
   Future<void> _mapLoadShopListToState() async {
-    int amountNow =  (state is ShopListLoaded) ? (state as ShopListLoaded).values!.length : 0;
+    int amountNow = (state is ShopListLoaded)
+        ? (state as ShopListLoaded).values!.length
+        : 0;
     _shopsListSubscription?.cancel();
     _shopsListSubscription = _shopRepository.listen(
-          (list) => add(ShopListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
-      orderBy: orderBy,
-      descending: descending,
-      eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * shopLimit : null
-    );
-  }
-
-  Future<void> _mapLoadShopListWithDetailsToState() async {
-    int amountNow =  (state is ShopListLoaded) ? (state as ShopListLoaded).values!.length : 0;
-    _shopsListSubscription?.cancel();
-    _shopsListSubscription = _shopRepository.listenWithDetails(
-            (list) => add(ShopListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
+        (list) => add(ShopListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * shopLimit : null
-    );
+        limit: ((paged != null) && paged!) ? pages * shopLimit : null);
+  }
+
+  Future<void> _mapLoadShopListWithDetailsToState() async {
+    int amountNow = (state is ShopListLoaded)
+        ? (state as ShopListLoaded).values!.length
+        : 0;
+    _shopsListSubscription?.cancel();
+    _shopsListSubscription = _shopRepository.listenWithDetails(
+        (list) => add(ShopListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && paged!) ? pages * shopLimit : null);
   }
 
   Future<void> _mapAddShopListToState(AddShopList event) async {
@@ -134,8 +145,8 @@ class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
     }
   }
 
-  ShopListLoaded _mapShopListUpdatedToState(
-      ShopListUpdated event) => ShopListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
+  ShopListLoaded _mapShopListUpdatedToState(ShopListUpdated event) =>
+      ShopListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {
@@ -143,5 +154,3 @@ class ShopListBloc extends Bloc<ShopListEvent, ShopListState> {
     return super.close();
   }
 }
-
-

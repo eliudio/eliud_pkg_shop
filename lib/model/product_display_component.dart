@@ -13,7 +13,6 @@
 
 */
 
-
 import 'package:eliud_pkg_shop/model/product_display_component_bloc.dart';
 import 'package:eliud_pkg_shop/model/product_display_component_event.dart';
 import 'package:eliud_pkg_shop/model/product_display_model.dart';
@@ -31,20 +30,23 @@ abstract class AbstractProductDisplayComponent extends StatelessWidget {
   final AppModel app;
   final String productDisplayId;
 
-  AbstractProductDisplayComponent({Key? key, required this.app, required this.productDisplayId}): super(key: key);
+  AbstractProductDisplayComponent(
+      {super.key, required this.app, required this.productDisplayId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ProductDisplayComponentBloc> (
-          create: (context) => ProductDisplayComponentBloc(
-            productDisplayRepository: productDisplayRepository(appId: app.documentID)!)
+    return BlocProvider<ProductDisplayComponentBloc>(
+      create: (context) => ProductDisplayComponentBloc(
+          productDisplayRepository:
+              productDisplayRepository(appId: app.documentID)!)
         ..add(FetchProductDisplayComponent(id: productDisplayId)),
       child: _productDisplayBlockBuilder(context),
     );
   }
 
   Widget _productDisplayBlockBuilder(BuildContext context) {
-    return BlocBuilder<ProductDisplayComponentBloc, ProductDisplayComponentState>(builder: (context, state) {
+    return BlocBuilder<ProductDisplayComponentBloc,
+        ProductDisplayComponentState>(builder: (context, state) {
       if (state is ProductDisplayComponentLoaded) {
         return yourWidget(context, state.value);
       } else if (state is ProductDisplayComponentPermissionDenied) {
@@ -57,7 +59,11 @@ abstract class AbstractProductDisplayComponent extends StatelessWidget {
         return AlertWidget(app: app, title: 'Error', content: state.message);
       } else {
         return Center(
-          child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context),
+          child: StyleRegistry.registry()
+              .styleWithApp(app)
+              .frontEndStyle()
+              .progressIndicatorStyle()
+              .progressIndicator(app, context),
         );
       }
     });
@@ -65,4 +71,3 @@ abstract class AbstractProductDisplayComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, ProductDisplayModel value);
 }
-

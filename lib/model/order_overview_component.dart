@@ -13,7 +13,6 @@
 
 */
 
-
 import 'package:eliud_pkg_shop/model/order_overview_component_bloc.dart';
 import 'package:eliud_pkg_shop/model/order_overview_component_event.dart';
 import 'package:eliud_pkg_shop/model/order_overview_model.dart';
@@ -31,20 +30,23 @@ abstract class AbstractOrderOverviewComponent extends StatelessWidget {
   final AppModel app;
   final String orderOverviewId;
 
-  AbstractOrderOverviewComponent({Key? key, required this.app, required this.orderOverviewId}): super(key: key);
+  AbstractOrderOverviewComponent(
+      {super.key, required this.app, required this.orderOverviewId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<OrderOverviewComponentBloc> (
-          create: (context) => OrderOverviewComponentBloc(
-            orderOverviewRepository: orderOverviewRepository(appId: app.documentID)!)
+    return BlocProvider<OrderOverviewComponentBloc>(
+      create: (context) => OrderOverviewComponentBloc(
+          orderOverviewRepository:
+              orderOverviewRepository(appId: app.documentID)!)
         ..add(FetchOrderOverviewComponent(id: orderOverviewId)),
       child: _orderOverviewBlockBuilder(context),
     );
   }
 
   Widget _orderOverviewBlockBuilder(BuildContext context) {
-    return BlocBuilder<OrderOverviewComponentBloc, OrderOverviewComponentState>(builder: (context, state) {
+    return BlocBuilder<OrderOverviewComponentBloc, OrderOverviewComponentState>(
+        builder: (context, state) {
       if (state is OrderOverviewComponentLoaded) {
         return yourWidget(context, state.value);
       } else if (state is OrderOverviewComponentPermissionDenied) {
@@ -57,7 +59,11 @@ abstract class AbstractOrderOverviewComponent extends StatelessWidget {
         return AlertWidget(app: app, title: 'Error', content: state.message);
       } else {
         return Center(
-          child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context),
+          child: StyleRegistry.registry()
+              .styleWithApp(app)
+              .frontEndStyle()
+              .progressIndicatorStyle()
+              .progressIndicator(app, context),
         );
       }
     });
@@ -65,4 +71,3 @@ abstract class AbstractOrderOverviewComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, OrderOverviewModel value);
 }
-

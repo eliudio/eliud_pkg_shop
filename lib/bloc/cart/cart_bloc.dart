@@ -25,11 +25,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
             (t.product.documentID == product!.documentID) &&
             (t.appId == product.appId)));
     CartItemModel? cartItemModel;
-    original.forEach((element) {
+    for (var element in original) {
       if ((element.product != null) &&
           (element.product!.documentID == product!.documentID) &&
           (element.appId == product.appId)) cartItemModel = element;
-    });
+    }
 
     CartItemModel newCartItem;
     if (cartItemModel == null) {
@@ -42,7 +42,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           appId: product!.appId);
     } else {
       newCartItem =
-          cartItemModel!.copyWith(amount: cartItemModel!.amount! + changeBy);
+          cartItemModel.copyWith(amount: cartItemModel.amount! + changeBy);
     }
     if (newCartItem.amount! > 0) {
       copy.add(newCartItem);
@@ -53,8 +53,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   Future<void> _updateCartChangeAmount(
       LoggedIn accessState, ProductModel? product, int amount) async {
     var member = accessState.member;
-    var cart =
-        await memberCartRepository(appId: appId)!.get(member.documentID);
+    var cart = await memberCartRepository(appId: appId)!.get(member.documentID);
     List<CartItemModel>? items;
     if ((cart != null) && (cart.cartItems != null)) {
       items = cart.cartItems!;
@@ -67,24 +66,23 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           appId: appId,
           cartItems: _copyListAndChangeAmount([], product, amount)));
     }
-    }
+  }
 
   Future<void> _emptyCart(
     LoggedIn accessState,
   ) async {
     var member = accessState.member;
-    var cart =
-        await memberCartRepository(appId: appId)!.get(member.documentID);
+    var cart = await memberCartRepository(appId: appId)!.get(member.documentID);
     if (cart != null) {
       await memberCartRepository(appId: appId)!
           .update(cart.copyWith(cartItems: []));
     }
-    }
+  }
 
   Future<CartInitialised> toEmit(LoggedIn accessState) async {
     var member = accessState.member;
     var cart = await memberCartRepository(appId: appId)!.get(member.documentID);
-    return CartInitialised(cart != null ? cart.cartItems : null);
+    return CartInitialised(cart?.cartItems);
   }
 
   CartBloc(

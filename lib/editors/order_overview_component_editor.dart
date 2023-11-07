@@ -45,7 +45,7 @@ class OrderOverviewComponentEditorConstructor
           description: 'New Order Overview',
           conditions: StorageConditionsModel(
               privilegeLevelRequired:
-                  PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+                  PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple),
         ),
         feedback);
   }
@@ -58,7 +58,7 @@ class OrderOverviewComponentEditorConstructor
     if (orderOverview != null) {
       _openIt(app, context, false, orderOverview, feedback);
     } else {
-      openErrorDialog(app, context, app.documentID + '/_error',
+      openErrorDialog(app, context, '${app.documentID}/_error',
           title: 'Error',
           errorMessage: 'Cannot find notification dashboard with id $id');
     }
@@ -69,7 +69,7 @@ class OrderOverviewComponentEditorConstructor
     openComplexDialog(
       app,
       context,
-      app.documentID + '/notificationdashboard',
+      '${app.documentID}/notificationdashboard',
       title: create
           ? 'Create Notification Dashboard'
           : 'Update Notification Dashboard',
@@ -93,9 +93,9 @@ class OrderOverviewComponentEditor extends StatefulWidget {
   final AppModel app;
 
   const OrderOverviewComponentEditor({
-    Key? key,
+    super.key,
     required this.app,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() => _OrderOverviewComponentEditorState();
@@ -147,7 +147,8 @@ class _OrderOverviewComponentEditorState
                               title: dialogField(
                                 widget.app,
                                 context,
-                                initialValue: orderOverviewState.model.description,
+                                initialValue:
+                                    orderOverviewState.model.description,
                                 valueChanged: (value) {
                                   orderOverviewState.model.description = value;
                                 },
@@ -181,9 +182,9 @@ class _OrderOverviewComponentEditorState
                         widget.app,
                         orderOverviewState.model.conditions,
                         orderOverviewState.model.shop,
-                            (shop) => setState(() {
-                          orderOverviewState.model.shop = shop;
-                        })),
+                        (shop) => setState(() {
+                              orderOverviewState.model.shop = shop;
+                            })),
                     topicContainer(widget.app, context,
                         title: 'Conditions',
                         collapsible: true,

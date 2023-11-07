@@ -23,24 +23,26 @@ abstract class ProductDisplayComponentState extends Equatable {
   List<Object?> get props => [];
 }
 
-class ProductDisplayComponentUninitialized extends ProductDisplayComponentState {}
+class ProductDisplayComponentUninitialized
+    extends ProductDisplayComponentState {}
 
 class ProductDisplayComponentError extends ProductDisplayComponentState {
   final String? message;
-  ProductDisplayComponentError({ this.message });
+  ProductDisplayComponentError({this.message});
 }
 
-class ProductDisplayComponentPermissionDenied extends ProductDisplayComponentState {
+class ProductDisplayComponentPermissionDenied
+    extends ProductDisplayComponentState {
   ProductDisplayComponentPermissionDenied();
 }
 
 class ProductDisplayComponentLoaded extends ProductDisplayComponentState {
   final ProductDisplayModel value;
 
-  const ProductDisplayComponentLoaded({ required this.value });
+  const ProductDisplayComponentLoaded({required this.value});
 
-  ProductDisplayComponentLoaded copyWith({ ProductDisplayModel? copyThis }) {
-    return ProductDisplayComponentLoaded(value: copyThis ?? this.value);
+  ProductDisplayComponentLoaded copyWith({ProductDisplayModel? copyThis}) {
+    return ProductDisplayComponentLoaded(value: copyThis ?? value);
   }
 
   @override
@@ -49,4 +51,3 @@ class ProductDisplayComponentLoaded extends ProductDisplayComponentState {
   @override
   String toString() => 'ProductDisplayComponentLoaded { value: $value }';
 }
-

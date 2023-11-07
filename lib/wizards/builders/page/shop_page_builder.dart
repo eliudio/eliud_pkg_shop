@@ -1,5 +1,5 @@
 import 'package:eliud_core/core/wizards/builders/page_builder.dart';
-import 'package:eliud_core/core/wizards/tools/documentIdentifier.dart';
+import 'package:eliud_core/core/wizards/tools/document_identifier.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart'
     as corerepo;
 import 'package:eliud_core/model/model_export.dart';
@@ -25,7 +25,7 @@ import 'cart_page_builder.dart';
 import 'product_page_builder.dart';
 
 class ShopPageBuilder extends PageBuilder {
-  static String PAGE_ID = 'shop-front';
+  static String thePageId = 'shop-front';
 
   ShopPageBuilder(
     String uniqueId,
@@ -37,7 +37,7 @@ class ShopPageBuilder extends PageBuilder {
     DrawerModel rightDrawer,
   ) : super(
           uniqueId,
-          PAGE_ID,
+          thePageId,
           app,
           memberId,
           theHomeMenu,
@@ -48,7 +48,7 @@ class ShopPageBuilder extends PageBuilder {
 
   static ActionModel action(AppModel app, String uniqueId) => GotoPage(
         app,
-        pageID: constructDocumentId(uniqueId: uniqueId, documentId: PAGE_ID),
+        pageID: constructDocumentId(uniqueId: uniqueId, documentId: thePageId),
       );
 
   static MenuItemModel menuItem(AppModel app, String uniqueId) => MenuItemModel(
@@ -60,7 +60,7 @@ class ShopPageBuilder extends PageBuilder {
           fontFamily: Icons.settings.fontFamily),
       action: GotoPage(app,
           pageID:
-              constructDocumentId(uniqueId: uniqueId, documentId: PAGE_ID)));
+              constructDocumentId(uniqueId: uniqueId, documentId: thePageId)));
 
   Future<PageModel> _setupPage(
       String? presentationDocumentId, String? faderIdentifier) async {
@@ -92,7 +92,7 @@ class ShopPageBuilder extends PageBuilder {
 
     return PageModel(
         documentID:
-            constructDocumentId(uniqueId: uniqueId, documentId: PAGE_ID),
+            constructDocumentId(uniqueId: uniqueId, documentId: thePageId),
         appId: app.documentID,
         title: 'Shop',
         description: 'Shop',
@@ -100,10 +100,10 @@ class ShopPageBuilder extends PageBuilder {
         endDrawer: rightDrawer,
         appBar: theAppBar,
         homeMenu: theHomeMenu,
-        layout: PageLayout.ListView,
+        layout: PageLayout.listView,
         conditions: StorageConditionsModel(
           privilegeLevelRequired:
-              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple,
+              PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple,
         ),
         bodyComponents: components);
   }
@@ -131,7 +131,7 @@ class ShopPageBuilder extends PageBuilder {
       appId: app.documentID,
       conditions: StorageConditionsModel(
           privilegeLevelRequired:
-              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+              PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple),
     );
     return model;
   }
@@ -152,7 +152,7 @@ class ShopPageBuilder extends PageBuilder {
       appId: app.documentID,
       conditions: StorageConditionsModel(
           privilegeLevelRequired:
-              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+              PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple),
     );
     return document;
   }
@@ -172,14 +172,14 @@ class ShopPageBuilder extends PageBuilder {
       buyAction: CartPageBuilder.openCartPage(app, uniqueId),
       openProductAction: GotoPage(app,
           pageID: constructDocumentId(
-              uniqueId: uniqueId, documentId: ProductPageBuilder.PAGE_ID)),
+              uniqueId: uniqueId, documentId: ProductPageBuilder.thePageId)),
       size: 250,
       cardElevation: 10,
       cardAxisSpacing: 20,
-      scrollDirection: ScrollDirection.Vertical,
+      scrollDirection: ScrollDirection.vertical,
       conditions: StorageConditionsModel(
           privilegeLevelRequired:
-              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+              PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple),
     );
   }
 
@@ -198,14 +198,14 @@ class ShopPageBuilder extends PageBuilder {
       buyAction: CartPageBuilder.openCartPage(app, uniqueId),
       openProductAction: GotoPage(app,
           pageID: constructDocumentId(
-              uniqueId: uniqueId, documentId: ProductPageBuilder.PAGE_ID)),
+              uniqueId: uniqueId, documentId: ProductPageBuilder.thePageId)),
       size: 250,
       cardElevation: 10,
       cardAxisSpacing: 20,
-      scrollDirection: ScrollDirection.Vertical,
+      scrollDirection: ScrollDirection.vertical,
       conditions: StorageConditionsModel(
           privilegeLevelRequired:
-              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+              PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple),
     );
   }
 
@@ -233,8 +233,8 @@ class ShopPageBuilder extends PageBuilder {
     decorationColorModels.add(decorationColorModel2);
     var backgroundModel = BackgroundModel(
       border: true,
-      beginGradientPosition: StartGradientPosition.CenterLeft,
-      endGradientPosition: EndGradientPosition.CenterRight,
+      beginGradientPosition: StartGradientPosition.centerLeft,
+      endGradientPosition: EndGradientPosition.centerRight,
       decorationColors: decorationColorModels,
     );
     return backgroundModel;
@@ -248,12 +248,12 @@ class ShopPageBuilder extends PageBuilder {
       appId: app.documentID,
       bodyComponents: [_shopFront()],
       image: memberMediumModel,
-      imagePositionRelative: PresentationRelativeImagePosition.Aside,
-      imageAlignment: PresentationImageAlignment.Left,
+      imagePositionRelative: PresentationRelativeImagePosition.aside,
+      imageAlignment: PresentationImageAlignment.left,
       imageWidth: .33,
       conditions: StorageConditionsModel(
           privilegeLevelRequired:
-              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+              PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple),
     );
   }
 
@@ -287,7 +287,7 @@ class ShopPageBuilder extends PageBuilder {
       appId: app.documentID,
       conditions: StorageConditionsModel(
           privilegeLevelRequired:
-              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+              PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple),
     );
     return dividerModel;
   }
@@ -298,7 +298,7 @@ class ShopPageBuilder extends PageBuilder {
 
   Future<ShopModel> create(
       PlatformMediumModel? image, PlatformMediumModel? faderImage) async {
-    var presentationDocumentId;
+    String? presentationDocumentId;
     if (image != null) {
       presentationDocumentId = (await _setupPresentation(image)).documentID;
     }

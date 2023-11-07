@@ -10,7 +10,11 @@ class Products {
   final AppModel app;
   final String memberId;
 
-  Products({required this.uniqueId, required this.shop, required this.app, required this.memberId});
+  Products(
+      {required this.uniqueId,
+      required this.shop,
+      required this.app,
+      required this.memberId});
 
   static String productId1 = 'gouldian_finch';
   static String productId2 = 'red_breasted_blackbird';

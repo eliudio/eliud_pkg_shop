@@ -1,4 +1,4 @@
-import 'package:eliud_core/core/wizards/tools/documentIdentifier.dart';
+import 'package:eliud_core/core/wizards/tools/document_identifier.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/display_conditions_model.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
@@ -25,12 +25,15 @@ class CartPaymentWorkflows {
       this.workflowForManualPaymentCart, this.workflowForCreditCardPaymentCart);
 }
 
-ActionModel getParameterAction(AppModel app, CartPaymentWorkflows cartPaymentWorkflows) => WorkflowActionModel(app,
-      conditions: DisplayConditionsModel(
-        privilegeLevelRequired: PrivilegeLevelRequired.NoPrivilegeRequired,
-        packageCondition: ShopPackage.CONDITION_CARTS_HAS_ITEMS,
-      ),
-      workflow: cartPaymentWorkflows.workflowForCreditCardPaymentCart ?? cartPaymentWorkflows.workflowForManualPaymentCart);
+ActionModel getParameterAction(
+        AppModel app, CartPaymentWorkflows cartPaymentWorkflows) =>
+    WorkflowActionModel(app,
+        conditions: DisplayConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequired.noPrivilegeRequired,
+          packageCondition: ShopPackage.conditionCartsHasItems,
+        ),
+        workflow: cartPaymentWorkflows.workflowForCreditCardPaymentCart ??
+            cartPaymentWorkflows.workflowForManualPaymentCart);
 
 class PaymentWorkflowBuilder {
   final String uniqueId;
@@ -40,19 +43,19 @@ class PaymentWorkflowBuilder {
   PaymentWorkflowBuilder(this.uniqueId, this.appId, {required this.parameters});
 
   Future<CartPaymentWorkflows> create() async {
-    var workflowForManualPaymentCart;
-    var workflowForCreditCardPaymentCart;
+    WorkflowModel? workflowForManualPaymentCart;
+    WorkflowModel? myWorkflowForCreditCardPaymentCart;
     if (parameters.manualPaymentCart) {
       workflowForManualPaymentCart = _workflowForManualPaymentCart();
       await workflowRepository(appId: appId)!.add(workflowForManualPaymentCart);
     }
     if (parameters.creditCardPaymentCart) {
-      workflowForCreditCardPaymentCart = workflowForCreditCardPaymentCart();
+      myWorkflowForCreditCardPaymentCart = workflowForCreditCardPaymentCart();
       await workflowRepository(appId: appId)!
           .add(workflowForCreditCardPaymentCart());
     }
     return CartPaymentWorkflows(
-        workflowForManualPaymentCart, workflowForCreditCardPaymentCart);
+        workflowForManualPaymentCart, myWorkflowForCreditCardPaymentCart);
   }
 
   WorkflowModel _workflowForManualPaymentCart() {
@@ -66,8 +69,8 @@ class PaymentWorkflowBuilder {
 
   WorkflowActionModel payCart(AppModel app) => WorkflowActionModel(app,
       conditions: DisplayConditionsModel(
-        privilegeLevelRequired: PrivilegeLevelRequired.NoPrivilegeRequired,
-        packageCondition: ShopPackage.CONDITION_CARTS_HAS_ITEMS,
+        privilegeLevelRequired: PrivilegeLevelRequired.noPrivilegeRequired,
+        packageCondition: ShopPackage.conditionCartsHasItems,
       ),
       workflow: workflowForCreditCardPaymentCart());
 
@@ -98,14 +101,14 @@ class PaymentWorkflowBuilder {
       String documentID, String name, PayTypeModel payTypeModel) {
     return WorkflowModel(
         appId: appId,
-        documentID: constructDocumentId(
-            uniqueId: uniqueId, documentId: "payment"),
+        documentID:
+            constructDocumentId(uniqueId: uniqueId, documentId: "payment"),
         name: "Manual Cart Payment",
         workflowTask: [
           WorkflowTaskModel(
             seqNumber: 1,
             documentID: "workflow_task_payment",
-            responsible: WorkflowTaskResponsible.CurrentMember,
+            responsible: WorkflowTaskResponsible.currentMember,
             task: ContextAmountPayModel(
               identifier: newRandomKey(),
               executeInstantly: false,
@@ -116,15 +119,15 @@ class PaymentWorkflowBuilder {
           WorkflowTaskModel(
             seqNumber: 2,
             documentID: "review_payment_and_ship",
-            responsible: WorkflowTaskResponsible.Owner,
+            responsible: WorkflowTaskResponsible.owner,
             confirmMessage: WorkflowNotificationModel(
                 message:
                     "Your payment has been reviewed and approved and your order is being prepared for shipment. Feedback from the shop: ",
-                addressee: WorkflowNotificationAddressee.CurrentMember),
+                addressee: WorkflowNotificationAddressee.currentMember),
             rejectMessage: WorkflowNotificationModel(
                 message:
                     "Your payment has been reviewed and rejected. Feedback from the shop: ",
-                addressee: WorkflowNotificationAddressee.CurrentMember),
+                addressee: WorkflowNotificationAddressee.currentMember),
             task: ReviewAndShipTaskModel(
               identifier: newRandomKey(),
               executeInstantly: false,

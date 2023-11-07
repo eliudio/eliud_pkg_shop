@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
 
-
 @immutable
 abstract class OrderFormEvent extends Equatable {
   const OrderFormEvent();
@@ -26,15 +25,13 @@ abstract class OrderFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewOrderFormEvent extends OrderFormEvent {
-}
-
+class InitialiseNewOrderFormEvent extends OrderFormEvent {}
 
 class InitialiseOrderFormEvent extends OrderFormEvent {
   final OrderModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseOrderFormEvent({this.value});
 }
@@ -43,7 +40,7 @@ class InitialiseOrderFormNoLoadEvent extends OrderFormEvent {
   final OrderModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseOrderFormNoLoadEvent({this.value});
 }
@@ -54,7 +51,7 @@ class ChangedOrderDocumentID extends OrderFormEvent {
   ChangedOrderDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderDocumentID{ value: $value }';
@@ -66,7 +63,7 @@ class ChangedOrderAppId extends OrderFormEvent {
   ChangedOrderAppId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderAppId{ value: $value }';
@@ -78,7 +75,7 @@ class ChangedOrderCustomer extends OrderFormEvent {
   ChangedOrderCustomer({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderCustomer{ value: $value }';
@@ -90,7 +87,7 @@ class ChangedOrderName extends OrderFormEvent {
   ChangedOrderName({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderName{ value: $value }';
@@ -102,7 +99,7 @@ class ChangedOrderEmail extends OrderFormEvent {
   ChangedOrderEmail({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderEmail{ value: $value }';
@@ -114,7 +111,7 @@ class ChangedOrderShipStreet1 extends OrderFormEvent {
   ChangedOrderShipStreet1({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderShipStreet1{ value: $value }';
@@ -126,7 +123,7 @@ class ChangedOrderShipStreet2 extends OrderFormEvent {
   ChangedOrderShipStreet2({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderShipStreet2{ value: $value }';
@@ -138,7 +135,7 @@ class ChangedOrderShipCity extends OrderFormEvent {
   ChangedOrderShipCity({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderShipCity{ value: $value }';
@@ -150,7 +147,7 @@ class ChangedOrderShipState extends OrderFormEvent {
   ChangedOrderShipState({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderShipState{ value: $value }';
@@ -162,7 +159,7 @@ class ChangedOrderPostcode extends OrderFormEvent {
   ChangedOrderPostcode({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderPostcode{ value: $value }';
@@ -174,7 +171,7 @@ class ChangedOrderCountry extends OrderFormEvent {
   ChangedOrderCountry({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderCountry{ value: $value }';
@@ -186,7 +183,7 @@ class ChangedOrderInvoiceSame extends OrderFormEvent {
   ChangedOrderInvoiceSame({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderInvoiceSame{ value: $value }';
@@ -198,7 +195,7 @@ class ChangedOrderInvoiceStreet1 extends OrderFormEvent {
   ChangedOrderInvoiceStreet1({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderInvoiceStreet1{ value: $value }';
@@ -210,7 +207,7 @@ class ChangedOrderInvoiceStreet2 extends OrderFormEvent {
   ChangedOrderInvoiceStreet2({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderInvoiceStreet2{ value: $value }';
@@ -222,7 +219,7 @@ class ChangedOrderInvoiceCity extends OrderFormEvent {
   ChangedOrderInvoiceCity({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderInvoiceCity{ value: $value }';
@@ -234,7 +231,7 @@ class ChangedOrderInvoiceState extends OrderFormEvent {
   ChangedOrderInvoiceState({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderInvoiceState{ value: $value }';
@@ -246,7 +243,7 @@ class ChangedOrderInvoicePostcode extends OrderFormEvent {
   ChangedOrderInvoicePostcode({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderInvoicePostcode{ value: $value }';
@@ -258,7 +255,7 @@ class ChangedOrderInvoiceCountry extends OrderFormEvent {
   ChangedOrderInvoiceCountry({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderInvoiceCountry{ value: $value }';
@@ -270,7 +267,7 @@ class ChangedOrderProducts extends OrderFormEvent {
   ChangedOrderProducts({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderProducts{ value: $value }';
@@ -282,7 +279,7 @@ class ChangedOrderTotalPrice extends OrderFormEvent {
   ChangedOrderTotalPrice({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderTotalPrice{ value: $value }';
@@ -294,7 +291,7 @@ class ChangedOrderCurrency extends OrderFormEvent {
   ChangedOrderCurrency({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderCurrency{ value: $value }';
@@ -306,7 +303,7 @@ class ChangedOrderPaymentReference extends OrderFormEvent {
   ChangedOrderPaymentReference({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderPaymentReference{ value: $value }';
@@ -318,7 +315,7 @@ class ChangedOrderShipmentReference extends OrderFormEvent {
   ChangedOrderShipmentReference({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderShipmentReference{ value: $value }';
@@ -330,7 +327,7 @@ class ChangedOrderDeliveryReference extends OrderFormEvent {
   ChangedOrderDeliveryReference({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderDeliveryReference{ value: $value }';
@@ -342,7 +339,7 @@ class ChangedOrderPaymentNote extends OrderFormEvent {
   ChangedOrderPaymentNote({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderPaymentNote{ value: $value }';
@@ -354,7 +351,7 @@ class ChangedOrderShipmentNote extends OrderFormEvent {
   ChangedOrderShipmentNote({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderShipmentNote{ value: $value }';
@@ -366,7 +363,7 @@ class ChangedOrderDeliveryNote extends OrderFormEvent {
   ChangedOrderDeliveryNote({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderDeliveryNote{ value: $value }';
@@ -378,7 +375,7 @@ class ChangedOrderStatus extends OrderFormEvent {
   ChangedOrderStatus({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderStatus{ value: $value }';
@@ -390,9 +387,8 @@ class ChangedOrderTimeStamp extends OrderFormEvent {
   ChangedOrderTimeStamp({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedOrderTimeStamp{ value: $value }';
 }
-

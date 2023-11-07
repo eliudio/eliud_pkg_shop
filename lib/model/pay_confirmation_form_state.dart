@@ -41,9 +41,9 @@ class PayConfirmationFormInitialized extends PayConfirmationFormState {
   final PayConfirmationModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const PayConfirmationFormInitialized({ this.value });
+  const PayConfirmationFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
@@ -51,9 +51,9 @@ abstract class PayConfirmationFormError extends PayConfirmationFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const PayConfirmationFormError({this.message, PayConfirmationModel? value }) : super(value: value);
+  const PayConfirmationFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +63,12 @@ abstract class PayConfirmationFormError extends PayConfirmationFormInitialized {
     }''';
   }
 }
-class DocumentIDPayConfirmationFormError extends PayConfirmationFormError { 
-  const DocumentIDPayConfirmationFormError({ String? message, PayConfirmationModel? value }): super(message: message, value: value);
+
+class DocumentIDPayConfirmationFormError extends PayConfirmationFormError {
+  const DocumentIDPayConfirmationFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +79,11 @@ class DocumentIDPayConfirmationFormError extends PayConfirmationFormError {
   }
 }
 
-
-class AppIdPayConfirmationFormError extends PayConfirmationFormError { 
-  const AppIdPayConfirmationFormError({ String? message, PayConfirmationModel? value }): super(message: message, value: value);
+class AppIdPayConfirmationFormError extends PayConfirmationFormError {
+  const AppIdPayConfirmationFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +94,11 @@ class AppIdPayConfirmationFormError extends PayConfirmationFormError {
   }
 }
 
-
-class DescriptionPayConfirmationFormError extends PayConfirmationFormError { 
-  const DescriptionPayConfirmationFormError({ String? message, PayConfirmationModel? value }): super(message: message, value: value);
+class DescriptionPayConfirmationFormError extends PayConfirmationFormError {
+  const DescriptionPayConfirmationFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +109,11 @@ class DescriptionPayConfirmationFormError extends PayConfirmationFormError {
   }
 }
 
-
-class ShopPayConfirmationFormError extends PayConfirmationFormError { 
-  const ShopPayConfirmationFormError({ String? message, PayConfirmationModel? value }): super(message: message, value: value);
+class ShopPayConfirmationFormError extends PayConfirmationFormError {
+  const ShopPayConfirmationFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -126,12 +124,12 @@ class ShopPayConfirmationFormError extends PayConfirmationFormError {
   }
 }
 
-
-class BackToShopActionPayConfirmationFormError extends PayConfirmationFormError { 
-  const BackToShopActionPayConfirmationFormError({ String? message, PayConfirmationModel? value }): super(message: message, value: value);
+class BackToShopActionPayConfirmationFormError
+    extends PayConfirmationFormError {
+  const BackToShopActionPayConfirmationFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -142,12 +140,11 @@ class BackToShopActionPayConfirmationFormError extends PayConfirmationFormError 
   }
 }
 
-
-class ConditionsPayConfirmationFormError extends PayConfirmationFormError { 
-  const ConditionsPayConfirmationFormError({ String? message, PayConfirmationModel? value }): super(message: message, value: value);
+class ConditionsPayConfirmationFormError extends PayConfirmationFormError {
+  const ConditionsPayConfirmationFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -158,12 +155,11 @@ class ConditionsPayConfirmationFormError extends PayConfirmationFormError {
   }
 }
 
-
-class PayConfirmationFormLoaded extends PayConfirmationFormInitialized { 
-  const PayConfirmationFormLoaded({ PayConfirmationModel? value }): super(value: value);
+class PayConfirmationFormLoaded extends PayConfirmationFormInitialized {
+  const PayConfirmationFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -173,12 +169,11 @@ class PayConfirmationFormLoaded extends PayConfirmationFormInitialized {
   }
 }
 
-
-class SubmittablePayConfirmationForm extends PayConfirmationFormInitialized { 
-  const SubmittablePayConfirmationForm({ PayConfirmationModel? value }): super(value: value);
+class SubmittablePayConfirmationForm extends PayConfirmationFormInitialized {
+  const SubmittablePayConfirmationForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -187,5 +182,3 @@ class SubmittablePayConfirmationForm extends PayConfirmationFormInitialized {
     }''';
   }
 }
-
-

@@ -1,4 +1,4 @@
-import 'package:eliud_core/core/wizards/tools/documentIdentifier.dart';
+import 'package:eliud_core/core/wizards/tools/document_identifier.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
@@ -10,7 +10,7 @@ class OrderOverviewPageBuilder extends AbstractPageTemplate {
   final BackgroundModel? background;
   final ShopModel? shop;
 
-  static String PAGE_ID = 'shop-orders-' + newRandomKey();
+  static String thePageId = 'shop-orders-${newRandomKey()}';
 
   OrderOverviewModel _orderOverview() {
     return OrderOverviewModel(
@@ -22,7 +22,7 @@ class OrderOverviewPageBuilder extends AbstractPageTemplate {
       itemDetailBackground: background,
       conditions: StorageConditionsModel(
           privilegeLevelRequired:
-              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+              PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple),
     );
   }
 
@@ -47,7 +47,7 @@ class OrderOverviewPageBuilder extends AbstractPageTemplate {
     this.background,
   ) : super(
           uniqueId,
-          PAGE_ID,
+          thePageId,
           app,
           memberId,
           theHomeMenu,
@@ -55,7 +55,7 @@ class OrderOverviewPageBuilder extends AbstractPageTemplate {
           leftDrawer,
           rightDrawer,
           privilegeLevelRequired:
-              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple,
+              PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple,
         );
 
   @override

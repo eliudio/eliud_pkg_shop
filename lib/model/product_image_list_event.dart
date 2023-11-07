@@ -30,10 +30,10 @@ class NewPage extends ProductImageListEvent {}
 class AddProductImageList extends ProductImageListEvent {
   final ProductImageModel? value;
 
-  const AddProductImageList({ this.value });
+  const AddProductImageList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddProductImageList{ value: $value }';
@@ -42,10 +42,10 @@ class AddProductImageList extends ProductImageListEvent {
 class UpdateProductImageList extends ProductImageListEvent {
   final ProductImageModel? value;
 
-  const UpdateProductImageList({ this.value });
+  const UpdateProductImageList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateProductImageList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateProductImageList extends ProductImageListEvent {
 class DeleteProductImageList extends ProductImageListEvent {
   final ProductImageModel? value;
 
-  const DeleteProductImageList({ this.value });
+  const DeleteProductImageList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteProductImageList{ value: $value }';
@@ -67,24 +67,24 @@ class ProductImageListUpdated extends ProductImageListEvent {
   final List<ProductImageModel?>? value;
   final bool? mightHaveMore;
 
-  const ProductImageListUpdated({ this.value, this.mightHaveMore });
+  const ProductImageListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'ProductImageListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'ProductImageListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class ProductImageChangeQuery extends ProductImageListEvent {
   final EliudQuery? newQuery;
 
-  const ProductImageChangeQuery({ required this.newQuery });
+  const ProductImageChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'ProductImageChangeQuery{ value: $newQuery }';
 }
-

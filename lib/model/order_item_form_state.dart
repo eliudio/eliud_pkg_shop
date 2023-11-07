@@ -41,9 +41,9 @@ class OrderItemFormInitialized extends OrderItemFormState {
   final OrderItemModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const OrderItemFormInitialized({ this.value });
+  const OrderItemFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
@@ -51,9 +51,9 @@ abstract class OrderItemFormError extends OrderItemFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const OrderItemFormError({this.message, OrderItemModel? value }) : super(value: value);
+  const OrderItemFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +63,12 @@ abstract class OrderItemFormError extends OrderItemFormInitialized {
     }''';
   }
 }
-class DocumentIDOrderItemFormError extends OrderItemFormError { 
-  const DocumentIDOrderItemFormError({ String? message, OrderItemModel? value }): super(message: message, value: value);
+
+class DocumentIDOrderItemFormError extends OrderItemFormError {
+  const DocumentIDOrderItemFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +79,11 @@ class DocumentIDOrderItemFormError extends OrderItemFormError {
   }
 }
 
-
-class AmountOrderItemFormError extends OrderItemFormError { 
-  const AmountOrderItemFormError({ String? message, OrderItemModel? value }): super(message: message, value: value);
+class AmountOrderItemFormError extends OrderItemFormError {
+  const AmountOrderItemFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +94,11 @@ class AmountOrderItemFormError extends OrderItemFormError {
   }
 }
 
-
-class AppIdOrderItemFormError extends OrderItemFormError { 
-  const AppIdOrderItemFormError({ String? message, OrderItemModel? value }): super(message: message, value: value);
+class AppIdOrderItemFormError extends OrderItemFormError {
+  const AppIdOrderItemFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +109,11 @@ class AppIdOrderItemFormError extends OrderItemFormError {
   }
 }
 
-
-class SoldPriceOrderItemFormError extends OrderItemFormError { 
-  const SoldPriceOrderItemFormError({ String? message, OrderItemModel? value }): super(message: message, value: value);
+class SoldPriceOrderItemFormError extends OrderItemFormError {
+  const SoldPriceOrderItemFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -126,12 +124,11 @@ class SoldPriceOrderItemFormError extends OrderItemFormError {
   }
 }
 
-
-class ProductOrderItemFormError extends OrderItemFormError { 
-  const ProductOrderItemFormError({ String? message, OrderItemModel? value }): super(message: message, value: value);
+class ProductOrderItemFormError extends OrderItemFormError {
+  const ProductOrderItemFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -142,12 +139,11 @@ class ProductOrderItemFormError extends OrderItemFormError {
   }
 }
 
-
-class OrderItemFormLoaded extends OrderItemFormInitialized { 
-  const OrderItemFormLoaded({ OrderItemModel? value }): super(value: value);
+class OrderItemFormLoaded extends OrderItemFormInitialized {
+  const OrderItemFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -157,12 +153,11 @@ class OrderItemFormLoaded extends OrderItemFormInitialized {
   }
 }
 
-
-class SubmittableOrderItemForm extends OrderItemFormInitialized { 
-  const SubmittableOrderItemForm({ OrderItemModel? value }): super(value: value);
+class SubmittableOrderItemForm extends OrderItemFormInitialized {
+  const SubmittableOrderItemForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -171,5 +166,3 @@ class SubmittableOrderItemForm extends OrderItemFormInitialized {
     }''';
   }
 }
-
-

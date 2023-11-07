@@ -15,47 +15,51 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OrderOverviewComponentConstructorDefault implements ComponentConstructor {
   @override
-  Widget createNew({Key? key, required AppModel app, required String id, Map<String, dynamic>? parameters}) {
+  Widget createNew(
+      {Key? key,
+      required AppModel app,
+      required String id,
+      Map<String, dynamic>? parameters}) {
     return OrderOverviewComponent(key: key, app: app, id: id);
   }
 
   @override
-  Future<dynamic> getModel({required AppModel app, required String id}) async => await orderOverviewRepository(appId: app.documentID)!.get(id);
+  Future<dynamic> getModel({required AppModel app, required String id}) async =>
+      await orderOverviewRepository(appId: app.documentID)!.get(id);
 }
 
 class OrderOverviewComponent extends AbstractOrderOverviewComponent {
-  OrderOverviewComponent({Key? key, required AppModel app, required String id}) : super(key: key, app: app, orderOverviewId: id);
+  OrderOverviewComponent({super.key, required super.app, required String id})
+      : super(orderOverviewId: id);
 
   @override
-  Widget yourWidget(BuildContext context, OrderOverviewModel? orderOverview) {
+  Widget yourWidget(BuildContext context, OrderOverviewModel? value) {
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (context, accessState) {
-          if (accessState is AccessDetermined) {
-            if (accessState.memberIsOwner(app.documentID)) {
-              // allow owner of the app to see ALL orders and update shipment details
-              return BlocProvider<OrderListBloc>(
-                create: (context) =>
-                OrderListBloc(
-                  orderRepository: AbstractRepositorySingleton.singleton.orderRepository(app.documentID)!,
-                )
-                  ..add(LoadOrderList()),
-                child: OrderListWidget(app: app, readOnly: false, form: 'OrderShipmentForm'),
-              );
-            } else {
-              // allow member to view his own orders
-              return BlocProvider<OrderListBloc>(
-                create: (context) =>
-                OrderListBloc(
-                  orderRepository: AbstractRepositorySingleton.singleton
-                      .orderRepository(app.documentID)!,
-                )
-                  ..add(LoadOrderList()),
-                child: OrderListWidget(app: app, readOnly: true),
-              );
-            }
-          } else {
-            return progressIndicator(app, context);
-          }
-        });
+      if (accessState is AccessDetermined) {
+        if (accessState.memberIsOwner(app.documentID)) {
+          // allow owner of the app to see ALL orders and update shipment details
+          return BlocProvider<OrderListBloc>(
+            create: (context) => OrderListBloc(
+              orderRepository: AbstractRepositorySingleton.singleton
+                  .orderRepository(app.documentID)!,
+            )..add(LoadOrderList()),
+            child: OrderListWidget(
+                app: app, readOnly: false, form: 'OrderShipmentForm'),
+          );
+        } else {
+          // allow member to view his own orders
+          return BlocProvider<OrderListBloc>(
+            create: (context) => OrderListBloc(
+              orderRepository: AbstractRepositorySingleton.singleton
+                  .orderRepository(app.documentID)!,
+            )..add(LoadOrderList()),
+            child: OrderListWidget(app: app, readOnly: true),
+          );
+        }
+      } else {
+        return progressIndicator(app, context);
+      }
+    });
   }
 }

@@ -27,12 +27,42 @@ class PayEntity implements EntityBase {
   final String? shopId;
   final StorageConditionsEntity? conditions;
 
-  PayEntity({required this.appId, this.description, this.succeeded, this.payAction, this.shopId, this.conditions, });
+  PayEntity({
+    required this.appId,
+    this.description,
+    this.succeeded,
+    this.payAction,
+    this.shopId,
+    this.conditions,
+  });
 
-  PayEntity copyWith({String? documentID, String? appId, String? description, ActionEntity? succeeded, ActionEntity? payAction, String? shopId, StorageConditionsEntity? conditions, }) {
-    return PayEntity(appId : appId ?? this.appId, description : description ?? this.description, succeeded : succeeded ?? this.succeeded, payAction : payAction ?? this.payAction, shopId : shopId ?? this.shopId, conditions : conditions ?? this.conditions, );
+  PayEntity copyWith({
+    String? documentID,
+    String? appId,
+    String? description,
+    ActionEntity? succeeded,
+    ActionEntity? payAction,
+    String? shopId,
+    StorageConditionsEntity? conditions,
+  }) {
+    return PayEntity(
+      appId: appId ?? this.appId,
+      description: description ?? this.description,
+      succeeded: succeeded ?? this.succeeded,
+      payAction: payAction ?? this.payAction,
+      shopId: shopId ?? this.shopId,
+      conditions: conditions ?? this.conditions,
+    );
   }
-  List<Object?> get props => [appId, description, succeeded, payAction, shopId, conditions, ];
+
+  List<Object?> get props => [
+        appId,
+        description,
+        succeeded,
+        payAction,
+        shopId,
+        conditions,
+      ];
 
   @override
   String toString() {
@@ -43,53 +73,72 @@ class PayEntity implements EntityBase {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
-    var succeededFromMap;
-    succeededFromMap = map['succeeded'];
-    if (succeededFromMap != null)
-      succeededFromMap = ActionEntity.fromMap(succeededFromMap, newDocumentIds: newDocumentIds);
-    var payActionFromMap;
-    payActionFromMap = map['payAction'];
-    if (payActionFromMap != null)
-      payActionFromMap = ActionEntity.fromMap(payActionFromMap, newDocumentIds: newDocumentIds);
-    var conditionsFromMap;
-    conditionsFromMap = map['conditions'];
-    if (conditionsFromMap != null)
-      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap, newDocumentIds: newDocumentIds);
+    var succeededFromMap = map['succeeded'];
+    if (succeededFromMap != null) {
+      succeededFromMap = ActionEntity.fromMap(succeededFromMap,
+          newDocumentIds: newDocumentIds);
+    }
+    var payActionFromMap = map['payAction'];
+    if (payActionFromMap != null) {
+      payActionFromMap = ActionEntity.fromMap(payActionFromMap,
+          newDocumentIds: newDocumentIds);
+    }
+    var conditionsFromMap = map['conditions'];
+    if (conditionsFromMap != null) {
+      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap,
+          newDocumentIds: newDocumentIds);
+    }
 
     return PayEntity(
-      appId: map['appId'], 
-      description: map['description'], 
-      succeeded: succeededFromMap, 
-      payAction: payActionFromMap, 
-      shopId: map['shopId'], 
-      conditions: conditionsFromMap, 
+      appId: map['appId'],
+      description: map['description'],
+      succeeded: succeededFromMap,
+      payAction: payActionFromMap,
+      shopId: map['shopId'],
+      conditions: conditionsFromMap,
     );
   }
 
+  @override
   Map<String, Object?> toDocument() {
-    final Map<String, dynamic>? succeededMap = succeeded != null 
-        ? succeeded!.toDocument()
-        : null;
-    final Map<String, dynamic>? payActionMap = payAction != null 
-        ? payAction!.toDocument()
-        : null;
-    final Map<String, dynamic>? conditionsMap = conditions != null 
-        ? conditions!.toDocument()
-        : null;
+    final Map<String, dynamic>? succeededMap =
+        succeeded != null ? succeeded!.toDocument() : null;
+    final Map<String, dynamic>? payActionMap =
+        payAction != null ? payAction!.toDocument() : null;
+    final Map<String, dynamic>? conditionsMap =
+        conditions != null ? conditions!.toDocument() : null;
 
     Map<String, Object?> theDocument = HashMap();
-    if (appId != null) theDocument["appId"] = appId;
-      else theDocument["appId"] = null;
-    if (description != null) theDocument["description"] = description;
-      else theDocument["description"] = null;
-    if (succeeded != null) theDocument["succeeded"] = succeededMap;
-      else theDocument["succeeded"] = null;
-    if (payAction != null) theDocument["payAction"] = payActionMap;
-      else theDocument["payAction"] = null;
-    if (shopId != null) theDocument["shopId"] = shopId;
-      else theDocument["shopId"] = null;
-    if (conditions != null) theDocument["conditions"] = conditionsMap;
-      else theDocument["conditions"] = null;
+    if (appId != null) {
+      theDocument["appId"] = appId;
+    } else {
+      theDocument["appId"] = null;
+    }
+    if (description != null) {
+      theDocument["description"] = description;
+    } else {
+      theDocument["description"] = null;
+    }
+    if (succeeded != null) {
+      theDocument["succeeded"] = succeededMap;
+    } else {
+      theDocument["succeeded"] = null;
+    }
+    if (payAction != null) {
+      theDocument["payAction"] = payActionMap;
+    } else {
+      theDocument["payAction"] = null;
+    }
+    if (shopId != null) {
+      theDocument["shopId"] = shopId;
+    } else {
+      theDocument["shopId"] = null;
+    }
+    if (conditions != null) {
+      theDocument["conditions"] = conditionsMap;
+    } else {
+      theDocument["conditions"] = null;
+    }
     return theDocument;
   }
 
@@ -99,7 +148,8 @@ class PayEntity implements EntityBase {
     return newEntity;
   }
 
-  static PayEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
+  static PayEntity? fromJsonString(String json,
+      {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
@@ -108,9 +158,9 @@ class PayEntity implements EntityBase {
     return jsonEncode(toDocument());
   }
 
-  Future<Map<String, Object?>> enrichedDocument(Map<String, Object?> theDocument) async {
+  @override
+  Future<Map<String, Object?>> enrichedDocument(
+      Map<String, Object?> theDocument) async {
     return theDocument;
   }
-
 }
-

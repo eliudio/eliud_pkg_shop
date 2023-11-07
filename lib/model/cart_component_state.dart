@@ -27,7 +27,7 @@ class CartComponentUninitialized extends CartComponentState {}
 
 class CartComponentError extends CartComponentState {
   final String? message;
-  CartComponentError({ this.message });
+  CartComponentError({this.message});
 }
 
 class CartComponentPermissionDenied extends CartComponentState {
@@ -37,10 +37,10 @@ class CartComponentPermissionDenied extends CartComponentState {
 class CartComponentLoaded extends CartComponentState {
   final CartModel value;
 
-  const CartComponentLoaded({ required this.value });
+  const CartComponentLoaded({required this.value});
 
-  CartComponentLoaded copyWith({ CartModel? copyThis }) {
-    return CartComponentLoaded(value: copyThis ?? this.value);
+  CartComponentLoaded copyWith({CartModel? copyThis}) {
+    return CartComponentLoaded(value: copyThis ?? value);
   }
 
   @override
@@ -49,4 +49,3 @@ class CartComponentLoaded extends CartComponentState {
   @override
   String toString() => 'CartComponentLoaded { value: $value }';
 }
-

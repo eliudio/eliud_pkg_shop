@@ -30,10 +30,10 @@ class NewPage extends ShopFrontListEvent {}
 class AddShopFrontList extends ShopFrontListEvent {
   final ShopFrontModel? value;
 
-  const AddShopFrontList({ this.value });
+  const AddShopFrontList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddShopFrontList{ value: $value }';
@@ -42,10 +42,10 @@ class AddShopFrontList extends ShopFrontListEvent {
 class UpdateShopFrontList extends ShopFrontListEvent {
   final ShopFrontModel? value;
 
-  const UpdateShopFrontList({ this.value });
+  const UpdateShopFrontList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateShopFrontList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateShopFrontList extends ShopFrontListEvent {
 class DeleteShopFrontList extends ShopFrontListEvent {
   final ShopFrontModel? value;
 
-  const DeleteShopFrontList({ this.value });
+  const DeleteShopFrontList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteShopFrontList{ value: $value }';
@@ -67,24 +67,24 @@ class ShopFrontListUpdated extends ShopFrontListEvent {
   final List<ShopFrontModel?>? value;
   final bool? mightHaveMore;
 
-  const ShopFrontListUpdated({ this.value, this.mightHaveMore });
+  const ShopFrontListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'ShopFrontListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'ShopFrontListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class ShopFrontChangeQuery extends ShopFrontListEvent {
   final EliudQuery? newQuery;
 
-  const ShopFrontChangeQuery({ required this.newQuery });
+  const ShopFrontChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'ShopFrontChangeQuery{ value: $newQuery }';
 }
-

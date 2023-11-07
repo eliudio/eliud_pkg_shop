@@ -34,55 +34,66 @@ import 'package:eliud_pkg_shop/model/cart_model.dart';
 
 import 'package:eliud_core/model/app_model.dart';
 
-
 import 'cart_form.dart';
 
-
-typedef CartWidgetProvider(CartModel? value);
+typedef CartWidgetProvider = Function(CartModel? value);
 
 class CartListWidget extends StatefulWidget with HasFab {
-  AppModel app;
-  BackgroundModel? listBackground;
-  CartWidgetProvider? widgetProvider;
-  bool? readOnly;
-  String? form;
-  CartListWidgetState? state;
-  bool? isEmbedded;
+  final AppModel app;
+  final BackgroundModel? listBackground;
+  final CartWidgetProvider? widgetProvider;
+  final bool? readOnly;
+  final String? form;
+  //final CartListWidgetState? state;
+  final bool? isEmbedded;
 
-  CartListWidget({ Key? key, required this.app, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
+  CartListWidget(
+      {super.key,
+      required this.app,
+      this.readOnly,
+      this.form,
+      this.widgetProvider,
+      this.isEmbedded,
+      this.listBackground});
 
   @override
   CartListWidgetState createState() {
-    state ??= CartListWidgetState();
-    return state!;
+    return CartListWidgetState();
   }
 
   @override
   Widget? fab(BuildContext context) {
     if ((readOnly != null) && readOnly!) return null;
-    state ??= CartListWidgetState();
+    var state = CartListWidgetState();
     var accessState = AccessBloc.getState(context);
-    return state!.fab(context, accessState);
+    return state.fab(context, accessState);
   }
 }
 
 class CartListWidgetState extends State<CartListWidget> {
-  @override
   Widget? fab(BuildContext aContext, AccessState accessState) {
-    return !accessState.memberIsOwner(widget.app.documentID) 
-      ? null
-      : StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().floatingActionButton(widget.app, context, 'PageFloatBtnTag', Icon(Icons.add),
-      onPressed: () {
-        Navigator.of(context).push(
-          pageRouteBuilder(widget.app, page: BlocProvider.value(
-              value: BlocProvider.of<CartListBloc>(context),
-              child: CartForm(app:widget.app,
-                  value: null,
-                  formAction: FormAction.AddAction)
-          )),
-        );
-      },
-    );
+    return !accessState.memberIsOwner(widget.app.documentID)
+        ? null
+        : StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminListStyle()
+            .floatingActionButton(
+            widget.app,
+            context,
+            'PageFloatBtnTag',
+            Icon(Icons.add),
+            onPressed: () {
+              Navigator.of(context).push(
+                pageRouteBuilder(widget.app,
+                    page: BlocProvider.value(
+                        value: BlocProvider.of<CartListBloc>(context),
+                        child: CartForm(
+                            app: widget.app,
+                            value: null,
+                            formAction: FormAction.addAction))),
+              );
+            },
+          );
   }
 
   @override
@@ -90,105 +101,126 @@ class CartListWidgetState extends State<CartListWidget> {
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (context, accessState) {
       if (accessState is AccessDetermined) {
-        return BlocBuilder<CartListBloc, CartListState>(builder: (context, state) {
+        return BlocBuilder<CartListBloc, CartListState>(
+            builder: (context, state) {
           if (state is CartListLoading) {
-            return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
+            return StyleRegistry.registry()
+                .styleWithApp(widget.app)
+                .adminListStyle()
+                .progressIndicator(widget.app, context);
           } else if (state is CartListLoaded) {
             final values = state.values;
             if ((widget.isEmbedded != null) && widget.isEmbedded!) {
               var children = <Widget>[];
               children.add(theList(context, values, accessState));
-              children.add(
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().button(widget.app,
-                      context, label: 'Add',
-                      onPressed: () {
-                        Navigator.of(context).push(
-                                  pageRouteBuilder(widget.app, page: BlocProvider.value(
-                                      value: BlocProvider.of<CartListBloc>(context),
-                                      child: CartForm(app:widget.app,
-                                          value: null,
-                                          formAction: FormAction.AddAction)
-                                  )),
-                                );
-                      },
-                    ));
+              children.add(StyleRegistry.registry()
+                  .styleWithApp(widget.app)
+                  .adminFormStyle()
+                  .button(
+                widget.app,
+                context,
+                label: 'Add',
+                onPressed: () {
+                  Navigator.of(context).push(
+                    pageRouteBuilder(widget.app,
+                        page: BlocProvider.value(
+                            value: BlocProvider.of<CartListBloc>(context),
+                            child: CartForm(
+                                app: widget.app,
+                                value: null,
+                                formAction: FormAction.addAction))),
+                  );
+                },
+              ));
               return ListView(
-                padding: const EdgeInsets.all(8),
-                physics: ScrollPhysics(),
-                shrinkWrap: true,
-                children: children
-              );
+                  padding: const EdgeInsets.all(8),
+                  physics: ScrollPhysics(),
+                  shrinkWrap: true,
+                  children: children);
             } else {
               return theList(context, values, accessState);
             }
           } else {
-            return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
+            return StyleRegistry.registry()
+                .styleWithApp(widget.app)
+                .adminListStyle()
+                .progressIndicator(widget.app, context);
           }
         });
       } else {
-        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
+        return StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminListStyle()
+            .progressIndicator(widget.app, context);
       }
     });
   }
-  
+
   Widget theList(BuildContext context, values, AccessState accessState) {
     return Container(
-      decoration: widget.listBackground == null ? StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().boxDecorator(widget.app, context, accessState.getMember()) : BoxDecorationHelper.boxDecoration(widget.app, accessState.getMember(), widget.listBackground),
-      child: ListView.separated(
-        separatorBuilder: (context, index) => StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().divider(widget.app, context),
-        shrinkWrap: true,
-        physics: ScrollPhysics(),
-        itemCount: values.length,
-        itemBuilder: (context, index) {
-          final value = values[index];
-          
-          if (widget.widgetProvider != null) return widget.widgetProvider!(value);
+        decoration: widget.listBackground == null
+            ? StyleRegistry.registry()
+                .styleWithApp(widget.app)
+                .adminListStyle()
+                .boxDecorator(widget.app, context, accessState.getMember())
+            : BoxDecorationHelper.boxDecoration(
+                widget.app, accessState.getMember(), widget.listBackground),
+        child: ListView.separated(
+            separatorBuilder: (context, index) => StyleRegistry.registry()
+                .styleWithApp(widget.app)
+                .adminListStyle()
+                .divider(widget.app, context),
+            shrinkWrap: true,
+            physics: ScrollPhysics(),
+            itemCount: values.length,
+            itemBuilder: (context, index) {
+              final value = values[index];
 
-          return CartListItem(app: widget.app,
-            value: value,
+              if (widget.widgetProvider != null) {
+                return widget.widgetProvider!(value);
+              }
+
+              return CartListItem(
+                app: widget.app,
+                value: value,
 //            app: accessState.app,
-            onDismissed: (direction) {
-              BlocProvider.of<CartListBloc>(context)
-                  .add(DeleteCartList(value: value));
-              ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
-                message: "Cart " + value.documentID,
-                onUndo: () => BlocProvider.of<CartListBloc>(context)
-                    .add(AddCartList(value: value)),
-              ));
-            },
-            onTap: () async {
-                                   final removedItem = await Navigator.of(context).push(
-                        pageRouteBuilder(widget.app, page: BlocProvider.value(
+                onDismissed: (direction) {
+                  BlocProvider.of<CartListBloc>(context)
+                      .add(DeleteCartList(value: value));
+                  ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
+                    message: "Cart $value.documentID",
+                    onUndo: () => BlocProvider.of<CartListBloc>(context)
+                        .add(AddCartList(value: value)),
+                  ));
+                },
+                onTap: () async {
+                  final removedItem = await Navigator.of(context).push(
+                      pageRouteBuilder(widget.app,
+                          page: BlocProvider.value(
                               value: BlocProvider.of<CartListBloc>(context),
-                              child: getForm(value, FormAction.UpdateAction))));
-                      if (removedItem != null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          DeleteSnackBar(
-                        message: "Cart " + value.documentID,
-                            onUndo: () => BlocProvider.of<CartListBloc>(context)
-                                .add(AddCartList(value: value)),
-                          ),
-                        );
-                      }
-
-            },
-          );
-        }
-      ));
+                              child: getForm(value, FormAction.updateAction))));
+                  if (removedItem != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      DeleteSnackBar(
+                        message: "Cart $value.documentID",
+                        onUndo: () => BlocProvider.of<CartListBloc>(context)
+                            .add(AddCartList(value: value)),
+                      ),
+                    );
+                  }
+                },
+              );
+            }));
   }
-  
-  
+
   Widget? getForm(value, action) {
     if (widget.form == null) {
-      return CartForm(app:widget.app, value: value, formAction: action);
+      return CartForm(app: widget.app, value: value, formAction: action);
     } else {
       return null;
     }
   }
-  
-  
 }
-
 
 class CartListItem extends StatelessWidget {
   final AppModel app;
@@ -197,12 +229,12 @@ class CartListItem extends StatelessWidget {
   final CartModel value;
 
   CartListItem({
-    Key? key,
+    super.key,
     required this.app,
     required this.onDismissed,
     required this.onTap,
     required this.value,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -211,9 +243,10 @@ class CartListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: value.description != null ? Center(child: text(app, context, value.description!)) : value.documentID != null ? Center(child: text(app, context, value.documentID)) : Container(),
+        title: value.description != null
+            ? Center(child: text(app, context, value.description!))
+            : Center(child: text(app, context, value.documentID)),
       ),
     );
   }
 }
-

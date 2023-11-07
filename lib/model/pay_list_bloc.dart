@@ -23,9 +23,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 import 'pay_model.dart';
 
-typedef List<PayModel?> FilterPayModels(List<PayModel?> values);
-
-
+typedef FilterPayModels = List<PayModel?> Function(List<PayModel?> values);
 
 class PayListBloc extends Bloc<PayListEvent, PayListState> {
   final FilterPayModels? filter;
@@ -39,23 +37,32 @@ class PayListBloc extends Bloc<PayListEvent, PayListState> {
   final bool? detailed;
   final int payLimit;
 
-  PayListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PayRepository payRepository, this.payLimit = 5})
+  PayListBloc(
+      {this.filter,
+      this.paged,
+      this.orderBy,
+      this.descending,
+      this.detailed,
+      this.eliudQuery,
+      required PayRepository payRepository,
+      this.payLimit = 5})
       : _payRepository = payRepository,
         super(PayListLoading()) {
-    on <LoadPayList> ((event, emit) {
+    on<LoadPayList>((event, emit) {
       if ((detailed == null) || (!detailed!)) {
         _mapLoadPayListToState();
       } else {
         _mapLoadPayListWithDetailsToState();
       }
     });
-    
-    on <NewPage> ((event, emit) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+
+    on<NewPage>((event, emit) {
+      pages = pages +
+          1; // it doesn't matter so much if we increase pages beyond the end
       _mapLoadPayListWithDetailsToState();
     });
-    
-    on <PayChangeQuery> ((event, emit) {
+
+    on<PayChangeQuery>((event, emit) {
       eliudQuery = event.newQuery;
       if ((detailed == null) || (!detailed!)) {
         _mapLoadPayListToState();
@@ -63,20 +70,20 @@ class PayListBloc extends Bloc<PayListEvent, PayListState> {
         _mapLoadPayListWithDetailsToState();
       }
     });
-      
-    on <AddPayList> ((event, emit) async {
+
+    on<AddPayList>((event, emit) async {
       await _mapAddPayListToState(event);
     });
-    
-    on <UpdatePayList> ((event, emit) async {
+
+    on<UpdatePayList>((event, emit) async {
       await _mapUpdatePayListToState(event);
     });
-    
-    on <DeletePayList> ((event, emit) async {
+
+    on<DeletePayList>((event, emit) async {
       await _mapDeletePayListToState(event);
     });
-    
-    on <PayListUpdated> ((event, emit) {
+
+    on<PayListUpdated>((event, emit) {
       emit(_mapPayListUpdatedToState(event));
     });
   }
@@ -90,27 +97,29 @@ class PayListBloc extends Bloc<PayListEvent, PayListState> {
   }
 
   Future<void> _mapLoadPayListToState() async {
-    int amountNow =  (state is PayListLoaded) ? (state as PayListLoaded).values!.length : 0;
+    int amountNow =
+        (state is PayListLoaded) ? (state as PayListLoaded).values!.length : 0;
     _paysListSubscription?.cancel();
     _paysListSubscription = _payRepository.listen(
-          (list) => add(PayListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
-      orderBy: orderBy,
-      descending: descending,
-      eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * payLimit : null
-    );
-  }
-
-  Future<void> _mapLoadPayListWithDetailsToState() async {
-    int amountNow =  (state is PayListLoaded) ? (state as PayListLoaded).values!.length : 0;
-    _paysListSubscription?.cancel();
-    _paysListSubscription = _payRepository.listenWithDetails(
-            (list) => add(PayListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
+        (list) => add(PayListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * payLimit : null
-    );
+        limit: ((paged != null) && paged!) ? pages * payLimit : null);
+  }
+
+  Future<void> _mapLoadPayListWithDetailsToState() async {
+    int amountNow =
+        (state is PayListLoaded) ? (state as PayListLoaded).values!.length : 0;
+    _paysListSubscription?.cancel();
+    _paysListSubscription = _payRepository.listenWithDetails(
+        (list) => add(PayListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && paged!) ? pages * payLimit : null);
   }
 
   Future<void> _mapAddPayListToState(AddPayList event) async {
@@ -134,8 +143,8 @@ class PayListBloc extends Bloc<PayListEvent, PayListState> {
     }
   }
 
-  PayListLoaded _mapPayListUpdatedToState(
-      PayListUpdated event) => PayListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
+  PayListLoaded _mapPayListUpdatedToState(PayListUpdated event) =>
+      PayListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {
@@ -143,5 +152,3 @@ class PayListBloc extends Bloc<PayListEvent, PayListState> {
     return super.close();
   }
 }
-
-

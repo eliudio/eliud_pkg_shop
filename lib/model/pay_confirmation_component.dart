@@ -13,7 +13,6 @@
 
 */
 
-
 import 'package:eliud_pkg_shop/model/pay_confirmation_component_bloc.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_component_event.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_model.dart';
@@ -31,20 +30,23 @@ abstract class AbstractPayConfirmationComponent extends StatelessWidget {
   final AppModel app;
   final String payConfirmationId;
 
-  AbstractPayConfirmationComponent({Key? key, required this.app, required this.payConfirmationId}): super(key: key);
+  AbstractPayConfirmationComponent(
+      {super.key, required this.app, required this.payConfirmationId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<PayConfirmationComponentBloc> (
-          create: (context) => PayConfirmationComponentBloc(
-            payConfirmationRepository: payConfirmationRepository(appId: app.documentID)!)
+    return BlocProvider<PayConfirmationComponentBloc>(
+      create: (context) => PayConfirmationComponentBloc(
+          payConfirmationRepository:
+              payConfirmationRepository(appId: app.documentID)!)
         ..add(FetchPayConfirmationComponent(id: payConfirmationId)),
       child: _payConfirmationBlockBuilder(context),
     );
   }
 
   Widget _payConfirmationBlockBuilder(BuildContext context) {
-    return BlocBuilder<PayConfirmationComponentBloc, PayConfirmationComponentState>(builder: (context, state) {
+    return BlocBuilder<PayConfirmationComponentBloc,
+        PayConfirmationComponentState>(builder: (context, state) {
       if (state is PayConfirmationComponentLoaded) {
         return yourWidget(context, state.value);
       } else if (state is PayConfirmationComponentPermissionDenied) {
@@ -57,7 +59,11 @@ abstract class AbstractPayConfirmationComponent extends StatelessWidget {
         return AlertWidget(app: app, title: 'Error', content: state.message);
       } else {
         return Center(
-          child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context),
+          child: StyleRegistry.registry()
+              .styleWithApp(app)
+              .frontEndStyle()
+              .progressIndicatorStyle()
+              .progressIndicator(app, context),
         );
       }
     });
@@ -65,4 +71,3 @@ abstract class AbstractPayConfirmationComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, PayConfirmationModel value);
 }
-

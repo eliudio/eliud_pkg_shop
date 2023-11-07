@@ -20,25 +20,27 @@ import 'package:eliud_pkg_shop/model/product_display_component_event.dart';
 import 'package:eliud_pkg_shop/model/product_display_component_state.dart';
 import 'package:eliud_pkg_shop/model/product_display_repository.dart';
 
-
-class ProductDisplayComponentBloc extends Bloc<ProductDisplayComponentEvent, ProductDisplayComponentState> {
+class ProductDisplayComponentBloc
+    extends Bloc<ProductDisplayComponentEvent, ProductDisplayComponentState> {
   final ProductDisplayRepository? productDisplayRepository;
   StreamSubscription? _productDisplaySubscription;
 
   void _mapLoadProductDisplayComponentUpdateToState(String documentId) {
     _productDisplaySubscription?.cancel();
-    _productDisplaySubscription = productDisplayRepository!.listenTo(documentId, (value) {
+    _productDisplaySubscription =
+        productDisplayRepository!.listenTo(documentId, (value) {
       if (value != null) {
         add(ProductDisplayComponentUpdated(value: value));
       }
     });
   }
 
-  ProductDisplayComponentBloc({ this.productDisplayRepository }): super(ProductDisplayComponentUninitialized()) {
-    on <FetchProductDisplayComponent> ((event, emit) {
+  ProductDisplayComponentBloc({this.productDisplayRepository})
+      : super(ProductDisplayComponentUninitialized()) {
+    on<FetchProductDisplayComponent>((event, emit) {
       _mapLoadProductDisplayComponentUpdateToState(event.id!);
     });
-    on <ProductDisplayComponentUpdated> ((event, emit) {
+    on<ProductDisplayComponentUpdated>((event, emit) {
       emit(ProductDisplayComponentLoaded(value: event.value));
     });
   }
@@ -48,6 +50,4 @@ class ProductDisplayComponentBloc extends Bloc<ProductDisplayComponentEvent, Pro
     _productDisplaySubscription?.cancel();
     return super.close();
   }
-
 }
-

@@ -20,25 +20,27 @@ import 'package:eliud_pkg_shop/model/pay_confirmation_component_event.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_component_state.dart';
 import 'package:eliud_pkg_shop/model/pay_confirmation_repository.dart';
 
-
-class PayConfirmationComponentBloc extends Bloc<PayConfirmationComponentEvent, PayConfirmationComponentState> {
+class PayConfirmationComponentBloc
+    extends Bloc<PayConfirmationComponentEvent, PayConfirmationComponentState> {
   final PayConfirmationRepository? payConfirmationRepository;
   StreamSubscription? _payConfirmationSubscription;
 
   void _mapLoadPayConfirmationComponentUpdateToState(String documentId) {
     _payConfirmationSubscription?.cancel();
-    _payConfirmationSubscription = payConfirmationRepository!.listenTo(documentId, (value) {
+    _payConfirmationSubscription =
+        payConfirmationRepository!.listenTo(documentId, (value) {
       if (value != null) {
         add(PayConfirmationComponentUpdated(value: value));
       }
     });
   }
 
-  PayConfirmationComponentBloc({ this.payConfirmationRepository }): super(PayConfirmationComponentUninitialized()) {
-    on <FetchPayConfirmationComponent> ((event, emit) {
+  PayConfirmationComponentBloc({this.payConfirmationRepository})
+      : super(PayConfirmationComponentUninitialized()) {
+    on<FetchPayConfirmationComponent>((event, emit) {
       _mapLoadPayConfirmationComponentUpdateToState(event.id!);
     });
-    on <PayConfirmationComponentUpdated> ((event, emit) {
+    on<PayConfirmationComponentUpdated>((event, emit) {
       emit(PayConfirmationComponentLoaded(value: event.value));
     });
   }
@@ -48,6 +50,4 @@ class PayConfirmationComponentBloc extends Bloc<PayConfirmationComponentEvent, P
     _payConfirmationSubscription?.cancel();
     return super.close();
   }
-
 }
-

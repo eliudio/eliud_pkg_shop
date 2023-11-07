@@ -11,19 +11,18 @@ import '../../model/order_overview_entity.dart';
 
 class OrderOverviewBloc
     extends EditorBaseBloc<OrderOverviewModel, OrderOverviewEntity> {
-
   OrderOverviewBloc(String appId, EditorFeedback feedback)
       : super(appId, orderOverviewRepository(appId: appId)!, feedback);
 
   @override
   OrderOverviewModel newInstance(StorageConditionsModel conditions) {
     return OrderOverviewModel(
-        appId: appId,
-        documentID: newRandomKey(),
-        description: 'New Order Overview',
-        conditions: conditions,
-        itemImageBackground: BackgroundModel(),
-        itemDetailBackground: BackgroundModel(),
+      appId: appId,
+      documentID: newRandomKey(),
+      description: 'New Order Overview',
+      conditions: conditions,
+      itemImageBackground: BackgroundModel(),
+      itemDetailBackground: BackgroundModel(),
     );
   }
 
@@ -36,4 +35,3 @@ class OrderOverviewBloc
         conditions: t.conditions ?? conditions);
   }
 }
-

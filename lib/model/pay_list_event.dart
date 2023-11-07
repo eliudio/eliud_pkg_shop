@@ -30,10 +30,10 @@ class NewPage extends PayListEvent {}
 class AddPayList extends PayListEvent {
   final PayModel? value;
 
-  const AddPayList({ this.value });
+  const AddPayList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddPayList{ value: $value }';
@@ -42,10 +42,10 @@ class AddPayList extends PayListEvent {
 class UpdatePayList extends PayListEvent {
   final PayModel? value;
 
-  const UpdatePayList({ this.value });
+  const UpdatePayList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdatePayList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdatePayList extends PayListEvent {
 class DeletePayList extends PayListEvent {
   final PayModel? value;
 
-  const DeletePayList({ this.value });
+  const DeletePayList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeletePayList{ value: $value }';
@@ -67,24 +67,24 @@ class PayListUpdated extends PayListEvent {
   final List<PayModel?>? value;
   final bool? mightHaveMore;
 
-  const PayListUpdated({ this.value, this.mightHaveMore });
+  const PayListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'PayListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'PayListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class PayChangeQuery extends PayListEvent {
   final EliudQuery? newQuery;
 
-  const PayChangeQuery({ required this.newQuery });
+  const PayChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'PayChangeQuery{ value: $newQuery }';
 }
-

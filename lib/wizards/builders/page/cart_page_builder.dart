@@ -1,4 +1,4 @@
-import 'package:eliud_core/core/wizards/tools/documentIdentifier.dart';
+import 'package:eliud_core/core/wizards/tools/document_identifier.dart';
 import 'package:eliud_core/model/app_bar_model.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/background_model.dart';
@@ -25,7 +25,7 @@ class CartPageBuilder extends AbstractPageTemplate {
   final BackgroundModel? background;
   final ShopModel? shop;
 
-  static const String PAGE_ID = 'shop-cart';
+  static const String thePageId = 'shop-cart';
 
   CartPageBuilder(
     String uniqueId,
@@ -39,7 +39,7 @@ class CartPageBuilder extends AbstractPageTemplate {
     this.background,
   ) : super(
           uniqueId,
-          PAGE_ID,
+          thePageId,
           app,
           memberId,
           theHomeMenu,
@@ -47,14 +47,14 @@ class CartPageBuilder extends AbstractPageTemplate {
           leftDrawer,
           rightDrawer,
           privilegeLevelRequired:
-              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple,
+              PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple,
         );
 
   static GotoPage openCartPage(AppModel app, String uniqueId) => GotoPage(app,
-      pageID: constructDocumentId(uniqueId: uniqueId, documentId: PAGE_ID),
+      pageID: constructDocumentId(uniqueId: uniqueId, documentId: thePageId),
       conditions: DisplayConditionsModel(
-        privilegeLevelRequired: PrivilegeLevelRequired.NoPrivilegeRequired,
-        packageCondition: ShopPackage.CONDITION_CARTS_HAS_ITEMS,
+        privilegeLevelRequired: PrivilegeLevelRequired.noPrivilegeRequired,
+        packageCondition: ShopPackage.conditionCartsHasItems,
       ));
 
   static MenuItemModel menuItemBag(AppModel app, String uniqueId) {
@@ -65,8 +65,7 @@ class CartPageBuilder extends AbstractPageTemplate {
         icon: IconModel(
             codePoint: Icons.shopping_basket.codePoint,
             fontFamily: Icons.shopping_basket.fontFamily),
-        action:
-        openCartPage(app, uniqueId));
+        action: openCartPage(app, uniqueId));
   }
 
   static MenuItemModel menuItemCart(AppModel app, String uniqueId) {
@@ -77,8 +76,7 @@ class CartPageBuilder extends AbstractPageTemplate {
         icon: IconModel(
             codePoint: Icons.shopping_cart.codePoint,
             fontFamily: Icons.shopping_cart.fontFamily),
-        action:
-        openCartPage(app, uniqueId));
+        action: openCartPage(app, uniqueId));
   }
 
   CartModel _cart() {
@@ -96,7 +94,7 @@ class CartPageBuilder extends AbstractPageTemplate {
       openProductAction: ProductPageBuilder.action(app, uniqueId),
       conditions: StorageConditionsModel(
           privilegeLevelRequired:
-              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+              PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple),
     );
   }
 
@@ -106,7 +104,6 @@ class CartPageBuilder extends AbstractPageTemplate {
   @override
   String pageDescription() => 'Your Bag Page';
 
-  @override
   String pageImageID() => 'cartImage';
 
   @override

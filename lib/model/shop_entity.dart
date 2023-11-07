@@ -25,12 +25,38 @@ class ShopEntity implements EntityBase {
   final String? currency;
   final StorageConditionsEntity? conditions;
 
-  ShopEntity({required this.appId, this.description, this.shortDescription, this.currency, this.conditions, });
+  ShopEntity({
+    required this.appId,
+    this.description,
+    this.shortDescription,
+    this.currency,
+    this.conditions,
+  });
 
-  ShopEntity copyWith({String? documentID, String? appId, String? description, String? shortDescription, String? currency, StorageConditionsEntity? conditions, }) {
-    return ShopEntity(appId : appId ?? this.appId, description : description ?? this.description, shortDescription : shortDescription ?? this.shortDescription, currency : currency ?? this.currency, conditions : conditions ?? this.conditions, );
+  ShopEntity copyWith({
+    String? documentID,
+    String? appId,
+    String? description,
+    String? shortDescription,
+    String? currency,
+    StorageConditionsEntity? conditions,
+  }) {
+    return ShopEntity(
+      appId: appId ?? this.appId,
+      description: description ?? this.description,
+      shortDescription: shortDescription ?? this.shortDescription,
+      currency: currency ?? this.currency,
+      conditions: conditions ?? this.conditions,
+    );
   }
-  List<Object?> get props => [appId, description, shortDescription, currency, conditions, ];
+
+  List<Object?> get props => [
+        appId,
+        description,
+        shortDescription,
+        currency,
+        conditions,
+      ];
 
   @override
   String toString() {
@@ -41,36 +67,52 @@ class ShopEntity implements EntityBase {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
-    var conditionsFromMap;
-    conditionsFromMap = map['conditions'];
-    if (conditionsFromMap != null)
-      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap, newDocumentIds: newDocumentIds);
+    var conditionsFromMap = map['conditions'];
+    if (conditionsFromMap != null) {
+      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap,
+          newDocumentIds: newDocumentIds);
+    }
 
     return ShopEntity(
-      appId: map['appId'], 
-      description: map['description'], 
-      shortDescription: map['shortDescription'], 
-      currency: map['currency'], 
-      conditions: conditionsFromMap, 
+      appId: map['appId'],
+      description: map['description'],
+      shortDescription: map['shortDescription'],
+      currency: map['currency'],
+      conditions: conditionsFromMap,
     );
   }
 
+  @override
   Map<String, Object?> toDocument() {
-    final Map<String, dynamic>? conditionsMap = conditions != null 
-        ? conditions!.toDocument()
-        : null;
+    final Map<String, dynamic>? conditionsMap =
+        conditions != null ? conditions!.toDocument() : null;
 
     Map<String, Object?> theDocument = HashMap();
-    if (appId != null) theDocument["appId"] = appId;
-      else theDocument["appId"] = null;
-    if (description != null) theDocument["description"] = description;
-      else theDocument["description"] = null;
-    if (shortDescription != null) theDocument["shortDescription"] = shortDescription;
-      else theDocument["shortDescription"] = null;
-    if (currency != null) theDocument["currency"] = currency;
-      else theDocument["currency"] = null;
-    if (conditions != null) theDocument["conditions"] = conditionsMap;
-      else theDocument["conditions"] = null;
+    if (appId != null) {
+      theDocument["appId"] = appId;
+    } else {
+      theDocument["appId"] = null;
+    }
+    if (description != null) {
+      theDocument["description"] = description;
+    } else {
+      theDocument["description"] = null;
+    }
+    if (shortDescription != null) {
+      theDocument["shortDescription"] = shortDescription;
+    } else {
+      theDocument["shortDescription"] = null;
+    }
+    if (currency != null) {
+      theDocument["currency"] = currency;
+    } else {
+      theDocument["currency"] = null;
+    }
+    if (conditions != null) {
+      theDocument["conditions"] = conditionsMap;
+    } else {
+      theDocument["conditions"] = null;
+    }
     return theDocument;
   }
 
@@ -80,7 +122,8 @@ class ShopEntity implements EntityBase {
     return newEntity;
   }
 
-  static ShopEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
+  static ShopEntity? fromJsonString(String json,
+      {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
@@ -89,9 +132,9 @@ class ShopEntity implements EntityBase {
     return jsonEncode(toDocument());
   }
 
-  Future<Map<String, Object?>> enrichedDocument(Map<String, Object?> theDocument) async {
+  @override
+  Future<Map<String, Object?>> enrichedDocument(
+      Map<String, Object?> theDocument) async {
     return theDocument;
   }
-
 }
-

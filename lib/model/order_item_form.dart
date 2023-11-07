@@ -22,9 +22,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/style/style_registry.dart';
 
-
-
-
 import 'package:eliud_core/model/internal_component.dart';
 
 import 'package:eliud_core/tools/enums.dart';
@@ -38,49 +35,62 @@ import 'package:eliud_pkg_shop/model/order_item_form_bloc.dart';
 import 'package:eliud_pkg_shop/model/order_item_form_event.dart';
 import 'package:eliud_pkg_shop/model/order_item_form_state.dart';
 
-
 class OrderItemForm extends StatelessWidget {
   final AppModel app;
-  FormAction formAction;
-  OrderItemModel? value;
-  ActionModel? submitAction;
+  final FormAction formAction;
+  final OrderItemModel? value;
+  final ActionModel? submitAction;
 
-  OrderItemForm({Key? key, required this.app, required this.formAction, required this.value, this.submitAction}) : super(key: key);
+  OrderItemForm(
+      {super.key,
+      required this.app,
+      required this.formAction,
+      required this.value,
+      this.submitAction});
 
+  /// Build the OrderItemForm
   @override
   Widget build(BuildContext context) {
-    var accessState = AccessBloc.getState(context);
+    //var accessState = AccessBloc.getState(context);
     var appId = app.documentID;
-    if (formAction == FormAction.ShowData) {
-      return BlocProvider<OrderItemFormBloc >(
-            create: (context) => OrderItemFormBloc(appId,
-                                       
-                                                )..add(InitialiseOrderItemFormEvent(value: value)),
-  
-        child: MyOrderItemForm(app:app, submitAction: submitAction, formAction: formAction),
-          );
-    } if (formAction == FormAction.ShowPreloadedData) {
-      return BlocProvider<OrderItemFormBloc >(
-            create: (context) => OrderItemFormBloc(appId,
-                                       
-                                                )..add(InitialiseOrderItemFormNoLoadEvent(value: value)),
-  
-        child: MyOrderItemForm(app:app, submitAction: submitAction, formAction: formAction),
-          );
+    if (formAction == FormAction.showData) {
+      return BlocProvider<OrderItemFormBloc>(
+        create: (context) => OrderItemFormBloc(
+          appId,
+        )..add(InitialiseOrderItemFormEvent(value: value)),
+        child: MyOrderItemForm(
+            app: app, submitAction: submitAction, formAction: formAction),
+      );
+    }
+    if (formAction == FormAction.showPreloadedData) {
+      return BlocProvider<OrderItemFormBloc>(
+        create: (context) => OrderItemFormBloc(
+          appId,
+        )..add(InitialiseOrderItemFormNoLoadEvent(value: value)),
+        child: MyOrderItemForm(
+            app: app, submitAction: submitAction, formAction: formAction),
+      );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithApp(app).adminFormStyle().appBarWithString(app, context, title: formAction == FormAction.UpdateAction ? 'Update OrderItem' : 'Add OrderItem'),
-        body: BlocProvider<OrderItemFormBloc >(
-            create: (context) => OrderItemFormBloc(appId,
-                                       
-                                                )..add((formAction == FormAction.UpdateAction ? InitialiseOrderItemFormEvent(value: value) : InitialiseNewOrderItemFormEvent())),
-  
-        child: MyOrderItemForm(app: app, submitAction: submitAction, formAction: formAction),
+          appBar: StyleRegistry.registry()
+              .styleWithApp(app)
+              .adminFormStyle()
+              .appBarWithString(app, context,
+                  title: formAction == FormAction.updateAction
+                      ? 'Update OrderItem'
+                      : 'Add OrderItem'),
+          body: BlocProvider<OrderItemFormBloc>(
+            create: (context) => OrderItemFormBloc(
+              appId,
+            )..add((formAction == FormAction.updateAction
+                ? InitialiseOrderItemFormEvent(value: value)
+                : InitialiseNewOrderItemFormEvent())),
+            child: MyOrderItemForm(
+                app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
-
 
 class MyOrderItemForm extends StatefulWidget {
   final AppModel app;
@@ -89,20 +99,18 @@ class MyOrderItemForm extends StatefulWidget {
 
   MyOrderItemForm({required this.app, this.formAction, this.submitAction});
 
-  _MyOrderItemFormState createState() => _MyOrderItemFormState(this.formAction);
+  @override
+  State<MyOrderItemForm> createState() => _MyOrderItemFormState(formAction);
 }
-
 
 class _MyOrderItemFormState extends State<MyOrderItemForm> {
   final FormAction? formAction;
   late OrderItemFormBloc _myFormBloc;
 
-  final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _soldPriceController = TextEditingController();
   String? _product;
-
 
   _MyOrderItemFormState(this.formAction);
 
@@ -110,7 +118,6 @@ class _MyOrderItemFormState extends State<MyOrderItemForm> {
   void initState() {
     super.initState();
     _myFormBloc = BlocProvider.of<OrderItemFormBloc>(context);
-    _documentIDController.addListener(_onDocumentIDChanged);
     _amountController.addListener(_onAmountChanged);
     _appIdController.addListener(_onAppIdChanged);
     _soldPriceController.addListener(_onSoldPriceChanged);
@@ -119,156 +126,205 @@ class _MyOrderItemFormState extends State<MyOrderItemForm> {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    return BlocBuilder<OrderItemFormBloc, OrderItemFormState>(builder: (context, state) {
-      if (state is OrderItemFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context),
-      );
+    return BlocBuilder<OrderItemFormBloc, OrderItemFormState>(
+        builder: (context, state) {
+      if (state is OrderItemFormUninitialized) {
+        return Center(
+          child: StyleRegistry.registry()
+              .styleWithApp(widget.app)
+              .adminListStyle()
+              .progressIndicator(widget.app, context),
+        );
+      }
 
       if (state is OrderItemFormLoaded) {
-        if (state.value!.documentID != null)
-          _documentIDController.text = state.value!.documentID.toString();
-        else
-          _documentIDController.text = "";
-        if (state.value!.amount != null)
-          _amountController.text = state.value!.amount.toString();
-        else
-          _amountController.text = "";
-        if (state.value!.appId != null)
-          _appIdController.text = state.value!.appId.toString();
-        else
-          _appIdController.text = "";
-        if (state.value!.soldPrice != null)
-          _soldPriceController.text = state.value!.soldPrice.toString();
-        else
-          _soldPriceController.text = "";
-        if (state.value!.product != null)
-          _product= state.value!.product!.documentID;
-        else
-          _product= "";
+        _amountController.text = state.value!.amount.toString();
+        _appIdController.text = state.value!.appId.toString();
+        _soldPriceController.text = state.value!.soldPrice.toString();
+        if (state.value!.product != null) {
+          _product = state.value!.product!.documentID;
+        } else {
+          _product = "";
+        }
       }
       if (state is OrderItemFormInitialized) {
         List<Widget> children = [];
-         children.add(Container(
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
-                ));
+        children.add(Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+            child: StyleRegistry.registry()
+                .styleWithApp(widget.app)
+                .adminFormStyle()
+                .groupTitle(widget.app, context, 'General')));
 
-        children.add(
+        children.add(StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminFormStyle()
+            .textFormField(widget.app, context,
+                labelText: 'Amount',
+                icon: Icons.text_format,
+                readOnly: _readOnly(accessState, state),
+                textEditingController: _amountController,
+                keyboardType: TextInputType.number,
+                validator: (_) =>
+                    state is AmountOrderItemFormError ? state.message : null,
+                hintText: null));
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Amount', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _amountController, keyboardType: TextInputType.number, validator: (_) => state is AmountOrderItemFormError ? state.message : null, hintText: null)
-          );
-
-        children.add(
-
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Price', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _soldPriceController, keyboardType: TextInputType.number, validator: (_) => state is SoldPriceOrderItemFormError ? state.message : null, hintText: null)
-          );
-
-
-        children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
-
-
-         children.add(Container(
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'App')
-                ));
-
-        children.add(
-
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'App ID', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _appIdController, keyboardType: TextInputType.text, validator: (_) => state is AppIdOrderItemFormError ? state.message : null, hintText: null)
-          );
-
-
-        children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
-
-
-         children.add(Container(
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Product')
-                ));
-
-        children.add(
-
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "products", value: _product, trigger: (value, privilegeLevel) => _onProductSelected(value), optional: false),
-          );
-
+        children.add(StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminFormStyle()
+            .textFormField(widget.app, context,
+                labelText: 'Price',
+                icon: Icons.text_format,
+                readOnly: _readOnly(accessState, state),
+                textEditingController: _soldPriceController,
+                keyboardType: TextInputType.number,
+                validator: (_) =>
+                    state is SoldPriceOrderItemFormError ? state.message : null,
+                hintText: null));
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
+        children.add(StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminFormStyle()
+            .divider(widget.app, context));
 
+        children.add(Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+            child: StyleRegistry.registry()
+                .styleWithApp(widget.app)
+                .adminFormStyle()
+                .groupTitle(widget.app, context, 'App')));
 
-        if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().button(widget.app, context, label: 'Submit',
-                  onPressed: _readOnly(accessState, state) ? null : () {
-                    if (state is OrderItemFormError) {
-                      return null;
-                    } else {
-                      if (formAction == FormAction.UpdateAction) {
-                        BlocProvider.of<OrderItemListBloc>(context).add(
-                          UpdateOrderItemList(value: state.value!.copyWith(
-                              documentID: state.value!.documentID, 
-                              amount: state.value!.amount, 
-                              appId: state.value!.appId, 
-                              soldPrice: state.value!.soldPrice, 
-                              product: state.value!.product, 
-                        )));
-                      } else {
-                        BlocProvider.of<OrderItemListBloc>(context).add(
-                          AddOrderItemList(value: OrderItemModel(
-                              documentID: state.value!.documentID, 
-                              amount: state.value!.amount, 
-                              appId: state.value!.appId, 
-                              soldPrice: state.value!.soldPrice, 
-                              product: state.value!.product, 
-                          )));
-                      }
-                      if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
-                      } else {
-                        Navigator.pop(context);
-                      }
-                    }
-                  },
-                ));
+        children.add(StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminFormStyle()
+            .textFormField(widget.app, context,
+                labelText: 'App ID',
+                icon: Icons.text_format,
+                readOnly: _readOnly(accessState, state),
+                textEditingController: _appIdController,
+                keyboardType: TextInputType.text,
+                validator: (_) =>
+                    state is AppIdOrderItemFormError ? state.message : null,
+                hintText: null));
 
-        return StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().container(widget.app, context, Form(
-            child: ListView(
-              padding: const EdgeInsets.all(8),
-              physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
-              shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
-              children: children
-            ),
-          ), formAction!
+        children.add(Container(height: 20.0));
+        children.add(StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminFormStyle()
+            .divider(widget.app, context));
+
+        children.add(Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+            child: StyleRegistry.registry()
+                .styleWithApp(widget.app)
+                .adminFormStyle()
+                .groupTitle(widget.app, context, 'Product')));
+
+        children.add(
+          DropdownButtonComponentFactory().createNew(
+              app: widget.app,
+              id: "products",
+              value: _product,
+              trigger: (value, privilegeLevel) => _onProductSelected(value),
+              optional: false),
         );
+
+        children.add(Container(height: 20.0));
+        children.add(StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminFormStyle()
+            .divider(widget.app, context));
+
+        if ((formAction != FormAction.showData) &&
+            (formAction != FormAction.showPreloadedData)) {
+          children.add(StyleRegistry.registry()
+              .styleWithApp(widget.app)
+              .adminFormStyle()
+              .button(
+                widget.app,
+                context,
+                label: 'Submit',
+                onPressed: _readOnly(accessState, state)
+                    ? null
+                    : () {
+                        if (state is OrderItemFormError) {
+                          return;
+                        } else {
+                          if (formAction == FormAction.updateAction) {
+                            BlocProvider.of<OrderItemListBloc>(context)
+                                .add(UpdateOrderItemList(
+                                    value: state.value!.copyWith(
+                              documentID: state.value!.documentID,
+                              amount: state.value!.amount,
+                              appId: state.value!.appId,
+                              soldPrice: state.value!.soldPrice,
+                              product: state.value!.product,
+                            )));
+                          } else {
+                            BlocProvider.of<OrderItemListBloc>(context)
+                                .add(AddOrderItemList(
+                                    value: OrderItemModel(
+                              documentID: state.value!.documentID,
+                              amount: state.value!.amount,
+                              appId: state.value!.appId,
+                              soldPrice: state.value!.soldPrice,
+                              product: state.value!.product,
+                            )));
+                          }
+                          if (widget.submitAction != null) {
+                            eliudrouter.Router.navigateTo(
+                                context, widget.submitAction!);
+                          } else {
+                            Navigator.pop(context);
+                          }
+                        }
+                      },
+              ));
+        }
+
+        return StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminFormStyle()
+            .container(
+                widget.app,
+                context,
+                Form(
+                  child: ListView(
+                      padding: const EdgeInsets.all(8),
+                      physics: ((formAction == FormAction.showData) ||
+                              (formAction == FormAction.showPreloadedData))
+                          ? NeverScrollableScrollPhysics()
+                          : null,
+                      shrinkWrap: ((formAction == FormAction.showData) ||
+                          (formAction == FormAction.showPreloadedData)),
+                      children: children),
+                ),
+                formAction!);
       } else {
-        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
+        return StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminListStyle()
+            .progressIndicator(widget.app, context);
       }
     });
   }
-
-  void _onDocumentIDChanged() {
-    _myFormBloc.add(ChangedOrderItemDocumentID(value: _documentIDController.text));
-  }
-
 
   void _onAmountChanged() {
     _myFormBloc.add(ChangedOrderItemAmount(value: _amountController.text));
   }
 
-
   void _onAppIdChanged() {
     _myFormBloc.add(ChangedOrderItemAppId(value: _appIdController.text));
   }
 
-
   void _onSoldPriceChanged() {
-    _myFormBloc.add(ChangedOrderItemSoldPrice(value: _soldPriceController.text));
+    _myFormBloc
+        .add(ChangedOrderItemSoldPrice(value: _soldPriceController.text));
   }
-
 
   void _onProductSelected(String? val) {
     setState(() {
@@ -277,23 +333,18 @@ class _MyOrderItemFormState extends State<MyOrderItemForm> {
     _myFormBloc.add(ChangedOrderItemProduct(value: val));
   }
 
-
-
   @override
   void dispose() {
-    _documentIDController.dispose();
     _amountController.dispose();
     _appIdController.dispose();
     _soldPriceController.dispose();
     super.dispose();
   }
 
+  /// Is the form read-only?
   bool _readOnly(AccessState accessState, OrderItemFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID));
+    return (formAction == FormAction.showData) ||
+        (formAction == FormAction.showPreloadedData) ||
+        (!accessState.memberIsOwner(widget.app.documentID));
   }
-  
-
 }
-
-
-

@@ -24,13 +24,11 @@ abstract class PayConfirmationComponentEvent extends Equatable {
 class FetchPayConfirmationComponent extends PayConfirmationComponentEvent {
   final String? id;
 
-  FetchPayConfirmationComponent({ this.id });
+  FetchPayConfirmationComponent({this.id});
 }
 
 class PayConfirmationComponentUpdated extends PayConfirmationComponentEvent {
   final PayConfirmationModel value;
 
-  PayConfirmationComponentUpdated({ required this.value });
+  PayConfirmationComponentUpdated({required this.value});
 }
-
-

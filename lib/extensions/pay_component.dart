@@ -6,7 +6,6 @@ import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/tools/component/component_constructor.dart';
-import 'package:eliud_pkg_pay/platform/payment_platform.dart';
 import 'package:eliud_pkg_pay/tasks/bloc/pay_bloc.dart';
 import 'package:eliud_pkg_pay/tasks/bloc/pay_event.dart';
 import 'package:eliud_pkg_pay/tasks/bloc/pay_state.dart';
@@ -29,44 +28,35 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class PayComponentConstructorDefault implements ComponentConstructor {
   @override
   Widget createNew(
-      {Key? key, required AppModel app, required String id, Map<String, dynamic>? parameters}) {
+      {Key? key,
+      required AppModel app,
+      required String id,
+      Map<String, dynamic>? parameters}) {
     return PayProfileComponent(key: key, app: app, id: id);
   }
 
   @override
-  Future<dynamic> getModel({required AppModel app, required String id}) async => await payRepository(appId: app.documentID)!.get(id);
+  Future<dynamic> getModel({required AppModel app, required String id}) async =>
+      await payRepository(appId: app.documentID)!.get(id);
 }
 
 class PayProfileComponent extends AbstractPayComponent {
-  late PaymentBloc paymentBloc;
-  PayProfileComponent({Key? key, required AppModel app, required String id})
-      : super(key: key, app: app, payId: id);
+  PayProfileComponent({super.key, required super.app, required String id})
+      : super(payId: id);
 
   @override
-  Widget yourWidget(BuildContext context, PayModel? pay) {
-    if (pay == null) return Text("pay is null");
+  Widget yourWidget(BuildContext context, PayModel? value) {
+    if (value == null) return Text("pay is null");
     var cartBloc = BlocProvider.of<CartBloc>(context);
     var accessBloc = AccessBloc.getBloc(context);
     return BlocProvider<PaymentBloc>(
         create: (context) =>
-            PaymentBloc(app, cartBloc, accessBloc, pay.succeeded)..add(CollectOrder(pay.shop)),
+            PaymentBloc(app, cartBloc, accessBloc, value.succeeded)
+              ..add(CollectOrder(value.shop)),
         child:
             BlocBuilder<PaymentBloc, PaymentState>(builder: (context, state) {
-          return _paymentWidget(context, pay);
+          return _paymentWidget(context, value);
         }));
-  }
-
-    void something(bool success, AssignmentModel assignmentModel) {
-    if (success) {
-      handle(PaymentSucceeded(AssignmentHelper.getResultFor(
-          assignmentModel, PayTaskModel.PAY_TASK_FIELD_PAYMENT_REFERENCE)));
-    } else {
-      handle(PaymentFailure(
-          AssignmentHelper.getResultFor(
-              assignmentModel, PayTaskModel.PAY_TASK_FIELD_PAYMENT_REFERENCE),
-          AssignmentHelper.getResultFor(
-              assignmentModel, PayTaskModel.PAY_TASK_FIELD_ERROR)));
-    }
   }
 
   Widget _paymentWidget(BuildContext context, PayModel? pay) {
@@ -78,23 +68,18 @@ class PayProfileComponent extends AbstractPayComponent {
         } else {
           if (state is PayOrder) {
             return BlocProvider<PayBloc>(
-                create: (context) =>
-                PayBloc()
+                create: (context) => PayBloc()
                   ..add(InitPayEvent(state.order!.currency!,
                       state.order!.totalPrice!, state.order!.documentID)),
                 child: BlocListener<PayBloc, PayState>(
-                    listener: (pay_context, pay_state) {
-                      if (pay_state is InitializedPayState) {
-                        paymentBloc = BlocProvider.of<PaymentBloc>(context);
-                        order = state.order;
+                    listener: (payContext, payState) {
+                      if (payState is InitializedPayState) {
                         WidgetsBinding.instance.addPostFrameCallback((_) {
                           eliudrouter.Router.navigateTo(
-                              pay_context,
-                              pay!.payAction!,
-                              parameters: {
-                                WorkflowActionHandler
-                                    .FINALISE_WORKFLOW: something
-                              });
+                              payContext, pay!.payAction!, parameters: {
+                            WorkflowActionHandler.finaliseWorkflow:
+                                handlePayment
+                          });
                         });
                       }
                     },
@@ -153,13 +138,29 @@ class PayProfileComponent extends AbstractPayComponent {
     }
   }
 
-  OrderModel? order;
-
-  void handle(PaymentStatus status) {
-    if ((status is PaymentFailure) && (status.error != null)) {
-      paymentBloc.add(PaymentDoneWithFailure(order, status.error!));
-    } else if ((status is PaymentSucceeded) && (status.reference != null)) {
-      paymentBloc.add(PaymentDoneWithSuccess(order, status.reference!));
+  void handlePayment(
+      BuildContext context, bool success, AssignmentModel assignmentModel) {
+    var myPaymentBloc = BlocProvider.of<PaymentBloc>(context);
+    var myState = myPaymentBloc.state;
+    if (myState is PayOrder) {
+      var myOrder = myState.order;
+      if (success) {
+        String? value = AssignmentHelper.getResultFor(
+            assignmentModel, PayTaskModel.payTaskFieldPaymentReference);
+        if (value != null) {
+          myPaymentBloc.add(PaymentDoneWithSuccess(myOrder, value));
+        } else {
+          print("No result found for payment");
+        }
+      } else {
+        String? value = AssignmentHelper.getResultFor(
+            assignmentModel, PayTaskModel.payTaskFieldError);
+        if (value != null) {
+          myPaymentBloc.add(PaymentDoneWithFailure(myOrder, value));
+        } else {
+          print("No result found for payment");
+        }
+      }
     }
   }
 
@@ -169,7 +170,8 @@ class PayProfileComponent extends AbstractPayComponent {
 //      alignment: WrapAlignment.spaceAround, // set your alignment
       children: <Widget>[
         Spacer(),
-        button(app,
+        button(
+          app,
           context,
           label: 'Cancel',
           onPressed: () {
@@ -177,7 +179,8 @@ class PayProfileComponent extends AbstractPayComponent {
           },
         ),
         Spacer(),
-        button(app,
+        button(
+          app,
           context,
           label: 'Continue',
           onPressed: () {

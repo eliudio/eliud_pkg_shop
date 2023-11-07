@@ -20,25 +20,27 @@ import 'package:eliud_pkg_shop/model/order_overview_component_event.dart';
 import 'package:eliud_pkg_shop/model/order_overview_component_state.dart';
 import 'package:eliud_pkg_shop/model/order_overview_repository.dart';
 
-
-class OrderOverviewComponentBloc extends Bloc<OrderOverviewComponentEvent, OrderOverviewComponentState> {
+class OrderOverviewComponentBloc
+    extends Bloc<OrderOverviewComponentEvent, OrderOverviewComponentState> {
   final OrderOverviewRepository? orderOverviewRepository;
   StreamSubscription? _orderOverviewSubscription;
 
   void _mapLoadOrderOverviewComponentUpdateToState(String documentId) {
     _orderOverviewSubscription?.cancel();
-    _orderOverviewSubscription = orderOverviewRepository!.listenTo(documentId, (value) {
+    _orderOverviewSubscription =
+        orderOverviewRepository!.listenTo(documentId, (value) {
       if (value != null) {
         add(OrderOverviewComponentUpdated(value: value));
       }
     });
   }
 
-  OrderOverviewComponentBloc({ this.orderOverviewRepository }): super(OrderOverviewComponentUninitialized()) {
-    on <FetchOrderOverviewComponent> ((event, emit) {
+  OrderOverviewComponentBloc({this.orderOverviewRepository})
+      : super(OrderOverviewComponentUninitialized()) {
+    on<FetchOrderOverviewComponent>((event, emit) {
       _mapLoadOrderOverviewComponentUpdateToState(event.id!);
     });
-    on <OrderOverviewComponentUpdated> ((event, emit) {
+    on<OrderOverviewComponentUpdated>((event, emit) {
       emit(OrderOverviewComponentLoaded(value: event.value));
     });
   }
@@ -48,6 +50,4 @@ class OrderOverviewComponentBloc extends Bloc<OrderOverviewComponentEvent, Order
     _orderOverviewSubscription?.cancel();
     return super.close();
   }
-
 }
-

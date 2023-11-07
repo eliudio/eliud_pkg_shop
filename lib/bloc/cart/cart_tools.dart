@@ -14,7 +14,8 @@ class PostLoginAddProduct extends PostLoginAction {
   final CartBloc cartBloc;
   final CartEvent event;
 
-  PostLoginAddProduct(AppModel app, this.cartBloc, this.event): super(app: app);
+  PostLoginAddProduct(AppModel app, this.cartBloc, this.event)
+      : super(app: app);
 
   @override
   void runTheAction() {
@@ -25,7 +26,8 @@ class PostLoginAddProduct extends PostLoginAction {
 class CartTools {
   static void addToCart(BuildContext context, AppModel app,
       ActionModel? continueShoppingAction, ProductModel? product, int amount) {
-    _runEvent(context, app, AddProduct(amount, product, continueShoppingAction));
+    _runEvent(
+        context, app, AddProduct(amount, product, continueShoppingAction));
   }
 
   static void subtractFromCart(
@@ -39,8 +41,8 @@ class CartTools {
       BlocProvider.of<CartBloc>(context).add(event);
     } else {
       openLoginWidget(context, app,
-          actions:
-              PostLoginAddProduct(app, BlocProvider.of<CartBloc>(context), event));
+          actions: PostLoginAddProduct(
+              app, BlocProvider.of<CartBloc>(context), event));
     }
   }
 }

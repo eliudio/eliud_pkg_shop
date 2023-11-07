@@ -23,9 +23,8 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 import 'shop_front_model.dart';
 
-typedef List<ShopFrontModel?> FilterShopFrontModels(List<ShopFrontModel?> values);
-
-
+typedef FilterShopFrontModels = List<ShopFrontModel?> Function(
+    List<ShopFrontModel?> values);
 
 class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {
   final FilterShopFrontModels? filter;
@@ -39,23 +38,32 @@ class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {
   final bool? detailed;
   final int shopFrontLimit;
 
-  ShopFrontListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ShopFrontRepository shopFrontRepository, this.shopFrontLimit = 5})
+  ShopFrontListBloc(
+      {this.filter,
+      this.paged,
+      this.orderBy,
+      this.descending,
+      this.detailed,
+      this.eliudQuery,
+      required ShopFrontRepository shopFrontRepository,
+      this.shopFrontLimit = 5})
       : _shopFrontRepository = shopFrontRepository,
         super(ShopFrontListLoading()) {
-    on <LoadShopFrontList> ((event, emit) {
+    on<LoadShopFrontList>((event, emit) {
       if ((detailed == null) || (!detailed!)) {
         _mapLoadShopFrontListToState();
       } else {
         _mapLoadShopFrontListWithDetailsToState();
       }
     });
-    
-    on <NewPage> ((event, emit) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+
+    on<NewPage>((event, emit) {
+      pages = pages +
+          1; // it doesn't matter so much if we increase pages beyond the end
       _mapLoadShopFrontListWithDetailsToState();
     });
-    
-    on <ShopFrontChangeQuery> ((event, emit) {
+
+    on<ShopFrontChangeQuery>((event, emit) {
       eliudQuery = event.newQuery;
       if ((detailed == null) || (!detailed!)) {
         _mapLoadShopFrontListToState();
@@ -63,20 +71,20 @@ class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {
         _mapLoadShopFrontListWithDetailsToState();
       }
     });
-      
-    on <AddShopFrontList> ((event, emit) async {
+
+    on<AddShopFrontList>((event, emit) async {
       await _mapAddShopFrontListToState(event);
     });
-    
-    on <UpdateShopFrontList> ((event, emit) async {
+
+    on<UpdateShopFrontList>((event, emit) async {
       await _mapUpdateShopFrontListToState(event);
     });
-    
-    on <DeleteShopFrontList> ((event, emit) async {
+
+    on<DeleteShopFrontList>((event, emit) async {
       await _mapDeleteShopFrontListToState(event);
     });
-    
-    on <ShopFrontListUpdated> ((event, emit) {
+
+    on<ShopFrontListUpdated>((event, emit) {
       emit(_mapShopFrontListUpdatedToState(event));
     });
   }
@@ -90,27 +98,31 @@ class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {
   }
 
   Future<void> _mapLoadShopFrontListToState() async {
-    int amountNow =  (state is ShopFrontListLoaded) ? (state as ShopFrontListLoaded).values!.length : 0;
+    int amountNow = (state is ShopFrontListLoaded)
+        ? (state as ShopFrontListLoaded).values!.length
+        : 0;
     _shopFrontsListSubscription?.cancel();
     _shopFrontsListSubscription = _shopFrontRepository.listen(
-          (list) => add(ShopFrontListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
-      orderBy: orderBy,
-      descending: descending,
-      eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * shopFrontLimit : null
-    );
-  }
-
-  Future<void> _mapLoadShopFrontListWithDetailsToState() async {
-    int amountNow =  (state is ShopFrontListLoaded) ? (state as ShopFrontListLoaded).values!.length : 0;
-    _shopFrontsListSubscription?.cancel();
-    _shopFrontsListSubscription = _shopFrontRepository.listenWithDetails(
-            (list) => add(ShopFrontListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
+        (list) => add(ShopFrontListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * shopFrontLimit : null
-    );
+        limit: ((paged != null) && paged!) ? pages * shopFrontLimit : null);
+  }
+
+  Future<void> _mapLoadShopFrontListWithDetailsToState() async {
+    int amountNow = (state is ShopFrontListLoaded)
+        ? (state as ShopFrontListLoaded).values!.length
+        : 0;
+    _shopFrontsListSubscription?.cancel();
+    _shopFrontsListSubscription = _shopFrontRepository.listenWithDetails(
+        (list) => add(ShopFrontListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && paged!) ? pages * shopFrontLimit : null);
   }
 
   Future<void> _mapAddShopFrontListToState(AddShopFrontList event) async {
@@ -135,7 +147,9 @@ class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {
   }
 
   ShopFrontListLoaded _mapShopFrontListUpdatedToState(
-      ShopFrontListUpdated event) => ShopFrontListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
+          ShopFrontListUpdated event) =>
+      ShopFrontListLoaded(
+          values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {
@@ -143,5 +157,3 @@ class ShopFrontListBloc extends Bloc<ShopFrontListEvent, ShopFrontListState> {
     return super.close();
   }
 }
-
-

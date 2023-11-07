@@ -24,13 +24,11 @@ abstract class ProductDisplayComponentEvent extends Equatable {
 class FetchProductDisplayComponent extends ProductDisplayComponentEvent {
   final String? id;
 
-  FetchProductDisplayComponent({ this.id });
+  FetchProductDisplayComponent({this.id});
 }
 
 class ProductDisplayComponentUpdated extends ProductDisplayComponentEvent {
   final ProductDisplayModel value;
 
-  ProductDisplayComponentUpdated({ required this.value });
+  ProductDisplayComponentUpdated({required this.value});
 }
-
-

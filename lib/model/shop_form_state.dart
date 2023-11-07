@@ -41,9 +41,9 @@ class ShopFormInitialized extends ShopFormState {
   final ShopModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const ShopFormInitialized({ this.value });
+  const ShopFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
@@ -51,9 +51,9 @@ abstract class ShopFormError extends ShopFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const ShopFormError({this.message, ShopModel? value }) : super(value: value);
+  const ShopFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +63,12 @@ abstract class ShopFormError extends ShopFormInitialized {
     }''';
   }
 }
-class DocumentIDShopFormError extends ShopFormError { 
-  const DocumentIDShopFormError({ String? message, ShopModel? value }): super(message: message, value: value);
+
+class DocumentIDShopFormError extends ShopFormError {
+  const DocumentIDShopFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +79,11 @@ class DocumentIDShopFormError extends ShopFormError {
   }
 }
 
-
-class AppIdShopFormError extends ShopFormError { 
-  const AppIdShopFormError({ String? message, ShopModel? value }): super(message: message, value: value);
+class AppIdShopFormError extends ShopFormError {
+  const AppIdShopFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +94,11 @@ class AppIdShopFormError extends ShopFormError {
   }
 }
 
-
-class DescriptionShopFormError extends ShopFormError { 
-  const DescriptionShopFormError({ String? message, ShopModel? value }): super(message: message, value: value);
+class DescriptionShopFormError extends ShopFormError {
+  const DescriptionShopFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +109,11 @@ class DescriptionShopFormError extends ShopFormError {
   }
 }
 
-
-class ShortDescriptionShopFormError extends ShopFormError { 
-  const ShortDescriptionShopFormError({ String? message, ShopModel? value }): super(message: message, value: value);
+class ShortDescriptionShopFormError extends ShopFormError {
+  const ShortDescriptionShopFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -126,12 +124,11 @@ class ShortDescriptionShopFormError extends ShopFormError {
   }
 }
 
-
-class CurrencyShopFormError extends ShopFormError { 
-  const CurrencyShopFormError({ String? message, ShopModel? value }): super(message: message, value: value);
+class CurrencyShopFormError extends ShopFormError {
+  const CurrencyShopFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -142,12 +139,11 @@ class CurrencyShopFormError extends ShopFormError {
   }
 }
 
-
-class ConditionsShopFormError extends ShopFormError { 
-  const ConditionsShopFormError({ String? message, ShopModel? value }): super(message: message, value: value);
+class ConditionsShopFormError extends ShopFormError {
+  const ConditionsShopFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -158,12 +154,11 @@ class ConditionsShopFormError extends ShopFormError {
   }
 }
 
-
-class ShopFormLoaded extends ShopFormInitialized { 
-  const ShopFormLoaded({ ShopModel? value }): super(value: value);
+class ShopFormLoaded extends ShopFormInitialized {
+  const ShopFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -173,12 +168,11 @@ class ShopFormLoaded extends ShopFormInitialized {
   }
 }
 
-
-class SubmittableShopForm extends ShopFormInitialized { 
-  const SubmittableShopForm({ ShopModel? value }): super(value: value);
+class SubmittableShopForm extends ShopFormInitialized {
+  const SubmittableShopForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -187,5 +181,3 @@ class SubmittableShopForm extends ShopFormInitialized {
     }''';
   }
 }
-
-

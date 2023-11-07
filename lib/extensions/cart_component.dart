@@ -24,24 +24,23 @@ class CartComponentConstructorDefault implements ComponentConstructor {
 }
 
 class CartProfileComponent extends AbstractCartComponent {
-  CartProfileComponent({Key? key, required AppModel app, required String id})
-      : super(key: key, app: app, cartId: id);
+  CartProfileComponent({super.key, required super.app, required String id})
+      : super(cartId: id);
 
-  @override
   Widget alertWidget({title = String, content = String}) {
     return AlertWidget(app: app, title: title, content: content);
   }
 
-  @override
   CartRepository getCartRepository(BuildContext context) {
     return AbstractRepositorySingleton.singleton
         .cartRepository(app.documentID)!;
   }
 
   @override
-  Widget yourWidget(BuildContext context, CartModel cart) {
-    return CartWidget(app: app,
-      cart: cart,
+  Widget yourWidget(BuildContext context, CartModel value) {
+    return CartWidget(
+      app: app,
+      cart: value,
     );
   }
 }

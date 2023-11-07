@@ -58,7 +58,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     on<PayTheOrder>((event, emit) async {
       // The "Pay" button has been pressed. We store the OrderModel
       var newOrder = event.order.copyWith(
-          status: OrderStatus.Ordered,
+          status: OrderStatus.ordered,
           timeStamp: dateFormat.format(DateTime.now()));
       // At this point the order has been intended to be paid.
       // If it fails from this point on, then it's possible that the payment succeeded but that the payment was not registered in the db
@@ -82,7 +82,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
     on<PaymentDoneWithSuccess>((event, emit) async {
       var newOrder = event.order!.copyWith(
-          status: OrderStatus.Paid,
+          status: OrderStatus.paid,
           timeStamp: dateFormat.format(DateTime.now()),
           paymentReference: event.reference);
       try {
@@ -90,7 +90,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
             .orderRepository(event.order!.appId)!
             .update(newOrder);
       } catch (error) {
-        debugPrint('error' + error.toString());
+        debugPrint('error$error');
       }
 
       cartBloc.add(EmptyCart());
@@ -110,7 +110,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
     on<PaymentDoneWithFailure>((event, emit) {
       var newOrder = event.order!.copyWith(
-          status: OrderStatus.PaymentFailed,
+          status: OrderStatus.paymentFailed,
           paymentNote: event.msg,
           timeStamp: dateFormat.format(DateTime.now()));
       emit(PaymentFailed(order: newOrder, msg: event.msg));
@@ -141,9 +141,9 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         invoiceState: loggedInState.member.invoiceState,
         invoicePostcode: loggedInState.member.invoicePostcode,
         invoiceCountry: loggedInState.member.invoiceCountry,
-        status: OrderStatus.Ordered,
+        status: OrderStatus.ordered,
         currency: shop.currency,
-        products: items == null
+        products: (items == null)
             ? null
             : items
                 .map((item) => OrderItemModel(

@@ -52,7 +52,7 @@ class ShopFrontComponentEditorConstructor extends ComponentEditorConstructor {
           description: 'New Shop Front',
           conditions: StorageConditionsModel(
               privilegeLevelRequired:
-                  PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+                  PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple),
         ),
         feedback);
   }
@@ -64,7 +64,7 @@ class ShopFrontComponentEditorConstructor extends ComponentEditorConstructor {
     if (shopFront != null) {
       _openIt(app, context, false, shopFront, feedback);
     } else {
-      openErrorDialog(app, context, app.documentID + '/_error',
+      openErrorDialog(app, context, '${app.documentID}/_error',
           title: 'Error',
           errorMessage: 'Cannot find notification dashboard with id $id');
     }
@@ -75,7 +75,7 @@ class ShopFrontComponentEditorConstructor extends ComponentEditorConstructor {
     openComplexDialog(
       app,
       context,
-      app.documentID + '/notificationdashboard',
+      '${app.documentID}/notificationdashboard',
       title: create
           ? 'Create Notification Dashboard'
           : 'Update Notification Dashboard',
@@ -99,10 +99,12 @@ class ShopFrontComponentEditorConstructor extends ComponentEditorConstructor {
     if (entity != null) {
       var myEntity = entity as ShopFrontEntity;
       var newEntity = myEntity.copyWith(
-        buyAction: myEntity.buyAction != null ? myEntity
-            .buyAction!.copyWith(appId: app.documentID) : null,
-        openProductAction: myEntity.openProductAction != null ? myEntity
-            .openProductAction!.copyWith(appId: app.documentID) : null,
+        buyAction: myEntity.buyAction != null
+            ? myEntity.buyAction!.copyWith(appId: app.documentID)
+            : null,
+        openProductAction: myEntity.openProductAction != null
+            ? myEntity.openProductAction!.copyWith(appId: app.documentID)
+            : null,
       );
       return newEntity;
     } else {
@@ -115,9 +117,9 @@ class ShopFrontComponentEditor extends StatefulWidget {
   final AppModel app;
 
   const ShopFrontComponentEditor({
-    Key? key,
+    super.key,
     required this.app,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() => _ShopFrontComponentEditorState();
@@ -261,7 +263,7 @@ class _ShopFrontComponentEditorState extends State<ShopFrontComponentEditor> {
                                           shopFrontState.model.size.toString(),
                                       valueChanged: (value) {
                                         shopFrontState.model.size =
-                                            double_parse(value);
+                                            doubleParse(value);
                                       },
                                       maxLines: 1,
                                       decoration: const InputDecoration(
@@ -279,7 +281,7 @@ class _ShopFrontComponentEditorState extends State<ShopFrontComponentEditor> {
                                           .toString(),
                                       valueChanged: (value) {
                                         shopFrontState.model.cardElevation =
-                                            double_parse(value);
+                                            doubleParse(value);
                                       },
                                       maxLines: 1,
                                       decoration: const InputDecoration(
@@ -297,7 +299,7 @@ class _ShopFrontComponentEditorState extends State<ShopFrontComponentEditor> {
                                           .toString(),
                                       valueChanged: (value) {
                                         shopFrontState.model.cardAxisSpacing =
-                                            double_parse(value);
+                                            doubleParse(value);
                                       },
                                       maxLines: 1,
                                       decoration: const InputDecoration(
@@ -311,17 +313,31 @@ class _ShopFrontComponentEditorState extends State<ShopFrontComponentEditor> {
                               collapsible: true,
                               collapsed: true,
                               children: [
-                                checkboxListTile(widget.app, context, 'With padding',
-                                    shopFrontState.model.padding != null, (value) {
-                                      setState(() {
-                                        if (value!) {
-                                          shopFrontState.model.padding = EdgeInsetsGeometryModel(left: 0, right: 0, top: 0, bottom: 0);
-                                        } else {
-                                          shopFrontState.model.padding = null;
-                                        }
-                                      });
-                                    }),
-                                if (shopFrontState.model.padding != null) EdgeInsetsGeometryWidget(app: widget.app, edgeInsetsGeometryModel: shopFrontState.model.padding!, )
+                                checkboxListTile(
+                                    widget.app,
+                                    context,
+                                    'With padding',
+                                    shopFrontState.model.padding != null,
+                                    (value) {
+                                  setState(() {
+                                    if (value!) {
+                                      shopFrontState.model.padding =
+                                          EdgeInsetsGeometryModel(
+                                              left: 0,
+                                              right: 0,
+                                              top: 0,
+                                              bottom: 0);
+                                    } else {
+                                      shopFrontState.model.padding = null;
+                                    }
+                                  });
+                                }),
+                                if (shopFrontState.model.padding != null)
+                                  EdgeInsetsGeometryWidget(
+                                    app: widget.app,
+                                    edgeInsetsGeometryModel:
+                                        shopFrontState.model.padding!,
+                                  )
                               ]),
                           StyleColorWidget(
                               app: widget.app,
@@ -371,7 +387,7 @@ class _ShopFrontComponentEditorState extends State<ShopFrontComponentEditor> {
                                     },
                                     scrollDirection:
                                         shopFrontState.model.scrollDirection ??
-                                            ScrollDirection.Horizontal),
+                                            ScrollDirection.horizontal),
                               ]),
                         ]),
                     topicContainer(widget.app, context,

@@ -19,7 +19,6 @@ import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
 
-
 @immutable
 abstract class ProductDisplayFormEvent extends Equatable {
   const ProductDisplayFormEvent();
@@ -28,15 +27,13 @@ abstract class ProductDisplayFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewProductDisplayFormEvent extends ProductDisplayFormEvent {
-}
-
+class InitialiseNewProductDisplayFormEvent extends ProductDisplayFormEvent {}
 
 class InitialiseProductDisplayFormEvent extends ProductDisplayFormEvent {
   final ProductDisplayModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseProductDisplayFormEvent({this.value});
 }
@@ -45,7 +42,7 @@ class InitialiseProductDisplayFormNoLoadEvent extends ProductDisplayFormEvent {
   final ProductDisplayModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseProductDisplayFormNoLoadEvent({this.value});
 }
@@ -56,7 +53,7 @@ class ChangedProductDisplayDocumentID extends ProductDisplayFormEvent {
   ChangedProductDisplayDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedProductDisplayDocumentID{ value: $value }';
@@ -68,7 +65,7 @@ class ChangedProductDisplayAppId extends ProductDisplayFormEvent {
   ChangedProductDisplayAppId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedProductDisplayAppId{ value: $value }';
@@ -80,22 +77,24 @@ class ChangedProductDisplayDescription extends ProductDisplayFormEvent {
   ChangedProductDisplayDescription({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedProductDisplayDescription{ value: $value }';
 }
 
-class ChangedProductDisplayItemDetailBackground extends ProductDisplayFormEvent {
+class ChangedProductDisplayItemDetailBackground
+    extends ProductDisplayFormEvent {
   final BackgroundModel? value;
 
   ChangedProductDisplayItemDetailBackground({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
-  String toString() => 'ChangedProductDisplayItemDetailBackground{ value: $value }';
+  String toString() =>
+      'ChangedProductDisplayItemDetailBackground{ value: $value }';
 }
 
 class ChangedProductDisplayAddToBasketText extends ProductDisplayFormEvent {
@@ -104,7 +103,7 @@ class ChangedProductDisplayAddToBasketText extends ProductDisplayFormEvent {
   ChangedProductDisplayAddToBasketText({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedProductDisplayAddToBasketText{ value: $value }';
@@ -116,7 +115,7 @@ class ChangedProductDisplayBuyAction extends ProductDisplayFormEvent {
   ChangedProductDisplayBuyAction({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedProductDisplayBuyAction{ value: $value }';
@@ -128,7 +127,7 @@ class ChangedProductDisplayShop extends ProductDisplayFormEvent {
   ChangedProductDisplayShop({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedProductDisplayShop{ value: $value }';
@@ -140,7 +139,7 @@ class ChangedProductDisplayBackground extends ProductDisplayFormEvent {
   ChangedProductDisplayBackground({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedProductDisplayBackground{ value: $value }';
@@ -152,9 +151,8 @@ class ChangedProductDisplayConditions extends ProductDisplayFormEvent {
   ChangedProductDisplayConditions({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedProductDisplayConditions{ value: $value }';
 }
-

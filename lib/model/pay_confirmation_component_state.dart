@@ -23,24 +23,26 @@ abstract class PayConfirmationComponentState extends Equatable {
   List<Object?> get props => [];
 }
 
-class PayConfirmationComponentUninitialized extends PayConfirmationComponentState {}
+class PayConfirmationComponentUninitialized
+    extends PayConfirmationComponentState {}
 
 class PayConfirmationComponentError extends PayConfirmationComponentState {
   final String? message;
-  PayConfirmationComponentError({ this.message });
+  PayConfirmationComponentError({this.message});
 }
 
-class PayConfirmationComponentPermissionDenied extends PayConfirmationComponentState {
+class PayConfirmationComponentPermissionDenied
+    extends PayConfirmationComponentState {
   PayConfirmationComponentPermissionDenied();
 }
 
 class PayConfirmationComponentLoaded extends PayConfirmationComponentState {
   final PayConfirmationModel value;
 
-  const PayConfirmationComponentLoaded({ required this.value });
+  const PayConfirmationComponentLoaded({required this.value});
 
-  PayConfirmationComponentLoaded copyWith({ PayConfirmationModel? copyThis }) {
-    return PayConfirmationComponentLoaded(value: copyThis ?? this.value);
+  PayConfirmationComponentLoaded copyWith({PayConfirmationModel? copyThis}) {
+    return PayConfirmationComponentLoaded(value: copyThis ?? value);
   }
 
   @override
@@ -49,4 +51,3 @@ class PayConfirmationComponentLoaded extends PayConfirmationComponentState {
   @override
   String toString() => 'PayConfirmationComponentLoaded { value: $value }';
 }
-

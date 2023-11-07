@@ -24,13 +24,11 @@ abstract class CartComponentEvent extends Equatable {
 class FetchCartComponent extends CartComponentEvent {
   final String? id;
 
-  FetchCartComponent({ this.id });
+  FetchCartComponent({this.id});
 }
 
 class CartComponentUpdated extends CartComponentEvent {
   final CartModel value;
 
-  CartComponentUpdated({ required this.value });
+  CartComponentUpdated({required this.value});
 }
-
-

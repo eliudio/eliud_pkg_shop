@@ -1,4 +1,4 @@
-import 'package:eliud_core/core/wizards/tools/documentIdentifier.dart';
+import 'package:eliud_core/core/wizards/tools/document_identifier.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
@@ -14,7 +14,7 @@ class PayPageBuilder extends AbstractPageTemplate {
   final ShopModel? shop;
   final CartPaymentWorkflows? cartPaymentWorkflows;
 
-  static const String PAGE_ID = 'shop-pay';
+  static const String thePageId = 'shop-pay';
 
   PayPageBuilder(
     String uniqueId,
@@ -29,7 +29,7 @@ class PayPageBuilder extends AbstractPageTemplate {
     this.cartPaymentWorkflows,
   ) : super(
           uniqueId,
-          PAGE_ID,
+          thePageId,
           app,
           memberId,
           theHomeMenu,
@@ -37,15 +37,15 @@ class PayPageBuilder extends AbstractPageTemplate {
           leftDrawer,
           rightDrawer,
           privilegeLevelRequired:
-              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple,
-          packageCondition: ShopPackage.CONDITION_CARTS_HAS_ITEMS,
+              PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple,
+          packageCondition: ShopPackage.conditionCartsHasItems,
         );
 
   static ActionModel action(AppModel app, String uniqueId) => GotoPage(app,
-      pageID: constructDocumentId(uniqueId: uniqueId, documentId: PAGE_ID),
+      pageID: constructDocumentId(uniqueId: uniqueId, documentId: thePageId),
       conditions: DisplayConditionsModel(
-        privilegeLevelRequired: PrivilegeLevelRequired.NoPrivilegeRequired,
-        packageCondition: ShopPackage.CONDITION_CARTS_HAS_ITEMS,
+        privilegeLevelRequired: PrivilegeLevelRequired.noPrivilegeRequired,
+        packageCondition: ShopPackage.conditionCartsHasItems,
       ));
 
   PayModel _payModel() {
@@ -54,11 +54,16 @@ class PayPageBuilder extends AbstractPageTemplate {
       appId: app.documentID,
       description: pageTitle(),
       shop: shop,
-      payAction: cartPaymentWorkflows != null ? getParameterAction(app, cartPaymentWorkflows!) : null,
-      succeeded: GotoPage(app, pageID: constructDocumentId(uniqueId: uniqueId, documentId: PayConfirmationPageBuilder.PAGE_ID)),
+      payAction: cartPaymentWorkflows != null
+          ? getParameterAction(app, cartPaymentWorkflows!)
+          : null,
+      succeeded: GotoPage(app,
+          pageID: constructDocumentId(
+              uniqueId: uniqueId,
+              documentId: PayConfirmationPageBuilder.thePageId)),
       conditions: StorageConditionsModel(
           privilegeLevelRequired:
-              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+              PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple),
     );
   }
 

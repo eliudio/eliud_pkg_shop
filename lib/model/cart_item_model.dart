@@ -19,36 +19,50 @@ import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_shop/model/model_export.dart';
 import 'package:eliud_pkg_shop/model/entity_export.dart';
 
-
 import 'package:eliud_pkg_shop/model/cart_item_entity.dart';
-
-
-
 
 class CartItemModel implements ModelBase, WithAppId {
   static const String packageName = 'eliud_pkg_shop';
   static const String id = 'cartItems';
 
+  @override
   String documentID;
   int? amount;
+  @override
   String appId;
   ProductModel? product;
 
-  CartItemModel({required this.documentID, this.amount, required this.appId, this.product, })  {
-  }
+  CartItemModel({
+    required this.documentID,
+    this.amount,
+    required this.appId,
+    this.product,
+  });
 
-  CartItemModel copyWith({String? documentID, int? amount, String? appId, ProductModel? product, }) {
-    return CartItemModel(documentID: documentID ?? this.documentID, amount: amount ?? this.amount, appId: appId ?? this.appId, product: product ?? this.product, );
+  @override
+  CartItemModel copyWith({
+    String? documentID,
+    int? amount,
+    String? appId,
+    ProductModel? product,
+  }) {
+    return CartItemModel(
+      documentID: documentID ?? this.documentID,
+      amount: amount ?? this.amount,
+      appId: appId ?? this.appId,
+      product: product ?? this.product,
+    );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ amount.hashCode ^ appId.hashCode ^ product.hashCode;
+  int get hashCode =>
+      documentID.hashCode ^ amount.hashCode ^ appId.hashCode ^ product.hashCode;
 
   @override
   bool operator ==(Object other) =>
-          identical(this, other) ||
-          other is CartItemModel &&
-          runtimeType == other.runtimeType && 
+      identical(this, other) ||
+      other is CartItemModel &&
+          runtimeType == other.runtimeType &&
           documentID == other.documentID &&
           amount == other.amount &&
           appId == other.appId &&
@@ -59,55 +73,61 @@ class CartItemModel implements ModelBase, WithAppId {
     return 'CartItemModel{documentID: $documentID, amount: $amount, appId: $appId, product: $product}';
   }
 
+  @override
   Future<List<ModelReference>> collectReferences({String? appId}) async {
     List<ModelReference> referencesCollector = [];
     if (product != null) {
-      referencesCollector.add(ModelReference(ProductModel.packageName, ProductModel.id, product!));
+      referencesCollector.add(
+          ModelReference(ProductModel.packageName, ProductModel.id, product!));
     }
-    if (product != null) referencesCollector.addAll(await product!.collectReferences(appId: appId));
+    if (product != null) {
+      referencesCollector
+          .addAll(await product!.collectReferences(appId: appId));
+    }
     return referencesCollector;
   }
 
+  @override
   CartItemEntity toEntity({String? appId}) {
     return CartItemEntity(
-          amount: (amount != null) ? amount : null, 
-          appId: (appId != null) ? appId : null, 
-          productId: (product != null) ? product!.documentID : null, 
+      amount: (amount != null) ? amount : null,
+      appId: appId,
+      productId: (product != null) ? product!.documentID : null,
     );
   }
 
-  static Future<CartItemModel?> fromEntity(String documentID, CartItemEntity? entity) async {
+  static Future<CartItemModel?> fromEntity(
+      String documentID, CartItemEntity? entity) async {
     if (entity == null) return null;
-    var counter = 0;
     return CartItemModel(
-          documentID: documentID, 
-          amount: entity.amount, 
-          appId: entity.appId ?? '', 
+      documentID: documentID,
+      amount: entity.amount,
+      appId: entity.appId ?? '',
     );
   }
 
-  static Future<CartItemModel?> fromEntityPlus(String documentID, CartItemEntity? entity, { String? appId}) async {
+  static Future<CartItemModel?> fromEntityPlus(
+      String documentID, CartItemEntity? entity,
+      {String? appId}) async {
     if (entity == null) return null;
 
     ProductModel? productHolder;
     if (entity.productId != null) {
       try {
-          productHolder = await productRepository(appId: appId)!.get(entity.productId);
-      } on Exception catch(e) {
+        productHolder =
+            await productRepository(appId: appId)!.get(entity.productId);
+      } on Exception catch (e) {
         print('Error whilst trying to initialise product');
         print('Error whilst retrieving product with id ${entity.productId}');
         print('Exception: $e');
       }
     }
 
-    var counter = 0;
     return CartItemModel(
-          documentID: documentID, 
-          amount: entity.amount, 
-          appId: entity.appId ?? '', 
-          product: productHolder, 
+      documentID: documentID,
+      amount: entity.amount,
+      appId: entity.appId ?? '',
+      product: productHolder,
     );
   }
-
 }
-

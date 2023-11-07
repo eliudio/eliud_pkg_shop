@@ -41,9 +41,9 @@ class PayFormInitialized extends PayFormState {
   final PayModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const PayFormInitialized({ this.value });
+  const PayFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
@@ -51,9 +51,9 @@ abstract class PayFormError extends PayFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const PayFormError({this.message, PayModel? value }) : super(value: value);
+  const PayFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +63,12 @@ abstract class PayFormError extends PayFormInitialized {
     }''';
   }
 }
-class DocumentIDPayFormError extends PayFormError { 
-  const DocumentIDPayFormError({ String? message, PayModel? value }): super(message: message, value: value);
+
+class DocumentIDPayFormError extends PayFormError {
+  const DocumentIDPayFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +79,11 @@ class DocumentIDPayFormError extends PayFormError {
   }
 }
 
-
-class AppIdPayFormError extends PayFormError { 
-  const AppIdPayFormError({ String? message, PayModel? value }): super(message: message, value: value);
+class AppIdPayFormError extends PayFormError {
+  const AppIdPayFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +94,11 @@ class AppIdPayFormError extends PayFormError {
   }
 }
 
-
-class DescriptionPayFormError extends PayFormError { 
-  const DescriptionPayFormError({ String? message, PayModel? value }): super(message: message, value: value);
+class DescriptionPayFormError extends PayFormError {
+  const DescriptionPayFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +109,11 @@ class DescriptionPayFormError extends PayFormError {
   }
 }
 
-
-class SucceededPayFormError extends PayFormError { 
-  const SucceededPayFormError({ String? message, PayModel? value }): super(message: message, value: value);
+class SucceededPayFormError extends PayFormError {
+  const SucceededPayFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -126,12 +124,11 @@ class SucceededPayFormError extends PayFormError {
   }
 }
 
-
-class PayActionPayFormError extends PayFormError { 
-  const PayActionPayFormError({ String? message, PayModel? value }): super(message: message, value: value);
+class PayActionPayFormError extends PayFormError {
+  const PayActionPayFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -142,12 +139,11 @@ class PayActionPayFormError extends PayFormError {
   }
 }
 
-
-class ShopPayFormError extends PayFormError { 
-  const ShopPayFormError({ String? message, PayModel? value }): super(message: message, value: value);
+class ShopPayFormError extends PayFormError {
+  const ShopPayFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -158,12 +154,11 @@ class ShopPayFormError extends PayFormError {
   }
 }
 
-
-class ConditionsPayFormError extends PayFormError { 
-  const ConditionsPayFormError({ String? message, PayModel? value }): super(message: message, value: value);
+class ConditionsPayFormError extends PayFormError {
+  const ConditionsPayFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -174,12 +169,11 @@ class ConditionsPayFormError extends PayFormError {
   }
 }
 
-
-class PayFormLoaded extends PayFormInitialized { 
-  const PayFormLoaded({ PayModel? value }): super(value: value);
+class PayFormLoaded extends PayFormInitialized {
+  const PayFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -189,12 +183,11 @@ class PayFormLoaded extends PayFormInitialized {
   }
 }
 
-
-class SubmittablePayForm extends PayFormInitialized { 
-  const SubmittablePayForm({ PayModel? value }): super(value: value);
+class SubmittablePayForm extends PayFormInitialized {
+  const SubmittablePayForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -203,5 +196,3 @@ class SubmittablePayForm extends PayFormInitialized {
     }''';
   }
 }
-
-

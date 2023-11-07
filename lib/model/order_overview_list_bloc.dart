@@ -23,11 +23,11 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 import 'order_overview_model.dart';
 
-typedef List<OrderOverviewModel?> FilterOrderOverviewModels(List<OrderOverviewModel?> values);
+typedef FilterOrderOverviewModels = List<OrderOverviewModel?> Function(
+    List<OrderOverviewModel?> values);
 
-
-
-class OrderOverviewListBloc extends Bloc<OrderOverviewListEvent, OrderOverviewListState> {
+class OrderOverviewListBloc
+    extends Bloc<OrderOverviewListEvent, OrderOverviewListState> {
   final FilterOrderOverviewModels? filter;
   final OrderOverviewRepository _orderOverviewRepository;
   StreamSubscription? _orderOverviewsListSubscription;
@@ -39,23 +39,32 @@ class OrderOverviewListBloc extends Bloc<OrderOverviewListEvent, OrderOverviewLi
   final bool? detailed;
   final int orderOverviewLimit;
 
-  OrderOverviewListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required OrderOverviewRepository orderOverviewRepository, this.orderOverviewLimit = 5})
+  OrderOverviewListBloc(
+      {this.filter,
+      this.paged,
+      this.orderBy,
+      this.descending,
+      this.detailed,
+      this.eliudQuery,
+      required OrderOverviewRepository orderOverviewRepository,
+      this.orderOverviewLimit = 5})
       : _orderOverviewRepository = orderOverviewRepository,
         super(OrderOverviewListLoading()) {
-    on <LoadOrderOverviewList> ((event, emit) {
+    on<LoadOrderOverviewList>((event, emit) {
       if ((detailed == null) || (!detailed!)) {
         _mapLoadOrderOverviewListToState();
       } else {
         _mapLoadOrderOverviewListWithDetailsToState();
       }
     });
-    
-    on <NewPage> ((event, emit) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+
+    on<NewPage>((event, emit) {
+      pages = pages +
+          1; // it doesn't matter so much if we increase pages beyond the end
       _mapLoadOrderOverviewListWithDetailsToState();
     });
-    
-    on <OrderOverviewChangeQuery> ((event, emit) {
+
+    on<OrderOverviewChangeQuery>((event, emit) {
       eliudQuery = event.newQuery;
       if ((detailed == null) || (!detailed!)) {
         _mapLoadOrderOverviewListToState();
@@ -63,20 +72,20 @@ class OrderOverviewListBloc extends Bloc<OrderOverviewListEvent, OrderOverviewLi
         _mapLoadOrderOverviewListWithDetailsToState();
       }
     });
-      
-    on <AddOrderOverviewList> ((event, emit) async {
+
+    on<AddOrderOverviewList>((event, emit) async {
       await _mapAddOrderOverviewListToState(event);
     });
-    
-    on <UpdateOrderOverviewList> ((event, emit) async {
+
+    on<UpdateOrderOverviewList>((event, emit) async {
       await _mapUpdateOrderOverviewListToState(event);
     });
-    
-    on <DeleteOrderOverviewList> ((event, emit) async {
+
+    on<DeleteOrderOverviewList>((event, emit) async {
       await _mapDeleteOrderOverviewListToState(event);
     });
-    
-    on <OrderOverviewListUpdated> ((event, emit) {
+
+    on<OrderOverviewListUpdated>((event, emit) {
       emit(_mapOrderOverviewListUpdatedToState(event));
     });
   }
@@ -90,44 +99,54 @@ class OrderOverviewListBloc extends Bloc<OrderOverviewListEvent, OrderOverviewLi
   }
 
   Future<void> _mapLoadOrderOverviewListToState() async {
-    int amountNow =  (state is OrderOverviewListLoaded) ? (state as OrderOverviewListLoaded).values!.length : 0;
+    int amountNow = (state is OrderOverviewListLoaded)
+        ? (state as OrderOverviewListLoaded).values!.length
+        : 0;
     _orderOverviewsListSubscription?.cancel();
     _orderOverviewsListSubscription = _orderOverviewRepository.listen(
-          (list) => add(OrderOverviewListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
-      orderBy: orderBy,
-      descending: descending,
-      eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * orderOverviewLimit : null
-    );
-  }
-
-  Future<void> _mapLoadOrderOverviewListWithDetailsToState() async {
-    int amountNow =  (state is OrderOverviewListLoaded) ? (state as OrderOverviewListLoaded).values!.length : 0;
-    _orderOverviewsListSubscription?.cancel();
-    _orderOverviewsListSubscription = _orderOverviewRepository.listenWithDetails(
-            (list) => add(OrderOverviewListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
+        (list) => add(OrderOverviewListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * orderOverviewLimit : null
-    );
+        limit: ((paged != null) && paged!) ? pages * orderOverviewLimit : null);
   }
 
-  Future<void> _mapAddOrderOverviewListToState(AddOrderOverviewList event) async {
+  Future<void> _mapLoadOrderOverviewListWithDetailsToState() async {
+    int amountNow = (state is OrderOverviewListLoaded)
+        ? (state as OrderOverviewListLoaded).values!.length
+        : 0;
+    _orderOverviewsListSubscription?.cancel();
+    _orderOverviewsListSubscription =
+        _orderOverviewRepository.listenWithDetails(
+            (list) => add(OrderOverviewListUpdated(
+                value: _filter(list), mightHaveMore: amountNow != list.length)),
+            orderBy: orderBy,
+            descending: descending,
+            eliudQuery: eliudQuery,
+            limit: ((paged != null) && paged!)
+                ? pages * orderOverviewLimit
+                : null);
+  }
+
+  Future<void> _mapAddOrderOverviewListToState(
+      AddOrderOverviewList event) async {
     var value = event.value;
     if (value != null) {
       await _orderOverviewRepository.add(value);
     }
   }
 
-  Future<void> _mapUpdateOrderOverviewListToState(UpdateOrderOverviewList event) async {
+  Future<void> _mapUpdateOrderOverviewListToState(
+      UpdateOrderOverviewList event) async {
     var value = event.value;
     if (value != null) {
       await _orderOverviewRepository.update(value);
     }
   }
 
-  Future<void> _mapDeleteOrderOverviewListToState(DeleteOrderOverviewList event) async {
+  Future<void> _mapDeleteOrderOverviewListToState(
+      DeleteOrderOverviewList event) async {
     var value = event.value;
     if (value != null) {
       await _orderOverviewRepository.delete(value);
@@ -135,7 +154,9 @@ class OrderOverviewListBloc extends Bloc<OrderOverviewListEvent, OrderOverviewLi
   }
 
   OrderOverviewListLoaded _mapOrderOverviewListUpdatedToState(
-      OrderOverviewListUpdated event) => OrderOverviewListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
+          OrderOverviewListUpdated event) =>
+      OrderOverviewListLoaded(
+          values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {
@@ -143,5 +164,3 @@ class OrderOverviewListBloc extends Bloc<OrderOverviewListEvent, OrderOverviewLi
     return super.close();
   }
 }
-
-

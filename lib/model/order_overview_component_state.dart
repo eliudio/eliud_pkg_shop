@@ -27,20 +27,21 @@ class OrderOverviewComponentUninitialized extends OrderOverviewComponentState {}
 
 class OrderOverviewComponentError extends OrderOverviewComponentState {
   final String? message;
-  OrderOverviewComponentError({ this.message });
+  OrderOverviewComponentError({this.message});
 }
 
-class OrderOverviewComponentPermissionDenied extends OrderOverviewComponentState {
+class OrderOverviewComponentPermissionDenied
+    extends OrderOverviewComponentState {
   OrderOverviewComponentPermissionDenied();
 }
 
 class OrderOverviewComponentLoaded extends OrderOverviewComponentState {
   final OrderOverviewModel value;
 
-  const OrderOverviewComponentLoaded({ required this.value });
+  const OrderOverviewComponentLoaded({required this.value});
 
-  OrderOverviewComponentLoaded copyWith({ OrderOverviewModel? copyThis }) {
-    return OrderOverviewComponentLoaded(value: copyThis ?? this.value);
+  OrderOverviewComponentLoaded copyWith({OrderOverviewModel? copyThis}) {
+    return OrderOverviewComponentLoaded(value: copyThis ?? value);
   }
 
   @override
@@ -49,4 +50,3 @@ class OrderOverviewComponentLoaded extends OrderOverviewComponentState {
   @override
   String toString() => 'OrderOverviewComponentLoaded { value: $value }';
 }
-

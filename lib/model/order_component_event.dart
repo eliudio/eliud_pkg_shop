@@ -24,13 +24,11 @@ abstract class OrderComponentEvent extends Equatable {
 class FetchOrderComponent extends OrderComponentEvent {
   final String? id;
 
-  FetchOrderComponent({ this.id });
+  FetchOrderComponent({this.id});
 }
 
 class OrderComponentUpdated extends OrderComponentEvent {
   final OrderModel value;
 
-  OrderComponentUpdated({ required this.value });
+  OrderComponentUpdated({required this.value});
 }
-
-

@@ -32,8 +32,8 @@ class ProductDisplayComponent extends AbstractProductDisplayComponent {
   final Map<String, dynamic>? parameters;
 
   ProductDisplayComponent(
-      {Key? key, required AppModel app, required String id, this.parameters})
-      : super(key: key, app: app, productDisplayId: id);
+      {super.key, required super.app, required String id, this.parameters})
+      : super(productDisplayId: id);
 
   @override
   Widget yourWidget(BuildContext context, ProductDisplayModel? value) {
@@ -44,24 +44,23 @@ class ProductDisplayComponent extends AbstractProductDisplayComponent {
           future: productRepository(appId: appId)!.get(productId),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return ProductDetail(app: app,
-                  productDisplayModel: value, productModel: snapshot.data);
+              return ProductDetail(
+                  app: app,
+                  productDisplayModel: value,
+                  productModel: snapshot.data);
             } else {
               return progressIndicator(app, context);
             }
-          }
-      );
+          });
     } else {
       return alertWidget(title: 'error', content: 'Ordernumber not provided');
     }
   }
 
-  @override
   Widget alertWidget({title = String, content = String}) {
     return AlertWidget(app: app, title: title, content: content);
   }
 
-  @override
   ProductDisplayRepository getProductDisplayRepository(BuildContext context) {
     return AbstractRepositorySingleton.singleton
         .productDisplayRepository(app.documentID)!;

@@ -20,8 +20,8 @@ import 'package:eliud_pkg_shop/model/shop_front_component_event.dart';
 import 'package:eliud_pkg_shop/model/shop_front_component_state.dart';
 import 'package:eliud_pkg_shop/model/shop_front_repository.dart';
 
-
-class ShopFrontComponentBloc extends Bloc<ShopFrontComponentEvent, ShopFrontComponentState> {
+class ShopFrontComponentBloc
+    extends Bloc<ShopFrontComponentEvent, ShopFrontComponentState> {
   final ShopFrontRepository? shopFrontRepository;
   StreamSubscription? _shopFrontSubscription;
 
@@ -34,11 +34,12 @@ class ShopFrontComponentBloc extends Bloc<ShopFrontComponentEvent, ShopFrontComp
     });
   }
 
-  ShopFrontComponentBloc({ this.shopFrontRepository }): super(ShopFrontComponentUninitialized()) {
-    on <FetchShopFrontComponent> ((event, emit) {
+  ShopFrontComponentBloc({this.shopFrontRepository})
+      : super(ShopFrontComponentUninitialized()) {
+    on<FetchShopFrontComponent>((event, emit) {
       _mapLoadShopFrontComponentUpdateToState(event.id!);
     });
-    on <ShopFrontComponentUpdated> ((event, emit) {
+    on<ShopFrontComponentUpdated>((event, emit) {
       emit(ShopFrontComponentLoaded(value: event.value));
     });
   }
@@ -48,6 +49,4 @@ class ShopFrontComponentBloc extends Bloc<ShopFrontComponentEvent, ShopFrontComp
     _shopFrontSubscription?.cancel();
     return super.close();
   }
-
 }
-

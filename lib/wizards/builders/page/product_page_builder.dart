@@ -1,4 +1,4 @@
-import 'package:eliud_core/core/wizards/tools/documentIdentifier.dart';
+import 'package:eliud_core/core/wizards/tools/document_identifier.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
@@ -11,10 +11,10 @@ import 'cart_page_builder.dart';
 class ProductPageBuilder extends AbstractBasicPageTemplate {
   final ShopModel? shop;
 
-  static String PAGE_ID = 'shop-product';
+  static String thePageId = 'shop-product';
 
   ProductPageBuilder(
-      String uniqueId,
+    String uniqueId,
     AppModel app,
     String memberId,
     HomeMenuModel theHomeMenu,
@@ -24,7 +24,7 @@ class ProductPageBuilder extends AbstractBasicPageTemplate {
     this.shop,
   ) : super(
           uniqueId,
-          PAGE_ID,
+          thePageId,
           app,
           memberId,
           theHomeMenu,
@@ -32,19 +32,20 @@ class ProductPageBuilder extends AbstractBasicPageTemplate {
           leftDrawer,
           rightDrawer,
           privilegeLevelRequired:
-              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple,
+              PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple,
         );
 
   static ActionModel action(AppModel app, String uniqueId) => GotoPage(app,
-      pageID: constructDocumentId(uniqueId: uniqueId, documentId: PAGE_ID),
+      pageID: constructDocumentId(uniqueId: uniqueId, documentId: thePageId),
       conditions: DisplayConditionsModel(
-        privilegeLevelRequired: PrivilegeLevelRequired.NoPrivilegeRequired,
-        packageCondition: ShopPackage.CONDITION_CARTS_HAS_ITEMS,
+        privilegeLevelRequired: PrivilegeLevelRequired.noPrivilegeRequired,
+        packageCondition: ShopPackage.conditionCartsHasItems,
       ));
 
   ProductDisplayModel _productDisplayOverview() {
     return ProductDisplayModel(
-      documentID: constructDocumentId(uniqueId: uniqueId, documentId: 'product'),
+      documentID:
+          constructDocumentId(uniqueId: uniqueId, documentId: 'product'),
       appId: app.documentID,
       description: pageTitle(),
       shop: shop,
@@ -53,7 +54,7 @@ class ProductPageBuilder extends AbstractBasicPageTemplate {
       addToBasketText: 'Add to basket',
       conditions: StorageConditionsModel(
           privilegeLevelRequired:
-              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+              PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple),
     );
   }
 

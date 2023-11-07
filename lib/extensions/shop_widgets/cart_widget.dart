@@ -25,11 +25,10 @@ class CartWidget extends StatefulWidget {
   final CartModel cart;
   final AppModel app;
 
-  const CartWidget({Key? key, required this.app, required this.cart})
-      : super(key: key);
+  const CartWidget({super.key, required this.app, required this.cart});
 
   @override
-  _CartWidgetState createState() => _CartWidgetState();
+  State<CartWidget> createState() => _CartWidgetState();
 }
 
 class _CartWidgetState extends State<CartWidget> {
@@ -157,11 +156,11 @@ class _CartWidgetState extends State<CartWidget> {
   Widget _createCartList(BuildContext context, MemberModel? member,
       List<CartItemModel> cartItems) {
     var items = <Widget>[];
-    cartItems.forEach((element) {
+    for (var element in cartItems) {
       if (element.product != null) {
         items.add(createCartItem(member, element));
       }
-    });
+    }
     return ListView(shrinkWrap: true, primary: false, children: items);
   }
 
@@ -170,7 +169,10 @@ class _CartWidgetState extends State<CartWidget> {
       children: <Widget>[
         topicContainer(widget.app, context,
             backgroundOverride: widget.cart.itemDetailBackground,
-            children: [createCartItemImage(item, member), createCartItemPrice(item)]),
+            children: [
+              createCartItemImage(item, member),
+              createCartItemPrice(item)
+            ]),
         Align(
           alignment: Alignment.topRight,
           child: Container(
@@ -197,7 +199,10 @@ class _CartWidgetState extends State<CartWidget> {
     );
   }
 
-  Widget createCartItemImage(CartItemModel item, MemberModel? member, ) {
+  Widget createCartItemImage(
+    CartItemModel item,
+    MemberModel? member,
+  ) {
     var image = item.product!.images != null && item.product!.images!.isNotEmpty
         ? NetworkImage(item.product!.images![0].image!.url!)
         : null;
@@ -208,13 +213,18 @@ class _CartWidgetState extends State<CartWidget> {
       var background = widget.cart.itemImageBackground;
       w = Center(
           child: Container(
-              width: 80,
-              height: 80,
-              clipBehavior:BoxDecorationHelper.determineClipBehaviour(widget.app, member, background),
-              margin: BoxDecorationHelper.determineMargin(widget.app, member, background),
-              padding: BoxDecorationHelper.determinePadding(widget.app, member, background),
-              decoration: BoxDecorationHelper.boxDecoration(widget.app, member, background, overridingImage: DecorationImage(image: image)),
-          ));
+        width: 80,
+        height: 80,
+        clipBehavior: BoxDecorationHelper.determineClipBehaviour(
+            widget.app, member, background),
+        margin:
+            BoxDecorationHelper.determineMargin(widget.app, member, background),
+        padding: BoxDecorationHelper.determinePadding(
+            widget.app, member, background),
+        decoration: BoxDecorationHelper.boxDecoration(
+            widget.app, member, background,
+            overridingImage: DecorationImage(image: image)),
+      ));
     }
     return GestureDetector(
         child: w,

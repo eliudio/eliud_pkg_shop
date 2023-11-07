@@ -24,13 +24,11 @@ abstract class OrderOverviewComponentEvent extends Equatable {
 class FetchOrderOverviewComponent extends OrderOverviewComponentEvent {
   final String? id;
 
-  FetchOrderOverviewComponent({ this.id });
+  FetchOrderOverviewComponent({this.id});
 }
 
 class OrderOverviewComponentUpdated extends OrderOverviewComponentEvent {
   final OrderOverviewModel value;
 
-  OrderOverviewComponentUpdated({ required this.value });
+  OrderOverviewComponentUpdated({required this.value});
 }
-
-

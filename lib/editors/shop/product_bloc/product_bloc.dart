@@ -10,7 +10,8 @@ import 'package:eliud_pkg_shop/model/shop_model.dart';
 
 import '../../../model/product_entity.dart';
 
-class ProductBloc extends ExtEditorBaseBloc<ProductModel, ProductImageModel, ProductEntity> {
+class ProductBloc
+    extends ExtEditorBaseBloc<ProductModel, ProductImageModel, ProductEntity> {
   final ShopModel shopModel;
 
   ProductBloc(String appId, EditorFeedback feedback, this.shopModel)
@@ -57,19 +58,18 @@ class ProductBloc extends ExtEditorBaseBloc<ProductModel, ProductImageModel, Pro
 
   static PosSizeModel defaultPosSize() => PosSizeModel(
       widthPortrait: .75,
-      widthTypePortrait: WidthTypePortrait.PercentageWidth,
+      widthTypePortrait: WidthTypePortrait.percentageWidth,
       heightPortrait: .75,
-      heightTypePortrait: HeightTypePortrait.PercentageHeight,
-      fitPortrait: PortraitFitType.PortraitFitWidth,
-      alignTypePortrait: PortraitAlignType.PortraitAlignCenter,
+      heightTypePortrait: HeightTypePortrait.percentageHeight,
+      fitPortrait: PortraitFitType.portraitFitWidth,
+      alignTypePortrait: PortraitAlignType.portraitAlignCenter,
       widthLandscape: .75,
-      widthTypeLandscape: WidthTypeLandscape.PercentageWidth,
+      widthTypeLandscape: WidthTypeLandscape.percentageWidth,
       heightLandscape: .75,
-      heightTypeLandscape: HeightTypeLandscape.PercentageHeight,
-      fitLandscape: LandscapeFitType.LandscapeFitHeight,
-      alignTypeLandscape: LandscapeAlignType.LandscapeAlignCenter,
-      clip: ClipType.NoClip);
-
+      heightTypeLandscape: HeightTypeLandscape.percentageHeight,
+      fitLandscape: LandscapeFitType.landscapeFitHeight,
+      alignTypeLandscape: LandscapeAlignType.landscapeAlignCenter,
+      clip: ClipType.noClip);
 
   @override
   ProductModel setDefaultValues(
@@ -79,9 +79,9 @@ class ProductBloc extends ExtEditorBaseBloc<ProductModel, ProductImageModel, Pro
         conditions: t.conditions ??
             StorageConditionsModel(
                 privilegeLevelRequired:
-                    PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple)
+                    PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple)
 */
-    );
+        );
   }
 
   @override
@@ -96,7 +96,7 @@ class ProductBloc extends ExtEditorBaseBloc<ProductModel, ProductImageModel, Pro
       var newModel = model.copyWith(images: newItems);
       return newModel;
     } else {
-      throw Exception("Could not find " + oldItem.toString());
+      throw Exception("Could not find $oldItem");
     }
   }
 

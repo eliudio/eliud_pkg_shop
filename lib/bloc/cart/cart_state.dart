@@ -16,7 +16,7 @@ class CartInitialised extends CartState {
   final List<CartItemModel>? items;
 
   CartInitialised(this.items)
-      : timestamp = new DateTime.now().millisecondsSinceEpoch;
+      : timestamp = DateTime.now().millisecondsSinceEpoch;
 
   @override
   List<Object?> get props => [timestamp, items];

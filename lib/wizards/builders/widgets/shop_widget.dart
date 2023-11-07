@@ -12,10 +12,10 @@ class ShopParametersWidget extends StatefulWidget {
   final ShopParameters parameters;
 
   ShopParametersWidget({
-    Key? key,
+    super.key,
     required this.app,
     required this.parameters,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() {

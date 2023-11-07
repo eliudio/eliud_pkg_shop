@@ -27,7 +27,7 @@ class OrderComponentUninitialized extends OrderComponentState {}
 
 class OrderComponentError extends OrderComponentState {
   final String? message;
-  OrderComponentError({ this.message });
+  OrderComponentError({this.message});
 }
 
 class OrderComponentPermissionDenied extends OrderComponentState {
@@ -37,10 +37,10 @@ class OrderComponentPermissionDenied extends OrderComponentState {
 class OrderComponentLoaded extends OrderComponentState {
   final OrderModel value;
 
-  const OrderComponentLoaded({ required this.value });
+  const OrderComponentLoaded({required this.value});
 
-  OrderComponentLoaded copyWith({ OrderModel? copyThis }) {
-    return OrderComponentLoaded(value: copyThis ?? this.value);
+  OrderComponentLoaded copyWith({OrderModel? copyThis}) {
+    return OrderComponentLoaded(value: copyThis ?? value);
   }
 
   @override
@@ -49,4 +49,3 @@ class OrderComponentLoaded extends OrderComponentState {
   @override
   String toString() => 'OrderComponentLoaded { value: $value }';
 }
-

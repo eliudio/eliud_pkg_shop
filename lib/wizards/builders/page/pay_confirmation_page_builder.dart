@@ -1,4 +1,4 @@
-import 'package:eliud_core/core/wizards/tools/documentIdentifier.dart';
+import 'package:eliud_core/core/wizards/tools/document_identifier.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
@@ -12,7 +12,7 @@ class PayConfirmationPageBuilder extends AbstractPageTemplate {
   final BackgroundModel? background;
   final ShopModel? shop;
 
-  static const String PAGE_ID = 'shop-payconfirmation';
+  static const String thePageId = 'shop-payconfirmation';
 
   PayConfirmationPageBuilder(
     String uniqueId,
@@ -26,7 +26,7 @@ class PayConfirmationPageBuilder extends AbstractPageTemplate {
     this.background,
   ) : super(
           uniqueId,
-          PAGE_ID,
+          thePageId,
           app,
           memberId,
           theHomeMenu,
@@ -34,27 +34,30 @@ class PayConfirmationPageBuilder extends AbstractPageTemplate {
           leftDrawer,
           rightDrawer,
           privilegeLevelRequired:
-              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple,
-          packageCondition: ShopPackage.CONDITION_CARTS_HAS_ITEMS,
+              PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple,
+          packageCondition: ShopPackage.conditionCartsHasItems,
         );
 
   static ActionModel action(AppModel app, String uniqueId) => GotoPage(app,
-      pageID: constructDocumentId(uniqueId: uniqueId, documentId: PAGE_ID),
+      pageID: constructDocumentId(uniqueId: uniqueId, documentId: thePageId),
       conditions: DisplayConditionsModel(
-        privilegeLevelRequired: PrivilegeLevelRequired.NoPrivilegeRequired,
-        packageCondition: ShopPackage.CONDITION_CARTS_HAS_ITEMS,
+        privilegeLevelRequired: PrivilegeLevelRequired.noPrivilegeRequired,
+        packageCondition: ShopPackage.conditionCartsHasItems,
       ));
 
   PayConfirmationModel _payConfirmationModel() {
     return PayConfirmationModel(
-      documentID: constructDocumentId(uniqueId: uniqueId, documentId: 'payconfirmation'),
+      documentID: constructDocumentId(
+          uniqueId: uniqueId, documentId: 'payconfirmation'),
       appId: app.documentID,
       description: pageTitle(),
       shop: shop,
-      backToShopAction: GotoPage(app, pageID: constructDocumentId(uniqueId: uniqueId, documentId: ShopPageBuilder.PAGE_ID)),
+      backToShopAction: GotoPage(app,
+          pageID: constructDocumentId(
+              uniqueId: uniqueId, documentId: ShopPageBuilder.thePageId)),
       conditions: StorageConditionsModel(
           privilegeLevelRequired:
-              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+              PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple),
     );
   }
 
@@ -78,5 +81,4 @@ class PayConfirmationPageBuilder extends AbstractPageTemplate {
         .payConfirmationRepository(app.documentID)!
         .add(_payConfirmationModel());
   }
-
 }

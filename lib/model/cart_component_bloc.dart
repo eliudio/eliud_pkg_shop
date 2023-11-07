@@ -20,7 +20,6 @@ import 'package:eliud_pkg_shop/model/cart_component_event.dart';
 import 'package:eliud_pkg_shop/model/cart_component_state.dart';
 import 'package:eliud_pkg_shop/model/cart_repository.dart';
 
-
 class CartComponentBloc extends Bloc<CartComponentEvent, CartComponentState> {
   final CartRepository? cartRepository;
   StreamSubscription? _cartSubscription;
@@ -34,11 +33,12 @@ class CartComponentBloc extends Bloc<CartComponentEvent, CartComponentState> {
     });
   }
 
-  CartComponentBloc({ this.cartRepository }): super(CartComponentUninitialized()) {
-    on <FetchCartComponent> ((event, emit) {
+  CartComponentBloc({this.cartRepository})
+      : super(CartComponentUninitialized()) {
+    on<FetchCartComponent>((event, emit) {
       _mapLoadCartComponentUpdateToState(event.id!);
     });
-    on <CartComponentUpdated> ((event, emit) {
+    on<CartComponentUpdated>((event, emit) {
       emit(CartComponentLoaded(value: event.value));
     });
   }
@@ -48,6 +48,4 @@ class CartComponentBloc extends Bloc<CartComponentEvent, CartComponentState> {
     _cartSubscription?.cancel();
     return super.close();
   }
-
 }
-

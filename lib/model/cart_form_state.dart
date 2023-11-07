@@ -41,9 +41,9 @@ class CartFormInitialized extends CartFormState {
   final CartModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const CartFormInitialized({ this.value });
+  const CartFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
@@ -51,9 +51,9 @@ abstract class CartFormError extends CartFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const CartFormError({this.message, CartModel? value }) : super(value: value);
+  const CartFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +63,12 @@ abstract class CartFormError extends CartFormInitialized {
     }''';
   }
 }
-class DocumentIDCartFormError extends CartFormError { 
-  const DocumentIDCartFormError({ String? message, CartModel? value }): super(message: message, value: value);
+
+class DocumentIDCartFormError extends CartFormError {
+  const DocumentIDCartFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +79,11 @@ class DocumentIDCartFormError extends CartFormError {
   }
 }
 
-
-class AppIdCartFormError extends CartFormError { 
-  const AppIdCartFormError({ String? message, CartModel? value }): super(message: message, value: value);
+class AppIdCartFormError extends CartFormError {
+  const AppIdCartFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +94,11 @@ class AppIdCartFormError extends CartFormError {
   }
 }
 
-
-class TitleCartFormError extends CartFormError { 
-  const TitleCartFormError({ String? message, CartModel? value }): super(message: message, value: value);
+class TitleCartFormError extends CartFormError {
+  const TitleCartFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +109,11 @@ class TitleCartFormError extends CartFormError {
   }
 }
 
-
-class DescriptionCartFormError extends CartFormError { 
-  const DescriptionCartFormError({ String? message, CartModel? value }): super(message: message, value: value);
+class DescriptionCartFormError extends CartFormError {
+  const DescriptionCartFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -126,12 +124,11 @@ class DescriptionCartFormError extends CartFormError {
   }
 }
 
-
-class CheckoutTextCartFormError extends CartFormError { 
-  const CheckoutTextCartFormError({ String? message, CartModel? value }): super(message: message, value: value);
+class CheckoutTextCartFormError extends CartFormError {
+  const CheckoutTextCartFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -142,12 +139,11 @@ class CheckoutTextCartFormError extends CartFormError {
   }
 }
 
-
-class ShopCartFormError extends CartFormError { 
-  const ShopCartFormError({ String? message, CartModel? value }): super(message: message, value: value);
+class ShopCartFormError extends CartFormError {
+  const ShopCartFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -158,12 +154,11 @@ class ShopCartFormError extends CartFormError {
   }
 }
 
-
-class ItemImageBackgroundCartFormError extends CartFormError { 
-  const ItemImageBackgroundCartFormError({ String? message, CartModel? value }): super(message: message, value: value);
+class ItemImageBackgroundCartFormError extends CartFormError {
+  const ItemImageBackgroundCartFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -174,12 +169,11 @@ class ItemImageBackgroundCartFormError extends CartFormError {
   }
 }
 
-
-class ItemDetailBackgroundCartFormError extends CartFormError { 
-  const ItemDetailBackgroundCartFormError({ String? message, CartModel? value }): super(message: message, value: value);
+class ItemDetailBackgroundCartFormError extends CartFormError {
+  const ItemDetailBackgroundCartFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -190,12 +184,11 @@ class ItemDetailBackgroundCartFormError extends CartFormError {
   }
 }
 
-
-class CheckoutActionCartFormError extends CartFormError { 
-  const CheckoutActionCartFormError({ String? message, CartModel? value }): super(message: message, value: value);
+class CheckoutActionCartFormError extends CartFormError {
+  const CheckoutActionCartFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -206,12 +199,11 @@ class CheckoutActionCartFormError extends CartFormError {
   }
 }
 
-
-class BackToShopActionCartFormError extends CartFormError { 
-  const BackToShopActionCartFormError({ String? message, CartModel? value }): super(message: message, value: value);
+class BackToShopActionCartFormError extends CartFormError {
+  const BackToShopActionCartFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -222,12 +214,11 @@ class BackToShopActionCartFormError extends CartFormError {
   }
 }
 
-
-class OpenProductActionCartFormError extends CartFormError { 
-  const OpenProductActionCartFormError({ String? message, CartModel? value }): super(message: message, value: value);
+class OpenProductActionCartFormError extends CartFormError {
+  const OpenProductActionCartFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -238,12 +229,11 @@ class OpenProductActionCartFormError extends CartFormError {
   }
 }
 
-
-class ConditionsCartFormError extends CartFormError { 
-  const ConditionsCartFormError({ String? message, CartModel? value }): super(message: message, value: value);
+class ConditionsCartFormError extends CartFormError {
+  const ConditionsCartFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -254,12 +244,11 @@ class ConditionsCartFormError extends CartFormError {
   }
 }
 
-
-class CartFormLoaded extends CartFormInitialized { 
-  const CartFormLoaded({ CartModel? value }): super(value: value);
+class CartFormLoaded extends CartFormInitialized {
+  const CartFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -269,12 +258,11 @@ class CartFormLoaded extends CartFormInitialized {
   }
 }
 
-
-class SubmittableCartForm extends CartFormInitialized { 
-  const SubmittableCartForm({ CartModel? value }): super(value: value);
+class SubmittableCartForm extends CartFormInitialized {
+  const SubmittableCartForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -283,5 +271,3 @@ class SubmittableCartForm extends CartFormInitialized {
     }''';
   }
 }
-
-
