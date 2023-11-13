@@ -58,7 +58,7 @@ class ShopForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseShopFormEvent(value: value)),
-        child: MyShopForm(
+        child: _MyShopForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -68,7 +68,7 @@ class ShopForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseShopFormNoLoadEvent(value: value)),
-        child: MyShopForm(
+        child: _MyShopForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -87,25 +87,25 @@ class ShopForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseShopFormEvent(value: value)
                 : InitialiseNewShopFormEvent())),
-            child: MyShopForm(
+            child: _MyShopForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyShopForm extends StatefulWidget {
+class _MyShopForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyShopForm({required this.app, this.formAction, this.submitAction});
+  _MyShopForm({required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyShopForm> createState() => _MyShopFormState(formAction);
+  State<_MyShopForm> createState() => _MyShopFormState(formAction);
 }
 
-class _MyShopFormState extends State<MyShopForm> {
+class _MyShopFormState extends State<_MyShopForm> {
   final FormAction? formAction;
   late ShopFormBloc _myFormBloc;
 

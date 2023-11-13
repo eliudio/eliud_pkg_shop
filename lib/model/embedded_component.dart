@@ -46,6 +46,9 @@ productImagesList(app, context, value, trigger) =>
     EmbeddedComponentFactory.productImagesList(app, context, value, trigger);
 
 class EmbeddedComponentFactory {
+/* 
+ * orderItemsList function to construct a list of OrderItemModel
+ */
   static Widget orderItemsList(AppModel app, BuildContext context,
       List<OrderItemModel> values, OrderItemListChanged trigger) {
     OrderItemInMemoryRepository inMemoryRepository =
@@ -65,6 +68,9 @@ class EmbeddedComponentFactory {
     );
   }
 
+/* 
+ * productImagesList function to construct a list of ProductImageModel
+ */
   static Widget productImagesList(AppModel app, BuildContext context,
       List<ProductImageModel> values, ProductImageListChanged trigger) {
     ProductImageInMemoryRepository inMemoryRepository =
@@ -85,11 +91,17 @@ class EmbeddedComponentFactory {
   }
 }
 
+/* 
+ * OrderItemInMemoryRepository is an in memory implementation of OrderItemRepository
+ */
 class OrderItemInMemoryRepository implements OrderItemRepository {
   final List<OrderItemModel> items;
   final OrderItemListChanged trigger;
   Stream<List<OrderItemModel>>? theValues;
 
+  /* 
+     * Construct the OrderItemInMemoryRepository
+     */
   OrderItemInMemoryRepository(this.trigger, this.items) {
     List<List<OrderItemModel>> myList = <List<OrderItemModel>>[];
     myList.add(items);
@@ -107,17 +119,26 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
     return -1;
   }
 
+  /* 
+     * Add an entity
+     */
   @override
   Future<OrderItemEntity> addEntity(String documentID, OrderItemEntity value) {
     throw Exception('Not implemented');
   }
 
+  /* 
+     * Update an entity
+     */
   @override
   Future<OrderItemEntity> updateEntity(
       String documentID, OrderItemEntity value) {
     throw Exception('Not implemented');
   }
 
+  /* 
+     * Update a model
+     */
   @override
   Future<OrderItemModel> add(OrderItemModel value) {
     items.add(value.copyWith(documentID: newRandomKey()));
@@ -125,6 +146,9 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
     return Future.value(value);
   }
 
+  /* 
+     * Delete a model
+     */
   @override
   Future<void> delete(OrderItemModel value) {
     int index = _index(value.documentID);
@@ -133,6 +157,9 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
     return Future.value();
   }
 
+  /* 
+     * Update a model
+     */
   @override
   Future<OrderItemModel> update(OrderItemModel value) {
     int index = _index(value.documentID);
@@ -143,6 +170,9 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
     return Future.value(value);
   }
 
+  /* 
+     * Get a model
+     */
   @override
   Future<OrderItemModel> get(String? id, {Function(Exception)? onError}) {
     int index = _index(id!);
@@ -151,6 +181,9 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
     return completer.future;
   }
 
+  /* 
+     * Retrieve to a list of OrderItemModel base on a query
+     */
   @override
   Stream<List<OrderItemModel>> values(
       {String? orderBy,
@@ -163,6 +196,9 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
     return theValues!;
   }
 
+  /* 
+     * Retrieve to a list of OrderItemModel, including linked models base on a query
+     */
   @override
   Stream<List<OrderItemModel>> valuesWithDetails(
       {String? orderBy,
@@ -175,6 +211,9 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
     return theValues!;
   }
 
+  /* 
+     * Subscribe to a list of OrderItemModel base on a query
+     */
   @override
   StreamSubscription<List<OrderItemModel>> listen(trigger,
       {String? orderBy,
@@ -186,6 +225,9 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
     return theValues!.listen((theList) => trigger(theList));
   }
 
+  /* 
+     * Subscribe to a list of OrderItemModel, including linked models, base on a query
+     */
   @override
   StreamSubscription<List<OrderItemModel>> listenWithDetails(trigger,
       {String? orderBy,
@@ -197,9 +239,15 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
     return theValues!.listen((theList) => trigger(theList));
   }
 
+  /* 
+     * Flush the repository
+     */
   @override
   void flush() {}
 
+  /* 
+     * Retrieve the list of models
+     */
   @override
   Future<List<OrderItemModel>> valuesList(
       {String? orderBy,
@@ -224,16 +272,25 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
     return Future.value(items);
   }
 
+  /* 
+     * Retrieve a subcollection of this collection
+     */
   @override
   getSubCollection(String documentId, String name) {
     throw UnimplementedError();
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String timeStampToString(timeStamp) {
     throw UnimplementedError();
   }
 
+  /* 
+   * Subscribe to 1 document / 1 model
+   */
   @override
   StreamSubscription<OrderItemModel> listenTo(
       String documentId, OrderItemChanged changed,
@@ -262,11 +319,17 @@ class OrderItemInMemoryRepository implements OrderItemRepository {
   Future<void> deleteAll() async {}
 }
 
+/* 
+ * ProductImageInMemoryRepository is an in memory implementation of ProductImageRepository
+ */
 class ProductImageInMemoryRepository implements ProductImageRepository {
   final List<ProductImageModel> items;
   final ProductImageListChanged trigger;
   Stream<List<ProductImageModel>>? theValues;
 
+  /* 
+     * Construct the ProductImageInMemoryRepository
+     */
   ProductImageInMemoryRepository(this.trigger, this.items) {
     List<List<ProductImageModel>> myList = <List<ProductImageModel>>[];
     myList.add(items);
@@ -284,18 +347,27 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
     return -1;
   }
 
+  /* 
+     * Add an entity
+     */
   @override
   Future<ProductImageEntity> addEntity(
       String documentID, ProductImageEntity value) {
     throw Exception('Not implemented');
   }
 
+  /* 
+     * Update an entity
+     */
   @override
   Future<ProductImageEntity> updateEntity(
       String documentID, ProductImageEntity value) {
     throw Exception('Not implemented');
   }
 
+  /* 
+     * Update a model
+     */
   @override
   Future<ProductImageModel> add(ProductImageModel value) {
     items.add(value.copyWith(documentID: newRandomKey()));
@@ -303,6 +375,9 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
     return Future.value(value);
   }
 
+  /* 
+     * Delete a model
+     */
   @override
   Future<void> delete(ProductImageModel value) {
     int index = _index(value.documentID);
@@ -311,6 +386,9 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
     return Future.value();
   }
 
+  /* 
+     * Update a model
+     */
   @override
   Future<ProductImageModel> update(ProductImageModel value) {
     int index = _index(value.documentID);
@@ -321,6 +399,9 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
     return Future.value(value);
   }
 
+  /* 
+     * Get a model
+     */
   @override
   Future<ProductImageModel> get(String? id, {Function(Exception)? onError}) {
     int index = _index(id!);
@@ -329,6 +410,9 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
     return completer.future;
   }
 
+  /* 
+     * Retrieve to a list of ProductImageModel base on a query
+     */
   @override
   Stream<List<ProductImageModel>> values(
       {String? orderBy,
@@ -341,6 +425,9 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
     return theValues!;
   }
 
+  /* 
+     * Retrieve to a list of ProductImageModel, including linked models base on a query
+     */
   @override
   Stream<List<ProductImageModel>> valuesWithDetails(
       {String? orderBy,
@@ -353,6 +440,9 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
     return theValues!;
   }
 
+  /* 
+     * Subscribe to a list of ProductImageModel base on a query
+     */
   @override
   StreamSubscription<List<ProductImageModel>> listen(trigger,
       {String? orderBy,
@@ -364,6 +454,9 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
     return theValues!.listen((theList) => trigger(theList));
   }
 
+  /* 
+     * Subscribe to a list of ProductImageModel, including linked models, base on a query
+     */
   @override
   StreamSubscription<List<ProductImageModel>> listenWithDetails(trigger,
       {String? orderBy,
@@ -375,9 +468,15 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
     return theValues!.listen((theList) => trigger(theList));
   }
 
+  /* 
+     * Flush the repository
+     */
   @override
   void flush() {}
 
+  /* 
+     * Retrieve the list of models
+     */
   @override
   Future<List<ProductImageModel>> valuesList(
       {String? orderBy,
@@ -402,16 +501,25 @@ class ProductImageInMemoryRepository implements ProductImageRepository {
     return Future.value(items);
   }
 
+  /* 
+     * Retrieve a subcollection of this collection
+     */
   @override
   getSubCollection(String documentId, String name) {
     throw UnimplementedError();
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String timeStampToString(timeStamp) {
     throw UnimplementedError();
   }
 
+  /* 
+   * Subscribe to 1 document / 1 model
+   */
   @override
   StreamSubscription<ProductImageModel> listenTo(
       String documentId, ProductImageChanged changed,

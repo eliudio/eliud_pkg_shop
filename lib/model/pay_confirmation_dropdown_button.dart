@@ -33,6 +33,9 @@ typedef PayConfirmationChanged = Function(
   int? privilegeLevel,
 );
 
+/* 
+ * PayConfirmationDropdownButtonWidget is the drop down widget to allow to select an instance of PayConfirmation
+ */
 class PayConfirmationDropdownButtonWidget extends StatefulWidget {
   final AppModel app;
   final int? privilegeLevel;
@@ -40,6 +43,9 @@ class PayConfirmationDropdownButtonWidget extends StatefulWidget {
   final PayConfirmationChanged? trigger;
   final bool? optional;
 
+  /* 
+   * construct a PayConfirmationDropdownButtonWidget
+   */
   PayConfirmationDropdownButtonWidget(
       {required this.app,
       this.privilegeLevel,
@@ -48,18 +54,21 @@ class PayConfirmationDropdownButtonWidget extends StatefulWidget {
       this.optional,
       super.key});
 
+  /* 
+   * create state of PayConfirmationDropdownButtonWidget
+   */
   @override
   State<StatefulWidget> createState() {
-    return PayConfirmationDropdownButtonWidgetState(value);
+    return _PayConfirmationDropdownButtonWidgetState(value);
   }
 }
 
-class PayConfirmationDropdownButtonWidgetState
+class _PayConfirmationDropdownButtonWidgetState
     extends State<PayConfirmationDropdownButtonWidget> {
   PayConfirmationListBloc? bloc;
   String? value;
 
-  PayConfirmationDropdownButtonWidgetState(this.value);
+  _PayConfirmationDropdownButtonWidgetState(this.value);
 
   @override
   void didChangeDependencies() {
@@ -73,7 +82,7 @@ class PayConfirmationDropdownButtonWidgetState
     super.dispose();
   }
 
-  List<Widget> widgets(PayConfirmationModel value) {
+  List<Widget> _widgets(PayConfirmationModel value) {
     var app = widget.app;
     var widgets = <Widget>[];
     widgets.add(value.description != null
@@ -130,7 +139,7 @@ class PayConfirmationDropdownButtonWidgetState
                   height: 100.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: widgets(element),
+                    children: _widgets(element),
                   ),
                 )));
           }

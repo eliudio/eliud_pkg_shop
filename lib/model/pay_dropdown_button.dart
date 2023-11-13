@@ -33,6 +33,9 @@ typedef PayChanged = Function(
   int? privilegeLevel,
 );
 
+/* 
+ * PayDropdownButtonWidget is the drop down widget to allow to select an instance of Pay
+ */
 class PayDropdownButtonWidget extends StatefulWidget {
   final AppModel app;
   final int? privilegeLevel;
@@ -40,6 +43,9 @@ class PayDropdownButtonWidget extends StatefulWidget {
   final PayChanged? trigger;
   final bool? optional;
 
+  /* 
+   * construct a PayDropdownButtonWidget
+   */
   PayDropdownButtonWidget(
       {required this.app,
       this.privilegeLevel,
@@ -48,17 +54,20 @@ class PayDropdownButtonWidget extends StatefulWidget {
       this.optional,
       super.key});
 
+  /* 
+   * create state of PayDropdownButtonWidget
+   */
   @override
   State<StatefulWidget> createState() {
-    return PayDropdownButtonWidgetState(value);
+    return _PayDropdownButtonWidgetState(value);
   }
 }
 
-class PayDropdownButtonWidgetState extends State<PayDropdownButtonWidget> {
+class _PayDropdownButtonWidgetState extends State<PayDropdownButtonWidget> {
   PayListBloc? bloc;
   String? value;
 
-  PayDropdownButtonWidgetState(this.value);
+  _PayDropdownButtonWidgetState(this.value);
 
   @override
   void didChangeDependencies() {
@@ -72,7 +81,7 @@ class PayDropdownButtonWidgetState extends State<PayDropdownButtonWidget> {
     super.dispose();
   }
 
-  List<Widget> widgets(PayModel value) {
+  List<Widget> _widgets(PayModel value) {
     var app = widget.app;
     var widgets = <Widget>[];
     widgets.add(value.description != null
@@ -128,7 +137,7 @@ class PayDropdownButtonWidgetState extends State<PayDropdownButtonWidget> {
                   height: 100.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: widgets(element),
+                    children: _widgets(element),
                   ),
                 )));
           }

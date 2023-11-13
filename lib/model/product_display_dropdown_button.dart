@@ -33,6 +33,9 @@ typedef ProductDisplayChanged = Function(
   int? privilegeLevel,
 );
 
+/* 
+ * ProductDisplayDropdownButtonWidget is the drop down widget to allow to select an instance of ProductDisplay
+ */
 class ProductDisplayDropdownButtonWidget extends StatefulWidget {
   final AppModel app;
   final int? privilegeLevel;
@@ -40,6 +43,9 @@ class ProductDisplayDropdownButtonWidget extends StatefulWidget {
   final ProductDisplayChanged? trigger;
   final bool? optional;
 
+  /* 
+   * construct a ProductDisplayDropdownButtonWidget
+   */
   ProductDisplayDropdownButtonWidget(
       {required this.app,
       this.privilegeLevel,
@@ -48,18 +54,21 @@ class ProductDisplayDropdownButtonWidget extends StatefulWidget {
       this.optional,
       super.key});
 
+  /* 
+   * create state of ProductDisplayDropdownButtonWidget
+   */
   @override
   State<StatefulWidget> createState() {
-    return ProductDisplayDropdownButtonWidgetState(value);
+    return _ProductDisplayDropdownButtonWidgetState(value);
   }
 }
 
-class ProductDisplayDropdownButtonWidgetState
+class _ProductDisplayDropdownButtonWidgetState
     extends State<ProductDisplayDropdownButtonWidget> {
   ProductDisplayListBloc? bloc;
   String? value;
 
-  ProductDisplayDropdownButtonWidgetState(this.value);
+  _ProductDisplayDropdownButtonWidgetState(this.value);
 
   @override
   void didChangeDependencies() {
@@ -73,7 +82,7 @@ class ProductDisplayDropdownButtonWidgetState
     super.dispose();
   }
 
-  List<Widget> widgets(ProductDisplayModel value) {
+  List<Widget> _widgets(ProductDisplayModel value) {
     var app = widget.app;
     var widgets = <Widget>[];
     widgets.add(value.description != null
@@ -130,7 +139,7 @@ class ProductDisplayDropdownButtonWidgetState
                   height: 100.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: widgets(element),
+                    children: _widgets(element),
                   ),
                 )));
           }

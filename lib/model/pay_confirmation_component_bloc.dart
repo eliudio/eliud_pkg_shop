@@ -35,6 +35,9 @@ class PayConfirmationComponentBloc
     });
   }
 
+  /*
+   * Construct PayConfirmationComponentBloc
+   */
   PayConfirmationComponentBloc({this.payConfirmationRepository})
       : super(PayConfirmationComponentUninitialized()) {
     on<FetchPayConfirmationComponent>((event, emit) {
@@ -45,6 +48,9 @@ class PayConfirmationComponentBloc
     });
   }
 
+  /*
+   * Close the PayConfirmationComponentBloc
+   */
   @override
   Future<void> close() {
     _payConfirmationSubscription?.cancel();

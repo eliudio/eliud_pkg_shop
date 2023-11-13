@@ -31,7 +31,13 @@ import 'pay_confirmation_list_event.dart';
 import 'pay_confirmation_list_state.dart';
 import 'pay_confirmation_model.dart';
 
+/* 
+ * PayConfirmationComponentSelector is a component selector for PayConfirmation, allowing to select a PayConfirmation component
+ */
 class PayConfirmationComponentSelector extends ComponentSelector {
+  /* 
+   * createSelectWidget creates the widget
+   */
   @override
   Widget createSelectWidget(BuildContext context, AppModel app,
       int privilegeLevel, double height, SelectComponent selected, editor) {
@@ -41,7 +47,7 @@ class PayConfirmationComponentSelector extends ComponentSelector {
         eliudQuery: getComponentSelectorQuery(0, app.documentID),
         payConfirmationRepository: payConfirmationRepository(appId: appId)!,
       )..add(LoadPayConfirmationList()),
-      child: SelectPayConfirmationWidget(
+      child: _SelectPayConfirmationWidget(
           app: app,
           height: height,
           containerPrivilege: privilegeLevel,
@@ -51,29 +57,31 @@ class PayConfirmationComponentSelector extends ComponentSelector {
   }
 }
 
-class SelectPayConfirmationWidget extends StatefulWidget {
+/* 
+ * _SelectPayConfirmationWidget 
+ */
+class _SelectPayConfirmationWidget extends StatefulWidget {
   final AppModel app;
   final double height;
   final SelectComponent selected;
   final int containerPrivilege;
   final ComponentEditorConstructor editorConstructor;
 
-  const SelectPayConfirmationWidget(
-      {super.key,
-      required this.app,
+  const _SelectPayConfirmationWidget(
+      {required this.app,
       required this.containerPrivilege,
       required this.height,
       required this.selected,
       required this.editorConstructor});
 
   @override
-  State<SelectPayConfirmationWidget> createState() {
+  State<_SelectPayConfirmationWidget> createState() {
     return _SelectPayConfirmationWidgetState();
   }
 }
 
 class _SelectPayConfirmationWidgetState
-    extends State<SelectPayConfirmationWidget> with TickerProviderStateMixin {
+    extends State<_SelectPayConfirmationWidget> with TickerProviderStateMixin {
   TabController? _privilegeTabController;
   final List<String> _privilegeItems = ['No', 'L1', 'L2', 'Owner'];
   final int _initialPrivilege = 0;

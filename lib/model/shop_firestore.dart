@@ -25,12 +25,21 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
+/* 
+ * ShopFirestore is the firestore implementation of ShopRepository
+ */
 class ShopFirestore implements ShopRepository {
+  /* 
+   * transform a map into an entity
+   */
   @override
   ShopEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     return ShopEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
+  /* 
+   * add an entity to the repository
+   */
   @override
   Future<ShopEntity> addEntity(String documentID, ShopEntity value) {
     return shopCollection
@@ -39,6 +48,9 @@ class ShopFirestore implements ShopRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Update an entity
+   */
   @override
   Future<ShopEntity> updateEntity(String documentID, ShopEntity value) {
     return shopCollection
@@ -47,6 +59,9 @@ class ShopFirestore implements ShopRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Add a model to the repository
+   */
   @override
   Future<ShopModel> add(ShopModel value) {
     return shopCollection
@@ -55,11 +70,17 @@ class ShopFirestore implements ShopRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Delete a model
+   */
   @override
   Future<void> delete(ShopModel value) {
     return shopCollection.doc(value.documentID).delete();
   }
 
+  /* 
+   * Update a model
+   */
   @override
   Future<ShopModel> update(ShopModel value) {
     return shopCollection
@@ -77,6 +98,9 @@ class ShopFirestore implements ShopRepository {
         appId: appId);
   }
 
+  /* 
+   * Retrieve an entity from the repository with id
+   */
   @override
   Future<ShopEntity?> getEntity(String? id,
       {Function(Exception)? onError}) async {
@@ -95,6 +119,9 @@ class ShopFirestore implements ShopRepository {
     return null;
   }
 
+  /* 
+   * Retrieve an model from the repository with id
+   */
   @override
   Future<ShopModel?> get(String? id, {Function(Exception)? onError}) async {
     try {
@@ -112,6 +139,9 @@ class ShopFirestore implements ShopRepository {
     return null;
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models
+   */
   @override
   StreamSubscription<List<ShopModel?>> listen(ShopModelTrigger trigger,
       {String? orderBy,
@@ -142,6 +172,9 @@ class ShopFirestore implements ShopRepository {
     });
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models and linked models
+   */
   @override
   StreamSubscription<List<ShopModel?>> listenWithDetails(
       ShopModelTrigger trigger,
@@ -173,6 +206,9 @@ class ShopFirestore implements ShopRepository {
     });
   }
 
+  /* 
+   * Listen to 1 document in the repository
+   */
   @override
   StreamSubscription<ShopModel?> listenTo(
       String documentId, ShopChanged changed,
@@ -191,6 +227,9 @@ class ShopFirestore implements ShopRepository {
     return theStream;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Stream<List<ShopModel?>> values(
       {String? orderBy,
@@ -220,6 +259,9 @@ class ShopFirestore implements ShopRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Stream<List<ShopModel?>> valuesWithDetails(
       {String? orderBy,
@@ -249,6 +291,9 @@ class ShopFirestore implements ShopRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Future<List<ShopModel?>> valuesList(
       {String? orderBy,
@@ -279,6 +324,9 @@ class ShopFirestore implements ShopRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Future<List<ShopModel?>> valuesListWithDetails(
       {String? orderBy,
@@ -309,9 +357,15 @@ class ShopFirestore implements ShopRepository {
     return values;
   }
 
+  /* 
+   * Flush the repository
+   */
   @override
   void flush() {}
 
+  /* 
+   * Delete all entries in the repository
+   */
   @override
   Future<void> deleteAll() {
     return shopCollection.get().then((snapshot) {
@@ -321,16 +375,25 @@ class ShopFirestore implements ShopRepository {
     });
   }
 
+  /* 
+   * Retrieve the subcollection of this repository
+   */
   @override
   dynamic getSubCollection(String documentId, String name) {
     return shopCollection.doc(documentId).collection(name);
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   }
 
+  /* 
+   * change 1 a fieldvalue for 1 document  
+   */
   @override
   Future<ShopModel?> changeValue(
       String documentId, String fieldName, num changeByThisValue) {

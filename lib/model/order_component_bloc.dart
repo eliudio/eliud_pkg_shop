@@ -34,6 +34,9 @@ class OrderComponentBloc
     });
   }
 
+  /*
+   * Construct OrderComponentBloc
+   */
   OrderComponentBloc({this.orderRepository})
       : super(OrderComponentUninitialized()) {
     on<FetchOrderComponent>((event, emit) {
@@ -44,6 +47,9 @@ class OrderComponentBloc
     });
   }
 
+  /*
+   * Close the OrderComponentBloc
+   */
   @override
   Future<void> close() {
     _orderSubscription?.cancel();

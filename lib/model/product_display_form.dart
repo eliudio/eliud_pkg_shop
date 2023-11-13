@@ -61,7 +61,7 @@ class ProductDisplayForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseProductDisplayFormEvent(value: value)),
-        child: MyProductDisplayForm(
+        child: _MyProductDisplayForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -71,7 +71,7 @@ class ProductDisplayForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseProductDisplayFormNoLoadEvent(value: value)),
-        child: MyProductDisplayForm(
+        child: _MyProductDisplayForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -90,26 +90,27 @@ class ProductDisplayForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseProductDisplayFormEvent(value: value)
                 : InitialiseNewProductDisplayFormEvent())),
-            child: MyProductDisplayForm(
+            child: _MyProductDisplayForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyProductDisplayForm extends StatefulWidget {
+class _MyProductDisplayForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyProductDisplayForm({required this.app, this.formAction, this.submitAction});
+  _MyProductDisplayForm(
+      {required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyProductDisplayForm> createState() =>
+  State<_MyProductDisplayForm> createState() =>
       _MyProductDisplayFormState(formAction);
 }
 
-class _MyProductDisplayFormState extends State<MyProductDisplayForm> {
+class _MyProductDisplayFormState extends State<_MyProductDisplayForm> {
   final FormAction? formAction;
   late ProductDisplayFormBloc _myFormBloc;
 

@@ -58,7 +58,7 @@ class OrderItemForm extends StatelessWidget {
         create: (context) => OrderItemFormBloc(
           appId,
         )..add(InitialiseOrderItemFormEvent(value: value)),
-        child: MyOrderItemForm(
+        child: _MyOrderItemForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -67,7 +67,7 @@ class OrderItemForm extends StatelessWidget {
         create: (context) => OrderItemFormBloc(
           appId,
         )..add(InitialiseOrderItemFormNoLoadEvent(value: value)),
-        child: MyOrderItemForm(
+        child: _MyOrderItemForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -85,25 +85,25 @@ class OrderItemForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseOrderItemFormEvent(value: value)
                 : InitialiseNewOrderItemFormEvent())),
-            child: MyOrderItemForm(
+            child: _MyOrderItemForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyOrderItemForm extends StatefulWidget {
+class _MyOrderItemForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyOrderItemForm({required this.app, this.formAction, this.submitAction});
+  _MyOrderItemForm({required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyOrderItemForm> createState() => _MyOrderItemFormState(formAction);
+  State<_MyOrderItemForm> createState() => _MyOrderItemFormState(formAction);
 }
 
-class _MyOrderItemFormState extends State<MyOrderItemForm> {
+class _MyOrderItemFormState extends State<_MyOrderItemForm> {
   final FormAction? formAction;
   late OrderItemFormBloc _myFormBloc;
 

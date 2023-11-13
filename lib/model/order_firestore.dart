@@ -25,12 +25,21 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
+/* 
+ * OrderFirestore is the firestore implementation of OrderRepository
+ */
 class OrderFirestore implements OrderRepository {
+  /* 
+   * transform a map into an entity
+   */
   @override
   OrderEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     return OrderEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
+  /* 
+   * add an entity to the repository
+   */
   @override
   Future<OrderEntity> addEntity(String documentID, OrderEntity value) {
     return orderCollection
@@ -39,6 +48,9 @@ class OrderFirestore implements OrderRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Update an entity
+   */
   @override
   Future<OrderEntity> updateEntity(String documentID, OrderEntity value) {
     return orderCollection
@@ -47,6 +59,9 @@ class OrderFirestore implements OrderRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Add a model to the repository
+   */
   @override
   Future<OrderModel> add(OrderModel value) {
     return orderCollection
@@ -55,11 +70,17 @@ class OrderFirestore implements OrderRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Delete a model
+   */
   @override
   Future<void> delete(OrderModel value) {
     return orderCollection.doc(value.documentID).delete();
   }
 
+  /* 
+   * Update a model
+   */
   @override
   Future<OrderModel> update(OrderModel value) {
     return orderCollection
@@ -78,6 +99,9 @@ class OrderFirestore implements OrderRepository {
         appId: appId);
   }
 
+  /* 
+   * Retrieve an entity from the repository with id
+   */
   @override
   Future<OrderEntity?> getEntity(String? id,
       {Function(Exception)? onError}) async {
@@ -96,6 +120,9 @@ class OrderFirestore implements OrderRepository {
     return null;
   }
 
+  /* 
+   * Retrieve an model from the repository with id
+   */
   @override
   Future<OrderModel?> get(String? id, {Function(Exception)? onError}) async {
     try {
@@ -113,6 +140,9 @@ class OrderFirestore implements OrderRepository {
     return null;
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models
+   */
   @override
   StreamSubscription<List<OrderModel?>> listen(OrderModelTrigger trigger,
       {String? orderBy,
@@ -143,6 +173,9 @@ class OrderFirestore implements OrderRepository {
     });
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models and linked models
+   */
   @override
   StreamSubscription<List<OrderModel?>> listenWithDetails(
       OrderModelTrigger trigger,
@@ -174,6 +207,9 @@ class OrderFirestore implements OrderRepository {
     });
   }
 
+  /* 
+   * Listen to 1 document in the repository
+   */
   @override
   StreamSubscription<OrderModel?> listenTo(
       String documentId, OrderChanged changed,
@@ -192,6 +228,9 @@ class OrderFirestore implements OrderRepository {
     return theStream;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Stream<List<OrderModel?>> values(
       {String? orderBy,
@@ -221,6 +260,9 @@ class OrderFirestore implements OrderRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Stream<List<OrderModel?>> valuesWithDetails(
       {String? orderBy,
@@ -250,6 +292,9 @@ class OrderFirestore implements OrderRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Future<List<OrderModel?>> valuesList(
       {String? orderBy,
@@ -280,6 +325,9 @@ class OrderFirestore implements OrderRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Future<List<OrderModel?>> valuesListWithDetails(
       {String? orderBy,
@@ -310,9 +358,15 @@ class OrderFirestore implements OrderRepository {
     return values;
   }
 
+  /* 
+   * Flush the repository
+   */
   @override
   void flush() {}
 
+  /* 
+   * Delete all entries in the repository
+   */
   @override
   Future<void> deleteAll() {
     return orderCollection.get().then((snapshot) {
@@ -322,16 +376,25 @@ class OrderFirestore implements OrderRepository {
     });
   }
 
+  /* 
+   * Retrieve the subcollection of this repository
+   */
   @override
   dynamic getSubCollection(String documentId, String name) {
     return orderCollection.doc(documentId).collection(name);
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   }
 
+  /* 
+   * change 1 a fieldvalue for 1 document  
+   */
   @override
   Future<OrderModel?> changeValue(
       String documentId, String fieldName, num changeByThisValue) {

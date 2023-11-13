@@ -33,6 +33,9 @@ typedef OrderOverviewChanged = Function(
   int? privilegeLevel,
 );
 
+/* 
+ * OrderOverviewDropdownButtonWidget is the drop down widget to allow to select an instance of OrderOverview
+ */
 class OrderOverviewDropdownButtonWidget extends StatefulWidget {
   final AppModel app;
   final int? privilegeLevel;
@@ -40,6 +43,9 @@ class OrderOverviewDropdownButtonWidget extends StatefulWidget {
   final OrderOverviewChanged? trigger;
   final bool? optional;
 
+  /* 
+   * construct a OrderOverviewDropdownButtonWidget
+   */
   OrderOverviewDropdownButtonWidget(
       {required this.app,
       this.privilegeLevel,
@@ -48,18 +54,21 @@ class OrderOverviewDropdownButtonWidget extends StatefulWidget {
       this.optional,
       super.key});
 
+  /* 
+   * create state of OrderOverviewDropdownButtonWidget
+   */
   @override
   State<StatefulWidget> createState() {
-    return OrderOverviewDropdownButtonWidgetState(value);
+    return _OrderOverviewDropdownButtonWidgetState(value);
   }
 }
 
-class OrderOverviewDropdownButtonWidgetState
+class _OrderOverviewDropdownButtonWidgetState
     extends State<OrderOverviewDropdownButtonWidget> {
   OrderOverviewListBloc? bloc;
   String? value;
 
-  OrderOverviewDropdownButtonWidgetState(this.value);
+  _OrderOverviewDropdownButtonWidgetState(this.value);
 
   @override
   void didChangeDependencies() {
@@ -73,7 +82,7 @@ class OrderOverviewDropdownButtonWidgetState
     super.dispose();
   }
 
-  List<Widget> widgets(OrderOverviewModel value) {
+  List<Widget> _widgets(OrderOverviewModel value) {
     var app = widget.app;
     var widgets = <Widget>[];
     widgets.add(value.description != null
@@ -130,7 +139,7 @@ class OrderOverviewDropdownButtonWidgetState
                   height: 100.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: widgets(element),
+                    children: _widgets(element),
                   ),
                 )));
           }

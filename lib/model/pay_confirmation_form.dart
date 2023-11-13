@@ -61,7 +61,7 @@ class PayConfirmationForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialisePayConfirmationFormEvent(value: value)),
-        child: MyPayConfirmationForm(
+        child: _MyPayConfirmationForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -71,7 +71,7 @@ class PayConfirmationForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialisePayConfirmationFormNoLoadEvent(value: value)),
-        child: MyPayConfirmationForm(
+        child: _MyPayConfirmationForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -90,27 +90,27 @@ class PayConfirmationForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialisePayConfirmationFormEvent(value: value)
                 : InitialiseNewPayConfirmationFormEvent())),
-            child: MyPayConfirmationForm(
+            child: _MyPayConfirmationForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyPayConfirmationForm extends StatefulWidget {
+class _MyPayConfirmationForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyPayConfirmationForm(
+  _MyPayConfirmationForm(
       {required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyPayConfirmationForm> createState() =>
+  State<_MyPayConfirmationForm> createState() =>
       _MyPayConfirmationFormState(formAction);
 }
 
-class _MyPayConfirmationFormState extends State<MyPayConfirmationForm> {
+class _MyPayConfirmationFormState extends State<_MyPayConfirmationForm> {
   final FormAction? formAction;
   late PayConfirmationFormBloc _myFormBloc;
 

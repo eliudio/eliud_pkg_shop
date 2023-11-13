@@ -33,6 +33,9 @@ class CartComponentBloc extends Bloc<CartComponentEvent, CartComponentState> {
     });
   }
 
+  /*
+   * Construct CartComponentBloc
+   */
   CartComponentBloc({this.cartRepository})
       : super(CartComponentUninitialized()) {
     on<FetchCartComponent>((event, emit) {
@@ -43,6 +46,9 @@ class CartComponentBloc extends Bloc<CartComponentEvent, CartComponentState> {
     });
   }
 
+  /*
+   * Close the CartComponentBloc
+   */
   @override
   Future<void> close() {
     _cartSubscription?.cancel();

@@ -37,7 +37,13 @@ import '../extensions/shop_front_component.dart';
 import '../editors/shop_front_component_editor.dart';
 import 'shop_front_component_selector.dart';
 
+/* 
+ * Component registry contains a list of components
+ */
 class ComponentRegistry {
+  /* 
+   * Initialise the component registry
+   */
   void init() {
     Registry.registry()!.addInternalComponents('eliud_pkg_shop', [
       "carts",

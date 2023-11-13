@@ -35,6 +35,9 @@ class ProductDisplayComponentBloc
     });
   }
 
+  /*
+   * Construct ProductDisplayComponentBloc
+   */
   ProductDisplayComponentBloc({this.productDisplayRepository})
       : super(ProductDisplayComponentUninitialized()) {
     on<FetchProductDisplayComponent>((event, emit) {
@@ -45,6 +48,9 @@ class ProductDisplayComponentBloc
     });
   }
 
+  /*
+   * Close the ProductDisplayComponentBloc
+   */
   @override
   Future<void> close() {
     _productDisplaySubscription?.cancel();

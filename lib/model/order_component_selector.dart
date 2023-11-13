@@ -32,7 +32,13 @@ import 'order_list_event.dart';
 import 'order_list_state.dart';
 import 'order_model.dart';
 
+/* 
+ * OrderComponentSelector is a component selector for Order, allowing to select a Order component
+ */
 class OrderComponentSelector extends ComponentSelector {
+  /* 
+   * createSelectWidget creates the widget
+   */
   @override
   Widget createSelectWidget(BuildContext context, AppModel app,
       int privilegeLevel, double height, SelectComponent selected, editor) {
@@ -42,7 +48,7 @@ class OrderComponentSelector extends ComponentSelector {
         eliudQuery: getComponentSelectorQuery(0, app.documentID),
         orderRepository: orderRepository(appId: appId)!,
       )..add(LoadOrderList()),
-      child: SelectOrderWidget(
+      child: _SelectOrderWidget(
           app: app,
           height: height,
           containerPrivilege: privilegeLevel,
@@ -52,28 +58,30 @@ class OrderComponentSelector extends ComponentSelector {
   }
 }
 
-class SelectOrderWidget extends StatefulWidget {
+/* 
+ * _SelectOrderWidget 
+ */
+class _SelectOrderWidget extends StatefulWidget {
   final AppModel app;
   final double height;
   final SelectComponent selected;
   final int containerPrivilege;
   final ComponentEditorConstructor editorConstructor;
 
-  const SelectOrderWidget(
-      {super.key,
-      required this.app,
+  const _SelectOrderWidget(
+      {required this.app,
       required this.containerPrivilege,
       required this.height,
       required this.selected,
       required this.editorConstructor});
 
   @override
-  State<SelectOrderWidget> createState() {
+  State<_SelectOrderWidget> createState() {
     return _SelectOrderWidgetState();
   }
 }
 
-class _SelectOrderWidgetState extends State<SelectOrderWidget>
+class _SelectOrderWidgetState extends State<_SelectOrderWidget>
     with TickerProviderStateMixin {
   TabController? _privilegeTabController;
   final List<String> _privilegeItems = ['No', 'L1', 'L2', 'Owner'];

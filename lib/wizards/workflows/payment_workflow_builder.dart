@@ -123,11 +123,11 @@ class PaymentWorkflowBuilder {
             confirmMessage: WorkflowNotificationModel(
                 message:
                     "Your payment has been reviewed and approved and your order is being prepared for shipment. Feedback from the shop: ",
-                addressee: WorkflowNotificationAddressee.currentMember),
+                addressee: WorkflowNotificationAddressee.currentMember,),
             rejectMessage: WorkflowNotificationModel(
                 message:
                     "Your payment has been reviewed and rejected. Feedback from the shop: ",
-                addressee: WorkflowNotificationAddressee.currentMember),
+                addressee: WorkflowNotificationAddressee.currentMember,),
             task: ReviewAndShipTaskModel(
               identifier: newRandomKey(),
               executeInstantly: false,

@@ -33,6 +33,9 @@ typedef ProductChanged = Function(
   int? privilegeLevel,
 );
 
+/* 
+ * ProductDropdownButtonWidget is the drop down widget to allow to select an instance of Product
+ */
 class ProductDropdownButtonWidget extends StatefulWidget {
   final AppModel app;
   final int? privilegeLevel;
@@ -40,6 +43,9 @@ class ProductDropdownButtonWidget extends StatefulWidget {
   final ProductChanged? trigger;
   final bool? optional;
 
+  /* 
+   * construct a ProductDropdownButtonWidget
+   */
   ProductDropdownButtonWidget(
       {required this.app,
       this.privilegeLevel,
@@ -48,18 +54,21 @@ class ProductDropdownButtonWidget extends StatefulWidget {
       this.optional,
       super.key});
 
+  /* 
+   * create state of ProductDropdownButtonWidget
+   */
   @override
   State<StatefulWidget> createState() {
-    return ProductDropdownButtonWidgetState(value);
+    return _ProductDropdownButtonWidgetState(value);
   }
 }
 
-class ProductDropdownButtonWidgetState
+class _ProductDropdownButtonWidgetState
     extends State<ProductDropdownButtonWidget> {
   ProductListBloc? bloc;
   String? value;
 
-  ProductDropdownButtonWidgetState(this.value);
+  _ProductDropdownButtonWidgetState(this.value);
 
   @override
   void didChangeDependencies() {
@@ -73,7 +82,7 @@ class ProductDropdownButtonWidgetState
     super.dispose();
   }
 
-  List<Widget> widgets(ProductModel value) {
+  List<Widget> _widgets(ProductModel value) {
     var app = widget.app;
     var widgets = <Widget>[];
     widgets.add(Center(
@@ -134,7 +143,7 @@ class ProductDropdownButtonWidgetState
                   height: 100.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: widgets(element),
+                    children: _widgets(element),
                   ),
                 )));
           }

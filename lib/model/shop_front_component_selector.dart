@@ -31,7 +31,13 @@ import 'shop_front_list_event.dart';
 import 'shop_front_list_state.dart';
 import 'shop_front_model.dart';
 
+/* 
+ * ShopFrontComponentSelector is a component selector for ShopFront, allowing to select a ShopFront component
+ */
 class ShopFrontComponentSelector extends ComponentSelector {
+  /* 
+   * createSelectWidget creates the widget
+   */
   @override
   Widget createSelectWidget(BuildContext context, AppModel app,
       int privilegeLevel, double height, SelectComponent selected, editor) {
@@ -41,7 +47,7 @@ class ShopFrontComponentSelector extends ComponentSelector {
         eliudQuery: getComponentSelectorQuery(0, app.documentID),
         shopFrontRepository: shopFrontRepository(appId: appId)!,
       )..add(LoadShopFrontList()),
-      child: SelectShopFrontWidget(
+      child: _SelectShopFrontWidget(
           app: app,
           height: height,
           containerPrivilege: privilegeLevel,
@@ -51,28 +57,30 @@ class ShopFrontComponentSelector extends ComponentSelector {
   }
 }
 
-class SelectShopFrontWidget extends StatefulWidget {
+/* 
+ * _SelectShopFrontWidget 
+ */
+class _SelectShopFrontWidget extends StatefulWidget {
   final AppModel app;
   final double height;
   final SelectComponent selected;
   final int containerPrivilege;
   final ComponentEditorConstructor editorConstructor;
 
-  const SelectShopFrontWidget(
-      {super.key,
-      required this.app,
+  const _SelectShopFrontWidget(
+      {required this.app,
       required this.containerPrivilege,
       required this.height,
       required this.selected,
       required this.editorConstructor});
 
   @override
-  State<SelectShopFrontWidget> createState() {
+  State<_SelectShopFrontWidget> createState() {
     return _SelectShopFrontWidgetState();
   }
 }
 
-class _SelectShopFrontWidgetState extends State<SelectShopFrontWidget>
+class _SelectShopFrontWidgetState extends State<_SelectShopFrontWidget>
     with TickerProviderStateMixin {
   TabController? _privilegeTabController;
   final List<String> _privilegeItems = ['No', 'L1', 'L2', 'Owner'];

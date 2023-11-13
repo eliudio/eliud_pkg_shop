@@ -33,6 +33,9 @@ typedef ShopFrontChanged = Function(
   int? privilegeLevel,
 );
 
+/* 
+ * ShopFrontDropdownButtonWidget is the drop down widget to allow to select an instance of ShopFront
+ */
 class ShopFrontDropdownButtonWidget extends StatefulWidget {
   final AppModel app;
   final int? privilegeLevel;
@@ -40,6 +43,9 @@ class ShopFrontDropdownButtonWidget extends StatefulWidget {
   final ShopFrontChanged? trigger;
   final bool? optional;
 
+  /* 
+   * construct a ShopFrontDropdownButtonWidget
+   */
   ShopFrontDropdownButtonWidget(
       {required this.app,
       this.privilegeLevel,
@@ -48,18 +54,21 @@ class ShopFrontDropdownButtonWidget extends StatefulWidget {
       this.optional,
       super.key});
 
+  /* 
+   * create state of ShopFrontDropdownButtonWidget
+   */
   @override
   State<StatefulWidget> createState() {
-    return ShopFrontDropdownButtonWidgetState(value);
+    return _ShopFrontDropdownButtonWidgetState(value);
   }
 }
 
-class ShopFrontDropdownButtonWidgetState
+class _ShopFrontDropdownButtonWidgetState
     extends State<ShopFrontDropdownButtonWidget> {
   ShopFrontListBloc? bloc;
   String? value;
 
-  ShopFrontDropdownButtonWidgetState(this.value);
+  _ShopFrontDropdownButtonWidgetState(this.value);
 
   @override
   void didChangeDependencies() {
@@ -73,7 +82,7 @@ class ShopFrontDropdownButtonWidgetState
     super.dispose();
   }
 
-  List<Widget> widgets(ShopFrontModel value) {
+  List<Widget> _widgets(ShopFrontModel value) {
     var app = widget.app;
     var widgets = <Widget>[];
     widgets.add(value.description != null
@@ -130,7 +139,7 @@ class ShopFrontDropdownButtonWidgetState
                   height: 100.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: widgets(element),
+                    children: _widgets(element),
                   ),
                 )));
           }

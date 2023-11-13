@@ -25,12 +25,21 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
+/* 
+ * PayFirestore is the firestore implementation of PayRepository
+ */
 class PayFirestore implements PayRepository {
+  /* 
+   * transform a map into an entity
+   */
   @override
   PayEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     return PayEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
+  /* 
+   * add an entity to the repository
+   */
   @override
   Future<PayEntity> addEntity(String documentID, PayEntity value) {
     return payCollection
@@ -39,6 +48,9 @@ class PayFirestore implements PayRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Update an entity
+   */
   @override
   Future<PayEntity> updateEntity(String documentID, PayEntity value) {
     return payCollection
@@ -47,6 +59,9 @@ class PayFirestore implements PayRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Add a model to the repository
+   */
   @override
   Future<PayModel> add(PayModel value) {
     return payCollection
@@ -55,11 +70,17 @@ class PayFirestore implements PayRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Delete a model
+   */
   @override
   Future<void> delete(PayModel value) {
     return payCollection.doc(value.documentID).delete();
   }
 
+  /* 
+   * Update a model
+   */
   @override
   Future<PayModel> update(PayModel value) {
     return payCollection
@@ -77,6 +98,9 @@ class PayFirestore implements PayRepository {
         appId: appId);
   }
 
+  /* 
+   * Retrieve an entity from the repository with id
+   */
   @override
   Future<PayEntity?> getEntity(String? id,
       {Function(Exception)? onError}) async {
@@ -95,6 +119,9 @@ class PayFirestore implements PayRepository {
     return null;
   }
 
+  /* 
+   * Retrieve an model from the repository with id
+   */
   @override
   Future<PayModel?> get(String? id, {Function(Exception)? onError}) async {
     try {
@@ -112,6 +139,9 @@ class PayFirestore implements PayRepository {
     return null;
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models
+   */
   @override
   StreamSubscription<List<PayModel?>> listen(PayModelTrigger trigger,
       {String? orderBy,
@@ -142,6 +172,9 @@ class PayFirestore implements PayRepository {
     });
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models and linked models
+   */
   @override
   StreamSubscription<List<PayModel?>> listenWithDetails(PayModelTrigger trigger,
       {String? orderBy,
@@ -172,6 +205,9 @@ class PayFirestore implements PayRepository {
     });
   }
 
+  /* 
+   * Listen to 1 document in the repository
+   */
   @override
   StreamSubscription<PayModel?> listenTo(String documentId, PayChanged changed,
       {PayErrorHandler? errorHandler}) {
@@ -189,6 +225,9 @@ class PayFirestore implements PayRepository {
     return theStream;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Stream<List<PayModel?>> values(
       {String? orderBy,
@@ -218,6 +257,9 @@ class PayFirestore implements PayRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Stream<List<PayModel?>> valuesWithDetails(
       {String? orderBy,
@@ -247,6 +289,9 @@ class PayFirestore implements PayRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Future<List<PayModel?>> valuesList(
       {String? orderBy,
@@ -277,6 +322,9 @@ class PayFirestore implements PayRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Future<List<PayModel?>> valuesListWithDetails(
       {String? orderBy,
@@ -307,9 +355,15 @@ class PayFirestore implements PayRepository {
     return values;
   }
 
+  /* 
+   * Flush the repository
+   */
   @override
   void flush() {}
 
+  /* 
+   * Delete all entries in the repository
+   */
   @override
   Future<void> deleteAll() {
     return payCollection.get().then((snapshot) {
@@ -319,16 +373,25 @@ class PayFirestore implements PayRepository {
     });
   }
 
+  /* 
+   * Retrieve the subcollection of this repository
+   */
   @override
   dynamic getSubCollection(String documentId, String name) {
     return payCollection.doc(documentId).collection(name);
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   }
 
+  /* 
+   * change 1 a fieldvalue for 1 document  
+   */
   @override
   Future<PayModel?> changeValue(
       String documentId, String fieldName, num changeByThisValue) {

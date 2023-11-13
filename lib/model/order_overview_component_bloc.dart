@@ -35,6 +35,9 @@ class OrderOverviewComponentBloc
     });
   }
 
+  /*
+   * Construct OrderOverviewComponentBloc
+   */
   OrderOverviewComponentBloc({this.orderOverviewRepository})
       : super(OrderOverviewComponentUninitialized()) {
     on<FetchOrderOverviewComponent>((event, emit) {
@@ -45,6 +48,9 @@ class OrderOverviewComponentBloc
     });
   }
 
+  /*
+   * Close the OrderOverviewComponentBloc
+   */
   @override
   Future<void> close() {
     _orderOverviewSubscription?.cancel();

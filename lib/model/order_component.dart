@@ -25,13 +25,22 @@ import 'abstract_repository_singleton.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/model/app_model.dart';
 
+/*
+ * AbstractOrderComponent is the base class to extend / implement in case you need to implement a component
+ */
 abstract class AbstractOrderComponent extends StatelessWidget {
   static String componentName = "orders";
   final AppModel app;
   final String orderId;
 
+  /*
+   * Construct AbstractOrderComponent
+   */
   AbstractOrderComponent({super.key, required this.app, required this.orderId});
 
+  /*
+   * build the component
+   */
   @override
   Widget build(BuildContext context) {
     return BlocProvider<OrderComponentBloc>(
@@ -67,5 +76,8 @@ abstract class AbstractOrderComponent extends StatelessWidget {
     });
   }
 
+  /*
+   * Implement this method to provide your widget
+   */
   Widget yourWidget(BuildContext context, OrderModel value);
 }

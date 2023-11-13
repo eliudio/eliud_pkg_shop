@@ -9,8 +9,10 @@ import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_bloc.dart';
 
 import '../../model/order_overview_entity.dart';
 
+/// OrderOverviewBloc is the bloc for editing (create package) the model "Order"
 class OrderOverviewBloc
     extends EditorBaseBloc<OrderOverviewModel, OrderOverviewEntity> {
+  /// Construct the OrderOverviewBloc
   OrderOverviewBloc(String appId, EditorFeedback feedback)
       : super(appId, orderOverviewRepository(appId: appId)!, feedback);
 

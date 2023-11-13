@@ -62,7 +62,7 @@ class ProductForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseProductFormEvent(value: value)),
-        child: MyProductForm(
+        child: _MyProductForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -72,7 +72,7 @@ class ProductForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseProductFormNoLoadEvent(value: value)),
-        child: MyProductForm(
+        child: _MyProductForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -91,25 +91,25 @@ class ProductForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseProductFormEvent(value: value)
                 : InitialiseNewProductFormEvent())),
-            child: MyProductForm(
+            child: _MyProductForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyProductForm extends StatefulWidget {
+class _MyProductForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyProductForm({required this.app, this.formAction, this.submitAction});
+  _MyProductForm({required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyProductForm> createState() => _MyProductFormState(formAction);
+  State<_MyProductForm> createState() => _MyProductFormState(formAction);
 }
 
-class _MyProductFormState extends State<MyProductForm> {
+class _MyProductFormState extends State<_MyProductForm> {
   final FormAction? formAction;
   late ProductFormBloc _myFormBloc;
 

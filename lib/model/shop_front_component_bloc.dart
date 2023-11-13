@@ -34,6 +34,9 @@ class ShopFrontComponentBloc
     });
   }
 
+  /*
+   * Construct ShopFrontComponentBloc
+   */
   ShopFrontComponentBloc({this.shopFrontRepository})
       : super(ShopFrontComponentUninitialized()) {
     on<FetchShopFrontComponent>((event, emit) {
@@ -44,6 +47,9 @@ class ShopFrontComponentBloc
     });
   }
 
+  /*
+   * Close the ShopFrontComponentBloc
+   */
   @override
   Future<void> close() {
     _shopFrontSubscription?.cancel();

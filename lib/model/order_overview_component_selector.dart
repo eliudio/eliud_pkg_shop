@@ -31,7 +31,13 @@ import 'order_overview_list_event.dart';
 import 'order_overview_list_state.dart';
 import 'order_overview_model.dart';
 
+/* 
+ * OrderOverviewComponentSelector is a component selector for OrderOverview, allowing to select a OrderOverview component
+ */
 class OrderOverviewComponentSelector extends ComponentSelector {
+  /* 
+   * createSelectWidget creates the widget
+   */
   @override
   Widget createSelectWidget(BuildContext context, AppModel app,
       int privilegeLevel, double height, SelectComponent selected, editor) {
@@ -41,7 +47,7 @@ class OrderOverviewComponentSelector extends ComponentSelector {
         eliudQuery: getComponentSelectorQuery(0, app.documentID),
         orderOverviewRepository: orderOverviewRepository(appId: appId)!,
       )..add(LoadOrderOverviewList()),
-      child: SelectOrderOverviewWidget(
+      child: _SelectOrderOverviewWidget(
           app: app,
           height: height,
           containerPrivilege: privilegeLevel,
@@ -51,28 +57,30 @@ class OrderOverviewComponentSelector extends ComponentSelector {
   }
 }
 
-class SelectOrderOverviewWidget extends StatefulWidget {
+/* 
+ * _SelectOrderOverviewWidget 
+ */
+class _SelectOrderOverviewWidget extends StatefulWidget {
   final AppModel app;
   final double height;
   final SelectComponent selected;
   final int containerPrivilege;
   final ComponentEditorConstructor editorConstructor;
 
-  const SelectOrderOverviewWidget(
-      {super.key,
-      required this.app,
+  const _SelectOrderOverviewWidget(
+      {required this.app,
       required this.containerPrivilege,
       required this.height,
       required this.selected,
       required this.editorConstructor});
 
   @override
-  State<SelectOrderOverviewWidget> createState() {
+  State<_SelectOrderOverviewWidget> createState() {
     return _SelectOrderOverviewWidgetState();
   }
 }
 
-class _SelectOrderOverviewWidgetState extends State<SelectOrderOverviewWidget>
+class _SelectOrderOverviewWidgetState extends State<_SelectOrderOverviewWidget>
     with TickerProviderStateMixin {
   TabController? _privilegeTabController;
   final List<String> _privilegeItems = ['No', 'L1', 'L2', 'Owner'];

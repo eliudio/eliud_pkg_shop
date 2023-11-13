@@ -33,6 +33,9 @@ class PayComponentBloc extends Bloc<PayComponentEvent, PayComponentState> {
     });
   }
 
+  /*
+   * Construct PayComponentBloc
+   */
   PayComponentBloc({this.payRepository}) : super(PayComponentUninitialized()) {
     on<FetchPayComponent>((event, emit) {
       _mapLoadPayComponentUpdateToState(event.id!);
@@ -42,6 +45,9 @@ class PayComponentBloc extends Bloc<PayComponentEvent, PayComponentState> {
     });
   }
 
+  /*
+   * Close the PayComponentBloc
+   */
   @override
   Future<void> close() {
     _paySubscription?.cancel();

@@ -61,7 +61,7 @@ class ShopFrontForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseShopFrontFormEvent(value: value)),
-        child: MyShopFrontForm(
+        child: _MyShopFrontForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -71,7 +71,7 @@ class ShopFrontForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseShopFrontFormNoLoadEvent(value: value)),
-        child: MyShopFrontForm(
+        child: _MyShopFrontForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -90,25 +90,25 @@ class ShopFrontForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseShopFrontFormEvent(value: value)
                 : InitialiseNewShopFrontFormEvent())),
-            child: MyShopFrontForm(
+            child: _MyShopFrontForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyShopFrontForm extends StatefulWidget {
+class _MyShopFrontForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyShopFrontForm({required this.app, this.formAction, this.submitAction});
+  _MyShopFrontForm({required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyShopFrontForm> createState() => _MyShopFrontFormState(formAction);
+  State<_MyShopFrontForm> createState() => _MyShopFrontFormState(formAction);
 }
 
-class _MyShopFrontFormState extends State<MyShopFrontForm> {
+class _MyShopFrontFormState extends State<_MyShopFrontForm> {
   final FormAction? formAction;
   late ShopFrontFormBloc _myFormBloc;
 

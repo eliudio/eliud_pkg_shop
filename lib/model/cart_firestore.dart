@@ -25,12 +25,21 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
+/* 
+ * CartFirestore is the firestore implementation of CartRepository
+ */
 class CartFirestore implements CartRepository {
+  /* 
+   * transform a map into an entity
+   */
   @override
   CartEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     return CartEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
+  /* 
+   * add an entity to the repository
+   */
   @override
   Future<CartEntity> addEntity(String documentID, CartEntity value) {
     return cartCollection
@@ -39,6 +48,9 @@ class CartFirestore implements CartRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Update an entity
+   */
   @override
   Future<CartEntity> updateEntity(String documentID, CartEntity value) {
     return cartCollection
@@ -47,6 +59,9 @@ class CartFirestore implements CartRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Add a model to the repository
+   */
   @override
   Future<CartModel> add(CartModel value) {
     return cartCollection
@@ -55,11 +70,17 @@ class CartFirestore implements CartRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Delete a model
+   */
   @override
   Future<void> delete(CartModel value) {
     return cartCollection.doc(value.documentID).delete();
   }
 
+  /* 
+   * Update a model
+   */
   @override
   Future<CartModel> update(CartModel value) {
     return cartCollection
@@ -77,6 +98,9 @@ class CartFirestore implements CartRepository {
         appId: appId);
   }
 
+  /* 
+   * Retrieve an entity from the repository with id
+   */
   @override
   Future<CartEntity?> getEntity(String? id,
       {Function(Exception)? onError}) async {
@@ -95,6 +119,9 @@ class CartFirestore implements CartRepository {
     return null;
   }
 
+  /* 
+   * Retrieve an model from the repository with id
+   */
   @override
   Future<CartModel?> get(String? id, {Function(Exception)? onError}) async {
     try {
@@ -112,6 +139,9 @@ class CartFirestore implements CartRepository {
     return null;
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models
+   */
   @override
   StreamSubscription<List<CartModel?>> listen(CartModelTrigger trigger,
       {String? orderBy,
@@ -142,6 +172,9 @@ class CartFirestore implements CartRepository {
     });
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models and linked models
+   */
   @override
   StreamSubscription<List<CartModel?>> listenWithDetails(
       CartModelTrigger trigger,
@@ -173,6 +206,9 @@ class CartFirestore implements CartRepository {
     });
   }
 
+  /* 
+   * Listen to 1 document in the repository
+   */
   @override
   StreamSubscription<CartModel?> listenTo(
       String documentId, CartChanged changed,
@@ -191,6 +227,9 @@ class CartFirestore implements CartRepository {
     return theStream;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Stream<List<CartModel?>> values(
       {String? orderBy,
@@ -220,6 +259,9 @@ class CartFirestore implements CartRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Stream<List<CartModel?>> valuesWithDetails(
       {String? orderBy,
@@ -249,6 +291,9 @@ class CartFirestore implements CartRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Future<List<CartModel?>> valuesList(
       {String? orderBy,
@@ -279,6 +324,9 @@ class CartFirestore implements CartRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Future<List<CartModel?>> valuesListWithDetails(
       {String? orderBy,
@@ -309,9 +357,15 @@ class CartFirestore implements CartRepository {
     return values;
   }
 
+  /* 
+   * Flush the repository
+   */
   @override
   void flush() {}
 
+  /* 
+   * Delete all entries in the repository
+   */
   @override
   Future<void> deleteAll() {
     return cartCollection.get().then((snapshot) {
@@ -321,16 +375,25 @@ class CartFirestore implements CartRepository {
     });
   }
 
+  /* 
+   * Retrieve the subcollection of this repository
+   */
   @override
   dynamic getSubCollection(String documentId, String name) {
     return cartCollection.doc(documentId).collection(name);
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   }
 
+  /* 
+   * change 1 a fieldvalue for 1 document  
+   */
   @override
   Future<CartModel?> changeValue(
       String documentId, String fieldName, num changeByThisValue) {

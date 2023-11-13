@@ -31,7 +31,13 @@ import 'product_display_list_event.dart';
 import 'product_display_list_state.dart';
 import 'product_display_model.dart';
 
+/* 
+ * ProductDisplayComponentSelector is a component selector for ProductDisplay, allowing to select a ProductDisplay component
+ */
 class ProductDisplayComponentSelector extends ComponentSelector {
+  /* 
+   * createSelectWidget creates the widget
+   */
   @override
   Widget createSelectWidget(BuildContext context, AppModel app,
       int privilegeLevel, double height, SelectComponent selected, editor) {
@@ -41,7 +47,7 @@ class ProductDisplayComponentSelector extends ComponentSelector {
         eliudQuery: getComponentSelectorQuery(0, app.documentID),
         productDisplayRepository: productDisplayRepository(appId: appId)!,
       )..add(LoadProductDisplayList()),
-      child: SelectProductDisplayWidget(
+      child: _SelectProductDisplayWidget(
           app: app,
           height: height,
           containerPrivilege: privilegeLevel,
@@ -51,29 +57,31 @@ class ProductDisplayComponentSelector extends ComponentSelector {
   }
 }
 
-class SelectProductDisplayWidget extends StatefulWidget {
+/* 
+ * _SelectProductDisplayWidget 
+ */
+class _SelectProductDisplayWidget extends StatefulWidget {
   final AppModel app;
   final double height;
   final SelectComponent selected;
   final int containerPrivilege;
   final ComponentEditorConstructor editorConstructor;
 
-  const SelectProductDisplayWidget(
-      {super.key,
-      required this.app,
+  const _SelectProductDisplayWidget(
+      {required this.app,
       required this.containerPrivilege,
       required this.height,
       required this.selected,
       required this.editorConstructor});
 
   @override
-  State<SelectProductDisplayWidget> createState() {
+  State<_SelectProductDisplayWidget> createState() {
     return _SelectProductDisplayWidgetState();
   }
 }
 
-class _SelectProductDisplayWidgetState extends State<SelectProductDisplayWidget>
-    with TickerProviderStateMixin {
+class _SelectProductDisplayWidgetState
+    extends State<_SelectProductDisplayWidget> with TickerProviderStateMixin {
   TabController? _privilegeTabController;
   final List<String> _privilegeItems = ['No', 'L1', 'L2', 'Owner'];
   final int _initialPrivilege = 0;

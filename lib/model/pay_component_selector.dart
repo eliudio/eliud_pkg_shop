@@ -31,7 +31,13 @@ import 'pay_list_event.dart';
 import 'pay_list_state.dart';
 import 'pay_model.dart';
 
+/* 
+ * PayComponentSelector is a component selector for Pay, allowing to select a Pay component
+ */
 class PayComponentSelector extends ComponentSelector {
+  /* 
+   * createSelectWidget creates the widget
+   */
   @override
   Widget createSelectWidget(BuildContext context, AppModel app,
       int privilegeLevel, double height, SelectComponent selected, editor) {
@@ -41,7 +47,7 @@ class PayComponentSelector extends ComponentSelector {
         eliudQuery: getComponentSelectorQuery(0, app.documentID),
         payRepository: payRepository(appId: appId)!,
       )..add(LoadPayList()),
-      child: SelectPayWidget(
+      child: _SelectPayWidget(
           app: app,
           height: height,
           containerPrivilege: privilegeLevel,
@@ -51,28 +57,30 @@ class PayComponentSelector extends ComponentSelector {
   }
 }
 
-class SelectPayWidget extends StatefulWidget {
+/* 
+ * _SelectPayWidget 
+ */
+class _SelectPayWidget extends StatefulWidget {
   final AppModel app;
   final double height;
   final SelectComponent selected;
   final int containerPrivilege;
   final ComponentEditorConstructor editorConstructor;
 
-  const SelectPayWidget(
-      {super.key,
-      required this.app,
+  const _SelectPayWidget(
+      {required this.app,
       required this.containerPrivilege,
       required this.height,
       required this.selected,
       required this.editorConstructor});
 
   @override
-  State<SelectPayWidget> createState() {
+  State<_SelectPayWidget> createState() {
     return _SelectPayWidgetState();
   }
 }
 
-class _SelectPayWidgetState extends State<SelectPayWidget>
+class _SelectPayWidgetState extends State<_SelectPayWidget>
     with TickerProviderStateMixin {
   TabController? _privilegeTabController;
   final List<String> _privilegeItems = ['No', 'L1', 'L2', 'Owner'];

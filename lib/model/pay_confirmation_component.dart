@@ -25,14 +25,23 @@ import 'abstract_repository_singleton.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/model/app_model.dart';
 
+/*
+ * AbstractPayConfirmationComponent is the base class to extend / implement in case you need to implement a component
+ */
 abstract class AbstractPayConfirmationComponent extends StatelessWidget {
   static String componentName = "payConfirmations";
   final AppModel app;
   final String payConfirmationId;
 
+  /*
+   * Construct AbstractPayConfirmationComponent
+   */
   AbstractPayConfirmationComponent(
       {super.key, required this.app, required this.payConfirmationId});
 
+  /*
+   * build the component
+   */
   @override
   Widget build(BuildContext context) {
     return BlocProvider<PayConfirmationComponentBloc>(
@@ -69,5 +78,8 @@ abstract class AbstractPayConfirmationComponent extends StatelessWidget {
     });
   }
 
+  /*
+   * Implement this method to provide your widget
+   */
   Widget yourWidget(BuildContext context, PayConfirmationModel value);
 }

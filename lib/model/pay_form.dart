@@ -61,7 +61,7 @@ class PayForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialisePayFormEvent(value: value)),
-        child: MyPayForm(
+        child: _MyPayForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -71,7 +71,7 @@ class PayForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialisePayFormNoLoadEvent(value: value)),
-        child: MyPayForm(
+        child: _MyPayForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -90,25 +90,25 @@ class PayForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialisePayFormEvent(value: value)
                 : InitialiseNewPayFormEvent())),
-            child: MyPayForm(
+            child: _MyPayForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyPayForm extends StatefulWidget {
+class _MyPayForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyPayForm({required this.app, this.formAction, this.submitAction});
+  _MyPayForm({required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyPayForm> createState() => _MyPayFormState(formAction);
+  State<_MyPayForm> createState() => _MyPayFormState(formAction);
 }
 
-class _MyPayFormState extends State<MyPayForm> {
+class _MyPayFormState extends State<_MyPayForm> {
   final FormAction? formAction;
   late PayFormBloc _myFormBloc;
 

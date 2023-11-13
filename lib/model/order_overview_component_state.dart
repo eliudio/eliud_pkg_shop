@@ -16,6 +16,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:eliud_pkg_shop/model/order_overview_model.dart';
 
+/* 
+ * OrderOverviewComponentState is the base class for state for OrderOverviewComponentBloc
+ */
 abstract class OrderOverviewComponentState extends Equatable {
   const OrderOverviewComponentState();
 
@@ -23,23 +26,41 @@ abstract class OrderOverviewComponentState extends Equatable {
   List<Object?> get props => [];
 }
 
+/* 
+ * OrderOverviewComponentUninitialized is the uninitialized state of the OrderOverviewComponentBloc 
+ */
 class OrderOverviewComponentUninitialized extends OrderOverviewComponentState {}
 
+/* 
+ * OrderOverviewComponentError is the error state of the OrderOverviewComponentBloc 
+ */
 class OrderOverviewComponentError extends OrderOverviewComponentState {
   final String? message;
   OrderOverviewComponentError({this.message});
 }
 
+/* 
+ * OrderOverviewComponentPermissionDenied is to indicate permission denied state of the OrderOverviewComponentBloc 
+ */
 class OrderOverviewComponentPermissionDenied
     extends OrderOverviewComponentState {
   OrderOverviewComponentPermissionDenied();
 }
 
+/* 
+ * OrderOverviewComponentLoaded is used to set the state of the OrderOverviewComponentBloc to the loaded state
+ */
 class OrderOverviewComponentLoaded extends OrderOverviewComponentState {
   final OrderOverviewModel value;
 
+  /* 
+   * construct OrderOverviewComponentLoaded
+   */
   const OrderOverviewComponentLoaded({required this.value});
 
+  /* 
+   * copy method
+   */
   OrderOverviewComponentLoaded copyWith({OrderOverviewModel? copyThis}) {
     return OrderOverviewComponentLoaded(value: copyThis ?? value);
   }

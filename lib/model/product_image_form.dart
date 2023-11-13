@@ -59,7 +59,7 @@ class ProductImageForm extends StatelessWidget {
         create: (context) => ProductImageFormBloc(
           appId,
         )..add(InitialiseProductImageFormEvent(value: value)),
-        child: MyProductImageForm(
+        child: _MyProductImageForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -68,7 +68,7 @@ class ProductImageForm extends StatelessWidget {
         create: (context) => ProductImageFormBloc(
           appId,
         )..add(InitialiseProductImageFormNoLoadEvent(value: value)),
-        child: MyProductImageForm(
+        child: _MyProductImageForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -86,26 +86,26 @@ class ProductImageForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseProductImageFormEvent(value: value)
                 : InitialiseNewProductImageFormEvent())),
-            child: MyProductImageForm(
+            child: _MyProductImageForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyProductImageForm extends StatefulWidget {
+class _MyProductImageForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyProductImageForm({required this.app, this.formAction, this.submitAction});
+  _MyProductImageForm({required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyProductImageForm> createState() =>
+  State<_MyProductImageForm> createState() =>
       _MyProductImageFormState(formAction);
 }
 
-class _MyProductImageFormState extends State<MyProductImageForm> {
+class _MyProductImageFormState extends State<_MyProductImageForm> {
   final FormAction? formAction;
   late ProductImageFormBloc _myFormBloc;
 

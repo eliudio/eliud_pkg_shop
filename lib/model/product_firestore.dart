@@ -25,12 +25,21 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
+/* 
+ * ProductFirestore is the firestore implementation of ProductRepository
+ */
 class ProductFirestore implements ProductRepository {
+  /* 
+   * transform a map into an entity
+   */
   @override
   ProductEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     return ProductEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
+  /* 
+   * add an entity to the repository
+   */
   @override
   Future<ProductEntity> addEntity(String documentID, ProductEntity value) {
     return productCollection
@@ -39,6 +48,9 @@ class ProductFirestore implements ProductRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Update an entity
+   */
   @override
   Future<ProductEntity> updateEntity(String documentID, ProductEntity value) {
     return productCollection
@@ -47,6 +59,9 @@ class ProductFirestore implements ProductRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Add a model to the repository
+   */
   @override
   Future<ProductModel> add(ProductModel value) {
     return productCollection
@@ -55,11 +70,17 @@ class ProductFirestore implements ProductRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Delete a model
+   */
   @override
   Future<void> delete(ProductModel value) {
     return productCollection.doc(value.documentID).delete();
   }
 
+  /* 
+   * Update a model
+   */
   @override
   Future<ProductModel> update(ProductModel value) {
     return productCollection
@@ -79,6 +100,9 @@ class ProductFirestore implements ProductRepository {
         appId: appId);
   }
 
+  /* 
+   * Retrieve an entity from the repository with id
+   */
   @override
   Future<ProductEntity?> getEntity(String? id,
       {Function(Exception)? onError}) async {
@@ -97,6 +121,9 @@ class ProductFirestore implements ProductRepository {
     return null;
   }
 
+  /* 
+   * Retrieve an model from the repository with id
+   */
   @override
   Future<ProductModel?> get(String? id, {Function(Exception)? onError}) async {
     try {
@@ -114,6 +141,9 @@ class ProductFirestore implements ProductRepository {
     return null;
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models
+   */
   @override
   StreamSubscription<List<ProductModel?>> listen(ProductModelTrigger trigger,
       {String? orderBy,
@@ -144,6 +174,9 @@ class ProductFirestore implements ProductRepository {
     });
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models and linked models
+   */
   @override
   StreamSubscription<List<ProductModel?>> listenWithDetails(
       ProductModelTrigger trigger,
@@ -175,6 +208,9 @@ class ProductFirestore implements ProductRepository {
     });
   }
 
+  /* 
+   * Listen to 1 document in the repository
+   */
   @override
   StreamSubscription<ProductModel?> listenTo(
       String documentId, ProductChanged changed,
@@ -193,6 +229,9 @@ class ProductFirestore implements ProductRepository {
     return theStream;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Stream<List<ProductModel?>> values(
       {String? orderBy,
@@ -222,6 +261,9 @@ class ProductFirestore implements ProductRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Stream<List<ProductModel?>> valuesWithDetails(
       {String? orderBy,
@@ -251,6 +293,9 @@ class ProductFirestore implements ProductRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Future<List<ProductModel?>> valuesList(
       {String? orderBy,
@@ -281,6 +326,9 @@ class ProductFirestore implements ProductRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Future<List<ProductModel?>> valuesListWithDetails(
       {String? orderBy,
@@ -311,9 +359,15 @@ class ProductFirestore implements ProductRepository {
     return values;
   }
 
+  /* 
+   * Flush the repository
+   */
   @override
   void flush() {}
 
+  /* 
+   * Delete all entries in the repository
+   */
   @override
   Future<void> deleteAll() {
     return productCollection.get().then((snapshot) {
@@ -323,16 +377,25 @@ class ProductFirestore implements ProductRepository {
     });
   }
 
+  /* 
+   * Retrieve the subcollection of this repository
+   */
   @override
   dynamic getSubCollection(String documentId, String name) {
     return productCollection.doc(documentId).collection(name);
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   }
 
+  /* 
+   * change 1 a fieldvalue for 1 document  
+   */
   @override
   Future<ProductModel?> changeValue(
       String documentId, String fieldName, num changeByThisValue) {
