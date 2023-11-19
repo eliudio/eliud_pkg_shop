@@ -1,5 +1,5 @@
 import 'package:eliud_pkg_shop/bloc/cart/cart_helper.dart';
-import 'package:eliud_pkg_shop/model/cart_item_model.dart';
+import 'package:eliud_pkg_shop_model/model/cart_item_model.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class CartState extends Equatable {

@@ -1,8 +1,8 @@
-import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/style/frontend/has_icon.dart';
-import 'package:eliud_core/style/frontend/has_text.dart';
-import 'package:eliud_pkg_shop/model/order_item_model.dart';
-import 'package:eliud_pkg_shop/model/order_model.dart';
+import 'package:eliud_core_model/model/app_model.dart';
+import 'package:eliud_core_model/style/frontend/has_icon.dart';
+import 'package:eliud_core_model/style/frontend/has_text.dart';
+import 'package:eliud_pkg_shop_model/model/order_item_model.dart';
+import 'package:eliud_pkg_shop_model/model/order_model.dart';
 import 'package:flutter/material.dart';
 
 class OrderHelper {

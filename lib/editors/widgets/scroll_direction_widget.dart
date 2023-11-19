@@ -1,6 +1,6 @@
-import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/style/frontend/has_list_tile.dart';
-import 'package:eliud_pkg_shop/model/shop_front_model.dart';
+import 'package:eliud_core_model/model/app_model.dart';
+import 'package:eliud_core_model/style/frontend/has_list_tile.dart';
+import 'package:eliud_pkg_shop_model/model/shop_front_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

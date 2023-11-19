@@ -3,9 +3,9 @@ import 'package:eliud_core/core/wizards/tools/document_identifier.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart'
     as corerepo;
 import 'package:eliud_core/model/model_export.dart';
-import 'package:eliud_core/style/_default/tools/colors.dart';
+import 'package:eliud_core_model/style/_default/tools/colors.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
-import 'package:eliud_core/tools/random.dart';
+import 'package:eliud_core_model/tools/etc/random.dart';
 import 'package:eliud_pkg_fundamentals/model/abstract_repository_singleton.dart';
 import 'package:eliud_pkg_fundamentals/model/divider_component.dart';
 import 'package:eliud_pkg_fundamentals/model/divider_model.dart';
@@ -14,10 +14,10 @@ import 'package:eliud_pkg_fundamentals/model/fader_model.dart';
 import 'package:eliud_pkg_fundamentals/model/listed_item_model.dart';
 import 'package:eliud_pkg_fundamentals/model/presentation_component.dart';
 import 'package:eliud_pkg_fundamentals/model/presentation_model.dart';
-import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart'
+import 'package:eliud_pkg_shop_model/model/abstract_repository_singleton.dart'
     as shoprepo;
-import 'package:eliud_pkg_shop/model/model_export.dart';
-import 'package:eliud_pkg_shop/model/shop_front_component.dart';
+import 'package:eliud_pkg_shop_model/model/model_export.dart';
+import 'package:eliud_pkg_shop_model/model/shop_front_component.dart';
 import 'package:eliud_pkg_shop/wizards/builders/util/pos_sizes.dart';
 import 'package:eliud_pkg_shop/wizards/builders/util/products.dart';
 import 'package:flutter/material.dart';

@@ -1,8 +1,8 @@
 import 'package:eliud_core/core/wizards/tools/document_identifier.dart';
-import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core_model/model/app_model.dart';
 import 'package:eliud_core/model/display_conditions_model.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
-import 'package:eliud_core/tools/random.dart';
+import 'package:eliud_core_model/tools/etc/random.dart';
 import 'package:eliud_pkg_pay/tasks/context_amount_pay_model.dart';
 import 'package:eliud_pkg_pay/tasks/pay_type_types/creditcard_pay_type_model.dart';
 import 'package:eliud_pkg_pay/tasks/pay_type_types/manual_pay_type_model.dart';
@@ -121,13 +121,15 @@ class PaymentWorkflowBuilder {
             documentID: "review_payment_and_ship",
             responsible: WorkflowTaskResponsible.owner,
             confirmMessage: WorkflowNotificationModel(
-                message:
-                    "Your payment has been reviewed and approved and your order is being prepared for shipment. Feedback from the shop: ",
-                addressee: WorkflowNotificationAddressee.currentMember,),
+              message:
+                  "Your payment has been reviewed and approved and your order is being prepared for shipment. Feedback from the shop: ",
+              addressee: WorkflowNotificationAddressee.currentMember,
+            ),
             rejectMessage: WorkflowNotificationModel(
-                message:
-                    "Your payment has been reviewed and rejected. Feedback from the shop: ",
-                addressee: WorkflowNotificationAddressee.currentMember,),
+              message:
+                  "Your payment has been reviewed and rejected. Feedback from the shop: ",
+              addressee: WorkflowNotificationAddressee.currentMember,
+            ),
             task: ReviewAndShipTaskModel(
               identifier: newRandomKey(),
               executeInstantly: false,

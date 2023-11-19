@@ -1,23 +1,23 @@
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/registry.dart';
-import 'package:eliud_core/style/frontend/has_dialog_field.dart';
+import 'package:eliud_core_model/style/frontend/has_dialog_field.dart';
 import 'package:eliud_core/tools/helpers/parse_helper.dart';
 import 'package:eliud_core/tools/screen_size.dart';
 import 'package:eliud_core/tools/widgets/pos_size_widget.dart';
-import 'package:eliud_pkg_shop/model/product_image_model.dart';
-import 'package:eliud_pkg_shop/model/product_model.dart';
-import 'package:eliud_pkg_shop/model/shop_model.dart';
+import 'package:eliud_pkg_shop_model/model/product_image_model.dart';
+import 'package:eliud_pkg_shop_model/model/product_model.dart';
+import 'package:eliud_pkg_shop_model/model/shop_model.dart';
 import 'package:flutter/material.dart';
 import 'package:eliud_core/model/model_export.dart';
-import 'package:eliud_core/style/frontend/has_button.dart';
-import 'package:eliud_core/style/frontend/has_container.dart';
-import 'package:eliud_core/style/frontend/has_dialog.dart';
-import 'package:eliud_core/style/frontend/has_divider.dart';
-import 'package:eliud_core/style/frontend/has_list_tile.dart';
-import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
-import 'package:eliud_core/style/frontend/has_text.dart';
-import 'package:eliud_core/tools/random.dart';
+import 'package:eliud_core_model/style/frontend/has_button.dart';
+import 'package:eliud_core_model/style/frontend/has_container.dart';
+import 'package:eliud_core_model/style/frontend/has_dialog.dart';
+import 'package:eliud_core_model/style/frontend/has_divider.dart';
+import 'package:eliud_core_model/style/frontend/has_list_tile.dart';
+import 'package:eliud_core_model/style/frontend/has_progress_indicator.dart';
+import 'package:eliud_core_model/style/frontend/has_text.dart';
+import 'package:eliud_core_model/tools/etc/random.dart';
 import 'package:eliud_core/tools/widgets/header_widget.dart';
 import 'package:eliud_core/package/access_rights.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
@@ -364,7 +364,7 @@ class _ProductDashboardState extends State<ProductDashboard> {
       return popupMenuButton<int>(widget.app, context,
           child: Icon(Icons.add),
           itemBuilder: (context) => [
-                if (Registry.registry()!.getMediumApi().hasCamera())
+                if (Apis.apis().getMediumApi().hasCamera())
                   popupMenuItem(
                     widget.app,
                     context,
@@ -380,7 +380,7 @@ class _ProductDashboardState extends State<ProductDashboard> {
               ],
           onSelected: (value) async {
             if (value == 0) {
-              Registry.registry()!.getMediumApi().takePhoto(
+              Apis.apis().getMediumApi().takePhoto(
                   context,
                   widget.app,
                   () => PlatformMediumAccessRights(
@@ -390,7 +390,7 @@ class _ProductDashboardState extends State<ProductDashboard> {
                   _photoUploading,
                   allowCrop: false);
             } else if (value == 1) {
-              Registry.registry()!.getMediumApi().uploadPhoto(
+              Apis.apis().getMediumApi().uploadPhoto(
                   context,
                   widget.app,
                   () => PlatformMediumAccessRights(

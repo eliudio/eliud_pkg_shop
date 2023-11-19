@@ -1,29 +1,29 @@
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/registry.dart';
-import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/model/background_model.dart';
-import 'package:eliud_core/model/storage_conditions_model.dart';
-import 'package:eliud_core/style/frontend/has_container.dart';
-import 'package:eliud_core/style/frontend/has_dialog.dart';
-import 'package:eliud_core/style/frontend/has_dialog_field.dart';
-import 'package:eliud_core/style/frontend/has_list_tile.dart';
-import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
-import 'package:eliud_core/style/frontend/has_text.dart';
-import 'package:eliud_core/tools/component/component_spec.dart';
-import 'package:eliud_core/tools/random.dart';
+import 'package:eliud_core_model/model/app_model.dart';
+import 'package:eliud_core_model/model/background_model.dart';
+import 'package:eliud_core_model/model/storage_conditions_model.dart';
+import 'package:eliud_core_model/style/frontend/has_container.dart';
+import 'package:eliud_core_model/style/frontend/has_dialog.dart';
+import 'package:eliud_core_model/style/frontend/has_dialog_field.dart';
+import 'package:eliud_core_model/style/frontend/has_list_tile.dart';
+import 'package:eliud_core_model/style/frontend/has_progress_indicator.dart';
+import 'package:eliud_core_model/style/frontend/has_text.dart';
+import 'package:eliud_core_model/tools/component/component_spec.dart';
+import 'package:eliud_core_model/tools/etc/random.dart';
 import 'package:eliud_core/tools/widgets/background_widget.dart';
 import 'package:eliud_core/tools/widgets/condition_simple_widget.dart';
 import 'package:eliud_core/tools/widgets/header_widget.dart';
 import 'package:eliud_pkg_shop/editors/widgets/select_shop_widget.dart';
-import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/cart_model.dart';
+import 'package:eliud_pkg_shop_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_pkg_shop_model/model/cart_model.dart';
 import 'package:flutter/material.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_event.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_state.dart';
-import '../model/cart_entity.dart';
+import 'package:eliud_pkg_shop_model/model/cart_entity.dart';
 import 'bloc/cart_bloc.dart';
 
 class CartComponentEditorConstructor extends ComponentEditorConstructor {
@@ -282,7 +282,7 @@ class _CartComponentEditorState extends State<CartComponentEditor> {
                         collapsible: true,
                         collapsed: true,
                         children: [
-                          Registry.registry()!.openSelectActionWidget(
+                          Apis.apis().openSelectActionWidget(
                               app: widget.app,
                               action: cartState.model.backToShopAction,
                               label: 'Back To Shop',
@@ -299,7 +299,7 @@ class _CartComponentEditorState extends State<CartComponentEditor> {
                                   cartState.model.backToShopAction = action;
                                 });
                               }),
-                          Registry.registry()!.openSelectActionWidget(
+                          Apis.apis().openSelectActionWidget(
                               app: widget.app,
                               action: cartState.model.checkoutAction,
                               label: 'Checkout Action',
@@ -316,7 +316,7 @@ class _CartComponentEditorState extends State<CartComponentEditor> {
                                   cartState.model.checkoutAction = action;
                                 });
                               }),
-                          Registry.registry()!.openSelectActionWidget(
+                          Apis.apis().openSelectActionWidget(
                               app: widget.app,
                               action: cartState.model.openProductAction,
                               label: 'Open Product',

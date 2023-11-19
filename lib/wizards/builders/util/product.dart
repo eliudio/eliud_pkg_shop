@@ -1,12 +1,12 @@
 import 'package:eliud_core/core/wizards/tools/document_identifier.dart';
-import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core_model/model/app_model.dart';
 import 'package:eliud_core/model/platform_medium_model.dart';
-import 'package:eliud_core/model/storage_conditions_model.dart';
-import 'package:eliud_core/tools/random.dart';
+import 'package:eliud_core_model/model/storage_conditions_model.dart';
+import 'package:eliud_core_model/tools/etc/random.dart';
 import 'package:eliud_core/tools/storage/platform_medium_helper.dart';
-import 'package:eliud_pkg_shop/model/product_image_model.dart';
-import 'package:eliud_pkg_shop/model/product_model.dart';
-import 'package:eliud_pkg_shop/model/shop_model.dart';
+import 'package:eliud_pkg_shop_model/model/product_image_model.dart';
+import 'package:eliud_pkg_shop_model/model/product_model.dart';
+import 'package:eliud_pkg_shop_model/model/shop_model.dart';
 
 import 'pos_sizes.dart';
 

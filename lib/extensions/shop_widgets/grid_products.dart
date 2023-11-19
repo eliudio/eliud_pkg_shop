@@ -3,15 +3,16 @@ import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
-import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/style/frontend/has_container.dart';
-import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
+import 'package:eliud_core_model/model/app_model.dart';
+import 'package:eliud_core_model/style/frontend/has_container.dart';
+import 'package:eliud_core_model/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/screen_size.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_tools.dart';
-import 'package:eliud_pkg_shop/model/product_list_bloc.dart';
-import 'package:eliud_pkg_shop/model/product_list_state.dart';
-import 'package:eliud_pkg_shop/model/shop_front_model.dart';
+import 'package:eliud_pkg_shop_model/model/product_list_bloc.dart';
+import 'package:eliud_pkg_shop_model/model/product_list_state.dart';
+import 'package:eliud_pkg_shop_model/model/product_model.dart';
+import 'package:eliud_pkg_shop_model/model/shop_front_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -65,7 +66,7 @@ class _GridProductsState extends State<GridProducts> {
         return BlocBuilder<ProductListBloc, ProductListState>(
           builder: (context, state) {
             if (state is ProductListLoaded) {
-              var products = state.values!;
+              List<ProductModel?>? products = state.values!;
 
               var cards = products.map((item) {
                 Widget? show;

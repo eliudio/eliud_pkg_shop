@@ -1,5 +1,5 @@
-import 'package:eliud_pkg_shop/model/order_model.dart';
-import 'package:eliud_pkg_shop/model/shop_model.dart';
+import 'package:eliud_pkg_shop_model/model/order_model.dart';
+import 'package:eliud_pkg_shop_model/model/shop_model.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class PaymentEvent extends Equatable {

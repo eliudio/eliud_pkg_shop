@@ -1,6 +1,6 @@
-import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/model_export.dart';
+import 'package:eliud_core_model/model/app_model.dart';
+import 'package:eliud_pkg_shop_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_pkg_shop_model/model/model_export.dart';
 
 import 'product.dart';
 

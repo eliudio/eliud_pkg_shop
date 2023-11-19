@@ -1,7 +1,7 @@
 import 'package:eliud_core/core/registry.dart';
 import 'package:eliud_core/core/wizards/widgets/action_specification_widget.dart';
-import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/style/frontend/has_container.dart';
+import 'package:eliud_core_model/model/app_model.dart';
+import 'package:eliud_core_model/style/frontend/has_container.dart';
 import 'package:eliud_pkg_shop/wizards/builders/widgets/payment_parameters_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -44,7 +44,7 @@ class _ShopParametersWidgetState extends State<ShopParametersWidget> {
           collapsible: true,
           collapsed: true,
           children: [
-            Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
+            Apis.apis().getMediumApi().getPlatformPhotoWidget(
                   context: context,
                   defaultImage:
                       'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_presenting.png',
@@ -62,7 +62,7 @@ class _ShopParametersWidgetState extends State<ShopParametersWidget> {
           collapsible: true,
           collapsed: true,
           children: [
-            Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
+            Apis.apis().getMediumApi().getPlatformPhotoWidget(
                   context: context,
                   defaultImage:
                       'packages/eliud_pkg_shop/assets/shop/logo/day30-cafe.png',
@@ -80,7 +80,7 @@ class _ShopParametersWidgetState extends State<ShopParametersWidget> {
           collapsible: true,
           collapsed: true,
           children: [
-            Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
+            Apis.apis().getMediumApi().getPlatformPhotoWidget(
                   context: context,
                   defaultImage:
                       'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_bags.png',
@@ -98,7 +98,7 @@ class _ShopParametersWidgetState extends State<ShopParametersWidget> {
           collapsible: true,
           collapsed: true,
           children: [
-            Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
+            Apis.apis().getMediumApi().getPlatformPhotoWidget(
                   context: context,
                   defaultImage:
                       'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_bags.png',
@@ -116,7 +116,7 @@ class _ShopParametersWidgetState extends State<ShopParametersWidget> {
           collapsible: true,
           collapsed: true,
           children: [
-            Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
+            Apis.apis().getMediumApi().getPlatformPhotoWidget(
                   context: context,
                   defaultImage:
                       'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_credit_card.png',
@@ -134,7 +134,7 @@ class _ShopParametersWidgetState extends State<ShopParametersWidget> {
           collapsible: true,
           collapsed: true,
           children: [
-            Registry.registry()!.getMediumApi().getPlatformPhotoWidget(
+            Apis.apis().getMediumApi().getPlatformPhotoWidget(
                   context: context,
                   defaultImage:
                       'packages/eliud_pkg_shop/assets/shop/decorating/charlotte_with_credit_card.png',

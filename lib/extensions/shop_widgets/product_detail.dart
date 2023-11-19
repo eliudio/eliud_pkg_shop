@@ -1,15 +1,16 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
-import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/style/frontend/has_button.dart';
-import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
-import 'package:eliud_core/style/frontend/has_text.dart';
+import 'package:eliud_core_model/model/app_model.dart';
+import 'package:eliud_core_model/style/frontend/has_button.dart';
+import 'package:eliud_core_model/style/frontend/has_progress_indicator.dart';
+import 'package:eliud_core_model/style/frontend/has_text.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_pkg_fundamentals/extensions/fader_widgets/fader_widgets.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_tools.dart';
-import 'package:eliud_pkg_shop/model/product_display_model.dart';
-import 'package:eliud_pkg_shop/model/product_model.dart';
+import 'package:eliud_pkg_shop_model/model/product_display_model.dart';
+import 'package:eliud_pkg_shop_model/model/product_image_model.dart';
+import 'package:eliud_pkg_shop_model/model/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -59,7 +60,7 @@ class ProductDetailWithAccess extends StatefulWidget {
 class _ProductDetailWithAccessState extends State<ProductDetailWithAccess> {
   @override
   Widget build(BuildContext context) {
-    var items = widget.productModel!.images!;
+    List<ProductImageModel>? items = widget.productModel!.images!;
     var images = items.map((element) => element.image).toList();
     var positionsAndSizes =
         items.map((element) => (widget.productModel!.posSize)).toList();

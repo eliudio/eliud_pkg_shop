@@ -1,14 +1,14 @@
 import 'package:eliud_core/core/editor/ext_editor_base_bloc/ext_editor_base_bloc.dart';
 import 'package:eliud_core/model/pos_size_model.dart';
-import 'package:eliud_core/model/storage_conditions_model.dart';
-import 'package:eliud_core/tools/component/component_spec.dart';
-import 'package:eliud_core/tools/random.dart';
-import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/product_image_model.dart';
-import 'package:eliud_pkg_shop/model/product_model.dart';
-import 'package:eliud_pkg_shop/model/shop_model.dart';
+import 'package:eliud_core_model/model/storage_conditions_model.dart';
+import 'package:eliud_core_model/tools/component/component_spec.dart';
+import 'package:eliud_core_model/tools/etc/random.dart';
+import 'package:eliud_pkg_shop_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_pkg_shop_model/model/product_image_model.dart';
+import 'package:eliud_pkg_shop_model/model/product_model.dart';
+import 'package:eliud_pkg_shop_model/model/shop_model.dart';
 
-import '../../../model/product_entity.dart';
+import 'package:eliud_pkg_shop_model/model/product_entity.dart';
 
 class ProductBloc
     extends ExtEditorBaseBloc<ProductModel, ProductImageModel, ProductEntity> {

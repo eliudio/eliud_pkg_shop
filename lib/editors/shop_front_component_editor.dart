@@ -1,19 +1,19 @@
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/registry.dart';
-import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/model/background_model.dart';
+import 'package:eliud_core_model/model/app_model.dart';
+import 'package:eliud_core_model/model/background_model.dart';
 import 'package:eliud_core/model/edge_insets_geometry_model.dart';
-import 'package:eliud_core/model/storage_conditions_model.dart';
-import 'package:eliud_core/style/frontend/has_container.dart';
-import 'package:eliud_core/style/frontend/has_dialog.dart';
-import 'package:eliud_core/style/frontend/has_dialog_field.dart';
-import 'package:eliud_core/style/frontend/has_list_tile.dart';
-import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
-import 'package:eliud_core/style/frontend/has_text.dart';
-import 'package:eliud_core/tools/component/component_spec.dart';
+import 'package:eliud_core_model/model/storage_conditions_model.dart';
+import 'package:eliud_core_model/style/frontend/has_container.dart';
+import 'package:eliud_core_model/style/frontend/has_dialog.dart';
+import 'package:eliud_core_model/style/frontend/has_dialog_field.dart';
+import 'package:eliud_core_model/style/frontend/has_list_tile.dart';
+import 'package:eliud_core_model/style/frontend/has_progress_indicator.dart';
+import 'package:eliud_core_model/style/frontend/has_text.dart';
+import 'package:eliud_core_model/tools/component/component_spec.dart';
 import 'package:eliud_core/tools/helpers/parse_helper.dart';
-import 'package:eliud_core/tools/random.dart';
+import 'package:eliud_core_model/tools/etc/random.dart';
 import 'package:eliud_core/tools/widgets/background_widget.dart';
 import 'package:eliud_core/tools/widgets/background_widgets/edge_insets_geometry_widget.dart';
 import 'package:eliud_core/tools/widgets/background_widgets/style_color_widget.dart';
@@ -21,15 +21,15 @@ import 'package:eliud_core/tools/widgets/condition_simple_widget.dart';
 import 'package:eliud_core/tools/widgets/header_widget.dart';
 import 'package:eliud_pkg_shop/editors/widgets/scroll_direction_widget.dart';
 import 'package:eliud_pkg_shop/editors/widgets/select_shop_widget.dart';
-import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/shop_front_model.dart';
+import 'package:eliud_pkg_shop_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_pkg_shop_model/model/shop_front_model.dart';
 import 'package:flutter/material.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_event.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_state.dart';
 
-import '../model/shop_front_entity.dart';
+import 'package:eliud_pkg_shop_model/model/shop_front_entity.dart';
 import 'bloc/shop_front_bloc.dart';
 
 class ShopFrontComponentEditorConstructor extends ComponentEditorConstructor {
@@ -199,7 +199,7 @@ class _ShopFrontComponentEditorState extends State<ShopFrontComponentEditor> {
                         collapsible: true,
                         collapsed: true,
                         children: [
-                          Registry.registry()!.openSelectActionWidget(
+                          Apis.apis().openSelectActionWidget(
                               app: widget.app,
                               action: shopFrontState.model.buyAction,
                               label: 'Buy Product',
@@ -217,7 +217,7 @@ class _ShopFrontComponentEditorState extends State<ShopFrontComponentEditor> {
                                       action;
                                 });
                               }),
-                          Registry.registry()!.openSelectActionWidget(
+                          Apis.apis().openSelectActionWidget(
                               app: widget.app,
                               action: shopFrontState.model.openProductAction,
                               label: 'Open Product',

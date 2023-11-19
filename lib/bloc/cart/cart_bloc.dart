@@ -4,11 +4,11 @@ import 'package:eliud_core/core/blocs/access/access_event.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/etc.dart';
-import 'package:eliud_core/tools/random.dart';
-import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/cart_item_model.dart';
-import 'package:eliud_pkg_shop/model/member_cart_model.dart';
-import 'package:eliud_pkg_shop/model/product_model.dart';
+import 'package:eliud_core_model/tools/etc/random.dart';
+import 'package:eliud_pkg_shop_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_pkg_shop_model/model/cart_item_model.dart';
+import 'package:eliud_pkg_shop_model/model/member_cart_model.dart';
+import 'package:eliud_pkg_shop_model/model/product_model.dart';
 
 import 'cart_event.dart';
 import 'cart_state.dart';

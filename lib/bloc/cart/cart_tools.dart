@@ -1,11 +1,11 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/access_event.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
-import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core_model/model/app_model.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_bloc.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_event.dart';
-import 'package:eliud_pkg_shop/model/product_model.dart';
+import 'package:eliud_pkg_shop_model/model/product_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/core/widgets/login_widget.dart';

@@ -5,21 +5,33 @@ import 'package:eliud_core/core/wizards/registry/registry.dart';
 import 'package:eliud_core/core_package.dart';
 import 'package:eliud_core/eliud.dart';
 import 'package:eliud_core/model/access_model.dart';
-import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core_model/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/package/package.dart';
-import 'package:eliud_core/tools/query/query_tools.dart';
+import 'package:eliud_core_model/tools/query/query_tools.dart';
 import 'package:eliud_pkg_fundamentals/fundamentals_package.dart';
 import 'package:eliud_pkg_notifications/notifications_package.dart';
 import 'package:eliud_pkg_pay/pay_package.dart';
-import 'package:eliud_pkg_shop/model/component_registry.dart';
-import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/repository_singleton.dart';
+import 'package:eliud_pkg_shop_model/model/component_registry.dart';
+import 'package:eliud_pkg_shop_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_pkg_shop_model/model/repository_singleton.dart';
 import 'package:eliud_pkg_shop/wizards/payment_workflow_wizard.dart';
 import 'package:eliud_pkg_workflow/workflow_package.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/cart/cart_bloc.dart';
-import 'model/member_cart_model.dart';
+import 'package:eliud_pkg_shop_model/model/member_cart_model.dart';
+import 'editors/cart_component_editor.dart';
+import 'editors/order_overview_component_editor.dart';
+import 'editors/pay_component_editor.dart';
+import 'editors/pay_confirmation_component_editor.dart';
+import 'editors/product_display_component_editor.dart';
+import 'editors/shop_front_component_editor.dart';
+import 'extensions/cart_component.dart';
+import 'extensions/order_overview_component.dart';
+import 'extensions/pay_component.dart';
+import 'extensions/pay_confirmation_component.dart';
+import 'extensions/product_display_component.dart';
+import 'extensions/shop_front_component.dart';
 import 'wizards/shop_page_wizard.dart';
 
 import 'package:eliud_pkg_shop/shop_package_stub.dart'
@@ -97,7 +109,20 @@ abstract class ShopPackage extends Package {
 
   @override
   void init() {
-    ComponentRegistry().init();
+    ComponentRegistry().init(
+      CartComponentConstructorDefault(),
+      CartComponentEditorConstructor(),
+      OrderOverviewComponentConstructorDefault(),
+      OrderOverviewComponentEditorConstructor(),
+      PayComponentConstructorDefault(),
+      PayComponentEditorConstructor(),
+      PayConfirmationComponentConstructorDefault(),
+      PayConfirmationComponentEditorConstructor(),
+      ProductDisplayComponentConstructorDefault(),
+      ProductDisplayComponentEditorConstructor(),
+      ShopFrontComponentConstructorDefault(),
+      ShopFrontComponentEditorConstructor(),
+    );
 
     // Wizards
     NewAppWizardRegistry.registry().register(ShopPageWizard());

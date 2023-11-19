@@ -1,5 +1,5 @@
 import 'package:eliud_core/tools/action/action_model.dart';
-import 'package:eliud_pkg_shop/model/product_model.dart';
+import 'package:eliud_pkg_shop_model/model/product_model.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class CartEvent extends Equatable {

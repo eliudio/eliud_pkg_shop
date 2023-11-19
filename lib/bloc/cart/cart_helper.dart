@@ -1,4 +1,4 @@
-import 'package:eliud_pkg_shop/model/cart_item_model.dart';
+import 'package:eliud_pkg_shop_model/model/cart_item_model.dart';
 
 class CartHelper {
   static double totalValue(List<CartItemModel> items) {

@@ -1,11 +1,11 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
-import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core_model/model/app_model.dart';
 import 'package:eliud_core/model/member_form.dart';
 import 'package:eliud_core/model/member_list_bloc.dart';
 import 'package:eliud_core/model/member_list_event.dart';
-import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
+import 'package:eliud_core_model/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';

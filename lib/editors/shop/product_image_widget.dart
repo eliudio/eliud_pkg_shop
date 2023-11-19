@@ -1,11 +1,11 @@
-import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/style/frontend/has_container.dart';
-import 'package:eliud_core/style/frontend/has_divider.dart';
-import 'package:eliud_core/style/frontend/has_list_tile.dart';
-import 'package:eliud_core/style/frontend/has_text.dart';
+import 'package:eliud_core_model/model/app_model.dart';
+import 'package:eliud_core_model/style/frontend/has_container.dart';
+import 'package:eliud_core_model/style/frontend/has_divider.dart';
+import 'package:eliud_core_model/style/frontend/has_list_tile.dart';
+import 'package:eliud_core_model/style/frontend/has_text.dart';
 import 'package:eliud_core/tools/widgets/header_widget.dart';
 import 'package:eliud_core/tools/widgets/platform_medium_widget.dart';
-import 'package:eliud_pkg_shop/model/product_image_model.dart';
+import 'package:eliud_pkg_shop_model/model/product_image_model.dart';
 import 'package:flutter/material.dart';
 
 typedef ProductImageModelCallback = void Function(

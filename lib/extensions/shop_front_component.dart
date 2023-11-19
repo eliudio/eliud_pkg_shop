@@ -1,16 +1,16 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
-import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/style/frontend/has_text.dart';
+import 'package:eliud_core_model/model/app_model.dart';
+import 'package:eliud_core_model/style/frontend/has_text.dart';
 import 'package:eliud_core/tools/component/component_constructor.dart';
 import 'package:eliud_core/tools/custom_utils.dart';
-import 'package:eliud_core/tools/query/query_tools.dart';
+import 'package:eliud_core_model/tools/query/query_tools.dart';
 import 'package:eliud_pkg_shop/extensions/shop_widgets/grid_products.dart';
-import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/product_list_bloc.dart';
-import 'package:eliud_pkg_shop/model/product_list_event.dart';
-import 'package:eliud_pkg_shop/model/shop_front_component.dart';
-import 'package:eliud_pkg_shop/model/shop_front_model.dart';
+import 'package:eliud_pkg_shop_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_pkg_shop_model/model/product_list_bloc.dart';
+import 'package:eliud_pkg_shop_model/model/product_list_event.dart';
+import 'package:eliud_pkg_shop_model/model/shop_front_component.dart';
+import 'package:eliud_pkg_shop_model/model/shop_front_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

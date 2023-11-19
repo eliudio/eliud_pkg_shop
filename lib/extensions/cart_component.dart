@@ -1,11 +1,11 @@
 import 'package:eliud_core/core/widgets/alert_widget.dart';
-import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core_model/model/app_model.dart';
 import 'package:eliud_core/tools/component/component_constructor.dart';
 import 'package:eliud_pkg_shop/extensions/shop_widgets/cart_widget.dart';
-import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/cart_component.dart';
-import 'package:eliud_pkg_shop/model/cart_model.dart';
-import 'package:eliud_pkg_shop/model/cart_repository.dart';
+import 'package:eliud_pkg_shop_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_pkg_shop_model/model/cart_component.dart';
+import 'package:eliud_pkg_shop_model/model/cart_model.dart';
+import 'package:eliud_pkg_shop_model/model/cart_repository.dart';
 import 'package:flutter/material.dart';
 
 class CartComponentConstructorDefault implements ComponentConstructor {

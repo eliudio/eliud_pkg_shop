@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:eliud_core/tools/component/component_spec.dart';
-import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/tools/random.dart';
-import 'package:eliud_pkg_shop/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_shop/model/product_model.dart';
-import 'package:eliud_pkg_shop/model/shop_model.dart';
+import 'package:eliud_core_model/tools/component/component_spec.dart';
+import 'package:eliud_core_model/tools/query/query_tools.dart';
+import 'package:eliud_core_model/tools/etc/random.dart';
+import 'package:eliud_pkg_shop_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_pkg_shop_model/model/product_model.dart';
+import 'package:eliud_pkg_shop_model/model/shop_model.dart';
 
 import 'shop_dashboard_event.dart';
 import 'shop_dashboard_state.dart';
@@ -34,7 +34,7 @@ class ShopDashboardBloc
   void _loadProducts(String shopId) async {
     await _productSubscription?.cancel();
     _productSubscription = productRepository(appId: appId)!.listenWithDetails(
-      (list) {
+      (List<ProductModel?> list) {
         add(ProductListUpdated(list.map((e) => e!).toList()));
       },
       eliudQuery: EliudQuery(theConditions: [
