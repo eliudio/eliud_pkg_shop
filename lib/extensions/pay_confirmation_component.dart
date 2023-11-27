@@ -1,6 +1,6 @@
-import 'package:eliud_core/core/widgets/alert_widget.dart';
-import 'package:eliud_core_model/model/app_model.dart';
-import 'package:eliud_core/tools/component/component_constructor.dart';
+import 'package:eliud_core_main/widgets/alert_widget.dart';
+import 'package:eliud_core_main/model/app_model.dart';
+import 'package:eliud_core_main/apis/registryapi/component/component_constructor.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/confirmation_widget.dart';
 import 'package:eliud_pkg_shop_model/model/order_component_bloc.dart';
 import 'package:eliud_pkg_shop_model/model/order_component_event.dart';

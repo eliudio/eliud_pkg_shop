@@ -1,9 +1,12 @@
-import 'package:eliud_core/core/wizards/builders/page_builder.dart';
-import 'package:eliud_core/core/wizards/tools/document_identifier.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart'
-    as corerepo;
-import 'package:eliud_core/model/model_export.dart';
-import 'package:eliud_pkg_fundamentals/model/presentation_model.dart';
+import 'package:eliud_core_main/model/app_bar_model.dart';
+import 'package:eliud_core_main/model/body_component_model.dart';
+import 'package:eliud_core_main/model/page_model.dart';
+import 'package:eliud_core_main/model/storage_conditions_model.dart';
+import 'package:eliud_core_main/wizards/builders/page_builder.dart';
+import 'package:eliud_core_main/wizards/tools/document_identifier.dart';
+import 'package:eliud_core_main/model/abstract_repository_singleton.dart'
+    as mainrepo;
+import 'package:eliud_pkg_fundamentals_model/model/presentation_model.dart';
 
 abstract class AbstractBasicPageTemplate extends PageBuilder {
   final PrivilegeLevelRequiredSimple? privilegeLevelRequired;
@@ -30,7 +33,7 @@ abstract class AbstractBasicPageTemplate extends PageBuilder {
       this.presentationImageAlignment});
 
   Future<PageModel> _setupPage(AppBarModel appBar) async {
-    return await corerepo.AbstractRepositorySingleton.singleton
+    return await mainrepo.AbstractRepositorySingleton.singleton
         .pageRepository(app.documentID)!
         .add(_page(appBar));
   }

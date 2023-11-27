@@ -1,11 +1,11 @@
+import 'package:eliud_core/access/state/logged_in.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:bloc/bloc.dart';
-import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
-import 'package:eliud_core_model/model/app_model.dart';
-import 'package:eliud_core/model/member_model.dart';
-import 'package:eliud_core/tools/action/action_model.dart';
-import 'package:eliud_core_model/tools/etc/random.dart';
+import 'package:eliud_core/access/access_bloc.dart';
+import 'package:eliud_core_main/model/app_model.dart';
+import 'package:eliud_core_main/model/member_model.dart';
+import 'package:eliud_core_main/apis/action_api/action_model.dart';
+import 'package:eliud_core_helpers/etc/random.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_bloc.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_event.dart';
 import 'package:eliud_pkg_shop/bloc/cart/cart_helper.dart';

@@ -1,4 +1,4 @@
-import 'package:eliud_core/model/pos_size_model.dart';
+import 'package:eliud_core_main/model/pos_size_model.dart';
 
 PosSizeModel halfScreen(String appId) {
   return PosSizeModel(

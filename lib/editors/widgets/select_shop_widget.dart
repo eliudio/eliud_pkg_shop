@@ -1,7 +1,7 @@
-import 'package:eliud_core_model/model/app_model.dart';
-import 'package:eliud_core_model/model/storage_conditions_model.dart';
-import 'package:eliud_core_model/style/frontend/has_text.dart';
-import 'package:eliud_core_model/tools/query/query_tools.dart';
+import 'package:eliud_core_helpers/query/query_tools.dart';
+import 'package:eliud_core_main/model/app_model.dart';
+import 'package:eliud_core_main/model/storage_conditions_model.dart';
+import 'package:eliud_core_main/apis/style/frontend/has_text.dart';
 import 'package:eliud_core/tools/widgets/editor/select_widget.dart';
 import 'package:eliud_pkg_shop/editors/shop/shop_dashboard.dart';
 import 'package:eliud_pkg_shop_model/model/abstract_repository_singleton.dart';

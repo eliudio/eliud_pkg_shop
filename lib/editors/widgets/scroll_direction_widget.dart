@@ -1,5 +1,5 @@
-import 'package:eliud_core_model/model/app_model.dart';
-import 'package:eliud_core_model/style/frontend/has_list_tile.dart';
+import 'package:eliud_core_main/model/app_model.dart';
+import 'package:eliud_core_main/apis/style/frontend/has_list_tile.dart';
 import 'package:eliud_pkg_shop_model/model/shop_front_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

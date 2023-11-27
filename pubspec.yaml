@@ -12,12 +12,26 @@ dependencies:
   bloc: ^8.1.2
   cloud_firestore: ^4.12.2
   collection: ^1.17.2
-  eliud_core: ^1.1.5+7
-  eliud_pkg_fundamentals: ^1.0.0
-  eliud_pkg_pay: ^1.1.5+5
-  eliud_pkg_notifications: ^1.1.5+5
-  eliud_pkg_workflow: ^1.1.5+5
-  eliud_pkg_shop_model: ^1.1.5+10
+  eliud_core:
+    path: ../eliud_core
+  eliud_core_main:
+    path: ../eliud_core_main
+  eliud_core_helpers:
+    path: ../eliud_core_helpers
+  eliud_core_model:
+    path: ../eliud_core_model
+  eliud_pkg_fundamentals:
+    path: ../eliud_pkg_fundamentals
+  eliud_pkg_fundamentals_model:
+    path: ../eliud_pkg_fundamentals_model
+  eliud_pkg_pay:
+    path: ../eliud_pkg_pay
+  eliud_pkg_notifications:
+    path: ../eliud_pkg_notifications
+  eliud_pkg_workflow:
+    path: ../eliud_pkg_workflow
+  eliud_pkg_shop_model:
+    path: ../eliud_pkg_shop_model
   equatable: ^2.0.5
   flutter_bloc: ^8.1.3
   intl: ^0.18.1

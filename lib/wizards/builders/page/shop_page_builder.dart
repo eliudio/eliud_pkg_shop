@@ -1,19 +1,20 @@
-import 'package:eliud_core/core/wizards/builders/page_builder.dart';
-import 'package:eliud_core/core/wizards/tools/document_identifier.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart'
-    as corerepo;
-import 'package:eliud_core/model/model_export.dart';
-import 'package:eliud_core_model/style/_default/tools/colors.dart';
-import 'package:eliud_core/tools/action/action_model.dart';
-import 'package:eliud_core_model/tools/etc/random.dart';
-import 'package:eliud_pkg_fundamentals/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_fundamentals/model/divider_component.dart';
-import 'package:eliud_pkg_fundamentals/model/divider_model.dart';
-import 'package:eliud_pkg_fundamentals/model/fader_component.dart';
-import 'package:eliud_pkg_fundamentals/model/fader_model.dart';
-import 'package:eliud_pkg_fundamentals/model/listed_item_model.dart';
-import 'package:eliud_pkg_fundamentals/model/presentation_component.dart';
-import 'package:eliud_pkg_fundamentals/model/presentation_model.dart';
+import 'package:eliud_core_main/apis/action_api/actions/goto_page.dart';
+import 'package:eliud_core_main/model/model_export.dart';
+import 'package:eliud_core_main/wizards/builders/page_builder.dart';
+import 'package:eliud_core_main/wizards/tools/document_identifier.dart';
+import 'package:eliud_core_main/model/abstract_repository_singleton.dart'
+    as mainrepo;
+import 'package:eliud_core_main/apis/style/_default/tools/colors.dart';
+import 'package:eliud_core_main/apis/action_api/action_model.dart';
+import 'package:eliud_core_helpers/etc/random.dart';
+import 'package:eliud_pkg_fundamentals_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_pkg_fundamentals_model/model/divider_component.dart';
+import 'package:eliud_pkg_fundamentals_model/model/divider_model.dart';
+import 'package:eliud_pkg_fundamentals_model/model/fader_component.dart';
+import 'package:eliud_pkg_fundamentals_model/model/fader_model.dart';
+import 'package:eliud_pkg_fundamentals_model/model/listed_item_model.dart';
+import 'package:eliud_pkg_fundamentals_model/model/presentation_component.dart';
+import 'package:eliud_pkg_fundamentals_model/model/presentation_model.dart';
 import 'package:eliud_pkg_shop_model/model/abstract_repository_singleton.dart'
     as shoprepo;
 import 'package:eliud_pkg_shop_model/model/model_export.dart';
@@ -64,7 +65,7 @@ class ShopPageBuilder extends PageBuilder {
 
   Future<PageModel> _setupPage(
       String? presentationDocumentId, String? faderIdentifier) async {
-    return await corerepo.AbstractRepositorySingleton.singleton
+    return await mainrepo.AbstractRepositorySingleton.singleton
         .pageRepository(app.documentID)!
         .add(_page(presentationDocumentId, faderIdentifier));
   }

@@ -1,17 +1,17 @@
-import 'package:eliud_core/core/wizards/builders/page_builder.dart';
-import 'package:eliud_core/core/wizards/tools/document_identifier.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart'
-    as corerepo;
-import 'package:eliud_core/model/app_bar_model.dart';
-import 'package:eliud_core/model/body_component_model.dart';
-import 'package:eliud_core/model/display_conditions_model.dart';
-import 'package:eliud_core/model/page_model.dart';
-import 'package:eliud_core/model/platform_medium_model.dart';
-import 'package:eliud_core_model/model/storage_conditions_model.dart';
-import 'package:eliud_core_model/tools/etc/random.dart';
-import 'package:eliud_pkg_fundamentals/model/abstract_repository_singleton.dart';
-import 'package:eliud_pkg_fundamentals/model/presentation_component.dart';
-import 'package:eliud_pkg_fundamentals/model/presentation_model.dart';
+import 'package:eliud_core_main/wizards/builders/page_builder.dart';
+import 'package:eliud_core_main/wizards/tools/document_identifier.dart';
+import 'package:eliud_core_main/model/abstract_repository_singleton.dart'
+    as mainrepo;
+import 'package:eliud_core_main/model/app_bar_model.dart';
+import 'package:eliud_core_main/model/body_component_model.dart';
+import 'package:eliud_core_main/model/display_conditions_model.dart';
+import 'package:eliud_core_main/model/page_model.dart';
+import 'package:eliud_core_main/model/platform_medium_model.dart';
+import 'package:eliud_core_main/model/storage_conditions_model.dart';
+import 'package:eliud_core_helpers/etc/random.dart';
+import 'package:eliud_pkg_fundamentals_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_pkg_fundamentals_model/model/presentation_component.dart';
+import 'package:eliud_pkg_fundamentals_model/model/presentation_model.dart';
 
 abstract class AbstractPageTemplate extends PageBuilder {
   final PrivilegeLevelRequiredSimple? privilegeLevelRequired;
@@ -47,7 +47,7 @@ abstract class AbstractPageTemplate extends PageBuilder {
 
   Future<PageModel> _setupPage(
       AppBarModel appBar, String? presentationId) async {
-    return await corerepo.AbstractRepositorySingleton.singleton
+    return await mainrepo.AbstractRepositorySingleton.singleton
         .pageRepository(app.documentID)!
         .add(_page(appBar, presentationId));
   }

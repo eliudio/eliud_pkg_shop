@@ -1,11 +1,11 @@
-import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
-import 'package:eliud_core/core/blocs/access/state/access_state.dart';
+import 'package:eliud_core/access/access_bloc.dart';
+import 'package:eliud_core/access/state/access_determined.dart';
+import 'package:eliud_core/access/state/access_state.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
-import 'package:eliud_core_model/model/app_model.dart';
-import 'package:eliud_core_model/style/frontend/has_button.dart';
-import 'package:eliud_core_model/style/frontend/has_progress_indicator.dart';
-import 'package:eliud_core_model/style/frontend/has_text.dart';
+import 'package:eliud_core_main/model/app_model.dart';
+import 'package:eliud_core_main/apis/style/frontend/has_button.dart';
+import 'package:eliud_core_main/apis/style/frontend/has_progress_indicator.dart';
+import 'package:eliud_core_main/apis/style/frontend/has_text.dart';
 import 'package:eliud_pkg_shop/extensions/pay_widgets/order_helper.dart';
 import 'package:eliud_pkg_shop_model/model/order_component_bloc.dart';
 import 'package:eliud_pkg_shop_model/model/order_component_state.dart';

@@ -1,8 +1,13 @@
-import 'package:eliud_core/model/model_export.dart';
-import 'package:eliud_core_model/tools/etc/random.dart';
-import 'package:eliud_core/tools/storage/member_medium_helper.dart';
-import 'package:eliud_core/tools/storage/platform_medium_helper.dart';
-import 'package:eliud_core/tools/storage/public_medium_helper.dart';
+import 'package:eliud_core_helpers/etc/random.dart';
+import 'package:eliud_core_main/model/app_model.dart';
+import 'package:eliud_core_main/model/member_medium_model.dart';
+import 'package:eliud_core_main/model/platform_medium_model.dart';
+import 'package:eliud_core_main/model/public_medium_model.dart';
+import 'package:eliud_core_main/model/storage_conditions_model.dart';
+import 'package:eliud_core_main/storage/member_medium_helper.dart';
+import 'package:eliud_core_main/storage/platform_medium_helper.dart';
+import 'package:eliud_core_main/storage/public_medium_helper.dart';
+import 'package:eliud_core_model/model/member_medium_container_model.dart';
 
 class ImageTools {
   static Future<PublicMediumModel> uploadPublicPhoto(
