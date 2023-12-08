@@ -1,7 +1,7 @@
 import 'package:eliud_core/access/access_bloc.dart';
 import 'package:eliud_core/access/state/access_determined.dart';
 import 'package:eliud_core/access/state/access_state.dart';
-import 'package:eliud_core/tools/etc/etc.dart';
+import 'package:eliud_core_main/tools/etc/etc.dart';
 import 'package:eliud_core_main/model/app_model.dart';
 import 'package:eliud_core_main/apis/style/frontend/has_button.dart';
 import 'package:eliud_core_main/apis/style/frontend/has_progress_indicator.dart';

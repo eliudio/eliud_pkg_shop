@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:eliud_core/access/access_bloc.dart';
 import 'package:eliud_core/access/access_event.dart';
 import 'package:eliud_core/access/state/logged_in.dart';
-import 'package:eliud_core/tools/etc/etc.dart';
+import 'package:eliud_core_main/tools/etc/etc.dart';
 import 'package:eliud_core_helpers/etc/random.dart';
 import 'package:eliud_core_main/apis/action_api/actions/goto_page.dart';
 import 'package:eliud_pkg_shop_model/model/abstract_repository_singleton.dart';
