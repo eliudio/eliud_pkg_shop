@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:eliud_core/access/access_bloc.dart';
 import 'package:eliud_core/access/access_event.dart';
+import 'package:eliud_core_main/apis/apis.dart';
 import 'package:eliud_core_helpers/query/query_tools.dart';
 import 'package:eliud_core_main/apis/wizard_api/new_app_wizard_info.dart';
 import 'package:eliud_core/core_package.dart';
@@ -126,8 +127,8 @@ abstract class ShopPackage extends Package {
     );
 
     // Wizards
-    NewAppWizardRegistry.registry().register(ShopPageWizard());
-    NewAppWizardRegistry.registry().register(PaymentWorkflowWizard());
+    Apis.apis().getWizardApi().register(ShopPageWizard());
+    Apis.apis().getWizardApi().register(PaymentWorkflowWizard());
 
     AbstractRepositorySingleton.singleton = RepositorySingleton();
   }
